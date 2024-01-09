@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay, EffectFade } from 'swiper/modules';
+import { Navigation, Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import bgImg from '../../../assets/temp-images/pattern.png';
 import { bannerOne } from '../../../constants/data';
@@ -8,13 +8,14 @@ const BannerOne = () => {
   return (
     <Swiper
       navigation={true}
-      modules={[Navigation, Autoplay, EffectFade]}
-      // autoplay={{
-      //   delay: 4000,
-      //   disableOnInteraction: true,
-      // }}
+      pagination={true}
+      modules={[Navigation, Autoplay, EffectFade, Pagination]}
+      autoplay={{
+        delay: 4000,
+        disableOnInteraction: true,
+      }}
       effect='fade'
-      // fadeEffect={{ crossFade: true }}
+      fadeEffect={{ crossFade: true }}
       slidesPerView={1}
     >
       {bannerOne?.map((el) => (
