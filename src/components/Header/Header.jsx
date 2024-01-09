@@ -17,38 +17,40 @@ const Header = () => {
       <div className='flex justify-between items-center space-x-5'>
         <div className='flex items-center'>
           <img src={address} alt='*' />
-          <span className='text-[#222] text-xs font-semibold ml-1'>Москва</span>
+          <span className='text-colBlack text-xs font-semibold ml-1'>
+            Москва
+          </span>
         </div>
         <ul className='flex justify-end items-center space-x-3'>
           <li>
-            <NavLink to='#' className='text-darkGray text-sm font-semibold'>
+            <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
               Оплата и доставка
             </NavLink>
           </li>
           <li>
-            <NavLink to='#' className='text-darkGray text-sm font-semibold'>
+            <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
               Гарантия и возврат
             </NavLink>
           </li>
           <li>
-            <NavLink to='#' className='text-darkGray text-sm font-semibold'>
+            <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
               Оптовым клиентам
             </NavLink>
           </li>
           <li>
-            <NavLink to='#' className='text-darkGray text-sm font-semibold'>
+            <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
               Контакты
             </NavLink>
           </li>
           <li>
-            <NavLink to='#' className='text-darkGray text-sm font-semibold'>
+            <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
               О компании
             </NavLink>
           </li>
           <li>
             <NavLink
               to='#'
-              className='text-darkGray text-sm font-semibold border-b border-darkGray pb-[1px]'
+              className='text-colDarkGray text-sm font-semibold border-b border-colDarkGray pb-[1px]'
             >
               Есть вопросы?
             </NavLink>
@@ -59,7 +61,7 @@ const Header = () => {
         <NavLink className='min-w-[90px]' to='/'>
           <img src={logo} alt='logo' />
         </NavLink>
-        <button className='bg-colGreen text-white flex justify-center items-center max-w-[140px] w-full min-h-[40px] rounded-[4px]'>
+        <button className='bg-colGreen text-white flex justify-center items-center max-w-[140px] w-full min-h-[40px] rounded'>
           <div className='flex flex-col justify-between space-y-1'>
             <span className='min-w-[16px] w-4 h-[2px] rounded-lg bg-white'></span>
             <span className='min-w-[16px] w-4 h-[2px] rounded-lg bg-white'></span>
@@ -86,14 +88,16 @@ const Header = () => {
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={order} alt='*' />
-            <span className='text-xs pt-1 font-medium text-[#222]'>Заказы</span>
+            <span className='text-xs pt-1 font-medium text-colBlack'>
+              Заказы
+            </span>
           </NavLink>
           <NavLink
             to='#'
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={comparison} alt='*' />
-            <span className='text-xs pt-1 font-medium text-[#222]'>
+            <span className='text-xs pt-1 font-medium text-colBlack'>
               Сравнение
             </span>
           </NavLink>
@@ -102,7 +106,7 @@ const Header = () => {
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={favorite} alt='*' />
-            <span className='text-xs pt-1 font-medium text-[#222]'>
+            <span className='text-xs pt-1 font-medium text-colBlack'>
               Избранное
             </span>
           </NavLink>
@@ -111,7 +115,7 @@ const Header = () => {
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={cart} alt='*' />
-            <span className='text-xs pt-1 font-medium text-[#222]'>
+            <span className='text-xs pt-1 font-medium text-colBlack'>
               Корзина
             </span>
           </NavLink>
@@ -120,7 +124,7 @@ const Header = () => {
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={profile} alt='*' />
-            <span className='text-xs pt-1 font-medium text-[#222] line-clamp-1 w-[63px] break-all'>
+            <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
               Александр
             </span>
           </NavLink>
@@ -129,21 +133,21 @@ const Header = () => {
       <div className='flex items-center scrollable overflow-x-scroll space-x-4 pb-2'>
         <NavLink
           to='#'
-          className='rounded-[4px] h-[27px] flex items-center justify-center px-4 bg-[#F04438]'
+          className='rounded h-[27px] flex items-center justify-center px-4 bg-[#F04438]'
         >
           <img src={action} alt='*' />
           <span className='text-sm font-semibold text-white pl-1'>Акции</span>
         </NavLink>
         <NavLink
           to='#'
-          className='rounded-[4px] h-[27px] flex items-center justify-center px-4 bg-colGreen'
+          className='rounded h-[27px] flex items-center justify-center px-4 bg-colGreen'
         >
           <img src={news} alt='*' />
           <span className='text-sm font-semibold text-white pl-1'>Новинки</span>
         </NavLink>
         <NavLink
           to='#'
-          className='rounded-[4px] h-[27px] flex items-center justify-center px-2 bg-[#F8981D] min-w-[130px]'
+          className='rounded h-[27px] flex items-center justify-center px-2 bg-[#F8981D] min-w-[130px]'
         >
           <img src={sales} alt='*' />
           <span className='text-sm font-semibold text-white pl-1'>
@@ -152,49 +156,49 @@ const Header = () => {
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Мебельная фурнитура
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Кухни
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Раздвижные системы
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Фасады
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Фурнитура для стеклянных конструкций
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Изделия из стекла
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Техника для кухни
         </NavLink>
         <NavLink
           to='#'
-          className='whitespace-nowrap text-[#222] text-sm font-semibold'
+          className='whitespace-nowrap text-colBlack text-sm font-semibold'
         >
           Услуги
         </NavLink>

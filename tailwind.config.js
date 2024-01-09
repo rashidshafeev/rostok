@@ -4,8 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
+        colBlack: '#222',
         colGreen: '#15765B',
-        darkGray: '#727272',
+        colGray: '#B5B5B5',
+        colDarkGray: '#727272',
       },
     },
   },
