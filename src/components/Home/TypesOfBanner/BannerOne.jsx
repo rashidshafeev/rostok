@@ -11,11 +11,11 @@ const BannerOne = () => {
       pagination={true}
       modules={[Navigation, Autoplay, EffectFade, Pagination]}
       autoplay={{
-        delay: 4000,
+        delay: 5000,
         disableOnInteraction: true,
       }}
       effect='fade'
-      fadeEffect={{ crossFade: true }}
+      fadeEffect={{ crossFade: true, speed: 5000 }}
       slidesPerView={1}
     >
       {bannerOne?.map((el) => (
