@@ -5,5 +5,17 @@ import ProductCard from './ProductCard';
 import News from './Home/News';
 import SaleBanner from './Home/SaleBanner';
 import Suggestions from './Home/Suggestions';
+import PopularCategories from './Home/PopularCategories';
+import Promotions from './Home/Promotions';
 
-export { Header, Footer, Banner, ProductCard, News, SaleBanner, Suggestions };
+export {
+  Header,
+  Footer,
+  Banner,
+  ProductCard,
+  News,
+  SaleBanner,
+  Suggestions,
+  PopularCategories,
+  Promotions,
+};

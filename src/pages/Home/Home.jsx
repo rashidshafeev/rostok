@@ -1,4 +1,11 @@
-import { Banner, News, SaleBanner, Suggestions } from '../../components';
+import {
+  Banner,
+  News,
+  PopularCategories,
+  Promotions,
+  SaleBanner,
+  Suggestions,
+} from '../../components';
 
 const Home = () => {
   return (
@@ -7,6 +14,8 @@ const Home = () => {
       <News />
       <SaleBanner />
       <Suggestions />
+      <PopularCategories />
+      <Promotions />
     </div>
   );
 };

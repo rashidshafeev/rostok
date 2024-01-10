@@ -5,8 +5,8 @@ import { products } from '../../constants/data';
 
 const Suggestions = () => {
   return (
-    <div className='py-10 slider'>
-      <h1 className='text-colBlack text-[40px] font-semibold pb-4'>
+    <div className='pt-10 pb-5 slider'>
+      <h1 className='text-colBlack text-4xl font-semibold pb-4'>
         Лучшие предложения
       </h1>
       <div className=''>
