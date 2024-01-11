@@ -6,7 +6,7 @@ import { products } from '../../constants/data';
 const News = () => {
   return (
     <div className='py-10 slider'>
-      <h1 className='text-colBlack text-4xl font-semibold pb-4'>Новинки</h1>
+      <h1 className='text-colBlack text-4xl font-semibold pb-5'>Новинки</h1>
       <div className=''>
         <Swiper
           modules={[Navigation]}

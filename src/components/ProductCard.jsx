@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import favorite from '../assets/icons/favorite.svg';
 import noImg from '../assets/images/no-image.png';
 
-const ProductCard = ({ product }) => {
+const ProductCard = ({ product, recommended, furniture }) => {
   return (
     <div className='overflow-hidden relative group'>
       <NavLink to='#'>
@@ -39,12 +39,16 @@ const ProductCard = ({ product }) => {
         </div>
       </NavLink>
       <div className='lining-nums proportional-nums'>
-        <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px]'>
-          Артикуль: {product?.article}
-        </p>
+        {!recommended && (
+          <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px]'>
+            Артикуль: {product?.article}
+          </p>
+        )}
         <NavLink
           to='#'
-          className='font-medium text-sm line-clamp-3 break-all hover:underline h-[60px]'
+          className={`${
+            recommended ? 'h-10 mt-2 line-clamp-2' : 'line-clamp-3 h-[60px]'
+          } font-medium text-sm  break-all hover:underline`}
         >
           {product?.title}
         </NavLink>
@@ -56,9 +60,11 @@ const ProductCard = ({ product }) => {
             30%
           </span>
         </div>
-        <button className='group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'>
-          В корзину
-        </button>
+        {!recommended && !furniture && (
+          <button className='group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'>
+            В корзину
+          </button>
+        )}
       </div>
     </div>
   );

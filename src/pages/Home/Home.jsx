@@ -1,8 +1,10 @@
 import {
   Banner,
+  FurnitureFittings,
   News,
   PopularCategories,
   Promotions,
+  RoomProducts,
   SaleBanner,
   SaleProducts,
   Suggestions,
@@ -18,6 +20,8 @@ const Home = () => {
       <PopularCategories />
       <Promotions />
       <SaleProducts />
+      <RoomProducts />
+      <FurnitureFittings />
     </div>
   );
 };
