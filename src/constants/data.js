@@ -12,6 +12,12 @@ import room3 from '../assets/temp-images/room3.jpg';
 import room4 from '../assets/temp-images/room4.jpg';
 import room5 from '../assets/temp-images/room5.jpg';
 import room6 from '../assets/temp-images/room6.jpg';
+import brand1 from '../assets/temp-images/brand1.png';
+import brand2 from '../assets/temp-images/brand2.png';
+import brand3 from '../assets/temp-images/brand3.png';
+import brand4 from '../assets/temp-images/brand4.png';
+import brand5 from '../assets/temp-images/brand5.png';
+import brand6 from '../assets/temp-images/brand6.png';
 
 export const bannerOne = [
   {
@@ -307,5 +313,40 @@ export const roomProducts = [
       'Кухонные комплектующие',
     ],
     img: room6,
+  },
+];
+
+export const brands = [
+  {
+    id: 1,
+    img: brand1,
+  },
+  {
+    id: 2,
+    img: brand2,
+  },
+  {
+    id: 3,
+    img: brand3,
+  },
+  {
+    id: 4,
+    img: brand4,
+  },
+  {
+    id: 5,
+    img: brand5,
+  },
+  {
+    id: 6,
+    img: brand6,
+  },
+  {
+    id: 7,
+    img: brand4,
+  },
+  {
+    id: 8,
+    img: brand3,
   },
 ];

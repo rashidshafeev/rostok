@@ -10,7 +10,7 @@ const FurnitureFittings = () => {
       <div className='flex space-x-5'>
         <div className='flex-grow'>
           <div className='grid grid-cols-4 gap-5'>
-            {products?.map((el) => (
+            {products?.slice(0, 12)?.map((el) => (
               <ProductCard key={el?.id} product={el} furniture={true} />
             ))}
           </div>

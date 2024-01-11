@@ -30,7 +30,7 @@ const Suggestions = () => {
           }}
         >
           {products?.map((el) => (
-            <SwiperSlide modules={[Navigation]} key={el?.id}>
+            <SwiperSlide key={el?.id}>
               <ProductCard product={el} />
             </SwiperSlide>
           ))}

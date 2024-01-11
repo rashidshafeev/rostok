@@ -1,12 +1,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import ProductCard from '../ProductCard';
-import { products } from '../../constants/data';
+import { brands } from '../../constants/data';
 
-const News = () => {
+const Brands = () => {
   return (
     <div className='py-10 slider'>
-      <h1 className='text-colBlack text-4xl font-semibold pb-5'>Новинки</h1>
+      <h1 className='text-colBlack text-4xl font-semibold pb-5'>Бренды</h1>
       <Swiper
         modules={[Navigation]}
         navigation={true}
@@ -26,9 +25,15 @@ const News = () => {
           },
         }}
       >
-        {products?.map((el) => (
+        {brands?.map((el) => (
           <SwiperSlide key={el?.id}>
-            <ProductCard product={el} />
+            <div className='h-[130px] rounded-lg border border-[#EBEBEB] overflow-hidden p-3'>
+              <img
+                className='w-full h-full object-contain'
+                src={el?.img}
+                alt='*'
+              />
+            </div>
           </SwiperSlide>
         ))}
       </Swiper>
@@ -36,4 +41,4 @@ const News = () => {
   );
 };
 
-export default News;
+export default Brands;

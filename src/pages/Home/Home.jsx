@@ -1,5 +1,6 @@
 import {
   Banner,
+  Brands,
   FurnitureFittings,
   News,
   PopularCategories,
@@ -22,6 +23,7 @@ const Home = () => {
       <SaleProducts />
       <RoomProducts />
       <FurnitureFittings />
+      <Brands />
     </div>
   );
 };

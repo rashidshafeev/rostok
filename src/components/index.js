@@ -10,6 +10,7 @@ import Promotions from './Home/Promotions';
 import SaleProducts from './Home/SaleProducts';
 import RoomProducts from './Home/RoomProducts';
 import FurnitureFittings from './Home/FurnitureFittings';
+import Brands from './Home/Brands';
 
 export {
   Header,
@@ -24,4 +25,5 @@ export {
   SaleProducts,
   RoomProducts,
   FurnitureFittings,
+  Brands,
 };
