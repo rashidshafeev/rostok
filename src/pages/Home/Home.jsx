@@ -4,6 +4,7 @@ import {
   PopularCategories,
   Promotions,
   SaleBanner,
+  SaleProducts,
   Suggestions,
 } from '../../components';
 
@@ -16,6 +17,7 @@ const Home = () => {
       <Suggestions />
       <PopularCategories />
       <Promotions />
+      <SaleProducts />
     </div>
   );
 };

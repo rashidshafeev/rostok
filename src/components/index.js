@@ -7,6 +7,7 @@ import SaleBanner from './Home/SaleBanner';
 import Suggestions from './Home/Suggestions';
 import PopularCategories from './Home/PopularCategories';
 import Promotions from './Home/Promotions';
+import SaleProducts from './Home/SaleProducts';
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   Suggestions,
   PopularCategories,
   Promotions,
+  SaleProducts,
 };
