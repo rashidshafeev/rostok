@@ -37,6 +37,12 @@ body {
 .swiper-pagination-bullet {
   background: #fff;
 }
+.brands .swiper-pagination-bullet {
+  background: #15765b;
+}
+.brands .swiper-pagination {
+  bottom: 20px;
+}
 /* Scrollbar: */
 ::-webkit-scrollba {
   width: 6px !important;

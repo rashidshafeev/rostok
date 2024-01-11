@@ -1,4 +1,5 @@
 import {
+  Advantages,
   Banner,
   Brands,
   FurnitureFittings,
@@ -24,6 +25,7 @@ const Home = () => {
       <RoomProducts />
       <FurnitureFittings />
       <Brands />
+      <Advantages />
     </div>
   );
 };

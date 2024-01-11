@@ -1,15 +1,17 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Pagination } from 'swiper/modules';
 import { brands } from '../../constants/data';
 
 const Brands = () => {
   return (
-    <div className='py-10 slider'>
+    <div className='pt-10 slider brands'>
       <h1 className='text-colBlack text-4xl font-semibold pb-5'>Бренды</h1>
       <Swiper
-        modules={[Navigation]}
+        modules={[Navigation, Pagination]}
         navigation={true}
+        pagination={true}
         spaceBetween={20}
+        className='pb-16'
         breakpoints={{
           260: {
             slidesPerView: 2,

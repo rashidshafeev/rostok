@@ -18,6 +18,12 @@ import brand3 from '../assets/temp-images/brand3.png';
 import brand4 from '../assets/temp-images/brand4.png';
 import brand5 from '../assets/temp-images/brand5.png';
 import brand6 from '../assets/temp-images/brand6.png';
+import adv1 from '../assets/icons/adv1.svg';
+import adv2 from '../assets/icons/adv2.svg';
+import adv3 from '../assets/icons/adv3.svg';
+import adv4 from '../assets/icons/adv4.svg';
+import adv5 from '../assets/icons/adv5.svg';
+import adv6 from '../assets/icons/adv6.svg';
 
 export const bannerOne = [
   {
@@ -348,5 +354,50 @@ export const brands = [
   {
     id: 8,
     img: brand3,
+  },
+];
+
+export const advantages = [
+  {
+    id: 1,
+    title: 'Высокое качество продукции',
+    desc: 'Мы поставляем только проверенные плитные материалы и фурнитуру, а также проводим многоступенчатый контроль на всех этапах производства столешниц',
+    icon: adv1,
+    greenBlock: false,
+  },
+  {
+    id: 2,
+    title: 'Собственное производство',
+    desc: 'Производство оснащено современным оборудованием, что позволяет строго соблюдать технологический процесс и выполнять изделия с точностью до миллиметра',
+    icon: adv2,
+    greenBlock: true,
+  },
+  {
+    id: 3,
+    title: 'Удобная форма заказа товара',
+    desc: 'Мы сделали максимально простой и удобный онлайн-магазин с заботой о вас. Вы легко можете найти и заказать продукцию от ведущих производителей фурнитуры и комплектующих',
+    icon: adv3,
+    greenBlock: false,
+  },
+  {
+    id: 4,
+    title: 'Надежная упаковка',
+    desc: 'Вся продукция надежно упаковывается, что сводит к минимуму риск механических повреждений в процессе транспортировки',
+    icon: adv4,
+    greenBlock: false,
+  },
+  {
+    id: 5,
+    title: 'Демократичные цены',
+    desc: 'В нашем ассортименте вы найдете товары разных ценовых категорий – от среднего до премиум-класса',
+    icon: adv5,
+    greenBlock: false,
+  },
+  {
+    id: 6,
+    title: 'Гарантия',
+    desc: 'Все реализуемые материалы и комплектующие имеют сертификацию',
+    icon: adv6,
+    greenBlock: true,
   },
 ];
