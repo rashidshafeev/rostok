@@ -43,6 +43,10 @@ body {
 .brands .swiper-pagination {
   bottom: 20px;
 }
+.brands .swiper-button-prev,
+.brands .swiper-button-next {
+  top: 35%;
+}
 /* Scrollbar: */
 ::-webkit-scrollba {
   width: 6px !important;
