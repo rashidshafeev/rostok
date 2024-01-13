@@ -12,6 +12,7 @@ import sales from '../../assets/icons/sales.svg';
 import news from '../../assets/icons/news.svg';
 
 const Header = () => {
+  const user = false;
   return (
     <>
       <div className='content mx-auto pt-2 flex justify-between items-center space-x-5'>
@@ -93,7 +94,7 @@ const Header = () => {
             </span>
           </NavLink>
           <NavLink
-            to='#'
+            to='/comparison'
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={comparison} alt='*' />
@@ -102,7 +103,7 @@ const Header = () => {
             </span>
           </NavLink>
           <NavLink
-            to='#'
+            to='/favorites'
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={favorite} alt='*' />
@@ -111,7 +112,7 @@ const Header = () => {
             </span>
           </NavLink>
           <NavLink
-            to='#'
+            to='/shopping-cart'
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={cart} alt='*' />
@@ -119,15 +120,27 @@ const Header = () => {
               Корзина
             </span>
           </NavLink>
-          <NavLink
-            to='#'
-            className='text-center flex flex-col justify-between items-center'
-          >
-            <img className='mx-auto' src={profile} alt='*' />
-            <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
-              Александр
-            </span>
-          </NavLink>
+          {!user ? (
+            <NavLink
+              to='/profile'
+              className='text-center flex flex-col justify-between items-center'
+            >
+              <img className='mx-auto' src={profile} alt='*' />
+              <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
+                Александр
+              </span>
+            </NavLink>
+          ) : (
+            <NavLink
+              to='#'
+              className='text-center flex flex-col justify-between items-center'
+            >
+              <img className='mx-auto' src={profile} alt='*' />
+              <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
+                Войти
+              </span>
+            </NavLink>
+          )}
         </div>
       </div>
       <div className='content mx-auto flex items-center scrollable overflow-x-scroll space-x-4 pb-2'>

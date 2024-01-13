@@ -12,6 +12,7 @@ import RoomProducts from './Home/RoomProducts';
 import FurnitureFittings from './Home/FurnitureFittings';
 import Brands from './Home/Brands';
 import Advantages from './Home/Advantages';
+import Layout from './Layout/Layout';
 
 export {
   Header,
@@ -28,4 +29,5 @@ export {
   FurnitureFittings,
   Brands,
   Advantages,
+  Layout,
 };
