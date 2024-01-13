@@ -14,8 +14,8 @@ const BannerOne = () => {
         delay: 5000,
         disableOnInteraction: true,
       }}
-      effect='fade'
-      fadeEffect={{ crossFade: true, speed: 5000 }}
+      // effect='fade'
+      // fadeEffect={{ crossFade: true, speed: 5000 }}
       slidesPerView={1}
     >
       {bannerOne?.map((el) => (

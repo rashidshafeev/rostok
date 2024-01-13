@@ -13,8 +13,8 @@ import news from '../../assets/icons/news.svg';
 
 const Header = () => {
   return (
-    <header className='content mx-auto py-2'>
-      <div className='flex justify-between items-center space-x-5'>
+    <>
+      <div className='content mx-auto pt-2 flex justify-between items-center space-x-5'>
         <div className='flex items-center'>
           <img src={address} alt='*' />
           <span className='text-colBlack text-xs font-semibold ml-1'>
@@ -57,7 +57,7 @@ const Header = () => {
           </li>
         </ul>
       </div>
-      <div className='flex justify-between items-center py-4 space-x-5'>
+      <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 space-x-5 bg-white z-[9999]'>
         <NavLink className='min-w-[90px]' to='/'>
           <img src={logo} alt='logo' />
         </NavLink>
@@ -130,7 +130,7 @@ const Header = () => {
           </NavLink>
         </div>
       </div>
-      <div className='flex items-center scrollable overflow-x-scroll space-x-4 pb-2'>
+      <div className='content mx-auto flex items-center scrollable overflow-x-scroll space-x-4 pb-2'>
         <NavLink
           to='#'
           className='rounded h-[27px] flex items-center justify-center px-4 bg-[#F04438]'
@@ -203,7 +203,7 @@ const Header = () => {
           Услуги
         </NavLink>
       </div>
-    </header>
+    </>
   );
 };
 
