@@ -1,4 +1,9 @@
-import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
 import CDatePicker from '../../../helpers/CustomInputs/CDatePicker';
 
@@ -8,7 +13,7 @@ const PersonalData = () => {
       <h3 className='text-xl font-semibold text-colBlack pb-4'>
         Личные данные
       </h3>
-      <form className='grid grid-cols-3 gap-5 max-w-[1060px]'>
+      <FormControl className='grid grid-cols-3 gap-5 max-w-[1060px]'>
         <div className='w-full space-y-5'>
           <CTextField
             label='Имя'
@@ -79,7 +84,7 @@ const PersonalData = () => {
             Отменить
           </button>
         </div>
-      </form>
+      </FormControl>
     </div>
   );
 };
