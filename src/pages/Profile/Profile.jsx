@@ -1,13 +1,14 @@
-import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
+import { Outlet } from 'react-router-dom';
+import ProfileSidebar from '../../components/Profile/ProfileSidebar';
 
 const Profile = () => {
   return (
-    <div className='content pb-6'>
+    <div className='content pb-6 min-h-[520px]'>
       <h1 className='text-[40px] font-semibold text-colBlack'>Мой профиль</h1>
-      <ErrorEmpty
-        title='Еще не готовы к покупке?'
-        desc='Добавляйте понравившийся товар в сравнение, чтобы сравнить его с аналогами.'
-      />
+      <div className='flex pt-2'>
+        <ProfileSidebar />
+        <Outlet />
+      </div>
     </div>
   );
 };

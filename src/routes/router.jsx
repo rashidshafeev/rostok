@@ -4,7 +4,13 @@ import {
   Route,
 } from 'react-router-dom';
 import { Comparison, Favorites, Home, Profile, ShoppingCart } from '../pages';
-import { Layout } from '../components';
+import {
+  ChangePassword,
+  Layout,
+  MyOrders,
+  Organizations,
+  PersonalData,
+} from '../components';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -14,8 +20,11 @@ export const router = createBrowserRouter(
         <Route path='shopping-cart' element={<ShoppingCart />} />
         <Route path='favorites' element={<Favorites />} />
         <Route path='comparison' element={<Comparison />} />
-        <Route path='/profile'>
-          <Route index element={<Profile />} />
+        <Route path='/profile' element={<Profile />}>
+          <Route path='personal-data' element={<PersonalData />} />
+          <Route path='organizations' element={<Organizations />} />
+          <Route path='change-password' element={<ChangePassword />} />
+          <Route path='orders' element={<MyOrders />} />
         </Route>
       </Route>
     </Route>

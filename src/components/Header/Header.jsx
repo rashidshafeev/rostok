@@ -122,7 +122,7 @@ const Header = () => {
           </NavLink>
           {!user ? (
             <NavLink
-              to='/profile'
+              to='/profile/personal-data'
               className='text-center flex flex-col justify-between items-center'
             >
               <img className='mx-auto' src={profile} alt='*' />

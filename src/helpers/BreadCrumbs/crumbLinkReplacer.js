@@ -2,7 +2,11 @@ export const crumbLinkReplacer = {
   'shopping-cart': 'Корзина',
   favorites: 'Избранное',
   comparison: 'Сравнение товаров',
-  profile: 'Профиль',
+  profile: 'Мой профиль',
+  'personal-data': 'Личные данные',
+  organizations: 'Мои организации',
+  'change-password': 'Изменить пароль',
+  orders: 'Все заказы',
 };
 
 export const excludedPaths = ['/'];
