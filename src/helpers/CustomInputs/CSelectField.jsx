@@ -2,33 +2,53 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import { useState } from 'react';
 
 const CSelectField = (props) => {
+  const [selectedValue, setSelectedValue] = useState('');
+
+  const handleChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
   return (
     <FormControl fullWidth variant='outlined' size='small'>
       <InputLabel
         sx={{
           '&.Mui-focused': {
-            color: props.labelColor || '#15765B',
+            color: props?.labelColor || '#15765B',
           },
         }}
       >
-        {props.label}
+        {props?.label}
       </InputLabel>
       <Select
-        {...props}
-        label={props.label}
-        name={props.name}
-        inputProps={{
-          ...props.inputProps,
-          sx: {
-            paddingRight: 0,
+        label={props?.label}
+        name={props?.name}
+        value={selectedValue}
+        onChange={handleChange}
+        sx={{
+          '& .MuiOutlinedInput-notchedOutline': {
+            borderWidth: '1px',
+            borderColor: props.borderColor || '#222',
           },
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderWidth: '1px',
+            borderColor: props.borderColor || '#222',
+          },
+          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+            borderColor: props.focusedBorderColor || '#15765B',
+            borderWidth: '1px',
+          },
+          '&.Mui-focused': {
+            color: props.labelColor || '#15765B',
+          },
+          paddingRight: 0,
         }}
       >
-        {props.options.map((option) => (
-          <MenuItem key={option.value} value={option.value}>
-            {option.label}
+        {props?.options?.map((el, index) => (
+          <MenuItem key={index} value={el?.value}>
+            {el?.label}
           </MenuItem>
         ))}
       </Select>

@@ -1,13 +1,15 @@
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 
-const CSearchField = ({ ...props }) => {
+const CSearchField = (props) => {
   return (
     <TextField
       size='small'
       fullWidth
       variant='outlined'
-      {...props}
+      name={props?.name}
+      label={props?.label}
+      type={props?.type}
       InputProps={{
         endAdornment: (
           <SearchIcon
