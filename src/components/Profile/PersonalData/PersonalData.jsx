@@ -1,5 +1,4 @@
 import {
-  FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -13,7 +12,7 @@ const PersonalData = () => {
       <h3 className='text-xl font-semibold text-colBlack pb-4'>
         Личные данные
       </h3>
-      <FormControl className='grid grid-cols-3 gap-5 max-w-[1060px]'>
+      <form className='grid grid-cols-3 gap-5 max-w-[1060px]'>
         <div className='w-full space-y-5'>
           <CTextField
             label='Имя'
@@ -84,7 +83,7 @@ const PersonalData = () => {
             Отменить
           </button>
         </div>
-      </FormControl>
+      </form>
     </div>
   );
 };
