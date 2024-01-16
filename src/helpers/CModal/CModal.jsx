@@ -1,4 +1,5 @@
 import { Box, Modal } from '@mui/material';
+import CTextField from '../CustomInputs/CTextField';
 
 const CModal = ({ open, setOpen, content }) => {
   if (!open) return null;
@@ -12,6 +13,12 @@ const CModal = ({ open, setOpen, content }) => {
     >
       {content?.name == 'deleteOrganization' ? (
         <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-6 py-8 max-w-[620px] w-full'>
+          <span
+            onClick={() => setOpen(false)}
+            className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+          >
+            &times;
+          </span>
           <h1 className='text-3xl text-colBlack font-semibold'>
             Удаление организации
           </h1>
@@ -32,6 +39,168 @@ const CModal = ({ open, setOpen, content }) => {
               Удалить
             </button>
           </div>
+        </Box>
+      ) : content === 'addOrganization' ? (
+        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-6 py-8 max-w-[620px] w-full'>
+          <span
+            onClick={() => setOpen(false)}
+            className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+          >
+            &times;
+          </span>
+          <h1 className='text-3xl text-colBlack text-center pb-5 font-semibold'>
+            Добавление организации
+          </h1>
+          <form>
+            <div className='w-full space-y-5'>
+              <CTextField
+                label='Название организации'
+                name='name'
+                type='text'
+                borderColor='#222'
+                focusedBorderColor='#15765B'
+                labelColor='#15765B'
+                required={true}
+              />
+              <CTextField
+                label='ИНН'
+                name='inn'
+                type='number'
+                borderColor='#222'
+                focusedBorderColor='#15765B'
+                labelColor='#15765B'
+                required={true}
+              />
+            </div>
+            <h4 className='text-xl font-semibold text-colBlack'>
+              {content?.item?.name}
+            </h4>
+            <button
+              disabled
+              className='w-full h-[38px] px-6 bg-colGray rounded mt-5 text-white font-semibold'
+            >
+              Сохранить
+            </button>
+          </form>
+        </Box>
+      ) : content?.name === 'updateOrganization' ? (
+        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-6 py-8 max-w-[620px] w-full'>
+          <span
+            onClick={() => setOpen(false)}
+            className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+          >
+            &times;
+          </span>
+          <h1 className='text-3xl text-colBlack text-center pb-2 font-semibold'>
+            Редактирование организации
+          </h1>
+          <h4 className='text-xl text-center font-semibold pb-4 text-colBlack'>
+            {content?.item?.name}
+          </h4>
+          <form>
+            <div className='w-full space-y-3'>
+              <div className='grid grid-cols-2 gap-3'>
+                <CTextField
+                  label='ИНН'
+                  name='inn'
+                  type='number'
+                  borderColor='#222'
+                  focusedBorderColor='#15765B'
+                  labelColor='#15765B'
+                  required={true}
+                />
+                <CTextField
+                  label='КПП'
+                  name='kpp'
+                  type='number'
+                  borderColor='#222'
+                  focusedBorderColor='#15765B'
+                  labelColor='#15765B'
+                  required={true}
+                />
+              </div>
+              <CTextField
+                label='Название организации'
+                name='name'
+                type='text'
+                borderColor='#222'
+                focusedBorderColor='#15765B'
+                labelColor='#15765B'
+                required={true}
+              />
+              <CTextField
+                label='Юридический адрес'
+                name='yurAddress'
+                type='text'
+                borderColor='#222'
+                focusedBorderColor='#15765B'
+                labelColor='#15765B'
+                required={true}
+              />
+              <CTextField
+                label='Фактический адрес'
+                name='faqAddress'
+                type='text'
+                borderColor='#222'
+                focusedBorderColor='#15765B'
+                labelColor='#15765B'
+                required={true}
+              />
+              <CTextField
+                label='ОГРН'
+                name='ogrn'
+                type='number'
+                borderColor='#222'
+                focusedBorderColor='#15765B'
+                labelColor='#15765B'
+                required={true}
+              />
+              <div className='grid grid-cols-2 gap-3'>
+                <CTextField
+                  label='Расчётный счёт'
+                  name='resShet'
+                  type='number'
+                  borderColor='#222'
+                  focusedBorderColor='#15765B'
+                  labelColor='#15765B'
+                  required={true}
+                />
+                <CTextField
+                  label='БИК Банка'
+                  name='bikBanka'
+                  type='number'
+                  borderColor='#222'
+                  focusedBorderColor='#15765B'
+                  labelColor='#15765B'
+                  required={true}
+                />
+                <CTextField
+                  label='Корр. счёт'
+                  name='korrSchet'
+                  type='number'
+                  borderColor='#222'
+                  focusedBorderColor='#15765B'
+                  labelColor='#15765B'
+                  required={true}
+                />
+                <CTextField
+                  label='Наименование банка'
+                  name='bankName'
+                  type='number'
+                  borderColor='#222'
+                  focusedBorderColor='#15765B'
+                  labelColor='#15765B'
+                  required={true}
+                />
+              </div>
+            </div>
+            <button
+              disabled
+              className='w-full h-[38px] px-6 bg-colGray rounded mt-5 text-white font-semibold'
+            >
+              Сохранить
+            </button>
+          </form>
         </Box>
       ) : (
         ''

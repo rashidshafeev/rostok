@@ -14,10 +14,16 @@ const Organizations = () => {
 
   return (
     <div className='w-full'>
-      <h3 className='text-xl font-semibold text-colBlack pb-4'>
+      <h3 className='text-xl justify-center font-semibold text-colBlack pb-4'>
         Мои организации
       </h3>
-      <button className='flex items-center rounded-lg border border-[#F5F5F5] p-2'>
+      <button
+        onClick={() => {
+          setContent('addOrganization');
+          setOpen(true);
+        }}
+        className='flex items-center rounded-lg border border-[#F5F5F5] p-2'
+      >
         <span className='text-colGray bg-[#F5F5F5] w-8 h-8 rounded-md flex justify-center items-center text-5xl'>
           +
         </span>
@@ -63,7 +69,16 @@ const Organizations = () => {
                   />
                 </div>
                 <div className='flex justify-end space-x-3'>
-                  <span className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'>
+                  <span
+                    onClick={() => {
+                      setContent({
+                        name: 'updateOrganization',
+                        item: el,
+                      });
+                      setOpen(true);
+                    }}
+                    className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'
+                  >
                     Редактировать
                   </span>
                   <span
