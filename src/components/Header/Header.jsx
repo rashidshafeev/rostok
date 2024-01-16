@@ -58,7 +58,7 @@ const Header = () => {
           </li>
         </ul>
       </div>
-      <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 space-x-5 bg-white z-[9999]'>
+      <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 space-x-5 bg-white z-[999]'>
         <NavLink className='min-w-[90px]' to='/'>
           <img src={logo} alt='logo' />
         </NavLink>

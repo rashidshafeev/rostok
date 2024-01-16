@@ -1,9 +1,12 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { organizations } from '../../../constants/data';
 import { useState } from 'react';
+import CModal from '../../../helpers/CModal/CModal';
 
 const Organizations = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
+  const [content, setContent] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handleToggleAccordion = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -63,7 +66,16 @@ const Organizations = () => {
                   <span className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'>
                     Редактировать
                   </span>
-                  <span className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'>
+                  <span
+                    onClick={() => {
+                      setContent({
+                        name: 'deleteOrganization',
+                        item: el,
+                      });
+                      setOpen(true);
+                    }}
+                    className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'
+                  >
                     Удалить
                   </span>
                 </div>
@@ -128,6 +140,7 @@ const Organizations = () => {
           </div>
         ))}
       </div>
+      <CModal open={open} setOpen={setOpen} content={content} />
     </div>
   );
 };
