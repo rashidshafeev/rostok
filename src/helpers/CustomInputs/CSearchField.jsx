@@ -1,6 +1,7 @@
 import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
 
-const CTextField = ({ ...props }) => {
+const CSearchField = ({ ...props }) => {
   return (
     <TextField
       size='small'
@@ -8,6 +9,15 @@ const CTextField = ({ ...props }) => {
       variant='outlined'
       {...props}
       InputProps={{
+        endAdornment: (
+          <SearchIcon
+            sx={{
+              marginLeft: 1,
+              marginRight: 1,
+              color: '#15765B',
+            }}
+          />
+        ),
         sx: {
           '& .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
@@ -21,6 +31,7 @@ const CTextField = ({ ...props }) => {
             borderColor: props.focusedBorderColor || '#15765B',
             borderWidth: '1px',
           },
+          paddingRight: 0,
         },
       }}
       InputLabelProps={{
@@ -30,9 +41,8 @@ const CTextField = ({ ...props }) => {
           },
         },
       }}
-      {...props}
     />
   );
 };
 
-export default CTextField;
+export default CSearchField;
