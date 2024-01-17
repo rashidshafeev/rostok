@@ -1,8 +1,4 @@
-import {
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
+import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
 import CDatePicker from '../../../helpers/CustomInputs/CDatePicker';
 
@@ -14,22 +10,8 @@ const PersonalData = () => {
       </h3>
       <form className='grid grid-cols-3 gap-5 max-w-[1060px]'>
         <div className='w-full space-y-5'>
-          <CTextField
-            label='Имя'
-            name='name'
-            type='text'
-            borderColor='#222'
-            focusedBorderColor='#15765B'
-            labelColor='#15765B'
-          />
-          <CTextField
-            label='Фамилия'
-            name='lastName'
-            type='text'
-            borderColor='#222'
-            focusedBorderColor='#15765B'
-            labelColor='#15765B'
-          />
+          <CTextField label='Имя' name='name' type='text' />
+          <CTextField label='Фамилия' name='lastName' type='text' />
           <div>
             <p className='text-colBlack'>Пол</p>
             <RadioGroup
@@ -52,22 +34,8 @@ const PersonalData = () => {
           </div>
         </div>
         <div className='w-full space-y-5'>
-          <CTextField
-            label='Почта'
-            name='email'
-            type='email'
-            borderColor='#222'
-            focusedBorderColor='#15765B'
-            labelColor='#15765B'
-          />
-          <CTextField
-            label='Телефон'
-            name='phone'
-            type='tel'
-            borderColor='#222'
-            focusedBorderColor='#15765B'
-            labelColor='#15765B'
-          />
+          <CTextField label='Почта' name='email' type='email' />
+          <CTextField label='Телефон' name='phone' type='tel' />
           <div className='pt-6'>
             <CDatePicker name='dateOfBirth' label='Дата рождения' />
           </div>

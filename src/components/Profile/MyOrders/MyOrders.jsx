@@ -23,17 +23,11 @@ const MyOrders = () => {
           label='Название/код товара или номер заказа'
           name='search'
           type='search'
-          borderColor='#222'
-          focusedBorderColor='#15765B'
-          labelColor='#15765B'
         />
         <div className='grid grid-cols-2 gap-4'>
           <CSelectField
             label='Контрагент'
             name='kontragent'
-            borderColor='#222'
-            focusedBorderColor='#15765B'
-            labelColor='#15765B'
             options={[
               { value: 'option1', label: 'Александр' },
               { value: 'option2', label: 'Александр 2' },
@@ -43,9 +37,6 @@ const MyOrders = () => {
           <CSelectField
             label='Статус заказа'
             name='status'
-            borderColor='#222'
-            focusedBorderColor='#15765B'
-            labelColor='#15765B'
             options={[
               { id: 1, value: 'option1', label: 'Все' },
               { id: 2, value: 'option2', label: 'Комплектуется' },

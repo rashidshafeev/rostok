@@ -7,21 +7,11 @@ const ChangePassword = () => {
         Изменить пароль
       </h3>
       <form className='max-w-[340px] w-full space-y-5'>
-        <CTextField
-          label='Новый пароль'
-          name='newPassword'
-          type='password'
-          borderColor='#222'
-          focusedBorderColor='#15765B'
-          labelColor='#15765B'
-        />
+        <CTextField label='Новый пароль' name='newPassword' type='password' />
         <CTextField
           label='Повторите пароль'
           name='repeatPassword'
           type='password'
-          borderColor='#222'
-          focusedBorderColor='#15765B'
-          labelColor='#15765B'
         />
         <button
           disabled

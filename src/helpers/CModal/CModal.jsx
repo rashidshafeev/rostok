@@ -57,18 +57,12 @@ const CModal = ({ open, setOpen, content }) => {
                 label='Название организации'
                 name='name'
                 type='text'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <CTextField
                 label='ИНН'
                 name='inn'
                 type='number'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
             </div>
@@ -123,36 +117,24 @@ const CModal = ({ open, setOpen, content }) => {
                 label='Название организации'
                 name='name'
                 type='text'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <CTextField
                 label='Юридический адрес'
                 name='yurAddress'
                 type='text'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <CTextField
                 label='Фактический адрес'
                 name='faqAddress'
                 type='text'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <CTextField
                 label='ОГРН'
                 name='ogrn'
                 type='number'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <div className='grid grid-cols-2 gap-3'>

@@ -23,14 +23,14 @@ const CSearchField = (props) => {
         sx: {
           '& .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
-            borderColor: props.borderColor || '#222',
+            borderColor: '#222',
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
-            borderColor: props.borderColor || '#222',
+            borderColor: '#222',
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: props.focusedBorderColor || '#15765B',
+            borderColor: '#15765B',
             borderWidth: '1px',
           },
           paddingRight: 0,
@@ -39,7 +39,7 @@ const CSearchField = (props) => {
       InputLabelProps={{
         sx: {
           '&.Mui-focused': {
-            color: props.labelColor || '#15765B',
+            color: '#15765B',
           },
         },
       }}

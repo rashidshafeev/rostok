@@ -2,6 +2,7 @@ import { Box, Modal } from '@mui/material';
 import { KeyboardArrowRight, KeyboardArrowLeft } from '@mui/icons-material';
 import CTextField from '../CustomInputs/CTextField';
 import modalLogo from '../../assets/images/modal-logo.svg';
+import CPhoneField from '../CustomInputs/CPhoneField';
 
 const AuthModal = ({ open, setOpen, content, setContent }) => {
   if (!open) return null;
@@ -31,9 +32,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                 label='Телефон / Эл. почта'
                 name='loginInput'
                 type='text'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
             </div>
@@ -42,7 +40,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                 e.preventDefault();
                 setContent('register');
               }}
-              className='w-full h-[38px] px-6 bg-colGreen rounded mt-5 text-white font-semibold'
+              className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'
             >
               Продолжить
               <KeyboardArrowRight className='!w-5' />
@@ -69,24 +67,12 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
           </h1>
           <form>
             <div className='w-full space-y-5'>
-              <CTextField
-                label='Имя'
-                name='name'
-                type='text'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
-                required={true}
-              />
+              <CTextField label='Имя' name='name' type='text' required={true} />
               <div className='flex items-center space-x-2'>
-                <CTextField
+                <CPhoneField
                   className='!w-3/5'
                   label='Телефон'
                   name='phone'
-                  type='tel'
-                  borderColor='#222'
-                  focusedBorderColor='#15765B'
-                  labelColor='#15765B'
                   required={true}
                 />
                 <span className='pointer-events-none w-2/5 h-[38px] px-6 bg-colGray rounded text-white cursor-pointer font-semibold flex justify-center items-center'>
@@ -97,35 +83,32 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                 label='Электронная почта'
                 name='email'
                 type='email'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <CTextField
                 label='Пароль'
                 name='password'
                 type='password'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
               <CTextField
                 label='Подтвердите пароль'
                 name='confirmPassword'
                 type='password'
-                borderColor='#222'
-                focusedBorderColor='#15765B'
-                labelColor='#15765B'
                 required={true}
               />
             </div>
             <h4 className='text-xl font-semibold text-colBlack'>
               {content?.item?.name}
             </h4>
-            <button className='w-full h-[38px] px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
-              Сохранить
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+              }}
+              className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'
+            >
+              Зарегистрироваться
+              <KeyboardArrowRight className='!w-5' />
             </button>
           </form>
         </Box>
