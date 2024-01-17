@@ -10,9 +10,15 @@ import profile from '../../assets/icons/profile.svg';
 import action from '../../assets/icons/action.svg';
 import sales from '../../assets/icons/sales.svg';
 import news from '../../assets/icons/news.svg';
+import { useState } from 'react';
+import AuthModal from '../../helpers/CModal/AuthModal';
 
 const Header = () => {
+  const [content, setContent] = useState('');
+  const [open, setOpen] = useState(false);
+
   const user = false;
+
   return (
     <>
       <div className='content mx-auto pt-2 flex justify-between items-center space-x-5'>
@@ -84,15 +90,30 @@ const Header = () => {
           </button>
         </form>
         <div className='flex justify-between space-x-4'>
-          <NavLink
-            to='#'
-            className='text-center flex flex-col justify-between items-center'
-          >
-            <img className='mx-auto' src={order} alt='*' />
-            <span className='text-xs pt-1 font-medium text-colBlack'>
-              Заказы
-            </span>
-          </NavLink>
+          {user ? (
+            <NavLink
+              to='/profile/orders'
+              className='text-center flex flex-col justify-between items-center'
+            >
+              <img className='mx-auto' src={order} alt='*' />
+              <span className='text-xs pt-1 font-medium text-colBlack'>
+                Заказы
+              </span>
+            </NavLink>
+          ) : (
+            <button
+              onClick={() => {
+                setContent('login');
+                setOpen(true);
+              }}
+              className='text-center flex flex-col justify-between items-center outline-none'
+            >
+              <img className='mx-auto' src={order} alt='*' />
+              <span className='text-xs pt-1 font-medium text-colBlack'>
+                Заказы
+              </span>
+            </button>
+          )}
           <NavLink
             to='/comparison'
             className='text-center flex flex-col justify-between items-center'
@@ -131,15 +152,12 @@ const Header = () => {
               </span>
             </NavLink>
           ) : (
-            <NavLink
-              to='#'
-              className='text-center flex flex-col justify-between items-center'
-            >
+            <button className='text-center flex flex-col justify-between items-center outline-none'>
               <img className='mx-auto' src={profile} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
                 Войти
               </span>
-            </NavLink>
+            </button>
           )}
         </div>
       </div>
@@ -216,6 +234,12 @@ const Header = () => {
           Услуги
         </NavLink>
       </div>
+      <AuthModal
+        open={open}
+        setOpen={setOpen}
+        content={content}
+        setContent={setContent}
+      />
     </>
   );
 };
