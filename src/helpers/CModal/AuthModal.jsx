@@ -75,7 +75,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                   name='phone'
                   required={true}
                 />
-                <span className='pointer-events-none w-2/5 h-[38px] px-6 bg-colGray rounded text-white cursor-pointer font-semibold flex justify-center items-center'>
+                <span className='pointer-events-none w-2/5 h-10 px-6 bg-colGray rounded text-white cursor-pointer font-semibold flex justify-center items-center'>
                   Получить код
                 </span>
               </div>
