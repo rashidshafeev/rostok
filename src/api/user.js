@@ -32,3 +32,25 @@ export const postAuthWithEmail = async (dispatch, data) => {
     return { success: false };
   }
 };
+
+// Register
+export const postRegister = async (dispatch, data) => {
+  dispatch(loginStart());
+  const sendData = {
+    name: data.name,
+    phone: data.phone,
+    email: data.email,
+    password: data.password,
+    legalRepresentative: data.legalRepresentative,
+  };
+  console.log(sendData);
+  // try {
+  //   const res = await request.post('/api/User/auth', sendData);
+  //   localStorage.setItem('rosstokToken', res?.data?.token);
+  //   dispatch(loginSuccess(res?.data));
+  //   return { success: res?.data?.success, resData: res?.data };
+  // } catch (error) {
+  //   dispatch(loginFailure(error));
+  //   return { success: false };
+  // }
+};

@@ -12,12 +12,12 @@ import sales from '../../assets/icons/sales.svg';
 import news from '../../assets/icons/news.svg';
 import { useState } from 'react';
 import AuthModal from '../../helpers/CModal/AuthModal';
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const { user } = useSelector((state) => state?.user);
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
-
-  const user = false;
 
   return (
     <>
@@ -141,18 +141,24 @@ const Header = () => {
               Корзина
             </span>
           </NavLink>
-          {!user ? (
+          {user ? (
             <NavLink
               to='/profile/personal-data'
               className='text-center flex flex-col justify-between items-center'
             >
               <img className='mx-auto' src={profile} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
-                Александр
+                {user?.name}
               </span>
             </NavLink>
           ) : (
-            <button className='text-center flex flex-col justify-between items-center outline-none'>
+            <button
+              onClick={() => {
+                setContent('checkAuth');
+                setOpen(true);
+              }}
+              className='text-center flex flex-col justify-between items-center outline-none'
+            >
               <img className='mx-auto' src={profile} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
                 Войти
