@@ -6,10 +6,25 @@ import CTextField from '../CustomInputs/CTextField';
 import CPhoneField from '../CustomInputs/CPhoneField';
 import { postAuthCheck } from '../../api/user';
 import modalLogo from '../../assets/images/modal-logo.svg';
+import { useState } from 'react';
+import { Loading } from '../Loader/Loader';
 
 const AuthModal = ({ open, setOpen, content, setContent }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
+
+  const onSubmitAuthCheck = async (data) => {
+    setIsLoading(true);
+    const { success, loginType } = await postAuthCheck(dispatch, data);
+    if (success) {
+      if (loginType === 'email') {
+        setContent('authWithEmail');
+      }
+      setIsLoading(false);
+    }
+    setIsLoading(false);
+  };
 
   const onSubmitAuth = async (data) => {
     const { success, loginType } = await postAuthCheck(dispatch, data);
@@ -30,55 +45,60 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
       aria-describedby='modal-modal-description'
     >
       {content === 'checkAuth' ? (
-        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
-          <span
-            onClick={() => setOpen(false)}
-            className='absolute top-3 left-3 text-sm text-colBlack cursor-pointer pr-4 flex items-center'
-          >
-            <KeyboardArrowLeft className='!w-5 text-colBlack' />
-            Назад
-          </span>
-          <span
-            onClick={() => setOpen(false)}
-            className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
-          >
-            &times;
-          </span>
-          <img className='w-[116px] mb-4 mx-auto' src={modalLogo} alt='*' />
-          <h1 className='text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
-            Вход или Регистрация
-          </h1>
-          <form onSubmit={handleSubmit(onSubmitAuth)}>
-            <div className='w-full space-y-5'>
-              <Controller
-                name='login'
-                control={control}
-                defaultValue=''
-                render={({ field }) => (
-                  <CTextField
-                    label='Эл. почта / телефон'
-                    type='text'
-                    required={true}
-                    inputRef={field.ref}
-                    onChange={field.onChange}
-                    value={field.value}
-                  />
-                )}
-              />
-            </div>
-            <button className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
-              Продолжить
-              <KeyboardArrowRight className='!w-5' />
-            </button>
-            <p className='text-center pt-4 text-colGray cursor-pointer'>
-              Забыли пароль?
-            </p>
-          </form>
-        </Box>
+        <>
+          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
+            {isLoading ? (
+              <Loading extraStyle='276px' />
+            ) : (
+              <>
+                <span
+                  onClick={() => setOpen(false)}
+                  className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+                >
+                  &times;
+                </span>
+                <img
+                  className='w-[116px] mb-4 mx-auto'
+                  src={modalLogo}
+                  alt='*'
+                />
+                <h1 className='text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
+                  Вход или Регистрация
+                </h1>
+                <form onSubmit={handleSubmit(onSubmitAuthCheck)}>
+                  <div className='w-full space-y-5'>
+                    <Controller
+                      name='login'
+                      control={control}
+                      defaultValue=''
+                      render={({ field }) => (
+                        <CTextField
+                          label='Эл. почта / телефон'
+                          type='text'
+                          required={true}
+                          inputRef={field.ref}
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
+                      )}
+                    />
+                  </div>
+                  <button className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
+                    Продолжить
+                    <KeyboardArrowRight className='!w-5' />
+                  </button>
+                  <p className='text-center pt-4 text-colGray cursor-pointer'>
+                    Забыли пароль?
+                  </p>
+                </form>
+              </>
+            )}
+          </Box>
+        </>
       ) : content === 'authWithEmail' ? (
         <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
           <span
-            onClick={() => setOpen(false)}
+            onClick={() => setContent('checkAuth')}
             className='absolute top-3 left-3 text-sm text-colBlack cursor-pointer pr-4 flex items-center'
           >
             <KeyboardArrowLeft className='!w-5 text-colBlack' />
@@ -90,7 +110,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
           >
             &times;
           </span>
-          {/* <img className='w-[116px] mb-4 mx-auto' src={modalLogo} alt='*' /> */}
           <h1 className='text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
             Войдите с паролем
           </h1>
