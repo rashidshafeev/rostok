@@ -1,6 +1,8 @@
 import TextField from '@mui/material/TextField';
+import { forwardRef } from 'react';
 
-const CTextField = ({ inputRef, ...props }) => {
+// eslint-disable-next-line react/display-name
+const CTextField = forwardRef(({ ...props }, ref) => {
   return (
     <TextField
       size='small'
@@ -20,6 +22,9 @@ const CTextField = ({ inputRef, ...props }) => {
             borderColor: '#15765B',
             borderWidth: '1px',
           },
+          '.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input': {
+            paddingRight: props.icon === 'true' ? '42px' : '14px',
+          },
         },
       }}
       InputLabelProps={{
@@ -30,9 +35,9 @@ const CTextField = ({ inputRef, ...props }) => {
         },
       }}
       {...props}
-      ref={inputRef}
+      ref={ref}
     />
   );
-};
+});
 
 export default CTextField;
