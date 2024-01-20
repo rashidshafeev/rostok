@@ -1,12 +1,15 @@
-import TextField from '@mui/material/TextField';
+import { forwardRef } from 'react';
 import InputMask from 'react-input-mask';
+import TextField from '@mui/material/TextField';
 
-const CPhoneField = ({ ...props }) => {
+// eslint-disable-next-line react/display-name
+const CPhoneField = forwardRef((props, ref) => {
   return (
     <InputMask
       mask='+7 (999) 999-99-99'
-      defaultValue={props.defaultValue}
+      value={props.value}
       onChange={props.onChange}
+      {...props}
     >
       {() => (
         <TextField
@@ -37,10 +40,11 @@ const CPhoneField = ({ ...props }) => {
               },
             },
           }}
+          ref={ref}
         />
       )}
     </InputMask>
   );
-};
+});
 
 export default CPhoneField;

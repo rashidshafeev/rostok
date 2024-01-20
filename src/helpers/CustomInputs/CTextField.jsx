@@ -1,12 +1,13 @@
+import { forwardRef } from 'react';
 import TextField from '@mui/material/TextField';
 
-const CTextField = ({ ...props }) => {
+// eslint-disable-next-line react/display-name
+const CTextField = forwardRef((props, ref) => {
   return (
     <TextField
       size='small'
       fullWidth
       variant='outlined'
-      {...props}
       InputProps={{
         sx: {
           '& .MuiOutlinedInput-notchedOutline': {
@@ -31,8 +32,9 @@ const CTextField = ({ ...props }) => {
         },
       }}
       {...props}
+      ref={ref}
     />
   );
-};
+});
 
 export default CTextField;
