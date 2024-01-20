@@ -103,7 +103,7 @@ const Header = () => {
           ) : (
             <button
               onClick={() => {
-                setContent('login');
+                setContent('checkAuth');
                 setOpen(true);
               }}
               className='text-center flex flex-col justify-between items-center outline-none'

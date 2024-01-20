@@ -1,22 +1,23 @@
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Box, Modal } from '@mui/material';
 import { KeyboardArrowRight, KeyboardArrowLeft } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
 import CTextField from '../CustomInputs/CTextField';
 import CPhoneField from '../CustomInputs/CPhoneField';
-import { postAuthorization } from '../../api/user';
-// import modalLogo from '../../assets/images/modal-logo.svg';
+import { postAuthCheck } from '../../api/user';
+import modalLogo from '../../assets/images/modal-logo.svg';
 
 const AuthModal = ({ open, setOpen, content, setContent }) => {
-  const [authType, setAuthType] = useState('login');
-  const { control, handleSubmit, register } = useForm();
+  const { control, handleSubmit } = useForm();
   const dispatch = useDispatch();
 
   const onSubmitAuth = async (data) => {
-    console.log(data)
-    // await postAuthorization(dispatch, data);
-    // setContent('register');
+    const { success, loginType } = await postAuthCheck(dispatch, data);
+    if (success) {
+      if (loginType === 'email') {
+        setContent('authWithEmail');
+      }
+    }
   };
 
   if (!open) return null;
@@ -28,8 +29,61 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      {content === 'login' ? (
+      {content === 'checkAuth' ? (
         <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
+          <span
+            onClick={() => setOpen(false)}
+            className='absolute top-3 left-3 text-sm text-colBlack cursor-pointer pr-4 flex items-center'
+          >
+            <KeyboardArrowLeft className='!w-5 text-colBlack' />
+            Назад
+          </span>
+          <span
+            onClick={() => setOpen(false)}
+            className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+          >
+            &times;
+          </span>
+          <img className='w-[116px] mb-4 mx-auto' src={modalLogo} alt='*' />
+          <h1 className='text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
+            Вход или Регистрация
+          </h1>
+          <form onSubmit={handleSubmit(onSubmitAuth)}>
+            <div className='w-full space-y-5'>
+              <Controller
+                name='login'
+                control={control}
+                defaultValue=''
+                render={({ field }) => (
+                  <CTextField
+                    label='Эл. почта / телефон'
+                    type='text'
+                    required={true}
+                    inputRef={field.ref}
+                    onChange={field.onChange}
+                    value={field.value}
+                  />
+                )}
+              />
+            </div>
+            <button className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
+              Продолжить
+              <KeyboardArrowRight className='!w-5' />
+            </button>
+            <p className='text-center pt-4 text-colGray cursor-pointer'>
+              Забыли пароль?
+            </p>
+          </form>
+        </Box>
+      ) : content === 'authWithEmail' ? (
+        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
+          <span
+            onClick={() => setOpen(false)}
+            className='absolute top-3 left-3 text-sm text-colBlack cursor-pointer pr-4 flex items-center'
+          >
+            <KeyboardArrowLeft className='!w-5 text-colBlack' />
+            Назад
+          </span>
           <span
             onClick={() => setOpen(false)}
             className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
@@ -37,80 +91,44 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
             &times;
           </span>
           {/* <img className='w-[116px] mb-4 mx-auto' src={modalLogo} alt='*' /> */}
-          <h1 className='text-3xl text-colBlack text-center pb-3 font-semibold'>
-            Авторизация
+          <h1 className='text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
+            Войдите с паролем
           </h1>
-          <div className='flex justify-center mb-5 max-w-[250px] mx-auto'>
-            <button
-              onClick={() => setAuthType('login')}
-              className={`${
-                authType === 'login' && 'border-b-2 border-colGreen'
-              } font-medium w-1/2 pb-1`}
-            >
-              Эл. почта
-            </button>
-            <button
-              onClick={() => setAuthType('phone')}
-              className={`${
-                authType === 'phone' && 'border-b-2 border-colGreen'
-              } font-medium w-1/2 pb-1`}
-            >
-              Телефон
-            </button>
-          </div>
           <form onSubmit={handleSubmit(onSubmitAuth)}>
             <div className='w-full space-y-5'>
-              {authType === 'login' ? (
-                <>
-                  <Controller
-                    name='login'
-                    control={control}
-                    defaultValue=''
-                    render={({ field }) => (
-                      <CTextField
-                        label='Эл. почта'
-                        required={true}
-                        {...field}
-                      />
-                    )}
+              <Controller
+                name='login'
+                control={control}
+                defaultValue=''
+                render={({ field }) => (
+                  <CTextField
+                    label='Эл. почта'
+                    type='email'
+                    required={true}
+                    {...field}
                   />
-                  <Controller
-                    name='password'
-                    control={control}
-                    defaultValue=''
-                    render={({ field }) => (
-                      <CTextField
-                        label='Пароль'
-                        type='password'
-                        required={true}
-                        {...field}
-                      />
-                    )}
+                )}
+              />
+              <Controller
+                name='password'
+                control={control}
+                defaultValue=''
+                render={({ field }) => (
+                  <CTextField
+                    label='Пароль'
+                    type='password'
+                    required={true}
+                    {...field}
                   />
-                </>
-              ) : (
-                <Controller
-                  name='phone'
-                  control={control}
-                  defaultValue=''
-                  render={({ field }) => (
-                    <CPhoneField label='Телефон' required={true} {...field} />
-                  )}
-                />
-              )}
+                )}
+              />
             </div>
             <button className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
-              {authType === 'login' ? 'Войти' : 'Продолжить'}
+              Продолжить
               <KeyboardArrowRight className='!w-5' />
             </button>
-            <p className='text-center pt-4'>
-              Не зарегистрированы?{' '}
-              <span
-                onClick={() => setContent('register')}
-                className='font-semibold underline cursor-pointer'
-              >
-                Зарегистрироваться
-              </span>
+            <p className='text-center pt-4 text-colGray cursor-pointer'>
+              Забыли пароль?
             </p>
           </form>
         </Box>
@@ -185,3 +203,14 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
 };
 
 export default AuthModal;
+
+/*
+<Controller
+  name='phone'
+  control={control}
+  defaultValue=''
+  render={({ field }) => (
+    <CPhoneField label='Телефон' required={true} {...field} />
+  )}
+/>
+*/

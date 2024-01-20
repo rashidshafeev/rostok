@@ -1,8 +1,6 @@
-import { forwardRef } from 'react';
 import TextField from '@mui/material/TextField';
 
-// eslint-disable-next-line react/display-name
-const CTextField = forwardRef((props, ref) => {
+const CTextField = ({ inputRef, ...props }) => {
   return (
     <TextField
       size='small'
@@ -32,9 +30,9 @@ const CTextField = forwardRef((props, ref) => {
         },
       }}
       {...props}
-      ref={ref}
+      ref={inputRef}
     />
   );
-});
+};
 
 export default CTextField;
