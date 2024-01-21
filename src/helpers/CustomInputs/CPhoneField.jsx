@@ -1,25 +1,28 @@
+// CPhoneField.jsx
+
 import InputMask from 'react-input-mask';
 import TextField from '@mui/material/TextField';
 import { forwardRef } from 'react';
 
 // eslint-disable-next-line react/display-name
-const CPhoneField = forwardRef(({ ...props }, ref) => {
-  const { ...textFieldProps } = props;
+const CPhoneField = forwardRef(({ value, onChange, ...props }, ref) => {
+  const unformatPhoneNumber = (formattedValue) => {
+    // eslint-disable-next-line no-useless-escape
+    return formattedValue.replace(/[\s\(\)-]/g, '');
+  };
 
   return (
     <InputMask
       mask='+7 (999) 999-99-99'
-      value={props.value}
-      onChange={props.onChange}
+      value={value}
+      onChange={(e) => onChange(unformatPhoneNumber(e.target.value))}
       {...props}
     >
       {() => (
         <TextField
           size='small'
           fullWidth
-          {...textFieldProps}
           variant='outlined'
-          {...props}
           InputProps={{
             sx: {
               '& .MuiOutlinedInput-notchedOutline': {

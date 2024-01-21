@@ -41,16 +41,47 @@ export const postRegister = async (dispatch, data) => {
     phone: data.phone,
     email: data.email,
     password: data.password,
-    legalRepresentative: data.legalRepresentative,
+    // privacyPolicy: data.privacyPolicy,
+    // legalRepresentative: data.legalRepresentative,
   };
-  console.log(sendData);
-  // try {
-  //   const res = await request.post('/api/User/auth', sendData);
-  //   localStorage.setItem('rosstokToken', res?.data?.token);
-  //   dispatch(loginSuccess(res?.data));
-  //   return { success: res?.data?.success, resData: res?.data };
-  // } catch (error) {
-  //   dispatch(loginFailure(error));
-  //   return { success: false };
-  // }
+  try {
+    const res = await request.post('/api/User/register', sendData);
+    localStorage.setItem('rosstokToken', res?.data?.token);
+    if (res?.data?.success === 'ok') {
+      dispatch(loginSuccess(res?.data));
+    }
+    return { success: res?.data?.success, resData: res?.data };
+  } catch (error) {
+    dispatch(loginFailure(error));
+    return { success: false };
+  }
+};
+
+export const postSendVerificationCode = async (phone) => {
+  try {
+    const res = await request.post('/api/User/phone/sendVerificationCode', {
+      phone: phone,
+    });
+
+    return { data: res?.data };
+  } catch (error) {
+    return { success: false };
+  }
+};
+
+export const postConfirmVerificationCode = async (code, phone) => {
+  const sendData = {
+    phone: phone,
+    code: code,
+  };
+  try {
+    const res = await request.post(
+      '/api/User/phone/confirmVerificationCode',
+      sendData
+    );
+
+    return { data: res?.data };
+  } catch (error) {
+    return { success: false };
+  }
 };

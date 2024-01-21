@@ -16,3 +16,14 @@ export const Loading = ({ extraStyle }) => {
     </div>
   );
 };
+
+export const LoadingSmall = ({ extraStyle }) => {
+  return (
+    <Loader
+      type='spinner-default'
+      bgColor={extraStyle}
+      color={extraStyle}
+      size={28}
+    />
+  );
+};
