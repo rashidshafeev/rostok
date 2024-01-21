@@ -1,8 +1,16 @@
+/* eslint-disable no-useless-escape */
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
 import CDatePicker from '../../../helpers/CustomInputs/CDatePicker';
+import { useSelector } from 'react-redux';
+import { Controller, useForm } from 'react-hook-form';
+import CPhoneField from '../../../helpers/CustomInputs/CPhoneField';
 
 const PersonalData = () => {
+  const { user } = useSelector((state) => state?.user);
+
+  const { control } = useForm();
+
   return (
     <div className='w-full'>
       <h3 className='text-xl font-semibold text-colBlack pb-4'>
@@ -10,7 +18,17 @@ const PersonalData = () => {
       </h3>
       <form className='grid grid-cols-3 gap-5 max-w-[1060px]'>
         <div className='w-full space-y-5'>
-          <CTextField label='Имя' name='name' type='text' />
+          <Controller
+            name='name'
+            control={control}
+            defaultValue={user?.name}
+            rules={{
+              required: 'Поле обязательно к заполнению!',
+            }}
+            render={({ field }) => (
+              <CTextField label='Имя' type='text' {...field} />
+            )}
+          />
           <CTextField label='Фамилия' name='lastName' type='text' />
           <div>
             <p className='text-colBlack'>Пол</p>
@@ -34,8 +52,30 @@ const PersonalData = () => {
           </div>
         </div>
         <div className='w-full space-y-5'>
-          <CTextField label='Почта' name='email' type='email' />
-          <CTextField label='Телефон' name='phone' type='tel' />
+          <Controller
+            name='lastName'
+            control={control}
+            defaultValue={user?.email}
+            rules={{
+              required: 'Поле обязательно к заполнению!',
+            }}
+            render={({ field }) => (
+              <CTextField label='Фамилия' type='email' {...field} />
+            )}
+          />
+          <Controller
+            name='phone'
+            control={control}
+            defaultValue={user?.phone}
+            rules={{
+              required: 'Поле обязательно к заполнению!',
+              pattern: {
+                value: /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
+                message: 'Введите корректный номер телефона',
+              },
+            }}
+            render={({ field }) => <CPhoneField label='Телефон' {...field} />}
+          />
           <div className='pt-6'>
             <CDatePicker name='dateOfBirth' label='Дата рождения' />
           </div>
