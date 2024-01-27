@@ -9,6 +9,7 @@ import { request } from './axios';
 export const postAuthCheck = async (dispatch, data) => {
   try {
     const res = await request.post('/api/User/check', data);
+    console.log(res?.data);
     return { success: res?.data?.success, loginType: res?.data?.login_type };
   } catch (error) {
     return { success: false };

@@ -32,7 +32,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   const [openSnack2, setOpenSnack2] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const [isShowTwo, setIsShowTwo] = useState(false);
-  const [resErrors, setResErrors] = useState(null);
+  const [resError, setResError] = useState(null);
   const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
 
   const {
@@ -60,20 +60,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
       setIsLoading(false);
     } else {
       setContent('register');
-      setIsLoading(false);
-    }
-  };
-
-  const onSubmitAuthWithEmail = async (data) => {
-    setIsLoading(true);
-    const { success, resData } = await postAuthWithEmail(dispatch, data);
-    if (success) {
-      setIsLoading(false);
-      setOpen(false);
-      setResErrors(null);
-      reset();
-    } else {
-      setResErrors(resData);
       setIsLoading(false);
     }
   };
@@ -108,17 +94,31 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     }
   };
 
+  const onSubmitAuthWithEmail = async (data) => {
+    setIsLoading(true);
+    const { success, resData } = await postAuthWithEmail(dispatch, data);
+    if (success) {
+      setIsLoading(false);
+      setOpen(false);
+      setResError(null);
+      reset();
+    } else {
+      setResError(resData?.err);
+      setIsLoading(false);
+    }
+  };
+
   const onSubmitRegister = async (data) => {
     setIsLoading(true);
     const { success, resData } = await postRegister(dispatch, data);
     if (success) {
       setIsLoading(false);
       setIsCode({ verification: null, sendCode: null });
-      setResErrors(null);
+      setResError(null);
       setOpen(false);
       reset();
     } else {
-      setResErrors(resData?.err);
+      setResError(resData?.err);
       setIsLoading(false);
     }
   };
@@ -185,7 +185,11 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
             ) : (
               <>
                 <span
-                  onClick={() => setContent('checkAuth')}
+                  onClick={() => {
+                    setContent('checkAuth');
+                    setResError(null);
+                    reset();
+                  }}
                   className='absolute top-3 left-3 text-sm text-colBlack cursor-pointer pr-4 flex items-center'
                 >
                   <KeyboardArrowLeft className='!w-5 text-colBlack' />
@@ -218,18 +222,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                         />
                       )}
                     />
-                    {resErrors?.err_code ===
-                      'user_login__invalid_phone_number' && (
-                      <p className='text-red-500 text-sm font-medium pt-1'>
-                        {resErrors?.err}
-                      </p>
-                    )}
-                    {resErrors?.err_code ===
-                      'user_login__invalid_email_address' && (
-                      <p className='text-red-500 text-sm font-medium pt-1'>
-                        {resErrors?.err}
-                      </p>
-                    )}
                     <div className='flex relative mt-5'>
                       <Controller
                         name='password'
@@ -257,9 +249,9 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                         />
                       )}
                     </div>
-                    {resErrors?.err_code === 'user_password__incorrect' && (
+                    {resError && (
                       <p className='text-red-500 text-sm font-medium pt-1'>
-                        {resErrors?.err}
+                        {resError}
                       </p>
                     )}
                   </div>
@@ -280,7 +272,11 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
             ) : (
               <>
                 <span
-                  onClick={() => setContent('checkAuth')}
+                  onClick={() => {
+                    setContent('checkAuth');
+                    setResError(null);
+                    reset();
+                  }}
                   className='absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4'
                 >
                   <KeyboardArrowLeft className='!w-4 pb-[2px]' />
@@ -311,7 +307,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                       />
                       {errors?.name && (
                         <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.name.message || 'Error!'}
+                          {errors?.name?.message || 'Error!'}
                         </p>
                       )}
                     </div>
@@ -383,7 +379,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                       </div>
                       {errors?.phone && (
                         <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.phone.message || 'Error!'}
+                          {errors?.phone?.message || 'Error!'}
                         </p>
                       )}
                     </div>
@@ -524,9 +520,9 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                       </span>
                     }
                   />
-                  {resErrors && (
+                  {resError && (
                     <p className='text-red-500 mt-1 text-sm font-medium'>
-                      {resErrors}
+                      {resError}
                     </p>
                   )}
                   <button
