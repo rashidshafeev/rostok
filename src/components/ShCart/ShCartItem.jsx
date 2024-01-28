@@ -3,7 +3,7 @@ import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import noImg from '../../assets/images/no-image.png';
 import { NavLink, useOutletContext } from 'react-router-dom';
 
-const ShCartItem = () => {
+const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
   // eslint-disable-next-line no-unused-vars
   const [cartProducts, addToCart, removeFromCart] = useOutletContext();
 
@@ -16,7 +16,10 @@ const ShCartItem = () => {
         >
           <div className='w-3/5 flex space-x-4'>
             <div className='flex items-start'>
-              <CCheckBoxField />
+              <CCheckBoxField
+                checked={selectedItemIds.includes(product?.id)}
+                onChange={() => handleItemChange(product?.id)}
+              />
               <div className='min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
                 <img
                   className='w-full h-full object-contain'

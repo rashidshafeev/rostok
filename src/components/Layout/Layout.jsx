@@ -38,11 +38,25 @@ const Layout = () => {
     setCartProducts(updatedCart);
   };
 
+  const removeAllCart = (selectedItemIds) => {
+    var cartData = localStorage.getItem('cart');
+    var cartArray = cartData ? JSON.parse(cartData) : [];
+
+    var updatedCart = cartArray?.filter(
+      (product) => !selectedItemIds.includes(product?.id)
+    );
+
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+    setCartProducts(updatedCart);
+  };
+
   return (
     <>
       <Header cartProducts={cartProducts} />
       {shouldRenderBreadcrumbs && <Breadcrumbs />}
-      <Outlet context={[cartProducts, addToCart, removeFromCart]} />
+      <Outlet
+        context={[cartProducts, addToCart, removeFromCart, removeAllCart]}
+      />
       <Footer />
     </>
   );

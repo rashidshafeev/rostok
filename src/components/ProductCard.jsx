@@ -6,7 +6,6 @@ import noImg from '../assets/images/no-image.png';
 const ProductCard = ({ product, furniture, recommended }) => {
   const navigate = useNavigate();
   const [cartProducts, addToCart] = useOutletContext();
-  console.log('cartProducts', cartProducts);
 
   const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
 

@@ -1,11 +1,41 @@
+import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import CSearchField from '../../helpers/CustomInputs/CSearchField';
 import ShCartItem from './ShCartItem';
 import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
-import { NavLink } from 'react-router-dom';
 
 const ShCartDetail = () => {
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [selectedItemIds, setSelectedItemIds] = useState([]);
+
+  // eslint-disable-next-line no-unused-vars
+  const [cartProducts, addToCart, removeFromCart, removeAllCart] =
+    useOutletContext();
+
+  const handleSelectAllChange = (event) => {
+    const isChecked = event.target.checked;
+    setSelectAllChecked(isChecked);
+
+    if (isChecked) {
+      const allItemIds = cartProducts?.map((el) => el.id);
+      setSelectedItemIds(allItemIds);
+    } else {
+      setSelectedItemIds([]);
+    }
+  };
+
+  const handleItemChange = (itemId) => {
+    if (selectedItemIds.includes(itemId)) {
+      const updatedItemIds = selectedItemIds.filter((id) => id !== itemId);
+      setSelectedItemIds(updatedItemIds);
+    } else {
+      setSelectedItemIds([...selectedItemIds, itemId]);
+    }
+  };
+
   return (
     <>
       <div className='max-w-[460px] w-full pt-3'>
@@ -22,10 +52,15 @@ const ShCartDetail = () => {
               <div className='pb-[3px]'>
                 <CCheckBoxField
                   label='Выбрать всё'
+                  onChange={handleSelectAllChange}
+                  checked={selectAllChecked}
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>
-              <button className='text-colDarkGray font-medium text-sm ml-4'>
+              <button
+                onClick={() => removeAllCart(selectedItemIds)}
+                className='text-colDarkGray font-medium text-sm ml-4'
+              >
                 Удалить выбранные
               </button>
             </div>
@@ -62,7 +97,10 @@ const ShCartDetail = () => {
               </svg>
             </div>
           </div>
-            <ShCartItem />
+          <ShCartItem
+            selectedItemIds={selectedItemIds}
+            handleItemChange={handleItemChange}
+          />
         </div>
         <div className='w-[30%]'>
           <div className='flex justify-end items-center space-x-4 h-[54px]'>
