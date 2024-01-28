@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel } from '@mui/material';
 import { forwardRef } from 'react';
 
 // eslint-disable-next-line react/display-name
-const CLabelField = forwardRef(({ label, ...props }, ref) => {
+const CCheckBoxField = forwardRef(({ label, styles, ...props }, ref) => {
   return (
     <FormControlLabel
       control={
@@ -10,6 +10,7 @@ const CLabelField = forwardRef(({ label, ...props }, ref) => {
           {...props}
           sx={{
             color: '#15765B',
+            marginRight: '0',
             '&.Mui-checked': {
               color: '#15765B',
             },
@@ -17,9 +18,10 @@ const CLabelField = forwardRef(({ label, ...props }, ref) => {
           inputRef={ref}
         />
       }
-      label={<span className='text-xs font-medium'>{label}</span>}
+      label={<span className={`${styles}`}>{label}</span>}
+      sx={{ marginRight: 0 }}
     />
   );
 });
 
-export default CLabelField;
+export default CCheckBoxField;

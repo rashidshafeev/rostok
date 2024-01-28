@@ -30,11 +30,11 @@ const CSelectField = (props) => {
         sx={{
           '& .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
-            borderColor: '#222',
+            borderColor: '#B5B5B5',
           },
           '&:hover .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
-            borderColor: '#222',
+            borderColor: '#B5B5B5',
           },
           '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
             borderColor: '#15765B',

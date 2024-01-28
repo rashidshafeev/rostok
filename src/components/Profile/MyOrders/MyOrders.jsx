@@ -1,8 +1,10 @@
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CloseIcon from '@mui/icons-material/Close';
-import CachedIcon from '@mui/icons-material/Cached';
-import DescriptionOutlinedIcon from '@mui/icons-material/DescriptionOutlined';
+import {
+  ContentCopy,
+  ExpandMore,
+  Close,
+  Cached,
+  DescriptionOutlined,
+} from '@mui/icons-material';
 import { orders } from '../../../constants/data';
 import CSearchField from '../../../helpers/CustomInputs/CSearchField';
 import CSelectField from '../../../helpers/CustomInputs/CSelectField';
@@ -59,7 +61,7 @@ const MyOrders = () => {
                   <h4 className='text-xl font-semibold text-colBlack'>
                     № {el?.orderNumber}
                   </h4>
-                  <ContentCopyIcon className='!w-4 cursor-pointer !mr-3' />
+                  <ContentCopy className='!w-4 cursor-pointer !mr-3' />
                   <span
                     className={`${
                       el?.status === 'Комплектуется'
@@ -125,7 +127,7 @@ const MyOrders = () => {
                   <span className='text-sm font-semibold text-colBlack'>
                     Посмотреть заказ
                   </span>
-                  <ExpandMoreIcon
+                  <ExpandMore
                     className={`${
                       expandedIndex === index ? 'rotate-[-180deg]' : ''
                     }`}
@@ -137,19 +139,19 @@ const MyOrders = () => {
               <div className='p-4'>
                 <div className='flex space-x-4 mb-4'>
                   <button className='flex items-center'>
-                    <CloseIcon className='!w-[18px] font-light text-colGreen mr-1' />
+                    <Close className='!w-[18px] font-light text-colGreen mr-1' />
                     <span className='text-sm font-semibold text-colBlack'>
                       Отменить
                     </span>
                   </button>
                   <button>
-                    <CachedIcon className='!w-[18px] font-light text-colGreen mr-1' />
+                    <Cached className='!w-[18px] font-light text-colGreen mr-1' />
                     <span className='text-sm font-semibold text-colBlack'>
                       Повторить заказ
                     </span>
                   </button>
                   <button>
-                    <DescriptionOutlinedIcon className='!w-4 font-light text-colGreen mr-1' />
+                    <DescriptionOutlined className='!w-4 font-light text-colGreen mr-1' />
                     <span className='text-sm font-semibold text-colBlack'>
                       Скачать документы
                     </span>

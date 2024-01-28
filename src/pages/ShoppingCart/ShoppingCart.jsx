@@ -5,9 +5,9 @@ const ShoppingCart = () => {
   const cart = localStorage.getItem('cart');
 
   return (
-    <div className='content pb-6'>
+    <div className='content pb-6 lining-nums proportional-nums'>
       <h1 className='text-[40px] font-semibold text-colBlack'>Корзина</h1>
-      {cart ? (
+      {!cart ? (
         <ShCartDetail cart={cart} />
       ) : (
         <ErrorEmpty

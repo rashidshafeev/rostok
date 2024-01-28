@@ -6,11 +6,11 @@ import styled from 'styled-components';
 const StyledDatePicker = styled(DatePicker)(() => ({
   '& .MuiInputBase-root': {
     '& fieldset': {
-      borderColor: '#222',
+      borderColor: '#B5B5B5',
       borderWidth: '1px',
     },
     '&:hover fieldset': {
-      borderColor: '#222',
+      borderColor: '#B5B5B5',
       borderWidth: '1px',
     },
     '&.Mui-focused fieldset': {
