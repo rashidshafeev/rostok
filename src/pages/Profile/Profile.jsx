@@ -1,7 +1,13 @@
 import { Outlet } from 'react-router-dom';
 import ProfileSidebar from '../../components/Profile/ProfileSidebar';
+import { useEffect } from 'react';
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 
 const Profile = () => {
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+  
   return (
     <div className='content pb-6 min-h-[520px]'>
       <h1 className='text-[40px] font-semibold text-colBlack'>Мой профиль</h1>

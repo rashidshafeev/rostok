@@ -1,12 +1,11 @@
 import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import CSearchField from '../../helpers/CustomInputs/CSearchField';
 import ShCartItem from './ShCartItem';
-import { products } from '../../constants/data';
 import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
 import { NavLink } from 'react-router-dom';
 
-const ShCartDetail = () => {
+const ShCartDetail = ({ products, removeFromCart }) => {
   return (
     <>
       <div className='max-w-[460px] w-full pt-3'>
@@ -64,7 +63,11 @@ const ShCartDetail = () => {
             </div>
           </div>
           {products?.map((product) => (
-            <ShCartItem key={product?.id} product={product} />
+            <ShCartItem
+              key={product?.id}
+              product={product}
+              removeFromCart={removeFromCart}
+            />
           ))}
         </div>
         <div className='w-[30%]'>

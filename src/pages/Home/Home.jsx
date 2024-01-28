@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import {
   Advantages,
   Banner,
@@ -11,8 +12,12 @@ import {
   SaleProducts,
   Suggestions,
 } from '../../components';
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 
 const Home = () => {
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   return (
     <div className='content'>
       <Banner />

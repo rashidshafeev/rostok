@@ -3,7 +3,7 @@ import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import noImg from '../../assets/images/no-image.png';
 import { NavLink } from 'react-router-dom';
 
-const ShCartItem = ({ product }) => {
+const ShCartItem = ({ product, removeFromCart }) => {
   return (
     <div className='flex border-t border-b border-[#EBEBEB] pt-2 pb-4'>
       <div className='w-3/5 flex space-x-4'>
@@ -83,6 +83,7 @@ const ShCartItem = ({ product }) => {
                 />
               </svg>
               <svg
+                onClick={() => removeFromCart(product?.id)}
                 xmlns='http://www.w3.org/2000/svg'
                 width='24'
                 height='24'

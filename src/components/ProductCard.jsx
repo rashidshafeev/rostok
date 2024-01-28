@@ -1,15 +1,39 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import favorite from '../assets/icons/favorite.svg';
 import noImg from '../assets/images/no-image.png';
+import { useEffect, useState } from 'react';
 
 const ProductCard = ({ product, furniture, recommended }) => {
+  const [cartProducts, setCartProducts] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const updateCartProducts = () => {
+      const cartData = localStorage.getItem('cart');
+      const cartArray = cartData ? JSON.parse(cartData) : [];
+      setCartProducts(cartArray);
+    };
+
+    updateCartProducts();
+
+    window.addEventListener('storage', updateCartProducts);
+
+    return () => {
+      window.removeEventListener('storage', updateCartProducts);
+    };
+  }, []);
+
   const addToCart = (product) => {
-    let cartData = localStorage.getItem('cart');
-    let cartArray = cartData ? JSON.parse(cartData) : [];
+    const cartData = localStorage.getItem('cart');
+    const cartArray = cartData ? JSON.parse(cartData) : [];
 
     cartArray.push(product);
+
+    setCartProducts(cartArray);
     localStorage.setItem('cart', JSON.stringify(cartArray));
   };
+
+  const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
 
   return (
     <div className='overflow-hidden relative group'>
@@ -68,17 +92,25 @@ const ProductCard = ({ product, furniture, recommended }) => {
             30%
           </span>
         </div>
-        {recommended || furniture ? (
+        {isProductInCart ? (
           <button
-            onClick={() => addToCart(product)}
-            className='bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            onClick={() => navigate('/shopping-cart')}
+            className={`${
+              recommended || furniture
+                ? ''
+                : 'group-hover:opacity-100 opacity-0'
+            } bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full`}
           >
-            В корзину
+            Перейти в корзину
           </button>
         ) : (
           <button
             onClick={() => addToCart(product)}
-            className='group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className={`${
+              recommended || furniture
+                ? ''
+                : 'group-hover:opacity-100 opacity-0'
+            } bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full`}
           >
             В корзину
           </button>
