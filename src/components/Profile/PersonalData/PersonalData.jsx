@@ -29,7 +29,18 @@ const PersonalData = () => {
               <CTextField label='Имя' type='text' {...field} />
             )}
           />
-          <CTextField label='Фамилия' name='lastName' type='text' />
+          <Controller
+            name='email'
+            control={control}
+            defaultValue={user?.email}
+            rules={{
+              required: 'Поле обязательно к заполнению!',
+            }}
+            render={({ field }) => (
+              <CTextField label='Эл. почта' type='email' {...field} />
+            )}
+          />
+          
           <div>
             <p className='text-colBlack'>Пол</p>
             <RadioGroup
@@ -52,17 +63,7 @@ const PersonalData = () => {
           </div>
         </div>
         <div className='w-full space-y-5'>
-          <Controller
-            name='lastName'
-            control={control}
-            defaultValue={user?.email}
-            rules={{
-              required: 'Поле обязательно к заполнению!',
-            }}
-            render={({ field }) => (
-              <CTextField label='Фамилия' type='email' {...field} />
-            )}
-          />
+        <CTextField label='Фамилия' name='lastName' type='text' />
           <Controller
             name='phone'
             control={control}
