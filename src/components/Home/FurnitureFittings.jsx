@@ -20,9 +20,9 @@ const FurnitureFittings = () => {
                 <div className='grid grid-cols-2 gap-5'>
                   {products?.slice(0, 4)?.map((recommendedEl) => (
                     <ProductCard
+                      recommended={true}
                       key={recommendedEl?.id}
                       product={recommendedEl}
-                      recommended={true}
                     />
                   ))}
                 </div>

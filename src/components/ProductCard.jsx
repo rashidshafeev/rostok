@@ -2,7 +2,15 @@ import { NavLink } from 'react-router-dom';
 import favorite from '../assets/icons/favorite.svg';
 import noImg from '../assets/images/no-image.png';
 
-const ProductCard = ({ product, recommended, furniture }) => {
+const ProductCard = ({ product, furniture, recommended }) => {
+  const addToCart = (product) => {
+    let cartData = localStorage.getItem('cart');
+    let cartArray = cartData ? JSON.parse(cartData) : [];
+
+    cartArray.push(product);
+    localStorage.setItem('cart', JSON.stringify(cartArray));
+  };
+
   return (
     <div className='overflow-hidden relative group'>
       <NavLink to='#'>
@@ -60,8 +68,18 @@ const ProductCard = ({ product, recommended, furniture }) => {
             30%
           </span>
         </div>
-        {!recommended && !furniture && (
-          <button className='group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'>
+        {recommended || furniture ? (
+          <button
+            onClick={() => addToCart(product)}
+            className='bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+          >
+            В корзину
+          </button>
+        ) : (
+          <button
+            onClick={() => addToCart(product)}
+            className='group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+          >
             В корзину
           </button>
         )}
