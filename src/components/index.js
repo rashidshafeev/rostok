@@ -17,6 +17,8 @@ import PersonalData from './Profile/PersonalData/PersonalData';
 import Organizations from './Profile/Organizations/Organizations';
 import ChangePassword from './Profile/ChangePassword/ChangePassword';
 import MyOrders from './Profile/MyOrders/MyOrders';
+import ShCartDetail from './ShCart/ShCartDetail';
+import ShLastViews from './ShCart/ShLastViews';
 
 export {
   Header,
@@ -38,4 +40,6 @@ export {
   Organizations,
   ChangePassword,
   MyOrders,
+  ShCartDetail,
+  ShLastViews
 };

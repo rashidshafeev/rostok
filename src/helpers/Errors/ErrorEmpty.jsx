@@ -1,8 +1,11 @@
 import { NavLink } from 'react-router-dom';
 
-const ErrorEmpty = ({ title, desc }) => {
+const ErrorEmpty = ({ title, desc, height }) => {
   return (
-    <div className='min-h-[420px] flex justify-center items-center text-center'>
+    <div
+      style={{ height: height }}
+      className='flex justify-center items-center text-center h-full'
+    >
       <div className='max-w-[460px] w-full mx-auto lining-nums proportional-nums'>
         <h3 className='text-2xl text-colBlack font-semibold'>{title}</h3>
         <p className='pb-6 pt-3'>{desc}</p>
