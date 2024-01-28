@@ -1,24 +1,13 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { ShCartDetail, ShLastViews } from '../../components';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import { useOutletContext } from 'react-router-dom';
 
 const ShoppingCart = () => {
-  const [cartProducts, setCartProducts] = useState([]);
-
-  const removeFromCart = (id) => {
-    var cartData = localStorage.getItem('cart');
-    var cartArray = cartData ? JSON.parse(cartData) : [];
-    var updatedCart = cartArray?.filter((product) => product?.id !== id);
-
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
-    setCartProducts(updatedCart);
-  };
+  const [cartProducts] = useOutletContext();
 
   useEffect(() => {
-    const cartData = localStorage.getItem('cart');
-    const cartArray = cartData ? JSON.parse(cartData) : [];
-    setCartProducts(cartArray);
     scrollToTop();
   }, []);
 
@@ -26,7 +15,7 @@ const ShoppingCart = () => {
     <div className='content pb-6 lining-nums proportional-nums'>
       <h1 className='text-[40px] font-semibold text-colBlack'>Корзина</h1>
       {cartProducts?.length ? (
-        <ShCartDetail products={cartProducts} removeFromCart={removeFromCart} />
+        <ShCartDetail />
       ) : (
         <ErrorEmpty
           title='Корзина пуста!'

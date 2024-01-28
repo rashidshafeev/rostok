@@ -1,37 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useOutletContext } from 'react-router-dom';
 import favorite from '../assets/icons/favorite.svg';
 import noImg from '../assets/images/no-image.png';
-import { useEffect, useState } from 'react';
 
 const ProductCard = ({ product, furniture, recommended }) => {
-  const [cartProducts, setCartProducts] = useState([]);
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const updateCartProducts = () => {
-      const cartData = localStorage.getItem('cart');
-      const cartArray = cartData ? JSON.parse(cartData) : [];
-      setCartProducts(cartArray);
-    };
-
-    updateCartProducts();
-
-    window.addEventListener('storage', updateCartProducts);
-
-    return () => {
-      window.removeEventListener('storage', updateCartProducts);
-    };
-  }, []);
-
-  const addToCart = (product) => {
-    const cartData = localStorage.getItem('cart');
-    const cartArray = cartData ? JSON.parse(cartData) : [];
-
-    cartArray.push(product);
-
-    setCartProducts(cartArray);
-    localStorage.setItem('cart', JSON.stringify(cartArray));
-  };
+  const [cartProducts, addToCart] = useOutletContext();
+  console.log('cartProducts', cartProducts);
 
   const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
 

@@ -5,7 +5,7 @@ import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
 import { NavLink } from 'react-router-dom';
 
-const ShCartDetail = ({ products, removeFromCart }) => {
+const ShCartDetail = () => {
   return (
     <>
       <div className='max-w-[460px] w-full pt-3'>
@@ -62,13 +62,7 @@ const ShCartDetail = ({ products, removeFromCart }) => {
               </svg>
             </div>
           </div>
-          {products?.map((product) => (
-            <ShCartItem
-              key={product?.id}
-              product={product}
-              removeFromCart={removeFromCart}
-            />
-          ))}
+            <ShCartItem />
         </div>
         <div className='w-[30%]'>
           <div className='flex justify-end items-center space-x-4 h-[54px]'>

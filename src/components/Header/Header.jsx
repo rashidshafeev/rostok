@@ -10,33 +10,14 @@ import profile from '../../assets/icons/profile.svg';
 import action from '../../assets/icons/action.svg';
 import sales from '../../assets/icons/sales.svg';
 import news from '../../assets/icons/news.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import AuthModal from '../../helpers/CModal/AuthModal';
 import { useSelector } from 'react-redux';
 
-const Header = () => {
+const Header = ({ cartProducts }) => {
   const { user } = useSelector((state) => state?.user);
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
-  const [cartItems, setCartItems] = useState(() => {
-    const cartData = JSON.parse(localStorage.getItem('cart'));
-    return cartData || [];
-  });
-
-  useEffect(() => {
-    const handleStorageChange = (event) => {
-      if (event.key === 'cart') {
-        const newCartData = JSON.parse(event.newValue);
-        setCartItems(newCartData || []);
-      }
-    };
-
-    window.addEventListener('storage', handleStorageChange);
-
-    return () => {
-      window.removeEventListener('storage', handleStorageChange);
-    };
-  }, []);
 
   return (
     <>
@@ -159,9 +140,9 @@ const Header = () => {
             <span className='text-xs pt-1 font-medium text-colBlack'>
               Корзина
             </span>
-            {cartItems?.length > 0 && (
+            {cartProducts?.length > 0 && (
               <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-                {!cartItems?.length > 99 ? '99+' : cartItems?.length}
+                {!cartProducts?.length > 99 ? '99+' : cartProducts?.length}
               </span>
             )}
           </NavLink>
