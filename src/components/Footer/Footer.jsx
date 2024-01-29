@@ -9,7 +9,7 @@ const Footer = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
 
   return (
-    <footer className='py-14 bg-[#F5F5F5]'>
+    <footer className='py-14 bg-colSuperLight'>
       <div className='content'>
         <div className='flex justify-between space-x-5 border-b border-colDarkGray pb-20'>
           <div className='max-w-[580px] w-full'>

@@ -7,6 +7,8 @@ export const crumbLinkReplacer = {
   organizations: 'Мои организации',
   'change-password': 'Изменить пароль',
   orders: 'Все заказы',
+  'all-items': '',
+  category: 'Товары',
 };
 
 export const excludedPaths = ['/'];

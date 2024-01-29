@@ -13,7 +13,7 @@ const Advantages = () => {
             className={`${
               el?.greenBlock
                 ? 'bg-[#15765B] text-white'
-                : 'bg-[#F5F5F5] text-colBlack'
+                : 'bg-colSuperLight text-colBlack'
             } min-h-[230px] rounded-[10px] p-5`}
           >
             <img src={el?.icon} alt='*' />

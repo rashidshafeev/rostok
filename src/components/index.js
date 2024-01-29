@@ -19,6 +19,10 @@ import ChangePassword from './Profile/ChangePassword/ChangePassword';
 import MyOrders from './Profile/MyOrders/MyOrders';
 import ShCartDetail from './ShCart/ShCartDetail';
 import ShLastViews from './ShCart/ShLastViews';
+import FavSidebar from './Favorites/FavSidebar';
+import ProfileSidebar from './Profile/ProfileSidebar';
+import FavItems from './Favorites/FavItems';
+import FavCategory from './Favorites/FavCategory';
 
 export {
   Header,
@@ -41,5 +45,9 @@ export {
   ChangePassword,
   MyOrders,
   ShCartDetail,
-  ShLastViews
+  ShLastViews,
+  FavSidebar,
+  ProfileSidebar,
+  FavItems,
+  FavCategory,
 };

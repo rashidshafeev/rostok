@@ -22,9 +22,9 @@ const Organizations = () => {
           setContent('addOrganization');
           setOpen(true);
         }}
-        className='flex items-center rounded-lg border border-[#F5F5F5] p-2'
+        className='flex items-center rounded-lg border border-colSuperLight p-2'
       >
-        <span className='text-colGray bg-[#F5F5F5] w-8 h-8 rounded-md flex justify-center items-center text-5xl'>
+        <span className='text-colGray bg-colSuperLight w-8 h-8 rounded-md flex justify-center items-center text-5xl'>
           +
         </span>
         <span className='text-sm font-medium text-colBlack ml-3 mr-1'>
@@ -37,7 +37,7 @@ const Organizations = () => {
             key={el?.id}
             className='rounded-[10px] border border-[#EBEBEB] overflow-hidden h-max'
           >
-            <div className='bg-[#F5F5F5] min-h-[58px] flex items-center px-5 py-2'>
+            <div className='bg-colSuperLight min-h-[58px] flex items-center px-5 py-2'>
               <h3 className='text-xl font-semibold line-clamp-2 break-all'>
                 {el?.name}
               </h3>

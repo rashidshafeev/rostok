@@ -12,7 +12,7 @@ const RoomProducts = () => {
           <div
             key={el?.id}
             style={{ backgroundImage: `url(${el?.img})` }}
-            className='p-5 bg-[#F5F5F5] rounded-[20px] min-h-[300px] bg-cover bg-no-repeat bg-center'
+            className='p-5 bg-colSuperLight rounded-[20px] min-h-[300px] bg-cover bg-no-repeat bg-center'
           >
             <div className='absolute right-5 top-1/2 -translate-y-1/2 z-0 max-w-[160px] overflow-hidden'></div>
             <div className='flex flex-col justify-between h-full z-10 relative'>

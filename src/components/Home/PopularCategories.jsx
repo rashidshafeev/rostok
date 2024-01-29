@@ -11,7 +11,7 @@ const PopularCategories = () => {
         {popularCategories?.map((el) => (
           <div
             key={el?.id}
-            className='p-5 relative bg-[#F5F5F5] rounded-[20px] min-h-[240px]'
+            className='p-5 relative bg-colSuperLight rounded-[20px] min-h-[240px]'
           >
             <div className='absolute right-5 top-1/2 -translate-y-1/2 z-0 max-w-[160px] overflow-hidden'>
               <img

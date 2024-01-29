@@ -124,11 +124,11 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
               </p>
             </div>
             <div className='flex items-center space-x-3'>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-[#F5F5F5]'>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'>
                 <RemoveOutlined className='text-colGreen cursor-pointer' />
               </span>
               <span className='text-colGreen font-semibold'>10</span>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-[#F5F5F5]'>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'>
                 <AddOutlined className='text-colGreen cursor-pointer' />
               </span>
             </div>

@@ -6,6 +6,8 @@ import {
 import { Comparison, Favorites, Home, Profile, ShoppingCart } from '../pages';
 import {
   ChangePassword,
+  FavCategory,
+  FavItems,
   Layout,
   MyOrders,
   Organizations,
@@ -18,7 +20,10 @@ export const router = createBrowserRouter(
       <Route path='/' element={<Layout />}>
         <Route index element={<Home />} />
         <Route path='shopping-cart' element={<ShoppingCart />} />
-        <Route path='favorites' element={<Favorites />} />
+        <Route path='favorites' element={<Favorites />}>
+          <Route path='items' element={<FavItems />} />
+          <Route path='category' element={<FavCategory />} />
+        </Route>
         <Route path='comparison' element={<Comparison />} />
         <Route path='/profile' element={<Profile />}>
           <Route path='personal-data' element={<PersonalData />} />

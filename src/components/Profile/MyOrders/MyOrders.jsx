@@ -55,7 +55,7 @@ const MyOrders = () => {
             className='rounded-[10px] overflow-hidden border border-[#EBEBEB]'
             key={el?.id}
           >
-            <div className='flex justify-between space-x-3 bg-[#F5F5F5] p-5'>
+            <div className='flex justify-between space-x-3 bg-colSuperLight p-5'>
               <div>
                 <div className='flex space-x-2'>
                   <h4 className='text-xl font-semibold text-colBlack'>
@@ -110,7 +110,7 @@ const MyOrders = () => {
                   {el?.items?.map((el) => (
                     <div
                       key={el?.id}
-                      className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-[#F5F5F5] p-1'
+                      className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-colSuperLight p-1'
                     >
                       <img
                         className='w-full h-full object-contain'
@@ -164,7 +164,7 @@ const MyOrders = () => {
                       className='flex justify-between space-x-3 border-t border-[#EBEBEB] pt-3'
                     >
                       <div className='flex space-x-3 w-1/2'>
-                        <div className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-[#F5F5F5] p-1'>
+                        <div className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-colSuperLight p-1'>
                           <img
                             className='w-full h-full object-contain'
                             src={el?.image}

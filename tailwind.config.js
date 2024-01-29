@@ -8,6 +8,7 @@ export default {
         colGreen: '#15765B',
         colGray: '#B5B5B5',
         colDarkGray: '#727272',
+        colSuperLight: '#F5F5F5',
       },
     },
   },
