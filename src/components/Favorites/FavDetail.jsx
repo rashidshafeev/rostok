@@ -3,9 +3,9 @@ import chair from '../../assets/temp-images/chair.png';
 import { products } from '../../constants/data';
 import ProductCard from '../ProductCard';
 
-const FavItems = () => {
+const FavDetail = () => {
   return (
-    <div className='pb-10 min-h-[560px]'>
+    <div className='pb-10 min-h-[560px] pl-3'>
       <div className='flex items-start space-x-3 pb-4'>
         <button className='h-[44px] outline-none border border-colSuperLight rounded-lg p-[5px] bg-white flex justify-between items-center'>
           <svg
@@ -50,7 +50,7 @@ const FavItems = () => {
           </span>
         </button>
       </div>
-      <div className='grid grid-cols-6 gap-5'>
+      <div className='grid grid-cols-5 gap-5'>
         {products?.map((el) => (
           <Fragment key={el?.id}>
             <ProductCard product={el} furniture={true} />
@@ -61,4 +61,4 @@ const FavItems = () => {
   );
 };
 
-export default FavItems;
+export default FavDetail;

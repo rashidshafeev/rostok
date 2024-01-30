@@ -21,8 +21,7 @@ import ShCartDetail from './ShCart/ShCartDetail';
 import ShLastViews from './ShCart/ShLastViews';
 import FavSidebar from './Favorites/FavSidebar';
 import ProfileSidebar from './Profile/ProfileSidebar';
-import FavItems from './Favorites/FavItems';
-import FavCategory from './Favorites/FavCategory';
+import FavDetail from './Favorites/FavDetail';
 
 export {
   Header,
@@ -48,6 +47,5 @@ export {
   ShLastViews,
   FavSidebar,
   ProfileSidebar,
-  FavItems,
-  FavCategory,
+  FavDetail,
 };

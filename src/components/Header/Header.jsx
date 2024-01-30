@@ -124,7 +124,7 @@ const Header = ({ cartProducts }) => {
             </span>
           </NavLink>
           <NavLink
-            to='/favorites/items'
+            to='/favorites'
             className='text-center flex flex-col justify-between items-center'
           >
             <img className='mx-auto' src={favorite} alt='*' />

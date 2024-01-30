@@ -40,7 +40,7 @@ const PersonalData = () => {
               <CTextField label='Эл. почта' type='email' {...field} />
             )}
           />
-          
+
           <div>
             <p className='text-colBlack'>Пол</p>
             <RadioGroup
@@ -63,7 +63,7 @@ const PersonalData = () => {
           </div>
         </div>
         <div className='w-full space-y-5'>
-        <CTextField label='Фамилия' name='lastName' type='text' />
+          <CTextField label='Фамилия' name='lastName' type='text' />
           <Controller
             name='phone'
             control={control}

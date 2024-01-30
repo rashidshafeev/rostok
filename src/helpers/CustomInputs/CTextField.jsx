@@ -34,6 +34,7 @@ const CTextField = forwardRef(({ ...props }, ref) => {
           },
         },
       }}
+      inputProps={props.inputProps}
       {...props}
       ref={ref}
     />

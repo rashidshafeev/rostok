@@ -7,7 +7,7 @@ const Breadcrumbs = () => {
 
   const crumbPath = pathname
     ?.split('/')
-    ?.filter((path) => path !== '' && path !== 'all-items')
+    ?.filter((path) => path !== '')
     ?.map((crumb, index, array) => {
       const crumbLink = `/${array.slice(0, index + 1).join('/')}`;
 

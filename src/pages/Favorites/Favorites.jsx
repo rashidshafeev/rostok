@@ -1,12 +1,9 @@
 import { useEffect } from 'react';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import { FavSidebar } from '../../components';
-import { Outlet, useOutletContext } from 'react-router-dom';
+import { FavDetail, FavSidebar } from '../../components';
 
 const Favorites = () => {
-  const [cartProducts, addToCart] = useOutletContext();
-
   useEffect(() => {
     scrollToTop();
   }, []);
@@ -19,7 +16,7 @@ const Favorites = () => {
       {!favItems?.length ? (
         <div className='flex pt-2'>
           <FavSidebar />
-          <Outlet context={[cartProducts, addToCart]} />
+          <FavDetail />
         </div>
       ) : (
         <ErrorEmpty
