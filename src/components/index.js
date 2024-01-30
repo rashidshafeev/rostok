@@ -23,7 +23,6 @@ import FavSidebar from './Favorites/FavSidebar';
 import ProfileSidebar from './Profile/ProfileSidebar';
 import FavDetail from './Favorites/FavDetail';
 import ComDetail from './Comparison/ComDetail';
-import ComItem from './Comparison/ComItem';
 
 export {
   Header,
@@ -51,5 +50,4 @@ export {
   ProfileSidebar,
   FavDetail,
   ComDetail,
-  ComItem,
 };
