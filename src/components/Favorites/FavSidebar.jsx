@@ -26,7 +26,7 @@ const FavSidebar = () => {
   }
 
   return (
-    <div className='max-w-[220px] w-full pr-3'>
+    <div className='max-w-[220px] w-full'>
       <h4 className='font-semibold text-colBlack px-2 py-[2px] rounded-md'>
         Категории
       </h4>
