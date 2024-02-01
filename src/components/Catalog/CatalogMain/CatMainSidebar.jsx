@@ -21,8 +21,11 @@ const CatMainSidebar = ({ catalog }) => {
         {catalog?.map((el) => (
           <li key={el?.id}>
             <div className='flex justify-between'>
-              <NavLink className='text-colBlack leading-5 font-semibold hover:underline'>
+              <NavLink className='text-colBlack leading-5 font-semibold hover:underline flex items-center w-max pr-5'>
                 {el?.name}
+                <span className='text-colGray font-[400] text-sm'>
+                  {el?.product_count}
+                </span>
               </NavLink>
               <ExpandMore
                 onClick={() => toggleAccordion('parent', el?.id)}

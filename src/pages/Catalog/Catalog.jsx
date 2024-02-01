@@ -17,7 +17,7 @@ const Catalog = () => {
   }, []);
 
   return (
-    <div className='content pb-6'>
+    <div className='content pb-6 lining-nums proportional-nums'>
       <h1 className='text-[40px] font-semibold text-colBlack'>Каталог</h1>
       <div className='flex pb-10 pt-3 min-h-[520px]'>
         <CatMainSidebar catalog={catalog} />

@@ -1,17 +1,12 @@
-import Loader from 'react-js-loader';
+import { Box, CircularProgress } from '@mui/material';
 
 export const Loading = ({ extraStyle }) => {
   return (
     <div style={{ height: extraStyle }} className='w-full py-5 h-full'>
       <div className='flex justify-center items-center w-full h-full'>
-        <div className='item'>
-          <Loader
-            type='spinner-default'
-            bgColor={'#15765B'}
-            color={'#15765B'}
-            size={70}
-          />
-        </div>
+        <Box sx={{ display: 'flex' }}>
+          <CircularProgress sx={{ color: '#15765B' }} />
+        </Box>
       </div>
     </div>
   );
@@ -19,11 +14,8 @@ export const Loading = ({ extraStyle }) => {
 
 export const LoadingSmall = ({ extraStyle }) => {
   return (
-    <Loader
-      type='spinner-default'
-      bgColor={extraStyle}
-      color={extraStyle}
-      size={28}
-    />
+    <Box sx={{ display: 'flex' }}>
+      <CircularProgress size={20} sx={{ color: extraStyle }} />
+    </Box>
   );
 };
