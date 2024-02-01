@@ -23,6 +23,8 @@ import FavSidebar from './Favorites/FavSidebar';
 import ProfileSidebar from './Profile/ProfileSidebar';
 import FavDetail from './Favorites/FavDetail';
 import ComDetail from './Comparison/ComDetail';
+import CatMainSidebar from './Catalog/CatalogMain/CatMainSidebar';
+import CatMainContent from './Catalog/CatalogMain/CatMainContent';
 
 export {
   Header,
@@ -50,4 +52,6 @@ export {
   ProfileSidebar,
   FavDetail,
   ComDetail,
+  CatMainSidebar,
+  CatMainContent,
 };

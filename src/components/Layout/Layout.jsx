@@ -3,6 +3,7 @@ import { Footer, Header } from '..';
 import { excludedPaths } from '../../helpers/BreadCrumbs/crumbLinkReplacer';
 import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import { useEffect, useState } from 'react';
+// import CatalogModal from '../../helpers/CModal/CatalogModal';
 
 const Layout = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -54,6 +55,7 @@ const Layout = () => {
     <>
       <Header cartProducts={cartProducts} />
       {shouldRenderBreadcrumbs && <Breadcrumbs />}
+      {/* <CatalogModal /> */}
       <Outlet
         context={[cartProducts, addToCart, removeFromCart, removeAllCart]}
       />

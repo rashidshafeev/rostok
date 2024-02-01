@@ -10,18 +10,28 @@ import profile from '../../assets/icons/profile.svg';
 import action from '../../assets/icons/action.svg';
 import sales from '../../assets/icons/sales.svg';
 import news from '../../assets/icons/news.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AuthModal from '../../helpers/CModal/AuthModal';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCatalogOfProducts } from '../../api/catalog';
 
 const Header = ({ cartProducts }) => {
   const { user } = useSelector((state) => state?.user);
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
 
+  const { catalog } = useSelector((state) => state?.catalog);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    (async () => {
+      await fetchCatalogOfProducts(dispatch);
+    })();
+  }, [dispatch]);
+
   return (
     <>
-      <div className='content mx-auto pt-2 flex justify-between items-center space-x-5'>
+      <div className='content mx-auto pt-2 flex justify-between items-center space-x-5 relative z-[999]'>
         <div className='flex items-center'>
           <img src={address} alt='*' />
           <span className='text-colBlack text-xs font-semibold ml-1'>
@@ -196,53 +206,20 @@ const Header = ({ cartProducts }) => {
             Хиты продаж
           </span>
         </NavLink>
+        {catalog?.slice(0, 14)?.map((el) => (
+          <NavLink
+            to='#'
+            key={el?.id}
+            className='whitespace-nowrap text-colBlack text-sm font-semibold'
+          >
+            {el?.name}
+          </NavLink>
+        ))}
         <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
+          to='/catalog'
+          className='whitespace-nowrap text-colGreen text-sm font-semibold'
         >
-          Мебельная фурнитура
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Кухни
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Раздвижные системы
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Фасады
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Фурнитура для стеклянных конструкций
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Изделия из стекла
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Техника для кухни
-        </NavLink>
-        <NavLink
-          to='#'
-          className='whitespace-nowrap text-colBlack text-sm font-semibold'
-        >
-          Услуги
+          Показать все
         </NavLink>
       </div>
       <AuthModal

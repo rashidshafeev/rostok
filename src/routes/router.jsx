@@ -3,7 +3,14 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import { Comparison, Favorites, Home, Profile, ShoppingCart } from '../pages';
+import {
+  Catalog,
+  Comparison,
+  Favorites,
+  Home,
+  Profile,
+  ShoppingCart,
+} from '../pages';
 import {
   ChangePassword,
   Layout,
@@ -20,7 +27,10 @@ export const router = createBrowserRouter(
         <Route path='shopping-cart' element={<ShoppingCart />} />
         <Route path='favorites' element={<Favorites />} />
         <Route path='comparison' element={<Comparison />} />
-        <Route path='/profile' element={<Profile />}>
+        <Route path='catalog'>
+          <Route index element={<Catalog />} />
+        </Route>
+        <Route path='profile' element={<Profile />}>
           <Route path='personal-data' element={<PersonalData />} />
           <Route path='organizations' element={<Organizations />} />
           <Route path='change-password' element={<ChangePassword />} />
