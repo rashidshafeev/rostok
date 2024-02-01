@@ -7,8 +7,11 @@ import {
   Promotions,
 } from '../../components';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import { useSelector } from 'react-redux';
 
 const Catalog = () => {
+  const { catalog } = useSelector((state) => state?.catalog);
+
   useEffect(() => {
     scrollToTop();
   }, []);
@@ -16,9 +19,9 @@ const Catalog = () => {
   return (
     <div className='content pb-6'>
       <h1 className='text-[40px] font-semibold text-colBlack'>Каталог</h1>
-      <div className='flex pb-10'>
-        <CatMainSidebar />
-        <CatMainContent />
+      <div className='flex pb-10 pt-3 min-h-[520px]'>
+        <CatMainSidebar catalog={catalog} />
+        <CatMainContent catalog={catalog} />
       </div>
       <Promotions />
       <Brands />
