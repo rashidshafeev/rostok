@@ -34,11 +34,11 @@ const CatMainSidebar = ({ catalog }) => {
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5`}
+              } pl-5 space-y-1`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
-                  <div className='flex justify-between items-center space-y-1'>
+                  <div className='flex justify-between items-center'>
                     <NavLink className='text-colBlack leading-[18px] font-semibold hover:underline'>
                       {child?.name}
                     </NavLink>
