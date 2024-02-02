@@ -21,11 +21,13 @@ const CatMainSidebar = ({ catalog }) => {
         {catalog?.map((el) => (
           <li key={el?.id}>
             <div className='flex justify-between'>
-              <NavLink className='text-colBlack leading-5 font-semibold hover:underline flex items-center w-max pr-5'>
-                {el?.name}
-                <span className='text-colGray font-[400] text-sm'>
-                  {el?.product_count}
-                </span>
+              <NavLink className='text-colBlack leading-5 font-semibold hover:underline'>
+                <p className='relative max-w-[170px]'>
+                  {el?.name}
+                  <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                    {el?.product_count}
+                  </span>
+                </p>
               </NavLink>
               <ExpandMore
                 onClick={() => toggleAccordion('parent', el?.id)}
@@ -37,13 +39,18 @@ const CatMainSidebar = ({ catalog }) => {
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5 space-y-1`}
+              } pl-5 space-y-[2px]`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
                   <div className='flex justify-between items-center'>
-                    <NavLink className='text-colBlack leading-[18px] font-semibold hover:underline'>
-                      {child?.name}
+                    <NavLink className='text-colBlack text-sm leading-4 font-semibold hover:underline'>
+                      <p className='relative max-w-[140px] w-full'>
+                        {child?.name}
+                        <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                          {child?.product_count}
+                        </span>
+                      </p>
                     </NavLink>
                     {child?.children?.length && (
                       <ExpandMore
@@ -61,8 +68,11 @@ const CatMainSidebar = ({ catalog }) => {
                   >
                     {child?.children?.map((item) => (
                       <div key={item?.id}>
-                        <NavLink className='text-colBlack leading-5 text-sm hover:underline'>
+                        <NavLink className='text-colBlack leading-5 text-sm hover:underline relative flex'>
                           {item?.name}
+                          <span className='text-colGray font-[400] text-xs pl-2'>
+                            {item?.product_count}
+                          </span>
                         </NavLink>
                       </div>
                     ))}

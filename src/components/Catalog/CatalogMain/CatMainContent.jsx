@@ -13,7 +13,7 @@ const CatMainContent = ({ catalog }) => {
             <div className='absolute right-5 top-1/2 -translate-y-1/2 z-0 max-w-[160px] overflow-hidden'>
               <img
                 className='w-full h-full object-contain'
-                src=''
+                src={el?.image?.large}
                 onError={(e) => {
                   e.target.onError = null;
                   e.target.src = noImg;
