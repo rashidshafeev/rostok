@@ -6,6 +6,7 @@ const CatMainSidebar = ({ catalog }) => {
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
+    childLast: null,
   });
 
   const toggleAccordion = (type, id) => {
@@ -33,7 +34,7 @@ const CatMainSidebar = ({ catalog }) => {
                 onClick={() => toggleAccordion('parent', el?.id)}
                 className={`${
                   accordion.parent === el?.id && 'rotate-[180deg]'
-                } cursor-pointer !m-0`}
+                } cursor-pointer !m-0 !w-5 !h-5`}
               />
             </div>
             <div
@@ -57,7 +58,7 @@ const CatMainSidebar = ({ catalog }) => {
                         onClick={() => toggleAccordion('child', child?.id)}
                         className={`${
                           accordion.child === child?.id && 'rotate-[180deg]'
-                        } cursor-pointer !m-0`}
+                        } cursor-pointer !m-0 !w-5 !h-5`}
                       />
                     )}
                   </div>
@@ -68,12 +69,48 @@ const CatMainSidebar = ({ catalog }) => {
                   >
                     {child?.children?.map((item) => (
                       <div key={item?.id}>
-                        <NavLink className='text-colBlack leading-5 text-sm hover:underline relative flex'>
-                          {item?.name}
-                          <span className='text-colGray font-[400] text-xs pl-2'>
-                            {item?.product_count}
-                          </span>
-                        </NavLink>
+                        <div className='flex justify-between'>
+                          <NavLink className='text-colBlack leading-5 text-sm hover:underline relative flex'>
+                            <p className='relative max-w-[140px] w-full'>
+                              {item?.name}
+                              <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                                {item?.product_count}
+                              </span>
+                            </p>
+                          </NavLink>
+                          {item?.children?.length && (
+                            <ExpandMore
+                              onClick={() =>
+                                toggleAccordion('childLast', item?.id)
+                              }
+                              className={`${
+                                accordion.childLast === item?.id &&
+                                'rotate-[180deg]'
+                              } cursor-pointer !m-0 !w-5 !h-5`}
+                            />
+                          )}
+                        </div>
+                        <div
+                          className={`${
+                            accordion.childLast === item?.id
+                              ? 'block'
+                              : 'hidden'
+                          } pl-2 pb-2`}
+                        >
+                          {item?.children?.map((itemChild) => (
+                            <NavLink
+                              key={itemChild?.id}
+                              className='text-colBlack leading-5 text-sm hover:underline relative flex'
+                            >
+                              <p className='relative max-w-[140px] w-full'>
+                                {itemChild?.name}
+                                <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                                  {itemChild?.product_count}
+                                </span>
+                              </p>
+                            </NavLink>
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </div>
