@@ -40,7 +40,7 @@ const CatMainSidebar = ({ catalog }) => {
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5 space-y-[2px]`}
+              } pl-5 space-y-1`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
@@ -65,13 +65,13 @@ const CatMainSidebar = ({ catalog }) => {
                   <div
                     className={`${
                       accordion.child === child?.id ? 'block' : 'hidden'
-                    } pl-5 pb-2`}
+                    } pl-5 pb-2 space-y-1`}
                   >
                     {child?.children?.map((item) => (
                       <div key={item?.id}>
                         <div className='flex justify-between'>
                           <NavLink className='text-colBlack leading-5 text-sm hover:underline relative flex'>
-                            <p className='relative max-w-[140px] w-full'>
+                            <p className='relative max-w-[140px] w-full leading-4'>
                               {item?.name}
                               <span className='absolute text-colGray font-[400] text-xs pl-2'>
                                 {item?.product_count}
