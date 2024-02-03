@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { ExpandMore } from '@mui/icons-material';
 import { useState } from 'react';
 
-const CatItemSidebar = ({ catalog }) => {
+const CatItemSidebar = ({ state }) => {
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -16,13 +16,20 @@ const CatItemSidebar = ({ catalog }) => {
     }));
   };
 
-  console.log(catalog);
-
   return (
     <div className='max-w-[220px] min-w-[220px] w-full'>
       <ul className='space-y-2'>
-        {catalog?.map((el) => (
-          <li key={el?.id}>
+        <li className='text-colBlack leading-5 font-semibold hover:underline'>
+          <NavLink to='/catalog' className='flex items-center'>
+            <ExpandMore className='cursor-pointer !m-0 !w-5 !h-5 rotate-[90deg]' />
+            Каталог
+          </NavLink>
+        </li>
+        <li className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2'>
+          {state?.catalog?.name}
+        </li>
+        {state?.catalog?.children?.map((el) => (
+          <li key={el?.id} className='pl-3'>
             <div className='flex justify-between'>
               <NavLink className='text-colBlack leading-5 font-semibold hover:underline'>
                 <p className='relative max-w-[170px]'>
@@ -32,17 +39,19 @@ const CatItemSidebar = ({ catalog }) => {
                   </span>
                 </p>
               </NavLink>
-              <ExpandMore
-                onClick={() => toggleAccordion('parent', el?.id)}
-                className={`${
-                  accordion.parent === el?.id && 'rotate-[180deg]'
-                } cursor-pointer !m-0 !w-5 !h-5`}
-              />
+              {el?.children?.length && (
+                <ExpandMore
+                  onClick={() => toggleAccordion('parent', el?.id)}
+                  className={`${
+                    accordion.parent === el?.id && 'rotate-[180deg]'
+                  } cursor-pointer !m-0 !w-5 !h-5`}
+                />
+              )}
             </div>
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5 space-y-1`}
+              } pl-5 pt-1 space-y-1`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>

@@ -24,6 +24,7 @@ const CatMainSidebar = ({ catalog }) => {
             <div className='flex justify-between'>
               <NavLink
                 to='categories'
+                state={{ catalog: el }}
                 className='text-colBlack leading-5 font-semibold hover:underline'
               >
                 <p className='relative max-w-[170px]'>
@@ -33,17 +34,19 @@ const CatMainSidebar = ({ catalog }) => {
                   </span>
                 </p>
               </NavLink>
-              <ExpandMore
-                onClick={() => toggleAccordion('parent', el?.id)}
-                className={`${
-                  accordion.parent === el?.id && 'rotate-[180deg]'
-                } cursor-pointer !m-0 !w-5 !h-5`}
-              />
+              {el?.children?.length && (
+                <ExpandMore
+                  onClick={() => toggleAccordion('parent', el?.id)}
+                  className={`${
+                    accordion.parent === el?.id && 'rotate-[180deg]'
+                  } cursor-pointer !m-0 !w-5 !h-5`}
+                />
+              )}
             </div>
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5 space-y-1`}
+              } pl-5 pt-1 space-y-1`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
@@ -68,7 +71,7 @@ const CatMainSidebar = ({ catalog }) => {
                   <div
                     className={`${
                       accordion.child === child?.id ? 'block' : 'hidden'
-                    } pl-5 pb-2 space-y-1`}
+                    } pl-5 pb-2 pt-1 space-y-1`}
                   >
                     {child?.children?.map((item) => (
                       <div key={item?.id}>

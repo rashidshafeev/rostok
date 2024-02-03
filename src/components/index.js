@@ -25,7 +25,7 @@ import FavDetail from './Favorites/FavDetail';
 import ComDetail from './Comparison/ComDetail';
 import CatMainSidebar from './Catalog/CatalogMain/CatMainSidebar';
 import CatMainContent from './Catalog/CatalogMain/CatMainContent';
-import CatItem from './Catalog/CatalogItem/CatItem';
+import CatItem from './Catalog/Categories/CatItem';
 
 export {
   Header,
