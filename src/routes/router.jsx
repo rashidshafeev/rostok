@@ -12,6 +12,7 @@ import {
   ShoppingCart,
 } from '../pages';
 import {
+  CatItem,
   ChangePassword,
   Layout,
   MyOrders,
@@ -29,6 +30,7 @@ export const router = createBrowserRouter(
         <Route path='comparison' element={<Comparison />} />
         <Route path='catalog'>
           <Route index element={<Catalog />} />
+          <Route path='categories' element={<CatItem />} />
         </Route>
         <Route path='profile' element={<Profile />}>
           <Route path='personal-data' element={<PersonalData />} />

@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { ExpandMore } from '@mui/icons-material';
 import { useState } from 'react';
 
-const CatMainSidebar = ({ catalog }) => {
+const CatItemSidebar = ({ catalog }) => {
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -16,16 +16,15 @@ const CatMainSidebar = ({ catalog }) => {
     }));
   };
 
+  console.log(catalog);
+
   return (
     <div className='max-w-[220px] min-w-[220px] w-full'>
       <ul className='space-y-2'>
         {catalog?.map((el) => (
           <li key={el?.id}>
             <div className='flex justify-between'>
-              <NavLink
-                to='categories'
-                className='text-colBlack leading-5 font-semibold hover:underline'
-              >
+              <NavLink className='text-colBlack leading-5 font-semibold hover:underline'>
                 <p className='relative max-w-[170px]'>
                   {el?.name}
                   <span className='absolute text-colGray font-[400] text-xs pl-2'>
@@ -127,4 +126,4 @@ const CatMainSidebar = ({ catalog }) => {
   );
 };
 
-export default CatMainSidebar;
+export default CatItemSidebar;
