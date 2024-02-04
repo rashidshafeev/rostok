@@ -60,7 +60,7 @@ const ProductCard = ({ product, furniture, recommended }) => {
         </NavLink>
         <div className='flex items-center py-1'>
           <span className='text-colBlack font-bold mr-2'>
-            {product?.price || 'Не указано'} ₽
+            {product?.price ? `${product?.price?.default}  ₽` : 'Не указано'}
           </span>
           <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white'>
             30%

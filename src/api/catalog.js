@@ -31,14 +31,30 @@ export const fetchProductsByCategory = async (id, page) => {
   }
 };
 
-export const fetchCategoryTree = async () => {
+export const fetchCategoryTree = async (id, page) => {
   try {
     const body = new URLSearchParams({
-      category_id: 6,
-      page: 1,
+      category_id: id,
+      page: page,
     });
 
     const res = await request.get('api/Products/categoryTree', {
+      params: body,
+    });
+    return { success: true, data: res?.data };
+  } catch (error) {
+    return { success: false };
+  }
+};
+
+export const fetchCategoryProducts = async (category_id) => {
+  try {
+    const body = new URLSearchParams({
+      category_id: category_id,
+      page: 1,
+    });
+
+    const res = await request.get('api/Products/variants', {
       params: body,
     });
     return { success: true, data: res?.data?.data };

@@ -1,12 +1,18 @@
+import { useEffect } from 'react';
 import Advantages from '../../Home/Advantages';
 import Brands from '../../Home/Brands';
 import Promotions from '../../Home/Promotions';
 import CatItemContent from './CatItemContent';
 import CatItemSidebar from './CatItemSidebar';
 import { useLocation } from 'react-router-dom';
+import { scrollToTop } from '../../../helpers/scrollToTop/scrollToTop';
 
 const CatItem = () => {
   const { state } = useLocation();
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
   return (
     <div className='content lining-nums proportional-nums'>

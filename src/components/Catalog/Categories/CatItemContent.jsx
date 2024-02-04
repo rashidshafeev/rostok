@@ -17,7 +17,8 @@ const CatItemContent = () => {
     (async () => {
       setIsLoading(true);
       const { success, data } = await fetchProductsByCategory(
-        state?.catalog?.id, 1
+        state?.catalog?.id,
+        1
       );
       if (success) {
         setCategoryItem(data);
@@ -39,7 +40,11 @@ const CatItemContent = () => {
                 <h1 className='text-colBlack text-4xl font-semibold pb-5'>
                   {item?.name}
                 </h1>
-                <NavLink className='flex justify-end items-center'>
+                <NavLink
+                  to='products'
+                  state={{ category: item }}
+                  className='flex justify-end items-center'
+                >
                   <span className='font-semibold'>Посмотреть все</span>
                   <ExpandMore className='rotate-[-90deg]' />
                 </NavLink>
