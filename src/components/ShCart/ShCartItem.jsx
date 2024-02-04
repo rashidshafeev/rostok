@@ -23,7 +23,7 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
               <div className='min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
                 <img
                   className='w-full h-full object-contain'
-                  src={product?.img}
+                  src={product?.files[0]?.large}
                   onError={(e) => {
                     e.target.onError = null;
                     e.target.src = noImg;
@@ -32,39 +32,30 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
                 />
               </div>
             </div>
-            <div>
-              <div
-                className={`${
-                  product?.type === 'hit'
-                    ? 'bg-[#F57C1F]'
-                    : product?.type === 'new'
-                    ? 'bg-[#15765B]'
-                    : 'bg-[#F04438]'
-                } py-[2px] px-2 uppercase text-[10px] font-bold text-white rounded-xl w-max mb-1`}
-              >
-                {product?.type === 'hit'
-                  ? 'Хит'
-                  : product?.type === 'new'
-                  ? 'Новинки'
-                  : 'Распродажа'}
-              </div>
+            <div className='pr-3'>
+              {product?.tags?.length > 0 ? (
+                <span
+                  style={{ color: product?.tags[0]?.text_color }}
+                  className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+                >
+                  {product?.tags[0]?.text}
+                </span>
+              ) : (
+                <span></span>
+              )}
               <NavLink
                 to='#'
-                className='font-semibold text-colBlack leading-5 hover:underline'
+                className='font-semibold text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
               >
-                {product?.title}
+                {product?.name}
               </NavLink>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>Артикуль:</span>
-                  <span>{product?.article}</span>
+                  <span>{product?.sku}</span>
                 </p>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>Цвет:</span>
-                  <span>{product?.article}</span>
-                </p>
-                <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                  <span>Артикуль:</span>
                   <span className='w-4 h-4 min-w-[16px] bg-black rounded-full'></span>
                   <span>Чёрный</span>
                 </p>
@@ -114,13 +105,19 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
           </div>
           <div className='w-2/5 flex items-start justify-between space-x-3 pt-[27px]'>
             <div>
-              <div className='flex text-colBlack'>
-                <span>{product?.cost}</span>
-                <span className='pl-1'>₽/шт</span>
+              <div className='text-colBlack'>
+                {product?.price
+                  ? `${
+                      product?.price?.discount
+                        ? product?.price?.discount?.price
+                        : product?.price?.default
+                    }  ${product?.price?.currency} / ${product?.price?.unit}`
+                  : 'Не указано'}
               </div>
               <p className='text-colGray text-xs line-through'>
-                <span>6999</span>
-                <span className='pl-1'>₽</span>
+                {product?.price?.discount && (
+                  <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
+                )}
               </p>
             </div>
             <div className='flex items-center space-x-3'>

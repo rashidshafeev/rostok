@@ -8,8 +8,8 @@ import {
   Box,
   Checkbox,
   FormControlLabel,
-  Radio,
-  RadioGroup,
+  // Radio,
+  // RadioGroup,
   Slider,
 } from '@mui/material';
 import { IOSSwitch } from './styledComponents/IOSSwitch';
@@ -95,7 +95,7 @@ const FavSidebar = () => {
             </Box>
           </AccordionDetails>
         </Accordion>
-        <Accordion
+        {/* <Accordion
           sx={{
             boxShadow: 'none',
             padding: 0,
@@ -174,7 +174,7 @@ const FavSidebar = () => {
               </div>
             </RadioGroup>
           </AccordionDetails>
-        </Accordion>
+        </Accordion> */}
         <Accordion
           sx={{
             boxShadow: 'none',

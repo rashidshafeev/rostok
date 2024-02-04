@@ -21,6 +21,10 @@ const ProdContent = ({ catProducts, isLoading, state }) => {
     })();
   }, [state?.category?.id]);
 
+  useEffect(() => {
+    setLoading(isLoading);
+  }, [isLoading]);
+
   return (
     <div className='w-full'>
       <div className='flex justify-between items-center'>
@@ -90,7 +94,7 @@ const ProdContent = ({ catProducts, isLoading, state }) => {
         </div>
       </div>
       {loading ? (
-        <Loading extraStyle='520px' />
+        <Loading extraStyle='420px' />
       ) : (
         <div className='grid grid-cols-5 gap-5'>
           {catProducts?.length > 0

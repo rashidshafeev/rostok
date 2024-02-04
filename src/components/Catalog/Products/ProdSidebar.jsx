@@ -8,8 +8,8 @@ import {
   Box,
   Checkbox,
   FormControlLabel,
-  Radio,
-  RadioGroup,
+  //   Radio,
+  //   RadioGroup,
   Slider,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -232,7 +232,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                 </Box>
               </AccordionDetails>
             </Accordion>
-            <Accordion
+            {/* <Accordion
               sx={{
                 boxShadow: 'none',
                 padding: 0,
@@ -316,7 +316,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                   </div>
                 </RadioGroup>
               </AccordionDetails>
-            </Accordion>
+            </Accordion> */}
             <Accordion
               sx={{
                 boxShadow: 'none',

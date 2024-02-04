@@ -23,21 +23,16 @@ const ProductCard = ({ product, furniture, recommended }) => {
             alt='*'
           />
           <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
-            <span
-              className={`${
-                product?.type === 'hit'
-                  ? 'bg-[#343332]'
-                  : product?.type === 'new'
-                  ? 'bg-[#15765B]'
-                  : 'bg-[#F04438]'
-              } py-1 px-2 uppercase text-xs font-bold text-white rounded-xl`}
-            >
-              {product?.type === 'hit'
-                ? 'Хит'
-                : product?.type === 'new'
-                ? 'Новинки'
-                : 'Распродажа'}
-            </span>
+            {product?.tags?.length > 0 ? (
+              <span
+                style={{ color: product?.tags[0]?.text_color }}
+                className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+              >
+                {product?.tags[0]?.text}
+              </span>
+            ) : (
+              <span></span>
+            )}
             <div className='flex justify-center items-center bg-gray-100 w-7 sm:w-8 h-7 sm:h-8 min-w-[28px] sm:min-w-[32px] rounded-full cursor-pointer'>
               <img className='w-4 sm:w-5' src={favorite} alt='*' />
             </div>
@@ -46,8 +41,8 @@ const ProductCard = ({ product, furniture, recommended }) => {
       </NavLink>
       <div className='lining-nums proportional-nums'>
         {!recommended && (
-          <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px]'>
-            Артикуль: {product?.article || 'Не указано'}
+          <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px] line-clamp-1 break-all'>
+            Артикуль: {product?.sku || 'Не указано'}
           </p>
         )}
         <NavLink to='#' className={`hover:underline h-10 mt-1`}>
@@ -59,12 +54,20 @@ const ProductCard = ({ product, furniture, recommended }) => {
           </p>
         </NavLink>
         <div className='flex items-center py-1'>
-          <span className='text-colBlack font-bold mr-2'>
-            {product?.price ? `${product?.price?.default}  ₽` : 'Не указано'}
+          <span className='text-colBlack font-bold mr-2 line-clamp-1 break-all whitespace-nowrap'>
+            {product?.price
+              ? `${
+                  product?.price?.discount
+                    ? product?.price?.discount?.price
+                    : product?.price?.default
+                }  ${product?.price?.currency} / ${product?.price?.unit}`
+              : 'Не указано'}
           </span>
-          <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white'>
-            30%
-          </span>
+          {product?.price?.discount && (
+            <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
+              {`${product?.price?.discount?.percent} %`}
+            </span>
+          )}
         </div>
         {isProductInCart ? (
           <button
