@@ -40,14 +40,16 @@ const CatItemContent = () => {
                 <h1 className='text-colBlack text-4xl font-semibold pb-5'>
                   {item?.name}
                 </h1>
-                <NavLink
-                  to='products'
-                  state={{ category: item }}
-                  className='flex justify-end items-center'
-                >
-                  <span className='font-semibold'>Посмотреть все</span>
-                  <ExpandMore className='rotate-[-90deg]' />
-                </NavLink>
+                {item?.products?.length > 10 && (
+                  <NavLink
+                    to='products'
+                    state={{ category: item }}
+                    className='flex justify-end items-center'
+                  >
+                    <span className='font-semibold'>Посмотреть все</span>
+                    <ExpandMore className='rotate-[-90deg]' />
+                  </NavLink>
+                )}
               </div>
               <div className='max-w-[1129px] mx-auto pb-8'>
                 <Swiper
