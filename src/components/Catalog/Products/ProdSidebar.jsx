@@ -14,21 +14,57 @@ import { useEffect, useState } from 'react';
 import { fetchCategoryTree } from '../../../api/catalog';
 import { Loading } from '../../../helpers/Loader/Loader';
 import { IOSSwitch } from '../../Favorites/styledComponents/IOSSwitch';
+import { fetchFilters } from '../../../api/filters';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ProdSidebar = ({ state, handleFetchProducts }) => {
+  const { filters } = useSelector((state) => state?.filters);
   const [item, setItem] = useState([]);
-  const [value, setValue] = useState([20, 37]);
   const [isLoading, setIsLoading] = useState(false);
+  const [value, setValue] = useState([100, 240]);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
     childLast: null,
   });
+  const [filtersState, setFiltersState] = useState({
+    min_price: '',
+    max_price: '',
+    selectedBrands: [],
+    selectedTags: [],
+    highRating: false,
+  });
 
   const navigate = useNavigate();
-  
-  const handleChange = (newValue) => {
+  const dispatch = useDispatch();
+
+  const handleChange = (name, value) => {
+    setFiltersState((prevFilters) => ({
+      ...prevFilters,
+      [name]: value,
+    }));
+  };
+
+  const handleChangeRange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    setFiltersState((prevFilters) => {
+      if (prevFilters[name].includes(value)) {
+        // Если значение уже есть в массиве, убираем его
+        return {
+          ...prevFilters,
+          [name]: prevFilters[name].filter((item) => item !== value),
+        };
+      } else {
+        // Если значения нет в массиве, добавляем его
+        return {
+          ...prevFilters,
+          [name]: [...prevFilters[name], value],
+        };
+      }
+    });
   };
 
   function valuetext(value) {
@@ -53,6 +89,12 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
       setIsLoading(false);
     })();
   }, [state?.category?.id]);
+
+  useEffect(() => {
+    (async () => {
+      await fetchFilters(dispatch);
+    })();
+  }, [dispatch]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -188,10 +230,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               </li>
             ))}
           </ul>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'
-          >
+          <div className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
             <Accordion
               sx={{
                 boxShadow: 'none',
@@ -215,18 +254,28 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0 }}>
                 <div className='grid grid-cols-2 gap-3 pb-3'>
-                  <CTextField label='от 0' name='costFrom' type='number' />
-                  <CTextField label='до 900 000' name='costTo' type='number' />
+                  <CTextField
+                    label='от 0'
+                    name='min_price'
+                    type='number'
+                    onChange={(e) => handleChange('min_price', e.target.value)}
+                  />
+                  <CTextField
+                    label='до 900 000'
+                    name='max_price'
+                    type='number'
+                    onChange={(e) => handleChange('max_price', e.target.value)}
+                  />
                 </div>
                 <Box>
                   <Slider
                     sx={{ color: '#15765B' }}
                     size='small'
-                    getAriaLabel={() => 'Temperature range'}
+                    getAriaLabel={() => 'Price range'}
                     value={value}
                     max={900000}
-                    min={0}
-                    onChange={handleChange}
+                    min={100}
+                    onChange={handleChangeRange}
                     valueLabelDisplay='auto'
                     getAriaValueText={valuetext}
                   />
@@ -236,20 +285,17 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
             <Accordion
               sx={{
                 boxShadow: 'none',
-                padding: 0,
-                margin: 0,
-                border: 'none',
                 '&:before': {
                   display: 'none',
-                },
-                '&.Mui-expanded': {
-                  margin: 0,
                 },
               }}
               defaultExpanded
             >
               <AccordionSummary
-                sx={{ padding: 0, minHeight: 0 }}
+                sx={{
+                  padding: 0,
+                }}
+                style={{ minHeight: 0 }}
                 expandIcon={<ExpandMore />}
               >
                 <span className='font-semibold text-colBlack'>
@@ -257,111 +303,79 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                 </span>
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0 }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      style={{ color: '#15765B', padding: '5px' }}
-                      defaultChecked
+                {filters?.basics?.brands?.map((el) => (
+                  <div key={el?.id}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          style={{
+                            color: '#15765B',
+                            padding: '5px',
+                          }}
+                          name='selectedBrands'
+                          onChange={() =>
+                            handleCheckboxChange('selectedBrands', el?.id)
+                          }
+                        />
+                      }
+                      label={
+                        <p className='text-sm font-medium text-colBlack'>
+                          {el?.name}
+                        </p>
+                      }
                     />
-                  }
-                  label={
-                    <p className='text-sm font-medium text-colBlack'>
-                      Egger (18)
-                    </p>
-                  }
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox style={{ color: '#15765B', padding: '5px' }} />
-                  }
-                  label={
-                    <p className='text-sm font-medium text-colBlack'>
-                      FAB (12)
-                    </p>
-                  }
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox style={{ color: '#15765B', padding: '5px' }} />
-                  }
-                  label={
-                    <p className='text-sm font-medium text-colBlack'>
-                      LUXEFORM (12)
-                    </p>
-                  }
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox style={{ color: '#15765B', padding: '5px' }} />
-                  }
-                  label={
-                    <p className='text-sm font-medium text-colBlack'>
-                      Swiss Krono (1)
-                    </p>
-                  }
-                />
+                  </div>
+                ))}
               </AccordionDetails>
             </Accordion>
             <Accordion
               sx={{
                 boxShadow: 'none',
                 padding: 0,
-                margin: 0,
-                border: 'none',
-                '&:before': {
-                  display: 'none',
-                },
-                '&.Mui-expanded': {
-                  margin: 0,
-                },
               }}
               defaultExpanded
             >
               <AccordionSummary
-                sx={{ padding: 0, minHeight: 0 }}
+                sx={{ padding: 0 }}
+                style={{ minHeight: 0 }}
                 expandIcon={<ExpandMore />}
               >
                 <span className='font-semibold text-colBlack'>Статус</span>
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0 }}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      style={{ color: '#15765B', padding: '5px' }}
-                      defaultChecked
+                {filters?.basics?.tags?.map((el, index) => (
+                  <div key={index}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          style={{ color: '#15765B', padding: '5px' }}
+                          onChange={() =>
+                            handleCheckboxChange('selectedTags', el?.tag)
+                          }
+                        />
+                      }
+                      label={
+                        <span
+                          style={{ color: el?.text_color }}
+                          className={`bg-[${el?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+                        >
+                          {el?.tag}
+                        </span>
+                      }
                     />
-                  }
-                  label={
-                    <span className='bg-[#F57C1F] py-1 px-2 uppercase text-xs font-bold text-white rounded-xl'>
-                      Хит
-                    </span>
-                  }
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox style={{ color: '#15765B', padding: '5px' }} />
-                  }
-                  label={
-                    <span className='bg-[#F04438] py-1 px-2 uppercase text-xs font-bold text-white rounded-xl'>
-                      Распродажа
-                    </span>
-                  }
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox style={{ color: '#15765B', padding: '5px' }} />
-                  }
-                  label={
-                    <span className='bg-[#15765B] py-1 px-2 uppercase text-xs font-bold text-white rounded-xl'>
-                      новинка
-                    </span>
-                  }
-                />
+                  </div>
+                ))}
               </AccordionDetails>
             </Accordion>
             <FormControlLabel
               sx={{ margin: '10px 0' }}
-              control={<IOSSwitch sx={{ m: 1 }} defaultChecked />}
+              control={
+                <IOSSwitch
+                  sx={{ m: 1 }}
+                  defaultChecked
+                  onChange={(e) => handleChange(e)}
+                />
+              }
               labelPlacement='start'
               label={
                 <p className='text-sm font-semibold text-colBlack'>
@@ -370,12 +384,12 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               }
             />
             <button className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'>
-              Применить
+              Все фильтры
             </button>
             <span className='text-colDarkGray font-semibold flex justify-center cursor-pointer'>
               Очистить фильтр
             </span>
-          </form>
+          </div>
         </>
       )}
     </div>
