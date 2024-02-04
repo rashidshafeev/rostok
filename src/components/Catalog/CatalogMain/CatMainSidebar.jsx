@@ -51,7 +51,11 @@ const CatMainSidebar = ({ catalog }) => {
               {el?.children?.map((child) => (
                 <div key={child?.id}>
                   <div className='flex justify-between items-center'>
-                    <NavLink className='text-colBlack text-sm leading-4 font-semibold hover:underline'>
+                    <NavLink
+                      to='categories'
+                      state={{ catalog: child }}
+                      className='text-colBlack text-sm leading-4 font-semibold hover:underline'
+                    >
                       <p className='relative max-w-[140px] w-full'>
                         {child?.name}
                         <span className='absolute text-colGray font-[400] text-xs pl-2'>
@@ -76,7 +80,11 @@ const CatMainSidebar = ({ catalog }) => {
                     {child?.children?.map((item) => (
                       <div key={item?.id}>
                         <div className='flex justify-between'>
-                          <NavLink className='text-colBlack leading-5 text-sm hover:underline relative flex'>
+                          <NavLink
+                            to='categories/products'
+                            state={{ category: child }}
+                            className='text-colBlack leading-5 text-sm hover:underline relative flex'
+                          >
                             <p className='relative max-w-[140px] w-full leading-4'>
                               {item?.name}
                               <span className='absolute text-colGray font-[400] text-xs pl-2'>
@@ -105,6 +113,8 @@ const CatMainSidebar = ({ catalog }) => {
                         >
                           {item?.children?.map((itemChild) => (
                             <NavLink
+                              to='categories/products'
+                              state={{ category: itemChild }}
                               key={itemChild?.id}
                               className='text-colBlack leading-5 text-sm hover:underline relative flex'
                             >
