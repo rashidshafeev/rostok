@@ -32,7 +32,7 @@ const Products = () => {
       <h3 className='font-semibold text-4xl text-colBlack pb-5'>
         {state?.category?.name}
       </h3>
-      <div className='flex pb-5 min-h-[420px]'>
+      <div className='flex pb-10 min-h-[420px]'>
         <ProdSidebar state={state} handleFetchProducts={handleFetchProducts} />
         <ProdContent
           catProducts={catProducts}

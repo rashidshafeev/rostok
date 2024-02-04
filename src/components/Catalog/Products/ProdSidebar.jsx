@@ -190,7 +190,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               </li>
             ))}
           </ul>
-          <form className='border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
+          <form className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
             <Accordion
               sx={{
                 boxShadow: 'none',
@@ -245,7 +245,6 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                   margin: 0,
                 },
               }}
-              defaultExpanded
             >
               <AccordionSummary
                 sx={{ padding: 0, minHeight: 0 }}

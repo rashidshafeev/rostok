@@ -53,7 +53,7 @@ const FavSidebar = () => {
           Столешницы
         </li>
       </ul>
-      <form className='border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
+      <form className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
         <Accordion
           sx={{
             boxShadow: 'none',
@@ -122,37 +122,56 @@ const FavSidebar = () => {
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='row-radio-buttons-group'
               defaultValue='today'
+              className='!block'
             >
-              <FormControlLabel
-                value='today'
-                control={<Radio style={{ color: '#15765B', padding: '5px' }} />}
-                label={
-                  <p className='text-sm font-medium text-colBlack'>Сегодня</p>
-                }
-              />
-              <FormControlLabel
-                value='todayOrTomorrow'
-                control={<Radio style={{ color: '#15765B', padding: '5px' }} />}
-                label={
-                  <p className='text-sm font-medium text-colBlack'>
-                    Сегодня или завтра
-                  </p>
-                }
-              />
-              <FormControlLabel
-                value='fiveDays'
-                control={<Radio style={{ color: '#15765B', padding: '5px' }} />}
-                label={
-                  <p className='text-sm font-medium text-colBlack'>До 5 дней</p>
-                }
-              />
-              <FormControlLabel
-                value='any'
-                control={<Radio style={{ color: '#15765B', padding: '5px' }} />}
-                label={
-                  <p className='text-sm font-medium text-colBlack'>Любой</p>
-                }
-              />
+              <div>
+                <FormControlLabel
+                  value='today'
+                  control={
+                    <Radio style={{ color: '#15765B', padding: '5px' }} />
+                  }
+                  label={
+                    <p className='text-sm font-medium text-colBlack'>Сегодня</p>
+                  }
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  value='todayOrTomorrow'
+                  control={
+                    <Radio style={{ color: '#15765B', padding: '5px' }} />
+                  }
+                  label={
+                    <p className='text-sm font-medium text-colBlack'>
+                      Сегодня или завтра
+                    </p>
+                  }
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  value='fiveDays'
+                  control={
+                    <Radio style={{ color: '#15765B', padding: '5px' }} />
+                  }
+                  label={
+                    <p className='text-sm font-medium text-colBlack'>
+                      До 5 дней
+                    </p>
+                  }
+                />
+              </div>
+              <div>
+                <FormControlLabel
+                  value='any'
+                  control={
+                    <Radio style={{ color: '#15765B', padding: '5px' }} />
+                  }
+                  label={
+                    <p className='text-sm font-medium text-colBlack'>Любой</p>
+                  }
+                />
+              </div>
             </RadioGroup>
           </AccordionDetails>
         </Accordion>
