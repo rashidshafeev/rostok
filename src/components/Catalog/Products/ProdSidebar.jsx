@@ -8,8 +8,6 @@ import {
   Box,
   Checkbox,
   FormControlLabel,
-  //   Radio,
-  //   RadioGroup,
   Slider,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -27,7 +25,9 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
     childLast: null,
   });
 
-  const handleChange = (event, newValue) => {
+  const navigate = useNavigate();
+  
+  const handleChange = (newValue) => {
     setValue(newValue);
   };
 
@@ -41,8 +41,6 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
       [type]: prevState[type] === id ? null : id,
     }));
   };
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -190,7 +188,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               </li>
             ))}
           </ul>
-          <form className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
+          <form
+            onSubmit={(e) => e.preventDefault()}
+            className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'
+          >
             <Accordion
               sx={{
                 boxShadow: 'none',
@@ -232,91 +233,6 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                 </Box>
               </AccordionDetails>
             </Accordion>
-            {/* <Accordion
-              sx={{
-                boxShadow: 'none',
-                padding: 0,
-                margin: 0,
-                border: 'none',
-                '&:before': {
-                  display: 'none',
-                },
-                '&.Mui-expanded': {
-                  margin: 0,
-                },
-              }}
-            >
-              <AccordionSummary
-                sx={{ padding: 0, minHeight: 0 }}
-                expandIcon={<ExpandMore />}
-              >
-                <span className='font-semibold text-colBlack'>
-                  Срок доставки
-                </span>
-              </AccordionSummary>
-              <AccordionDetails sx={{ padding: 0 }}>
-                <RadioGroup
-                  row
-                  aria-labelledby='demo-row-radio-buttons-group-label'
-                  name='row-radio-buttons-group'
-                  defaultValue='today'
-                  className='!block'
-                >
-                  <div>
-                    <FormControlLabel
-                      value='today'
-                      control={
-                        <Radio style={{ color: '#15765B', padding: '5px' }} />
-                      }
-                      label={
-                        <p className='text-sm font-medium text-colBlack'>
-                          Сегодня
-                        </p>
-                      }
-                    />
-                  </div>
-                  <div>
-                    <FormControlLabel
-                      value='todayOrTomorrow'
-                      control={
-                        <Radio style={{ color: '#15765B', padding: '5px' }} />
-                      }
-                      label={
-                        <p className='text-sm font-medium text-colBlack'>
-                          Сегодня или завтра
-                        </p>
-                      }
-                    />
-                  </div>
-                  <div>
-                    <FormControlLabel
-                      value='fiveDays'
-                      control={
-                        <Radio style={{ color: '#15765B', padding: '5px' }} />
-                      }
-                      label={
-                        <p className='text-sm font-medium text-colBlack'>
-                          До 5 дней
-                        </p>
-                      }
-                    />
-                  </div>
-                  <div>
-                    <FormControlLabel
-                      value='any'
-                      control={
-                        <Radio style={{ color: '#15765B', padding: '5px' }} />
-                      }
-                      label={
-                        <p className='text-sm font-medium text-colBlack'>
-                          Любой
-                        </p>
-                      }
-                    />
-                  </div>
-                </RadioGroup>
-              </AccordionDetails>
-            </Accordion> */}
             <Accordion
               sx={{
                 boxShadow: 'none',

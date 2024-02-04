@@ -50,8 +50,12 @@ export const fetchCategoryTree = async (id, page) => {
 export const fetchCategoryProducts = async (category_id) => {
   try {
     const body = new URLSearchParams({
-      category_id: category_id,
       page: 1,
+      category_id: category_id,
+      min_price: '',
+      max_price: '',
+      brand: '',
+      tag: '',
     });
 
     const res = await request.get('api/Products/variants', {
