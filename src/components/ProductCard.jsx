@@ -15,7 +15,7 @@ const ProductCard = ({ product, furniture, recommended }) => {
         <div className='h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img
             className='w-full h-full object-cover'
-            src={product?.img}
+            src={product?.files[0]?.large || noImg}
             onError={(e) => {
               e.target.onError = null;
               e.target.src = noImg;
@@ -26,7 +26,7 @@ const ProductCard = ({ product, furniture, recommended }) => {
             <span
               className={`${
                 product?.type === 'hit'
-                  ? 'bg-[#F57C1F]'
+                  ? 'bg-[#343332]'
                   : product?.type === 'new'
                   ? 'bg-[#15765B]'
                   : 'bg-[#F04438]'
@@ -47,20 +47,20 @@ const ProductCard = ({ product, furniture, recommended }) => {
       <div className='lining-nums proportional-nums'>
         {!recommended && (
           <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px]'>
-            Артикуль: {product?.article}
+            Артикуль: {product?.article || 'Не указано'}
           </p>
         )}
-        <NavLink
-          to='#'
-          className={`${
-            recommended ? 'h-10 mt-2 line-clamp-2' : 'line-clamp-3 h-[60px]'
-          } font-medium text-sm  break-all hover:underline`}
-        >
-          {product?.title}
+        <NavLink to='#' className={`hover:underline h-10 mt-1`}>
+          <h5 className='font-bold text-sm  break-all hover:underline line-clamp-1'>
+            {product?.name}
+          </h5>
+          <p className='font-medium text-sm leading-4  break-all hover:underline h-[34px] line-clamp-2'>
+            {product?.description}
+          </p>
         </NavLink>
         <div className='flex items-center py-1'>
           <span className='text-colBlack font-bold mr-2'>
-            {product?.cost} ₽
+            {product?.price || 'Не указано'} ₽
           </span>
           <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white'>
             30%

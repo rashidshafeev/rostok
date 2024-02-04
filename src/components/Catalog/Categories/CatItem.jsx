@@ -9,11 +9,11 @@ const CatItem = () => {
   const { state } = useLocation();
 
   return (
-    <div className='content pb-6 lining-nums proportional-nums'>
+    <div className='content lining-nums proportional-nums'>
       <h3 className='font-semibold text-4xl text-colBlack pb-5'>
         {state?.catalog?.name}
       </h3>
-      <div className='pb-16 min-h-[420px]'>
+      <div className='flex pb-5 min-h-[420px]'>
         <CatItemSidebar className='w-[220px]' state={state} />
         <CatItemContent />
       </div>

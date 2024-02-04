@@ -49,32 +49,63 @@ export const bannerOne = [
 export const products = [
   {
     id: 1,
-    img: 'https://podvesnov.ru/wp-content/uploads/2020/10/rotang-uley-01.jpg',
-    title: 'Подвесное кресло 2М бежевый/черный',
+    files: [
+      {
+        large:
+          'https://podvesnov.ru/wp-content/uploads/2020/10/rotang-uley-01.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
     type: 'hit',
     cost: '32 999',
   },
   {
     id: 2,
-    img: 'https://specmebel-tver.ru/shop/image/cache/catalog/mebel/kuhnya/garnitury/stolline/catalog_11927942015012300000_1-1000x600.jpg',
-    title: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
+    files: [
+      {
+        large:
+          'https://specmebel-tver.ru/shop/image/cache/catalog/mebel/kuhnya/garnitury/stolline/catalog_11927942015012300000_1-1000x600.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
     article: '127504',
     type: 'hit',
     cost: '10 999',
   },
   {
     id: 3,
-    img: 'https://mebeltrade12.ru/upload/shop_3/4/8/5/item_48545/item_48545.jpg',
-    title: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
+    files: [
+      {
+        large:
+          'https://mebeltrade12.ru/upload/shop_3/4/8/5/item_48545/item_48545.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
     article: '127504',
     type: 'new',
     cost: '999',
   },
   {
     id: 4,
-    img: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
-    title:
+    files: [
+      {
+        large: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description:
       'Atira, ящик 176х470 мм., антрацит, полн. выдв-е, плавн. закр. с двойным релингом',
     article: '127504',
     type: 'sale',
@@ -82,64 +113,112 @@ export const products = [
   },
   {
     id: 5,
-    img: '',
-    title: 'Подвесное кресло 2М бежевый/черный',
+    files: [{ large: '', medium: '', small: '' }],
+    name: 'Здесь будет название продукта',
+    description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
     type: 'hit',
     cost: '32 999',
   },
   {
     id: 6,
-    img: 'https://nn-furnitura.ru/assets/images/products/410/dubmlechniiu1095.jpg',
-    title: 'ЛДСП Дуб Млечный Свеза U10095, 3500*1750*16',
+    files: [
+      {
+        large:
+          'https://nn-furnitura.ru/assets/images/products/410/dubmlechniiu1095.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'ЛДСП Дуб Млечный Свеза U10095, 3500*1750*16',
     article: '127504',
     type: 'sale',
     cost: '32 999',
   },
   {
     id: 7,
-    img: '',
-    title: 'Подвесное кресло 2М бежевый/черный',
+    files: [{ large: '', medium: '', small: '' }],
+    name: 'Здесь будет название продукта',
+    description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
     type: 'new',
     cost: '32 999',
   },
   {
     id: 8,
-    img: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
-    title: 'Соединитель окончание 1474, 28мм',
+    files: [
+      {
+        large: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Соединитель окончание 1474, 28мм',
     article: '127504',
     type: 'hit',
     cost: '32 999',
   },
   {
     id: 9,
-    img: 'https://podvesnov.ru/wp-content/uploads/2020/10/rotang-uley-01.jpg',
-    title: 'Подвесное кресло 2М бежевый/черный',
+    files: [
+      {
+        large:
+          'https://podvesnov.ru/wp-content/uploads/2020/10/rotang-uley-01.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
     type: 'hit',
     cost: '32 999',
   },
   {
     id: 10,
-    img: 'https://specmebel-tver.ru/shop/image/cache/catalog/mebel/kuhnya/garnitury/stolline/catalog_11927942015012300000_1-1000x600.jpg',
-    title: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
+    files: [
+      {
+        large:
+          'https://specmebel-tver.ru/shop/image/cache/catalog/mebel/kuhnya/garnitury/stolline/catalog_11927942015012300000_1-1000x600.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
     article: '127504',
     type: 'hit',
     cost: '10 999',
   },
   {
     id: 11,
-    img: 'https://mebeltrade12.ru/upload/shop_3/4/8/5/item_48545/item_48545.jpg',
-    title: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
+    files: [
+      {
+        large:
+          'https://mebeltrade12.ru/upload/shop_3/4/8/5/item_48545/item_48545.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Плинтус кухонный Korner Мрамор серый №6086 3,05м L37',
     article: '127504',
     type: 'new',
     cost: '999',
   },
   {
     id: 12,
-    img: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
-    title:
+    files: [
+      {
+        large: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description:
       'Atira, ящик 176х470 мм., антрацит, полн. выдв-е, плавн. закр. с двойным релингом',
     article: '127504',
     type: 'sale',
@@ -147,32 +226,49 @@ export const products = [
   },
   {
     id: 13,
-    img: '',
-    title: 'Подвесное кресло 2М бежевый/черный',
+    files: [{ large: '', medium: '', small: '' }],
+    name: 'Здесь будет название продукта',
+    description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
     type: 'hit',
     cost: '32 999',
   },
   {
     id: 14,
-    img: 'https://nn-furnitura.ru/assets/images/products/410/dubmlechniiu1095.jpg',
-    title: 'ЛДСП Дуб Млечный Свеза U10095, 3500*1750*16',
+    files: [
+      {
+        large:
+          'https://nn-furnitura.ru/assets/images/products/410/dubmlechniiu1095.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'ЛДСП Дуб Млечный Свеза U10095, 3500*1750*16',
     article: '127504',
     type: 'sale',
     cost: '32 999',
   },
   {
     id: 15,
-    img: '',
-    title: 'Подвесное кресло 2М бежевый/черный',
+    files: [{ large: '', medium: '', small: '' }],
+    name: 'Здесь будет название продукта',
+    description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
     type: 'new',
     cost: '32 999',
   },
   {
     id: 16,
-    img: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
-    title: 'Соединитель окончание 1474, 28мм',
+    files: [
+      {
+        large: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
+        medium: '',
+        small: '',
+      },
+    ],
+    name: 'Здесь будет название продукта',
+    description: 'Соединитель окончание 1474, 28мм',
     article: '127504',
     type: 'hit',
     cost: '32 999',

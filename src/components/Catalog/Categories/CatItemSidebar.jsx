@@ -17,7 +17,7 @@ const CatItemSidebar = ({ state }) => {
   };
 
   return (
-    <div className='max-w-[220px] min-w-[220px] w-full'>
+    <div className='max-w-[220px] min-w-[220px] w-full mr-8'>
       <ul className='space-y-2'>
         <li className='text-colBlack leading-5 font-semibold hover:underline'>
           <NavLink to='/catalog' className='flex items-center'>
