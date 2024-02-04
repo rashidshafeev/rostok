@@ -26,7 +26,7 @@ const CatItemContent = () => {
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <Loading extraStyle='520px' />
       ) : (
         <div className='flex-1 slider'>
           {categoryItem?.map((item) => (

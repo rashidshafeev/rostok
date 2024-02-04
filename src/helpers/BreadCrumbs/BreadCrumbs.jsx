@@ -16,9 +16,9 @@ const Breadcrumbs = () => {
           {index !== 0 && (
             <span className='min-w-[5px] w-[5px] h-[5px] rounded-full bg-colGreen'></span>
           )}
-          <Link to={crumbLink} className='text-xs text-colBlack'>
+          <span className='text-xs text-colBlack'>
             {crumbLinkReplacer[crumb] || crumb}
-          </Link>
+          </span>
         </React.Fragment>
       );
     });

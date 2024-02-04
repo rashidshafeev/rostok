@@ -18,6 +18,7 @@ import {
   MyOrders,
   Organizations,
   PersonalData,
+  Products,
 } from '../components';
 
 export const router = createBrowserRouter(
@@ -30,7 +31,10 @@ export const router = createBrowserRouter(
         <Route path='comparison' element={<Comparison />} />
         <Route path='catalog'>
           <Route index element={<Catalog />} />
-          <Route path='categories' element={<CatItem />} />
+          <Route path='categories'>
+            <Route index element={<CatItem />} />
+            <Route path='products' element={<Products />} />
+          </Route>
         </Route>
         <Route path='profile' element={<Profile />}>
           <Route path='personal-data' element={<PersonalData />} />

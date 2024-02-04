@@ -26,6 +26,7 @@ import ComDetail from './Comparison/ComDetail';
 import CatMainSidebar from './Catalog/CatalogMain/CatMainSidebar';
 import CatMainContent from './Catalog/CatalogMain/CatMainContent';
 import CatItem from './Catalog/Categories/CatItem';
+import Products from './Catalog/Products/Products';
 
 export {
   Header,
@@ -56,4 +57,5 @@ export {
   CatMainSidebar,
   CatMainContent,
   CatItem,
+  Products,
 };

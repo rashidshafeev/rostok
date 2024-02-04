@@ -31,7 +31,10 @@ const CatItemSidebar = ({ state }) => {
         {state?.catalog?.children?.map((el) => (
           <li key={el?.id} className='pl-3'>
             <div className='flex justify-between'>
-              <NavLink className='text-colBlack leading-5 font-semibold hover:underline'>
+              <NavLink
+                to='products'
+                className='text-colBlack leading-5 font-semibold hover:underline'
+              >
                 <p className='relative max-w-[170px]'>
                   {el?.name}
                   <span className='absolute text-colGray font-[400] text-xs pl-2'>

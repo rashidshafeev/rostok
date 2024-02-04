@@ -1,11 +1,11 @@
 import Advantages from '../../Home/Advantages';
 import Brands from '../../Home/Brands';
 import Promotions from '../../Home/Promotions';
-import CatItemContent from './CatItemContent';
-import CatItemSidebar from './CatItemSidebar';
 import { useLocation } from 'react-router-dom';
+import ProdSidebar from './ProdSidebar';
+import ProdContent from './ProdContent';
 
-const CatItem = () => {
+const Products = () => {
   const { state } = useLocation();
 
   return (
@@ -14,8 +14,8 @@ const CatItem = () => {
         {state?.catalog?.name}
       </h3>
       <div className='flex pb-5 min-h-[420px]'>
-        <CatItemSidebar state={state} />
-        <CatItemContent />
+        <ProdSidebar state={state} />
+        <ProdContent />
       </div>
       <Promotions />
       <Brands />
@@ -24,4 +24,4 @@ const CatItem = () => {
   );
 };
 
-export default CatItem;
+export default Products;
