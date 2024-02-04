@@ -47,15 +47,16 @@ export const fetchCategoryTree = async (id, page) => {
   }
 };
 
-export const fetchCategoryProducts = async (category_id) => {
+export const fetchCategoryProducts = async (category_id, filters) => {
+  console.log('filters', filters);
   try {
     const body = new URLSearchParams({
       page: 1,
       category_id: category_id,
-      min_price: '',
-      max_price: '',
-      brand: '',
-      tag: '',
+      // min_price: filters?.min_price || '',
+      // max_price: filters?.max_price || '',
+      // brands: [1],
+      // tags: ['ХИТ'],
     });
 
     const res = await request.get('api/Products/variants', {

@@ -30,46 +30,29 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
   const [filtersState, setFiltersState] = useState({
     min_price: '',
     max_price: '',
-    selectedBrands: [],
-    selectedTags: [],
-    highRating: false,
+    brands: [],
+    tags: [],
   });
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = (name, value) => {
-    setFiltersState((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-  };
-
-  const handleChangeRange = (event, newValue) => {
-    setValue(newValue);
+    const updatedFilters = { ...filtersState, [name]: value };
+    setFiltersState(updatedFilters);
+    handleFetchProducts('', updatedFilters);
   };
 
   const handleCheckboxChange = (name, value) => {
-    setFiltersState((prevFilters) => {
-      if (prevFilters[name].includes(value)) {
-        // Если значение уже есть в массиве, убираем его
-        return {
-          ...prevFilters,
-          [name]: prevFilters[name].filter((item) => item !== value),
-        };
-      } else {
-        // Если значения нет в массиве, добавляем его
-        return {
-          ...prevFilters,
-          [name]: [...prevFilters[name], value],
-        };
-      }
-    });
+    const updatedFilters = {
+      ...filtersState,
+      [name]: filtersState[name].includes(value)
+        ? filtersState[name].filter((item) => item !== value)
+        : [...filtersState[name], value],
+    };
+    setFiltersState(updatedFilters);
+    handleFetchProducts(1, updatedFilters);
   };
-
-  function valuetext(value) {
-    return `${value}`;
-  }
 
   const toggleAccordion = (type, id) => {
     setAccordion((prevState) => ({
@@ -271,13 +254,13 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                   <Slider
                     sx={{ color: '#15765B' }}
                     size='small'
-                    getAriaLabel={() => 'Price range'}
+                    aria-label='Price range'
                     value={value}
                     max={900000}
                     min={100}
-                    onChange={handleChangeRange}
+                    onChange={(event, newValue) => setValue(newValue)}
                     valueLabelDisplay='auto'
-                    getAriaValueText={valuetext}
+                    aria-valuetext={value}
                   />
                 </Box>
               </AccordionDetails>
@@ -312,9 +295,9 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                             color: '#15765B',
                             padding: '5px',
                           }}
-                          name='selectedBrands'
+                          name='brands'
                           onChange={() =>
-                            handleCheckboxChange('selectedBrands', el?.id)
+                            handleCheckboxChange('brands', el?.id)
                           }
                         />
                       }
@@ -349,9 +332,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                       control={
                         <Checkbox
                           style={{ color: '#15765B', padding: '5px' }}
-                          onChange={() =>
-                            handleCheckboxChange('selectedTags', el?.tag)
-                          }
+                          onChange={() => handleCheckboxChange('tags', el?.tag)}
                         />
                       }
                       label={
