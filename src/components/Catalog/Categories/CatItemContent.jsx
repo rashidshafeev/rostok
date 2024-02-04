@@ -5,23 +5,27 @@ import { Navigation } from 'swiper/modules';
 import { ExpandMore } from '@mui/icons-material';
 import ProductCard from '../../ProductCard';
 import { Loading } from '../../../helpers/Loader/Loader';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const CatItemContent = () => {
   const [categoryItem, setCategoryItem] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  const { state } = useLocation();
+
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const { success, data } = await fetchProductsByCategory();
+      const { success, data } = await fetchProductsByCategory(
+        state?.catalog?.id, 1
+      );
       if (success) {
         setCategoryItem(data);
         setIsLoading(false);
       }
       setIsLoading(false);
     })();
-  }, []);
+  }, [state?.catalog?.id]);
 
   return (
     <>

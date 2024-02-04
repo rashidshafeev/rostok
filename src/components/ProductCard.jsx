@@ -52,10 +52,10 @@ const ProductCard = ({ product, furniture, recommended }) => {
         )}
         <NavLink to='#' className={`hover:underline h-10 mt-1`}>
           <h5 className='font-bold text-sm  break-all hover:underline line-clamp-1'>
-            {product?.name}
+            {product?.name || 'Не указано'}
           </h5>
           <p className='font-medium text-sm leading-4  break-all hover:underline h-[34px] line-clamp-2'>
-            {product?.description}
+            {product?.description || 'Не указано'}
           </p>
         </NavLink>
         <div className='flex items-center py-1'>

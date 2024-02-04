@@ -33,6 +33,7 @@ const CatItemSidebar = ({ state }) => {
             <div className='flex justify-between'>
               <NavLink
                 to='products'
+                state={{ category: el }}
                 className='text-colBlack leading-5 font-semibold hover:underline'
               >
                 <p className='relative max-w-[170px]'>

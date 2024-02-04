@@ -15,7 +15,7 @@ const CatItem = () => {
       </h3>
       <div className='flex pb-5 min-h-[420px]'>
         <CatItemSidebar state={state} />
-        <CatItemContent />
+        <CatItemContent state={state} />
       </div>
       <Promotions />
       <Brands />
