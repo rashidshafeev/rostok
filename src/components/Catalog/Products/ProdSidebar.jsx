@@ -22,15 +22,15 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
   const [item, setItem] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState([100, 240]);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
     childLast: null,
   });
   const [filtersState, setFiltersState] = useState({
-    min_price: '',
-    max_price: '',
+    min_price: 0,
+    max_price: 900000,
+    highRating: true,
     brands: [],
     tags: [],
   });
@@ -41,7 +41,14 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
   const handleChange = (name, value) => {
     const updatedFilters = { ...filtersState, [name]: value };
     setFiltersState(updatedFilters);
-    handleFetchProducts('', updatedFilters);
+    setTimeout(() => {
+      handleFetchProducts(state?.category?.id, updatedFilters);
+    }, 1000);
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    handleChange('min_price', newValue[0]);
+    handleChange('max_price', newValue[1]);
   };
 
   const handleCheckboxChange = (name, value) => {
@@ -52,7 +59,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
         : [...filtersState[name], value],
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts(1, updatedFilters);
+    handleFetchProducts(state?.category?.id, updatedFilters);
   };
 
   const toggleAccordion = (type, id) => {
@@ -242,12 +249,14 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                     label='от 0'
                     name='min_price'
                     type='number'
+                    value={filtersState.min_price}
                     onChange={(e) => handleChange('min_price', e.target.value)}
                   />
                   <CTextField
                     label='до 900 000'
                     name='max_price'
                     type='number'
+                    value={filtersState.max_price}
                     onChange={(e) => handleChange('max_price', e.target.value)}
                   />
                 </div>
@@ -255,13 +264,16 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                   <Slider
                     sx={{ color: '#15765B' }}
                     size='small'
-                    aria-label='Price range'
-                    value={value}
+                    getAriaLabel={() => 'Price range'}
+                    value={[
+                      parseInt(filtersState.min_price),
+                      parseInt(filtersState.max_price),
+                    ]}
                     max={900000}
-                    min={100}
-                    onChange={(event, newValue) => setValue(newValue)}
+                    min={0}
+                    onChange={handleSliderChange}
                     valueLabelDisplay='auto'
-                    aria-valuetext={value}
+                    valueLabelFormat={(value) => value.toLocaleString('en-US')}
                   />
                 </Box>
               </AccordionDetails>
@@ -355,7 +367,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                 <IOSSwitch
                   sx={{ m: 1 }}
                   defaultChecked
-                  onChange={(e) => handleChange(e)}
+                  onChange={(e) => handleChange('highRating', e.target.checked)}
                 />
               }
               labelPlacement='start'

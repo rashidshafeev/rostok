@@ -48,20 +48,24 @@ export const fetchCategoryTree = async (id, page) => {
 };
 
 export const fetchCategoryProducts = async (category_id, filters) => {
-  console.log('filters', filters);
   try {
+    const brandsParam =
+      filters?.brands?.length > 0 ? `["${filters?.brands.join('","')}"]` : '';
+    // const tagsParam = filters?.tags ? `["${filters?.tags.join('","')}"]` : '';
     const body = new URLSearchParams({
-      page: 1,
       category_id: category_id,
-      // min_price: filters?.min_price || '',
-      // max_price: filters?.max_price || '',
-      // brands: [1],
-      // tags: ['ХИТ'],
+      brands: brandsParam || '',
+      max_price: filters?.max_price || '',
+      min_price: filters?.min_price || '',
+      // min_raiting: !filters?.highRating ? 4 : '',
+      // max_raiting: filters?.highRating ? 5 : '',
+      // tags: tagsParam,
     });
 
     const res = await request.get('api/Products/variants', {
       params: body,
     });
+
     return { success: true, data: res?.data?.data };
   } catch (error) {
     return { success: false };
