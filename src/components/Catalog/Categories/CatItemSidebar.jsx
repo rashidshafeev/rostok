@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { ExpandMore } from '@mui/icons-material';
 import { useState } from 'react';
+import { ArrowIcon } from '../../../helpers/Icons/Arrow';
 
 const CatItemSidebar = ({ state }) => {
   const [accordion, setAccordion] = useState({
@@ -21,7 +21,7 @@ const CatItemSidebar = ({ state }) => {
       <ul className='space-y-2'>
         <li className='text-colBlack leading-5 font-semibold hover:underline'>
           <NavLink to='/catalog' className='flex items-center'>
-            <ExpandMore className='cursor-pointer !m-0 !w-5 !h-5 rotate-[90deg]' />
+            <ArrowIcon className='cursor-pointer !w-4 !h-4 mr-1 rotate-[-90deg]' />
             Каталог
           </NavLink>
         </li>
@@ -44,18 +44,18 @@ const CatItemSidebar = ({ state }) => {
                 </p>
               </NavLink>
               {el?.children?.length && (
-                <ExpandMore
+                <ArrowIcon
                   onClick={() => toggleAccordion('parent', el?.id)}
                   className={`${
                     accordion.parent === el?.id && 'rotate-[180deg]'
-                  } cursor-pointer !m-0 !w-5 !h-5`}
+                  } cursor-pointer !w-4 !h-4`}
                 />
               )}
             </div>
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5 pt-1 space-y-1`}
+              } pl-5 pt-1 space-y-[6px]`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
@@ -63,7 +63,7 @@ const CatItemSidebar = ({ state }) => {
                     <NavLink
                       to='products'
                       state={{ category: child }}
-                      className='text-colBlack text-sm leading-4 font-semibold hover:underline'
+                      className='text-colBlack text-[15px] leading-4 font-medium hover:underline'
                     >
                       <p className='relative max-w-[140px] w-full'>
                         {child?.name}
@@ -73,11 +73,11 @@ const CatItemSidebar = ({ state }) => {
                       </p>
                     </NavLink>
                     {child?.children?.length && (
-                      <ExpandMore
+                      <ArrowIcon
                         onClick={() => toggleAccordion('child', child?.id)}
                         className={`${
                           accordion.child === child?.id && 'rotate-[180deg]'
-                        } cursor-pointer !m-0 !w-5 !h-5`}
+                        } cursor-pointer !w-4 !h-4`}
                       />
                     )}
                   </div>
@@ -102,14 +102,14 @@ const CatItemSidebar = ({ state }) => {
                             </p>
                           </NavLink>
                           {item?.children?.length && (
-                            <ExpandMore
+                            <ArrowIcon
                               onClick={() =>
                                 toggleAccordion('childLast', item?.id)
                               }
                               className={`${
                                 accordion.childLast === item?.id &&
                                 'rotate-[180deg]'
-                              } cursor-pointer !m-0 !w-5 !h-5`}
+                              } cursor-pointer !w-4 !h-4`}
                             />
                           )}
                         </div>

@@ -16,6 +16,7 @@ import { Loading } from '../../../helpers/Loader/Loader';
 import { IOSSwitch } from '../../Favorites/styledComponents/IOSSwitch';
 import { fetchFilters } from '../../../api/filters';
 import { useDispatch, useSelector } from 'react-redux';
+import { ArrowIcon } from '../../../helpers/Icons/Arrow';
 
 const ProdSidebar = ({ state, handleFetchProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
@@ -91,7 +92,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                 onClick={() => navigate(-1)}
                 className='flex items-center bg-white'
               >
-                <ExpandMore className='cursor-pointer !m-0 !w-5 !h-5 rotate-[90deg]' />
+                <ArrowIcon className='cursor-pointer !m-0 !w-4 !h-4 mr-1 rotate-[-90deg]' />
                 Назад
               </button>
             </li>
@@ -117,7 +118,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                       onClick={() => toggleAccordion('parent', el?.id)}
                       className={`${
                         accordion.parent === el?.id && 'rotate-[180deg]'
-                      } cursor-pointer !m-0 !w-5 !h-5`}
+                      } cursor-pointer !m-0 !w-4 !h-4`}
                     />
                   )}
                 </div>
@@ -145,7 +146,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                             onClick={() => toggleAccordion('child', child?.id)}
                             className={`${
                               accordion.child === child?.id && 'rotate-[180deg]'
-                            } cursor-pointer !m-0 !w-5 !h-5`}
+                            } cursor-pointer !m-0 !w-4 !h-4`}
                           />
                         )}
                       </div>
@@ -176,7 +177,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                                   className={`${
                                     accordion.childLast === item?.id &&
                                     'rotate-[180deg]'
-                                  } cursor-pointer !m-0 !w-5 !h-5`}
+                                  } cursor-pointer !m-0 !w-4 !h-4`}
                                 />
                               )}
                             </div>
@@ -231,7 +232,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
             >
               <AccordionSummary
                 sx={{ padding: 0, minHeight: 0 }}
-                expandIcon={<ExpandMore />}
+                expandIcon={<ArrowIcon className='!w-4 !h-4' />}
               >
                 <span className='font-semibold text-colBlack'>Цена, ₽</span>
               </AccordionSummary>
@@ -279,7 +280,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                   padding: 0,
                 }}
                 style={{ minHeight: 0 }}
-                expandIcon={<ExpandMore />}
+                expandIcon={<ArrowIcon className='!w-4 !h-4' />}
               >
                 <span className='font-semibold text-colBlack'>
                   Производитель
@@ -321,7 +322,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               <AccordionSummary
                 sx={{ padding: 0 }}
                 style={{ minHeight: 0 }}
-                expandIcon={<ExpandMore />}
+                expandIcon={<ArrowIcon className='!w-4 !h-4' />}
               >
                 <span className='font-semibold text-colBlack'>Статус</span>
               </AccordionSummary>

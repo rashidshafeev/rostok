@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ExpandMore } from '@mui/icons-material';
 import CTextField from '../../helpers/CustomInputs/CTextField';
 import {
   Accordion,
@@ -13,6 +12,7 @@ import {
   Slider,
 } from '@mui/material';
 import { IOSSwitch } from './styledComponents/IOSSwitch';
+import { ArrowIcon } from '../../helpers/Icons/Arrow';
 
 const FavSidebar = () => {
   const [value, setValue] = useState([20, 37]);
@@ -71,7 +71,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ExpandMore />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
           >
             <span className='font-semibold text-colBlack'>Цена, ₽</span>
           </AccordionSummary>
@@ -112,7 +112,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ExpandMore />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
           >
             <span className='font-semibold text-colBlack'>Срок доставки</span>
           </AccordionSummary>
@@ -192,7 +192,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ExpandMore />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
           >
             <span className='font-semibold text-colBlack'>Производитель</span>
           </AccordionSummary>
@@ -255,7 +255,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ExpandMore />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
           >
             <span className='font-semibold text-colBlack'>Статус</span>
           </AccordionSummary>

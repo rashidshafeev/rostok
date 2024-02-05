@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { ExpandMore } from '@mui/icons-material';
 import { useState } from 'react';
+import { ArrowIcon } from '../../../helpers/Icons/Arrow';
 
 const CatMainSidebar = ({ catalog }) => {
   const [accordion, setAccordion] = useState({
@@ -35,18 +35,18 @@ const CatMainSidebar = ({ catalog }) => {
                 </p>
               </NavLink>
               {el?.children?.length && (
-                <ExpandMore
+                <ArrowIcon
                   onClick={() => toggleAccordion('parent', el?.id)}
                   className={`${
                     accordion.parent === el?.id && 'rotate-[180deg]'
-                  } cursor-pointer !m-0 !w-5 !h-5`}
+                  } cursor-pointer !w-4 !h-4`}
                 />
               )}
             </div>
             <div
               className={`${
                 accordion.parent === el?.id ? 'block' : 'hidden'
-              } pl-5 pt-1 space-y-1`}
+              } pl-3 pt-2 space-y-[6px]`}
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
@@ -54,7 +54,7 @@ const CatMainSidebar = ({ catalog }) => {
                     <NavLink
                       to='categories'
                       state={{ catalog: child }}
-                      className='text-colBlack text-sm leading-4 font-semibold hover:underline'
+                      className='text-colBlack text-[15px] leading-4 font-medium hover:underline'
                     >
                       <p className='relative max-w-[140px] w-full'>
                         {child?.name}
@@ -64,18 +64,18 @@ const CatMainSidebar = ({ catalog }) => {
                       </p>
                     </NavLink>
                     {child?.children?.length && (
-                      <ExpandMore
+                      <ArrowIcon
                         onClick={() => toggleAccordion('child', child?.id)}
                         className={`${
                           accordion.child === child?.id && 'rotate-[180deg]'
-                        } cursor-pointer !m-0 !w-5 !h-5`}
+                        } cursor-pointer !w-4 !h-4`}
                       />
                     )}
                   </div>
                   <div
                     className={`${
                       accordion.child === child?.id ? 'block' : 'hidden'
-                    } pl-5 pb-2 pt-1 space-y-1`}
+                    } pl-4 pb-2 pt-2 space-y-[5px]`}
                   >
                     {child?.children?.map((item) => (
                       <div key={item?.id}>
@@ -93,14 +93,14 @@ const CatMainSidebar = ({ catalog }) => {
                             </p>
                           </NavLink>
                           {item?.children?.length && (
-                            <ExpandMore
+                            <ArrowIcon
                               onClick={() =>
                                 toggleAccordion('childLast', item?.id)
                               }
                               className={`${
                                 accordion.childLast === item?.id &&
                                 'rotate-[180deg]'
-                              } cursor-pointer !m-0 !w-5 !h-5`}
+                              } cursor-pointer !w-4 !h-4`}
                             />
                           )}
                         </div>
