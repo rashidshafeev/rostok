@@ -4,6 +4,7 @@ export const ComparisonIcon = (props) => (
     width={24}
     height={24}
     fill='none'
+    className='cursor-pointer'
     {...props}
   >
     <rect width={24} height={24} fill='#F5F5F5' rx={12} />

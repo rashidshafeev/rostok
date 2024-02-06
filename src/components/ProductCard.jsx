@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
-import favorite from '../assets/icons/favorite.svg';
 import noImg from '../assets/images/no-image.png';
+import { FavoriteIcon } from '../helpers/Icons';
 
 const ProductCard = ({ product, furniture, recommended }) => {
   const navigate = useNavigate();
@@ -33,9 +33,7 @@ const ProductCard = ({ product, furniture, recommended }) => {
             ) : (
               <span></span>
             )}
-            <div className='flex justify-center items-center bg-gray-100 w-7 sm:w-8 h-7 sm:h-8 min-w-[28px] sm:min-w-[32px] rounded-full cursor-pointer'>
-              <img className='w-4 sm:w-5' src={favorite} alt='*' />
-            </div>
+            <FavoriteIcon onClick={() => alert('В процессе разработки')} />
           </div>
         </div>
       </NavLink>

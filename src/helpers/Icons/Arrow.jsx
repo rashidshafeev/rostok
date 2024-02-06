@@ -5,6 +5,7 @@ export const ArrowIcon = (props) => (
     height='12'
     viewBox='0 0 12 12'
     fill='none'
+    className='cursor-pointer'
     {...props}
   >
     <path
