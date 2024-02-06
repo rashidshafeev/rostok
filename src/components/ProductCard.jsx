@@ -54,14 +54,18 @@ const ProductCard = ({ product, furniture, recommended }) => {
           </p>
         </NavLink>
         <div className='flex items-center py-1'>
-          <span className='text-colBlack font-bold mr-2 line-clamp-1 break-all whitespace-nowrap'>
+          <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
             {product?.price
               ? `${
                   product?.price?.discount
                     ? product?.price?.discount?.price
                     : product?.price?.default
-                }  ${product?.price?.currency} / ${product?.price?.unit}`
+                }  ${product?.price?.currency}`
               : 'Не указано'}
+          </span>
+          <span className='text-xs line-through mr-2'>
+            {product?.price &&
+              `${product?.price?.discount ? product?.price?.default : ''}`}
           </span>
           {product?.price?.discount && (
             <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>

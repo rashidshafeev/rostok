@@ -15,7 +15,7 @@ import { Loading } from '../../../helpers/Loader/Loader';
 import { IOSSwitch } from '../../Favorites/styledComponents/IOSSwitch';
 import { fetchFilters } from '../../../api/filters';
 import { useDispatch, useSelector } from 'react-redux';
-import { ArrowIcon } from '../../../helpers/Icons/Arrow';
+import { ArrowIcon } from '../../../helpers/Icons';
 
 const ProdSidebar = ({ state, handleFetchProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
@@ -34,8 +34,6 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
     brands: [],
     tags: [],
   });
-
-  console.log(categoryID);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -131,8 +129,8 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                     <ArrowIcon
                       onClick={() => toggleAccordion('parent', el?.id)}
                       className={`${
-                        accordion.parent === el?.id && 'rotate-[180deg]'
-                      } cursor-pointer !m-0 !w-4 !h-4`}
+                        accordion.parent === el?.id && 'rotate-[0deg]'
+                      } cursor-pointer !m-0 !w-4 !h-4 rotate-[180deg]`}
                     />
                   )}
                 </div>
@@ -206,7 +204,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                                 accordion.childLast === item?.id
                                   ? 'block'
                                   : 'hidden'
-                              } pl-2 pb-2`}
+                              } pl-2 pb-2 pt-1`}
                             >
                               {item?.children?.map((itemChild) => (
                                 <span
@@ -253,7 +251,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
             >
               <AccordionSummary
                 sx={{ padding: 0, minHeight: 0 }}
-                expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+                expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
               >
                 <span className='font-semibold text-colBlack'>Цена, ₽</span>
               </AccordionSummary>
@@ -306,7 +304,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                   padding: 0,
                 }}
                 style={{ minHeight: 0 }}
-                expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+                expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
               >
                 <span className='font-semibold text-colBlack'>
                   Производитель
@@ -348,7 +346,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               <AccordionSummary
                 sx={{ padding: 0 }}
                 style={{ minHeight: 0 }}
-                expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+                expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
               >
                 <span className='font-semibold text-colBlack'>Статус</span>
               </AccordionSummary>

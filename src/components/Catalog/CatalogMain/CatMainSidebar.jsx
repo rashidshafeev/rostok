@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { ArrowIcon } from '../../../helpers/Icons/Arrow';
+import { ArrowIcon } from '../../../helpers/Icons';
 
 const CatMainSidebar = ({ catalog }) => {
   const [accordion, setAccordion] = useState({
@@ -38,8 +38,8 @@ const CatMainSidebar = ({ catalog }) => {
                 <ArrowIcon
                   onClick={() => toggleAccordion('parent', el?.id)}
                   className={`${
-                    accordion.parent === el?.id && 'rotate-[180deg]'
-                  } cursor-pointer !w-4 !h-4`}
+                    accordion.parent === el?.id && 'rotate-[0deg]'
+                  } cursor-pointer !w-4 !h-4 rotate-[180deg]`}
                 />
               )}
             </div>
@@ -67,8 +67,8 @@ const CatMainSidebar = ({ catalog }) => {
                       <ArrowIcon
                         onClick={() => toggleAccordion('child', child?.id)}
                         className={`${
-                          accordion.child === child?.id && 'rotate-[180deg]'
-                        } cursor-pointer !w-4 !h-4`}
+                          accordion.child === child?.id && 'rotate-[0deg]'
+                        } cursor-pointer !w-4 !h-4 rotate-[180deg]`}
                       />
                     )}
                   </div>
@@ -109,7 +109,7 @@ const CatMainSidebar = ({ catalog }) => {
                             accordion.childLast === item?.id
                               ? 'block'
                               : 'hidden'
-                          } pl-2 pb-2`}
+                          } pl-2 pb-2 pt-1`}
                         >
                           {item?.children?.map((itemChild) => (
                             <NavLink

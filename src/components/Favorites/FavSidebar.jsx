@@ -71,7 +71,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
           >
             <span className='font-semibold text-colBlack'>Цена, ₽</span>
           </AccordionSummary>
@@ -112,7 +112,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
           >
             <span className='font-semibold text-colBlack'>Срок доставки</span>
           </AccordionSummary>
@@ -192,7 +192,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
           >
             <span className='font-semibold text-colBlack'>Производитель</span>
           </AccordionSummary>
@@ -255,7 +255,7 @@ const FavSidebar = () => {
         >
           <AccordionSummary
             sx={{ padding: 0, minHeight: 0 }}
-            expandIcon={<ArrowIcon className='!w-4 !h-4' />}
+            expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
           >
             <span className='font-semibold text-colBlack'>Статус</span>
           </AccordionSummary>
