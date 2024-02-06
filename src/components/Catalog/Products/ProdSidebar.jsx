@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom';
-import { ExpandMore } from '@mui/icons-material';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
 import {
   Accordion,
@@ -21,6 +20,7 @@ import { ArrowIcon } from '../../../helpers/Icons/Arrow';
 const ProdSidebar = ({ state, handleFetchProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
   const [item, setItem] = useState([]);
+  const [categoryID, setCategoryID] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [accordion, setAccordion] = useState({
     parent: null,
@@ -42,7 +42,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
     const updatedFilters = { ...filtersState, [name]: value };
     setFiltersState(updatedFilters);
     setTimeout(() => {
-      handleFetchProducts(state?.category?.id, updatedFilters);
+      handleFetchProducts(categoryID, updatedFilters);
     }, 1000);
   };
 
@@ -59,7 +59,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
         : [...filtersState[name], value],
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts(state?.category?.id, updatedFilters);
+    handleFetchProducts(categoryID, updatedFilters);
   };
 
   const toggleAccordion = (type, id) => {
@@ -110,7 +110,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
               <li key={el?.id} className='pl-3'>
                 <div className='flex justify-between'>
                   <span
-                    onClick={() => handleFetchProducts(el?.id)}
+                    onClick={() => {
+                      handleFetchProducts(el?.id);
+                      setCategoryID(el?.id);
+                    }}
                     className='text-colBlack leading-5 font-semibold cursor-pointer'
                   >
                     <p className='relative max-w-[170px]'>
@@ -121,7 +124,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                     </p>
                   </span>
                   {el?.children?.length && (
-                    <ExpandMore
+                    <ArrowIcon
                       onClick={() => toggleAccordion('parent', el?.id)}
                       className={`${
                         accordion.parent === el?.id && 'rotate-[180deg]'
@@ -138,7 +141,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                     <div key={child?.id}>
                       <div className='flex justify-between items-center'>
                         <span
-                          onClick={() => handleFetchProducts(child?.id)}
+                          onClick={() => {
+                            handleFetchProducts(child?.id);
+                            setCategoryID(child?.id);
+                          }}
                           className='text-colBlack text-sm leading-4 font-semibold cursor-pointer'
                         >
                           <p className='relative max-w-[140px] w-full'>
@@ -149,7 +155,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                           </p>
                         </span>
                         {child?.children?.length && (
-                          <ExpandMore
+                          <ArrowIcon
                             onClick={() => toggleAccordion('child', child?.id)}
                             className={`${
                               accordion.child === child?.id && 'rotate-[180deg]'
@@ -166,7 +172,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                           <div key={item?.id}>
                             <div className='flex justify-between'>
                               <span
-                                onClick={() => handleFetchProducts(item?.id)}
+                                onClick={() => {
+                                  handleFetchProducts(item?.id);
+                                  setCategoryID(item?.id);
+                                }}
                                 className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                               >
                                 <p className='relative max-w-[140px] w-full leading-4'>
@@ -177,7 +186,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                                 </p>
                               </span>
                               {item?.children?.length && (
-                                <ExpandMore
+                                <ArrowIcon
                                   onClick={() =>
                                     toggleAccordion('childLast', item?.id)
                                   }
@@ -198,9 +207,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                               {item?.children?.map((itemChild) => (
                                 <span
                                   key={itemChild?.id}
-                                  onClick={() =>
-                                    handleFetchProducts(itemChild?.id)
-                                  }
+                                  onClick={() => {
+                                    handleFetchProducts(itemChild?.id);
+                                    setCategoryID(itemChild?.id);
+                                  }}
                                   className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                                 >
                                   <p className='relative max-w-[140px] w-full'>
