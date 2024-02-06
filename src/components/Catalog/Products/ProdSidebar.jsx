@@ -16,12 +16,14 @@ import { IOSSwitch } from '../../Favorites/styledComponents/IOSSwitch';
 import { fetchFilters } from '../../../api/filters';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowIcon } from '../../../helpers/Icons';
+import AllFiltersModal from '../../../helpers/CModal/AllFiltersModal';
 
 const ProdSidebar = ({ state, handleFetchProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
   const [item, setItem] = useState([]);
   const [categoryID, setCategoryID] = useState(state?.category?.id);
   const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -389,7 +391,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                 </p>
               }
             />
-            <button className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'>
+            <button
+              onClick={() => setOpen(true)}
+              className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'
+            >
               Все фильтры
             </button>
             <span className='text-colDarkGray font-semibold flex justify-center cursor-pointer'>
@@ -398,6 +403,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
           </div>
         </>
       )}
+      <AllFiltersModal open={open} setOpen={setOpen} />
     </div>
   );
 };
