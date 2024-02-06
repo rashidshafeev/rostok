@@ -20,7 +20,7 @@ import { ArrowIcon } from '../../../helpers/Icons/Arrow';
 const ProdSidebar = ({ state, handleFetchProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
   const [item, setItem] = useState([]);
-  const [categoryID, setCategoryID] = useState('');
+  const [categoryID, setCategoryID] = useState(state?.category?.id);
   const [isLoading, setIsLoading] = useState(false);
   const [accordion, setAccordion] = useState({
     parent: null,
@@ -35,15 +35,15 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
     tags: [],
   });
 
+  console.log(categoryID);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = (name, value) => {
     const updatedFilters = { ...filtersState, [name]: value };
+    handleFetchProducts(categoryID, updatedFilters);
     setFiltersState(updatedFilters);
-    setTimeout(() => {
-      handleFetchProducts(categoryID, updatedFilters);
-    }, 1000);
   };
 
   const handleSliderChange = (event, newValue) => {
@@ -58,9 +58,13 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
         ? filtersState[name].filter((item) => item !== value)
         : [...filtersState[name], value],
     };
-    setFiltersState(updatedFilters);
     handleFetchProducts(categoryID, updatedFilters);
+    setFiltersState(updatedFilters);
   };
+
+  useEffect(() => {
+    handleFetchProducts(state?.category?.id, '');
+  }, []);
 
   const toggleAccordion = (type, id) => {
     setAccordion((prevState) => ({

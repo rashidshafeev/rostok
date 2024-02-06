@@ -1,30 +1,8 @@
-import { useEffect, useState } from 'react';
 import { Loading } from '../../../helpers/Loader/Loader';
+import ErrorEmpty from '../../../helpers/Errors/ErrorEmpty';
 import ProductCard from '../../ProductCard';
-import { fetchCategoryProducts } from '../../../api/catalog';
 
-const ProdContent = ({ catProducts, isLoading, state }) => {
-  const [defaultProducts, setDefaultProducts] = useState([]);
-  const [loading, setLoading] = useState(isLoading);
-
-  useEffect(() => {
-    (async () => {
-      setLoading(true);
-      const { success, data } = await fetchCategoryProducts(
-        state?.category?.id
-      );
-      if (success) {
-        setDefaultProducts(data);
-        setLoading(false);
-      }
-      setLoading(false);
-    })();
-  }, [state?.category?.id]);
-
-  useEffect(() => {
-    setLoading(isLoading);
-  }, [isLoading]);
-
+const ProdContent = ({ catProducts, isLoading }) => {
   return (
     <div className='w-full'>
       <div className='flex justify-between items-center'>
@@ -93,18 +71,20 @@ const ProdContent = ({ catProducts, isLoading, state }) => {
           </svg>
         </div>
       </div>
-      {loading ? (
+      {isLoading ? (
         <Loading extraStyle='420px' />
-      ) : (
+      ) : catProducts?.length > 0 ? (
         <div className='grid grid-cols-5 gap-5'>
-          {catProducts?.length > 0
-            ? catProducts?.map((el) => (
-                <ProductCard key={el?.id} product={el} furniture={true} />
-              ))
-            : defaultProducts?.map((el) => (
-                <ProductCard key={el?.id} product={el} furniture={true} />
-              ))}
+          {catProducts?.map((el) => (
+            <ProductCard key={el?.id} product={el} furniture={true} />
+          ))}
         </div>
+      ) : (
+        <ErrorEmpty
+          title='Список пуст!'
+          desc='К сожалению, по вашему фильтру ничего не нашли.'
+          height='420px'
+        />
       )}
     </div>
   );
