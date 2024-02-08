@@ -35,7 +35,7 @@ const AllFiltersModal = ({ open, setOpen }) => {
             </div>
             <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
               <div className='h-[1200px] pt-5'>
-                <div className='grid grid-cols-3 gap-5'>
+                <div className='grid grid-cols-3 gap-8'>
                   {allFilters?.map((el) => (
                     <div
                       key={el?.id}

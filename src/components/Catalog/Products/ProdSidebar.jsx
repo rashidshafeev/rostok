@@ -62,6 +62,23 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
     setFiltersState(updatedFilters);
   };
 
+  const handleClearFilters = () => {
+    // Сбросить все фильтры в исходное состояние
+    const initialFiltersState = {
+      min_price: 0,
+      max_price: 900000,
+      highRating: true,
+      brands: [],
+      tags: [],
+    };
+
+    // Вызвать handleFetchProducts с исходными фильтрами
+    handleFetchProducts(categoryID, initialFiltersState);
+
+    // Обновить состояние filtersState
+    setFiltersState(initialFiltersState);
+  };
+
   useEffect(() => {
     handleFetchProducts(state?.category?.id, '');
   }, []);
@@ -323,6 +340,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                             padding: '5px',
                           }}
                           name='brands'
+                          checked={filtersState.brands.includes(el?.id)}
                           onChange={() =>
                             handleCheckboxChange('brands', el?.id)
                           }
@@ -358,7 +376,11 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          style={{ color: '#15765B', padding: '5px' }}
+                          style={{
+                            color: '#15765B',
+                            padding: '5px',
+                          }}
+                          checked={filtersState.tags.includes(el?.tag)}
                           onChange={() => handleCheckboxChange('tags', el?.tag)}
                         />
                       }
@@ -397,7 +419,10 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
             >
               Все фильтры
             </button>
-            <span className='text-colDarkGray font-semibold flex justify-center cursor-pointer'>
+            <span
+              onClick={handleClearFilters}
+              className='text-colDarkGray font-semibold flex justify-center cursor-pointer'
+            >
               Очистить фильтр
             </span>
           </div>
