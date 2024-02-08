@@ -51,7 +51,8 @@ export const fetchCategoryProducts = async (category_id, filters) => {
   try {
     const brandsParam =
       filters?.brands?.length > 0 ? `["${filters?.brands.join('","')}"]` : '';
-    // const tagsParam = filters?.tags ? `["${filters?.tags.join('","')}"]` : '';
+    const tagsParam =
+      filters?.tags?.length > 0 ? `["${filters?.tags.join('","')}"]` : '';
     const body = new URLSearchParams({
       category_id: category_id,
       brands: brandsParam || '',
@@ -59,7 +60,7 @@ export const fetchCategoryProducts = async (category_id, filters) => {
       min_price: filters?.min_price || '',
       // min_raiting: !filters?.highRating ? 4 : '',
       // max_raiting: filters?.highRating ? 5 : '',
-      // tags: tagsParam,
+      tags: tagsParam || '',
     });
 
     const res = await request.get('api/Products/variants', {
