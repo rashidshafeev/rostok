@@ -72,3 +72,21 @@ export const fetchCategoryProducts = async (category_id, filters) => {
     return { success: false };
   }
 };
+
+export const fetchCategoryProductsBySort = async (category_id, sort) => {
+  try {
+    const body = new URLSearchParams({
+      category_id: category_id,
+      orderBy: sort?.orderBy,
+      sortOrder: sort?.sortOrder,
+    });
+
+    const res = await request.get('api/Products/variants', {
+      params: body,
+    });
+
+    return { success: true, data: res?.data?.data };
+  } catch (error) {
+    return { success: false };
+  }
+};

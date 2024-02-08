@@ -5,26 +5,80 @@ import { useState } from 'react';
 import CardLine from '../TypesOfCards/CardLine';
 import LineNarrow from '../TypesOfCards/LineNarrow';
 
-const ProdContent = ({ catProducts, isLoading }) => {
+const ProdContent = ({ catProducts, isLoading, state, handleFetchBySort }) => {
   const [cardType, setTypeCard] = useState('tile');
+  const [activeSort, setActiveSort] = useState(null);
+
+  const handleBySort = (orderBy, sortOrder) => {
+    handleFetchBySort(state?.category?.id, {
+      orderBy: orderBy,
+      sortOrder: sortOrder,
+    });
+    setActiveSort({ orderBy, sortOrder });
+  };
 
   return (
     <div className='w-full'>
       <div className='flex justify-between items-center'>
         <div className='flex space-x-3 pb-5'>
-          <span className='text-colBlack text-sm font-medium cursor-pointer'>
+          <span
+            onClick={() => {
+              handleBySort('popularity', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              activeSort?.orderBy === 'popularity' &&
+              activeSort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
             По популярности
           </span>
-          <span className='text-colGreen text-sm font-medium cursor-pointer'>
+          <span
+            onClick={() => {
+              handleBySort('price', 'asc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              activeSort?.orderBy === 'price' &&
+              activeSort?.sortOrder === 'asc' &&
+              'text-colGreen'
+            }`}
+          >
             Сначала дешёвые
           </span>
-          <span className='text-colGreen text-sm font-medium cursor-pointer'>
+          <span
+            onClick={() => {
+              handleBySort('price', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              activeSort?.orderBy === 'price' &&
+              activeSort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
             Сначала дорогие
           </span>
-          <span className='text-colGreen text-sm font-medium cursor-pointer'>
+          <span
+            onClick={() => {
+              handleBySort('rating', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              activeSort?.orderBy === 'rating' &&
+              activeSort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
             Высокий рейтинг
           </span>
-          <span className='text-colGreen text-sm font-medium cursor-pointer'>
+          <span
+            onClick={() => {
+              handleBySort('discount', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              activeSort?.orderBy === 'discount' &&
+              activeSort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
             По размеру скидки
           </span>
         </div>
