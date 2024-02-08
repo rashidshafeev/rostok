@@ -63,7 +63,6 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
   };
 
   const handleClearFilters = () => {
-    // Сбросить все фильтры в исходное состояние
     const initialFiltersState = {
       min_price: 0,
       max_price: 900000,
@@ -71,11 +70,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
       brands: [],
       tags: [],
     };
-
-    // Вызвать handleFetchProducts с исходными фильтрами
     handleFetchProducts(categoryID, initialFiltersState);
-
-    // Обновить состояние filtersState
     setFiltersState(initialFiltersState);
   };
 
