@@ -4,7 +4,6 @@ import catalogIcon2 from '../../assets/images/catalogIcon2.svg';
 import catalogIcon3 from '../../assets/images/catalogIcon3.svg';
 import { ArrowIcon } from '../Icons';
 import { useSelector } from 'react-redux';
-import ErrorEmpty from '../Errors/ErrorEmpty';
 import { NavLink } from 'react-router-dom';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
@@ -14,7 +13,6 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
 
   const handleItemClick = (id) => {
     setActiveItem(id);
-    // Здесь вы можете выполнить другие действия, связанные с выбором элемента
   };
 
   console.log(activeItem?.children);
@@ -129,7 +127,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
             <h2 className='text-2xl text-colBlack font-semibold pb-4'>
               {activeItem?.name}
             </h2>
-            {activeItem?.children?.length > 0 ? (
+            {activeItem?.children?.length > 0 && (
               <div className='grid grid-cols-3 gap-5'>
                 {activeItem?.children?.map((el) => (
                   <div key={el?.id}>
@@ -159,15 +157,6 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                     )}
                   </div>
                 ))}
-              </div>
-            ) : (
-              <div className='flex justify-center items-center w-full'>
-                <ErrorEmpty
-                  title='Ничего не нашли!'
-                  desc='К сожалению, в этой категории пока нет товаров.'
-                  height='420px'
-                  hideBtn={true}
-                />
               </div>
             )}
           </div>
