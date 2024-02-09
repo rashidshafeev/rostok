@@ -24,7 +24,7 @@ const CatMainSidebar = ({ catalog }) => {
             <div className='flex justify-between'>
               <NavLink
                 to='categories'
-                state={{ catalog: el }}
+                state={{ category: el }}
                 className='text-colBlack leading-5 font-semibold hover:underline'
               >
                 <p className='relative max-w-[170px]'>
@@ -53,7 +53,7 @@ const CatMainSidebar = ({ catalog }) => {
                   <div className='flex justify-between items-center'>
                     <NavLink
                       to='categories'
-                      state={{ catalog: child }}
+                      state={{ category: child }}
                       className='text-colBlack text-[15px] leading-4 font-medium hover:underline'
                     >
                       <p className='relative max-w-[140px] w-full'>
