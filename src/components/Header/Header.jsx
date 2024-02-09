@@ -209,7 +209,7 @@ const Header = ({ cartProducts }) => {
         {catalog?.slice(0, 14)?.map((el) => (
           <NavLink
             to='/catalog/categories'
-            state={{ catalog: el }}
+            state={{ category: el }}
             key={el?.id}
             className='whitespace-nowrap text-colBlack text-sm font-semibold'
           >
