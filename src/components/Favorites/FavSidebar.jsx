@@ -12,7 +12,7 @@ import {
   Slider,
 } from '@mui/material';
 import { IOSSwitch } from './styledComponents/IOSSwitch';
-import { ArrowIcon } from '../../helpers/Icons/Arrow';
+import { ArrowIcon } from '../../helpers/Icons/ArrowIcon';
 
 const FavSidebar = () => {
   const [value, setValue] = useState([20, 37]);

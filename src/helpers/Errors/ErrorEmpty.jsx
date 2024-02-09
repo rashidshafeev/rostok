@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-const ErrorEmpty = ({ title, desc, height }) => {
+const ErrorEmpty = ({ title, desc, height, hideBtn }) => {
   return (
     <div
       style={{ height: height }}
@@ -10,7 +10,9 @@ const ErrorEmpty = ({ title, desc, height }) => {
         <h3 className='text-2xl text-colBlack font-semibold'>{title}</h3>
         <p className='pb-6 pt-3'>{desc}</p>
         <NavLink
-          className='py-2 px-6 font-semibold text-colGreen border border-colGreen rounded'
+          className={`${
+            hideBtn && 'hidden'
+          } py-2 px-6 font-semibold text-colGreen border border-colGreen rounded`}
           to='/'
         >
           На главную
