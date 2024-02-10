@@ -4,6 +4,8 @@ import { ArrowIcon } from '../Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilters } from '../../api/filters';
 import { Loading } from '../Loader/Loader';
+import ErrorServer from '../Errors/ErrorServer';
+import ErrorEmpty from '../Errors/ErrorEmpty';
 
 const AllFiltersModal = ({ open, setOpen, category }) => {
   const { filters, loading, error } = useSelector((state) => state?.filters);
@@ -49,8 +51,8 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
             {loading ? (
               <Loading />
             ) : error ? (
-              <p>Error</p>
-            ) : (
+              <ErrorServer errorMessage='Что-то пошло не так! Пожалуйста, повторите попытку еще раз.' />
+            ) : filters?.dynamics?.length > 0 ? (
               <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
                 <div className='pt-5'>
                   <div className='grid grid-cols-3 gap-8'>
@@ -105,6 +107,12 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
                   </div>
                 </div>
               </div>
+            ) : (
+              <ErrorEmpty
+                title='Список пуст!'
+                desc='К сожалению, для этой категории нет фильтров.'
+                height='420px'
+              />
             )}
           </div>
           <div className='flex space-x-3 h-10'>
