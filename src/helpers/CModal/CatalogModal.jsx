@@ -15,8 +15,6 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
     setActiveItem(id);
   };
 
-  console.log(activeItem?.children);
-
   useEffect(() => {
     const handleBodyOverflow = () => {
       if (showCatalog) {
@@ -61,7 +59,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
       >
         <div className='flex pt-5'>
           <div className='max-w-[220px] w-full'>
-            <ul className='pr-4 border-r border-[#EBEBEB] space-y-3'>
+            <ul className='pr-4 border-r border-[#EBEBEB] space-y-3 sticky top-0'>
               <li
                 onClick={() => handleItemClick('actions')}
                 className={`${
