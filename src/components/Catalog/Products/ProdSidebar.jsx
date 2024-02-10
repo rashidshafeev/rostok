@@ -99,9 +99,9 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
 
   useEffect(() => {
     (async () => {
-      await fetchFilters(dispatch);
+      await fetchFilters(dispatch, state?.category?.id);
     })();
-  }, [dispatch]);
+  }, [dispatch, state?.category?.id]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -423,7 +423,7 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
           </div>
         </>
       )}
-      <AllFiltersModal open={open} setOpen={setOpen} />
+      <AllFiltersModal open={open} setOpen={setOpen} category={state?.category?.id} />
     </div>
   );
 };

@@ -1,14 +1,27 @@
-import { Box, Modal } from '@mui/material';
-import { allFilters } from '../../constants/data';
-import { useState } from 'react';
+import { Box, Checkbox, FormControlLabel, Modal } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { ArrowIcon } from '../Icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchFilters } from '../../api/filters';
+import { Loading } from '../Loader/Loader';
 
-const AllFiltersModal = ({ open, setOpen }) => {
+const AllFiltersModal = ({ open, setOpen, category }) => {
+  const { filters, loading, error } = useSelector((state) => state?.filters);
   const [accordion, setAccordion] = useState(null);
+
+  const dispatch = useDispatch();
+
+  console.log(filters?.dynamics);
 
   const toggleAccordion = (id) => {
     setAccordion(accordion === id ? null : id);
   };
+
+  useEffect(() => {
+    (async () => {
+      await fetchFilters(dispatch, category);
+    })();
+  }, [dispatch, category]);
 
   if (!open) return null;
 
@@ -33,30 +46,66 @@ const AllFiltersModal = ({ open, setOpen }) => {
                 &times;
               </span>
             </div>
-            <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
-              <div className='h-[1200px] pt-5'>
-                <div className='grid grid-cols-3 gap-8'>
-                  {allFilters?.map((el) => (
-                    <div
-                      key={el?.id}
-                      className='flex justify-between items-center cursor-pointer'
-                      onClick={() => toggleAccordion(el?.id)}
-                    >
-                      <span className='text-colBlack font-semibold'>
-                        {el?.name}
-                      </span>
-                      <ArrowIcon
-                        className={`!m-0 !w-4 !h-4 ${
-                          accordion === el?.id
-                            ? 'rotate-[0deg]'
-                            : 'rotate-[180deg]'
-                        }`}
-                      />
-                    </div>
-                  ))}
+            {loading ? (
+              <Loading />
+            ) : error ? (
+              <p>Error</p>
+            ) : (
+              <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
+                <div className='pt-5'>
+                  <div className='grid grid-cols-3 gap-8'>
+                    {filters?.dynamics?.map((el) => (
+                      <div key={el?.id}>
+                        <div
+                          className='flex justify-between items-center cursor-pointer'
+                          onClick={() => toggleAccordion(el?.id)}
+                        >
+                          <span className='text-colBlack font-semibold'>
+                            {el?.name}
+                          </span>
+                          <ArrowIcon
+                            className={`!m-0 !w-4 !h-4 ${
+                              accordion === el?.id
+                                ? 'rotate-[0deg]'
+                                : 'rotate-[180deg]'
+                            }`}
+                          />
+                        </div>
+                        {accordion === el?.id && el?.values?.length > 0 && (
+                          <div
+                            className={`${
+                              el?.values?.length > 10 &&
+                              'h-[274px] overflow-hidden overflow-y-scroll scrollable'
+                            } `}
+                          >
+                            {el?.values?.map((val) => (
+                              <div key={val?.id}>
+                                <FormControlLabel
+                                  style={{ margin: 0 }}
+                                  control={
+                                    <Checkbox
+                                      style={{
+                                        color: '#15765B',
+                                        padding: '2px 3px',
+                                      }}
+                                    />
+                                  }
+                                  label={
+                                    <p className='text-sm font-medium text-colBlack'>
+                                      {val?.text}
+                                    </p>
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
           </div>
           <div className='flex space-x-3 h-10'>
             <button className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'>
