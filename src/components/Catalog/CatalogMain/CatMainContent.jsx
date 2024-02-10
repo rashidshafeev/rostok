@@ -24,7 +24,7 @@ const CatMainContent = ({ catalog }) => {
             <div className='flex flex-col justify-between h-full z-10 relative'>
               <NavLink
                 to='categories'
-                state={{ catalog: el }}
+                state={{ category: el }}
                 className='text-xl hover:underline font-semibold text-colBlack w-max'
               >
                 {el?.name}

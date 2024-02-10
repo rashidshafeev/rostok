@@ -6,14 +6,14 @@ import { fetchFilters } from '../../api/filters';
 import { Loading } from '../Loader/Loader';
 import ErrorServer from '../Errors/ErrorServer';
 import ErrorEmpty from '../Errors/ErrorEmpty';
+import { useForm } from 'react-hook-form';
 
 const AllFiltersModal = ({ open, setOpen, category }) => {
   const { filters, loading, error } = useSelector((state) => state?.filters);
   const [accordion, setAccordion] = useState(null);
 
   const dispatch = useDispatch();
-
-  console.log(filters?.dynamics);
+  const { register, handleSubmit } = useForm();
 
   const toggleAccordion = (id) => {
     setAccordion(accordion === id ? null : id);
@@ -25,6 +25,10 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
     })();
   }, [dispatch, category]);
 
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   if (!open) return null;
 
   return (
@@ -35,7 +39,10 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
       aria-describedby='modal-modal-description'
     >
       <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[90%] lining-nums proportional-nums bg-white outline-none rounded-lg border-none p-6 overflow-hidden'>
-        <div className='flex flex-col justify-between h-full'>
+        <form
+          className='flex flex-col justify-between h-full'
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className='h-[90%]'>
             <div className='flex justify-between items-center'>
               <h2 className='text-colBlack text-3xl font-semibold'>
@@ -90,6 +97,7 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
                                         color: '#15765B',
                                         padding: '2px 3px',
                                       }}
+                                      {...register(val?.id)}
                                     />
                                   }
                                   label={
@@ -116,14 +124,14 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
             )}
           </div>
           <div className='flex space-x-3 h-10'>
-            <button className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'>
+            <span className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'>
               Сбросить
-            </button>
+            </span>
             <button className='bg-colGreen text-white rounded-md py-2 px-4 font-semibold w-max text-sm'>
               Применить фильтр
             </button>
           </div>
-        </div>
+        </form>
       </Box>
     </Modal>
   );
