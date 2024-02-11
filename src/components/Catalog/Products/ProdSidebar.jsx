@@ -18,7 +18,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ArrowIcon } from '../../../helpers/Icons';
 import AllFiltersModal from '../../../helpers/CModal/AllFiltersModal';
 
-const ProdSidebar = ({ state, handleFetchProducts }) => {
+const ProdSidebar = ({
+  state,
+  handleFetchProducts,
+  handleFetchAllProducts,
+}) => {
   const { filters } = useSelector((state) => state?.filters);
   const [item, setItem] = useState([]);
   const [categoryID, setCategoryID] = useState(state?.category?.id);
@@ -381,8 +385,11 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
                       }
                       label={
                         <span
-                          style={{ color: el?.text_color }}
-                          className={`bg-[${el?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+                          style={{
+                            color: el?.text_color,
+                            backgroundColor: el?.background_color,
+                          }}
+                          className='py-1 px-2 uppercase text-xs font-bold rounded-xl'
                         >
                           {el?.tag}
                         </span>
@@ -423,7 +430,12 @@ const ProdSidebar = ({ state, handleFetchProducts }) => {
           </div>
         </>
       )}
-      <AllFiltersModal open={open} setOpen={setOpen} category={state?.category?.id} />
+      <AllFiltersModal
+        open={open}
+        setOpen={setOpen}
+        category={state?.category?.id}
+        handleFetchAllProducts={handleFetchAllProducts}
+      />
     </div>
   );
 };

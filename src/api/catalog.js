@@ -73,6 +73,32 @@ export const fetchCategoryProducts = async (category_id, filters) => {
   }
 };
 
+export const fetchAllCategoryProducts = async (category_id, filters) => {
+  try {
+    const filtersString = Object.entries(filters)
+      // eslint-disable-next-line no-unused-vars
+      .filter(([_, values]) => values.length > 0)
+      .map(([filterId, values]) => `"${filterId}":${JSON.stringify(values)}`)
+      .join(',');
+
+    const queryParams = {
+      category_id: category_id,
+    };
+
+    if (filtersString.length > 0) {
+      queryParams.filters = `{${filtersString}}`;
+    }
+
+    const res = await request.get('api/Products/variants', {
+      params: queryParams,
+    });
+
+    return { success: true, data: res?.data?.data };
+  } catch (error) {
+    return { success: false };
+  }
+};
+
 export const fetchCategoryProductsBySort = async (category_id, sort) => {
   try {
     const body = new URLSearchParams({

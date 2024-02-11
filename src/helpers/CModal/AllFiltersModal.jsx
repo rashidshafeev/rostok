@@ -6,14 +6,31 @@ import { fetchFilters } from '../../api/filters';
 import { Loading } from '../Loader/Loader';
 import ErrorServer from '../Errors/ErrorServer';
 import ErrorEmpty from '../Errors/ErrorEmpty';
-import { useForm } from 'react-hook-form';
+import { fetchAllCategoryProducts } from '../../api/catalog';
 
-const AllFiltersModal = ({ open, setOpen, category }) => {
+const AllFiltersModal = ({
+  open,
+  setOpen,
+  category,
+  handleFetchAllProducts,
+}) => {
   const { filters, loading, error } = useSelector((state) => state?.filters);
   const [accordion, setAccordion] = useState(null);
+  const [selectedValues, setSelectedValues] = useState({});
+  const [isFilterLoading, setIsFilterLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const { register, handleSubmit } = useForm();
+
+  const toggleValue = (filterId, valueId) => {
+    setSelectedValues((prevState) => ({
+      ...prevState,
+      [filterId]: prevState[filterId]
+        ? prevState[filterId].includes(valueId)
+          ? prevState[filterId].filter((id) => id !== valueId)
+          : [...prevState[filterId], valueId]
+        : [valueId],
+    }));
+  };
 
   const toggleAccordion = (id) => {
     setAccordion(accordion === id ? null : id);
@@ -25,8 +42,18 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
     })();
   }, [dispatch, category]);
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async () => {
+    setIsFilterLoading(true);
+    handleFetchAllProducts(category, selectedValues);
+    const { success } = await fetchAllCategoryProducts(
+      category,
+      selectedValues
+    );
+    if (success) {
+      setOpen(false);
+      setIsFilterLoading(false);
+    }
+    setIsFilterLoading(false);
   };
 
   if (!open) return null;
@@ -39,10 +66,7 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
       aria-describedby='modal-modal-description'
     >
       <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[90%] lining-nums proportional-nums bg-white outline-none rounded-lg border-none p-6 overflow-hidden'>
-        <form
-          className='flex flex-col justify-between h-full'
-          onSubmit={handleSubmit(onSubmit)}
-        >
+        <div className='flex flex-col justify-between h-full'>
           <div className='h-[90%]'>
             <div className='flex justify-between items-center'>
               <h2 className='text-colBlack text-3xl font-semibold'>
@@ -55,7 +79,7 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
                 &times;
               </span>
             </div>
-            {loading ? (
+            {loading || isFilterLoading ? (
               <Loading />
             ) : error ? (
               <ErrorServer errorMessage='Что-то пошло не так! Пожалуйста, повторите попытку еще раз.' />
@@ -97,13 +121,30 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
                                         color: '#15765B',
                                         padding: '2px 3px',
                                       }}
-                                      {...register(val?.id)}
+                                      checked={
+                                        selectedValues[el?.id]?.includes(
+                                          val?.id
+                                        ) || false
+                                      }
+                                      onChange={() =>
+                                        toggleValue(el?.id, val?.id)
+                                      }
                                     />
                                   }
                                   label={
-                                    <p className='text-sm font-medium text-colBlack'>
-                                      {val?.text}
-                                    </p>
+                                    <div className='flex space-x-2 items-center'>
+                                      {el?.type === 'color' && (
+                                        <span
+                                          style={{
+                                            backgroundColor: val?.color,
+                                          }}
+                                          className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
+                                        ></span>
+                                      )}
+                                      <p className='text-sm font-medium text-colBlack'>
+                                        {val?.text}
+                                      </p>
+                                    </div>
                                   }
                                 />
                               </div>
@@ -127,11 +168,14 @@ const AllFiltersModal = ({ open, setOpen, category }) => {
             <span className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'>
               Сбросить
             </span>
-            <button className='bg-colGreen text-white rounded-md py-2 px-4 font-semibold w-max text-sm'>
-              Применить фильтр
+            <button
+              onClick={onSubmit}
+              className='bg-colGreen text-white rounded-md py-2 px-4 font-semibold w-max text-sm'
+            >
+              Применить
             </button>
           </div>
-        </form>
+        </div>
       </Box>
     </Modal>
   );

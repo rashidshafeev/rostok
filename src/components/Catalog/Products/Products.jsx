@@ -7,6 +7,7 @@ import ProdContent from './ProdContent';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../helpers/scrollToTop/scrollToTop';
 import {
+  fetchAllCategoryProducts,
   fetchCategoryProducts,
   fetchCategoryProductsBySort,
 } from '../../../api/catalog';
@@ -24,6 +25,16 @@ const Products = () => {
       setIsLoading(false);
     }
     setIsLoading(false);
+  };
+
+  const handleFetchAllProducts = async (category_id, filters) => {
+    const { success, data } = await fetchAllCategoryProducts(
+      category_id,
+      filters
+    );
+    if (success) {
+      setCatProducts(data);
+    }
   };
 
   const handleFetchBySort = async (category_id, sort) => {
@@ -49,7 +60,11 @@ const Products = () => {
         {state?.category?.name}
       </h3>
       <div className='flex pb-10 min-h-[420px]'>
-        <ProdSidebar state={state} handleFetchProducts={handleFetchProducts} />
+        <ProdSidebar
+          state={state}
+          handleFetchProducts={handleFetchProducts}
+          handleFetchAllProducts={handleFetchAllProducts}
+        />
         <ProdContent
           catProducts={catProducts}
           isLoading={isLoading}
