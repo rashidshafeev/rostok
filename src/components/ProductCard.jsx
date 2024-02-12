@@ -15,7 +15,7 @@ const ProductCard = ({ product, furniture, recommended }) => {
         <div className='h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img
             className='w-full h-full object-cover'
-            src={product?.files[0]?.large || noImg}
+            src={product?.files[0]?.medium || noImg}
             onError={(e) => {
               e.target.onError = null;
               e.target.src = noImg;
@@ -23,15 +23,13 @@ const ProductCard = ({ product, furniture, recommended }) => {
             alt='*'
           />
           <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
-            {product?.tags?.length > 0 ? (
+            {product?.tags?.length > 0 && (
               <span
                 style={{ color: product?.tags[0]?.text_color }}
                 className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
               >
                 {product?.tags[0]?.text}
               </span>
-            ) : (
-              <span></span>
             )}
             <FavoriteIcon onClick={() => alert('В процессе разработки')} />
           </div>
@@ -40,7 +38,7 @@ const ProductCard = ({ product, furniture, recommended }) => {
       <div className='lining-nums proportional-nums'>
         {!recommended && (
           <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px] line-clamp-1 break-all'>
-            Артикуль: {product?.sku || 'Не указано'}
+            Артикул: {product?.sku || 'Не указано'}
           </p>
         )}
         <NavLink to='#' className={`hover:underline h-10 mt-1`}>

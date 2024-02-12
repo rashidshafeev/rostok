@@ -116,7 +116,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                       {el?.name}
                     </span>
                   </div>
-                  <ArrowIcon className='rotate-[90deg]' />
+                  <ArrowIcon className='rotate-[90deg] min-w-[12px]' />
                 </li>
               ))}
             </ul>

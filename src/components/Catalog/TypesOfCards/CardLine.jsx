@@ -49,7 +49,7 @@ const CardLine = ({ product, furniture, recommended }) => {
               </p>
             </div>
             <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-              <span>Артикуль:</span>
+              <span>Артикул:</span>
               <span>3433434434</span>
             </p>
             <p className='text-xs text-colDarkGray flex items-center space-x-2'>

@@ -24,7 +24,7 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
               <div className='min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
                 <img
                   className='w-full h-full object-contain'
-                  src={product?.files[0]?.large}
+                  src={product?.files[0]?.large || noImg}
                   onError={(e) => {
                     e.target.onError = null;
                     e.target.src = noImg;
@@ -52,7 +52,7 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
               </NavLink>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                  <span>Артикуль:</span>
+                  <span>Артикул:</span>
                   <span>{product?.sku}</span>
                 </p>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>

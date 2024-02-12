@@ -142,7 +142,7 @@ const ShCartDetail = () => {
                 Количество
               </span>
               <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>10шт</span>
+              <span className='font-bold whitespace-nowrap'>10 шт</span>
             </div>
             <div className='flex justify-between items-center pt-2'>
               <span className='text-colBlack text-sm'>Вес</span>

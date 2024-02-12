@@ -17,7 +17,7 @@ const CatItemContent = () => {
     (async () => {
       setIsLoading(true);
       const { success, data } = await fetchProductsByCategory(
-        state?.catalog?.id,
+        state?.category?.id,
         1
       );
       if (success) {
@@ -26,7 +26,7 @@ const CatItemContent = () => {
       }
       setIsLoading(false);
     })();
-  }, [state?.catalog?.id]);
+  }, [state?.category?.id]);
 
   return (
     <>
