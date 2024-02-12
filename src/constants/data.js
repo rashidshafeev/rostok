@@ -51,9 +51,9 @@ export const products = [
     id: 1,
     files: [
       {
-        large:
+        medium:
           'https://podvesnov.ru/wp-content/uploads/2020/10/rotang-uley-01.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -67,9 +67,9 @@ export const products = [
     id: 2,
     files: [
       {
-        large:
+        medium:
           'https://specmebel-tver.ru/shop/image/cache/catalog/mebel/kuhnya/garnitury/stolline/catalog_11927942015012300000_1-1000x600.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -83,9 +83,9 @@ export const products = [
     id: 3,
     files: [
       {
-        large:
+        medium:
           'https://mebeltrade12.ru/upload/shop_3/4/8/5/item_48545/item_48545.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -99,8 +99,8 @@ export const products = [
     id: 4,
     files: [
       {
-        large: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
-        medium: '',
+        medium: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
+        large: '',
         small: '',
       },
     ],
@@ -113,7 +113,7 @@ export const products = [
   },
   {
     id: 5,
-    files: [{ large: '', medium: '', small: '' }],
+    files: [{ medium: '', large: '', small: '' }],
     name: 'Здесь будет название продукта',
     description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
@@ -124,9 +124,9 @@ export const products = [
     id: 6,
     files: [
       {
-        large:
+        medium:
           'https://nn-furnitura.ru/assets/images/products/410/dubmlechniiu1095.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -138,7 +138,7 @@ export const products = [
   },
   {
     id: 7,
-    files: [{ large: '', medium: '', small: '' }],
+    files: [{ medium: '', large: '', small: '' }],
     name: 'Здесь будет название продукта',
     description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
@@ -149,8 +149,8 @@ export const products = [
     id: 8,
     files: [
       {
-        large: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
-        medium: '',
+        medium: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
+        large: '',
         small: '',
       },
     ],
@@ -164,9 +164,9 @@ export const products = [
     id: 9,
     files: [
       {
-        large:
+        medium:
           'https://podvesnov.ru/wp-content/uploads/2020/10/rotang-uley-01.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -180,9 +180,9 @@ export const products = [
     id: 10,
     files: [
       {
-        large:
+        medium:
           'https://specmebel-tver.ru/shop/image/cache/catalog/mebel/kuhnya/garnitury/stolline/catalog_11927942015012300000_1-1000x600.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -196,9 +196,9 @@ export const products = [
     id: 11,
     files: [
       {
-        large:
+        medium:
           'https://mebeltrade12.ru/upload/shop_3/4/8/5/item_48545/item_48545.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -212,8 +212,8 @@ export const products = [
     id: 12,
     files: [
       {
-        large: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
-        medium: '',
+        medium: 'https://www.tdserver.ru/upload/iblock/8d7/SET1609.jpg',
+        large: '',
         small: '',
       },
     ],
@@ -226,7 +226,7 @@ export const products = [
   },
   {
     id: 13,
-    files: [{ large: '', medium: '', small: '' }],
+    files: [{ medium: '', large: '', small: '' }],
     name: 'Здесь будет название продукта',
     description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
@@ -237,9 +237,9 @@ export const products = [
     id: 14,
     files: [
       {
-        large:
+        medium:
           'https://nn-furnitura.ru/assets/images/products/410/dubmlechniiu1095.jpg',
-        medium: '',
+        large: '',
         small: '',
       },
     ],
@@ -251,7 +251,7 @@ export const products = [
   },
   {
     id: 15,
-    files: [{ large: '', medium: '', small: '' }],
+    files: [{ medium: '', large: '', small: '' }],
     name: 'Здесь будет название продукта',
     description: 'Подвесное кресло 2М бежевый/черный',
     article: '127504',
@@ -262,8 +262,8 @@ export const products = [
     id: 16,
     files: [
       {
-        large: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
-        medium: '',
+        medium: 'https://cdn.etm.ru/ipro/645/small_4sb.jpg',
+        large: '',
         small: '',
       },
     ],
