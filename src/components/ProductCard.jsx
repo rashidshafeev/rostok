@@ -42,22 +42,21 @@ const ProductCard = ({ product, furniture, recommended }) => {
           </p>
         )}
         <NavLink to='#' className={`hover:underline h-10 mt-1`}>
-          <h5 className='font-bold text-sm  break-all hover:underline line-clamp-1'>
+          <h5 className='font-medium text-sm text-colBlack line-clamp-3 h-[60px]'>
             {product?.name || 'Не указано'}
           </h5>
-          <p className='font-medium text-sm leading-4  break-all hover:underline h-[34px] line-clamp-2'>
-            {product?.description || 'Не указано'}
-          </p>
         </NavLink>
-        <div className='flex items-center py-1'>
+        <div className='flex items-center py-1 h-8'>
           <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
-            {product?.price
-              ? `${
-                  product?.price?.discount
-                    ? product?.price?.discount?.price
-                    : product?.price?.default
-                }  ${product?.price?.currency}`
-              : 'Не указано'}
+            {product?.price ? (
+              `${
+                product?.price?.discount
+                  ? product?.price?.discount?.price
+                  : product?.price?.default
+              }  ${product?.price?.currency}`
+            ) : (
+              <p className='font-semibold text-sm'>Цена не указана</p>
+            )}
           </span>
           <span className='text-xs line-through mr-2'>
             {product?.price &&
