@@ -6,7 +6,9 @@ const CatMainContent = ({ catalog }) => {
     <div className='pl-6'>
       <div className='grid grid-cols-3 gap-4'>
         {catalog?.map((el) => (
-          <div
+          <NavLink
+            to='categories'
+            state={{ category: el }}
             key={el?.id}
             className='p-5 relative bg-colSuperLight rounded-[20px] min-h-[240px]'
           >
@@ -22,36 +24,23 @@ const CatMainContent = ({ catalog }) => {
               />
             </div>
             <div className='flex flex-col justify-between h-full z-10 relative'>
-              <NavLink
-                to='categories'
-                state={{ category: el }}
-                className='text-xl hover:underline font-semibold text-colBlack w-max'
-              >
-                {el?.name}
-              </NavLink>
+              <h3 className='text-xl font-semibold text-colBlack w-max'>
+                {el?.name || 'Не указано'}
+              </h3>
               {el?.children?.length && (
                 <div className='flex flex-wrap text-colDarkGray text-xs font-semibold'>
                   {el?.children?.slice(0, 4)?.map((item) => (
-                    <NavLink
-                      to='#'
+                    <p
                       className='px-2 py-1 bg-white rounded-[20px] mr-2 mb-2'
                       key={item?.id}
                     >
                       {item?.name}
-                    </NavLink>
+                    </p>
                   ))}
-                  {el?.children?.length > 4 && (
-                    <NavLink
-                      to='#'
-                      className='px-2 py-1 bg-white rounded-[20px] mr-2 mb-2 text-colGreen'
-                    >
-                      Все категории
-                    </NavLink>
-                  )}
                 </div>
               )}
             </div>
-          </div>
+          </NavLink>
         ))}
       </div>
     </div>
