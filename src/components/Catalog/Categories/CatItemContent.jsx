@@ -73,7 +73,7 @@ const CatItemContent = () => {
                 >
                   {item?.products?.slice(0, 10)?.map((el) => (
                     <SwiperSlide key={el?.id}>
-                      <ProductCard product={el} furniture={true} />
+                      <ProductCard product={el} />
                     </SwiperSlide>
                   ))}
                 </Swiper>

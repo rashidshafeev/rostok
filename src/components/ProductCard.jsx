@@ -3,15 +3,15 @@ import { useOutletContext } from 'react-router-dom';
 import noImg from '../assets/images/no-image.png';
 import { FavoriteIcon } from '../helpers/Icons';
 
-const ProductCard = ({ product, furniture, recommended }) => {
+const ProductCard = ({ product, recommended }) => {
   const navigate = useNavigate();
   const [cartProducts, addToCart] = useOutletContext();
 
   const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
 
   return (
-    <div className='overflow-hidden relative group'>
-      <NavLink to='#'>
+    <NavLink to='#' className='overflow-hidden relative group'>
+      <div>
         <div className='h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img
             className='w-full h-full object-cover'
@@ -34,18 +34,18 @@ const ProductCard = ({ product, furniture, recommended }) => {
             <FavoriteIcon onClick={() => alert('В процессе разработки')} />
           </div>
         </div>
-      </NavLink>
+      </div>
       <div className='lining-nums proportional-nums'>
         {!recommended && (
-          <p className='text-[10px] text-colDarkGray pt-[6px] pb-[2px] line-clamp-1 break-all'>
+          <p className='text-[10px] text-colDarkGray pt-[6px] line-clamp-1 break-all'>
             Артикул: {product?.sku || 'Не указано'}
           </p>
         )}
-        <NavLink to='#' className={`hover:underline h-10 mt-1`}>
+        <p className='h-10 mt-1'>
           <h5 className='font-medium text-sm text-colBlack line-clamp-3 h-[60px]'>
             {product?.name || 'Не указано'}
           </h5>
-        </NavLink>
+        </p>
         <div className='flex items-center py-1 h-8'>
           <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
             {product?.price ? (
@@ -70,29 +70,27 @@ const ProductCard = ({ product, furniture, recommended }) => {
         </div>
         {isProductInCart ? (
           <button
-            onClick={() => navigate('/shopping-cart')}
-            className={`${
-              recommended || furniture
-                ? ''
-                : 'group-hover:opacity-100 opacity-0'
-            } bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full`}
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/shopping-cart');
+            }}
+            className='group-hover:block hidden bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
         ) : (
           <button
-            onClick={() => addToCart(product)}
-            className={`${
-              recommended || furniture
-                ? ''
-                : 'group-hover:opacity-100 opacity-0'
-            } bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full`}
+            onClick={(e) => {
+              e.preventDefault();
+              addToCart(product);
+            }}
+            className='group-hover:block hidden bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>
         )}
       </div>
-    </div>
+    </NavLink>
   );
 };
 

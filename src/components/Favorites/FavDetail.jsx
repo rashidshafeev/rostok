@@ -53,7 +53,7 @@ const FavDetail = () => {
       <div className='grid grid-cols-5 gap-5'>
         {products?.map((el) => (
           <Fragment key={el?.id}>
-            <ProductCard product={el} furniture={true} />
+            <ProductCard product={el} />
           </Fragment>
         ))}
       </div>

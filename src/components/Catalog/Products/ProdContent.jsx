@@ -139,19 +139,19 @@ const ProdContent = ({ catProducts, isLoading, state, handleFetchBySort }) => {
         cardType === 'tile' ? (
           <div className='grid grid-cols-5 gap-5'>
             {catProducts?.map((el) => (
-              <ProductCard key={el?.id} product={el} furniture={true} />
+              <ProductCard key={el?.id} product={el} />
             ))}
           </div>
         ) : cardType === 'line' ? (
           <div className='space-y-4'>
             {catProducts?.map((el) => (
-              <CardLine key={el?.id} product={el} furniture={true} />
+              <CardLine key={el?.id} product={el} />
             ))}
           </div>
         ) : (
           <div className='space-y-3'>
             {catProducts?.map((el) => (
-              <LineNarrow key={el?.id} product={el} furniture={true} />
+              <LineNarrow key={el?.id} product={el} />
             ))}
           </div>
         )

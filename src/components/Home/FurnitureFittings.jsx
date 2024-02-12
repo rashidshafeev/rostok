@@ -11,7 +11,7 @@ const FurnitureFittings = () => {
       <div className='grid grid-cols-6 gap-5'>
         {products?.map((el, index) => (
           <React.Fragment key={el?.id}>
-            <ProductCard product={el} furniture={true} />
+            <ProductCard product={el} />
             {index === 3 && (
               <div className='col-span-2 col-start-5 col-end-7 row-start-1 row-end-3 bg-[#CFE0D3] px-5 py-3 rounded-xl'>
                 <h3 className='text-lg font-semibold text-colBlack pb-4'>

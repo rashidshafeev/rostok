@@ -37,7 +37,7 @@ const ComDetail = () => {
       <div className='flex space-x-5 pt-3 pb-8 overflow-x-scroll'>
         <ul className='min-w-[220px] space-y-7' key={products[0]?.id}>
           <li>
-            <ProductCard product={products[0]} furniture={true} />
+            <ProductCard product={products[0]} />
           </li>
           <li className='text-colBlack text-sm'>
             <span className='text-xs text-colGreen font-bold uppercase'>
@@ -123,7 +123,7 @@ const ComDetail = () => {
         {products?.slice(1)?.map((product) => (
           <ul className='min-w-[220px] space-y-7' key={product?.id}>
             <li>
-              <ProductCard product={product} furniture={true} />
+              <ProductCard product={product} />
             </li>
             <li className='text-colBlack text-sm'>
               <span className='text-xs text-colGreen font-bold uppercase invisible'>
