@@ -10,6 +10,7 @@ import {
   Home,
   Profile,
   ShoppingCart,
+  ProductPage
 } from '../pages';
 import {
   CatItem,
@@ -29,11 +30,12 @@ export const router = createBrowserRouter(
         <Route path='shopping-cart' element={<ShoppingCart />} />
         <Route path='favorites' element={<Favorites />} />
         <Route path='comparison' element={<Comparison />} />
-        <Route path='catalog'>
+        <Route path='catalog' >
           <Route index element={<Catalog />} />
-          <Route path='categories'>
+          <Route path=':categoryId'>
             <Route index element={<CatItem />} />
-            <Route path='products' element={<Products />} />
+            {/* <Route path='products' element={<Products />} />
+            <Route path='product/:productId' element={<ProductPage />} /> */}
           </Route>
         </Route>
         <Route path='profile' element={<Profile />}>

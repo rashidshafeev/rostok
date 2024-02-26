@@ -30,6 +30,7 @@ const CatItemContent = () => {
 
   return (
     <>
+    
       {isLoading ? (
         <Loading extraStyle='520px' />
       ) : (

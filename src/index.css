@@ -74,7 +74,7 @@ body {
 .css-o4b71y-MuiAccordionSummary-content.Mui-expanded {
   margin: 6px 0 !important;
 }
-// Remove input type number arrows:
+/* // Remove input type number arrows: */
 input[type='number'] {
   -moz-appearance: textfield;
 }
@@ -89,7 +89,7 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-// for Edge
+/* // for Edge */
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;

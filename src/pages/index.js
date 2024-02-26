@@ -4,5 +4,6 @@ import Favorites from './Favorites/Favorites';
 import Comparison from './Comparison/Comparison';
 import Profile from './Profile/Profile';
 import Catalog from './Catalog/Catalog';
+import ProductPage from './ProductPage/ProductPage';
 
-export { Home, ShoppingCart, Favorites, Comparison, Profile, Catalog };
+export { Home, ShoppingCart, Favorites, Comparison, Profile, Catalog, ProductPage };

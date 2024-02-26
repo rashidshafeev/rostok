@@ -4,6 +4,11 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
 import catalogReducer from './slices/catalogSlice';
 import filtersReducer from './slices/filtersSlice';
+import cartReducer from './slices/cartSlice';
+import createSagaMiddleware from '@redux-saga/core'
+import rootSaga from './sagas/rootSaga';
+
+const saga = createSagaMiddleware()
 
 const persistConfig = {
   key: 'root',
@@ -15,16 +20,39 @@ const rootReducer = combineReducers({
   user: userReducer,
   catalog: catalogReducer,
   filters: filtersReducer,
+  cart: cartReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
+// export const store = configureStore({
+//   reducer: persistedReducer,
+//   middleware: (getDefaultMiddleware) =>
+//     getDefaultMiddleware({
+//       serializableCheck: false,
+//     }),
+// });
+
+
 export const store = configureStore({
+  // reducer: {
+  //   user: userReducer,
+  // catalog: catalogReducer,
+  // filters: filtersReducer,
+  // cart: cartReducer,
+  // },
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: false,
-    }),
+  middleware: (getDefaultMiddleware) => {
+    return getDefaultMiddleware({
+            serializableCheck: false,
+          }).concat(saga)
+  },
 });
 
+saga.run(rootSaga)
+
+export default store
+
 export const persistor = persistStore(store);
+
+

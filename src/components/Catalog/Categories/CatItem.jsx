@@ -4,11 +4,13 @@ import Brands from '../../Home/Brands';
 import Promotions from '../../Home/Promotions';
 import CatItemContent from './CatItemContent';
 import CatItemSidebar from './CatItemSidebar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import { scrollToTop } from '../../../helpers/scrollToTop/scrollToTop';
 
 const CatItem = () => {
   const { state } = useLocation();
+  const { params } = useParams();
+  console.log(params)
 
   useEffect(() => {
     scrollToTop();
