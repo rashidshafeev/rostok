@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
-  const { catalog } = useSelector((state) => state?.catalog);
+  const { categoryTree } = useSelector((state) => state?.categoryTree);
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState(null);
 
@@ -102,7 +102,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                 </div>
                 <ArrowIcon className='rotate-[90deg]' />
               </li>
-              {catalog?.map((el) => (
+              {categoryTree?.map((el) => (
                 <li
                   key={el?.id}
                   onClick={() => handleItemClick(el)}

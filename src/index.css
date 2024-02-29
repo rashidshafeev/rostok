@@ -99,3 +99,14 @@ input[type='number']::-webkit-inner-spin-button {
 input[type='number'] {
   -moz-appearance: textfield;
 }
+
+
+/* PRODUCT GALLERY */
+
+.gallery .lg-backdrop {
+  background: transparent;
+}
+
+.gallery .lg-thumb-outer {
+  background: transparent;
+}

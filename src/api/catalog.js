@@ -1,8 +1,8 @@
-import {
-  fetchCatalogFailure,
-  fetchCatalogStart,
-  fetchCatalogSuccess,
-} from '../redux/slices/catalogSlice';
+// import {
+//   fetchCatalogFailure,
+//   fetchCatalogStart,
+//   fetchCatalogSuccess,
+// } from '../redux/slices/catalogSlice';
 import { request } from './axios';
 
 export const fetchCatalogOfProducts = async (dispatch) => {

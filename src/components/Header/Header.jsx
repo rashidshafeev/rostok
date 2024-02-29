@@ -5,7 +5,7 @@ import logo from '../../assets/images/logo.svg';
 import { useEffect, useState } from 'react';
 import AuthModal from '../../helpers/CModal/AuthModal';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCatalogOfProducts } from '../../api/catalog';
+import { fetchCategoryTreeStart } from '../../redux/slices/categoryTreeSlice';
 import PreHeader from './PreHeader';
 import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';
@@ -15,13 +15,14 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
 
-  const { catalog } = useSelector((state) => state?.catalog);
+  const { categoryTree } = useSelector((state) => state?.categoryTree);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      await fetchCatalogOfProducts(dispatch);
-    })();
+    // (async () => {
+    //   await fetchCatalogOfProducts(dispatch);
+    // })();
+    dispatch(fetchCategoryTreeStart())
   }, [dispatch]);
 
   return (
@@ -75,7 +76,7 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
         <SearchBar/>
         <HeaderControls cartProducts={cartProducts} />
       </div>
-      <CatalogFastAccess catalog={catalog} />
+      <CatalogFastAccess catalog={categoryTree} />
       <AuthModal
         open={open}
         setOpen={setOpen}

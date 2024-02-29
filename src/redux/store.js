@@ -2,11 +2,12 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
-import catalogReducer from './slices/catalogSlice';
+import categoryTreeReducer from './slices/categoryTreeSlice';
 import filtersReducer from './slices/filtersSlice';
 import cartReducer from './slices/cartSlice';
 import createSagaMiddleware from '@redux-saga/core'
 import rootSaga from './sagas/rootSaga';
+import productsReducer from './slices/productsSlice';
 
 const saga = createSagaMiddleware()
 
@@ -18,7 +19,8 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  catalog: catalogReducer,
+  categoryTree: categoryTreeReducer,
+  product: productsReducer,
   filters: filtersReducer,
   cart: cartReducer,
 });

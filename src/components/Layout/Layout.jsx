@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import CatalogModal from '../../helpers/CModal/CatalogModal';
 
 const Layout = () => {
+  
   const [cartProducts, setCartProducts] = useState([]);
   const [showCatalog, setShowCatalog] = useState(false);
   const { pathname } = useLocation();

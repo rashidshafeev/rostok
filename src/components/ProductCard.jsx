@@ -6,11 +6,12 @@ import { FavoriteIcon } from '../helpers/Icons';
 const ProductCard = ({ product, recommended }) => {
   const navigate = useNavigate();
   const [cartProducts, addToCart] = useOutletContext();
+  console.log(product)
 
   const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
 
   return (
-    <NavLink to='#' className='overflow-hidden relative group'>
+    <NavLink to={product.id} className='overflow-hidden relative group'>
       <div>
         <div className='h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img
@@ -74,7 +75,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='group-hover:block hidden bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='group-hover:visible invisible bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -84,7 +85,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               addToCart(product);
             }}
-            className='group-hover:block hidden bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='group-hover:visible invisible bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>
