@@ -5,5 +5,6 @@ import Comparison from './Comparison/Comparison';
 import Profile from './Profile/Profile';
 import Catalog from './Catalog/Catalog';
 import ProductPage from './ProductPage/ProductPage';
+import ReviewsPage from './Reviews/ReviewsPage';
 
-export { Home, ShoppingCart, Favorites, Comparison, Profile, Catalog, ProductPage };
+export { Home, ShoppingCart, Favorites, Comparison, Profile, Catalog, ProductPage, ReviewsPage };

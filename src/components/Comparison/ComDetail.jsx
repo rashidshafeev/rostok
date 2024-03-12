@@ -35,9 +35,9 @@ const ComDetail = () => {
         </li>
       </ul>
       <div className='flex space-x-5 pt-3 pb-8 overflow-x-scroll'>
-        <ul className='min-w-[220px] space-y-7' key={products[0]?.id}>
-          <li>
-            <ProductCard product={products[0]} />
+        <ul className='min-w-[220px] space-y-7 ' key={products[0]?.id}>
+          <li className='sticky'>
+            <ProductCard sticky={true} product={products[0]} />
           </li>
           <li className='text-colBlack text-sm'>
             <span className='text-xs text-colGreen font-bold uppercase'>

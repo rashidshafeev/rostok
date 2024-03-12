@@ -9,6 +9,7 @@ import {
 
 
 function* workFetchCategoryTreeStart() {
+    console.log("fire1")
     try {
         const categories = yield request.get('api/Products/categoryTree')
         yield delay(500)

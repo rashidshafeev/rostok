@@ -6,12 +6,11 @@ import { FavoriteIcon } from '../helpers/Icons';
 const ProductCard = ({ product, recommended }) => {
   const navigate = useNavigate();
   const [cartProducts, addToCart] = useOutletContext();
-  console.log(product)
-
+  
   const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
 
   return (
-    <NavLink to={product.id} className='overflow-hidden relative group'>
+    <NavLink to={product.id} className='overflow-hidden sticky top-0 block group'>
       <div>
         <div className='h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img

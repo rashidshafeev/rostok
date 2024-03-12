@@ -19,9 +19,11 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log('test')
     // (async () => {
     //   await fetchCatalogOfProducts(dispatch);
     // })();
+
     dispatch(fetchCategoryTreeStart())
   }, [dispatch]);
 

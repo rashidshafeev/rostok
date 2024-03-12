@@ -11,8 +11,9 @@ const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
   const { pathname } = useLocation();
   const shouldRenderBreadcrumbs = !excludedPaths.includes(pathname);
-
   useEffect(() => {
+ console.log('layout')
+
     const updateCartProducts = () => {
       const cartData = localStorage.getItem('cart');
       const cartArray = cartData ? JSON.parse(cartData) : [];

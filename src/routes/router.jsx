@@ -10,7 +10,8 @@ import {
   Home,
   Profile,
   ShoppingCart,
-  ProductPage
+  ProductPage,
+  ReviewsPage
 } from '../pages';
 import {
   CatItem,
@@ -36,6 +37,7 @@ export const router = createBrowserRouter(
             <Route index element={<CatItem />} />
               {/* <Route path='products' element={<Products />} /> */}
               <Route path=':productId' element={<ProductPage />} />
+              <Route path=':productId/review' element={<ReviewsPage />} />
           </Route>
         </Route>
         <Route path='profile' element={<Profile />}>

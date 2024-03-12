@@ -13,7 +13,7 @@ function* workFetchProductStart(action) {
     try {
         console.log(action)
         const params = action.payload
-        const products = yield request.get(`api/Products/variants?id=${params}`)
+        const products = yield request.get(`api/Products/item?id=${params}`)
         yield delay(500)
         yield put(fetchProductSuccess(products.data.data))
     } catch (error) {
