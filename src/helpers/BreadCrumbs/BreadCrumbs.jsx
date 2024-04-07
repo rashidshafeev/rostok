@@ -5,7 +5,7 @@ import { crumbLinkReplacer } from './crumbLinkReplacer';
 
 const Breadcrumbs = () => {
   const { pathname, state } = useLocation();
-
+  console.log(state)
   const crumbs = [];
   if (state && state.category) {
     crumbs.push(

@@ -23,6 +23,20 @@ import {
   Products,
 } from '../components';
 
+const fetchProduct = async ({ params }) => {
+  console.log(params);
+  let group = await fetch(`https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`, {
+    method: 'GET', // or 'POST'
+    headers: {
+      'Content-Type': 'application/json',
+      // 'Authorization': 'Bearer your-token' (if needed)
+    },
+    // body: JSON.stringify(data), (if you have data to send with the request)
+  })
+  return group;
+}
+
+
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route>
@@ -35,9 +49,11 @@ export const router = createBrowserRouter(
           <Route index element={<Catalog />} />
           <Route path=':categoryId'>
             <Route index element={<CatItem />} />
-              {/* <Route path='products' element={<Products />} /> */}
-              <Route path=':productId' element={<ProductPage />} />
-              <Route path=':productId/review' element={<ReviewsPage />} />
+            {/* <Route path='products' element={<Products />} /> */}
+            <Route path=':productId'>
+              <Route index element={<ProductPage />} loader={fetchProduct} />
+              <Route path='reviews' element={<ReviewsPage />} />
+            </Route>
           </Route>
         </Route>
         <Route path='profile' element={<Profile />}>
@@ -49,4 +65,5 @@ export const router = createBrowserRouter(
       </Route>
     </Route>
   )
-);
+)
+

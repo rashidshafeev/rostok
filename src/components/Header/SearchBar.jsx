@@ -9,7 +9,7 @@ function SearchBar() {
           className='max-w-[780px] w-full border-colGreen border rounded-md flex justify-between'
         >
           <input
-            className='w-full h-10 outline-none rounded-md bg-white px-3'
+            className='w-full h-10 outline-none rounded-l-md bg-white px-3'
             type='search'
             placeholder='Поиск по сайту'
           />

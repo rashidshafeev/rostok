@@ -11,6 +11,7 @@ const Comparison = () => {
   const comparison = [];
 
   return (
+    <>
     <div className='content pb-6'>
       <h1 className='text-[40px] font-semibold text-colBlack'>
         Сравнение товаров
@@ -25,6 +26,12 @@ const Comparison = () => {
         />
       )}
     </div>
+    <div>
+        <tr>
+          
+        </tr>
+    </div>
+    </>
   );
 };
 

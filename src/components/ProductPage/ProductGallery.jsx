@@ -1,0 +1,72 @@
+import React from 'react'
+
+import ImageGallery from "react-image-gallery";
+// import stylesheet if you're not already using CSS @import
+import "react-image-gallery/styles/css/image-gallery.css";
+import LeftNav from './Gallery/LeftNav';
+import RightNav from './Gallery/RightNav';
+
+function ProductGallery({ files }) {
+    console.log(files)
+    const images = []
+
+    const renderVideo = (item) => {
+        return (
+          <div className="video-wrapper">
+            <iframe
+              className='rounded-lg'
+              width="100%"
+              height="480px"
+              src={item.embedUrl}
+              frameBorder="0"
+              allowFullScreen
+              title="ex"
+            />
+          </div>
+        );
+      };
+     
+      const renderImage = (item) => {
+        return (
+          <div className="h-[480px] flex flex-col justify-center">
+            <img src={item.original} className="shrink object-contain rounded-xl" alt="" />
+          </div>
+        );
+      };
+
+    files?.forEach((file) => {
+        if (file.type === "image") {
+      
+          images.push({
+            original: file.large,
+            thumbnail: file.small,
+            renderItem: renderImage.bind(this),
+          })
+      
+        } else if (file.type === "video") {
+      
+          images.push({
+            embedUrl: file.url,
+            thumbnail: 'video/mp4',
+            renderItem: renderVideo.bind(this),
+            originalHeight: "480px",
+          })
+      
+        }
+      
+      })
+
+      
+
+console.log("images")
+console.log(images)
+
+  return (
+    <ImageGallery
+              renderLeftNav={(onClick, disabled) => (<LeftNav onClick={onClick} disabled={disabled} />)}
+              renderRightNav={(onClick, disabled) => (<RightNav onClick={onClick} disabled={disabled} />)}
+              items={images} showVideo={true} additionalClass="" showFullscreenButton={false} showPlayButton={false} />
+  )
+}
+
+export default ProductGallery

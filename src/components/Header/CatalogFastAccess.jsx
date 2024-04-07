@@ -34,7 +34,7 @@ function CatalogFastAccess({catalog}) {
         </NavLink>
         {catalog?.slice(0, 14)?.map((el) => (
           <NavLink
-            to='/catalog/categories'
+            to={`catalog/${el.slug}`}
             state={{ category: el }}
             key={el?.id}
             className='whitespace-nowrap text-colBlack text-sm font-semibold'

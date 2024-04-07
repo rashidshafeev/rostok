@@ -27,9 +27,33 @@ function ProductAttributesList({list, current, handleChangeAttribute}) {
             return (
                 // <ProductAttribute  key={attr} id={attr} attribute={list[attr]} current={current} handleChangeAttribute={handleChangeAttribute}/>
                 <div key={attr}>
-                    <div className='flex'><p className='text-colDarkGray mr-1'>{list[attr].name}:</p>{current[attr].text}</div>
+                    <div className='flex'><p className='text-colDarkGray mr-1'>{list[attr].name}:</p>{current[attr].text ?? 'test'}</div>
+                    <Popover
+                        id="mouse-over-popover"
+                        sx={{
+                            pointerEvents: 'none',
+                        }}
+                        open={open}
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        onClose={handlePopoverClose}
+                        disableRestoreFocus
+                    // container={anchorEl.parentNode}
+                    >
+                        <div className='h-[100px]'>
+                            I use Popover.
+                        </div>
+
+                    </Popover>
                     <div className='flex flex-wrap gap-2'>
-                        {list[attr].values.map((value) => <ProductAttributeValue key={attr} id={attr} value={value} current={current} handleChangeAttribute={handleChangeAttribute} />)}
+                        {list[attr].values.map((value, i) => <ProductAttributeValue key={i} id={attr} value={value} current={current} handleChangeAttribute={handleChangeAttribute} />)}
 
                     </div>
                 </div>

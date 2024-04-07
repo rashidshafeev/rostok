@@ -5,9 +5,12 @@ import catalogIcon3 from '../../assets/images/catalogIcon3.svg';
 import { ArrowIcon } from '../Icons';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { useGetCategoryTreeQuery } from '../../redux/api/api';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
-  const { categoryTree } = useSelector((state) => state?.categoryTree);
+  const { isLoading, isError, error, data } = useGetCategoryTreeQuery()
+  const categoryTree = data
+
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState(null);
 
@@ -105,7 +108,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
               {categoryTree?.map((el) => (
                 <li
                   key={el?.id}
-                  onClick={() => handleItemClick(el)}
+                  onMouseOver={() => handleItemClick(el)}
                   className={`${
                     activeItem?.id === el?.id && 'bg-colSuperLight'
                   } flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1`}
@@ -127,10 +130,12 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
             </h2>
             {activeItem?.children?.length > 0 && (
               <div className='grid grid-cols-3 gap-5'>
-                {activeItem?.children?.map((el) => (
+                {activeItem?.children?.map((el) => {
+                  console.log(el)
+                  return (
                   <div key={el?.id}>
                     <NavLink
-                      to='/catalog/categories'
+                      to={`/catalog/${el?.slug}`}
                       state={{ category: el }}
                       onClick={() => setShowCatalog(false)}
                       className='font-semibold text-colBlack hover:text-colGreen'
@@ -142,7 +147,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                         {el?.children?.map((child) => (
                           <div key={child?.id}>
                             <NavLink
-                              to='/catalog/categories/products'
+                              to={`/catalog/${child?.slug}`}
                               state={{ category: child }}
                               onClick={() => setShowCatalog(false)}
                               className='text-colBlack text-sm hover:text-colGreen'
@@ -154,7 +159,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                       </div>
                     )}
                   </div>
-                ))}
+                )})}
               </div>
             )}
           </div>

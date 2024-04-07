@@ -8,8 +8,24 @@ import cartReducer from './slices/cartSlice';
 import createSagaMiddleware from '@redux-saga/core'
 import rootSaga from './sagas/rootSaga';
 import productsReducer from './slices/productsSlice';
+import { api } from './api/api';
+import { createLogger } from 'redux-logger';
+import favoriteReducer from './slices/favoriteSlice';
+import comparisonReducer from './slices/comparisonSlice';
 
 const saga = createSagaMiddleware()
+
+const logger = createLogger({collapsed: true,
+ duration: true,
+ diff: true,
+ colors: {
+   title: () => '#000',
+   prevState: () => '#9E9E9E',
+   action: () => '#000',
+   nextState: () => '#000',
+   error: () => '#FF0000',
+ },
+});
 
 const persistConfig = {
   key: 'root',
@@ -23,6 +39,9 @@ const rootReducer = combineReducers({
   product: productsReducer,
   filters: filtersReducer,
   cart: cartReducer,
+  favorite: favoriteReducer,
+  comparison: comparisonReducer,
+  [api.reducerPath]: api.reducer
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -44,14 +63,18 @@ export const store = configureStore({
   // cart: cartReducer,
   // },
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware({
-            serializableCheck: false,
-          }).concat(saga)
-  },
+  // middleware: (getDefaultMiddleware) => {
+  //   return getDefaultMiddleware({
+  //           serializableCheck: false,
+  //         }).concat(saga)
+  // },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+                serializableCheck: false,
+              }).concat(api.middleware),
 });
 
-saga.run(rootSaga)
+// saga.run(rootSaga)
 
 export default store
 

@@ -32,7 +32,7 @@ const CatItemSidebar = ({ state }) => {
           <li key={el?.id} className='pl-3'>
             <div className='flex justify-between'>
               <NavLink
-                to='products'
+                to={`../${el.slug}`}
                 state={{ category: el }}
                 className='text-colBlack leading-5 font-semibold hover:underline'
               >
@@ -61,7 +61,7 @@ const CatItemSidebar = ({ state }) => {
                 <div key={child?.id}>
                   <div className='flex justify-between items-center'>
                     <NavLink
-                      to='products'
+                      to={`../${child.slug}`}
                       state={{ category: child }}
                       className='text-colBlack text-[15px] leading-4 font-medium hover:underline'
                     >

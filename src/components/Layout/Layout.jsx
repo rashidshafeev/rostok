@@ -4,6 +4,7 @@ import { excludedPaths } from '../../helpers/BreadCrumbs/crumbLinkReplacer';
 import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import { useEffect, useState } from 'react';
 import CatalogModal from '../../helpers/CModal/CatalogModal';
+import { useDispatch, useSelector } from 'react-redux';
 
 const Layout = () => {
   
@@ -11,17 +12,26 @@ const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
   const { pathname } = useLocation();
   const shouldRenderBreadcrumbs = !excludedPaths.includes(pathname);
-  useEffect(() => {
- console.log('layout')
 
-    const updateCartProducts = () => {
-      const cartData = localStorage.getItem('cart');
-      const cartArray = cartData ? JSON.parse(cartData) : [];
-      setCartProducts(cartArray);
-    };
+//   useEffect(() => {
+//  console.log('layout')
 
-    updateCartProducts();
-  }, []);
+//     const updateCartProducts = () => {
+//       const cartData = localStorage.getItem('cart');
+//       const cartArray = cartData ? JSON.parse(cartData) : [];
+//       setCartProducts(cartArray);
+//     };
+
+//     updateCartProducts();
+//   }, []);
+const dispatch = useDispatch()
+
+useEffect(() => {
+  // dispatch()
+}, [dispatch])
+
+const { cart } = useSelector((state) => state?.cart);
+console.log(cart)
 
   const addToCart = (product) => {
     const cartData = localStorage.getItem('cart');

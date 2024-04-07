@@ -1,18 +1,42 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import noImg from '../assets/images/no-image.png';
-import { FavoriteIcon } from '../helpers/Icons';
+// import { FavoriteIcon } from '../helpers/Icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart } from '../redux/slices/cartSlice';
+import { toggleFavorite } from '../redux/slices/favoriteSlice';
+import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
+import { toggleComparison } from '../redux/slices/comparisonSlice';
+
 
 const ProductCard = ({ product, recommended }) => {
-  const navigate = useNavigate();
-  const [cartProducts, addToCart] = useOutletContext();
   
-  const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
+  const navigate = useNavigate();
+  
+  const cart = useSelector(state => state?.cart)
+  const favorite = useSelector(state => state?.favorite)
+  const comparison = useSelector(state => state?.comparison)
+  
+  const dispatch = useDispatch()
+
+  const handleToggleFavorite = (event) => {
+    event.preventDefault()
+    dispatch(toggleFavorite(product))
+  }
+
+  const handleToggleComparison = (event) => {
+    event.preventDefault()
+    dispatch(toggleComparison(product))
+  }
+
+  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
+  const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
 
   return (
-    <NavLink to={product.id} className='overflow-hidden sticky top-0 block group'>
+    <NavLink to={product.slug} className='overflow-hidden group'>
       <div>
-        <div className='h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
+        <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img
             className='w-full h-full object-cover'
             src={product?.files[0]?.medium || noImg}
@@ -31,8 +55,10 @@ const ProductCard = ({ product, recommended }) => {
                 {product?.tags[0]?.text}
               </span>
             )}
-            <FavoriteIcon onClick={() => alert('В процессе разработки')} />
+            <FavoriteIcon className='transition-all duration-500 hover:scale-110 absolute right-2' favorite={isProductInFavorite} onClick={handleToggleFavorite} />
           </div>
+          <ComparisonIcon className='group-hover:opacity-100 opacity-0 flex items-center justify-center w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
+  comparison={isProductInComparison}  onClick={handleToggleComparison}></ComparisonIcon>
         </div>
       </div>
       <div className='lining-nums proportional-nums'>
@@ -74,7 +100,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='group-hover:visible invisible bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all	duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -82,9 +108,10 @@ const ProductCard = ({ product, recommended }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              addToCart(product);
+              // addToCart(product);
+              dispatch(addToCart(product))
             }}
-            className='group-hover:visible invisible bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all	 duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>

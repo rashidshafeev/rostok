@@ -7,18 +7,33 @@ import checkicon from '../../assets/icons/check-icon.svg';
 import stallicon from '../../assets/icons/stall-icon.svg';
 import truckicon from '../../assets/icons/truck-icon.svg';
 import boxicon from '../../assets/icons/box-icon.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
+import { addToCart, changeQuantity } from '../../redux/slices/cartSlice';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-function RightBar() {
+function RightBar({product}) {
+    console.log(product)
+    const navigate = useNavigate()
+    const [quantity, setQuantity] = React.useState(1);
+    const dispatch = useDispatch();
+    const cart = useSelector(state => state?.cart)
+    const productInCart = cart?.cart?.find((el) => el?.id === product?.id);
+  
+    // const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
+
+
+
     return (
-        <>
+        <> 
             <div className='shadow-[1px_1px_34px_0_rgba(0,0,0,0.1)] p-5 rounded-xl flex flex-col gap-8 mb-5'>
-
-                <div className='flex justify-between'>
+            
+            { productInCart && <div className='flex justify-between'>
                     <div className='flex flex-col items-start'>
                         <div className='text-lg font-medium'>14 528 ₽</div>
                         <div className='text-colGray text-sm line-through	'>19 080</div>
                     </div>
-                    <div className='flex justify-center items-center'>
+                    {/* <div className='flex justify-center items-center'>
                         <div className='bg-colSuperLight w-8 h-8 rounded-full flex'>
                             <img className='mx-auto w-5' src={minusbutton} alt='*' />
                         </div>
@@ -26,15 +41,40 @@ function RightBar() {
                         <div className='bg-colSuperLight w-8 h-8 rounded-full flex'>
                             <img className='mx-auto w-5' src={plusbutton} alt='*' />
                         </div>
-                    </div>
-                </div>
+                    </div> */}
+<div className='flex items-center space-x-3'>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+              onClick={() => {dispatch(changeQuantity({product, quantity: -1}))}}>
+                <RemoveOutlined className='text-colGreen cursor-pointer' />
+              </span>
+              <span className='font-semibold'>{productInCart.quantity}</span>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+              onClick={() => {dispatch(changeQuantity({product, quantity: 1}))}}>
+                <AddOutlined className='text-colGreen cursor-pointer' />
+              </span>
+            </div>
+                </div> }
 
-                <div className='flex flex-col gap-3'>
+                { !productInCart && <div className='flex flex-col gap-3'>
 
-                    <div className='py-3 flex justify-center text-white font-semibold bg-colGreen w-full rounded cursor-pointer'>Добавить в корзину</div>
-                    <div className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'>Купить в 1 клик</div>
+                    <button className='py-3 flex justify-center text-white font-semibold bg-colGreen w-full rounded cursor-pointer'
+                    onClick={() =>{dispatch(addToCart(product))}}>Добавить в корзину</button>
+                    
+                    
+                    <button className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'>Купить в 1 клик</button>
 
-                </div>
+                </div> }
+
+                { productInCart &&
+<NavLink>
+                <button className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'
+                onClick={(e) => {
+                    e.preventDefault();
+                    navigate('/shopping-cart');
+                  }}>Перейти в корзину</button>
+
+</NavLink>}
+
 
                 <div className='flex justify-center text-colGreen font-semibold underline underline-offset-8 cursor-pointer'>
                     Узнать цену для юрлиц

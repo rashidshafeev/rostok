@@ -8,7 +8,7 @@ import File from './File';
 function FilesTab() {
     return (
         <>
-            <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Файлы для скачивания</h4>
+            <h3 className='text-2xl mt-5 font-semibold'>Файлы для скачивания</h3>
 
             <div className='flex gap-10 flex-wrap'>
                 <File name="Информация по уходу"></File>

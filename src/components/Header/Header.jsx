@@ -10,23 +10,15 @@ import PreHeader from './PreHeader';
 import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';
 import HeaderControls from './HeaderControls';
+import { useGetCategoryTreeQuery } from '../../redux/api/api';
 
 const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
 
-  const { categoryTree } = useSelector((state) => state?.categoryTree);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    console.log('test')
-    // (async () => {
-    //   await fetchCatalogOfProducts(dispatch);
-    // })();
-
-    dispatch(fetchCategoryTreeStart())
-  }, [dispatch]);
-
+  const { isLoading, isError, error, data } = useGetCategoryTreeQuery()
+  const categoryTree = data
+  
   return (
     <>
       <PreHeader/>
@@ -76,7 +68,7 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
           <span className='ml-2'>Каталог</span>
         </button>
         <SearchBar/>
-        <HeaderControls cartProducts={cartProducts} />
+        <HeaderControls cartProducts={cartProducts} setOpen={setOpen} setContent={setContent}/>
       </div>
       <CatalogFastAccess catalog={categoryTree} />
       <AuthModal

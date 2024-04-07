@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
@@ -7,22 +7,30 @@ import ShCartItem from './ShCartItem';
 import ShCartItemLine from './ShCartItemLine';
 import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
+import { useDispatch, useSelector } from 'react-redux';
+import plural from 'plural-ru'
+import { removeFromCart } from '../../redux/slices/cartSlice';
 
 const ShCartDetail = () => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [selectedItemIds, setSelectedItemIds] = useState([]);
   const [itemType, setItemType] = useState('lineBig');
+  const [filteredCart, setFilteredCart] = useState([])
 
   // eslint-disable-next-line no-unused-vars
-  const [cartProducts, addToCart, removeFromCart, removeAllCart] =
-    useOutletContext();
+  // const [cartProducts, addToCart, removeFromCart, removeAllCart] =
+  //   useOutletContext();
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state?.cart);
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
+
     setSelectAllChecked(isChecked);
 
     if (isChecked) {
-      const allItemIds = cartProducts?.map((el) => el.id);
+      const allItemIds = cart?.cart.map((el) => el);
+      console.log(allItemIds)
       setSelectedItemIds(allItemIds);
     } else {
       setSelectedItemIds([]);
@@ -38,14 +46,35 @@ const ShCartDetail = () => {
     }
   };
 
+  const handleRemoveSelected = () => {
+    selectedItemIds.forEach((product) => {
+      dispatch(removeFromCart(product));
+
+    })
+  }
+
+  useEffect(() => {
+    setFilteredCart(cart?.cart)
+  }, [cart])
+
+  const handleFilter = (event) => {
+    const filterValue = event.target.value;
+
+    let filteredCart = [...cart.cart].filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase())||product.sku.includes(filterValue))
+
+    setFilteredCart(filteredCart)
+  }
+
   return (
     <>
       <div className='max-w-[460px] w-full pt-3'>
         <CSearchField
-          label='Введите наименование или артикуль'
+          label='Введите наименование или артикул'
           name='search'
           type='search'
+          handleFilter={handleFilter}
         />
+
       </div>
       <div className='flex space-x-10 py-5'>
         <div className='w-[70%]'>
@@ -60,7 +89,7 @@ const ShCartDetail = () => {
                 />
               </div>
               <button
-                onClick={() => removeAllCart(selectedItemIds)}
+                onClick={handleRemoveSelected}
                 className='text-colDarkGray font-medium text-sm ml-4'
               >
                 Удалить выбранные
@@ -103,11 +132,14 @@ const ShCartDetail = () => {
           </div>
           {itemType === 'lineBig' ? (
             <ShCartItem
+              cart={filteredCart}
               selectedItemIds={selectedItemIds}
               handleItemChange={handleItemChange}
             />
           ) : (
             <ShCartItemLine
+              cart={filteredCart}
+
               selectedItemIds={selectedItemIds}
               handleItemChange={handleItemChange}
             />
@@ -134,7 +166,7 @@ const ShCartDetail = () => {
                 Ваш товар
               </span>
               <span className='text-xl font-semibold text-colBlack'>
-                2 товара
+                {cart?.cart.length} {plural(cart?.cart.length, 'товар', 'товара', 'товаров')}
               </span>
             </div>
             <div className='flex justify-between items-center'>
@@ -142,7 +174,7 @@ const ShCartDetail = () => {
                 Количество
               </span>
               <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>10 шт</span>
+              <span className='font-bold whitespace-nowrap'>{cart.itemsQuantity} шт</span>
             </div>
             <div className='flex justify-between items-center pt-2'>
               <span className='text-colBlack text-sm'>Вес</span>

@@ -8,13 +8,14 @@ import FilesTab from './FilesTab';
 import ReviewsTab from './ReviewsTab';
 import InfoTab from './InfoTab';
 
-function ProductTabs() {
+function ProductTabs({ product, reviews }) {
 
     const [tabIndex, setTabIndex] = useState(0);
-
+    console.log("product")
+    console.log(product)
 
     return (
-        <Tabs className="w-full" selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
+        <Tabs  className="w-full" selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
             <TabList className="w-full flex gap-[10px]">
                 <Tab selectedClassName="bg-colLightGray" className="text-lg border-2 rounded-lg border-colLightGray flex justify-center items-center p-3 basis-[calc(25%-10px)] hover:bg-colLightGray">Характеристика и описание</Tab>
                 <Tab selectedClassName="bg-colLightGray" className="text-lg border-2 rounded-lg border-colLightGray flex justify-center items-center p-3 basis-[calc(25%-10px)] hover:bg-colLightGray">Документы и сертификаты</Tab>
@@ -32,7 +33,7 @@ function ProductTabs() {
 
 
             <TabPanel>
-                <ReviewsTab></ReviewsTab>
+                <ReviewsTab reviews={reviews} ></ReviewsTab>
 
             </TabPanel>
             <TabPanel>

@@ -7,7 +7,7 @@ import boxicon from '../../../assets/icons/box-icon.svg';
 function InfoTab() {
     return (
         <>
-            <h3 className='text-2xl mt-5 font-semibold'>Характеристики</h3>
+            <h3 className='text-2xl mt-5 font-semibold'>Оплата и доставка</h3>
 
             <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Способы получения</h4>
             <div className='flex gap-5'>

@@ -17,6 +17,7 @@ const Products = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
 
+  console.log(state)
   const handleFetchProducts = async (category_id, filters) => {
     setIsLoading(true);
     const { success, data } = await fetchCategoryProducts(category_id, filters);

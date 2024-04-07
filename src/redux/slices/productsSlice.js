@@ -11,6 +11,7 @@ export const productsSlice = createSlice({
   initialState,
   reducers: {
     fetchProductStart: (state, action) => {
+      console.log('action', action)
       state.loading = true;
       state.error = false;
     },
@@ -21,7 +22,20 @@ export const productsSlice = createSlice({
     fetchProductFail: (state) => {
       state.loading = true;
       state.error = false;
+    },
+    fetchCategoryProductsStart: (state, action) => {
+      state.loading = true;
+      state.error = false;
+    },
+    fetchCategoryProductsSuccess: (state, action) => {
+      state.products = action.payload;
+      state.loading = false;
+    },
+    fetchCategoryProductsFail: (state) => {
+      state.loading = true;
+      state.error = false;
     }
+
   },
 });
 

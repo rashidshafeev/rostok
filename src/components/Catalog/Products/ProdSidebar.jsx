@@ -28,6 +28,8 @@ const ProdSidebar = ({
   const [categoryID, setCategoryID] = useState(state?.category?.id);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
+
+  console.log(props);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,

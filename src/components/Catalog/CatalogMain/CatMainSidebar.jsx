@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { ArrowIcon } from '../../../helpers/Icons';
 
-const CatMainSidebar = ({ catalog }) => {
+const CatMainSidebar = ({ categoryTree }) => {
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -19,11 +19,11 @@ const CatMainSidebar = ({ catalog }) => {
   return (
     <div className='max-w-[220px] min-w-[220px] w-full'>
       <ul className='space-y-2'>
-        {catalog?.map((el) => (
+        {categoryTree?.map((el) => (
           <li key={el?.id}>
             <div className='flex justify-between'>
               <NavLink
-                to='categories'
+                to={el.slug}
                 state={{ category: el }}
                 className='text-colBlack leading-5 font-semibold hover:underline'
               >
@@ -52,7 +52,7 @@ const CatMainSidebar = ({ catalog }) => {
                 <div key={child?.id}>
                   <div className='flex justify-between items-center'>
                     <NavLink
-                      to='categories'
+                      to={child.slug}
                       state={{ category: child }}
                       className='text-colBlack text-[15px] leading-4 font-medium hover:underline'
                     >
@@ -81,7 +81,7 @@ const CatMainSidebar = ({ catalog }) => {
                       <div key={item?.id}>
                         <div className='flex justify-between'>
                           <NavLink
-                            to='categories/products'
+                            to={item.slug}
                             state={{ category: child }}
                             className='text-colBlack leading-5 text-sm hover:underline relative flex'
                           >

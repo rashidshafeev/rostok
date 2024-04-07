@@ -1,129 +1,104 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react'
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink, useLoaderData, useNavigate, useParams } from 'react-router-dom'
 
-// import LightGallery from 'lightgallery/react';
-
-// import 'lightgallery/css/lightgallery.css';
-// import 'lightgallery/css/lg-zoom.css';
-// import 'lightgallery/css/lg-thumbnail.css';
-
-// import lgThumbnail from 'lightgallery/plugins/thumbnail';
-// import lgZoom from 'lightgallery/plugins/zoom';
-// import lgVideo from 'lightgallery/plugins/video';
-
-
-
-import dummyImage from '../../assets/images/dummy-product-image.png';
 import dummylogo from '../../assets/images/dummy-logo.png';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchProductStart } from '../../redux/slices/productsSlice';
-
-import ImageGallery from "react-image-gallery";
-// import stylesheet if you're not already using CSS @import
-import "react-image-gallery/styles/css/image-gallery.css";
-import LeftNav from '../../components/ProductPage/Gallery/LeftNav';
 
 import ProductAttributesList from '../../components/ProductPage/Attributes/ProductAttributesList';
 import ProductTabs from '../../components/ProductPage/ProductTabs/ProductTabs';
 import RightBar from '../../components/ProductPage/RightBar';
 import CharacteristicsList from '../../components/ProductPage/CharacteristicsList';
 import TopControls from '../../components/ProductPage/TopControls';
+import { useGetCategoryTreeQuery, useGetProductsQuery, useLazyGetProductsQuery } from '../../redux/api/api';
+import { Loading } from '../../helpers/Loader/Loader';
+import ProductGallery from '../../components/ProductPage/ProductGallery';
+import ProductPageContent from './ProductPageContent';
+
 
 function ProductPage() {
+  const [currentData, setCurrentData] = useState({})
+  // const [product, setProduct] = useState({})
+
+  const [currentGroup, setCurrentGroup] = useState([]);
 
   const [attributesList, setAttributesList] = useState({})
   const [currentAttributes, setCurrentAttributes] = useState({})
+  // const currentAttributes = useRef({})
   const [currentProductGroup, setCurrentProductGroup] = useState({})
+  // const currentProductGroup = useRef({})
+  const [currentProduct, setCurrentProduct] = useState({})
 
-
+  console.log("ProductPage")
   const params = useParams()
-  console.log("params")
-  console.log(params)
+  const loader = useLoaderData()
+const navigate = useNavigate()
 
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchProductStart(params.productId))
-  }, [dispatch]);
+console.log("loader.data")
+console.log(loader.data)
 
-  const product = useSelector((state) => state?.product);
-  console.log(product)
+  // const isInCurrentGroup = () => {
+  //   console.log("check")
+  //   console.log(currentGroup)
+  //   console.log(currentGroup.some(variant => variant.slug === params.productId))
 
-  // const lightGalleryRef = useRef(null);
-  // const containerRef = useRef(null);
-  // const [galleryContainer, setGalleryContainer] = useState(null);
-
-  // const onInit = useCallback((detail) => {
-  //   if (detail) {
-  //     lightGalleryRef.current = detail.instance;
-  //     lightGalleryRef.current.openGallery();
+  //   if (!(currentProductGroup.length === 0)) {
+  //     return currentGroup.some(variant => variant.slug === params.productId)
+  //   } else {
+  //     return false
   //   }
-  // }, []);
+  // }
 
-  // useEffect(() => {
-  //   if (containerRef.current) {
-  //     setGalleryContainer(containerRef.current);
-  //   }
-  // }, []);
+  // const { isLoading, isFetching, isError, isSuccess, error, data, refetch } = useGetProductsQuery(params.productId, {
+  //   skip: isInCurrentGroup(),
+  //   // refetchOnMountOrArgChange: true,
+  // })
+  // console.log(isLoading, isFetching, isError, isSuccess, error, data, refetch)
 
-  const renderVideo = (item) => {
-    return (
-      <div className="video-wrapper">
-        <iframe
-          className='rounded-lg'
-          width="100%"
-          height="480px"
-          src={item.embedUrl}
-          frameBorder="0"
-          allowFullScreen
-          title="ex"
-        />
-      </div>
-    );
-  };
+  
+  // // useEffect(() => {
+  // //   if (data) {
+  // //     setProduct(data.data)
+  // //   }
 
-  const renderImage = (item) => {
-    return (
-      <div className="h-[480px] flex flex-col justify-center">
-        <img src={item.original} className="shrink object-contain rounded-xl" alt="" />
-      </div>
-    );
-  };
+  // // }, [])
+
+  // // if (isSuccess) {
+  // //   setProduct(data.data)
+  // // }
 
 
 
-  const images2 = []
-  product?.products?.variants[0]?.files?.forEach((file) => {
-    if (file.type === "image") {
+  // // const [getProduct] = useLazyGetProductsQuery()
 
-      images2.push({
-        original: file.large,
-        thumbnail: file.small,
-        renderItem: renderImage.bind(this),
-      })
+  // // let product = null
 
-    } else if (file.type === "video") {
-
-      images2.push({
-        embedUrl: file.url,
-        thumbnail: 'video/mp4',
-        renderItem: renderVideo.bind(this),
-        originalHeight: "480px",
-      })
-
-    }
-
-  })
+  // // const loadData = async () => {
 
 
+  // //    const result = await getProduct(params.productId).unwrap()
+  // //    console.log("result")
+  // //    console.log(result)
+  // //   product = result.data
 
+  // //   getAttributeList()
+  // //   getProducts()
+
+  // // }
+
+  // // useEffect(loadData, [])
+
+const product = loader.data
 
   const getAttributeList = () => {
     const attributesList = {}
     const attributesState = {}
 
-    product?.products?.variants.forEach((variant, varIndex) => {
+    product?.variants.forEach((variant, varIndex) => {
+
+    // group?.variants.forEach((variant, varIndex) => {
 
       variant.attributes.forEach((attribute) => {
 
@@ -141,7 +116,7 @@ function ProductPage() {
           })
         }
 
-        if (varIndex === 0) {
+        if (variant.slug === params.productId) {
           attributesState[`${attribute.id}`] = {
             ...attribute
           }
@@ -150,15 +125,19 @@ function ProductPage() {
 
     })
 
+
     setAttributesList(attributesList)
     setCurrentAttributes(attributesState)
+
+    console.log(attributesList)
+    console.log(attributesState) // currentAttributes.current = attributesState
+  
   }
 
-  useEffect(getAttributeList, [])
 
   const getProducts = () => {
     const products = {}
-    product?.products?.variants.forEach((variant) => {
+    product?.variants.forEach((variant) => {
       products[`${variant.id}`] = { ...variant }
     })
 
@@ -174,7 +153,7 @@ function ProductPage() {
     setCurrentProductGroup(products)
   }
 
-  useEffect(getProducts, [])
+
 
   const getProductByAttributes = () => {
 
@@ -198,21 +177,19 @@ function ProductPage() {
 
     }
 
-    console.log("currentProduct")
-    console.log(currentProduct)
+    setCurrentProduct(currentProduct)
+   navigate(`../${currentProduct.slug}`, { replace: true })
+
 
   }
-  useEffect(getProductByAttributes, [currentAttributes])
+
+
 
   const getActiveAttributes = () => {
 
     const list = { ...attributesList }
-    // console.log(list)
 
     for (const id in currentAttributes) {
-      // console.log("currentAttributes[id]")
-      // console.log(currentAttributes[id])
-      // console.log(attributesList)
 
       list[id].values.forEach((valueCheck, valueIndex) => {
         const attributeCheck = { ...currentAttributes }
@@ -233,7 +210,6 @@ function ProductPage() {
   }
 
 
-  useEffect(getActiveAttributes, [currentAttributes])
 
   const handleChangeAttribute = (event) => {
     console.log("fired")
@@ -286,7 +262,6 @@ function ProductPage() {
     } else {
       return false
     }
-
   }
 
   const searchAvailible = (id, value) => {
@@ -303,79 +278,68 @@ function ProductPage() {
     return availible
   }
 
+  // console.log(currentAttributes)
+
+  useEffect(getAttributeList, [])
+  useEffect(getProducts, [])
+  useEffect(getProductByAttributes, [currentAttributes])
+  useEffect(getActiveAttributes, [currentAttributes])
 
 
+  const cart = useSelector(state => state?.cart)
+  const favorite = useSelector(state => state?.favorite)
+  const comparison = useSelector(state => state?.comparison)
+  
+  const dispatch = useDispatch()
 
 
+  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
+  const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
 
+  
 
+    return (
 
-  return (
-    <div className='content lining-nums proportional-nums'>
-      <div className=''>
-        <div className='text-xl font-semibold mb-[10px]'>Кресло мягкое Грэйс Z-14 (изумруд) на высоких ножках с подлокотниками в гостиную, офис, зону ожидания, салон красоты</div>
-        <TopControls />
-      </div>
-      <div className='flex pb-5 min-h-[420px] gap-5'>
-        <div className='basis-5/12'>
-          {/* <div
-            style={{
-              height: '800px',
-            }}
-            ref={containerRef}
-          ></div> */}
-          {/* <LightGallery
-            container={galleryContainer}
-            onInit={onInit}
-            plugins={[lgThumbnail, lgVideo]}
-            closable={false}
-            slideDelay={400}
-            thumbWidth={130}
-            thumbHeight={'100px'}
-            thumbMargin={6}
-            appendSubHtmlTo={'.lg-item'}
-            dynamic={true}
-            dynamicEl={images}
-            videojs
-            videojsOptions={{ muted: false }}
-            hash={false}
-            elementClassNames={'inline-gallery-container'}
-            download={false}
-            backgroundColor={'#FFF'}
-            addClass={'gallery'}
-            showMaximizeIcon={false}
-            counter={false}
-          ></LightGallery> */}
+      <div className='content lining-nums proportional-nums'>
 
-          <ImageGallery renderLeftNav={(onClick, disabled) => (<LeftNav onClick={onClick} disabled={disabled} />)} items={images2} showVideo={true} additionalClass="" showFullscreenButton={false} showPlayButton={false} />
-
+        <div className=''>
+          <div className='text-xl font-semibold mb-[10px]'>{currentProduct.name}</div>
+          <TopControls product={currentProduct} reviews={loader.data.reviews}/>
         </div>
-
-        <div className='basis-4/12 flex flex-col gap-[10px]'>
-
-          <div><img className='h-6' src={dummylogo} alt='*' /></div>
-          <ProductAttributesList list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList>
-
-
-          <CharacteristicsList />
+        <div className='flex pb-5 min-h-[420px] gap-5'>
+          <div className='basis-5/12'>
+            <ProductGallery files={currentProduct.files} />
+  
+  
+          </div>
+  
+          <div className='basis-4/12 flex flex-col gap-[10px]'>
+  
+            <div><img className='h-6' src={dummylogo} alt='*' /></div>
+            <ProductAttributesList list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList>
+  
+  
+            <CharacteristicsList />
+          </div>
+  
+          <div className='basis-3/12'>
+            <RightBar product={currentProduct}/>
+          </div>
+  
         </div>
-
-        <div className='basis-3/12'>
-          <RightBar />
+        <div className='flex pb-5 min-h-[420px] gap-5'>
+  
+          <ProductTabs product={currentProduct} reviews={loader.data.reviews}></ProductTabs>
+  
         </div>
-
       </div>
-      <div className='flex pb-5 min-h-[420px] gap-5'>
-
-        <ProductTabs></ProductTabs>
-
-      </div>
-
-
-    </div>
+  
+  
+    )
+  }
 
 
-  )
-}
+
 
 export default ProductPage

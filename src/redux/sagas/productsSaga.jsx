@@ -11,6 +11,7 @@ import {
 
 function* workFetchProductStart(action) {
     try {
+        console.log('fetch products saga')
         console.log(action)
         const params = action.payload
         const products = yield request.get(`api/Products/item?id=${params}`)

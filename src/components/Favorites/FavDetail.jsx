@@ -3,7 +3,8 @@ import chair from '../../assets/temp-images/chair.png';
 import { products } from '../../constants/data';
 import ProductCard from '../ProductCard';
 
-const FavDetail = () => {
+const FavDetail = ({favorite}) => {
+  console.log(favorite);
   return (
     <div className='pb-10 min-h-[560px] pl-5'>
       <div className='flex items-start space-x-3 pb-4'>
@@ -51,7 +52,7 @@ const FavDetail = () => {
         </button>
       </div>
       <div className='grid grid-cols-5 gap-5'>
-        {products?.map((el) => (
+        {favorite?.map((el) => (
           <Fragment key={el?.id}>
             <ProductCard product={el} />
           </Fragment>

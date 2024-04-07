@@ -1,16 +1,26 @@
 import { ExpandMore, AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import noImg from '../../assets/images/no-image.png';
-import { NavLink, useOutletContext } from 'react-router-dom';
+import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, changeQuantity, removeFromCart } from '../../redux/slices/cartSlice';
+import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
-const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
+
+const ShCartItem = ({ cart, selectedItemIds, handleItemChange }) => {
   // eslint-disable-next-line no-unused-vars
-  const [cartProducts, addToCart, removeFromCart] = useOutletContext();
+  // const [cartProducts, addToCart, removeFromCart] = useOutletContext();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const cart = useSelector(state => state?.cart?.cart)
+
+  const favorite = useSelector(state => state?.favorite)
+  
 
   return (
     <>
-      {cartProducts?.map((product, index) => (
+      {cart?.map((product, index) => (
         <div
           key={index}
           className='flex border-t border-b border-[#EBEBEB] pt-2 pb-4'
@@ -18,10 +28,15 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
           <div className='w-3/5 flex space-x-4'>
             <div className='flex items-start'>
               <CCheckBoxField
-                checked={selectedItemIds.includes(product?.id)}
-                onChange={() => handleItemChange(product?.id)}
+                checked={selectedItemIds.some(el => el?.id === product?.id)}
+                onChange={() => handleItemChange(product)}
               />
-              <div className='min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
+              <div
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(`/catalog/category/${product.slug}`);
+              }}
+               className='cursor-pointer min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
                 <img
                   className='w-full h-full object-contain'
                   src={product?.files[0]?.large || noImg}
@@ -44,12 +59,16 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
               ) : (
                 <span></span>
               )}
-              <NavLink
-                to='#'
-                className='font-semibold text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
+              <span
+                // to={product.slug}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate(`/catalog/category/${product.slug}`);
+                }}
+                className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
               >
                 {product?.name}
-              </NavLink>
+              </span>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>Артикул:</span>
@@ -69,13 +88,14 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
                   <ExpandMore />
                 </button>
                 <div className='flex space-x-2 pl-5'>
-                  <FavoriteIcon />
-                  <DeleteIcon onClick={() => removeFromCart(product?.id)} />
+                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id)} className='transition-all duration-300 hover:scale-110' onClick={() => dispatch(toggleFavorite(product))} />
+                  <DeleteIcon className='transition-all duration-300 hover:scale-110' onClick={() => dispatch(removeFromCart(product))} />
                 </div>
               </div>
             </div>
           </div>
-          <div className='w-2/5 flex items-start justify-between space-x-3 pt-[27px]'>
+          <div className='w-2/5 '>
+          <div className='flex items-center justify-between space-x-3 pt-[27px]'>
             <div>
               <div className='text-colBlack'>
                 {product?.price
@@ -93,19 +113,23 @@ const ShCartItem = ({ selectedItemIds, handleItemChange }) => {
               </p>
             </div>
             <div className='flex items-center space-x-3'>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'>
-                <RemoveOutlined className='text-colGreen cursor-pointer' />
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+              onClick={() => {product?.quantity !== 1 ? dispatch(changeQuantity({product, quantity: -1})) : dispatch(changeQuantity({product, quantity: 0}))}}>
+                <RemoveOutlined className={`${product?.quantity !== 1 ? `text-colGreen` : `text-colGray`} cursor-pointer`} />
               </span>
-              <span className='text-colGreen font-semibold'>10</span>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'>
+              <span className='text-colGreen font-semibold'>{product?.quantity}</span>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+              onClick={() => {dispatch(changeQuantity({product, quantity: 1}))}}>
                 <AddOutlined className='text-colGreen cursor-pointer' />
               </span>
             </div>
             <div className='flex items-center text-colBlack font-bold'>
-              <span>49 999</span>
+              <span>{product?.price ? product?.price : 'Цена не указана'}</span>
               <span className='pl-1'>₽</span>
             </div>
           </div>
+          </div>
+          
         </div>
       ))}
     </>
