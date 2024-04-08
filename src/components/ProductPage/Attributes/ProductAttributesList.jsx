@@ -4,6 +4,8 @@ import ProductAttribute from './ProductAttribute';
 import ProductAttributeValue from './ProductAttributeValue';
 
 
+
+
 function ProductAttributesList({list, current, handleChangeAttribute}) {
 
     console.log(list, current)
@@ -19,6 +21,8 @@ function ProductAttributesList({list, current, handleChangeAttribute}) {
     };
   
     open = Boolean(anchorEl)
+
+  
   
     
     return (
@@ -27,7 +31,7 @@ function ProductAttributesList({list, current, handleChangeAttribute}) {
             return (
                 // <ProductAttribute  key={attr} id={attr} attribute={list[attr]} current={current} handleChangeAttribute={handleChangeAttribute}/>
                 <div key={attr}>
-                    <div className='flex'><p className='text-colDarkGray mr-1'>{list[attr].name}:</p>{current[attr].text ?? 'test'}</div>
+                    <div className='flex' ><p className='text-colDarkGray mr-1'>{list[attr].name}:</p>{current[attr].text ?? 'test'}</div>
                     <Popover
                         id="mouse-over-popover"
                         sx={{
@@ -54,7 +58,8 @@ function ProductAttributesList({list, current, handleChangeAttribute}) {
                     </Popover>
                     <div className='flex flex-wrap gap-2'>
                         {list[attr].values.map((value, i) => <ProductAttributeValue key={i} id={attr} value={value} current={current} handleChangeAttribute={handleChangeAttribute} />)}
-
+                       
+                        
                     </div>
                 </div>
             )
