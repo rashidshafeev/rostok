@@ -8,7 +8,7 @@ import { addToCart, changeQuantity, removeFromCart } from '../../redux/slices/ca
 import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 
-const ShCartItem = ({ cart, selectedItemIds, handleItemChange }) => {
+const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
   // eslint-disable-next-line no-unused-vars
   // const [cartProducts, addToCart, removeFromCart] = useOutletContext();
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const ShCartItem = ({ cart, selectedItemIds, handleItemChange }) => {
           <div className='w-3/5 flex space-x-4'>
             <div className='flex items-start'>
               <CCheckBoxField
-                checked={selectedItemIds.some(el => el?.id === product?.id)}
+                checked={selectedItems.some(el => el?.id === product?.id)}
                 onChange={() => handleItemChange(product)}
               />
               <div

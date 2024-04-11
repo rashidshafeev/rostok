@@ -10,7 +10,9 @@ const CSearchField = (props) => {
       name={props?.name}
       label={props?.label}
       type={props?.type}
-      onChange={props.handleFilter}
+
+      onChange={props?.handleFilter}
+
       InputProps={{
         endAdornment: (
           <SearchIcon

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PreviewPopover from './PreviewPopover'
 
 import {
   useFloating,
@@ -13,6 +14,7 @@ import {
   useInteractions,
   FloatingPortal
 } from "@floating-ui/react";
+
 
 function ProductAttributeValue({ id, value, current, handleChangeAttribute }) {
 
@@ -45,11 +47,13 @@ const role = useRole(context, { role: "tooltip" });
       dismiss,
       role
     ]);
- 
+
+  
   return (
-    <>
+<>
       <div data-id={id} data-value={value.value} data-text={value.text} onClick={handleChangeAttribute}
-      ref={refs.setReference} {...getReferenceProps()}
+
+ref={refs.setReference} {...getReferenceProps()}
 
         className={`h-12 px-3 border ${value.value == current[id].value ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen ${value.availible ? 'bg-transparent' : 'bg-colLightGray'} rounded-[10px] flex justify-center items-center `} >
 
@@ -57,21 +61,25 @@ const role = useRole(context, { role: "tooltip" });
 
 
       </div>
-
+    {value.color && 
       <FloatingPortal>
-        {isOpen && (
-          <div
-            className="Tooltip"
-            ref={refs.setFloating}
-            style={floatingStyles}
-            {...getFloatingProps()}
-          >
-            I'm a tooltip!
-          </div>
-        )}
-      </FloatingPortal>
-    </>
+      
+      {isOpen && (
+        <div
 
+        ref={refs.setFloating}
+        {...getFloatingProps()}
+        style={floatingStyles}
+        className='w-[100px] h-[100px] border border-colLightGray rounded-[10px] flex justify-center items-center'
+        >
+                  <img src="" alt="" className='contain' />
+              </div>
+      )}
+
+    </FloatingPortal>
+    }
+      
+  </>
   )
 }
 
