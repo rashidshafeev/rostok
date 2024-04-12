@@ -11,31 +11,33 @@ import {
   Profile,
   ShoppingCart,
   ProductPage,
-  ReviewsPage
+  ReviewsPage,
 } from '../pages';
 import {
-  CatItem,
+  Categories,
+  CatProducts,
   ChangePassword,
   Layout,
   MyOrders,
   Organizations,
   PersonalData,
-  Products,
 } from '../components';
 
 const fetchProduct = async ({ params }) => {
   console.log(params);
-  let group = await fetch(`https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`, {
-    method: 'GET', // or 'POST'
-    headers: {
-      'Content-Type': 'application/json',
-      // 'Authorization': 'Bearer your-token' (if needed)
-    },
-    // body: JSON.stringify(data), (if you have data to send with the request)
-  })
+  let group = await fetch(
+    `https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`,
+    {
+      method: 'GET', // or 'POST'
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': 'Bearer your-token' (if needed)
+      },
+      // body: JSON.stringify(data), (if you have data to send with the request)
+    }
+  );
   return group;
-}
-
+};
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -45,11 +47,11 @@ export const router = createBrowserRouter(
         <Route path='shopping-cart' element={<ShoppingCart />} />
         <Route path='favorites' element={<Favorites />} />
         <Route path='comparison' element={<Comparison />} />
-        <Route path='catalog' >
+        <Route path='catalog'>
           <Route index element={<Catalog />} />
           <Route path=':categoryId'>
-            <Route index element={<CatItem />} />
-            {/* <Route path='products' element={<Products />} /> */}
+            <Route index element={<Categories />} />
+            <Route path='products' element={<CatProducts />} />
             <Route path=':productId'>
               <Route index element={<ProductPage />} loader={fetchProduct} />
               <Route path='reviews' element={<ReviewsPage />} />
@@ -65,5 +67,4 @@ export const router = createBrowserRouter(
       </Route>
     </Route>
   )
-)
-
+);

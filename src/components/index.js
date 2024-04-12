@@ -23,10 +23,10 @@ import FavSidebar from './Favorites/FavSidebar';
 import ProfileSidebar from './Profile/ProfileSidebar';
 import FavDetail from './Favorites/FavDetail';
 import ComDetail from './Comparison/ComDetail';
-import CatMainSidebar from './Catalog/CatalogMain/CatMainSidebar';
-import CatMainContent from './Catalog/CatalogMain/CatMainContent';
-import CatItem from './Catalog/Categories/CatItem';
-import Products from './Catalog/Products/Products';
+import CatalogSidebar from './Catalog/Catalog/CatalogSidebar.jsx';
+import CatalogContent from './Catalog/Catalog/CatalogContent.jsx';
+import Categories from './Catalog/Catalog/Categories/Categories.jsx';
+import CatProducts from './Catalog/Catalog/Categories/CatProducts/CatProducts';
 
 export {
   Header,
@@ -54,8 +54,8 @@ export {
   ProfileSidebar,
   FavDetail,
   ComDetail,
-  CatMainSidebar,
-  CatMainContent,
-  CatItem,
-  Products,
+  CatalogSidebar,
+  CatalogContent,
+  Categories,
+  CatProducts,
 };

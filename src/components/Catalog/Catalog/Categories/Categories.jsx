@@ -1,16 +1,14 @@
 import { useEffect } from 'react';
-import Advantages from '../../Home/Advantages';
-import Brands from '../../Home/Brands';
-import Promotions from '../../Home/Promotions';
+import Advantages from '../../../Home/Advantages';
+import Brands from '../../../Home/Brands';
+import Promotions from '../../../Home/Promotions';
 import CatItemContent from './CatItemContent';
 import CatItemSidebar from './CatItemSidebar';
-import { useLocation, useParams } from 'react-router-dom';
-import { scrollToTop } from '../../../helpers/scrollToTop/scrollToTop';
+import { useLocation } from 'react-router-dom';
+import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
 
-const CatItem = () => {
+const Categories = () => {
   const { state } = useLocation();
-  const { params } = useParams();
-  console.log(params)
 
   useEffect(() => {
     scrollToTop();
@@ -23,7 +21,7 @@ const CatItem = () => {
       </h3>
       <div className='flex pb-5 min-h-[420px]'>
         <CatItemSidebar state={state} />
-        <CatItemContent state={state} />
+        <CatItemContent />
       </div>
       <Promotions />
       <Brands />
@@ -32,4 +30,4 @@ const CatItem = () => {
   );
 };
 
-export default CatItem;
+export default Categories;

@@ -2,21 +2,16 @@ import { useEffect } from 'react';
 import {
   Advantages,
   Brands,
-  CatMainContent,
-  CatMainSidebar,
+  CatalogContent,
+  CatalogSidebar,
   Promotions,
 } from '../../components';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import { useSelector } from 'react-redux';
 import { Loading } from '../../helpers/Loader/Loader';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
 
 const Catalog = () => {
-  // // const { catalog, loading } = useSelector((state) => state?.catalog);
-  // const { categoryTree, loading } = useSelector((state) => state?.categoryTree);
-  
-  const { isLoading, isError, error, data } = useGetCategoryTreeQuery()
-  const categoryTree = data
+  const { isLoading, data } = useGetCategoryTreeQuery();
 
   useEffect(() => {
     scrollToTop();
@@ -30,8 +25,8 @@ const Catalog = () => {
       ) : (
         <>
           <div className='flex pb-10 pt-3 min-h-[520px]'>
-            <CatMainSidebar categoryTree={categoryTree} />
-            <CatMainContent categoryTree={categoryTree} />
+            <CatalogSidebar categoryTree={data?.children} />
+            <CatalogContent categoryTree={data?.children} />
           </div>
           <Promotions />
           <Brands />
