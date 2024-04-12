@@ -4,7 +4,7 @@ const ErrorEmpty = ({ title, desc, height, hideBtn }) => {
   return (
     <div
       style={{ height: height }}
-      className='flex justify-center items-center text-center h-full'
+      className='flex justify-center items-center text-center w-full h-full'
     >
       <div className='max-w-[460px] w-full mx-auto lining-nums proportional-nums'>
         <h3 className='text-2xl text-colBlack font-semibold'>{title}</h3>
