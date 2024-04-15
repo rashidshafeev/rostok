@@ -13,6 +13,9 @@ export const api = createApi({
     getProductsByCategory: builder.query({
       query: (id) => `api/Products/variantsByCategory?parent_category=${id}`,
     }),
+    getCitiesAndRegions: builder.query({
+      query: () => '/api/Location/full',
+    }),
   }),
 });
 
@@ -21,4 +24,5 @@ export const {
   useLazyGetProductsQuery,
   useGetCategoryTreeQuery,
   useGetProductsByCategoryQuery,
+  useGetCitiesAndRegionsQuery,
 } = api;

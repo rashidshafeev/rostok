@@ -1,27 +1,22 @@
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-
-import logo from '../../assets/images/logo.svg';
-
-import { useEffect, useState } from 'react';
 import AuthModal from '../../helpers/CModal/AuthModal';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchCategoryTreeStart } from '../../redux/slices/categoryTreeSlice';
 import PreHeader from './PreHeader';
 import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';
 import HeaderControls from './HeaderControls';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
+import logo from '../../assets/images/logo.svg';
 
 const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
 
-  const { isLoading, isError, error, data } = useGetCategoryTreeQuery()
-  const categoryTree = data
-  
+  const { data } = useGetCategoryTreeQuery();
+
   return (
     <>
-      <PreHeader/>
+      <PreHeader />
       <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 space-x-5 bg-white z-[999]'>
         <NavLink className='min-w-[90px]' to='/'>
           <img src={logo} alt='logo' />
@@ -67,10 +62,14 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
           )}
           <span className='ml-2'>Каталог</span>
         </button>
-        <SearchBar/>
-        <HeaderControls cartProducts={cartProducts} setOpen={setOpen} setContent={setContent}/>
+        <SearchBar />
+        <HeaderControls
+          cartProducts={cartProducts}
+          setOpen={setOpen}
+          setContent={setContent}
+        />
       </div>
-      <CatalogFastAccess catalog={categoryTree} />
+      <CatalogFastAccess catalog={data} />
       <AuthModal
         open={open}
         setOpen={setOpen}
