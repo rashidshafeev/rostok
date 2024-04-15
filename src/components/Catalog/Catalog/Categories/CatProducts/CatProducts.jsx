@@ -1,23 +1,22 @@
-import Advantages from '../../Home/Advantages';
-import Brands from '../../Home/Brands';
-import Promotions from '../../Home/Promotions';
+import Advantages from '../../../../Home/Advantages';
+import Brands from '../../../../Home/Brands';
+import Promotions from '../../../../Home/Promotions';
 import { useLocation } from 'react-router-dom';
-import ProdSidebar from './ProdSidebar';
-import ProdContent from './ProdContent';
+import CatProdContent from './CatProdContent';
+import CatProdSidebar from './CatProdSidebar';
 import { useEffect, useState } from 'react';
-import { scrollToTop } from '../../../helpers/scrollToTop/scrollToTop';
+import { scrollToTop } from '../../../../../helpers/scrollToTop/scrollToTop';
 import {
   fetchAllCategoryProducts,
   fetchCategoryProducts,
   fetchCategoryProductsBySort,
-} from '../../../api/catalog';
+} from '../../../../../api/catalog';
 
-const Products = () => {
+const CatProducts = () => {
   const [catProducts, setCatProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
 
-  console.log(state)
   const handleFetchProducts = async (category_id, filters) => {
     setIsLoading(true);
     const { success, data } = await fetchCategoryProducts(category_id, filters);
@@ -61,15 +60,13 @@ const Products = () => {
         {state?.category?.name}
       </h3>
       <div className='flex pb-10 min-h-[420px]'>
-        <ProdSidebar
-          state={state}
+        <CatProdSidebar
           handleFetchProducts={handleFetchProducts}
           handleFetchAllProducts={handleFetchAllProducts}
         />
-        <ProdContent
+        <CatProdContent
           catProducts={catProducts}
           isLoading={isLoading}
-          state={state}
           handleFetchBySort={handleFetchBySort}
         />
       </div>
@@ -80,4 +77,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default CatProducts;

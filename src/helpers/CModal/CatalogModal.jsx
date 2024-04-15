@@ -3,13 +3,12 @@ import catalogIcon1 from '../../assets/images/catalogIcon1.svg';
 import catalogIcon2 from '../../assets/images/catalogIcon2.svg';
 import catalogIcon3 from '../../assets/images/catalogIcon3.svg';
 import { ArrowIcon } from '../Icons';
-import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
-  const { isLoading, isError, error, data } = useGetCategoryTreeQuery()
-  const categoryTree = data
+  const { data } = useGetCategoryTreeQuery();
+  const categoryTree = data?.children;
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState(null);
@@ -131,35 +130,36 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
             {activeItem?.children?.length > 0 && (
               <div className='grid grid-cols-3 gap-5'>
                 {activeItem?.children?.map((el) => {
-                  console.log(el)
+                  console.log(el);
                   return (
-                  <div key={el?.id}>
-                    <NavLink
-                      to={`/catalog/${el?.slug}`}
-                      state={{ category: el }}
-                      onClick={() => setShowCatalog(false)}
-                      className='font-semibold text-colBlack hover:text-colGreen'
-                    >
-                      {el?.name}
-                    </NavLink>
-                    {el?.children?.length > 0 && (
-                      <div className='pt-1'>
-                        {el?.children?.map((child) => (
-                          <div key={child?.id}>
-                            <NavLink
-                              to={`/catalog/${child?.slug}`}
-                              state={{ category: child }}
-                              onClick={() => setShowCatalog(false)}
-                              className='text-colBlack text-sm hover:text-colGreen'
-                            >
-                              {child?.name}
-                            </NavLink>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                )})}
+                    <div key={el?.id}>
+                      <NavLink
+                        to={`/catalog/${el?.slug}`}
+                        state={{ category: el }}
+                        onClick={() => setShowCatalog(false)}
+                        className='font-semibold text-colBlack hover:text-colGreen'
+                      >
+                        {el?.name}
+                      </NavLink>
+                      {el?.children?.length > 0 && (
+                        <div className='pt-1'>
+                          {el?.children?.map((child) => (
+                            <div key={child?.id}>
+                              <NavLink
+                                to={`/catalog/${child?.slug}`}
+                                state={{ category: child }}
+                                onClick={() => setShowCatalog(false)}
+                                className='text-colBlack text-sm hover:text-colGreen'
+                              >
+                                {child?.name}
+                              </NavLink>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             )}
           </div>

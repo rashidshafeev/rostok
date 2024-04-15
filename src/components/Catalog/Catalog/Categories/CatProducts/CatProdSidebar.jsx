@@ -1,5 +1,5 @@
-import { useNavigate } from 'react-router-dom';
-import CTextField from '../../../helpers/CustomInputs/CTextField';
+import { useNavigate, useParams } from 'react-router-dom';
+import CTextField from '../../../../../helpers/CustomInputs/CTextField';
 import {
   Accordion,
   AccordionDetails,
@@ -10,51 +10,72 @@ import {
   Slider,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { fetchCategoryTree } from '../../../api/catalog';
-import { Loading } from '../../../helpers/Loader/Loader';
-import { IOSSwitch } from '../../Favorites/styledComponents/IOSSwitch';
-import { fetchFilters } from '../../../api/filters';
+import { Loading } from '../../../../../helpers/Loader/Loader';
+import { IOSSwitch } from '../../../../Favorites/styledComponents/IOSSwitch';
+import { fetchFilters } from '../../../../../api/filters';
 import { useDispatch, useSelector } from 'react-redux';
-import { ArrowIcon } from '../../../helpers/Icons';
-import AllFiltersModal from '../../../helpers/CModal/AllFiltersModal';
+import { ArrowIcon } from '../../../../../helpers/Icons';
+import AllFiltersModal from '../../../../../helpers/CModal/AllFiltersModal';
+import { useGetCategoryTreeQuery } from '../../../../../redux/api/api';
 
-const ProdSidebar = ({
-  state,
-  handleFetchProducts,
-  handleFetchAllProducts,
-}) => {
+const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
-  const [item, setItem] = useState([]);
-  const [categoryID, setCategoryID] = useState(state?.category?.id);
-  const [isLoading, setIsLoading] = useState(false);
+  const [categoryID, setCategoryID] = useState('');
   const [open, setOpen] = useState(false);
-
-  console.log(props);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
     childLast: null,
   });
   const [filtersState, setFiltersState] = useState({
-    min_price: 0,
-    max_price: 900000,
     highRating: true,
     brands: [],
     tags: [],
+    min_price: 0,
+    max_price: 900000,
   });
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { categoryId } = useParams();
+
+  const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
+
+  useEffect(() => {
+    setCategoryID(categoryId);
+  }, [categoryId]);
 
   const handleChange = (name, value) => {
-    const updatedFilters = { ...filtersState, [name]: value };
-    handleFetchProducts(categoryID, updatedFilters);
-    setFiltersState(updatedFilters);
+    if (name === 'min_price' && parseInt(value) > filtersState.max_price) {
+      setFiltersState((prevState) => ({
+        ...prevState,
+        min_price: parseInt(value),
+        max_price: parseInt(value),
+      }));
+    } else if (
+      name === 'max_price' &&
+      parseInt(value) < filtersState.min_price
+    ) {
+      setFiltersState((prevState) => ({
+        ...prevState,
+        max_price: parseInt(value),
+        min_price: parseInt(value),
+      }));
+    } else {
+      setFiltersState((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
 
-  const handleSliderChange = (event, newValue) => {
-    handleChange('min_price', newValue[0]);
-    handleChange('max_price', newValue[1]);
+  const handleSliderChange = (newValue) => {
+    const [newMinPrice, newMaxPrice] = newValue;
+    setFiltersState((prevState) => ({
+      ...prevState,
+      min_price: newMinPrice,
+      max_price: newMaxPrice,
+    }));
   };
 
   const handleCheckboxChange = (name, value) => {
@@ -64,25 +85,20 @@ const ProdSidebar = ({
         ? filtersState[name].filter((item) => item !== value)
         : [...filtersState[name], value],
     };
-    handleFetchProducts(categoryID, updatedFilters);
     setFiltersState(updatedFilters);
   };
 
   const handleClearFilters = () => {
     const initialFiltersState = {
-      min_price: 0,
-      max_price: 900000,
       highRating: true,
       brands: [],
       tags: [],
+      min_price: 0,
+      max_price: 900000,
     };
     handleFetchProducts(categoryID, initialFiltersState);
     setFiltersState(initialFiltersState);
   };
-
-  useEffect(() => {
-    handleFetchProducts(state?.category?.id, '');
-  }, []);
 
   const toggleAccordion = (type, id) => {
     setAccordion((prevState) => ({
@@ -92,22 +108,14 @@ const ProdSidebar = ({
   };
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      const { success, data } = await fetchCategoryTree(state?.category?.id, 1);
-      if (success) {
-        setItem(data);
-        setIsLoading(false);
-      }
-      setIsLoading(false);
-    })();
-  }, [state?.category?.id]);
+    handleFetchProducts(categoryID, filtersState);
+  }, [categoryID, filtersState]);
 
   useEffect(() => {
     (async () => {
-      await fetchFilters(dispatch, state?.category?.id);
+      await fetchFilters(dispatch, categoryID);
     })();
-  }, [dispatch, state?.category?.id]);
+  }, [dispatch, categoryID]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -126,9 +134,9 @@ const ProdSidebar = ({
               </button>
             </li>
             <li className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2'>
-              {state?.category?.name}
+              {categories?.category?.name || 'Не указано'}
             </li>
-            {item?.map((el) => (
+            {categories?.children?.map((el) => (
               <li key={el?.id} className='pl-3'>
                 <div className='flex justify-between'>
                   <span
@@ -297,15 +305,11 @@ const ProdSidebar = ({
                     sx={{ color: '#15765B' }}
                     size='small'
                     getAriaLabel={() => 'Price range'}
-                    value={[
-                      parseInt(filtersState.min_price),
-                      parseInt(filtersState.max_price),
-                    ]}
-                    max={900000}
+                    value={[filtersState?.min_price, filtersState?.max_price]}
                     min={0}
-                    onChange={handleSliderChange}
+                    max={900000}
+                    onChange={(event, newValue) => handleSliderChange(newValue)}
                     valueLabelDisplay='auto'
-                    valueLabelFormat={(value) => value.toLocaleString('en-US')}
                   />
                 </Box>
               </AccordionDetails>
@@ -435,11 +439,11 @@ const ProdSidebar = ({
       <AllFiltersModal
         open={open}
         setOpen={setOpen}
-        category={state?.category?.id}
+        category={categoryID}
         handleFetchAllProducts={handleFetchAllProducts}
       />
     </div>
   );
 };
 
-export default ProdSidebar;
+export default CatProdSidebar;

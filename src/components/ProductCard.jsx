@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useOutletContext } from 'react-router-dom';
 import noImg from '../assets/images/no-image.png';
 // import { FavoriteIcon } from '../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,30 +7,32 @@ import { toggleFavorite } from '../redux/slices/favoriteSlice';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
 import { toggleComparison } from '../redux/slices/comparisonSlice';
 
-
 const ProductCard = ({ product, recommended }) => {
-  
   const navigate = useNavigate();
-  
-  const cart = useSelector(state => state?.cart)
-  const favorite = useSelector(state => state?.favorite)
-  const comparison = useSelector(state => state?.comparison)
-  
-  const dispatch = useDispatch()
+
+  const cart = useSelector((state) => state?.cart);
+  const favorite = useSelector((state) => state?.favorite);
+  const comparison = useSelector((state) => state?.comparison);
+
+  const dispatch = useDispatch();
 
   const handleToggleFavorite = (event) => {
-    event.preventDefault()
-    dispatch(toggleFavorite(product))
-  }
+    event.preventDefault();
+    dispatch(toggleFavorite(product));
+  };
 
   const handleToggleComparison = (event) => {
-    event.preventDefault()
-    dispatch(toggleComparison(product))
-  }
+    event.preventDefault();
+    dispatch(toggleComparison(product));
+  };
 
   const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
-  const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
-  const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = favorite?.favorite?.some(
+    (el) => el?.id === product?.id
+  );
+  const isProductInComparison = comparison?.comparison?.some(
+    (el) => el?.id === product?.id
+  );
 
   return (
     <NavLink to={product.slug} className='overflow-hidden group'>
@@ -55,10 +56,17 @@ const ProductCard = ({ product, recommended }) => {
                 {product?.tags[0]?.text}
               </span>
             )}
-            <FavoriteIcon className='transition-all duration-500 hover:scale-110 absolute right-2' favorite={isProductInFavorite} onClick={handleToggleFavorite} />
+            <FavoriteIcon
+              className='transition-all duration-500 hover:scale-110 absolute right-2'
+              favorite={isProductInFavorite ? 'true' : 'false'}
+              onClick={handleToggleFavorite}
+            />
           </div>
-          <ComparisonIcon className='group-hover:opacity-100 opacity-0 flex items-center justify-center w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
-  comparison={isProductInComparison}  onClick={handleToggleComparison}></ComparisonIcon>
+          <ComparisonIcon
+            className='group-hover:opacity-100 opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
+            comparison={isProductInComparison.toString()}
+            onClick={handleToggleComparison}
+          ></ComparisonIcon>
         </div>
       </div>
       <div className='lining-nums proportional-nums'>
@@ -67,11 +75,11 @@ const ProductCard = ({ product, recommended }) => {
             Артикул: {product?.sku || 'Не указано'}
           </p>
         )}
-        <p className='h-10 mt-1'>
+        <div className='h-10 mt-1'>
           <h5 className='font-medium text-sm text-colBlack line-clamp-3 h-[60px]'>
             {product?.name || 'Не указано'}
           </h5>
-        </p>
+        </div>
         <div className='flex items-center py-1 h-8'>
           <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
             {product?.price ? (
@@ -109,7 +117,7 @@ const ProductCard = ({ product, recommended }) => {
             onClick={(e) => {
               e.preventDefault();
               // addToCart(product);
-              dispatch(addToCart(product))
+              dispatch(addToCart(product));
             }}
             className='transition-all	 duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
