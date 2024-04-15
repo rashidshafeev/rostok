@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import noImg from '../assets/images/no-image.png';
 // import { FavoriteIcon } from '../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,13 +8,19 @@ import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
 import { toggleComparison } from '../redux/slices/comparisonSlice';
 
 const ProductCard = ({ product, recommended }) => {
-  const navigate = useNavigate();
-
   const cart = useSelector((state) => state?.cart);
   const favorite = useSelector((state) => state?.favorite);
   const comparison = useSelector((state) => state?.comparison);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const lastSegment = pathname.split('/').pop();
+
+  const newUrl =
+    lastSegment === 'products'
+      ? pathname.replace('products', product.slug)
+      : product.slug;
 
   const handleToggleFavorite = (event) => {
     event.preventDefault();
@@ -35,7 +41,7 @@ const ProductCard = ({ product, recommended }) => {
   );
 
   return (
-    <NavLink to={product.slug} className='overflow-hidden group'>
+    <NavLink to={newUrl} className='overflow-hidden group'>
       <div>
         <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           <img
@@ -116,7 +122,6 @@ const ProductCard = ({ product, recommended }) => {
           <button
             onClick={(e) => {
               e.preventDefault();
-              // addToCart(product);
               dispatch(addToCart(product));
             }}
             className='transition-all	 duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
