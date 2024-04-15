@@ -184,37 +184,37 @@ const CModal = ({ open, setOpen, content, logOutFromAccount }) => {
             </button>
           </form>
         </Box>
-      ) : content === 'logout' ? (
-        <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-6 py-8 max-w-[480px] w-full'>
-          <span
-            onClick={() => setOpen(false)}
-            className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
-          >
-            &times;
-          </span>
-          <h1 className='text-3xl text-colBlack font-semibold'>
-            Выход из аккаунта
-          </h1>
-          <p className='text-colBlack my-2'>
-            Вы уверены, что хотите выйти из аккаунта?
-          </p>
-          <div className='flex space-x-3 pt-5'>
-            <button
-              onClick={() => setOpen(false)}
-              className='w-1/2 h-[38px] px-6 border border-colGreen bg-white rounded text-colGreen font-semibold'
-            >
-              Отменить
-            </button>
-            <button
-              onClick={logOutFromAccount}
-              className='w-1/2 h-[38px] px-6 bg-colGreen rounded text-white font-semibold'
-            >
-              Да
-            </button>
-          </div>
-        </Box>
       ) : (
-        ''
+        content === 'logout' && (
+          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-6 py-8 max-w-[480px] w-full'>
+            <span
+              onClick={() => setOpen(false)}
+              className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+            >
+              &times;
+            </span>
+            <h1 className='text-3xl text-colBlack font-semibold'>
+              Выход из аккаунта
+            </h1>
+            <p className='text-colBlack my-2'>
+              Вы уверены, что хотите выйти из аккаунта?
+            </p>
+            <div className='flex space-x-3 pt-5'>
+              <button
+                onClick={() => setOpen(false)}
+                className='w-1/2 h-[38px] px-6 border border-colGreen bg-white rounded text-colGreen font-semibold'
+              >
+                Отменить
+              </button>
+              <button
+                onClick={logOutFromAccount}
+                className='w-1/2 h-[38px] px-6 bg-colGreen rounded text-white font-semibold'
+              >
+                Да
+              </button>
+            </div>
+          </Box>
+        )
       )}
     </Modal>
   );
