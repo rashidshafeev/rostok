@@ -100,35 +100,6 @@ function Review({review}) {
         })}
       </div>
 
-      {/* <Swiper
-          modules={[Navigation]}
-          navigation={true}
-          spaceBetween={20}
-          breakpoints={{
-            260: {
-              slidesPerView: 2,
-            },
-            768: {
-              slidesPerView: 3,
-            },
-            992: {
-              slidesPerView: 4,
-            },
-            1200: {
-              slidesPerView: 6,
-            },
-          }}
-        >
-          {photos?.map((el) => (
-            <SwiperSlide key={el?.id}>
-              <img onClick={() => { setIndex(i) }} className='rounded-md w-30 h-20 
- object-contain' src={el.src} alt="" />
-
-            </SwiperSlide>
-          ))}
-        </Swiper> */}
-
-  
         
 
     </div>

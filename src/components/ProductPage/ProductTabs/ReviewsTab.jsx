@@ -16,7 +16,6 @@ const [open, setOpen] = useState(false);
 console.log(reviews)
 
 const handleOpen = () => {
-    console.log('open')
     setOpen(true);
   };
   const handleClose = () => {

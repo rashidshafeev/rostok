@@ -11,7 +11,7 @@ const CSearchField = (props) => {
       label={props?.label}
       type={props?.type}
 
-      onChange={props?.handleFilter}
+      onChange={props?.handleChange}
 
       InputProps={{
         endAdornment: (

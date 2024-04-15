@@ -115,7 +115,7 @@ const ShCartDetail = () => {
           label='Введите наименование или артикул'
           name='search'
           type='search'
-          handleFilter={handleFilter}
+          handleChange={handleFilter}
         />
 
       </div>

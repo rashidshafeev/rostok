@@ -8,14 +8,17 @@ import truckicon from '../../assets/icons/truck-icon.svg';
 import boxicon from '../../assets/icons/box-icon.svg';
 
 
-
 import { NavLink } from 'react-router-dom';
 import CTextField from '../../helpers/CustomInputs/CTextField';
 
-import { YMaps, Map } from '@pbe/react-yandex-maps';
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
 import './CartCheckout.css'
 import CustomRadioButton from './CustomRadioButton';
+import PickupPointModal from '../../helpers/CModal/PickupPointModal';
+
+import CSearchField from '../../helpers/CustomInputs/CSearchField';
+import SubwayIcon from '../../helpers/Icons/SubwayIcon';
 
 
 function CartCheckout() {
@@ -24,6 +27,14 @@ function CartCheckout() {
   const [deliveryDate, setDeliveryDate] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('')
 
+  const [pickupPointModal, setPickupPointModal] = useState(false)
+
+  const handlePickupPointModalOpen = () => {
+    setPickupPointModal(true);
+  };
+  const handlePickupPointModalClose = () => {
+    setPickupPointModal(false);
+  };
 
 
   const handleDeliveryTypeChange = (e) => {}
@@ -41,6 +52,25 @@ function CartCheckout() {
     { date: "21.01.2024" },
     { date: "22.01.2024" },
   ]
+
+  const points = [
+    {
+        address: 'г. Москва, Волгоградский проспект, д. 120',
+        coord: [55.684758, 37.738521]
+    },
+    {
+        address: 'г. Москва, Волгоградский проспект, д. 122',
+        coord: [55.884758, 37.438521]
+    },
+    {
+        address: 'г. Москва, Волгоградский проспект, д. 123',
+        coord: [55.584758, 37.438521]
+    },
+    {
+        address: 'г. Москва, Волгоградский проспект, д. 124',
+        coord: [55.584758, 37.138521]
+    },
+]
 
   return (
     <>
@@ -149,14 +179,17 @@ function CartCheckout() {
               </div>
             </div>
 
-            <button className='rounded text-colGreen border border-colGreen w-fit py-3 px-5 font-semibold'>Изменить</button>
-
+            <button onClick={handlePickupPointModalOpen} className='rounded text-colGreen border border-colGreen w-fit py-3 px-5 font-semibold'>Изменить</button>
+    <PickupPointModal open={pickupPointModal} handleClose={handlePickupPointModalClose}/>
           </div>
 
           <YMaps >
             <div className='rounded overflow-hidden grow'  >
 
-              <Map className='w-full h-[300px] grow' defaultState={{ center: [55.75, 37.57], zoom: 9 }} />
+              <Map className='w-full h-[300px] grow' defaultState={{ center: [55.75, 37.57], zoom: 9 }} >
+
+               <Placemark geometry={[55.684758, 37.738521]} />
+              </Map>
             </div>
           </YMaps>
 
@@ -196,7 +229,7 @@ function CartCheckout() {
           4. Как вам будет удобнее оплатить заказ?
         </div>
           <div className='flex gap-5'>
-          <CustomRadioButton value='onDelivery' handleChange={handlePaymentMethodChange} checked={'onDelivery' === paymentMethod}>
+          <CustomRadioButton value='onDelivery' handleChange={handlePaymentMethodChange} checked={'onDelivery' === paymentMethod} >
           <div>
             <div className='font-semibold mb-3'>Наличными или картой в магазине</div>
             <div>При получении заказа</div>
@@ -213,6 +246,8 @@ function CartCheckout() {
 
         </div>
 
+
+        
     </>
   )
 }
