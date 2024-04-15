@@ -5,20 +5,19 @@ import { useState } from 'react';
 import CitiesModal from '../../helpers/CModal/CitiesModal';
 
 function PreHeader() {
-  const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
+  const [city, setCity] = useState(null);
 
   return (
     <div className='content mx-auto pt-2 flex justify-between items-center space-x-5 relative z-[999]'>
       <div
-        onClick={() => {
-          setContent('citiesModal');
-          setOpen(true);
-        }}
+        onClick={() => setOpen(true)}
         className='flex items-center cursor-pointer'
       >
         <img src={address} alt='*' />
-        <span className='text-colBlack text-xs font-semibold ml-1'>Москва</span>
+        <span className='text-colBlack text-xs font-semibold ml-1'>
+          {city?.name || 'Выберите город'}
+        </span>
         <img className='ml-1' src={arrow} alt='*' />
       </div>
       <ul className='flex justify-end items-center space-x-3'>
@@ -60,7 +59,8 @@ function PreHeader() {
       <CitiesModal
         open={open}
         setOpen={setOpen}
-        content={content}
+        city={city}
+        setCity={setCity}
       />
     </div>
   );
