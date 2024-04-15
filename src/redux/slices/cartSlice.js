@@ -2,7 +2,9 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   cart: [],
+  selected: [],
   itemsQuantity: 0,
+  selectedQuantity: 0,
   loading: false,
   error: null,
 };
@@ -55,40 +57,42 @@ export const cartSlice = createSlice({
       }, 0)
       state.itemsQuantity = itemsQuantity
 
+      const selectedQuantity = state.cart.reduce((accumulator, item) => { 
+        if (item.selected) {
+          accumulator += item.quantity
+        }
+        return accumulator
+      }, 0)
+      state.selectedQuantity = selectedQuantity
+
       
     },
-    fetchCartStart: (state) => {
-      state.loading = true;
-      state.error = false;
-    },
-    fetchCartSuccess: (state, action) => {
-      state.loading = false;
-      state.catalog = action.payload;
-      state.error = false;
-    },
-    fetchCartFailure: (state) => {
-      state.loading = false;
-      state.error = true;
-    },
-    logOut: (state) => {
-      state.catalog = null;
-    },
+    selectItem: (state, action) => {
+      const product = state.cart.find((item) => item.id === action.payload.id)
+
+      if (product.selected) {
+        product.selected = false
+      } else {
+        product.selected = true
+      }
+
+      const selectedQuantity = state.cart.reduce((accumulator, item) => { 
+        if (item.selected) {
+          accumulator += item.quantity
+        }
+        return accumulator
+      }, 0)
+      state.selectedQuantity = selectedQuantity
+    
+    }
   },
 });
 
 export const {
-  fetchCartStart,
-  fetchCartSuccess,
-  fetchCartFailure,
   addToCart,
   removeFromCart,
   changeQuantity,
-  addToCartStart,
-  addToCartSuccess,
-  addToCartFailure,
-  removeFromCartStart,
-  removeFromCartSuccess,
-  removeFromCartFailure,
+  selectItem
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

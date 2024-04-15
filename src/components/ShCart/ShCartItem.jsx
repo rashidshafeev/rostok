@@ -4,7 +4,7 @@ import noImg from '../../assets/images/no-image.png';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, changeQuantity, removeFromCart } from '../../redux/slices/cartSlice';
+import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
 import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 
@@ -29,7 +29,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
             <div className='flex items-start'>
               <CCheckBoxField
                 checked={selectedItems.some(el => el?.id === product?.id)}
-                onChange={() => handleItemChange(product)}
+                onChange={() => dispatch(selectItem(product))}
               />
               <div
               onClick={(e) => {

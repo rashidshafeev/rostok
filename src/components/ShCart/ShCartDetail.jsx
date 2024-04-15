@@ -9,7 +9,7 @@ import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import plural from 'plural-ru'
-import { removeFromCart } from '../../redux/slices/cartSlice';
+import { removeFromCart, selectItem } from '../../redux/slices/cartSlice';
 import CartCheckout from '../../pages/Checkout/CartCheckout';
 
 const ShCartDetail = () => {
@@ -22,45 +22,58 @@ const ShCartDetail = () => {
   // eslint-disable-next-line no-unused-vars
   // const [cartProducts, addToCart, removeFromCart, removeAllCart] =
   //   useOutletContext();
+
   const dispatch = useDispatch();
+
+  
+
   const cart = useSelector((state) => state?.cart);
+  const selected = cart?.cart.filter((item) => item.selected === true);
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
+    console.log(selected)
+    console.log(isChecked)
 
-    setSelectAllChecked(isChecked);
-
-    if (isChecked) {
-      const allItems = cart?.cart.map((el) => el);
-
-      setSelectedItems(allItems);
-    } else {
-      setSelectedItems([]);
-    }
-  };
-
-  const handleItemChange = (itemId) => {
-    if (selectedItems.includes(itemId)) {
-      const updatedItems = selectedItems.filter((id) => id !== itemId);
-      setSelectedItems(updatedItems);
-
-      if (updatedItems.length !== cart?.cart.length) {
-        setSelectAllChecked(false)
+    if (!isChecked) {
+      console.log(selected)
+      selected.forEach((item) => {
+      dispatch(selectItem(item));
+    })
+  } else {
+    cart?.cart.forEach((item) => {
+      if (!item.selected) {
+      dispatch(selectItem(item));
       }
+    })
+  
+  }
+
+}
+
+
+  // const handleItemChange = (itemId) => {
+  //   if (selectedItems.includes(itemId)) {
+  //     const updatedItems = selectedItems.filter((id) => id !== itemId);
+  //     setSelectedItems(updatedItems);
+
+  //     if (updatedItems.length !== cart?.cart.length) {
+  //       setSelectAllChecked(false)
+  //     }
       
-    } else {
-      setSelectedItems([...selectedItems, itemId]);
+  //   } else {
+  //     setSelectedItems([...selectedItems, itemId]);
 
-      if (selectedItems.length + 1 === cart?.cart.length) {
-        setSelectAllChecked(true)
-      }
-    }
+  //     if (selectedItems.length + 1 === cart?.cart.length) {
+  //       setSelectAllChecked(true)
+  //     }
+  //   }
 
     
-  };
+  // };
 
   const handleRemoveSelected = () => {
-    selectedItems.forEach((product) => {
+    selected.forEach((product) => {
       dispatch(removeFromCart(product));
 
     })
@@ -114,11 +127,12 @@ const ShCartDetail = () => {
                 <CCheckBoxField
                   label='Выбрать всё'
                   onChange={handleSelectAllChange}
-                  checked={selectAllChecked}
+                  // checked={selectAllChecked}
+                  checked={cart?.cart.length === selected.length}
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>
-              { selectedItems.length !== 0 && <button
+              { selected.length !== 0 && <button
                 onClick={handleRemoveSelected}
                 className='text-colDarkGray font-medium text-sm ml-4'
               >
@@ -164,15 +178,12 @@ const ShCartDetail = () => {
           {itemType === 'lineBig' ? (
             <ShCartItem
               cart={filteredCart}
-              selectedItems={selectedItems}
-              handleItemChange={handleItemChange}
+              selectedItems={selected}
             />
           ) : (
             <ShCartItemLine
               cart={filteredCart}
-
-              selectedItems={selectedItems}
-              handleItemChange={handleItemChange}
+              selectedItems={selected}
             />
           )}
         </div>
@@ -192,8 +203,8 @@ const ShCartDetail = () => {
             </div>
           </div>
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
-            { selectedItems.length === 0 ? (
-              <div className='text-center text-[#828282] text-[14px] font-medium'>
+            { selected.length === 0 ? (
+              <div className='text-center text-[#828282] text-lg font-medium mb-5'>
                 Корзина пуста
               </div> ): (
 
@@ -203,7 +214,7 @@ const ShCartDetail = () => {
                 Ваш заказ
               </span>
               <span className='text-xl font-semibold text-colBlack'>
-                {selectedItems.length} {plural(selectedItems.length, 'товар', 'товара', 'товаров')}
+                {selected.length} {plural(selectedItems.length, 'товар', 'товара', 'товаров')}
               </span>
             </div>
             <div className='flex justify-between items-center'>
@@ -211,7 +222,7 @@ const ShCartDetail = () => {
                 Количество
               </span>
               <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>{itemsQuantity} шт</span>
+              <span className='font-bold whitespace-nowrap'>{cart?.selectedQuantity} шт</span>
             </div>
             <div className='flex justify-between items-center pt-2'>
               <span className='text-colBlack text-sm'>Вес</span>
@@ -242,7 +253,7 @@ const ShCartDetail = () => {
             
             }
             
-            <NavLink className='text-white font-semibold bg-colGreen rounded w-full h-[50px] flex justify-center items-center'>
+            <NavLink className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen' } rounded w-full h-[50px] flex justify-center items-center`}>
               Перейти к оформлению
             </NavLink>
           </div>

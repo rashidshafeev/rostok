@@ -4,10 +4,10 @@ import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { FavoriteIcon, DeleteIcon } from '../../helpers/Icons';
 import noImg from '../../assets/images/no-image.png';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, changeQuantity, removeFromCart } from '../../redux/slices/cartSlice';
+import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
 import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
-const ShCartItemLine = ({ cart, selectedItemIds, handleItemChange }) => {
+const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
 
   const navigate = useNavigate();
   // eslint-disable-next-line no-unused-vars
@@ -27,8 +27,8 @@ const ShCartItemLine = ({ cart, selectedItemIds, handleItemChange }) => {
           <div className='max-w-[480px] pr-8 w-full flex space-x-4'>
             <div className='flex items-start'>
               <CCheckBoxField
-                checked={selectedItemIds.some(el => el?.id === product?.id)}
-                onChange={() => handleItemChange(product)}
+               checked={selectedItems.some(el => el?.id === product?.id)}
+               onChange={() => dispatch(selectItem(product))}
               />
               <div 
               onClick={(e) => {
