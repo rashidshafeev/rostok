@@ -15,12 +15,6 @@ const ProductCard = ({ product, recommended }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const lastSegment = pathname.split('/').pop();
-
-  const newUrl =
-    lastSegment === 'products'
-      ? pathname.replace('products', product.slug)
-      : product.slug;
 
   const handleToggleFavorite = (event) => {
     event.preventDefault();
@@ -39,6 +33,13 @@ const ProductCard = ({ product, recommended }) => {
   const isProductInComparison = comparison?.comparison?.some(
     (el) => el?.id === product?.id
   );
+
+  const lastSegment = pathname.split('/').pop();
+
+  const newUrl =
+    lastSegment === 'products'
+      ? pathname.replace('products', product.slug)
+      : product.slug;
 
   return (
     <NavLink to={newUrl} className='overflow-hidden group'>
