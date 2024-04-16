@@ -1,6 +1,5 @@
-import { NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import noImg from '../assets/images/no-image.png';
-// import { FavoriteIcon } from '../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
 import { toggleFavorite } from '../redux/slices/favoriteSlice';
@@ -14,7 +13,6 @@ const ProductCard = ({ product, recommended }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { pathname } = useLocation();
 
   const handleToggleFavorite = (event) => {
     event.preventDefault();
@@ -34,28 +32,21 @@ const ProductCard = ({ product, recommended }) => {
     (el) => el?.id === product?.id
   );
 
-  const lastSegment = pathname.split('/').pop();
-
-  const newUrl =
-    lastSegment === 'products'
-      ? pathname.replace('products', product.slug)
-      : product.slug;
-
   return (
-    <NavLink to={newUrl} className='overflow-hidden group'>
+    <NavLink to={product?.slug} className='overflow-hidden group'>
       <div>
         <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           {product?.files?.length > 0 && (
-          <img
-            className='w-full h-full object-cover'
-            src={product?.files[0]?.medium || noImg}
-            onError={(e) => {
-              e.target.onError = null;
-              e.target.src = noImg;
-            }}
-            alt='*'
-          />
-        )}
+            <img
+              className='w-full h-full object-cover'
+              src={product?.files[0]?.medium || noImg}
+              onError={(e) => {
+                e.target.onError = null;
+                e.target.src = noImg;
+              }}
+              alt='*'
+            />
+          )}
           <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
             {product?.tags?.length > 0 && (
               <span

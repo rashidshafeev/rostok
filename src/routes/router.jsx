@@ -14,7 +14,6 @@ import {
   ReviewsPage,
 } from '../pages';
 import {
-  // Categories,
   CatProducts,
   ChangePassword,
   Layout,
@@ -28,12 +27,10 @@ const fetchProduct = async ({ params }) => {
   let group = await fetch(
     `https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`,
     {
-      method: 'GET', // or 'POST'
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        // 'Authorization': 'Bearer your-token' (if needed)
       },
-      // body: JSON.stringify(data), (if you have data to send with the request)
     }
   );
   return group;
@@ -50,7 +47,6 @@ export const router = createBrowserRouter(
         <Route path='catalog'>
           <Route index element={<Catalog />} />
           <Route path=':categoryId'>
-            {/* <Route index element={<Categories />} /> */}
             <Route index element={<CatProducts />} />
             <Route path=':productId'>
               <Route index element={<ProductPage />} loader={fetchProduct} />

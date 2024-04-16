@@ -25,8 +25,7 @@ import FavDetail from './Favorites/FavDetail';
 import ComDetail from './Comparison/ComDetail';
 import CatalogSidebar from './Catalog/Catalog/CatalogSidebar.jsx';
 import CatalogContent from './Catalog/Catalog/CatalogContent.jsx';
-import Categories from './Catalog/Catalog/Categories/Categories.jsx';
-import CatProducts from './Catalog/Catalog/Categories/CatProducts/CatProducts';
+import CatProducts from './Catalog/Catalog/CatProducts/CatProducts';
 
 export {
   Header,
@@ -56,6 +55,5 @@ export {
   ComDetail,
   CatalogSidebar,
   CatalogContent,
-  Categories,
   CatProducts,
 };
