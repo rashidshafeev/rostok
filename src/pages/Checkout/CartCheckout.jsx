@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import arrow from '../../assets/icons/arrow-icon.svg';
 import fizlicoactive from '../../assets/icons/fizlico-active.svg';
+import fizlico from '../../assets/icons/fizlico-inactive.svg';
+import urlicoactive from '../../assets/icons/urlico-active.svg';
 import urlico from '../../assets/icons/urlico-inactive.svg';
 
 import stallicon from '../../assets/icons/stall-icon.svg';
@@ -27,6 +29,11 @@ function CartCheckout() {
   const [deliveryDate, setDeliveryDate] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('')
 
+  const [pickupPoint, setPickupPoint] = useState({
+    id: 1,
+    address: 'г. Москва, Волгоградский проспект, д. 120',
+    coord: [55.684758, 37.738521]
+});
   const [pickupPointModal, setPickupPointModal] = useState(false)
 
   const handlePickupPointModalOpen = () => {
@@ -53,24 +60,7 @@ function CartCheckout() {
     { date: "22.01.2024" },
   ]
 
-  const points = [
-    {
-        address: 'г. Москва, Волгоградский проспект, д. 120',
-        coord: [55.684758, 37.738521]
-    },
-    {
-        address: 'г. Москва, Волгоградский проспект, д. 122',
-        coord: [55.884758, 37.438521]
-    },
-    {
-        address: 'г. Москва, Волгоградский проспект, д. 123',
-        coord: [55.584758, 37.438521]
-    },
-    {
-        address: 'г. Москва, Волгоградский проспект, д. 124',
-        coord: [55.584758, 37.138521]
-    },
-]
+ 
 
   return (
     <>
@@ -88,12 +78,12 @@ function CartCheckout() {
           1. Укажите данные получателя
         </div>
         <div className='flex gap-2'>
-          <button className='p-3 bg-colGreen rounded font-semibold text-white flex gap-1 items-center'>
-            <img src={fizlicoactive} alt="" srcset="" />
+          <button onClick={() => setType('fizlico')} className={`p-3 border ${type === 'fizlico'? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'}  rounded font-semibold  flex gap-1 items-center`}>
+            <img src={type === 'fizlico'? fizlicoactive : fizlico} width={20} height={20} alt="" srcset="" />
             Покупаю как физлицо
           </button>
-          <button className='p-3 border border-colGreen rounded font-semibold text-colGreen flex gap-1 items-center'>
-            <img src={urlico} alt="" srcset="" />
+          <button onClick={() => setType('urlico')} className={`p-3 border ${type === 'urlico'? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'} rounded font-semibold  flex gap-1 items-center`}>
+            <img src={type === 'urlico'? urlicoactive : urlico} width={20} height={20} alt="" srcset="" />
             Покупаю как юрлицо
           </button>
         </div>
@@ -169,7 +159,7 @@ function CartCheckout() {
                 Выбранный пункт самовывоза
               </div>
               <div className=''>
-                г. Москва, ТЦ Росток,  ул. Ленина, д. 15 к2 секция 4
+                {pickupPoint?.address || ' '}
               </div>
               <div className='text-colGreen font-semibold'>
                 Забирайте сегодня
@@ -180,7 +170,7 @@ function CartCheckout() {
             </div>
 
             <button onClick={handlePickupPointModalOpen} className='rounded text-colGreen border border-colGreen w-fit py-3 px-5 font-semibold'>Изменить</button>
-    <PickupPointModal open={pickupPointModal} handleClose={handlePickupPointModalClose}/>
+    <PickupPointModal open={pickupPointModal} handleClose={handlePickupPointModalClose} pickupPoint={pickupPoint} setPickupPoint={setPickupPoint}/>
           </div>
 
           <YMaps >
@@ -188,7 +178,7 @@ function CartCheckout() {
 
               <Map className='w-full h-[300px] grow' defaultState={{ center: [55.75, 37.57], zoom: 9 }} >
 
-               <Placemark geometry={[55.684758, 37.738521]} />
+               <Placemark geometry={pickupPoint.coord} />
               </Map>
             </div>
           </YMaps>

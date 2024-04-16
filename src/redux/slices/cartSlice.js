@@ -32,6 +32,14 @@ export const cartSlice = createSlice({
         return accumulator
       }, 0)
       state.itemsQuantity = itemsQuantity
+
+      const selectedQuantity = state.cart.reduce((accumulator, item) => { 
+        if (item.selected) {
+          accumulator += item.quantity
+        }
+        return accumulator
+      }, 0)
+      state.selectedQuantity = selectedQuantity
     },
     removeFromCart: (state, action) => {
       state.cart = state.cart.filter((product) => product.id !== action.payload.id);
@@ -41,6 +49,14 @@ export const cartSlice = createSlice({
         return accumulator
       }, 0)
       state.itemsQuantity = itemsQuantity
+
+      const selectedQuantity = state.cart.reduce((accumulator, item) => { 
+        if (item.selected) {
+          accumulator += item.quantity
+        }
+        return accumulator
+      }, 0)
+      state.selectedQuantity = selectedQuantity
     },
     changeQuantity: (state, action) => {
       const product = state.cart.find((item) => item.id === action.payload.product.id)

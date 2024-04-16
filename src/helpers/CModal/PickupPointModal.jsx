@@ -7,10 +7,10 @@ import CSearchField from '../CustomInputs/CSearchField';
 import CustomRadioButton from '../../pages/Checkout/CustomRadioButton';
 import SubwayIcon from '../Icons/SubwayIcon';
 
-function PickupPointModal({ open, handleClose }) {
-    const [pickupPoint, setPickupPoint] = useState("3");
-    const [filter, setFilter] = useState('');
+function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {
     
+    const [filter, setFilter] = useState('');
+
     const handleFilter = (e) => {
         setFilter(e.target.value);
     }
@@ -18,7 +18,7 @@ function PickupPointModal({ open, handleClose }) {
     console.log(pickupPoint);
     const handlePointChange = (e) => {
         console.log(e.currentTarget.getAttribute("data-customvalue"));
-        setPickupPoint(e.currentTarget.getAttribute("data-customvalue"))
+        setPickupPoint(points.find((point) => point.id.toString() === e.currentTarget.getAttribute("data-customvalue")))
         console.log(pickupPoint);
     }
 
@@ -85,7 +85,7 @@ function PickupPointModal({ open, handleClose }) {
                             <div className='scrollable overflow-y-scroll flex flex-col gap-2 pr-2'>
                                 {points?.map((point, index) => {
                                     return (
-                                        <CustomRadioButton key={point.id} value={point.id} handleChange={handlePointChange} checked={point.id.toString() === pickupPoint}>
+                                        <CustomRadioButton key={point.id} value={point.id} handleChange={handlePointChange} checked={point.id.toString() === pickupPoint.id.toString()}>
                                             <div className='flex flex-col gap-2 '>
                                                 <div className='flex gap-1'>
                                                     <SubwayIcon />
@@ -103,7 +103,7 @@ function PickupPointModal({ open, handleClose }) {
                                 })}
 
                             </div>
-                            <button className='bg-colGreen text-white py-4 rounded font-semibold'>Выбрать</button>
+                            <button onClick={handleClose} className='bg-colGreen text-white py-4 rounded font-semibold'>Выбрать</button>
                             
                         </div>
 
@@ -117,9 +117,7 @@ function PickupPointModal({ open, handleClose }) {
                             {points?.map((point, index) => {
                                     return (
                                         <Placemark geometry={point.coord} />
-
                                     )
-
                                 })}
                                 
                             </Map>
