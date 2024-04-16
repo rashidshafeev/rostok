@@ -5,14 +5,11 @@ import PreHeader from './PreHeader';
 import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';
 import HeaderControls from './HeaderControls';
-import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import logo from '../../assets/images/logo.svg';
 
 const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
-
-  const { data } = useGetCategoryTreeQuery();
 
   return (
     <>
@@ -69,7 +66,7 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
           setContent={setContent}
         />
       </div>
-      <CatalogFastAccess catalog={data} />
+      <CatalogFastAccess />
       <AuthModal
         open={open}
         setOpen={setOpen}
