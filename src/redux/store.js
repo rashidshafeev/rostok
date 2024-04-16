@@ -2,8 +2,6 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
-import categoryTreeReducer from './slices/categoryTreeSlice';
-import filtersReducer from './slices/filtersSlice';
 import cartReducer from './slices/cartSlice';
 import productsReducer from './slices/productsSlice';
 import { api } from './api/api';
@@ -18,9 +16,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  categoryTree: categoryTreeReducer,
   product: productsReducer,
-  filters: filtersReducer,
   cart: cartReducer,
   favorite: favoriteReducer,
   comparison: comparisonReducer,

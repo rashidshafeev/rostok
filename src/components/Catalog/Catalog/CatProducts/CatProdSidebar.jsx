@@ -9,17 +9,17 @@ import {
   FormControlLabel,
   Slider,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Loading } from '../../../../helpers/Loader/Loader';
 import { IOSSwitch } from '../../../Favorites/styledComponents/IOSSwitch';
-import { fetchFilters } from '../../../../api/filters';
-import { useDispatch, useSelector } from 'react-redux';
 import { ArrowIcon } from '../../../../helpers/Icons';
 import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
-import { useGetCategoryTreeQuery } from '../../../../redux/api/api';
+import {
+  useGetCategoryTreeQuery,
+  useGetFiltersOfProductsQuery,
+} from '../../../../redux/api/api';
 
 const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
-  const { filters } = useSelector((state) => state?.filters);
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(null);
   const [accordion, setAccordion] = useState({
@@ -35,10 +35,10 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
     max_price: 900000,
   });
 
-  const dispatch = useDispatch();
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
+  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
@@ -109,12 +109,6 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       [type]: prevState[type] === id ? null : id,
     }));
   };
-
-  useEffect(() => {
-    (async () => {
-      await fetchFilters(dispatch, categoryId);
-    })();
-  }, [dispatch, categoryId]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
