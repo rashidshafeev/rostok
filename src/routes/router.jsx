@@ -14,7 +14,7 @@ import {
   ReviewsPage,
 } from '../pages';
 import {
-  Categories,
+  // Categories,
   CatProducts,
   ChangePassword,
   Layout,
@@ -50,8 +50,8 @@ export const router = createBrowserRouter(
         <Route path='catalog'>
           <Route index element={<Catalog />} />
           <Route path=':categoryId'>
-            <Route index element={<Categories />} />
-            <Route path='products' element={<CatProducts />} />
+            {/* <Route index element={<Categories />} /> */}
+            <Route index element={<CatProducts />} />
             <Route path=':productId'>
               <Route index element={<ProductPage />} loader={fetchProduct} />
               <Route path='reviews' element={<ReviewsPage />} />

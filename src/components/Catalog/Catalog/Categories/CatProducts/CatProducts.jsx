@@ -1,25 +1,30 @@
 import Advantages from '../../../../Home/Advantages';
 import Brands from '../../../../Home/Brands';
 import Promotions from '../../../../Home/Promotions';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import CatProdContent from './CatProdContent';
 import CatProdSidebar from './CatProdSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../../../helpers/scrollToTop/scrollToTop';
 import {
   fetchAllCategoryProducts,
-  fetchCategoryProducts,
+  fetchCategoryProductsFilter,
   fetchCategoryProductsBySort,
 } from '../../../../../api/catalog';
+import { useGetProductsByCategoryQuery } from '../../../../../redux/api/api';
 
 const CatProducts = () => {
-  const [catProducts, setCatProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const { state } = useLocation();
+  const { categoryId } = useParams();
+  const { data, isLoading: loading } =
+    useGetProductsByCategoryQuery(categoryId);
+
+  const [catProducts, setCatProducts] = useState(loading ? [] : data?.data);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFetchProducts = async (category_id, filters) => {
     setIsLoading(true);
-    const { success, data } = await fetchCategoryProducts(category_id, filters);
+    const { success, data } = await fetchCategoryProductsFilter(category_id, filters);
     if (success) {
       setCatProducts(data);
       setIsLoading(false);
@@ -53,6 +58,10 @@ const CatProducts = () => {
   useEffect(() => {
     scrollToTop();
   }, []);
+
+  useEffect(() => {
+    setCatProducts(data?.data);
+  }, [data]);
 
   return (
     <div className='content lining-nums proportional-nums'>

@@ -20,7 +20,6 @@ import { useGetCategoryTreeQuery } from '../../../../../redux/api/api';
 
 const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
   const { filters } = useSelector((state) => state?.filters);
-  const [categoryID, setCategoryID] = useState('');
   const [open, setOpen] = useState(false);
   const [accordion, setAccordion] = useState({
     parent: null,
@@ -40,10 +39,6 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-
-  useEffect(() => {
-    setCategoryID(categoryId);
-  }, [categoryId]);
 
   const handleChange = (name, value) => {
     if (name === 'min_price' && parseInt(value) > filtersState.max_price) {
@@ -96,7 +91,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       min_price: 0,
       max_price: 900000,
     };
-    handleFetchProducts(categoryID, initialFiltersState);
+    handleFetchProducts(categoryId, initialFiltersState);
     setFiltersState(initialFiltersState);
   };
 
@@ -108,14 +103,10 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
   };
 
   useEffect(() => {
-    handleFetchProducts(categoryID, filtersState);
-  }, [categoryID, filtersState]);
-
-  useEffect(() => {
     (async () => {
-      await fetchFilters(dispatch, categoryID);
+      await fetchFilters(dispatch, categoryId);
     })();
-  }, [dispatch, categoryID]);
+  }, [dispatch, categoryId]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -133,17 +124,17 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                 Назад
               </button>
             </li>
-            <li className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2'>
+            <li
+              onClick={() => handleFetchProducts(categories?.category?.id)}
+              className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2 cursor-pointer'
+            >
               {categories?.category?.name || 'Не указано'}
             </li>
             {categories?.children?.map((el) => (
               <li key={el?.id} className='pl-3'>
                 <div className='flex justify-between'>
                   <span
-                    onClick={() => {
-                      handleFetchProducts(el?.id);
-                      setCategoryID(el?.id);
-                    }}
+                    onClick={() => handleFetchProducts(el?.id)}
                     className='text-colBlack leading-5 font-semibold cursor-pointer'
                   >
                     <p className='relative max-w-[170px]'>
@@ -157,8 +148,8 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                     <ArrowIcon
                       onClick={() => toggleAccordion('parent', el?.id)}
                       className={`${
-                        accordion.parent === el?.id && 'rotate-[0deg]'
-                      } cursor-pointer !m-0 !w-4 !h-4 rotate-[180deg]`}
+                        accordion.parent !== el?.id && 'rotate-[180deg]'
+                      } cursor-pointer !m-0 !w-4 !h-4`}
                     />
                   )}
                 </div>
@@ -171,10 +162,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                     <div key={child?.id}>
                       <div className='flex justify-between items-center'>
                         <span
-                          onClick={() => {
-                            handleFetchProducts(child?.id);
-                            setCategoryID(child?.id);
-                          }}
+                          onClick={() => handleFetchProducts(child?.id)}
                           className='text-colBlack text-sm leading-4 font-semibold cursor-pointer'
                         >
                           <p className='relative max-w-[140px] w-full'>
@@ -188,7 +176,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                           <ArrowIcon
                             onClick={() => toggleAccordion('child', child?.id)}
                             className={`${
-                              accordion.child === child?.id && 'rotate-[180deg]'
+                              accordion.child !== child?.id && 'rotate-[180deg]'
                             } cursor-pointer !m-0 !w-4 !h-4`}
                           />
                         )}
@@ -202,10 +190,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                           <div key={item?.id}>
                             <div className='flex justify-between'>
                               <span
-                                onClick={() => {
-                                  handleFetchProducts(item?.id);
-                                  setCategoryID(item?.id);
-                                }}
+                                onClick={() => handleFetchProducts(item?.id)}
                                 className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                               >
                                 <p className='relative max-w-[140px] w-full leading-4'>
@@ -221,7 +206,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                                     toggleAccordion('childLast', item?.id)
                                   }
                                   className={`${
-                                    accordion.childLast === item?.id &&
+                                    accordion.childLast !== item?.id &&
                                     'rotate-[180deg]'
                                   } cursor-pointer !m-0 !w-4 !h-4`}
                                 />
@@ -237,10 +222,9 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                               {item?.children?.map((itemChild) => (
                                 <span
                                   key={itemChild?.id}
-                                  onClick={() => {
-                                    handleFetchProducts(itemChild?.id);
-                                    setCategoryID(itemChild?.id);
-                                  }}
+                                  onClick={() =>
+                                    handleFetchProducts(itemChild?.id)
+                                  }
                                   className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                                 >
                                   <p className='relative max-w-[140px] w-full'>
@@ -439,7 +423,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       <AllFiltersModal
         open={open}
         setOpen={setOpen}
-        category={categoryID}
+        category={categoryId}
         handleFetchAllProducts={handleFetchAllProducts}
       />
     </div>

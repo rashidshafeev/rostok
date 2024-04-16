@@ -45,6 +45,7 @@ const ProductCard = ({ product, recommended }) => {
     <NavLink to={newUrl} className='overflow-hidden group'>
       <div>
         <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
+          {product?.files?.length > 0 && (
           <img
             className='w-full h-full object-cover'
             src={product?.files[0]?.medium || noImg}
@@ -54,6 +55,7 @@ const ProductCard = ({ product, recommended }) => {
             }}
             alt='*'
           />
+        )}
           <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
             {product?.tags?.length > 0 && (
               <span
