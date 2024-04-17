@@ -3,12 +3,13 @@ import { useGetCitiesAndRegionsQuery } from '../../redux/api/api';
 import { Loading } from '../Loader/Loader';
 import search from '../../assets/icons/search.svg';
 import { useState } from 'react';
+import ErrorEmpty from '../Errors/ErrorEmpty';
 
 const CitiesModal = ({ open, setOpen, city, setCity }) => {
-  const { isLoading, data: locations } = useGetCitiesAndRegionsQuery();
-  const [region, setRegion] = useState(null);
+  const { isLoading, isError, data: locations } = useGetCitiesAndRegionsQuery();
+  const [regionID, setRegionID] = useState(null);
   const [cities, setCities] = useState(locations?.cities);
-  const [searchValue, setSearchValue] = useState(null);
+  const [regions, setRegions] = useState(locations?.regions);
 
   const handleFilterByRegion = (regionId) => {
     const filteredCities = locations?.cities?.filter(
@@ -19,12 +20,19 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
 
   const handleCitySearch = (e) => {
     e.preventDefault();
-    if (searchValue) {
-      const normalizedQuery = searchValue.toLowerCase();
+    const value = e.target.value;
+    if (value) {
+      const normalizedQuery = value.toLowerCase();
       const filteredCities = locations?.cities?.filter((city) =>
         city?.name ? city.name.toLowerCase().includes(normalizedQuery) : false
       );
+      const filteredRegions = locations?.regions?.filter((region) =>
+        region?.name
+          ? region.name.toLowerCase().includes(normalizedQuery)
+          : false
+      );
       setCities(filteredCities);
+      setRegions(filteredRegions);
     }
   };
 
@@ -49,57 +57,88 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
         </h2>
         <form
           onSubmit={(e) => handleCitySearch(e)}
-          className='max-w-[780px] w-full border-colGreen border rounded-md flex justify-between'
+          className='max-w-[580px] w-full border-colGreen border rounded-md flex justify-between'
         >
           <input
             className='w-full h-10 outline-none rounded-l-md bg-white px-3 border-none'
             type='search'
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => handleCitySearch(e)}
             placeholder='Название города или области'
           />
-          <button className='bg-colGreen w-14'>
+          <div className='bg-colGreen w-14 flex justify-center items-center'>
             <img className='mx-auto' src={search} alt='*' />
-          </button>
+          </div>
         </form>
         {isLoading ? (
           <div className='h-[430px]'>
             <Loading />
           </div>
+        ) : isError ? (
+          <ErrorEmpty
+            title='Что-то пошло не так!'
+            desc='Произошла ошибка! Пожалуйста, повторите попытку еще раз.'
+            height='420px'
+          />
         ) : (
           <div className='flex mt-8'>
             <ul className='w-[220px] h-[430px] space-y-2 overflow-y-scroll scrollable pr-2'>
-              {locations?.regions?.map((el) => (
-                <li
-                  className={`${
-                    region === el?.id && 'bg-colSuperLight'
-                  } cursor-pointer font-semibold text-colBlack px-2 py-[5px] rounded leading-[120%]`}
-                  onClick={() => {
-                    setRegion(el?.id);
-                    handleFilterByRegion(el?.id);
-                  }}
-                  key={el?.id}
-                >
-                  {el?.name}
-                </li>
-              ))}
+              {regions?.length > 0 ? (
+                <>
+                  {regions?.map((el) => (
+                    <li
+                      className={`${
+                        regionID === el?.id && 'bg-colSuperLight'
+                      } cursor-pointer font-semibold text-colBlack px-2 py-[5px] rounded leading-[120%]`}
+                      onClick={() => {
+                        setRegionID(el?.id);
+                        handleFilterByRegion(el?.id);
+                      }}
+                      key={el?.id}
+                    >
+                      {el?.name}
+                    </li>
+                  ))}
+                </>
+              ) : (
+                <div className='text-center h-[430px] flex flex-col justify-center items-center'>
+                  <h3 className='font-semibold text-lg'>Список пуст!</h3>
+                  <p className='text-sm leading-[115%] pt-2'>
+                    Ничего не найдено для указанного региона.
+                  </p>
+                </div>
+              )}
             </ul>
             <div className='w-full h-[430px] px-4 overflow-y-scroll scrollable'>
-              <ul className='flex flex-wrap'>
-                {cities?.map((el) => (
-                  <li
-                    className={`${
-                      city?.id === el?.id && 'text-colGreen'
-                    } w-1/4 text-sm leading-[120%] cursor-pointer hover:text-colGreen duration-200 py-2 my-5`}
-                    key={el?.id}
-                    onClick={() => {
-                      setCity(el);
-                      setOpen(false);
-                    }}
-                  >
-                    {el?.name}
-                  </li>
-                ))}
-              </ul>
+              {cities?.length > 0 ? (
+                <ul className='flex flex-wrap'>
+                  {cities?.map((el) => (
+                    <li
+                      className={`${
+                        city?.id === el?.id && 'text-colGreen'
+                      } w-1/4 text-sm leading-[120%] cursor-pointer hover:text-colGreen duration-200 py-2 my-5`}
+                      key={el?.id}
+                      onClick={() => {
+                        setCity(el);
+                        setOpen(false);
+                      }}
+                    >
+                      {el?.name}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <div className='flex justify-center items-center text-center w-full h-full'>
+                  <div className='max-w-[460px] w-full mx-auto lining-nums proportional-nums'>
+                    <h3 className='text-2xl text-colBlack font-semibold'>
+                      Список пуст!
+                    </h3>
+                    <p className='pb-6 pt-3'>
+                      К сожалению, мы не смогли найти результаты для вашего
+                      запроса. Попробуйте указать другой город.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

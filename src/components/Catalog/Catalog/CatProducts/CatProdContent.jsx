@@ -1,9 +1,9 @@
-import { Loading } from '../../../../../helpers/Loader/Loader';
-import ErrorEmpty from '../../../../../helpers/Errors/ErrorEmpty';
-import ProductCard from '../../../../ProductCard';
+import { Loading } from '../../../../helpers/Loader/Loader';
+import ErrorEmpty from '../../../../helpers/Errors/ErrorEmpty';
+import ProductCard from '../../../ProductCard';
 import { useState } from 'react';
-import CardLine from '../../../TypesOfCards/CardLine';
-import LineNarrow from '../../../TypesOfCards/LineNarrow';
+import CardLine from '../../TypesOfCards/CardLine';
+import LineNarrow from '../../TypesOfCards/LineNarrow';
 import { useParams } from 'react-router-dom';
 
 const CatProdContent = ({ catProducts, isLoading, handleFetchBySort }) => {

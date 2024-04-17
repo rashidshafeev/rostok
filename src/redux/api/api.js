@@ -11,7 +11,10 @@ export const api = createApi({
       query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,
     }),
     getProductsByCategory: builder.query({
-      query: (id) => `api/Products/variantsByCategory?parent_category=${id}`,
+      query: (id) => `api/Products/variants?category_id=${id || ''}`,
+    }),
+    getFiltersOfProducts: builder.query({
+      query: (id) => `api/Products/filters/?category_id=${id || ''}`,
     }),
     getCitiesAndRegions: builder.query({
       query: () => '/api/Location/full',
@@ -24,5 +27,6 @@ export const {
   useLazyGetProductsQuery,
   useGetCategoryTreeQuery,
   useGetProductsByCategoryQuery,
+  useGetFiltersOfProductsQuery,
   useGetCitiesAndRegionsQuery,
 } = api;

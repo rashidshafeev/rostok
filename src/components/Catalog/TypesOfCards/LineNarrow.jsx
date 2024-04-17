@@ -28,7 +28,7 @@ const LineNarrow = ({ product, furniture, recommended }) => {
             <div className='space-y-2 pt-1'>
               <div>
                 <NavLink
-                  to='#'
+                  to={product?.slug}
                   className='font-bold text-sm  break-all hover:underline line-clamp-3 pb-1'
                 >
                   {product?.name || 'Не указано'}

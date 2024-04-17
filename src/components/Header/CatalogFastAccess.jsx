@@ -1,10 +1,13 @@
+import { NavLink } from 'react-router-dom';
+import { useGetCategoryTreeQuery } from '../../redux/api/api';
+
 import action from '../../assets/icons/action.svg';
 import sales from '../../assets/icons/sales.svg';
 import news from '../../assets/icons/news.svg';
 
-import { NavLink } from 'react-router-dom';
+function CatalogFastAccess() {
+  const { data } = useGetCategoryTreeQuery();
 
-function CatalogFastAccess({ catalog }) {
   return (
     <div className='content mx-auto flex items-center scrollable overflow-x-scroll space-x-4 pb-2'>
       <NavLink
@@ -30,7 +33,7 @@ function CatalogFastAccess({ catalog }) {
           Хиты продаж
         </span>
       </NavLink>
-      {catalog?.children?.slice(0, 14)?.map((el) => (
+      {data?.children?.slice(0, 14)?.map((el) => (
         <NavLink
           to={`catalog/${el.slug}`}
           state={{ category: el }}

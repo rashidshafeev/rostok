@@ -1,5 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import CTextField from '../../../../../helpers/CustomInputs/CTextField';
+import { NavLink, useParams } from 'react-router-dom';
+import CTextField from '../../../../helpers/CustomInputs/CTextField';
 import {
   Accordion,
   AccordionDetails,
@@ -9,19 +9,19 @@ import {
   FormControlLabel,
   Slider,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
-import { Loading } from '../../../../../helpers/Loader/Loader';
-import { IOSSwitch } from '../../../../Favorites/styledComponents/IOSSwitch';
-import { fetchFilters } from '../../../../../api/filters';
-import { useDispatch, useSelector } from 'react-redux';
-import { ArrowIcon } from '../../../../../helpers/Icons';
-import AllFiltersModal from '../../../../../helpers/CModal/AllFiltersModal';
-import { useGetCategoryTreeQuery } from '../../../../../redux/api/api';
+import { useState } from 'react';
+import { Loading } from '../../../../helpers/Loader/Loader';
+import { IOSSwitch } from '../../../Favorites/styledComponents/IOSSwitch';
+import { ArrowIcon } from '../../../../helpers/Icons';
+import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
+import {
+  useGetCategoryTreeQuery,
+  useGetFiltersOfProductsQuery,
+} from '../../../../redux/api/api';
 
 const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
-  const { filters } = useSelector((state) => state?.filters);
-  const [categoryID, setCategoryID] = useState('');
   const [open, setOpen] = useState(false);
+  const [category, setCategory] = useState(null);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -35,47 +35,49 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
     max_price: 900000,
   });
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-
-  useEffect(() => {
-    setCategoryID(categoryId);
-  }, [categoryId]);
+  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
 
   const handleChange = (name, value) => {
+    let updatedFilters = { ...filtersState };
+
     if (name === 'min_price' && parseInt(value) > filtersState.max_price) {
-      setFiltersState((prevState) => ({
-        ...prevState,
+      updatedFilters = {
+        ...updatedFilters,
         min_price: parseInt(value),
         max_price: parseInt(value),
-      }));
+      };
     } else if (
       name === 'max_price' &&
       parseInt(value) < filtersState.min_price
     ) {
-      setFiltersState((prevState) => ({
-        ...prevState,
+      updatedFilters = {
+        ...updatedFilters,
         max_price: parseInt(value),
         min_price: parseInt(value),
-      }));
+      };
     } else {
-      setFiltersState((prevState) => ({
-        ...prevState,
+      updatedFilters = {
+        ...updatedFilters,
         [name]: value,
-      }));
+      };
     }
+
+    setFiltersState(updatedFilters);
+    handleFetchProducts(category || categoryId, updatedFilters);
   };
 
   const handleSliderChange = (newValue) => {
     const [newMinPrice, newMaxPrice] = newValue;
-    setFiltersState((prevState) => ({
-      ...prevState,
+    const updatedFilters = {
+      ...filtersState,
       min_price: newMinPrice,
       max_price: newMaxPrice,
-    }));
+    };
+    setFiltersState(updatedFilters);
+    handleFetchProducts(category || categoryId, updatedFilters);
   };
 
   const handleCheckboxChange = (name, value) => {
@@ -86,6 +88,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
         : [...filtersState[name], value],
     };
     setFiltersState(updatedFilters);
+    handleFetchProducts(category || categoryId, updatedFilters);
   };
 
   const handleClearFilters = () => {
@@ -96,7 +99,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       min_price: 0,
       max_price: 900000,
     };
-    handleFetchProducts(categoryID, initialFiltersState);
+    handleFetchProducts(category || categoryId, initialFiltersState);
     setFiltersState(initialFiltersState);
   };
 
@@ -107,16 +110,6 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
     }));
   };
 
-  useEffect(() => {
-    handleFetchProducts(categoryID, filtersState);
-  }, [categoryID, filtersState]);
-
-  useEffect(() => {
-    (async () => {
-      await fetchFilters(dispatch, categoryID);
-    })();
-  }, [dispatch, categoryID]);
-
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
       {isLoading ? (
@@ -125,24 +118,27 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
         <>
           <ul className='space-y-2'>
             <li className='text-colBlack leading-5 font-semibold'>
-              <button
-                onClick={() => navigate(-1)}
-                className='flex items-center bg-white'
-              >
+              <NavLink to='/catalog' className='flex items-center bg-white'>
                 <ArrowIcon className='cursor-pointer !m-0 !w-4 !h-4 mr-1 rotate-[-90deg]' />
-                Назад
-              </button>
+                В каталог
+              </NavLink>
             </li>
-            <li className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2'>
+            <li
+              onClick={() => {
+                handleFetchProducts(categories?.category?.slug, filtersState);
+                setCategory(categories?.category?.slug);
+              }}
+              className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2 cursor-pointer'
+            >
               {categories?.category?.name || 'Не указано'}
             </li>
             {categories?.children?.map((el) => (
               <li key={el?.id} className='pl-3'>
                 <div className='flex justify-between'>
-                  <span
+                  <div
                     onClick={() => {
-                      handleFetchProducts(el?.id);
-                      setCategoryID(el?.id);
+                      handleFetchProducts(el?.slug, filtersState);
+                      setCategory(el?.slug);
                     }}
                     className='text-colBlack leading-5 font-semibold cursor-pointer'
                   >
@@ -152,13 +148,13 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                         {el?.product_count}
                       </span>
                     </p>
-                  </span>
+                  </div>
                   {el?.children?.length && (
                     <ArrowIcon
                       onClick={() => toggleAccordion('parent', el?.id)}
                       className={`${
-                        accordion.parent === el?.id && 'rotate-[0deg]'
-                      } cursor-pointer !m-0 !w-4 !h-4 rotate-[180deg]`}
+                        accordion.parent !== el?.id && 'rotate-[180deg]'
+                      } cursor-pointer !m-0 !w-4 !h-4`}
                     />
                   )}
                 </div>
@@ -170,10 +166,10 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                   {el?.children?.map((child) => (
                     <div key={child?.id}>
                       <div className='flex justify-between items-center'>
-                        <span
+                        <div
                           onClick={() => {
-                            handleFetchProducts(child?.id);
-                            setCategoryID(child?.id);
+                            handleFetchProducts(child?.slug, filtersState);
+                            setCategory(child?.slug);
                           }}
                           className='text-colBlack text-sm leading-4 font-semibold cursor-pointer'
                         >
@@ -183,12 +179,12 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                               {child?.product_count}
                             </span>
                           </p>
-                        </span>
+                        </div>
                         {child?.children?.length && (
                           <ArrowIcon
                             onClick={() => toggleAccordion('child', child?.id)}
                             className={`${
-                              accordion.child === child?.id && 'rotate-[180deg]'
+                              accordion.child !== child?.id && 'rotate-[180deg]'
                             } cursor-pointer !m-0 !w-4 !h-4`}
                           />
                         )}
@@ -201,10 +197,10 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                         {child?.children?.map((item) => (
                           <div key={item?.id}>
                             <div className='flex justify-between'>
-                              <span
+                              <div
                                 onClick={() => {
-                                  handleFetchProducts(item?.id);
-                                  setCategoryID(item?.id);
+                                  handleFetchProducts(item?.slug, filtersState);
+                                  setCategory(item?.slug);
                                 }}
                                 className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                               >
@@ -214,14 +210,14 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                                     {item?.product_count}
                                   </span>
                                 </p>
-                              </span>
+                              </div>
                               {item?.children?.length && (
                                 <ArrowIcon
                                   onClick={() =>
                                     toggleAccordion('childLast', item?.id)
                                   }
                                   className={`${
-                                    accordion.childLast === item?.id &&
+                                    accordion.childLast !== item?.id &&
                                     'rotate-[180deg]'
                                   } cursor-pointer !m-0 !w-4 !h-4`}
                                 />
@@ -235,11 +231,14 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                               } pl-2 pb-2 pt-1`}
                             >
                               {item?.children?.map((itemChild) => (
-                                <span
+                                <div
                                   key={itemChild?.id}
                                   onClick={() => {
-                                    handleFetchProducts(itemChild?.id);
-                                    setCategoryID(itemChild?.id);
+                                    handleFetchProducts(
+                                      itemChild?.slug,
+                                      filtersState
+                                    );
+                                    setCategory(itemChild?.slug);
                                   }}
                                   className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                                 >
@@ -249,7 +248,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                                       {itemChild?.product_count}
                                     </span>
                                   </p>
-                                </span>
+                                </div>
                               ))}
                             </div>
                           </div>
@@ -439,7 +438,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       <AllFiltersModal
         open={open}
         setOpen={setOpen}
-        category={categoryID}
+        category={categoryId}
         handleFetchAllProducts={handleFetchAllProducts}
       />
     </div>

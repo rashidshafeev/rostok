@@ -1,12 +1,11 @@
 import { Box, Checkbox, FormControlLabel, Modal } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ArrowIcon } from '../Icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchFilters } from '../../api/filters';
 import { Loading } from '../Loader/Loader';
 import ErrorServer from '../Errors/ErrorServer';
 import ErrorEmpty from '../Errors/ErrorEmpty';
 import { fetchAllCategoryProducts } from '../../api/catalog';
+import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
 
 const AllFiltersModal = ({
   open,
@@ -14,12 +13,15 @@ const AllFiltersModal = ({
   category,
   handleFetchAllProducts,
 }) => {
-  const { filters, loading, error } = useSelector((state) => state?.filters);
   const [accordion, setAccordion] = useState(null);
   const [selectedValues, setSelectedValues] = useState({});
   const [isFilterLoading, setIsFilterLoading] = useState(false);
 
-  const dispatch = useDispatch();
+  const {
+    isLoading,
+    isError,
+    data: filters,
+  } = useGetFiltersOfProductsQuery(category);
 
   const toggleValue = (filterId, valueId) => {
     setSelectedValues((prevState) => ({
@@ -35,12 +37,6 @@ const AllFiltersModal = ({
   const toggleAccordion = (id) => {
     setAccordion(accordion === id ? null : id);
   };
-
-  useEffect(() => {
-    (async () => {
-      await fetchFilters(dispatch, category);
-    })();
-  }, [dispatch, category]);
 
   const onSubmit = async () => {
     setIsFilterLoading(true);
@@ -79,9 +75,9 @@ const AllFiltersModal = ({
                 &times;
               </span>
             </div>
-            {loading || isFilterLoading ? (
+            {isLoading || isFilterLoading ? (
               <Loading />
-            ) : error ? (
+            ) : isError ? (
               <ErrorServer errorMessage='Что-то пошло не так! Пожалуйста, повторите попытку еще раз.' />
             ) : filters?.dynamics?.length > 0 ? (
               <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
@@ -165,7 +161,10 @@ const AllFiltersModal = ({
             )}
           </div>
           <div className='flex space-x-3 h-10'>
-            <span onClick={() => setSelectedValues({})} className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'>
+            <span
+              onClick={() => setSelectedValues({})}
+              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'
+            >
               Сбросить
             </span>
             <button
