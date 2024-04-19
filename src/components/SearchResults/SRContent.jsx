@@ -4,26 +4,14 @@ import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import ProductCard from '../ProductCard';
 import CardLine from '../Catalog/TypesOfCards/CardLine';
 import LineNarrow from '../Catalog/TypesOfCards/LineNarrow';
-import { useParams } from 'react-router-dom';
 
-const SRContent = ({ products, isLoading, handleFetchBySort }) => {
+const SRContent = ({ products, isLoading }) => {
   const [cardType, setTypeCard] = useState('tile');
-  const [activeSort, setActiveSort] = useState(null);
-
-  const { categoryId } = useParams();
-
-  const handleBySort = (orderBy, sortOrder) => {
-    handleFetchBySort(categoryId, {
-      orderBy: orderBy,
-      sortOrder: sortOrder,
-    });
-    setActiveSort({ orderBy, sortOrder });
-  };
 
   return (
     <div className='w-full'>
-      <div className='flex justify-between items-center'>
-        <div className='flex space-x-3 pb-5'>
+      <div className='flex items-center pb-5'>
+        {/* <div className='flex space-x-3 pb-5'>
           <span
             onClick={() => {
               handleBySort('popularity', 'desc');
@@ -84,7 +72,7 @@ const SRContent = ({ products, isLoading, handleFetchBySort }) => {
           >
             По размеру скидки
           </span>
-        </div>
+        </div> */}
         <div className='flex justify-end items-center space-x-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'

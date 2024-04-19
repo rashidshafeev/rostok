@@ -1,7 +1,6 @@
 import Advantages from '../Home/Advantages';
 import Brands from '../Home/Brands';
 import Promotions from '../Home/Promotions';
-import { useParams } from 'react-router-dom';
 import SRContent from './SRContent';
 import SRSidebar from './SRSidebar';
 import { useEffect, useState } from 'react';
@@ -9,19 +8,17 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import {
   fetchAllCategoryProducts,
   fetchCategoryProductsFilter,
-  fetchCategoryProductsBySort,
 } from '../../api/catalog';
-import { useGetProductsByCategoryQuery } from '../../redux/api/api';
+import { fetchSearchResults } from '../../api/searchProducts';
+import { useLocation } from 'react-router-dom';
 
 const SRMain = () => {
-  const { categoryId } = useParams();
-  const { data, isLoading: loading } =
-    useGetProductsByCategoryQuery(categoryId);
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [products, setProducts] = useState(loading ? [] : data?.data);
-  const [isLoading, setIsLoading] = useState(loading);
+  const location = useLocation();
 
-  const handleFetchProducts = async (category_id, filters) => {
+  const handleFilterProducts = async (category_id, filters) => {
     setIsLoading(true);
     const { success, data } = await fetchCategoryProductsFilter(
       category_id,
@@ -44,44 +41,37 @@ const SRMain = () => {
     }
   };
 
-  const handleFetchBySort = async (category_id, sort) => {
-    setIsLoading(true);
-    const { success, data } = await fetchCategoryProductsBySort(
-      category_id,
-      sort
-    );
-    if (success) {
-      setProducts(data);
-      setIsLoading(false);
-    }
-    setIsLoading(false);
-  };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search');
+
+    const handleSearchResults = async () => {
+      setIsLoading(true);
+      const { success, data } = await fetchSearchResults(searchQuery);
+      if (success) {
+        setProducts(data);
+        setIsLoading(false);
+      } else {
+        setProducts(data);
+        setIsLoading(false);
+      }
+    };
+    handleSearchResults();
+  }, [location.search]);
 
   useEffect(() => {
     scrollToTop();
   }, []);
-
-  useEffect(() => {
-    setProducts(data?.data);
-  }, [data]);
-
-  useEffect(() => {
-    setIsLoading(loading);
-  }, [loading]);
 
   return (
     <div className='content lining-nums proportional-nums'>
       <h3 className='font-semibold text-4xl text-colBlack pb-5'>Не указано</h3>
       <div className='flex pb-10 min-h-[420px]'>
         <SRSidebar
-          handleFetchProducts={handleFetchProducts}
+          handleFetchProducts={handleFilterProducts}
           handleFetchAllProducts={handleFetchAllProducts}
         />
-        <SRContent
-          products={products}
-          isLoading={isLoading}
-          handleFetchBySort={handleFetchBySort}
-        />
+        <SRContent products={products} isLoading={isLoading} />
       </div>
       <Promotions />
       <Brands />

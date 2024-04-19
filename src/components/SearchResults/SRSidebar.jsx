@@ -8,15 +8,18 @@ import {
   FormControlLabel,
   Slider,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loading } from '../../helpers/Loader/Loader';
 import { IOSSwitch } from '../Favorites/styledComponents/IOSSwitch';
 import { ArrowIcon } from '../../helpers/Icons';
 import AllFiltersModal from '../../helpers/CModal/AllFiltersModal';
+import { fetchSearchFilters } from '../../api/searchProducts';
+import { useLocation } from 'react-router-dom';
 
 const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState(null);
   const [filtersState, setFiltersState] = useState({
     highRating: true,
     brands: [],
@@ -25,7 +28,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
     max_price: 900000,
   });
 
-  const filters = [];
+  const location = useLocation();
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
@@ -67,7 +70,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
     handleFetchProducts('', updatedFilters);
   };
 
-  const handleCheckboxChange = (name, value) => {
+  const handleCheckboxChange = (name, value, category_id) => {
     const updatedFilters = {
       ...filtersState,
       [name]: filtersState[name].includes(value)
@@ -75,7 +78,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
         : [...filtersState[name], value],
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts('', updatedFilters);
+    handleFetchProducts(category_id, updatedFilters);
   };
 
   const handleClearFilters = () => {
@@ -89,6 +92,24 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
     handleFetchProducts('', initialFiltersState);
     setFiltersState(initialFiltersState);
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const searchQuery = searchParams.get('search');
+
+    const handleSearchResults = async () => {
+      setIsLoading(true);
+      const { success, data } = await fetchSearchFilters(searchQuery);
+      if (success) {
+        setFilters(data);
+        setIsLoading(false);
+      } else {
+        setFilters(data);
+        setIsLoading(false);
+      }
+    };
+    handleSearchResults();
+  }, [location.search]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
