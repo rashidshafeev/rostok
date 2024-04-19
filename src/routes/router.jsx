@@ -12,6 +12,7 @@ import {
   ShoppingCart,
   ProductPage,
   ReviewsPage,
+  SearchResults,
 } from '../pages';
 import {
   CatProducts,
@@ -23,7 +24,6 @@ import {
 } from '../components';
 
 const fetchProduct = async ({ params }) => {
-  console.log(params);
   let group = await fetch(
     `https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`,
     {
@@ -44,6 +44,7 @@ export const router = createBrowserRouter(
         <Route path='shopping-cart' element={<ShoppingCart />} />
         <Route path='favorites' element={<Favorites />} />
         <Route path='comparison' element={<Comparison />} />
+        <Route path='search-results' element={<SearchResults />} />
         <Route path='catalog'>
           <Route index element={<Catalog />} />
           <Route path=':categoryId'>
