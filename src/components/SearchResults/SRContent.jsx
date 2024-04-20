@@ -11,68 +11,6 @@ const SRContent = ({ products, isLoading }) => {
   return (
     <div className='w-full'>
       <div className='flex items-center pb-5'>
-        {/* <div className='flex space-x-3 pb-5'>
-          <span
-            onClick={() => {
-              handleBySort('popularity', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'popularity' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            По популярности
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('price', 'asc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'price' &&
-              activeSort?.sortOrder === 'asc' &&
-              'text-colGreen'
-            }`}
-          >
-            Сначала дешёвые
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('price', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'price' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            Сначала дорогие
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('rating', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'rating' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            Высокий рейтинг
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('discount', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'discount' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            По размеру скидки
-          </span>
-        </div> */}
         <div className='flex justify-end items-center space-x-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'

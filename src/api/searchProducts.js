@@ -1,10 +1,25 @@
 import { request } from './axios';
 
-export const fetchSearchResults = async (searchQuery) => {
+export const fetchSearchResults = async (searchQuery, filtersValue) => {
   try {
-    const res = await request.get(
-      `/api/Products/variants?search=${searchQuery}`
-    );
+    const queryParams = {
+      search: searchQuery,
+      min_price: filtersValue.min_price || '',
+      max_price: filtersValue.max_price || '',
+      brands:
+        filtersValue.brands && filtersValue.brands.length > 0
+          ? JSON.stringify(filtersValue.brands)
+          : '',
+      tags:
+        filtersValue.tags && filtersValue.tags.length > 0
+          ? JSON.stringify(filtersValue.tags)
+          : '',
+    };
+
+    const res = await request.get('/api/Products/variants', {
+      params: queryParams,
+    });
+
     return { success: true, data: res?.data?.data };
   } catch (error) {
     return { success: false, data: [] };

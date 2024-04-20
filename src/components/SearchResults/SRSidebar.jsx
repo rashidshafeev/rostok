@@ -16,24 +16,21 @@ import AllFiltersModal from '../../helpers/CModal/AllFiltersModal';
 import { fetchSearchFilters } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
 
-const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
+const CatProdSidebar = ({
+  handleFetchAllProducts,
+  filtersValue,
+  setFiltersValue,
+}) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(null);
-  const [filtersState, setFiltersState] = useState({
-    highRating: true,
-    brands: [],
-    tags: [],
-    min_price: 0,
-    max_price: 900000,
-  });
 
   const location = useLocation();
 
   const handleChange = (name, value) => {
-    let updatedFilters = { ...filtersState };
+    let updatedFilters = { ...filtersValue };
 
-    if (name === 'min_price' && parseInt(value) > filtersState.max_price) {
+    if (name === 'min_price' && parseInt(value) > filtersValue.max_price) {
       updatedFilters = {
         ...updatedFilters,
         min_price: parseInt(value),
@@ -41,7 +38,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       };
     } else if (
       name === 'max_price' &&
-      parseInt(value) < filtersState.min_price
+      parseInt(value) < filtersValue.min_price
     ) {
       updatedFilters = {
         ...updatedFilters,
@@ -55,30 +52,27 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       };
     }
 
-    setFiltersState(updatedFilters);
-    handleFetchProducts('', updatedFilters);
+    setFiltersValue(updatedFilters);
   };
 
   const handleSliderChange = (newValue) => {
     const [newMinPrice, newMaxPrice] = newValue;
     const updatedFilters = {
-      ...filtersState,
+      ...filtersValue,
       min_price: newMinPrice,
       max_price: newMaxPrice,
     };
-    setFiltersState(updatedFilters);
-    handleFetchProducts('', updatedFilters);
+    setFiltersValue(updatedFilters);
   };
 
-  const handleCheckboxChange = (name, value, category_id) => {
+  const handleCheckboxChange = (name, value) => {
     const updatedFilters = {
-      ...filtersState,
-      [name]: filtersState[name].includes(value)
-        ? filtersState[name].filter((item) => item !== value)
-        : [...filtersState[name], value],
+      ...filtersValue,
+      [name]: filtersValue[name].includes(value)
+        ? filtersValue[name].filter((item) => item !== value)
+        : [...filtersValue[name], value],
     };
-    setFiltersState(updatedFilters);
-    handleFetchProducts(category_id, updatedFilters);
+    setFiltersValue(updatedFilters);
   };
 
   const handleClearFilters = () => {
@@ -89,8 +83,8 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       min_price: 0,
       max_price: 900000,
     };
-    handleFetchProducts('', initialFiltersState);
-    setFiltersState(initialFiltersState);
+    setFiltersValue(true);
+    setFiltersValue(initialFiltersState);
   };
 
   useEffect(() => {
@@ -145,14 +139,14 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                     label='от 0'
                     name='min_price'
                     type='number'
-                    value={filtersState.min_price}
+                    value={filtersValue.min_price}
                     onChange={(e) => handleChange('min_price', e.target.value)}
                   />
                   <CTextField
                     label='до 900 000'
                     name='max_price'
                     type='number'
-                    value={filtersState.max_price}
+                    value={filtersValue.max_price}
                     onChange={(e) => handleChange('max_price', e.target.value)}
                   />
                 </div>
@@ -161,7 +155,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                     sx={{ color: '#15765B' }}
                     size='small'
                     getAriaLabel={() => 'Price range'}
-                    value={[filtersState?.min_price, filtersState?.max_price]}
+                    value={[filtersValue?.min_price, filtersValue?.max_price]}
                     min={0}
                     max={900000}
                     onChange={(event, newValue) => handleSliderChange(newValue)}
@@ -201,9 +195,9 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                             padding: '5px',
                           }}
                           name='brands'
-                          checked={filtersState.brands.includes(el?.id)}
+                          checked={filtersValue.brands.includes(Number(el?.id))}
                           onChange={() =>
-                            handleCheckboxChange('brands', el?.id)
+                            handleCheckboxChange('brands', Number(el?.id) || '')
                           }
                         />
                       }
@@ -241,7 +235,7 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
                             color: '#15765B',
                             padding: '5px',
                           }}
-                          checked={filtersState.tags.includes(el?.tag)}
+                          checked={filtersValue.tags.includes(el?.tag)}
                           onChange={() => handleCheckboxChange('tags', el?.tag)}
                         />
                       }

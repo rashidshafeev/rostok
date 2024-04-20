@@ -5,31 +5,22 @@ import SRContent from './SRContent';
 import SRSidebar from './SRSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import {
-  fetchAllCategoryProducts,
-  fetchCategoryProductsFilter,
-} from '../../api/catalog';
+import { fetchAllCategoryProducts } from '../../api/catalog';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
 
 const SRMain = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filtersValue, setFiltersValue] = useState({
+    highRating: true,
+    brands: [],
+    tags: [],
+    min_price: 0,
+    max_price: 900000,
+  });
 
   const location = useLocation();
-
-  const handleFilterProducts = async (category_id, filters) => {
-    setIsLoading(true);
-    const { success, data } = await fetchCategoryProductsFilter(
-      category_id,
-      filters
-    );
-    if (success) {
-      setProducts(data);
-      setIsLoading(false);
-    }
-    setIsLoading(false);
-  };
 
   const handleFetchAllProducts = async (category_id, filters) => {
     const { success, data } = await fetchAllCategoryProducts(
@@ -47,7 +38,10 @@ const SRMain = () => {
 
     const handleSearchResults = async () => {
       setIsLoading(true);
-      const { success, data } = await fetchSearchResults(searchQuery);
+      const { success, data } = await fetchSearchResults(
+        searchQuery,
+        filtersValue
+      );
       if (success) {
         setProducts(data);
         setIsLoading(false);
@@ -57,7 +51,7 @@ const SRMain = () => {
       }
     };
     handleSearchResults();
-  }, [location.search]);
+  }, [location.search, filtersValue]);
 
   useEffect(() => {
     scrollToTop();
@@ -68,8 +62,9 @@ const SRMain = () => {
       <h3 className='font-semibold text-4xl text-colBlack pb-5'>Не указано</h3>
       <div className='flex pb-10 min-h-[420px]'>
         <SRSidebar
-          handleFetchProducts={handleFilterProducts}
           handleFetchAllProducts={handleFetchAllProducts}
+          filtersValue={filtersValue}
+          setFiltersValue={setFiltersValue}
         />
         <SRContent products={products} isLoading={isLoading} />
       </div>
