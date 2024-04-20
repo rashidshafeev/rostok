@@ -20,6 +20,7 @@ const CatProdSidebar = ({
   handleFetchAllProducts,
   filtersValue,
   setFiltersValue,
+  setCategories
 }) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -96,9 +97,11 @@ const CatProdSidebar = ({
       const { success, data } = await fetchSearchFilters(searchQuery);
       if (success) {
         setFilters(data);
+        setCategories(data?.categories)
         setIsLoading(false);
       } else {
         setFilters(data);
+        setCategories([])
         setIsLoading(false);
       }
     };
