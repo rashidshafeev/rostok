@@ -12,7 +12,9 @@ import {
   ShoppingCart,
   ProductPage,
   ReviewsPage,
+  CartCheckout
 } from '../pages';
+
 import {
   CatProducts,
   ChangePassword,
@@ -42,6 +44,7 @@ export const router = createBrowserRouter(
       <Route path='/' element={<Layout />}>
         <Route index element={<Home />} />
         <Route path='shopping-cart' element={<ShoppingCart />} />
+        <Route path='checkout' element={<CartCheckout />} />
         <Route path='favorites' element={<Favorites />} />
         <Route path='comparison' element={<Comparison />} />
         <Route path='catalog'>

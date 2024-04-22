@@ -10,7 +10,6 @@ import docIcon from '../../assets/icons/download-pdf.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import plural from 'plural-ru'
 import { removeFromCart, selectItem } from '../../redux/slices/cartSlice';
-import CartCheckout from '../../pages/Checkout/CartCheckout';
 
 const ShCartDetail = () => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -79,7 +78,6 @@ const ShCartDetail = () => {
     })
   }
   const getItemsQuantity = () => {  
-    console.log(selectedItems)
     const itemsQuantity = selectedItems.reduce((accumulator, item) => { 
       accumulator += item.quantity
       return accumulator
@@ -110,7 +108,8 @@ const ShCartDetail = () => {
 
   return (
     <>
-      <div className='max-w-[460px] w-full pt-3'>
+    <div className='flex justify-between items-end'>
+    <div className='max-w-[460px] w-full pt-3'>
         <CSearchField
           label='Введите наименование или артикул'
           name='search'
@@ -119,6 +118,22 @@ const ShCartDetail = () => {
         />
 
       </div>
+    <div className='flex justify-end items-center space-x-4 '>
+            <div className='flex cursor-pointer'>
+              <img src={shareIcon} alt='*' />
+              <span className='text-xs font-medium text-colBlack pl-2'>
+                Поделиться
+              </span>
+            </div>
+            <div className='flex cursor-pointer'>
+              <img src={docIcon} alt='*' />
+              <span className='text-xs font-medium text-colBlack pl-2'>
+                Скачать PDF заказа
+              </span>
+            </div>
+          </div>
+    </div>
+      
       <div className='flex space-x-10 py-5'>
         <div className='w-[70%]'>
           <div className='flex justify-between items-center pb-2'>
@@ -127,7 +142,6 @@ const ShCartDetail = () => {
                 <CCheckBoxField
                   label='Выбрать всё'
                   onChange={handleSelectAllChange}
-                  // checked={selectAllChecked}
                   checked={cart?.cart.length === selected.length}
                   styles='text-colBlack font-medium text-sm'
                 />
@@ -188,20 +202,7 @@ const ShCartDetail = () => {
           )}
         </div>
         <div className='w-[30%]'>
-          <div className='flex justify-end items-center space-x-4 h-[54px]'>
-            <div className='flex cursor-pointer'>
-              <img src={shareIcon} alt='*' />
-              <span className='text-xs font-medium text-colBlack pl-2'>
-                Поделиться
-              </span>
-            </div>
-            <div className='flex cursor-pointer'>
-              <img src={docIcon} alt='*' />
-              <span className='text-xs font-medium text-colBlack pl-2'>
-                Скачать PDF заказа
-              </span>
-            </div>
-          </div>
+          
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
             { selected.length === 0 ? (
               <div className='text-center text-[#828282] text-lg font-medium mb-5'>
@@ -211,7 +212,7 @@ const ShCartDetail = () => {
                 <>
                 <div className='flex justify-between items-center pb-3'>
               <span className='text-xl font-semibold text-colBlack'>
-                Ваш заказ
+                Итого
               </span>
               <span className='text-xl font-semibold text-colBlack'>
                 {selected.length} {plural(selectedItems.length, 'товар', 'товара', 'товаров')}
@@ -253,14 +254,12 @@ const ShCartDetail = () => {
             
             }
             
-            <NavLink className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen' } rounded w-full h-[50px] flex justify-center items-center`}>
+            <NavLink to='../checkout' className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen' } rounded w-full h-[50px] flex justify-center items-center`}>
               Перейти к оформлению
             </NavLink>
           </div>
         </div>
       </div>
-
-      <CartCheckout/>
     </>
   );
 };

@@ -1,12 +1,24 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
-import cartReducer from './slices/cartSlice';
+import cartReducer, { addToCart, removeFromCart } from './slices/cartSlice';
 import productsReducer from './slices/productsSlice';
 import { api } from './api/api';
-import favoriteReducer from './slices/favoriteSlice';
-import comparisonReducer from './slices/comparisonSlice';
+import favoriteReducer, { toggleFavorite } from './slices/favoriteSlice';
+import comparisonReducer, { toggleComparison } from './slices/comparisonSlice';
+
+
+const listenerMiddleware = createListenerMiddleware()
+listenerMiddleware.startListening({
+  matcher: isAnyOf(toggleFavorite, toggleComparison, addToCart, removeFromCart),
+  effect: async (action, listenerApi) => {
+    console.log('listener', action);
+    const state = listenerApi.getState()
+
+
+  }
+})
 
 const persistConfig = {
   key: 'root',
@@ -30,7 +42,9 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat(api.middleware),
+    })
+    .prepend(listenerMiddleware.middleware)
+    .concat(api.middleware),
 });
 
 export default store;

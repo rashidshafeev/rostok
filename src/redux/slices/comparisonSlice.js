@@ -11,9 +11,6 @@ export const comparisonSlice = createSlice({
   initialState,
   reducers: {
     toggleComparison: (state, action) => {
-      console.log(action.payload)
-      console.log(state.comparison.find((item) => item.id === action.payload.id))
-
       const product = state.comparison.find((item) => item.id === action.payload.id)
 
       if (product) {

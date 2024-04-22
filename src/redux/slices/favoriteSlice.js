@@ -11,8 +11,6 @@ export const favoriteSlice = createSlice({
   initialState,
   reducers: {
     toggleFavorite: (state, action) => {
-      console.log(action.payload)
-      console.log(state.favorite.find((item) => item.id === action.payload.id))
 
       const product = state.favorite.find((item) => item.id === action.payload.id)
 

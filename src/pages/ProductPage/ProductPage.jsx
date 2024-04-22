@@ -14,7 +14,6 @@ import TopControls from '../../components/ProductPage/TopControls';
 import { useGetCategoryTreeQuery, useGetProductsQuery, useLazyGetProductsQuery } from '../../redux/api/api';
 import { Loading } from '../../helpers/Loader/Loader';
 import ProductGallery from '../../components/ProductPage/ProductGallery';
-import ProductPageContent from './ProductPageContent';
 
 
 function ProductPage() {
