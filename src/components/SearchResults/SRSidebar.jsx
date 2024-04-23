@@ -12,21 +12,23 @@ import { useEffect, useState } from 'react';
 import { Loading } from '../../helpers/Loader/Loader';
 import { IOSSwitch } from '../Favorites/styledComponents/IOSSwitch';
 import { ArrowIcon } from '../../helpers/Icons';
-import AllFiltersModal from '../../helpers/CModal/AllFiltersModal';
 import { fetchSearchFilters } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
+import SearchFiltersModal from '../../helpers/CModal/SearchFiltersModal';
 
-const CatProdSidebar = ({
+const SRSidebar = ({
   handleFetchAllProducts,
   filtersValue,
   setFiltersValue,
-  setCategories
+  setCategories,
 }) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(null);
 
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('search');
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersValue };
@@ -89,24 +91,21 @@ const CatProdSidebar = ({
   };
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    const searchQuery = searchParams.get('search');
-
     const handleSearchResults = async () => {
       setIsLoading(true);
       const { success, data } = await fetchSearchFilters(searchQuery);
       if (success) {
         setFilters(data);
-        setCategories(data?.categories)
+        setCategories(data?.categories);
         setIsLoading(false);
       } else {
         setFilters(data);
-        setCategories([])
+        setCategories([]);
         setIsLoading(false);
       }
     };
     handleSearchResults();
-  }, [location.search]);
+  }, [searchQuery, setCategories]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -289,14 +288,16 @@ const CatProdSidebar = ({
           </div>
         </>
       )}
-      <AllFiltersModal
+      <SearchFiltersModal
         open={open}
         setOpen={setOpen}
-        // category={category}
+        filters={filters?.dynamics}
+        isLoading={isLoading}
+        searchQuery={searchQuery}
         handleFetchAllProducts={handleFetchAllProducts}
       />
     </div>
   );
 };
 
-export default CatProdSidebar;
+export default SRSidebar;

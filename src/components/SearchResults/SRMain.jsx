@@ -109,6 +109,7 @@ const SRMain = () => {
           filtersValue={filtersValue}
           setFiltersValue={setFiltersValue}
           setCategories={setCategories}
+          searchQuery={searchQuery}
         />
         <SRContent products={products} isLoading={isLoading} />
       </div>
