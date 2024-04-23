@@ -16,7 +16,6 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
   // const cart = useSelector(state => state?.cart?.cart)
 
   const favorite = useSelector(state => state?.favorite)
-  
 
   return (
     <>
@@ -88,8 +87,8 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                   <ExpandMore />
                 </button>
                 <div className='flex space-x-2 pl-5'>
-                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id)} className='transition-all duration-300 hover:scale-110' onClick={() => dispatch(toggleFavorite(product))} />
-                  <DeleteIcon className='transition-all duration-300 hover:scale-110' onClick={() => dispatch(removeFromCart(product))} />
+                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id)} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
+                  <DeleteIcon className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
                 </div>
               </div>
             </div>

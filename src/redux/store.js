@@ -15,8 +15,6 @@ listenerMiddleware.startListening({
   effect: async (action, listenerApi) => {
     console.log('listener', action);
     const state = listenerApi.getState()
-
-
   }
 })
 

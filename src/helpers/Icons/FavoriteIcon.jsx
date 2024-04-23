@@ -1,6 +1,7 @@
 function FavoriteIcon(props) {
-  const color = props.favorite === 'true' ? '#F04438' : '#727272';
-  const fill = props.favorite === 'true' ? 'nonzero' : 'evenodd';
+  console.log(props)
+  const color = props.favorite ? '#F04438' : '#727272';
+  const fill = props.favorite ? 'nonzero' : 'evenodd';
 
   return (
     <svg
