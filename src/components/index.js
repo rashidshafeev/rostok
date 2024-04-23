@@ -26,6 +26,7 @@ import ComDetail from './Comparison/ComDetail';
 import CatalogSidebar from './Catalog/Catalog/CatalogSidebar.jsx';
 import CatalogContent from './Catalog/Catalog/CatalogContent.jsx';
 import CatProducts from './Catalog/Catalog/CatProducts/CatProducts';
+import SRMain from './SearchResults/SRMain.jsx';
 
 export {
   Header,
@@ -56,4 +57,5 @@ export {
   CatalogSidebar,
   CatalogContent,
   CatProducts,
+  SRMain,
 };

@@ -1,90 +1,16 @@
-import { Loading } from '../../../../helpers/Loader/Loader';
-import ErrorEmpty from '../../../../helpers/Errors/ErrorEmpty';
-import ProductCard from '../../../ProductCard';
 import { useState } from 'react';
-import CardLine from '../../TypesOfCards/CardLine';
-import LineNarrow from '../../TypesOfCards/LineNarrow';
-import { useParams } from 'react-router-dom';
+import { Loading } from '../../helpers/Loader/Loader';
+import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
+import ProductCard from '../ProductCard';
+import CardLine from '../Catalog/TypesOfCards/CardLine';
+import LineNarrow from '../Catalog/TypesOfCards/LineNarrow';
 
-const CatProdContent = ({ catProducts, isLoading, handleFetchBySort }) => {
+const SRContent = ({ products, isLoading }) => {
   const [cardType, setTypeCard] = useState('tile');
-  const [activeSort, setActiveSort] = useState(null);
-
-  const { categoryId } = useParams();
-
-  const handleBySort = (orderBy, sortOrder) => {
-    handleFetchBySort(categoryId, {
-      orderBy: orderBy,
-      sortOrder: sortOrder,
-    });
-    setActiveSort({ orderBy, sortOrder });
-  };
 
   return (
     <div className='w-full'>
-      <div className='flex justify-between items-center'>
-        <div className='flex space-x-3 pb-5'>
-          <span
-            onClick={() => {
-              handleBySort('popularity', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'popularity' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            По популярности
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('price', 'asc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'price' &&
-              activeSort?.sortOrder === 'asc' &&
-              'text-colGreen'
-            }`}
-          >
-            Сначала дешёвые
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('price', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'price' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            Сначала дорогие
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('rating', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'rating' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            Высокий рейтинг
-          </span>
-          <span
-            onClick={() => {
-              handleBySort('discount', 'desc');
-            }}
-            className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'discount' &&
-              activeSort?.sortOrder === 'desc' &&
-              'text-colGreen'
-            }`}
-          >
-            По размеру скидки
-          </span>
-        </div>
+      <div className='flex items-center pb-5'>
         <div className='flex justify-end items-center space-x-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -138,22 +64,22 @@ const CatProdContent = ({ catProducts, isLoading, handleFetchBySort }) => {
       </div>
       {isLoading ? (
         <Loading extraStyle='420px' />
-      ) : catProducts?.length > 0 ? (
+      ) : products?.length > 0 ? (
         cardType === 'tile' ? (
           <div className='grid grid-cols-5 gap-5'>
-            {catProducts?.map((el) => (
+            {products?.map((el) => (
               <ProductCard key={el?.id} product={el} />
             ))}
           </div>
         ) : cardType === 'line' ? (
           <div className='space-y-4'>
-            {catProducts?.map((el) => (
+            {products?.map((el) => (
               <CardLine key={el?.id} product={el} />
             ))}
           </div>
         ) : (
           <div className='space-y-3'>
-            {catProducts?.map((el) => (
+            {products?.map((el) => (
               <LineNarrow key={el?.id} product={el} />
             ))}
           </div>
@@ -169,4 +95,4 @@ const CatProdContent = ({ catProducts, isLoading, handleFetchBySort }) => {
   );
 };
 
-export default CatProdContent;
+export default SRContent;

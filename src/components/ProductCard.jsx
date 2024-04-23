@@ -33,7 +33,10 @@ const ProductCard = ({ product, recommended }) => {
   );
 
   return (
-    <NavLink to={product?.slug} className='overflow-hidden group'>
+    <NavLink
+      to={`/catalog/${product?.category?.slug}/${product?.slug}`}
+      className='overflow-hidden group'
+    >
       <div>
         <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
           {product?.files?.length > 0 && (
