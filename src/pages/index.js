@@ -7,6 +7,7 @@ import Catalog from './Catalog/Catalog';
 import ProductPage from './ProductPage/ProductPage';
 import ReviewsPage from './Reviews/ReviewsPage';
 import SearchResults from './SearchResults/SearchResults';
+import CartCheckout from './Checkout/CartCheckout';
 
 export {
   Home,
@@ -17,5 +18,7 @@ export {
   Catalog,
   ProductPage,
   ReviewsPage,
+  CartCheckout,
   SearchResults,
 };
+

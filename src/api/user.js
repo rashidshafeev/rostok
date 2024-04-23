@@ -2,9 +2,9 @@ import {
   loginFailure,
   loginStart,
   loginSuccess,
+  setToken,
 } from '../redux/slices/userSlice';
 import { request } from './axios';
-
 // Check Login:
 export const postAuthCheck = async (dispatch, data) => {
   try {
@@ -24,7 +24,8 @@ export const postAuthWithEmail = async (dispatch, data) => {
   };
   try {
     const res = await request.post('/api/User/auth', sendData);
-    localStorage.setItem('rosstokToken', res?.data?.token);
+    // localStorage.setItem('rosstokToken', res?.data?.token);
+    dispatch(setToken(res?.data?.token));
     dispatch(loginSuccess(res?.data));
     return { success: res?.data?.success, resData: res?.data };
   } catch (error) {

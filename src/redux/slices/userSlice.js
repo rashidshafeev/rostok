@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   user: null,
+  token: null,
   loading: false,
   error: null,
 };
@@ -10,6 +11,9 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
     registerStart: (state) => {
       state.loading = true;
       state.error = false;
@@ -38,11 +42,13 @@ export const userSlice = createSlice({
     },
     logOut: (state) => {
       state.user = null;
+      state.token = null;
     },
   },
 });
 
 export const {
+  setToken,
   registerStart,
   registerSuccess,
   registerFailure,
