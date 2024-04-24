@@ -38,7 +38,9 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
+  const { data: filters } = useGetFiltersOfProductsQuery();
+
+  console.log(categories);
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
