@@ -13,6 +13,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState(null);
+  const [showAll, setShowAll] = useState(null);
 
   const handleItemClick = (id) => {
     setActiveItem(id);
@@ -141,24 +142,23 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
             </h2>
             {activeItem?.children?.length > 0 && (
               <div className='grid grid-cols-3 gap-5'>
-                {activeItem?.children?.map((el) => {
-                  return (
-                    <div key={el?.id}>
-                      <NavLink
-                        to={`/catalog/${el?.slug}`}
-                        state={{ category: el }}
-                        onClick={() => setShowCatalog(false)}
-                        className='font-semibold text-colBlack hover:text-colGreen'
-                      >
-                        {el?.name}
-                      </NavLink>
-                      {el?.children?.length > 0 && (
-                        <div className='pt-1'>
-                          {el?.children?.map((child) => (
+                {activeItem?.children?.map((el) => (
+                  <div key={el?.id}>
+                    <NavLink
+                      to={`/catalog/${el?.slug}`}
+                      onClick={() => setShowCatalog(false)}
+                      className='font-semibold text-colBlack hover:text-colGreen'
+                    >
+                      {el?.name}
+                    </NavLink>
+                    {el?.children?.length > 0 && (
+                      <div className='pt-1'>
+                        {el?.children
+                          ?.slice(0, showAll === el?.id ? undefined : 5)
+                          ?.map((child) => (
                             <div key={child?.id}>
                               <NavLink
                                 to={`/catalog/${child?.slug}`}
-                                state={{ category: child }}
                                 onClick={() => setShowCatalog(false)}
                                 className='text-colBlack text-sm hover:text-colGreen'
                               >
@@ -166,11 +166,18 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                               </NavLink>
                             </div>
                           ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                        {showAll !== el?.id && el?.children?.length > 5 && (
+                          <div
+                            onClick={() => setShowAll(el?.id)}
+                            className='cursor-pointer font-medium text-sm text-colGreen'
+                          >
+                            Показать еще
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
             )}
           </div>
