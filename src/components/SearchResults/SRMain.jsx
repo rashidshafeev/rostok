@@ -9,6 +9,7 @@ import { fetchAllCategoryProducts } from '../../api/catalog';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
 import noImg from '../../assets/images/no-image.png';
+import categoryIcon from '../../assets/icons/category.svg';
 
 const SRMain = () => {
   const [products, setProducts] = useState([]);
@@ -20,6 +21,7 @@ const SRMain = () => {
     tags: [],
     min_price: 0,
     max_price: 900000,
+    category_id: '',
   });
 
   const location = useLocation();
@@ -32,6 +34,15 @@ const SRMain = () => {
     if (success) {
       setProducts(data);
     }
+  };
+
+  const handleCategories = (id) => {
+    let updatedFilters = { ...filtersValue };
+    updatedFilters = {
+      ...updatedFilters,
+      category_id: Number(id),
+    };
+    setFiltersValue(updatedFilters);
   };
 
   const searchParams = new URLSearchParams(location.search);
@@ -74,16 +85,30 @@ const SRMain = () => {
             <h4 className='font-semibold text-xl text-colBlack pb-3'>
               Найдены товары в категориях:
             </h4>
-            <div className='grid grid-cols-8 gap-3'>
+            <div className='grid grid-cols-7 gap-3'>
+              <button
+                className={`${
+                  filtersValue?.category_id == '' ? 'bg-gray-200' : 'bg-white'
+                } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-2 rounded-md flex justify-center items-center outline-none`}
+                onClick={() => handleCategories('')}
+              >
+                <img className='w-4 mr-1' src={categoryIcon} alt='*' />
+                Все
+              </button>
               {categories?.map((el) => (
                 <button
-                  className='bg-white shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-2 rounded-md flex items-center relative'
+                  className={`${
+                    filtersValue?.category_id == el?.id
+                      ? 'bg-gray-200'
+                      : 'bg-white'
+                  } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-2 rounded-md flex items-center relative outline-none`}
                   key={el?.id}
+                  onClick={() => handleCategories(el?.id)}
                 >
-                  <span className='absolute -top-[8px] -right-[8px] border-4 lining-nums proportional-nums border-white bg-colGreen text-white text-xs rounded-[50px] min-w-[28px] h-[28px] p-[3px] block'>
+                  <span className='absolute top-[-12px] right-[-12px] border-4 lining-nums proportional-nums border-gray-100 bg-colGreen text-white text-xs rounded-[50px] min-w-[28px] h-[28px] p-[3px] block'>
                     {el?.product_count}
                   </span>
-                  <div className='min-w-[48px] w-12 h-8 overflow-hidden rounded'>
+                  <div className='min-w-[40px] w-10 h-8 overflow-hidden rounded'>
                     <img
                       className='w-full h-full object-cover'
                       src={el?.image || noImg}
@@ -94,7 +119,7 @@ const SRMain = () => {
                       alt='*'
                     />
                   </div>
-                  <span className='ml-2 text-colBlack text-sm leading-[115%] text-left'>
+                  <span className='px-2 text-colBlack text-sm leading-[115%] text-left break-all line-clamp-2'>
                     {el?.name}
                   </span>
                 </button>
