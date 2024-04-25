@@ -72,7 +72,7 @@ const SRMain = () => {
 
   return (
     <div className='content lining-nums proportional-nums'>
-      <div className='bg-gray-100 rounded-lg p-4 mb-8'>
+      <div className='bg-gray-100 rounded-lg p-4 mb-8 mt-4'>
         <h3
           className={`font-semibold text-4xl text-colBlack ${
             categories?.length > 0 ? 'pb-2' : 'pb-5'

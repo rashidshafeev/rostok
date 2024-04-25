@@ -44,8 +44,6 @@ const CatProdSidebar = ({
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
   const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
 
-  console.log(filters);
-
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
 
