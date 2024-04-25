@@ -1,4 +1,4 @@
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import CTextField from '../../../../helpers/CustomInputs/CTextField';
 import {
   Accordion,
@@ -19,9 +19,12 @@ import {
   useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/api';
 
-const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllProducts }) => {
+const CatProdSidebar = ({
+  setBreadCrumps,
+  handleFetchProducts,
+  handleFetchAllProducts,
+}) => {
   const [open, setOpen] = useState(false);
-  const [category, setCategory] = useState(null);
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -36,9 +39,12 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
   });
 
   const { categoryId } = useParams();
+  const navigate = useNavigate();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-  const { data: filters } = useGetFiltersOfProductsQuery();
+  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
+
+  console.log(filters);
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
@@ -66,7 +72,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
     }
 
     setFiltersState(updatedFilters);
-    handleFetchProducts(category || categoryId, updatedFilters);
+    handleFetchProducts(categoryId, updatedFilters);
   };
 
   const handleSliderChange = (newValue) => {
@@ -77,7 +83,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
       max_price: newMaxPrice,
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts(category || categoryId, updatedFilters);
+    handleFetchProducts(categoryId, updatedFilters);
   };
 
   const handleCheckboxChange = (name, value) => {
@@ -88,7 +94,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
         : [...filtersState[name], value],
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts(category || categoryId, updatedFilters);
+    handleFetchProducts(categoryId, updatedFilters);
   };
 
   const handleClearFilters = () => {
@@ -99,7 +105,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
       min_price: 0,
       max_price: 900000,
     };
-    handleFetchProducts(category || categoryId, initialFiltersState);
+    handleFetchProducts(categoryId, initialFiltersState);
     setFiltersState(initialFiltersState);
   };
 
@@ -111,8 +117,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
   };
 
   useEffect(() => {
-    setBreadCrumps(categories?.category_chain)
-  }, [])
+    setBreadCrumps(filters?.category_chain);
+  }, [filters?.category_chain]);
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -122,28 +128,27 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
         <>
           <ul className='space-y-2'>
             <li className='text-colBlack leading-5 font-semibold'>
-              <NavLink to='/catalog' className='flex items-center bg-white'>
+              <button
+                onClick={() => navigate(-1)}
+                className='flex items-center bg-white'
+              >
                 <ArrowIcon className='cursor-pointer !m-0 !w-4 !h-4 mr-1 rotate-[-90deg]' />
-                В каталог
-              </NavLink>
+                Назад
+              </button>
             </li>
-            <li
-              onClick={() => {
-                handleFetchProducts(categories?.category?.slug, filtersState);
-                setCategory(categories?.category?.slug);
-              }}
-              className='text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2 cursor-pointer'
-            >
-              {categories?.category?.name || 'Не указано'}
+            <li>
+              <NavLink
+                to={`/catalog/${categories?.category?.slug}`}
+                className='flex  text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2 cursor-pointer'
+              >
+                {categories?.category?.name || 'Не указано'}
+              </NavLink>
             </li>
             {categories?.children?.map((el) => (
               <li key={el?.id} className='pl-3'>
                 <div className='flex justify-between'>
-                  <div
-                    onClick={() => {
-                      handleFetchProducts(el?.slug, filtersState);
-                      setCategory(el?.slug);
-                    }}
+                  <NavLink
+                    to={`/catalog/${el?.slug}`}
                     className='text-colBlack leading-5 font-semibold cursor-pointer'
                   >
                     <p className='relative max-w-[170px]'>
@@ -152,7 +157,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                         {el?.product_count}
                       </span>
                     </p>
-                  </div>
+                  </NavLink>
                   {el?.children?.length && (
                     <ArrowIcon
                       onClick={() => toggleAccordion('parent', el?.id)}
@@ -170,11 +175,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                   {el?.children?.map((child) => (
                     <div key={child?.id}>
                       <div className='flex justify-between items-center'>
-                        <div
-                          onClick={() => {
-                            handleFetchProducts(child?.slug, filtersState);
-                            setCategory(child?.slug);
-                          }}
+                        <NavLink
+                          to={`/catalog/${child?.slug}`}
                           className='text-colBlack text-sm leading-4 font-semibold cursor-pointer'
                         >
                           <p className='relative max-w-[140px] w-full'>
@@ -183,7 +185,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                               {child?.product_count}
                             </span>
                           </p>
-                        </div>
+                        </NavLink>
                         {child?.children?.length && (
                           <ArrowIcon
                             onClick={() => toggleAccordion('child', child?.id)}
@@ -201,11 +203,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                         {child?.children?.map((item) => (
                           <div key={item?.id}>
                             <div className='flex justify-between'>
-                              <div
-                                onClick={() => {
-                                  handleFetchProducts(item?.slug, filtersState);
-                                  setCategory(item?.slug);
-                                }}
+                              <NavLink
+                                to={`/catalog/${item?.slug}`}
                                 className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                               >
                                 <p className='relative max-w-[140px] w-full leading-4'>
@@ -214,7 +213,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                                     {item?.product_count}
                                   </span>
                                 </p>
-                              </div>
+                              </NavLink>
                               {item?.children?.length && (
                                 <ArrowIcon
                                   onClick={() =>
@@ -235,15 +234,9 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                               } pl-2 pb-2 pt-1`}
                             >
                               {item?.children?.map((itemChild) => (
-                                <div
+                                <NavLink
+                                  to={`/catalog/${itemChild?.slug}`}
                                   key={itemChild?.id}
-                                  onClick={() => {
-                                    handleFetchProducts(
-                                      itemChild?.slug,
-                                      filtersState
-                                    );
-                                    setCategory(itemChild?.slug);
-                                  }}
                                   className='text-colBlack leading-5 text-sm cursor-pointer relative flex'
                                 >
                                   <p className='relative max-w-[140px] w-full'>
@@ -252,7 +245,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllPro
                                       {itemChild?.product_count}
                                     </span>
                                   </p>
-                                </div>
+                                </NavLink>
                               ))}
                             </div>
                           </div>
