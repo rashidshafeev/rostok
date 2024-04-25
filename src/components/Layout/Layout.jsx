@@ -1,7 +1,6 @@
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Footer, Header } from '..';
-import { excludedPaths } from '../../helpers/BreadCrumbs/crumbLinkReplacer';
-import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
+// import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import { useEffect, useState } from 'react';
 import CatalogModal from '../../helpers/CModal/CatalogModal';
 import { useDispatch } from 'react-redux';
@@ -9,8 +8,6 @@ import { useDispatch } from 'react-redux';
 const Layout = () => {
   const [cartProducts, setCartProducts] = useState([]);
   const [showCatalog, setShowCatalog] = useState(false);
-  const { pathname } = useLocation();
-  const shouldRenderBreadcrumbs = !excludedPaths.includes(pathname);
 
   //   useEffect(() => {
   //  console.log('layout')
@@ -67,7 +64,6 @@ const Layout = () => {
         showCatalog={showCatalog}
         setShowCatalog={setShowCatalog}
       />
-      {shouldRenderBreadcrumbs && <Breadcrumbs />}
       <CatalogModal showCatalog={showCatalog} setShowCatalog={setShowCatalog} />
       <Outlet
         context={[cartProducts, addToCart, removeFromCart, removeAllCart]}

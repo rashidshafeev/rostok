@@ -9,7 +9,7 @@ import {
   FormControlLabel,
   Slider,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loading } from '../../../../helpers/Loader/Loader';
 import { IOSSwitch } from '../../../Favorites/styledComponents/IOSSwitch';
 import { ArrowIcon } from '../../../../helpers/Icons';
@@ -19,7 +19,7 @@ import {
   useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/api';
 
-const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
+const CatProdSidebar = ({ setBreadCrumps, handleFetchProducts, handleFetchAllProducts }) => {
   const [open, setOpen] = useState(false);
   const [category, setCategory] = useState(null);
   const [accordion, setAccordion] = useState({
@@ -109,6 +109,10 @@ const CatProdSidebar = ({ handleFetchProducts, handleFetchAllProducts }) => {
       [type]: prevState[type] === id ? null : id,
     }));
   };
+
+  useEffect(() => {
+    setBreadCrumps(categories?.category_chain)
+  }, [])
 
   return (
     <div className='max-w-[220px] min-w-[220px] w-full mr-5'>

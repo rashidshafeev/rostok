@@ -74,7 +74,6 @@ const ShCartDetail = () => {
   const handleRemoveSelected = () => {
     selected.forEach((product) => {
       dispatch(removeFromCart(product));
-
     })
   }
   const getItemsQuantity = () => {  

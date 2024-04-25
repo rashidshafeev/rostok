@@ -6,6 +6,7 @@ import CatProdContent from './CatProdContent';
 import CatProdSidebar from './CatProdSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
+import BreadCrumbs from '../../../../helpers/BreadCrumbs/BreadCrumbs';
 import {
   fetchAllCategoryProducts,
   fetchCategoryProductsFilter,
@@ -21,6 +22,7 @@ const CatProducts = () => {
 
   const [catProducts, setCatProducts] = useState(loading ? [] : data?.data);
   const [isLoading, setIsLoading] = useState(loading);
+  const [breadCrumps, setBreadCrumps] = useState([]);
 
   const handleFetchProducts = async (category_id, filters) => {
     setIsLoading(true);
@@ -72,11 +74,13 @@ const CatProducts = () => {
 
   return (
     <div className='content lining-nums proportional-nums'>
+      <BreadCrumbs breadCrumps={breadCrumps} />
       <h3 className='font-semibold text-4xl text-colBlack pb-5'>
         {state?.category?.name}
       </h3>
       <div className='flex pb-10 min-h-[420px]'>
         <CatProdSidebar
+          setBreadCrumps={setBreadCrumps}
           handleFetchProducts={handleFetchProducts}
           handleFetchAllProducts={handleFetchAllProducts}
         />

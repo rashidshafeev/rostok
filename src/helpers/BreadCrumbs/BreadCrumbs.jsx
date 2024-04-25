@@ -1,47 +1,29 @@
-// BreadCrumps.jsx
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { crumbLinkReplacer } from './crumbLinkReplacer';
+import { NavLink } from 'react-router-dom';
 
-const Breadcrumbs = () => {
-  const { pathname, state } = useLocation();
-  const crumbs = [];
-  if (state && state.category) {
-    crumbs.push(
-      <React.Fragment key={state.category?.id}>
-        <span className='min-w-[5px] w-[5px] h-[5px] rounded-full bg-colGreen'></span>
-        <span className='text-xs text-colBlack'>{state.category?.name}</span>
-      </React.Fragment>
-    );
-  }
-
-  const crumbPath = pathname
-    ?.split('/')
-    ?.filter(
-      (path) => path !== '' && path !== 'categories' && path !== 'products'
-    )
-    ?.map((crumb, index, array) => {
-      const crumbLink = `/${array.slice(0, index + 1).join('/')}`;
-
-      return (
-        <React.Fragment key={crumb}>
-          <span className='min-w-[5px] w-[5px] h-[5px] rounded-full bg-colGreen'></span>
-          <span className='text-xs text-colBlack'>
-            {crumbLinkReplacer[crumb] || crumb}
-          </span>
-        </React.Fragment>
-      );
-    });
-
+const BreadCrumbs = ({ breadCrumps }) => {
   return (
-    <div className='content w-full flex items-center space-x-3 pt-6 pb-3 truncate lining-nums proportional-nums'>
-      <Link to='/' className='text-xs text-colBlack'>
+    <div className='flex items-center flex-wrap py-3'>
+      <NavLink className='mr-3 mt-2 text-xs text-colBlack' to='/'>
         Главная
-      </Link>
-      {crumbPath}
-      {crumbs}
+      </NavLink>
+      <span className='min-w-[5px] w-[5px] h-[5px] mr-3 mt-2 rounded-full bg-colGreen'></span>
+      <NavLink className='mr-3 mt-2 text-xs text-colBlack' to='/catalog'>
+        Каталог
+      </NavLink>
+      {breadCrumps?.map((el, index) => (
+        <React.Fragment key={index}>
+          <span className='min-w-[5px] w-[5px] h-[5px] mr-3 mt-2 rounded-full bg-colGreen'></span>
+          <NavLink
+            to={`/catalog/${el?.slug}`}
+            className='mr-3 mt-2 text-xs text-colBlack'
+          >
+            {el?.name}
+          </NavLink>
+        </React.Fragment>
+      ))}
     </div>
   );
 };
 
-export default Breadcrumbs;
+export default BreadCrumbs;
