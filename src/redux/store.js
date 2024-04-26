@@ -7,6 +7,7 @@ import productsReducer from './slices/productsSlice';
 import { api } from './api/api';
 import favoriteReducer, { toggleFavorite } from './slices/favoriteSlice';
 import comparisonReducer, { toggleComparison } from './slices/comparisonSlice';
+import organizationsReducer, { addOrganization } from './slices/organizationsSlice';
 
 
 const listenerMiddleware = createListenerMiddleware()
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   favorite: favoriteReducer,
   comparison: comparisonReducer,
+  organizations: organizationsReducer,
   [api.reducerPath]: api.reducer,
 });
 

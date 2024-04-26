@@ -99,8 +99,8 @@ const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
               <span className='pl-1'>₽</span>
             </div>
             <div className='flex space-x-2'>
-              <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id)} className='transition-all duration-300 hover:scale-110' onClick={() => dispatch(toggleFavorite(product))}/>
-              <DeleteIcon className='transition-all duration-300 hover:scale-110' onClick={() => dispatch(removeFromCart(product))} />
+              <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(toggleFavorite(product))}/>
+              <DeleteIcon className='transition-all duration-300 hover:scale-110 cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
             </div>
           </div>
         </div>

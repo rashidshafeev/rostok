@@ -1,7 +1,8 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { organizations } from '../../../constants/data';
+// import { organizations } from '../../../constants/data';
 import { useState } from 'react';
 import CModal from '../../../helpers/CModal/CModal';
+import { useSelector } from 'react-redux';
 
 const Organizations = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -11,6 +12,9 @@ const Organizations = () => {
   const handleToggleAccordion = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
   };
+
+  const { organizations }  = useSelector((state) => state?.organizations);
+  console.log(organizations);
 
   return (
     <div className='w-full'>
@@ -155,7 +159,7 @@ const Organizations = () => {
           </div>
         ))}
       </div>
-      <CModal open={open} setOpen={setOpen} content={content} />
+      <CModal open={open} setOpen={setOpen} content={content} organizations={organizations}/>
     </div>
   );
 };

@@ -1,8 +1,25 @@
 import { Box, Modal } from '@mui/material';
 import CTextField from '../CustomInputs/CTextField';
+import { useDispatch } from 'react-redux';
+import { addOrganization } from '../../redux/slices/organizationsSlice';
+import { Controller, useForm } from "react-hook-form"
 
-const CModal = ({ open, setOpen, content, logOutFromAccount }) => {
+const CModal = ({ open, setOpen, content, logOutFromAccount, organizations }) => {
   if (!open) return null;
+  
+  const {
+    control,
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm()
+
+  const dispatch = useDispatch();
+
+  const onAddOrganization = (data) => {
+    dispatch(addOrganization(data));
+  }
 
   return (
     <Modal
@@ -51,27 +68,44 @@ const CModal = ({ open, setOpen, content, logOutFromAccount }) => {
           <h1 className='text-3xl text-colBlack text-center pb-5 font-semibold'>
             Добавление организации
           </h1>
-          <form>
+          <form onSubmit={handleSubmit(onAddOrganization)}>
             <div className='w-full space-y-5'>
-              <CTextField
-                label='Название организации'
-                name='name'
-                type='text'
-                required={true}
-              />
-              <CTextField
-                label='ИНН'
-                name='inn'
-                type='number'
-                required={true}
-              />
+
+                <Controller
+                  name='name'
+                  control={control}
+                  render={({ field }) => (
+                    <CTextField
+                      {...field}
+                      label='Название организации'
+                      type='text'
+                      required={true}
+                    />
+                  )}
+                />
+
+                <Controller
+                  name='inn'
+                  control={control}
+                  render={({ field }) => (
+                    <CTextField
+                      {...field}
+                      label='ИНН'
+                      type='number'
+                      required={true}
+                    />
+                  )}
+                />
+
+
+              
             </div>
             <h4 className='text-xl font-semibold text-colBlack'>
               {content?.item?.name}
             </h4>
             <button
-              disabled
-              className='w-full h-[38px] px-6 bg-colGray rounded mt-5 text-white font-semibold'
+              disabled={!watch('name') ||!watch('inn')}
+              className={` w-full h-[38px] px-6 ${ !watch('name') ||!watch('inn') ? 'bg-colGray' : 'bg-colGreen'} rounded mt-5 text-white font-semibold`}
             >
               Сохранить
             </button>
@@ -96,7 +130,7 @@ const CModal = ({ open, setOpen, content, logOutFromAccount }) => {
               <div className='grid grid-cols-2 gap-3'>
                 <CTextField
                   label='ИНН'
-                  name='inn'
+                  name='inn2'
                   type='number'
                   borderColor='#222'
                   focusedBorderColor='#15765B'
@@ -115,7 +149,7 @@ const CModal = ({ open, setOpen, content, logOutFromAccount }) => {
               </div>
               <CTextField
                 label='Название организации'
-                name='name'
+                name='name2'
                 type='text'
                 required={true}
               />
