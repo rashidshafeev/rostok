@@ -87,7 +87,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                   <ExpandMore />
                 </button>
                 <div className='flex space-x-2 pl-5'>
-                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id)} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
+                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
                   <DeleteIcon className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
                 </div>
               </div>

@@ -40,6 +40,9 @@ import CTextField from '../../helpers/CustomInputs/CTextField';
 import CSearchField from '../../helpers/CustomInputs/CSearchField';
 import { CheckCircleRounded } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import CSelectField from '../../helpers/CustomInputs/CSelectField';
+import { MenuItem, Select } from '@mui/material';
+import AddressModal from '../../helpers/CModal/AddressModal/AddressModal';
 
 function CartCheckout() {
 
@@ -57,6 +60,7 @@ function CartCheckout() {
     address: 'г. Москва, Волгоградский проспект, д. 120',
     coord: [55.684758, 37.738521]
   });
+
   const [pickupPointModal, setPickupPointModal] = useState(false)
 
   const handlePickupPointModalOpen = () => {
@@ -64,6 +68,15 @@ function CartCheckout() {
   };
   const handlePickupPointModalClose = () => {
     setPickupPointModal(false);
+  };
+
+  const [addressModal, setAddressModal] = useState(false)
+
+  const handleAddressModalOpen = () => {
+    setAddressModal(true);
+  };
+  const handleAddressModalClose = () => {
+    setAddressModal(false);
   };
 
 
@@ -189,7 +202,19 @@ function CartCheckout() {
     console.log(order)
   }
 
-  
+
+
+  const [addressList, setAddressList] = useState([
+    'ул Пушкина дом Колотушкина',
+    'ул Колотушкина дом Пушкина',
+  ]);
+
+  const [address, setAddress] = useState('');
+
+  const handleAddressChange = (event) => {
+    setAddress(event.target.value);
+  };
+
 
   return (
     <div className='content pb-6 lining-nums proportional-nums'>
@@ -428,7 +453,7 @@ function CartCheckout() {
 
             <div className='flex gap-5'>
 
-              <div onClick={() => setDeliveryType('samovyvoz')} className={`flex flex-col w-[300px] p-5 border ${deliveryType === 'samovyvoz' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
+              <div onClick={() => setDeliveryType('pickup')} className={`flex flex-col w-[300px] p-5 border ${deliveryType === 'pickup' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={stallicon} alt="" />
                 </div>
@@ -461,38 +486,88 @@ function CartCheckout() {
 
             </div>
 
+            {deliveryType === 'pickup' && 
             <div className='flex justify-between items-start border border-colLightGray rounded-[10px]'>
-              <div className='p-5 h-full flex flex-col justify-between'>
-                <div className='flex flex-col gap-2 mb-5'>
-                  <div className='font-semibold'>
-                    Выбранный пункт самовывоза
-                  </div>
-                  <div className=''>
-                    {pickupPoint?.address || ' '}
-                  </div>
-                  <div className='text-colGreen font-semibold'>
-                    Забирайте сегодня
-                  </div>
-                  <div className=''>
-                    Пн-Вс: с 8 до 21
-                  </div>
+            <div className='p-5 h-full flex flex-col justify-between'>
+              <div className='flex flex-col gap-2 mb-5'>
+                <div className='font-semibold'>
+                  Выбранный пункт самовывоза
                 </div>
-
-                <button onClick={handlePickupPointModalOpen} className='rounded text-colGreen border border-colGreen w-fit py-3 px-5 font-semibold'>Изменить</button>
-                <PickupPointModal open={pickupPointModal} handleClose={handlePickupPointModalClose} pickupPoint={pickupPoint} setPickupPoint={setPickupPoint} />
+                <div className=''>
+                  {pickupPoint?.address || ' '}
+                </div>
+                <div className='text-colGreen font-semibold'>
+                  Забирайте сегодня
+                </div>
+                <div className=''>
+                  Пн-Вс: с 8 до 21
+                </div>
               </div>
 
-              <YMaps >
-                <div className='rounded overflow-hidden grow'  >
-
-                  <Map className='w-full h-[300px] grow' defaultState={{ center: [55.75, 37.57], zoom: 9 }} >
-
-                    <Placemark geometry={pickupPoint.coord} />
-                  </Map>
-                </div>
-              </YMaps>
-
+              <button onClick={handlePickupPointModalOpen} className='rounded text-colGreen border border-colGreen w-fit py-3 px-5 font-semibold'>Изменить</button>
+              <PickupPointModal open={pickupPointModal} handleClose={handlePickupPointModalClose} pickupPoint={pickupPoint} setPickupPoint={setPickupPoint} />
             </div>
+
+            <YMaps >
+              <div className='rounded overflow-hidden grow'  >
+
+                <Map className='w-full h-[300px] grow' defaultState={{ center: [55.75, 37.57], zoom: 9 }} >
+
+                  <Placemark geometry={pickupPoint.coord} />
+                </Map>
+              </div>
+            </YMaps>
+
+          </div>}
+
+          {deliveryType === 'delivery' &&
+          <div className='flex flex-col gap-5'>
+            <div className='text-lg font-semibold'>Адрес доставки</div>
+            {!user?.address && 
+            <>
+            <div onClick={handleAddressModalOpen} className='text-colGreen font-semibold decoration-colGreen underline underline-offset-[5px] cursor-pointer'>Добавить адрес</div>
+            <AddressModal  open={addressModal} handleClose={handleAddressModalClose} addressList={addressList} setAddressList={setAddressList} />
+            </>}
+                 
+                  <Select
+                    label={'Адрес'}
+                    name={'address'}
+                    value={address}
+                    onChange={handleAddressChange}
+                    sx={{
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderWidth: '1px',
+                        borderColor: '#B5B5B5',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderWidth: '1px',
+                        borderColor: '#B5B5B5',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#15765B',
+                        borderWidth: '1px',
+                      },
+                      '&.Mui-focused': {
+                        color: '#15765B',
+                      },
+                      paddingRight: 0,
+                    }}
+                  >
+                    {addressList.map((el, index) => (
+                      <MenuItem key={index} value={el}>
+                        {el}
+                      </MenuItem>
+                    ))}
+                  </Select>
+            <div className='text-lg font-semibold'>Ориентировочная дата доставки: <span className='text-lg font-semibold text-colGreen'>пятница, 25 октября - пятница, 1 ноября</span></div>
+
+            </div>}
+
+          {deliveryType === 'tk' &&
+          <div>
+
+            </div>}
+            
 
             <CTextField placeholder='Комментарий' label='Комментарий' multiline rows={4} />
 
