@@ -6,6 +6,7 @@ export const fetchSearchResults = async (searchQuery, filtersValue) => {
       search: searchQuery,
       min_price: filtersValue.min_price || '',
       max_price: filtersValue.max_price || '',
+      category_id: filtersValue.category_id || '',
       brands:
         filtersValue.brands && filtersValue.brands.length > 0
           ? JSON.stringify(filtersValue.brands)

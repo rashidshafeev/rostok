@@ -5,16 +5,15 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://bot-adash.host2bot.ru/',
     prepareHeaders: (headers, { getState }) => {
-      console.log(getState())
-      const token = getState().user.token
-      
+      const token = getState().user.token;
+
       if (token) {
-        headers.set('Authorization', `Bearer ${token}`)
+        headers.set('Authorization', `Bearer ${token}`);
       }
-      
-      return headers
+
+      return headers;
     },
-    credentials: 'include'
+    credentials: 'include',
   }),
   endpoints: (builder) => ({
     getProducts: builder.query({

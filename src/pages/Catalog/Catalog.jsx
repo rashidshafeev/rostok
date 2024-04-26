@@ -10,6 +10,7 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { Loading } from '../../helpers/Loader/Loader';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
+import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 
 const Catalog = () => {
   const { isLoading, isError, data } = useGetCategoryTreeQuery();
@@ -20,6 +21,7 @@ const Catalog = () => {
 
   return (
     <div className='content pb-6 lining-nums proportional-nums'>
+      <BreadCrumbs breadCrumps={[]} />
       <h1 className='text-[40px] font-semibold text-colBlack'>Каталог</h1>
       {isLoading ? (
         <Loading extraStyle='520px' />
