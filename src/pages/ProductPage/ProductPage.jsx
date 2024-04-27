@@ -14,6 +14,7 @@ import TopControls from '../../components/ProductPage/TopControls';
 import { useGetCategoryTreeQuery, useGetProductsQuery, useLazyGetProductsQuery } from '../../redux/api/api';
 import { Loading } from '../../helpers/Loader/Loader';
 import ProductGallery from '../../components/ProductPage/ProductGallery';
+import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 
 
 function ProductPage() {
@@ -29,6 +30,9 @@ function ProductPage() {
   // const currentProductGroup = useRef({})
   const [currentProduct, setCurrentProduct] = useState({})
 
+  const [tabIndex, setTabIndex] = useState(3);
+
+
   console.log("ProductPage")
   const params = useParams()
   const loader = useLoaderData()
@@ -38,56 +42,6 @@ const navigate = useNavigate()
 console.log("loader.data")
 console.log(loader.data)
 
-  // const isInCurrentGroup = () => {
-  //   console.log("check")
-  //   console.log(currentGroup)
-  //   console.log(currentGroup.some(variant => variant.slug === params.productId))
-
-  //   if (!(currentProductGroup.length === 0)) {
-  //     return currentGroup.some(variant => variant.slug === params.productId)
-  //   } else {
-  //     return false
-  //   }
-  // }
-
-  // const { isLoading, isFetching, isError, isSuccess, error, data, refetch } = useGetProductsQuery(params.productId, {
-  //   skip: isInCurrentGroup(),
-  //   // refetchOnMountOrArgChange: true,
-  // })
-  // console.log(isLoading, isFetching, isError, isSuccess, error, data, refetch)
-
-  
-  // // useEffect(() => {
-  // //   if (data) {
-  // //     setProduct(data.data)
-  // //   }
-
-  // // }, [])
-
-  // // if (isSuccess) {
-  // //   setProduct(data.data)
-  // // }
-
-
-
-  // // const [getProduct] = useLazyGetProductsQuery()
-
-  // // let product = null
-
-  // // const loadData = async () => {
-
-
-  // //    const result = await getProduct(params.productId).unwrap()
-  // //    console.log("result")
-  // //    console.log(result)
-  // //   product = result.data
-
-  // //   getAttributeList()
-  // //   getProducts()
-
-  // // }
-
-  // // useEffect(loadData, [])
 
 const product = loader.data
 
@@ -97,7 +51,6 @@ const product = loader.data
 
     product?.variants.forEach((variant, varIndex) => {
 
-    // group?.variants.forEach((variant, varIndex) => {
 
       variant.attributes.forEach((attribute) => {
 
@@ -301,10 +254,10 @@ const product = loader.data
     return (
 
       <div className='content lining-nums proportional-nums'>
-
+        <Breadcrumbs breadCrumps={product?.category_chain}/>
         <div className=''>
           <div className='text-xl font-semibold mb-[10px]'>{currentProduct.name}</div>
-          <TopControls product={currentProduct} reviews={loader.data.reviews}/>
+          <TopControls product={currentProduct} reviews={product.reviews}/>
         </div>
         <div className='flex pb-5 min-h-[420px] gap-5'>
           <div className='basis-5/12'>
@@ -319,7 +272,7 @@ const product = loader.data
             <ProductAttributesList list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList>
   
   
-            <CharacteristicsList />
+            <CharacteristicsList current={currentProduct} product={product} setTabIndex={setTabIndex}/>
           </div>
   
           <div className='basis-3/12'>
@@ -329,7 +282,7 @@ const product = loader.data
         </div>
         <div className='flex pb-5 min-h-[420px] gap-5'>
   
-          <ProductTabs product={currentProduct} reviews={loader.data.reviews}></ProductTabs>
+          <ProductTabs current={currentProduct} product={product} tabIndex={tabIndex} setTabIndex={setTabIndex}></ProductTabs>
   
         </div>
       </div>
