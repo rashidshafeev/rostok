@@ -17,9 +17,11 @@ export default {
       },
     },
     screens: {
+      xl: '1280px',
       lg: '991px',
       md: '768px',
       mm: '576px',
+      sm: '480px',
     },
   },
   plugins: [],

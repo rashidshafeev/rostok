@@ -4,35 +4,200 @@ import logo from '../../assets/images/logo.svg';
 import vk from '../../assets/images/vk.svg';
 import telegram from '../../assets/images/telegram.svg';
 import whatsapp from '../../assets/images/whatsapp.svg';
+import arrowDown from '../../assets/icons/arrow-black.svg';
 
 const Footer = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
+  const [menus, setMenus] = useState({
+    about: false,
+    buyer: false,
+    info: false,
+  });
 
   return (
-    <footer className='py-14 bg-colSuperLight'>
+    <footer className='pt-10 pb-4 md:py-14 bg-colSuperLight'>
       <div className='content'>
-        <div className='flex justify-between space-x-5 border-b border-colDarkGray pb-20'>
-          <div className='max-w-[580px] w-full'>
-            <div className='max-w-[220px] w-full'>
+        <div className='lg:flex justify-between lg:space-x-5 border-b border-colGray pb-10 md:pb-20'>
+          <div className='lg:max-w-[380px] xl:max-w-[580px] w-full'>
+            <div className='mm:max-w-[220px] w-full'>
               <NavLink to='/'>
-                <img className='w-full' src={logo} alt='*' />
+                <img className='w-[220px] mm:w-full' src={logo} alt='*' />
               </NavLink>
               <p className='text-colDarkGray text-xs pt-2'>
                 Интернет-магазин мебельной фурнитуры, столешниц и плитных
                 материалов
               </p>
             </div>
-            <form className='pt-10'>
-              <h2 className='text-colBlack text-2xl font-semibold pb-3'>
+            <div className='md:hidden pt-5'>
+              <div
+                onClick={(prev) => setMenus({ ...prev, about: !menus.about })}
+                className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+              >
+                <p
+                  className={`${
+                    menus.about ? 'text-colBlack' : 'text-colDarkGray'
+                  } font-medium`}
+                >
+                  О компании
+                </p>
+                <img
+                  className={`${
+                    menus.about ? 'rotate-[180deg]' : 'rotate-[0deg]'
+                  }`}
+                  src={arrowDown}
+                  alt='*'
+                />
+              </div>
+              {menus.about && (
+                <ul className='pl-5 py-1 border-b border-colGray'>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      О компании
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Контакты
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Реквизиты
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Для партнёров
+                    </NavLink>
+                  </li>
+                </ul>
+              )}
+              <div
+                onClick={(prev) => setMenus({ ...prev, buyer: !menus.buyer })}
+                className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+              >
+                <p
+                  className={`
+                ${menus.buyer ? 'text-colBlack' : 'text-colDarkGray'}
+                font-medium pt-2`}
+                >
+                  Покупателю
+                </p>
+                <img
+                  className={`${
+                    menus.buyer ? 'rotate-[180deg]' : 'rotate-[0deg]'
+                  }`}
+                  src={arrowDown}
+                  alt='*'
+                />
+              </div>
+              {menus.buyer && (
+                <ul className='pl-5 py-1 border-b border-colGray'>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Каталог
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Акции
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Товары со скидкой
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Новинки
+                    </NavLink>
+                  </li>
+                </ul>
+              )}
+              <div
+                onClick={(prev) => setMenus({ ...prev, info: !menus.info })}
+                className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+              >
+                <p
+                  className={`${
+                    menus.info ? 'text-colBlack' : 'text-colDarkGray'
+                  }  font-medium pt-2`}
+                >
+                  Информация
+                </p>
+                <img
+                  className={`${
+                    menus.info ? 'rotate-[180deg]' : 'rotate-[0deg]'
+                  }`}
+                  src={arrowDown}
+                  alt='*'
+                />
+              </div>
+              {menus.info && (
+                <ul className='pl-5 py-1 border-b border-colGray'>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Вопрос-ответ
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Оплата и доставка
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink
+                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
+                      to='#'
+                    >
+                      Гарантия и обмен
+                    </NavLink>
+                  </li>
+                </ul>
+              )}
+            </div>
+            <form className='pt-7 md:pt-10'>
+              <h2 className='text-colBlack text-xl sm:text-2xl font-semibold pb-3'>
                 Подпишитесь на рассылку
               </h2>
-              <div className='flex'>
+              <div className='sm:flex'>
                 <input
-                  className='border border-[#B5B5B5] h-[38px] max-w-[340px] w-full bg-white px-3 rounded outline-none'
+                  className='border border-[#B5B5B5] h-[38px] sm:max-w-[340px] w-full bg-white px-3 rounded outline-none'
                   type='email'
                   placeholder='Электронная почта'
                 />
-                <button className='h-[38px] px-5 bg-colGreen rounded ml-2 text-white'>
+                <button className='w-full sm:w-auto h-[38px] px-5 bg-colGreen rounded mt-2 sm:mt-0 sm:ml-2 text-white'>
                   Подписаться
                 </button>
               </div>
@@ -87,10 +252,10 @@ const Footer = () => {
               </label>
             </form>
           </div>
-          <div>
-            <div className='grid grid-cols-3 gap-4'>
+          <div className='pt-8 lg:pt-0 text-center md:text-left'>
+            <div className='grid md:grid-cols-3 gap-4'>
               <div>
-                <p className='text-colDarkGray font-medium pb-1'>
+                <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
                   Горячая линия
                 </p>
                 <h4 className='text-colBlack text-xl font-semibold lining-nums proportional-nums'>
@@ -98,18 +263,18 @@ const Footer = () => {
                 </h4>
               </div>
               <div>
-                <p className='text-colDarkGray font-medium pb-1'>
+                <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
                   Электронная почта
                 </p>
-                <h4 className='text-colBlack text-xl font-semibold'>
+                <h4 className='text-colBlack text-xl font-semibold break-all'>
                   rostok@rostok.ru
                 </h4>
               </div>
               <div>
-                <p className='text-colDarkGray font-medium pb-1'>
+                <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
                   Соцсети и мессенджеры
                 </p>
-                <div className='flex items-center space-x-3'>
+                <div className='flex justify-center md:justify-start pt-2 md:pt-0 items-center space-x-3'>
                   <NavLink to='#'>
                     <img src={telegram} alt='*' />
                   </NavLink>
@@ -122,9 +287,11 @@ const Footer = () => {
                 </div>
               </div>
             </div>
-            <div className='grid grid-cols-3 gap-4 pt-10'>
+            <div className='hidden md:grid md:grid-cols-3 gap-4 pt-10'>
               <div>
-                <p className='text-colDarkGray font-medium pb-2'>О компании</p>
+                <p className='text-colDarkGray font-medium md:pb-2'>
+                  О компании
+                </p>
                 <ul>
                   <li>
                     <NavLink
@@ -161,7 +328,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <p className='text-colDarkGray font-medium pb-2'>Покупателю</p>
+                <p className='text-colDarkGray font-medium md:pb-2'>
+                  Покупателю
+                </p>
                 <ul>
                   <li>
                     <NavLink
@@ -198,7 +367,9 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <p className='text-colDarkGray font-medium pb-2'>Информация</p>
+                <p className='text-colDarkGray font-medium md:pb-2'>
+                  Информация
+                </p>
                 <ul>
                   <li>
                     <NavLink
@@ -229,13 +400,16 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className='flex justify-between items-center pt-10'>
-          <p className='text-sm text-colDarkGray'>
+        <div className='flex justify-between flex-col md:flex-row items-center md:items-start xl:items-center pt-10'>
+          <p className='text-sm text-colDarkGray pr-5 text-center md:text-left pb-5 md:pb-0'>
             2023 © ООО «Росток» — Копирование материалов с сайта без разрешения
             правообладателя строго запрещено
           </p>
           <div className='flex space-x-5'>
-            <NavLink className='text-colGray text-xs font-semibold' to='#'>
+            <NavLink
+              className='text-colGray text-xs font-semibold text-nowrap'
+              to='#'
+            >
               Политика конфиденциальности
             </NavLink>
             <NavLink className='text-colGray text-xs font-semibold' to='#'>
