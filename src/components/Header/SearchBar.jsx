@@ -17,7 +17,7 @@ function SearchBar() {
       className='max-w-[780px] w-full border-colGreen border rounded-md flex justify-between'
     >
       <input
-        className='w-full h-10 outline-none rounded-l-md bg-white px-3 border-none'
+        className='w-full h-[34px] mm:h-10 outline-none rounded-l-md bg-white px-3 border-none'
         type='search'
         placeholder='Поиск по сайту'
         onChange={(e) => setValue(e.target.value)}

@@ -1,15 +1,19 @@
+import { useState } from 'react';
+import CitiesModal from '../../helpers/CModal/CitiesModal';
 import { NavLink } from 'react-router-dom';
 import address from '../../assets/icons/address.svg';
 import arrow from '../../assets/icons/arrow-black.svg';
-import { useState } from 'react';
-import CitiesModal from '../../helpers/CModal/CitiesModal';
+import logo from '../../assets/images/logo.svg';
 
 function PreHeader() {
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState(null);
 
   return (
-    <div className='content mx-auto pt-2 flex justify-between items-center space-x-5 relative z-[999]'>
+    <div className='content mx-auto pt-3 lg:pt-2 flex justify-between items-center space-x-5 relative z-[999]'>
+      <NavLink className='min-w-[87px] w-[87px] block lg:hidden' to='/'>
+        <img src={logo} alt='logo' />
+      </NavLink>
       <div
         onClick={() => setOpen(true)}
         className='flex items-center cursor-pointer'
@@ -20,7 +24,7 @@ function PreHeader() {
         </span>
         <img className='ml-1' src={arrow} alt='*' />
       </div>
-      <ul className='flex justify-end items-center space-x-3'>
+      <ul className='hidden lg:flex justify-end items-center space-x-3'>
         <li>
           <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
             Оплата и доставка

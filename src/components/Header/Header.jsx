@@ -7,20 +7,20 @@ import SearchBar from './SearchBar';
 import HeaderControls from './HeaderControls';
 import logo from '../../assets/images/logo.svg';
 
-const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
+const Header = ({ showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
 
   return (
     <>
       <PreHeader />
-      <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 space-x-5 bg-white z-[999]'>
-        <NavLink className='min-w-[90px]' to='/'>
+      <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 lg:space-x-5 bg-white z-[999]'>
+        <NavLink className='min-w-[90px] w-[90px] hidden lg:block' to='/'>
           <img src={logo} alt='logo' />
         </NavLink>
         <button
           onClick={() => setShowCatalog(!showCatalog)}
-          className='bg-colGreen text-white flex justify-center items-center max-w-[140px] w-full min-h-[40px] rounded'
+          className='bg-colGreen text-white flex justify-center items-center max-w-[40px] mm:max-w-[140px] w-full min-h-[40px] rounded mr-3 lg:mr-0'
         >
           {!showCatalog ? (
             <svg
@@ -57,14 +57,10 @@ const Header = ({ cartProducts, showCatalog, setShowCatalog }) => {
               />
             </svg>
           )}
-          <span className='ml-2'>Каталог</span>
+          <span className='hidden mm:block ml-2'>Каталог</span>
         </button>
         <SearchBar />
-        <HeaderControls
-          cartProducts={cartProducts}
-          setOpen={setOpen}
-          setContent={setContent}
-        />
+        <HeaderControls setOpen={setOpen} setContent={setContent} />
       </div>
       <CatalogFastAccess />
       <AuthModal
