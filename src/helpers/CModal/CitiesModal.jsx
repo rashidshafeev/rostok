@@ -2,14 +2,14 @@ import { Box, Modal } from '@mui/material';
 import { useGetCitiesAndRegionsQuery } from '../../redux/api/api';
 import { Loading } from '../Loader/Loader';
 import search from '../../assets/icons/search.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ErrorEmpty from '../Errors/ErrorEmpty';
 
 const CitiesModal = ({ open, setOpen, city, setCity }) => {
   const { isLoading, isError, data: locations } = useGetCitiesAndRegionsQuery();
   const [regionID, setRegionID] = useState(null);
-  const [cities, setCities] = useState(locations?.cities);
-  const [regions, setRegions] = useState(locations?.regions);
+  const [cities, setCities] = useState([]);
+  const [regions, setRegions] = useState([]);
 
   const handleFilterByRegion = (regionId) => {
     const filteredCities = locations?.cities?.filter(
@@ -35,6 +35,11 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
       setRegions(filteredRegions);
     }
   };
+
+  useEffect(() => {
+    setCities(locations?.cities);
+    setRegions(locations?.regions);
+  }, [isLoading]);
 
   if (!open) return null;
 
