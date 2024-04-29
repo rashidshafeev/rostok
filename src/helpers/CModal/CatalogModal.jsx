@@ -15,8 +15,8 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
   const [activeItem, setActiveItem] = useState(null);
   const [showAll, setShowAll] = useState(null);
 
-  const handleItemClick = (id) => {
-    setActiveItem(id);
+  const handleItemClick = (el) => {
+    setActiveItem(el);
   };
 
   useEffect(() => {
@@ -64,13 +64,11 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
         <div className='flex pt-5'>
           <div className='max-w-[220px] w-full'>
             <ul className='pr-4 border-r border-[#EBEBEB] space-y-3 sticky top-0'>
-              <li
-                onClick={() => handleItemClick('actions')}
-                className={`${
-                  activeItem === 'actions' && 'bg-colSuperLight'
-                } flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1`}
-              >
-                <div className='flex items-center'>
+              <li className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'>
+                <div
+                  onMouseOver={() => handleItemClick(null)}
+                  className='flex items-center'
+                >
                   <img src={catalogIcon1} alt='*' />
                   <span className='text-cilBlack font-semibold pl-2'>
                     Акции
@@ -78,13 +76,11 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                 </div>
                 <ArrowIcon className='rotate-[90deg]' />
               </li>
-              <li
-                onClick={() => handleItemClick('news')}
-                className={`${
-                  activeItem === 'news' && 'bg-colSuperLight'
-                } flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1`}
-              >
-                <div className='flex items-center'>
+              <li className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'>
+                <div
+                  onMouseOver={() => handleItemClick(null)}
+                  className='flex items-center'
+                >
                   <img src={catalogIcon2} alt='*' />
                   <span className='text-cilBlack font-semibold pl-2'>
                     Новинки
@@ -92,13 +88,11 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                 </div>
                 <ArrowIcon className='rotate-[90deg]' />
               </li>
-              <li
-                onClick={() => handleItemClick('sales')}
-                className={`${
-                  activeItem === 'sales' && 'bg-colSuperLight'
-                } flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1`}
-              >
-                <div className='flex items-center'>
+              <li className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'>
+                <div
+                  onMouseOver={() => handleItemClick(null)}
+                  className='flex items-center'
+                >
                   <img src={catalogIcon3} alt='*' />
                   <span className='text-cilBlack font-semibold pl-2'>
                     Хиты продаж
