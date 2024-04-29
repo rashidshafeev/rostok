@@ -14,7 +14,6 @@ const listenerMiddleware = createListenerMiddleware()
 listenerMiddleware.startListening({
   matcher: isAnyOf(toggleFavorite, toggleComparison, addToCart, removeFromCart),
   effect: async (action, listenerApi) => {
-    console.log('listener', action);
     const state = listenerApi.getState()
   }
 })

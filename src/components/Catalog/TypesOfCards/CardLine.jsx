@@ -1,21 +1,53 @@
-import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
-import noImg from '../../../assets/images/no-image.png';
-import { ComparisonIcon, FavoriteIcon } from '../../../helpers/Icons';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
+import { addToCart } from '../../../redux/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { ComparisonIcon, FavoriteIcon } from '../../../helpers/Icons';
+import noImg from '../../../assets/images/no-image.png';
+import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
+import { toggleComparison } from '../../../redux/slices/comparisonSlice';
 
-const CardLine = ({ product, furniture, recommended }) => {
+const CardLine = ({ product }) => {
+  const cart = useSelector((state) => state?.cart);
+  const favorite = useSelector((state) => state?.favorite);
+  const comparison = useSelector((state) => state?.comparison);
+
   const navigate = useNavigate();
-  const [cartProducts, addToCart] = useOutletContext();
+  const dispatch = useDispatch();
 
-  const isProductInCart = cartProducts?.some((el) => el?.id === product?.id);
+  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = favorite?.favorite?.some(
+    (el) => el?.id === product?.id
+  );
+  const isProductInComparison = comparison?.comparison?.some(
+    (el) => el?.id === product?.id
+  );
+
+  const handleToggleFavorite = (event) => {
+    event.preventDefault();
+    dispatch(toggleFavorite(product));
+  };
+
+  const handleToggleComparison = (event) => {
+    event.preventDefault();
+    dispatch(toggleComparison(product));
+  };
+
+  const handleToggleAddToCart = (event) => {
+    event.preventDefault();
+    dispatch(addToCart(product));
+  };
 
   return (
     <div className='flex justify-between'>
       <div className='flex pr-4 max-w-[800px]'>
-        <div className='max-w-[280px] min-w-[280px] w-full h-[180px] relative bg-gray-100'>
+        <NavLink
+          to={product?.slug}
+          className='max-w-[280px] min-w-[280px] w-full h-[180px] overflow-hidden rounded-xl relative bg-gray-100'
+        >
           <img
             src={product?.files[0]?.large || noImg}
-            className='w-full h-full object-contain'
+            className='w-full h-full object-cover'
             onError={(e) => {
               e.target.onError = null;
               e.target.src = noImg;
@@ -23,18 +55,16 @@ const CardLine = ({ product, furniture, recommended }) => {
             alt='*'
           />
           <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
-            {product?.tags?.length > 0 ? (
+            {product?.tags?.length > 0 && (
               <span
                 style={{ color: product?.tags[0]?.text_color }}
                 className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
               >
                 {product?.tags[0]?.text}
               </span>
-            ) : (
-              <span></span>
             )}
           </div>
-        </div>
+        </NavLink>
         <div className='pl-5'>
           <div className='space-y-2 pt-1'>
             <div>
@@ -83,8 +113,16 @@ const CardLine = ({ product, furniture, recommended }) => {
             )}
           </div>
           <div className='flex justify-end items-center space-x-2'>
-            <FavoriteIcon className='cursor-pointer' />
-            <ComparisonIcon className='cursor-pointer' />
+            <FavoriteIcon
+              className='transition-all duration-500 hover:scale-110 cursor-pointer'
+              favorite={isProductInFavorite ? 'true' : 'false'}
+              onClick={handleToggleFavorite}
+            />
+            <ComparisonIcon
+              className='cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110'
+              comparison={isProductInComparison.toString()}
+              onClick={handleToggleComparison}
+            />
           </div>
         </div>
         <div className='flex justify-between space-x-3 pt-5'>
@@ -100,22 +138,14 @@ const CardLine = ({ product, furniture, recommended }) => {
           {isProductInCart ? (
             <button
               onClick={() => navigate('/shopping-cart')}
-              className={`${
-                recommended || furniture
-                  ? ''
-                  : 'group-hover:opacity-100 opacity-0'
-              } bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm`}
+              className='bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm'
             >
               Перейти в корзину
             </button>
           ) : (
             <button
-              onClick={() => addToCart(product)}
-              className={`${
-                recommended || furniture
-                  ? ''
-                  : 'group-hover:opacity-100 opacity-0'
-              } bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm`}
+              onClick={handleToggleAddToCart}
+              className='bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm'
             >
               В корзину
             </button>
