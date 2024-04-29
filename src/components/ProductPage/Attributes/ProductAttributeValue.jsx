@@ -69,10 +69,10 @@ ref={refs.setReference} {...getReferenceProps()}
 
         ref={refs.setFloating}
         {...getFloatingProps()}
-        style={floatingStyles}
-        className='w-[100px] h-[100px] border bg-white border-colLightGray rounded-[10px] flex justify-center items-center'
+        style={{backgroundColor: `${value.color}`  ,...floatingStyles}}
+        className='w-[100px] h-[100px] border  border-colLightGray rounded-[10px] flex justify-center items-center'
         >
-                  <img src="" alt="" className='contain' />g
+                  <img src="" alt="" className='contain' />
               </div>
       )}
 

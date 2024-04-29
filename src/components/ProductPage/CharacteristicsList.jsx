@@ -19,9 +19,9 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     product?.attributes?.map((attribute, index) => {
                         return (
                             <div className='flex items-end'>
-                                <div className='shrink leading-none text-colDarkGray mr-1'>{attribute.name}</div>
-                                <div className='grow border-b-2 border-dotted'></div>
-                                <div className='flex items-end leading-none shrink ml-1'>
+                                <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
+                                <div className='grow self-start h-4 border-b-2 border-dotted'></div>
+                                <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
                                     {attribute.values[0].text}
                                 </div>
                             </div>

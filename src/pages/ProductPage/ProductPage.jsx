@@ -256,7 +256,7 @@ const product = loader.data
       <div className='content lining-nums proportional-nums'>
         <Breadcrumbs breadCrumps={product?.category_chain}/>
         <div className=''>
-          <div className='text-xl font-semibold mb-[10px]'>{currentProduct.name}</div>
+          <div className='text-xl font-semibold mb-[10px]'>{product.name} {currentProduct.name}</div>
           <TopControls product={currentProduct} reviews={product.reviews}/>
         </div>
         <div className='flex pb-5 min-h-[420px] gap-5'>
