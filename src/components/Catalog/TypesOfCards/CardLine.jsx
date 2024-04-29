@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { addToCart } from '../../../redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ComparisonIcon, FavoriteIcon } from '../../../helpers/Icons';
@@ -47,7 +46,7 @@ const CardLine = ({ product }) => {
         >
           <img
             src={product?.files[0]?.large || noImg}
-            className='w-full h-full object-cover'
+            className='w-full h-full object-contain'
             onError={(e) => {
               e.target.onError = null;
               e.target.src = noImg;
@@ -100,12 +99,13 @@ const CardLine = ({ product }) => {
                       ? product?.price?.discount?.price
                       : product?.price?.default
                   }  ${product?.price?.currency}`
-                : 'Не указано'}
+                : 'Цена не указана'}
             </span>
-            <span className='text-xs line-through mr-2'>
-              {product?.price &&
-                `${product?.price?.discount ? product?.price?.default : ''}`}
-            </span>
+            {product?.price && (
+              <span className='text-xs line-through mr-2'>
+                {product?.price?.discount && product?.price?.default}
+              </span>
+            )}
             {product?.price?.discount && (
               <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
                 {`${product?.price?.discount?.percent} %`}
@@ -126,26 +126,17 @@ const CardLine = ({ product }) => {
           </div>
         </div>
         <div className='flex justify-between space-x-3 pt-5'>
-          <div className='flex items-center space-x-3'>
-            <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight cursor-pointer'>
-              <RemoveOutlined className='text-colGreen' />
-            </span>
-            <span className='text-colGreen font-semibold'>10</span>
-            <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight cursor-pointer'>
-              <AddOutlined className='text-colGreen' />
-            </span>
-          </div>
           {isProductInCart ? (
             <button
               onClick={() => navigate('/shopping-cart')}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm'
+              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[180px] w-full ml-auto text-sm'
             >
               Перейти в корзину
             </button>
           ) : (
             <button
               onClick={handleToggleAddToCart}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm'
+              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[164px] w-full ml-auto text-sm'
             >
               В корзину
             </button>

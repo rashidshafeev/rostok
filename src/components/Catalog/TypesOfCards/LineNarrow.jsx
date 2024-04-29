@@ -1,7 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import noImg from '../../../assets/images/no-image.png';
 import { ComparisonIcon, FavoriteIcon } from '../../../helpers/Icons';
-import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../../redux/slices/cartSlice';
 import { toggleComparison } from '../../../redux/slices/comparisonSlice';
@@ -82,15 +81,13 @@ const LineNarrow = ({ product }) => {
           </div>
         </div>
         <div className='px-2'>
-          {product?.tags?.length > 0 ? (
+          {product?.tags?.length > 0 && (
             <span
               style={{ color: product?.tags[0]?.text_color }}
               className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
             >
               {product?.tags[0]?.text}
             </span>
-          ) : (
-            <span></span>
           )}
         </div>
       </div>
@@ -104,12 +101,13 @@ const LineNarrow = ({ product }) => {
                       ? product?.price?.discount?.price
                       : product?.price?.default
                   }  ${product?.price?.currency}`
-                : 'Не указано'}
+                : 'Цена не указана'}
             </span>
-            <span className='text-xs line-through mr-2'>
-              {product?.price &&
-                `${product?.price?.discount ? product?.price?.default : ''}`}
-            </span>
+            {product?.price && (
+              <span className='text-xs line-through mr-2'>
+                {product?.price?.discount && product?.price?.default}
+              </span>
+            )}
             {product?.price?.discount && (
               <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
                 {`${product?.price?.discount?.percent} %`}
@@ -130,26 +128,17 @@ const LineNarrow = ({ product }) => {
           </div>
         </div>
         <div className='flex justify-between space-x-3 pt-5'>
-          <div className='flex items-center space-x-3'>
-            <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight cursor-pointer'>
-              <RemoveOutlined className='text-colGreen' />
-            </span>
-            <span className='text-colGreen font-semibold'>10</span>
-            <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight cursor-pointer'>
-              <AddOutlined className='text-colGreen' />
-            </span>
-          </div>
           {isProductInCart ? (
             <button
               onClick={() => navigate('/shopping-cart')}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm'
+              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[180px] ml-auto w-full text-sm'
             >
               Перейти в корзину
             </button>
           ) : (
             <button
               onClick={handleToggleAddToCart}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold w-full text-sm'
+              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[164px] ml-auto w-full text-sm'
             >
               В корзину
             </button>
