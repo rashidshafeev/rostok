@@ -25,7 +25,6 @@ import {
 } from '../../api/user';
 
 
-
 import { NavLink, useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
@@ -41,7 +40,7 @@ import CSearchField from '../../helpers/CustomInputs/CSearchField';
 import { CheckCircleRounded } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
 import CSelectField from '../../helpers/CustomInputs/CSelectField';
-import { MenuItem, Select } from '@mui/material';
+import { ListSubheader, MenuItem, Select } from '@mui/material';
 import AddressModal from '../../helpers/CModal/AddressModal/AddressModal';
 
 function CartCheckout() {
@@ -50,7 +49,7 @@ function CartCheckout() {
 
   const [type, setType] = useState('fizlico')
   const [personalInfo, setPersonalInfo] = useState({})
-  const [deliveryType, setDeliveryType] = useState('')
+  const [deliveryType, setDeliveryType] = useState('pickup')
   const [deliveryDate, setDeliveryDate] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('')
   const [formErrors, setFormErrors] = useState({})
@@ -89,6 +88,7 @@ function CartCheckout() {
 
   const user = useSelector((state) => state?.user);
   const cart = useSelector((state) => state?.cart);
+  const { organizations } = useSelector((state) => state?.organizations);
 
   const selected = cart?.cart.filter((item) => item.selected === true);
 
@@ -280,10 +280,6 @@ function CartCheckout() {
                       defaultValue={''}
                       rules={{
                         required: 'Поле обязательно к заполнению!',
-                        maxLength: {
-                          value: 2,
-                          message: 'Поле !',
-                        }
                       }}
                       render={({ field }) => (
                         <CTextField label='Название компании' type='text' {...field} />
@@ -299,60 +295,112 @@ function CartCheckout() {
 
               </div>}
               
-              <div className='flex gap-2'>
-                <div className='w-[340px]'>
+              
+              
+              { user ? (
+                  <Select
+                    label={'Имя *'}
+                    name={'name'}
+                    value={name}
+                    // onChange={handleAddressChange}
+                    className='w-[340px] h-10'
+                    sx={{
+                      '& .MuiOutlinedInput-notchedOutline': {
+                        borderWidth: '1px',
+                        borderColor: '#B5B5B5',
+                      },
+                      '&:hover .MuiOutlinedInput-notchedOutline': {
+                        borderWidth: '1px',
+                        borderColor: '#B5B5B5',
+                      },
+                      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                        borderColor: '#15765B',
+                        borderWidth: '1px',
+                      },
+                      '&.Mui-focused': {
+                        color: '#15765B',
+                      },
+                      paddingRight: 0,
+                    }}
+                  >
 
-                  <div>
+                    <MenuItem value={10}>
+                      <div className='flex items-center'>
+                        <img src={fizlico} className='h-4 w-4 mr-1' alt="" srcset="" />
+                        <div>{user?.user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
+                      </div>
+                    </MenuItem>
+                    {organizations && <>
+                      <ListSubheader>Мои организации</ListSubheader>
+                      {organizations.map(org => (
+                         <MenuItem value={org.inn}>
+                          <div className='flex items-center'>
+                            <img src={urlico} className='h-4 w-4 mr-1' alt="" srcset="" />
+                            <div>{org.name}</div>
+                          </div></MenuItem>
+                      ))}
+                    </>
+
+                      }
+
+                  </Select>
+              ) : (
+                <div className='flex gap-2'>
+                  <div className='w-[340px]'>
+  
+                    <div>
+                      <Controller
+                        name='name'
+                        control={control}
+                        defaultValue={user ? user?.user?.name : ''}
+                        rules={{
+                          required: 'Поле обязательно к заполнению!',
+                        }}
+                        render={({ field }) => (
+                          <CTextField label='Имя' type='text' {...field} />
+                        )}
+                      />
+                      {formErrors?.name && (
+                        <p className='text-red-500 mt-1 text-xs font-medium'>
+                          {formErrors?.name?.message || 'Error!'}
+                        </p>
+                      )}
+                    </div>
+  
+                  </div>
+                  <div className='w-[340px]'>
+  
                     <Controller
-                      name='name'
+                      name='email'
                       control={control}
-                      defaultValue={user ? user?.user?.name : ''}
+                      defaultValue={user ? user?.user?.email : ''}
                       rules={{
                         required: 'Поле обязательно к заполнению!',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message:
+                            'Введите корректный адрес электронной почты',
+                        },
                       }}
                       render={({ field }) => (
-                        <CTextField label='Имя' type='text' {...field} />
+                        <CTextField
+                          label='Электронная почта'
+                          type='email'
+                          {...field}
+                        />
                       )}
                     />
-                    {formErrors?.name && (
-                      <p className='text-red-500 mt-1 text-xs font-medium'>
-                        {formErrors?.name?.message || 'Error!'}
-                      </p>
-                    )}
+                    {formErrors?.email && (
+                        <p className='text-red-500 mt-1 text-xs font-medium'>
+                          {formErrors?.email?.message || 'Error!'}
+                        </p>
+                      )}
+  
                   </div>
-
+  
                 </div>
-                <div className='w-[340px]'>
+              )}
 
-                  <Controller
-                    name='email'
-                    control={control}
-                    defaultValue={user ? user?.user?.email : ''}
-                    rules={{
-                      required: 'Поле обязательно к заполнению!',
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message:
-                          'Введите корректный адрес электронной почты',
-                      },
-                    }}
-                    render={({ field }) => (
-                      <CTextField
-                        label='Электронная почта'
-                        type='email'
-                        {...field}
-                      />
-                    )}
-                  />
-                  {formErrors?.email && (
-                      <p className='text-red-500 mt-1 text-xs font-medium'>
-                        {formErrors?.email?.message || 'Error!'}
-                      </p>
-                    )}
-
-                </div>
-
-              </div>
               <div className='flex gap-2'>
 
                 <div
@@ -585,11 +633,7 @@ function CartCheckout() {
             <div className='flex gap-5'>
               {
                 dates?.map((date) => {
-                  return (
-                    // <div class="form_radio">
-                    //   <input id={date.date} type="radio" name="radio" value={date.date} onChange={handleDeliveryDateChange} checked={deliveryDate === date.date} />
-                    //   <label for={date.date}>{date.date}</label>
-                    // </div>
+                  return ( 
                     <CustomRadioButton value={date.date} handleChange={handleDeliveryDateChange} checked={date.date === deliveryDate} > {date.date}  </CustomRadioButton>
                   )
                 })
