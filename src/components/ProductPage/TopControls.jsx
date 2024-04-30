@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+import favoriteiconactive from '../../assets/icons/favorite-green-full.svg';
 import favoriteicon from '../../assets/icons/favorite-green.svg';
 import comparisoniconactive from '../../assets/icons/comparison-card-active.svg';
 import comparisonicon from '../../assets/icons/comparison-green.svg';
@@ -53,7 +54,7 @@ function TopControls({product, reviews}) {
                 dispatch(toggleComparison(product));
               }}
             >
-              <img className='mx-auto mr-1' src={isProductInComparison ? comparisonicon : comparisoniconactive} alt='*' />
+              <img className='mx-auto mr-1' src={isProductInComparison ? comparisoniconactive : comparisonicon  } alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 Сравнить
               </span>
@@ -65,7 +66,7 @@ function TopControls({product, reviews}) {
                 dispatch(toggleFavorite(product));
               }}
             >
-              <img className='mx-auto mr-1' src={isProductInFavorite ? favoriteicon : star} alt='*' />
+              <img className='mx-auto mr-1' src={isProductInFavorite ?  favoriteiconactive  : favoriteicon} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 В избранное
               </span>
