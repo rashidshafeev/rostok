@@ -55,7 +55,7 @@ const role = useRole(context, { role: "tooltip" });
 
 ref={refs.setReference} {...getReferenceProps()}
 
-        className={`h-12 px-3 border ${value.value == current[id].value ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen ${value.availible ? 'bg-transparent' : 'bg-colLightGray'} rounded-[10px] flex justify-center items-center `} >
+        className={`h-12 px-3 border ${value.value == current[id].value ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen ${value.availible ? 'bg-transparent' : 'bg-colLightGray'} rounded-[10px] flex justify-center items-center cursor-pointer`} >
 
         {value.color ? (<div style={{ backgroundColor: `${value.color}` }} className={`w-10 h-10 rounded-full border`}></div>) : (value.text)}
 
@@ -69,10 +69,10 @@ ref={refs.setReference} {...getReferenceProps()}
 
         ref={refs.setFloating}
         {...getFloatingProps()}
-        style={floatingStyles}
-        className='w-[100px] h-[100px] border bg-white border-colLightGray rounded-[10px] flex justify-center items-center'
+        style={{backgroundColor: `${value.color}`  ,...floatingStyles}}
+        className='w-[100px] h-[100px] border  border-colLightGray rounded-[10px] flex justify-center items-center'
         >
-                  <img src="" alt="" className='contain' />g
+                  <img src="" alt="" className='contain' />
               </div>
       )}
 

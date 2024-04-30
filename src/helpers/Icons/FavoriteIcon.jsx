@@ -1,4 +1,6 @@
-function FavoriteIcon(props) {  
+
+function FavoriteIcon(props) {
+    
   const color = props.favorite === "true" ? '#F04438' : '#727272';
   const fill = props.favorite === "true" ? 'nonzero' : 'evenodd';
 

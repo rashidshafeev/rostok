@@ -47,7 +47,7 @@ function ProductGallery({ files }) {
      
       const renderImage = (item) => {
         return (
-          <div  className="h-[480px] flex flex-col justify-center">
+          <div  className="min-h-[480px] flex flex-col justify-center">
             <img onClick={onClickHandler} src={item.original} className="shrink object-contain rounded-xl" alt="" />
           </div>
         );

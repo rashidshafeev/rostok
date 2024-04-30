@@ -3,11 +3,48 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useState } from 'react';
 import CModal from '../../../helpers/CModal/CModal';
 import { useSelector } from 'react-redux';
+import AddOrganizationModal from '../../../helpers/CModal/AddOrganizationModal';
+import DeleteOrganizationModal from '../../../helpers/CModal/DeleteOrganizationModal';
+import UpdateOrganizationModal from '../../../helpers/CModal/UpdateOrganizationModal';
+
 
 const Organizations = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [content, setContent] = useState('');
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
+  const [openAddOrgModal, setOpenAddOrgModal] = useState(false);
+  const [openDeleteOrgModal, setOpenDeleteOrgModal] = useState(false);
+  const [openUpdateOrgModal, setOpenUpdateOrgModal] = useState(false);
+
+  const handleOpenAddOrgModal = () => {
+    console.log("set open");
+    setOpenAddOrgModal(true);
+  
+  }
+
+  const handleCloseAddOrgModal = () => {
+    setOpenAddOrgModal(false);
+  
+  }
+
+  const handleOpenDeleteOrgModal = () => {
+    setOpenDeleteOrgModal(true);
+  
+  }
+
+  const handleCloseDeleteOrgModal = () => {
+    setOpenDeleteOrgModal(false);
+  
+  }
+  const handleOpenUpdateOrgModal = () => {
+    setOpenUpdateOrgModal(true);
+  
+  }
+
+  const handleCloseUpdateOrgModal = () => {
+    setOpenUpdateOrgModal(false);
+  
+  }
 
   const handleToggleAccordion = (index) => {
     setExpandedIndex((prevIndex) => (prevIndex === index ? null : index));
@@ -22,12 +59,14 @@ const Organizations = () => {
         Мои организации
       </h3>
       <button
-        onClick={() => {
-          setContent('addOrganization');
-          setOpen(true);
-        }}
+        // onClick={() => 
+        //   setContent('addOrganization');
+        //   setOpen(true);
+        // }
+        onClick={handleOpenAddOrgModal}  
         className='flex items-center rounded-lg border border-colSuperLight p-2'
       >
+        
         <span className='text-colGray bg-colSuperLight w-8 h-8 rounded-md flex justify-center items-center text-5xl'>
           +
         </span>
@@ -35,6 +74,7 @@ const Organizations = () => {
           Добавить организации
         </span>
       </button>
+      <AddOrganizationModal open={openAddOrgModal} close={handleCloseAddOrgModal} organizations={organizations}/>
       <div className='grid grid-cols-2 gap-5 mt-4 lining-nums proportional-nums'>
         {organizations?.map((el, index) => (
           <div
@@ -74,29 +114,34 @@ const Organizations = () => {
                 </div>
                 <div className='flex justify-end space-x-3'>
                   <span
-                    onClick={() => {
-                      setContent({
-                        name: 'updateOrganization',
-                        item: el,
-                      });
-                      setOpen(true);
-                    }}
+                    // onClick={() => {
+                    //   setContent({
+                    //     name: 'updateOrganization',
+                    //     item: el,
+                    //   });
+                    //   setOpen(true);
+                    // }}
+                    onClick={handleOpenUpdateOrgModal}
                     className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'
                   >
                     Редактировать
                   </span>
+                  <UpdateOrganizationModal open={openUpdateOrgModal} close={handleCloseUpdateOrgModal} item={el}/>
                   <span
-                    onClick={() => {
-                      setContent({
-                        name: 'deleteOrganization',
-                        item: el,
-                      });
-                      setOpen(true);
-                    }}
+                    // onClick={() => {
+                    //   setContent({
+                    //     name: 'deleteOrganization',
+                    //     item: el,
+                    //   });
+                    //   setOpen(true);
+                    // }}
+                    onClick={handleOpenDeleteOrgModal}
+                    
                     className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'
                   >
                     Удалить
                   </span>
+                  <DeleteOrganizationModal open={openDeleteOrgModal} close={handleCloseDeleteOrgModal} item={el} content={content}/>
                 </div>
               </div>
               {expandedIndex === index && (
@@ -159,7 +204,7 @@ const Organizations = () => {
           </div>
         ))}
       </div>
-      <CModal open={open} setOpen={setOpen} content={content} organizations={organizations}/>
+      {/* <CModal open={open} setOpen={setOpen} content={content} organizations={organizations}/> */}
     </div>
   );
 };
