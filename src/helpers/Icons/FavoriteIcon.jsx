@@ -1,3 +1,4 @@
+
 function FavoriteIcon(props) {
     
   const color = props.favorite === "true" ? '#F04438' : '#727272';

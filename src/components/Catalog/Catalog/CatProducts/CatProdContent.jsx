@@ -5,8 +5,14 @@ import { useState } from 'react';
 import CardLine from '../../TypesOfCards/CardLine';
 import LineNarrow from '../../TypesOfCards/LineNarrow';
 import { useParams } from 'react-router-dom';
+import { Pagination, Stack } from '@mui/material';
 
-const CatProdContent = ({ catProducts, isLoading, handleFetchBySort }) => {
+const CatProdContent = ({
+  catProducts,
+  isLoading,
+  handleFetchBySort,
+  handlePagination,
+}) => {
   const [cardType, setTypeCard] = useState('tile');
   const [activeSort, setActiveSort] = useState(null);
 
@@ -139,25 +145,35 @@ const CatProdContent = ({ catProducts, isLoading, handleFetchBySort }) => {
       {isLoading ? (
         <Loading extraStyle='420px' />
       ) : catProducts?.length > 0 ? (
-        cardType === 'tile' ? (
-          <div className='grid grid-cols-5 gap-5'>
-            {catProducts?.map((el) => (
-              <ProductCard key={el?.id} product={el} />
-            ))}
-          </div>
-        ) : cardType === 'line' ? (
-          <div className='space-y-4'>
-            {catProducts?.map((el) => (
-              <CardLine key={el?.id} product={el} />
-            ))}
-          </div>
-        ) : (
-          <div className='space-y-3'>
-            {catProducts?.map((el) => (
-              <LineNarrow key={el?.id} product={el} />
-            ))}
-          </div>
-        )
+        <>
+          {cardType === 'tile' ? (
+            <div className='grid grid-cols-5 gap-5'>
+              {catProducts?.map((el) => (
+                <ProductCard key={el?.id} product={el} />
+              ))}
+            </div>
+          ) : cardType === 'line' ? (
+            <div className='space-y-4'>
+              {catProducts?.map((el) => (
+                <CardLine key={el?.id} product={el} />
+              ))}
+            </div>
+          ) : (
+            <div className='space-y-3'>
+              {catProducts?.map((el) => (
+                <LineNarrow key={el?.id} product={el} />
+              ))}
+            </div>
+          )}
+          {/* <Stack spacing={2}>
+            <Pagination
+              onChange={handlePagination}
+              count={10}
+              variant='outlined'
+              shape='rounded'
+            />
+          </Stack> */}
+        </>
       ) : (
         <ErrorEmpty
           title='Список пуст!'

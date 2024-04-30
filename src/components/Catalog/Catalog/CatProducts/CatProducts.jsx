@@ -15,14 +15,18 @@ import {
 import { useGetProductsByCategoryQuery } from '../../../../redux/api/api';
 
 const CatProducts = () => {
+  const [page, setPage] = useState(1);
   const { state } = useLocation();
   const { categoryId } = useParams();
-  const { data, isLoading: loading } =
-    useGetProductsByCategoryQuery(categoryId);
+  const {
+    data,
+    isLoading: loading,
+    isFetching,
+  } = useGetProductsByCategoryQuery(categoryId, page);
 
-  const [catProducts, setCatProducts] = useState(loading ? [] : data?.data);
-  const [isLoading, setIsLoading] = useState(loading);
   const [breadCrumps, setBreadCrumps] = useState([]);
+  const [isLoading, setIsLoading] = useState(loading);
+  const [catProducts, setCatProducts] = useState(loading ? [] : data?.data);
 
   const handleFetchProducts = async (category_id, filters) => {
     setIsLoading(true);
@@ -60,6 +64,10 @@ const CatProducts = () => {
     setIsLoading(false);
   };
 
+  const handlePagination = (e, p) => {
+    setPage(p);
+  };
+
   useEffect(() => {
     scrollToTop();
   }, []);
@@ -86,8 +94,9 @@ const CatProducts = () => {
         />
         <CatProdContent
           catProducts={catProducts}
-          isLoading={isLoading}
+          isLoading={isLoading || isFetching}
           handleFetchBySort={handleFetchBySort}
+          handlePagination={handlePagination}
         />
       </div>
       <Promotions />
