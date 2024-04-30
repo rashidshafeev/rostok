@@ -24,7 +24,8 @@ export const api = createApi({
       keepUnusedDataFor: 5,
     }),
     getProductsByCategory: builder.query({
-      query: (id) => `api/Products/variants?category_id=${id || ''}`,
+      query: (id, page) =>
+        `api/Products/variants?page=${page}&category_id=${id}`,
     }),
     getFiltersOfProducts: builder.query({
       query: (id) => `api/Products/filters/?category_id=${id || ''}`,
