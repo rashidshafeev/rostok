@@ -24,8 +24,11 @@ export const api = createApi({
       keepUnusedDataFor: 5,
     }),
     getProductsByCategory: builder.query({
-      query: (id, page) =>
-        `api/Products/variants?page=${page}&category_id=${id}`,
+      query: (params) => {
+        const { categoryId, page } = params;
+        return `api/Products/variants?page=${page}&category_id=${categoryId}`;
+      },
+      staleTime: 60000,
     }),
     getFiltersOfProducts: builder.query({
       query: (id) => `api/Products/filters/?category_id=${id || ''}`,
