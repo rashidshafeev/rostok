@@ -22,15 +22,15 @@ const Home = () => {
     <div className='content'>
       <Banner />
       <News />
-      <SaleBanner />
-      <Suggestions />
-      <PopularCategories />
-      <Promotions />
-      <SaleProducts />
-      <RoomProducts />
-      <FurnitureFittings />
-      <Brands />
-      <Advantages />
+      {/* <SaleBanner /> */}
+      {/* <Suggestions /> */}
+      {/* <PopularCategories /> */}
+      {/* <Promotions /> */}
+      {/* <SaleProducts /> */}
+      {/* <RoomProducts /> */}
+      {/* <FurnitureFittings /> */}
+      {/* <Brands /> */}
+      {/* <Advantages /> */}
     </div>
   );
 };
