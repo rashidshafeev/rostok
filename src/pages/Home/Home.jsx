@@ -22,7 +22,7 @@ const Home = () => {
     <div className='content'>
       <Banner />
       <News />
-      {/* <SaleBanner /> */}
+      <SaleBanner />
       {/* <Suggestions /> */}
       {/* <PopularCategories /> */}
       {/* <Promotions /> */}

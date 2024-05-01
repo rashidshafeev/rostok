@@ -111,7 +111,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='transition-all	duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -121,7 +121,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               dispatch(addToCart(product));
             }}
-            className='transition-all	 duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>
