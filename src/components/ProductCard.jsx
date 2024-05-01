@@ -38,7 +38,7 @@ const ProductCard = ({ product, recommended }) => {
       className='overflow-hidden group'
     >
       <div>
-        <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
+        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-50'>
           {product?.files?.length > 0 && (
             <img
               className='w-full h-full object-cover'
@@ -111,7 +111,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='transition-all	duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all	duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -121,7 +121,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               dispatch(addToCart(product));
             }}
-            className='transition-all	 duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all	 duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>

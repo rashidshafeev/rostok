@@ -17,11 +17,6 @@ const BannerOne = () => {
       // effect='fade'
       // fadeEffect={{ crossFade: true, speed: 5000 }}
       slidesPerView={1}
-      breakpoints={{
-        991: {
-          navigation: false,
-        },
-      }}
     >
       {bannerOne?.map((el) => (
         <SwiperSlide
