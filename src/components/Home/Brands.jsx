@@ -8,9 +8,9 @@ const Brands = () => {
       <h1 className='text-colBlack text-4xl font-semibold pb-5'>Бренды</h1>
       <Swiper
         modules={[Navigation, Pagination]}
-        navigation={true}
+        navigation={window.innerWidth >= 576}
         pagination={true}
-        spaceBetween={20}
+        spaceBetween={16}
         className='pb-16'
         breakpoints={{
           260: {

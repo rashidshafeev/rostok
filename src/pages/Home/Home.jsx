@@ -34,8 +34,8 @@ const Home = () => {
       <RoomProducts />
       <div className='content'>
         <FurnitureFittings />
-        {/* <Brands /> */}
-        {/* <Advantages /> */}
+        <Brands />
+        <Advantages />
       </div>
     </>
   );
