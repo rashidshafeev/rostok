@@ -3,13 +3,15 @@ import { promotions } from '../../constants/data';
 
 const Promotions = () => {
   return (
-    <div className='pb-10'>
-      <h1 className='text-colBlack text-4xl font-semibold pb-4'>Акции</h1>
-      <div className='flex space-x-5'>
+    <div className='pb-10 lg:px-4'>
+      <h1 className='text-colBlack text-4xl font-semibold pb-3 px-3 sm:px-4 lg:px-0'>
+        Акции
+      </h1>
+      <div className='flex space-x-5 overflow-x-scroll lg:overflow-x-hidden pb-3 scrollable px-3'>
         {promotions?.map((el, index) => (
           <div
             key={el?.id}
-            className='text-white w-[460px] h-[224px] rounded-xl overflow-hidden relative'
+            className='text-white min-w-[300px] max-w-[300px] lg:max-w-[460px] w-full h-[160px] lg:h-[224px] rounded-xl overflow-hidden relative'
             style={{ backgroundImage: `url(${el?.bgImg})` }}
           >
             <div
@@ -33,7 +35,7 @@ const Promotions = () => {
               <h3
                 className={`${
                   index === 2 ? 'text-black' : 'text-white'
-                } lining-nums proportional-nums text-xl font-semibold z-[1]`}
+                } lining-nums proportional-nums lg:text-xl leading-[120%] font-semibold z-[1] line-clamp-4 break-all`}
               >
                 {el?.title}
               </h3>
