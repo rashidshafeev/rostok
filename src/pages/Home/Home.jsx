@@ -23,7 +23,7 @@ const Home = () => {
       <Banner />
       <News />
       <SaleBanner />
-      {/* <Suggestions /> */}
+      <Suggestions />
       {/* <PopularCategories /> */}
       {/* <Promotions /> */}
       {/* <SaleProducts /> */}
