@@ -29,7 +29,7 @@ const Home = () => {
       </div>
       <Promotions />
       <div className='content'>
-        {/* <SaleProducts /> */}
+        <SaleProducts />
         {/* <RoomProducts /> */}
         {/* <FurnitureFittings /> */}
         {/* <Brands /> */}

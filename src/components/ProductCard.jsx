@@ -66,7 +66,7 @@ const ProductCard = ({ product, recommended }) => {
             />
           </div>
           <ComparisonIcon
-            className='group-hover:opacity-100 opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
+            className='group-hover:opacity-100 mm:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
             comparison={isProductInComparison.toString()}
             onClick={handleToggleComparison}
           />

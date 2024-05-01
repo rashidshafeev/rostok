@@ -3,7 +3,7 @@ import { popularCategories } from '../../constants/data';
 
 const PopularCategories = () => {
   return (
-    <div className='pb-10'>
+    <div className='pt-5 pb-10'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4'>
         Популярные категории
       </h1>
