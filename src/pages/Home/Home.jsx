@@ -33,7 +33,7 @@ const Home = () => {
       </div>
       <RoomProducts />
       <div className='content'>
-        {/* <FurnitureFittings /> */}
+        <FurnitureFittings />
         {/* <Brands /> */}
         {/* <Advantages /> */}
       </div>
