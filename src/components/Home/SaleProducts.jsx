@@ -13,7 +13,7 @@ const SaleProducts = () => {
         <Swiper
           modules={[Navigation]}
           navigation={window.innerWidth >= 576}
-          spaceBetween={20}
+          spaceBetween={16}
           breakpoints={{
             260: {
               slidesPerView: 2,
