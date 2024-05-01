@@ -24,7 +24,7 @@ const Home = () => {
       <News />
       <SaleBanner />
       <Suggestions />
-      {/* <PopularCategories /> */}
+      <PopularCategories />
       {/* <Promotions /> */}
       {/* <SaleProducts /> */}
       {/* <RoomProducts /> */}
