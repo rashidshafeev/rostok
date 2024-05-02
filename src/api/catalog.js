@@ -20,7 +20,7 @@ export const fetchCategoryProductsFilter = async (category_id, filters) => {
       params: body,
     });
 
-    return { success: true, data: res?.data?.data };
+    return { success: true, data: res?.data };
   } catch (error) {
     return { success: false };
   }
@@ -46,7 +46,7 @@ export const fetchAllCategoryProducts = async (slug, filters) => {
       params: queryParams,
     });
 
-    return { success: true, data: res?.data?.data };
+    return { success: true, data: res?.data };
   } catch (error) {
     return { success: false };
   }
@@ -64,7 +64,7 @@ export const fetchCategoryProductsBySort = async (category_id, sort) => {
       params: body,
     });
 
-    return { success: true, data: res?.data?.data };
+    return { success: true, data: res?.data };
   } catch (error) {
     return { success: false };
   }

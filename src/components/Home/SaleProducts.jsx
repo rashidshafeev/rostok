@@ -5,13 +5,15 @@ import { products } from '../../constants/data';
 
 const SaleProducts = () => {
   return (
-    <div className='pt-10 pb-5 slider'>
-      <h1 className='text-colBlack text-4xl font-semibold pb-4'>Со скидкой</h1>
+    <div className='py-5 slider'>
+      <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4'>
+        Со скидкой
+      </h1>
       <div className=''>
         <Swiper
           modules={[Navigation]}
-          navigation={true}
-          spaceBetween={20}
+          navigation={window.innerWidth >= 576}
+          spaceBetween={16}
           breakpoints={{
             260: {
               slidesPerView: 2,

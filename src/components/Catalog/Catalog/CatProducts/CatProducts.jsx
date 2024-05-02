@@ -21,12 +21,12 @@ const CatProducts = () => {
   const {
     data,
     isLoading: loading,
-    isFetching,
-  } = useGetProductsByCategoryQuery(categoryId, page);
+    refetch,
+  } = useGetProductsByCategoryQuery({ categoryId, page });
 
   const [breadCrumps, setBreadCrumps] = useState([]);
   const [isLoading, setIsLoading] = useState(loading);
-  const [catProducts, setCatProducts] = useState(loading ? [] : data?.data);
+  const [catProducts, setCatProducts] = useState(loading ? [] : data);
 
   const handleFetchProducts = async (category_id, filters) => {
     setIsLoading(true);
@@ -66,6 +66,7 @@ const CatProducts = () => {
 
   const handlePagination = (e, p) => {
     setPage(p);
+    scrollToTop();
   };
 
   useEffect(() => {
@@ -73,7 +74,11 @@ const CatProducts = () => {
   }, []);
 
   useEffect(() => {
-    setCatProducts(data?.data);
+    refetch();
+  }, [page, refetch]);
+
+  useEffect(() => {
+    setCatProducts(data);
   }, [data]);
 
   useEffect(() => {
@@ -94,7 +99,7 @@ const CatProducts = () => {
         />
         <CatProdContent
           catProducts={catProducts}
-          isLoading={isLoading || isFetching}
+          isLoading={isLoading}
           handleFetchBySort={handleFetchBySort}
           handlePagination={handlePagination}
         />

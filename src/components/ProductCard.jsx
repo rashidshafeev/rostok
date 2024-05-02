@@ -38,7 +38,7 @@ const ProductCard = ({ product, recommended }) => {
       className='overflow-hidden group'
     >
       <div>
-        <div className='group h-[220px] rounded-xl overflow-hidden relative bg-gray-50'>
+        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-50'>
           {product?.files?.length > 0 && (
             <img
               className='w-full h-full object-cover'
@@ -66,7 +66,7 @@ const ProductCard = ({ product, recommended }) => {
             />
           </div>
           <ComparisonIcon
-            className='group-hover:opacity-100 opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
+            className='group-hover:opacity-100 mm:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
             comparison={isProductInComparison.toString()}
             onClick={handleToggleComparison}
           />
@@ -78,13 +78,13 @@ const ProductCard = ({ product, recommended }) => {
             Артикул: {product?.sku || 'Не указано'}
           </p>
         )}
-        <div className='h-10 mt-1'>
-          <h5 className='font-medium text-sm text-colBlack line-clamp-3 h-[60px]'>
+        <div className='h-[50px] mt-1'>
+          <h5 className='font-medium text-sm leading-[120%] text-colBlack line-clamp-3'>
             {product?.name || 'Не указано'}
           </h5>
         </div>
-        <div className='flex items-center py-1 h-8'>
-          <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
+        <div className='flex items-end pb-1 h-8'>
+          <span className='text-colBlack mr-1 font-bold line-clamp-1 break-all whitespace-nowrap text-sm mm:text-base'>
             {product?.price ? (
               `${
                 product?.price?.discount
@@ -92,15 +92,17 @@ const ProductCard = ({ product, recommended }) => {
                   : product?.price?.default
               }  ${product?.price?.currency}`
             ) : (
-              <p className='font-semibold text-sm'>Цена не указана</p>
+              <p className='font-semibold text-sm mm:text-base'>
+                Цена не указана
+              </p>
             )}
           </span>
-          <span className='text-xs line-through mr-2'>
+          <span className='text-[8px] mm:text-xs line-through mr-2 whitespace-nowrap mb-[2px]'>
             {product?.price &&
-              `${product?.price?.discount ? product?.price?.default : ''}`}
+              `${product?.price?.discount && product?.price?.default}`}
           </span>
           {product?.price?.discount && (
-            <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
+            <span className='px-2 py-[2px] font-semibold rounded-3xl text-[8px] mm:text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
               {`${product?.price?.discount?.percent} %`}
             </span>
           )}
@@ -111,7 +113,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='transition-all	duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -121,7 +123,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               dispatch(addToCart(product));
             }}
-            className='transition-all	 duration-200 group-hover:opacity-100 opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>

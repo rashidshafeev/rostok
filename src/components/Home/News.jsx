@@ -6,11 +6,13 @@ import { products } from '../../constants/data';
 const News = () => {
   return (
     <div className='py-10 slider'>
-      <h1 className='text-colBlack text-4xl font-semibold pb-5'>Новинки</h1>
+      <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-5'>
+        Новинки
+      </h1>
       <Swiper
         modules={[Navigation]}
-        navigation={true}
-        spaceBetween={20}
+        navigation={window.innerWidth >= 576}
+        spaceBetween={16}
         breakpoints={{
           260: {
             slidesPerView: 2,

@@ -144,35 +144,39 @@ const CatProdContent = ({
       </div>
       {isLoading ? (
         <Loading extraStyle='420px' />
-      ) : catProducts?.length > 0 ? (
+      ) : catProducts?.data?.length > 0 ? (
         <>
           {cardType === 'tile' ? (
             <div className='grid grid-cols-5 gap-5'>
-              {catProducts?.map((el) => (
+              {catProducts?.data?.map((el) => (
                 <ProductCard key={el?.id} product={el} />
               ))}
             </div>
           ) : cardType === 'line' ? (
             <div className='space-y-4'>
-              {catProducts?.map((el) => (
+              {catProducts?.data?.map((el) => (
                 <CardLine key={el?.id} product={el} />
               ))}
             </div>
           ) : (
             <div className='space-y-3'>
-              {catProducts?.map((el) => (
+              {catProducts?.data?.map((el) => (
                 <LineNarrow key={el?.id} product={el} />
               ))}
             </div>
           )}
-          {/* <Stack spacing={2}>
+          <Stack spacing={2} className='pt-8'>
             <Pagination
               onChange={handlePagination}
-              count={10}
+              count={Number(catProducts?.count)}
               variant='outlined'
               shape='rounded'
+              classes={{
+                ul: 'pagination-mui',
+              }}
+              className='flex justify-end'
             />
-          </Stack> */}
+          </Stack>
         </>
       ) : (
         <ErrorEmpty

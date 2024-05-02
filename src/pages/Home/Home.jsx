@@ -19,19 +19,25 @@ const Home = () => {
     scrollToTop();
   }, []);
   return (
-    <div className='content'>
-      <Banner />
-      <News />
-      <SaleBanner />
-      <Suggestions />
-      <PopularCategories />
+    <>
+      <div className='content'>
+        <Banner />
+        <News />
+        <SaleBanner />
+        <Suggestions />
+        <PopularCategories />
+      </div>
       <Promotions />
-      <SaleProducts />
+      <div className='content'>
+        <SaleProducts />
+      </div>
       <RoomProducts />
-      <FurnitureFittings />
-      <Brands />
-      <Advantages />
-    </div>
+      <div className='content'>
+        <FurnitureFittings />
+        <Brands />
+        <Advantages />
+      </div>
+    </>
   );
 };
 
