@@ -1,6 +1,5 @@
 import { Box, Modal } from '@mui/material'
 import React, { useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
 
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import CSearchField from '../CustomInputs/CSearchField';
@@ -15,7 +14,7 @@ function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {
         setFilter(e.target.value);
     }
 
-    console.log(pickupPoint);
+
     const handlePointChange = (e) => {
         console.log(e.currentTarget.getAttribute("data-customvalue"));
         setPickupPoint(points.find((point) => point.id.toString() === e.currentTarget.getAttribute("data-customvalue")))
@@ -44,18 +43,6 @@ function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {
             coord: [55.584758, 37.138521]
         },
     ]
-
-
-    const {
-        control,
-        handleSubmit,
-        reset,
-        register,
-        watch,
-        formState: { errors, isValid },
-    } = useForm({
-        mode: 'onChange',
-    });
 
     return (
         <Modal open={open}

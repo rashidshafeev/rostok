@@ -265,9 +265,9 @@ function CartCheckout() {
                         <CTextField label='ИНН' type='text' {...field} />
                       )}
                     />
-                    {formErrors?.inn && (
+                    {errors?.inn && (
                       <p className='text-red-500 mt-1 text-xs font-medium'>
-                        {formErrors?.inn?.message || 'Error!'}
+                        {errors?.inn?.message || 'Error!'}
                       </p>
                     )}
 
@@ -285,9 +285,9 @@ function CartCheckout() {
                         <CTextField label='Название компании' type='text' {...field} />
                       )}
                     />
-                    {formErrors?.companyName && (
+                    {errors?.companyName && (
                       <p className='text-red-500 mt-1 text-xs font-medium'>
-                        {formErrors?.companyName?.message || 'Error!'}
+                        {errors?.companyName?.message || 'Error!'}
                       </p>
                     )}
 
@@ -297,7 +297,7 @@ function CartCheckout() {
               
               
               
-              { user ? (
+              { user?.user ? (
                   <Select
                     label={'Имя *'}
                     name={'name'}
@@ -324,25 +324,22 @@ function CartCheckout() {
                     }}
                   >
 
-                    <MenuItem value={10}>
+                    <MenuItem value={'user'}>
                       <div className='flex items-center'>
                         <img src={fizlico} className='h-4 w-4 mr-1' alt="" srcset="" />
                         <div>{user?.user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
                       </div>
                     </MenuItem>
-                    {organizations && <>
-                      <ListSubheader>Мои организации</ListSubheader>
-                      {organizations.map(org => (
-                         <MenuItem value={org.inn}>
+                    {organizations.length !== 0 && <ListSubheader>Мои организации</ListSubheader>}
+                      {
+                      organizations?.map(org => (
+                        <MenuItem value={org.inn}>
                           <div className='flex items-center'>
                             <img src={urlico} className='h-4 w-4 mr-1' alt="" srcset="" />
                             <div>{org.name}</div>
                           </div></MenuItem>
-                      ))}
-                    </>
-
-                      }
-
+                      ))
+                    }
                   </Select>
               ) : (
                 <div className='flex gap-2'>
@@ -360,9 +357,9 @@ function CartCheckout() {
                           <CTextField label='Имя' type='text' {...field} />
                         )}
                       />
-                      {formErrors?.name && (
+                      {errors?.name && (
                         <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {formErrors?.name?.message || 'Error!'}
+                          {errors?.name?.message || 'Error!'}
                         </p>
                       )}
                     </div>
@@ -390,9 +387,9 @@ function CartCheckout() {
                         />
                       )}
                     />
-                    {formErrors?.email && (
+                    {errors?.email && (
                         <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {formErrors?.email?.message || 'Error!'}
+                          {errors?.email?.message || 'Error!'}
                         </p>
                       )}
   
@@ -419,25 +416,31 @@ function CartCheckout() {
                           value:
                             /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
                           message: 'Введите корректный номер телефона',
-                          validate: {
-                            confirmed: (value) => { return (user?.user?.phone || isCode?.verification?.success)},
-                          }
+                          
                         },
+                        validate: {
+                          confirmed: (value) => { if (user?.user?.phone || isCode?.verification?.success) {
+                            return null
+                          } else {
+                            return 'Подтвердите номер телефона'
+                          }
+                            },
+                        }
                       }}
                       render={({ field }) => (
                         <CPhoneField disabled={isCode?.verification?.success || user?.user?.phone} label='Телефон' {...field} />
                       )}
                     />
-                    {formErrors?.phone && (
+                    {errors?.phone && (
                       <p className='text-red-500 mt-1 text-xs font-medium'>
-                        {formErrors?.phone?.message || 'Error!'}
+                        {errors?.phone?.message || 'Error!'}
                       </p>
                     )}
-                    { !(isCode?.verification?.success || user?.user?.phone) && (
+                    {/* { !(isCode?.verification?.success || user?.user?.phone) && (
                       <p className='text-red-500 mt-1 text-xs font-medium'>
                         {'Подтвердите номер телефона'}
                       </p>
-                    )}
+                    )} */}
                   </div>
 
                   {isCode?.sendCode?.success === 'ok' || user?.user?.phone ? (
@@ -473,7 +476,7 @@ function CartCheckout() {
                   ) : (
                     <span
                       onClick={handleSendVerificationCode}
-                      className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center ${!errors.phone
+                      className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center ${errors.phone
                         ? 'cursor-pointer bg-colGreen'
                         : 'pointer-events-none bg-colGray'
                         }`}
