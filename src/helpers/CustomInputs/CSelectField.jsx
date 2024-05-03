@@ -46,6 +46,7 @@ const CSelectField = (props) => {
           paddingRight: 0,
         }}
       >
+        {props.children}
         {props?.options?.map((el, index) => (
           <MenuItem key={index} value={el?.value}>
             {el?.label}
