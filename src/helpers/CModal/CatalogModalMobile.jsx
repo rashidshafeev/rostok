@@ -1,23 +1,19 @@
 import { useEffect, useState } from 'react';
-import { ArrowIcon } from '../Icons';
 import { NavLink } from 'react-router-dom';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
+import { ArrowIcon } from '../Icons';
 import catalogIcon1 from '../../assets/images/catalogIcon1.svg';
 import catalogIcon2 from '../../assets/images/catalogIcon2.svg';
 import catalogIcon3 from '../../assets/images/catalogIcon3.svg';
 import noImg from '../../assets/images/no-image.png';
+import arrowBack from '../../assets/icons/arrow-black.svg';
 
-const CatalogModal = ({ showCatalog, setShowCatalog }) => {
+const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
   const categoryTree = data?.children;
 
   const [scrollPosition, setScrollPosition] = useState(0);
-  const [activeItem, setActiveItem] = useState(null);
-  const [showAll, setShowAll] = useState(null);
-
-  const handleItemClick = (el) => {
-    setActiveItem(el);
-  };
+  const [activeItem, setActiveItem] = useState({});
 
   useEffect(() => {
     const handleBodyOverflow = () => {
@@ -52,21 +48,21 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
     <div
       className={`${
         showCatalog ? 'visible opacity-100' : 'invisible opacity-0'
-      } fixed left-0 w-full h-full z-[999] hidden md:block ${
-        scrollPosition > 32 ? 'top-[65px]' : 'top-[100px]'
+      } fixed left-0 w-full h-full z-[999] md:hidden ${
+        scrollPosition > 32 ? 'top-[64px]' : 'top-[105px]'
       } bg-white duration-300`}
     >
       <div
         className={`${
           scrollPosition > 32 ? 'h-[90%]' : 'h-[85%]'
-        } content overflow-y-scroll scrollable`}
+        } content overflow-y-scroll scrollable relative`}
       >
         <div className='flex pt-5'>
-          <div className='max-w-[220px] w-full'>
-            <ul className='pr-4 border-r border-[#EBEBEB] space-y-3 sticky top-0'>
+          <div className='w-full'>
+            <ul className='space-y-3'>
               <li
-                onMouseOver={() => handleItemClick(null)}
-                className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'
+                onMouseOver={() => setActiveItem({})}
+                className='flex justify-between items-center cursor-pointer rounded-md p-1 border-b pb-2'
               >
                 <div className='flex items-center'>
                   <img src={catalogIcon1} alt='*' />
@@ -77,8 +73,8 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                 <ArrowIcon className='rotate-[90deg]' />
               </li>
               <li
-                onMouseOver={() => handleItemClick(null)}
-                className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'
+                onMouseOver={() => setActiveItem({})}
+                className='flex justify-between items-center cursor-pointer rounded-md p-1 border-b pb-2'
               >
                 <div className='flex items-center'>
                   <img src={catalogIcon2} alt='*' />
@@ -89,8 +85,8 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                 <ArrowIcon className='rotate-[90deg]' />
               </li>
               <li
-                onMouseOver={() => handleItemClick(null)}
-                className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'
+                onMouseOver={() => setActiveItem({})}
+                className='flex justify-between items-center cursor-pointer rounded-md p-1 border-b pb-2'
               >
                 <div className='flex items-center'>
                   <img src={catalogIcon3} alt='*' />
@@ -102,13 +98,11 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
               </li>
               {categoryTree?.map((el) => (
                 <li key={el?.id}>
-                  <NavLink
-                    to={`/catalog/${el?.slug}`}
-                    onMouseOver={() => handleItemClick(el)}
-                    onClick={() => setShowCatalog(false)}
+                  <button
+                    onClick={() => setActiveItem(el)}
                     className={`${
                       activeItem?.id === el?.id && 'bg-colSuperLight'
-                    } flex justify-between items-center hover:bg-colSuperLight rounded-md p-1`}
+                    } flex justify-between items-center rounded-md p-1 w-full border-b pb-2`}
                   >
                     <div className='flex items-center'>
                       <img
@@ -120,54 +114,58 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                         src={el?.image?.small || noImg}
                         alt='*'
                       />
-                      <span className='text-colBlack leading-[115%] font-semibold pl-2'>
+                      <span className='text-colBlack leading-[115%] font-semibold pl-2 text-left'>
                         {el?.name}
                       </span>
                     </div>
                     <ArrowIcon className='rotate-[90deg] min-w-[12px]' />
-                  </NavLink>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
-          <div className='w-full pl-5'>
-            <h2 className='text-2xl text-colBlack font-semibold pb-4'>
+        </div>
+        {Object.keys(activeItem)?.length > 0 && (
+          <div className='absolute top-0 left-0 bg-white px-3 w-full h-full overflow-y-scroll scrollable'>
+            <button
+              onClick={() => setActiveItem({})}
+              className='flex items-center'
+            >
+              <img className='rotate-[90deg]' src={arrowBack} alt='*' />
+              <span className='ml-1 font-medium text-sm py-1'>
+                Вернуться к каталогу
+              </span>
+            </button>
+            <h2 className='text-2xl text-colBlack font-semibold pt-1 pb-3'>
               {activeItem?.name}
             </h2>
             {activeItem?.children?.length > 0 && (
-              <div className='grid grid-cols-2 lg:grid-cols-3 gap-5'>
+              <div className='space-y-2'>
                 {activeItem?.children?.map((el) => (
                   <div key={el?.id}>
                     <NavLink
                       to={`/catalog/${el?.slug}`}
                       onClick={() => setShowCatalog(false)}
-                      className='font-semibold text-colBlack hover:text-colGreen leading-[120%]'
+                      className='font-semibold text-colBlack hover:text-colGreen leading-[120%] border-b w-full flex justify-between items-center pb-1'
                     >
-                      {el?.name}
+                      <span>{el?.name}</span>
+                      <div className='w-6 h-6 flex justify-center items-center'>
+                        <img src={arrowBack} alt='*' />
+                      </div>
                     </NavLink>
                     {el?.children?.length > 0 && (
-                      <div className='pt-1'>
-                        {el?.children
-                          ?.slice(0, showAll === el?.id ? undefined : 5)
-                          ?.map((child) => (
-                            <div key={child?.id}>
-                              <NavLink
-                                to={`/catalog/${child?.slug}`}
-                                onClick={() => setShowCatalog(false)}
-                                className='text-colBlack text-sm hover:text-colGreen'
-                              >
-                                {child?.name}
-                              </NavLink>
-                            </div>
-                          ))}
-                        {showAll !== el?.id && el?.children?.length > 5 && (
-                          <div
-                            onClick={() => setShowAll(el?.id)}
-                            className='cursor-pointer font-medium text-sm text-colGreen'
-                          >
-                            Показать еще
+                      <div className='pt-1 pl-3'>
+                        {el?.children?.map((child) => (
+                          <div key={child?.id}>
+                            <NavLink
+                              to={`/catalog/${child?.slug}`}
+                              onClick={() => setShowCatalog(false)}
+                              className='text-colBlack text-sm hover:text-colGreen'
+                            >
+                              {child?.name}
+                            </NavLink>
                           </div>
-                        )}
+                        ))}
                       </div>
                     )}
                   </div>
@@ -175,10 +173,10 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
               </div>
             )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
 };
 
-export default CatalogModal;
+export default CatalogModalMobile;
