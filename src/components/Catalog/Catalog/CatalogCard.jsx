@@ -6,9 +6,26 @@ function CatalogCard({ category }) {
     <NavLink
       to={`${category?.path}`}
       state={{ category: category }}
-      className='p-5 relative bg-colSuperLight rounded-[20px] min-h-[240px]'
+      className='p-3 lg:p-5 relative bg-colSuperLight rounded-lg lg:rounded-[20px] min-h-[120px] lg:min-h-[240px]'
     >
-      <div className='absolute right-5 top-1/2 -translate-y-1/2 z-0 max-w-[160px] overflow-hidden'>
+      <div className='flex flex-col justify-between md:h-full z-10 relative leading-[120%] pb-3 md:pb-0'>
+        <h3 className='lg:text-xl font-semibold text-colBlack text-center md:text-left min-h-[38px] mm:min-h-[auto]'>
+          {category?.name || 'Не указано'}
+        </h3>
+        {category?.children?.length && (
+          <div className='hidden md:flex flex-wrap text-colDarkGray text-[10px] lg:text-xs font-semibold'>
+            {category?.children?.slice(0, 4)?.map((item) => (
+              <p
+                className='px-1 lg:px-2 py-[2px] lg:py-1 bg-white rounded-[20px] mr-1 lg:mr-2 mb-1 lg:mb-2'
+                key={item?.id}
+              >
+                {item?.name}
+              </p>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className='md:absolute md:right-5 md:top-1/2 md:-translate-y-1/2 z-0 w-4/5 md:w-full md:max-w-[160px] mx-auto overflow-hidden'>
         <img
           className='w-full h-full object-contain'
           src={category?.image?.large || noImg}
@@ -18,23 +35,6 @@ function CatalogCard({ category }) {
           }}
           alt='*'
         />
-      </div>
-      <div className='flex flex-col justify-between h-full z-10 relative'>
-        <h3 className='text-xl font-semibold text-colBlack w-max'>
-          {category?.name || 'Не указано'}
-        </h3>
-        {category?.children?.length && (
-          <div className='flex flex-wrap text-colDarkGray text-xs font-semibold'>
-            {category?.children?.slice(0, 4)?.map((item) => (
-              <p
-                className='px-2 py-1 bg-white rounded-[20px] mr-2 mb-2'
-                key={item?.id}
-              >
-                {item?.name}
-              </p>
-            ))}
-          </div>
-        )}
       </div>
     </NavLink>
   );

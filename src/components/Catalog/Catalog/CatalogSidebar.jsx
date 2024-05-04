@@ -17,7 +17,7 @@ const CatalogSidebar = ({ categoryTree }) => {
   };
 
   return (
-    <div className='max-w-[220px] min-w-[220px] w-full'>
+    <div className='max-w-[220px] min-w-[220px] w-full hidden md:block'>
       <ul className='space-y-2'>
         {categoryTree?.map((el) => (
           <li key={el?.id}>

@@ -22,7 +22,9 @@ const Catalog = () => {
   return (
     <div className='content pb-6 lining-nums proportional-nums'>
       <BreadCrumbs breadCrumps={[]} />
-      <h1 className='text-[40px] font-semibold text-colBlack'>Каталог</h1>
+      <h1 className='text-3xl mm:text-4xl md:text-[40px] font-semibold text-colBlack'>
+        Каталог
+      </h1>
       {isLoading ? (
         <Loading extraStyle='520px' />
       ) : isError ? (
