@@ -54,7 +54,9 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
     >
       <div
         className={`${
-          scrollPosition > 32 ? 'h-[90%]' : 'h-[85%]'
+          scrollPosition > 32
+            ? 'h-[calc(100vh-136px)]'
+            : 'h-[calc(100vh-182px)]'
         } content overflow-y-scroll scrollable relative`}
       >
         <div className='flex pt-5'>
@@ -62,7 +64,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
             <ul className='space-y-3'>
               <li
                 onMouseOver={() => setActiveItem({})}
-                className='flex justify-between items-center cursor-pointer rounded-md p-1 border-b pb-2'
+                className='flex justify-between items-center cursor-pointer p-1 border-b pb-2'
               >
                 <div className='flex items-center'>
                   <img src={catalogIcon1} alt='*' />
@@ -74,7 +76,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
               </li>
               <li
                 onMouseOver={() => setActiveItem({})}
-                className='flex justify-between items-center cursor-pointer rounded-md p-1 border-b pb-2'
+                className='flex justify-between items-center cursor-pointer p-1 border-b pb-2'
               >
                 <div className='flex items-center'>
                   <img src={catalogIcon2} alt='*' />
@@ -86,7 +88,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
               </li>
               <li
                 onMouseOver={() => setActiveItem({})}
-                className='flex justify-between items-center cursor-pointer rounded-md p-1 border-b pb-2'
+                className='flex justify-between items-center cursor-pointer p-1 border-b pb-2'
               >
                 <div className='flex items-center'>
                   <img src={catalogIcon3} alt='*' />
@@ -102,7 +104,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
                     onClick={() => setActiveItem(el)}
                     className={`${
                       activeItem?.id === el?.id && 'bg-colSuperLight'
-                    } flex justify-between items-center rounded-md p-1 w-full border-b pb-2`}
+                    } flex justify-between items-center p-1 w-full border-b pb-2`}
                   >
                     <div className='flex items-center'>
                       <img
@@ -126,7 +128,13 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
           </div>
         </div>
         {Object.keys(activeItem)?.length > 0 && (
-          <div className='absolute top-0 left-0 bg-white px-3 w-full h-full overflow-y-scroll scrollable'>
+          <div
+            className={`${
+              scrollPosition > 32
+                ? 'h-[calc(100vh-136px)] top-[64px]'
+                : 'h-[calc(100vh-182px)] top-[105px]'
+            } fixed left-0 bg-white px-3 w-full overflow-y-scroll scrollable`}
+          >
             <button
               onClick={() => setActiveItem({})}
               className='flex items-center'
