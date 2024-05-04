@@ -50,14 +50,14 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none p-8 max-w-[1180px] w-full h-[600px] overflow-hidden'>
+      <Box className='absolute mm:top-1/2 mm:left-1/2 mm:-translate-x-1/2 mm:-translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none p-3 mm:p-8 max-w-[1180px] w-full mm:w-[95%] xl:w-full h-full mm:h-[600px] overflow-hidden'>
         <span
           onClick={() => setOpen(false)}
           className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
         >
           &times;
         </span>
-        <h2 className='text-2xl text-colBlack pb-5 font-bold'>
+        <h2 className='text-2xl text-colBlack pb-5 font-bold mm:text-left pt-6 text-center'>
           Выберите ваш город
         </h2>
         <form
@@ -86,7 +86,7 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
           />
         ) : (
           <div className='flex mt-8'>
-            <ul className='w-[220px] h-[430px] space-y-2 overflow-y-scroll scrollable pr-2'>
+            <ul className='hidden md:block w-[220px] h-[430px] space-y-2 overflow-y-scroll scrollable pr-2'>
               {regions?.length > 0 ? (
                 <>
                   {regions?.map((el) => (
@@ -113,14 +113,14 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
                 </div>
               )}
             </ul>
-            <div className='w-full h-[430px] px-4 overflow-y-scroll scrollable'>
+            <div className='w-full h-screen mm:h-[430px] md:px-4 overflow-y-scroll scrollable'>
               {cities?.length > 0 ? (
                 <ul className='flex flex-wrap'>
                   {cities?.map((el) => (
                     <li
                       className={`${
                         city?.id === el?.id && 'text-colGreen'
-                      } w-1/4 text-sm leading-[120%] cursor-pointer hover:text-colGreen duration-200 py-2 my-5`}
+                      } w-2/4 lg:w-2/6 xl:w-1/4 text-sm leading-[120%] cursor-pointer hover:text-colGreen duration-200 p-2 my-1 md:my-5`}
                       key={el?.id}
                       onClick={() => {
                         setCity(el);
@@ -132,17 +132,11 @@ const CitiesModal = ({ open, setOpen, city, setCity }) => {
                   ))}
                 </ul>
               ) : (
-                <div className='flex justify-center items-center text-center w-full h-full'>
-                  <div className='max-w-[460px] w-full mx-auto lining-nums proportional-nums'>
-                    <h3 className='text-2xl text-colBlack font-semibold'>
-                      Список пуст!
-                    </h3>
-                    <p className='pb-6 pt-3'>
-                      К сожалению, мы не смогли найти результаты для вашего
-                      запроса. Попробуйте указать другой город.
-                    </p>
-                  </div>
-                </div>
+                <ErrorEmpty
+                  title='Список пуст!'
+                  desc='К сожалению, по вашему запросу ничего не нашли.'
+                  height='420px'
+                />
               )}
             </div>
           </div>

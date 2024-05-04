@@ -14,6 +14,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState({});
+  const [isOpen, setIsOpen] = useState(null);
 
   useEffect(() => {
     const handleBodyOverflow = () => {
@@ -151,17 +152,24 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
               <div className='space-y-2'>
                 {activeItem?.children?.map((el) => (
                   <div key={el?.id}>
-                    <NavLink
-                      to={`/catalog/${el?.slug}`}
-                      onClick={() => setShowCatalog(false)}
+                    <button
+                      onClick={() =>
+                        setIsOpen(isOpen === el?.id ? null : el?.id)
+                      }
                       className='font-semibold text-colBlack hover:text-colGreen leading-[120%] border-b w-full flex justify-between items-center pb-1'
                     >
                       <span>{el?.name}</span>
-                      <div className='w-6 h-6 flex justify-center items-center'>
+                      <div
+                        className={`${
+                          isOpen === el?.id
+                            ? 'rotate-[180deg]'
+                            : 'rotate-[0deg]'
+                        } w-6 h-6 flex justify-center items-center duration-200`}
+                      >
                         <img src={arrowBack} alt='*' />
                       </div>
-                    </NavLink>
-                    {el?.children?.length > 0 && (
+                    </button>
+                    {el?.children?.length > 0 && isOpen === el?.id && (
                       <div className='pt-1 pl-3'>
                         {el?.children?.map((child) => (
                           <div key={child?.id}>
