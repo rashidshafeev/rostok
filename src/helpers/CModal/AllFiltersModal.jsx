@@ -1,4 +1,4 @@
-import { Box, Checkbox, FormControlLabel, Modal } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Modal, Slider } from '@mui/material';
 import { useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { Loading } from '../Loader/Loader';
@@ -6,6 +6,7 @@ import ErrorServer from '../Errors/ErrorServer';
 import ErrorEmpty from '../Errors/ErrorEmpty';
 import { fetchAllCategoryProducts } from '../../api/catalog';
 import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
+import CTextField from '../CustomInputs/CTextField';
 
 const AllFiltersModal = ({
   open,
@@ -70,7 +71,7 @@ const AllFiltersModal = ({
               </h2>
               <span
                 onClick={() => setOpen(false)}
-                className='text-4xl lg:text-5xl text-colGray font-light cursor-pointer pr-2'
+                className='text-4xl lg:text-5xl text-colGray font-light cursor-pointer'
               >
                 &times;
               </span>
@@ -80,11 +81,154 @@ const AllFiltersModal = ({
             ) : isError ? (
               <ErrorServer errorMessage='Что-то пошло не так! Пожалуйста, повторите попытку еще раз.' />
             ) : filters?.dynamics?.length > 0 ? (
-              <div className='mt-2 pr-2 lg:pr-5 border-t border-b border-[#EBEBEB] overflow-y-scroll scrollable overflow-hidden h-[calc(100vh_-_124px)] mm:h-[calc(100vh_-_185px)] lg:h-[92%]'>
+              <div className='mt-2 pr-2 lg:pr-5 md:border-t border-b border-[#EBEBEB] overflow-y-scroll scrollable overflow-hidden h-[calc(100vh_-_124px)] mm:h-[calc(100vh_-_185px)] lg:h-[92%]'>
                 <div className='pt-5'>
-                  <div className='grid mm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-8'>
+                  <div className='grid mm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>
+                    <div className='md:hidden border-b pb-3'>
+                      <div
+                        className='flex justify-between items-center cursor-pointer'
+                        onClick={() => toggleAccordion('cost')}
+                      >
+                        <span className='text-colBlack font-semibold'>
+                          Цена, ₽
+                        </span>
+                        <ArrowIcon
+                          className={`!m-0 !w-4 !h-4 ${
+                            accordion === 'cost'
+                              ? 'rotate-[0deg]'
+                              : 'rotate-[180deg]'
+                          }`}
+                        />
+                      </div>
+                      {accordion === 'cost' && (
+                        <>
+                          <div className='grid grid-cols-2 gap-3 py-3 pl-2'>
+                            <CTextField
+                              label='от 0'
+                              name='min_price'
+                              type='number'
+                              // value={filtersState.min_price}
+                              // onChange={(e) => handleChange('min_price', e.target.value)}
+                            />
+                            <CTextField
+                              label='до 900 000'
+                              name='max_price'
+                              type='number'
+                              // value={filtersState.max_price}
+                              // onChange={(e) => handleChange('max_price', e.target.value)}
+                            />
+                          </div>
+                          <Box sx={{ padding: '0 8px 0 14px' }}>
+                            <Slider
+                              sx={{ color: '#15765B' }}
+                              size='small'
+                              getAriaLabel={() => 'Price range'}
+                              // value={[
+                              //   filtersState?.min_price,
+                              //   filtersState?.max_price,
+                              // ]}
+                              min={0}
+                              max={900000}
+                              // onChange={(event, newValue) =>
+                              //   handleSliderChange(newValue)
+                              // }
+                              valueLabelDisplay='auto'
+                            />
+                          </Box>
+                        </>
+                      )}
+                    </div>
+                    <div className='md:hidden border-b pb-3'>
+                      <div
+                        className='flex justify-between items-center cursor-pointer'
+                        onClick={() => toggleAccordion('brand')}
+                      >
+                        <span className='text-colBlack font-semibold'>
+                          Производитель
+                        </span>
+                        <ArrowIcon
+                          className={`!m-0 !w-4 !h-4 ${
+                            accordion === 'brand'
+                              ? 'rotate-[0deg]'
+                              : 'rotate-[180deg]'
+                          }`}
+                        />
+                      </div>
+                      {accordion === 'brand' &&
+                        filters?.basics?.brands?.map((el) => (
+                          <div className='pl-2' key={el?.id}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: '#15765B',
+                                    padding: '5px 4px 5px 8px',
+                                  }}
+                                  name='brands'
+                                  // checked={filtersState.brands.includes(el?.id)}
+                                  // onChange={() =>
+                                  //   handleCheckboxChange('brands', el?.id)
+                                  // }
+                                />
+                              }
+                              label={
+                                <p className='text-sm font-medium text-colBlack'>
+                                  {el?.name}
+                                </p>
+                              }
+                            />
+                          </div>
+                        ))}
+                    </div>
+                    <div className='md:hidden border-b pb-3'>
+                      <div
+                        className='flex justify-between items-center cursor-pointer'
+                        onClick={() => toggleAccordion('status')}
+                      >
+                        <span className='text-colBlack font-semibold'>
+                          Статус
+                        </span>
+                        <ArrowIcon
+                          className={`!m-0 !w-4 !h-4 ${
+                            accordion === 'status'
+                              ? 'rotate-[0deg]'
+                              : 'rotate-[180deg]'
+                          }`}
+                        />
+                      </div>
+                      {accordion === 'status' &&
+                        filters?.basics?.tags?.map((el, index) => (
+                          <div className='pt-2 pl-2' key={index}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: '#15765B',
+                                    padding: '1px 4px 1px 8px',
+                                  }}
+                                  // checked={filtersState.tags.includes(el?.tag)}
+                                  // onChange={() =>
+                                  //   handleCheckboxChange('tags', el?.tag)
+                                  // }
+                                />
+                              }
+                              label={
+                                <span
+                                  style={{
+                                    color: el?.text_color,
+                                    backgroundColor: el?.background_color,
+                                  }}
+                                  className='py-1 px-2 uppercase text-xs font-bold rounded-xl'
+                                >
+                                  {el?.tag}
+                                </span>
+                              }
+                            />
+                          </div>
+                        ))}
+                    </div>
                     {filters?.dynamics?.map((el) => (
-                      <div key={el?.id}>
+                      <div className='border-b md:border-b-0 pb-3' key={el?.id}>
                         <div
                           className='flex justify-between items-center cursor-pointer'
                           onClick={() => toggleAccordion(el?.id)}
