@@ -137,9 +137,12 @@ const CatProdSidebar = ({
             <li>
               <NavLink
                 to={`/catalog/${categories?.category?.slug}`}
-                className='flex  text-colBlack leading-5 font-semibold bg-[#EBEBEB] rounded py-1 px-2 cursor-pointer'
+                className='flex text-colBlack leading-5 font-semibold bg-colSuperLight rounded py-1 px-2 cursor-pointer'
               >
                 {categories?.category?.name || 'Не указано'}
+                <span className='text-colDarkGray font-[400] text-xs pl-2'>
+                  {categories?.category?.product_count}
+                </span>
               </NavLink>
             </li>
             {categories?.children?.map((el) => (

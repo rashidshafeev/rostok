@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { Pagination, Stack } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../../../helpers/Loader/Loader';
 import ErrorEmpty from '../../../../helpers/Errors/ErrorEmpty';
@@ -8,6 +7,7 @@ import CardLine from '../../TypesOfCards/CardLine';
 import LineNarrow from '../../TypesOfCards/LineNarrow';
 import filterIcon from '../../../../assets/icons/filter.svg';
 import arrow from '../../../../assets/icons/arrow-black.svg';
+import { CustomPagination } from '../../../../helpers/Pagination/CustomPagination';
 
 const CatProdContent = ({
   catProducts,
@@ -249,18 +249,10 @@ const CatProdContent = ({
               ))}
             </div>
           )}
-          <Stack spacing={2} className='pt-8'>
-            <Pagination
-              onChange={handlePagination}
-              count={Number(catProducts?.count)}
-              variant='outlined'
-              shape='rounded'
-              classes={{
-                ul: 'pagination-mui',
-              }}
-              className='flex justify-end'
-            />
-          </Stack>
+          <CustomPagination
+            count={catProducts?.count}
+            handlePagination={handlePagination}
+          />
         </>
       ) : (
         <ErrorEmpty

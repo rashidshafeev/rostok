@@ -88,7 +88,7 @@ const CatProducts = () => {
   return (
     <div className='content lining-nums proportional-nums'>
       <BreadCrumbs breadCrumps={breadCrumps} />
-      <h3 className='font-semibold text-4xl text-colBlack pb-5'>
+      <h3 className='font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5'>
         {state?.category?.name}
       </h3>
       <div className='flex pb-10 min-h-[420px]'>

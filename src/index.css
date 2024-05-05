@@ -89,6 +89,7 @@ body {
 .pagination-mui li button {
   border: 1px solid #15765b !important;
   color: #15765b;
+  margin-top: 6px;
 }
 .pagination-mui li .Mui-selected {
   background: #15765b;
