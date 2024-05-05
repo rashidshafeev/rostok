@@ -14,6 +14,7 @@ const CatProdContent = ({
   isLoading,
   handleFetchBySort,
   handlePagination,
+  setOpen,
 }) => {
   const [cardType, setTypeCard] = useState('tile');
   const [isOpenSelect, setIsOpenSelect] = useState(false);
@@ -221,10 +222,13 @@ const CatProdContent = ({
             </li>
           </ul>
         </div>
-        <div className='flex md:hidden items-center'>
+        <button
+          onClick={() => setOpen(true)}
+          className='flex md:hidden items-center outline-none bg-transparent'
+        >
           <img src={filterIcon} alt='*' />
           <span className='text-colBlack text-xs font-medium'>Фильтры</span>
-        </div>
+        </button>
       </div>
       {isLoading ? (
         <Loading extraStyle='420px' />

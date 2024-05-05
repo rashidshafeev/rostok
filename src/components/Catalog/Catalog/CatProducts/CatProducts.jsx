@@ -13,6 +13,7 @@ import {
   fetchCategoryProductsBySort,
 } from '../../../../api/catalog';
 import { useGetProductsByCategoryQuery } from '../../../../redux/api/api';
+import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
 
 const CatProducts = () => {
   const [page, setPage] = useState(1);
@@ -26,6 +27,7 @@ const CatProducts = () => {
 
   const [breadCrumps, setBreadCrumps] = useState([]);
   const [isLoading, setIsLoading] = useState(loading);
+  const [open, setOpen] = useState(false);
   const [catProducts, setCatProducts] = useState(loading ? [] : data);
 
   const handleFetchProducts = async (category_id, filters) => {
@@ -102,11 +104,18 @@ const CatProducts = () => {
           isLoading={isLoading}
           handleFetchBySort={handleFetchBySort}
           handlePagination={handlePagination}
+          setOpen={setOpen}
         />
       </div>
       <Promotions />
       <Brands />
       <Advantages />
+      <AllFiltersModal
+        open={open}
+        setOpen={setOpen}
+        category={categoryId}
+        handleFetchAllProducts={handleFetchAllProducts}
+      />
     </div>
   );
 };
