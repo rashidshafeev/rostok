@@ -38,10 +38,10 @@ const ProductCard = ({ product, recommended }) => {
       className='overflow-hidden group'
     >
       <div>
-        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-50'>
+        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
           {product?.files?.length > 0 && (
             <img
-              className='w-full h-full object-cover'
+              className='w-full h-full object-contain'
               src={product?.files[0]?.medium || noImg}
               onError={(e) => {
                 e.target.onError = null;
@@ -113,7 +113,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -123,7 +123,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               dispatch(addToCart(product));
             }}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>

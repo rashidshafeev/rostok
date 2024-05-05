@@ -119,7 +119,7 @@ const CatProdSidebar = ({
   }, [filters?.category_chain]);
 
   return (
-    <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
+    <div className='md:block hidden max-w-[220px] min-w-[220px] w-full mr-5'>
       {isLoading ? (
         <Loading extraStyle='240px' />
       ) : (
