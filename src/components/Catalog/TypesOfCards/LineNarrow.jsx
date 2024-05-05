@@ -135,7 +135,7 @@ const LineNarrow = ({ product }) => {
           {isProductInCart ? (
             <button
               onClick={() => navigate('/shopping-cart')}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold sm:max-w-[180px] ml-auto w-full text-sm mm:text-xs md:text-sm'
+              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 font-semibold sm:max-w-[180px] ml-auto w-full text-sm mm:text-xs md:text-sm'
             >
               Перейти в корзину
             </button>

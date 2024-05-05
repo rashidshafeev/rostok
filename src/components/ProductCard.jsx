@@ -54,7 +54,7 @@ const ProductCard = ({ product, recommended }) => {
             {product?.tags?.length > 0 && (
               <span
                 style={{ color: product?.tags[0]?.text_color }}
-                className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+                className={`bg-[${product?.tags[0]?.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
               >
                 {product?.tags[0]?.text}
               </span>
