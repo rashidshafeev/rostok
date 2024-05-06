@@ -38,33 +38,32 @@ const CardLine = ({ product }) => {
   };
 
   return (
-    <div className='flex justify-between'>
-      <div className='flex pr-4 max-w-[800px]'>
-        <NavLink
-          to={product?.slug}
-          className='max-w-[280px] min-w-[280px] w-full h-[180px] overflow-hidden rounded-xl relative bg-gray-100'
-        >
-          <img
-            src={product?.files[0]?.large || noImg}
-            className='w-full h-full object-contain'
-            onError={(e) => {
-              e.target.onError = null;
-              e.target.src = noImg;
-            }}
-            alt='*'
-          />
-          <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
-            {product?.tags?.length > 0 && (
-              <span
-                style={{ color: product?.tags[0]?.text_color }}
-                className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
-              >
-                {product?.tags[0]?.text}
-              </span>
-            )}
+    <div className='lg:flex justify-between'>
+      <div className='mm:flex lg:pr-4 lg:max-w-[800px] w-full'>
+        <NavLink to={product?.slug}>
+          <div className='mm:max-w-[280px] min-w-[280px] w-full h-[260px] mm:h-[180px] overflow-hidden rounded-xl relative bg-gray-100'>
+            <img
+              src={product?.files[0]?.large || noImg}
+              className='w-full h-full object-contain'
+              onError={(e) => {
+                e.target.onError = null;
+                e.target.src = noImg;
+              }}
+              alt='*'
+            />
+            <div className='absolute top-2 w-full px-2 z-10 flex justify-between items-start'>
+              {product?.tags?.length > 0 && (
+                <span
+                  style={{ color: product?.tags[0]?.text_color }}
+                  className={`bg-[${product?.tags[0]?.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
+                >
+                  {product?.tags[0]?.text}
+                </span>
+              )}
+            </div>
           </div>
         </NavLink>
-        <div className='pl-5'>
+        <div className='mm:pl-5 pt-2 mm:pt-0'>
           <div className='space-y-2 pt-1'>
             <div>
               <NavLink
@@ -89,10 +88,10 @@ const CardLine = ({ product }) => {
           </div>
         </div>
       </div>
-      <div className='max-w-xs w-full'>
+      <div className='lg:max-w-xs w-full'>
         <div className='flex justify-between items-center'>
-          <div className='flex items-center py-1'>
-            <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
+          <div className='flex items-center py-1 mt-1 lg:mt-0'>
+            <span className='text-colBlack text-xs lg:text-base font-semibold lg:font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
               {product?.price
                 ? `${
                     product?.price?.discount
@@ -125,18 +124,18 @@ const CardLine = ({ product }) => {
             />
           </div>
         </div>
-        <div className='flex justify-between space-x-3 pt-5'>
+        <div className='flex justify-between space-x-3 pt-3 lg:pt-5'>
           {isProductInCart ? (
             <button
               onClick={() => navigate('/shopping-cart')}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[180px] w-full ml-auto text-sm'
+              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 lg:p-2 font-semibold sm:max-w-[180px] ml-auto w-full text-sm mm:text-xs md:text-sm'
             >
               Перейти в корзину
             </button>
           ) : (
             <button
               onClick={handleToggleAddToCart}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[164px] w-full ml-auto text-sm'
+              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 lg:p-2 font-semibold sm:max-w-[164px] ml-auto w-full text-sm mm:text-xs md:text-sm'
             >
               В корзину
             </button>

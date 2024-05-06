@@ -38,9 +38,9 @@ const LineNarrow = ({ product }) => {
   };
 
   return (
-    <div className='flex justify-between'>
-      <div className='flex justify-between pr-4 max-w-[780px] w-full'>
-        <div className='flex'>
+    <div className='mm:flex justify-between relative'>
+      <div className='flex justify-between mm:pr-4 max-w-[780px] w-full'>
+        <div className='flex pr-2 mm:pr-0'>
           <NavLink
             to={product?.slug}
             className='min-w-[80px] w-20 h-20 bg-gray-100 rounded-lg overflow-hidden'
@@ -64,7 +64,7 @@ const LineNarrow = ({ product }) => {
                 >
                   {product?.name || 'Не указано'}
                 </NavLink>
-                <p className='font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-4'>
+                <p className='font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-3 mm:line-clamp-4'>
                   {product?.description || 'Не указано'}
                 </p>
               </div>
@@ -80,21 +80,25 @@ const LineNarrow = ({ product }) => {
             </div>
           </div>
         </div>
-        <div className='px-2'>
+        <div className='px-2 min-w-[98px] text-right md:text-center'>
           {product?.tags?.length > 0 && (
             <span
               style={{ color: product?.tags[0]?.text_color }}
-              className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+              className={`bg-[${product?.tags[0]?.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
             >
               {product?.tags[0]?.text}
             </span>
           )}
         </div>
       </div>
-      <div className='max-w-xs w-full'>
+      <div className='mm:max-w-xs w-full'>
         <div className='flex justify-between items-center'>
-          <div className='flex items-center py-1'>
-            <span className='text-colBlack font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
+          <div
+            className={`${
+              product?.tags?.length > 0 ? 'top-[28px]' : 'top-0'
+            } flex items-center py-1 mm:static absolute right-0`}
+          >
+            <span className='text-colBlack text-xs lg:text-base font-semibold lg:font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
               {product?.price
                 ? `${
                     product?.price?.discount
@@ -127,18 +131,18 @@ const LineNarrow = ({ product }) => {
             />
           </div>
         </div>
-        <div className='flex justify-between space-x-3 pt-5'>
+        <div className='flex justify-between space-x-3 pt-2 mm:pt-5'>
           {isProductInCart ? (
             <button
               onClick={() => navigate('/shopping-cart')}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[180px] ml-auto w-full text-sm'
+              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 font-semibold sm:max-w-[180px] ml-auto w-full text-sm mm:text-xs md:text-sm'
             >
               Перейти в корзину
             </button>
           ) : (
             <button
               onClick={handleToggleAddToCart}
-              className='bg-colGreen text-white rounded-md p-2 font-semibold max-w-[164px] ml-auto w-full text-sm'
+              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 font-semibold sm:max-w-[164px] ml-auto w-full text-sm mm:text-xs md:text-sm'
             >
               В корзину
             </button>

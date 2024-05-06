@@ -38,7 +38,7 @@ const ProductCard = ({ product, recommended }) => {
       className='overflow-hidden group'
     >
       <div>
-        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-50'>
+        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
           {product?.files?.length > 0 && (
             <img
               className='w-full h-full object-cover'
@@ -54,7 +54,7 @@ const ProductCard = ({ product, recommended }) => {
             {product?.tags?.length > 0 && (
               <span
                 style={{ color: product?.tags[0]?.text_color }}
-                className={`bg-[${product?.tags[0]?.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
+                className={`bg-[${product?.tags[0]?.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
               >
                 {product?.tags[0]?.text}
               </span>
@@ -113,7 +113,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               navigate('/shopping-cart');
             }}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             Перейти в корзину
           </button>
@@ -123,7 +123,7 @@ const ProductCard = ({ product, recommended }) => {
               e.preventDefault();
               dispatch(addToCart(product));
             }}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 mm:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>

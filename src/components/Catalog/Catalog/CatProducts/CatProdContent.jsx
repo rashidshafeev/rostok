@@ -1,35 +1,59 @@
+import { useState, useRef, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Loading } from '../../../../helpers/Loader/Loader';
 import ErrorEmpty from '../../../../helpers/Errors/ErrorEmpty';
 import ProductCard from '../../../ProductCard';
-import { useState } from 'react';
 import CardLine from '../../TypesOfCards/CardLine';
 import LineNarrow from '../../TypesOfCards/LineNarrow';
-import { useParams } from 'react-router-dom';
-import { Pagination, Stack } from '@mui/material';
+import filterIcon from '../../../../assets/icons/filter.svg';
+import arrow from '../../../../assets/icons/arrow-black.svg';
+import { CustomPagination } from '../../../../helpers/Pagination/CustomPagination';
 
 const CatProdContent = ({
   catProducts,
   isLoading,
   handleFetchBySort,
   handlePagination,
+  setOpen,
 }) => {
   const [cardType, setTypeCard] = useState('tile');
-  const [activeSort, setActiveSort] = useState(null);
+  const [isOpenSelect, setIsOpenSelect] = useState(false);
+  const [activeSort, setActiveSort] = useState(
+    window.innerWidth > 1024
+      ? null
+      : { orderBy: 'popularity', sortOrder: 'desc', name: 'По популярности' }
+  );
 
   const { categoryId } = useParams();
+  const selectRef = useRef(null);
 
-  const handleBySort = (orderBy, sortOrder) => {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setIsOpenSelect(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleBySort = (orderBy, sortOrder, name) => {
     handleFetchBySort(categoryId, {
       orderBy: orderBy,
       sortOrder: sortOrder,
     });
-    setActiveSort({ orderBy, sortOrder });
+    setActiveSort({ orderBy, sortOrder, name });
+    setIsOpenSelect(false);
   };
 
   return (
     <div className='w-full'>
-      <div className='flex justify-between items-center'>
-        <div className='flex space-x-3 pb-5'>
+      <div className='sticky ll:static top-[64px] ll:top-auto flex justify-between items-center pb-3 xl:pb-0 bg-white z-[99]'>
+        <div className='hidden ll:flex space-x-3 xl:pb-5'>
           <span
             onClick={() => {
               handleBySort('popularity', 'desc');
@@ -141,13 +165,77 @@ const CatProdContent = ({
             />
           </svg>
         </div>
+        <div ref={selectRef} className='relative ll:hidden min-w-[128px]'>
+          <div
+            onClick={() => setIsOpenSelect(!isOpenSelect)}
+            className='flex items-center space-x-2'
+          >
+            <span className='whitespace-nowrap text-colBlack font-medium text-xs'>
+              {activeSort?.name || 'Сортировка'}
+            </span>
+            <img src={arrow} alt='*' />
+          </div>
+          <ul
+            className={`${
+              isOpenSelect ? 'block' : 'hidden'
+            } absolute top-full left-0 bg-white shadow-lg p-2 space-y-1 z-[99]`}
+          >
+            <li
+              onClick={() => {
+                handleBySort('popularity', 'desc', 'По популярности');
+              }}
+              className='whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b pb-1'
+            >
+              По популярности
+            </li>
+            <li
+              onClick={() => {
+                handleBySort('price', 'asc', 'Сначала дешёвые');
+              }}
+              className='whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1'
+            >
+              Сначала дешёвые
+            </li>
+            <li
+              onClick={() => {
+                handleBySort('price', 'desc', 'Сначала дорогие');
+              }}
+              className='whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1'
+            >
+              Сначала дорогие
+            </li>
+            <li
+              onClick={() => {
+                handleBySort('rating', 'desc', 'Высокий рейтинг');
+              }}
+              className='whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1'
+            >
+              Высокий рейтинг
+            </li>
+            <li
+              onClick={() => {
+                handleBySort('discount', 'desc', 'По размеру скидки');
+              }}
+              className='whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs'
+            >
+              По размеру скидки
+            </li>
+          </ul>
+        </div>
+        <button
+          onClick={() => setOpen(true)}
+          className='flex md:hidden items-center outline-none bg-transparent'
+        >
+          <img src={filterIcon} alt='*' />
+          <span className='text-colBlack text-xs font-medium'>Фильтры</span>
+        </button>
       </div>
       {isLoading ? (
         <Loading extraStyle='420px' />
       ) : catProducts?.data?.length > 0 ? (
         <>
           {cardType === 'tile' ? (
-            <div className='grid grid-cols-5 gap-5'>
+            <div className='grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 xl:grid-cols-5'>
               {catProducts?.data?.map((el) => (
                 <ProductCard key={el?.id} product={el} />
               ))}
@@ -165,18 +253,10 @@ const CatProdContent = ({
               ))}
             </div>
           )}
-          <Stack spacing={2} className='pt-8'>
-            <Pagination
-              onChange={handlePagination}
-              count={Number(catProducts?.count)}
-              variant='outlined'
-              shape='rounded'
-              classes={{
-                ul: 'pagination-mui',
-              }}
-              className='flex justify-end'
-            />
-          </Stack>
+          <CustomPagination
+            count={catProducts?.count}
+            handlePagination={handlePagination}
+          />
         </>
       ) : (
         <ErrorEmpty
