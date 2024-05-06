@@ -9,6 +9,7 @@ import RightNav from './Gallery/RightNav';
 import Slider from "react-slick";
 
 function ProductGallery({ files }) {
+
   var settings = {
     dots: true,
     infinite: true,
@@ -17,7 +18,6 @@ function ProductGallery({ files }) {
     slidesToScroll: 1,
   };
 
-    console.log(files)
     const images = []
     const imageGalleryRef = useRef(null);
 
@@ -80,8 +80,6 @@ function ProductGallery({ files }) {
 
       
 
-console.log("images")
-console.log(images)
 
   return (
     <>
@@ -91,26 +89,7 @@ console.log(images)
               items={images} showVideo={true} additionalClass="" showFullscreenButton={false} showPlayButton={false} 
               ref={imageGalleryRef}/>
 
-              {/* <Slider {...settings}>
-              <div className='bg-red w-10'>
-                <h3>1</h3>
-              </div>
-              <div>
-                <h3>2</h3>
-              </div>
-              <div>
-                <h3>3</h3>
-              </div>
-              <div>
-                <h3>4</h3>
-              </div>
-              <div>
-                <h3>5</h3>
-              </div>
-              <div>
-                <h3>6</h3>
-              </div>
-            </Slider> */}
+   
             </>
   )
 }

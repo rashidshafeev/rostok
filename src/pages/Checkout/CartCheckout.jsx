@@ -44,6 +44,7 @@ import FizlicoLoggedInForm from '../../components/Checkout/FizlicoLoggedInForm';
 import UrlicoLoggedInForm from '../../components/Checkout/UrlicoLoggedInForm';
 import FizlicoNotLoggedForm from '../../components/Checkout/FizlicoNotLoggedForm';
 import UrlicoNotLoggedForm from '../../components/Checkout/UrlicoNotLoggedForm';
+import { useSendOrderMutation } from '../../redux/api/api';
 
 
 function CartCheckout() {
@@ -51,7 +52,6 @@ function CartCheckout() {
   const navigate = useNavigate();
 
   const [type, setType] = useState('fizlico')
-  const [personalInfo, setPersonalInfo] = useState({})
   const [deliveryType, setDeliveryType] = useState('pickup')
   const [deliveryDate, setDeliveryDate] = useState('')
   const [paymentMethod, setPaymentMethod] = useState('')
@@ -95,24 +95,13 @@ function CartCheckout() {
 
   const selected = cart?.cart.filter((item) => item.selected === true);
 
-  // const {
-  //   control,
-  //   handleSubmit,
-  //   reset,
-  //   register,
-  //   watch,
-  //   formState: { errors, isValid },
-  // } = useForm({
-  //   mode: 'onChange',
-  // });
 
-  const methods = useForm()
+  const methods = useForm({
+    mode: 'onChange'
+  })
 
-  // const inn = watch('inn');
-  // const companyName = watch('company-name');
-  // const name = watch('name');
-  // const email = watch('email');
-  // const phone = watch('phone');
+  const [ sendOrder, result] = useSendOrderMutation()
+
 
   const dates = [
     { date: "19.01.2024" },
@@ -127,61 +116,34 @@ function CartCheckout() {
   const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
 
 
-  const handleSendVerificationCode = async () => {
-    setMiniLoading(true);
-    console.log(phone)
-    const { data } = await postSendVerificationCode(phone);
-    console.log(data)
-    if (data?.success === 'ok') {
-      setIsCode({ ...isCode, sendCode: data });
-      setOpenSnack(true);
-      setMiniLoading(false);
-    } else {
-      setIsCode({ ...isCode, sendCode: data });
-      setOpenSnack(true);
-      setMiniLoading(false);
-    }
-  };
-
-  const handleConfirmVerificationCode = async (e) => {
-    const inputValue = e.target.value;
-    console.log(inputValue)
-    if (/^\d*$/.test(inputValue) && inputValue.length === 4) {
-      setMiniLoading(true);
-      const { data } = await postConfirmVerificationCode(inputValue, phone);
-      if (data?.success) {
-        setIsCode({ ...isCode, verification: data });
-        setMiniLoading(false);
-      } else {
-        setOpenSnack2(true);
-        setIsCode({ ...isCode, verification: data });
-        setMiniLoading(false);
-      }
-    }
-  };
+ 
 
   const onPersonalInfoSubmit = (data) => {
     console.log(data)
-    console.log(watch('name'))
-    // setPersonalInfo(data)
+
+    const items = []
+
+    selected.map((item) => {
+      items.push({
+        id: item.id,
+        quantity: item.quantity
+      })
+    })
 
     const order = {
       type,
-      inn,
-      companyName,
-      name,
-      email,
-      phone,
+      clientInfo: data,
       deliveryType,
       pickupPoint,
       deliveryDate,
       paymentMethod,
-      order: selected,
+      order: items,
     }
-
-    // console.log(order)
-
-    // navigate('/checkout', { state: { order } });
+    
+    console.log(sendOrder(order))
+    console.log(result)
+    
+    // navigate('/', { state: { order } });
   }
 
   const onError = (errors, e) => {
@@ -190,24 +152,7 @@ function CartCheckout() {
   }
 
 
-  const sendOrder = () => {
-    const order = {
-      type,
-      inn,
-      companyName,
-      name,
-      email,
-      phone,
-      deliveryType,
-      pickupPoint,
-      deliveryDate,
-      paymentMethod,
-      order: selected,
-    }
-
-    console.log(order)
-  }
-
+ 
 
 
   const [addressList, setAddressList] = useState([
@@ -257,186 +202,8 @@ function CartCheckout() {
               </button>
             </div>
               <div className='flex flex-col gap-3'>
-              {/* { type === 'urlico' && <div className='flex gap-2'>
-                <div className='w-[340px]'>
 
-                    
-
-                </div>
-                <div className='w-[340px]'>
-
-                    
-
-                </div>
-
-              </div>} */}
-              
-              {/* <FizlicoLoggedInForm user={user}
-                organizations={organizations}
-                /> */}
-
-{/* <FormControl fullWidth variant='outlined' size='small'>
-      <InputLabel
-        sx={{
-          '&.Mui-focused': {
-            color: props?.labelColor || '#15765B',
-          },
-        }}
-      >
-        {props?.label}
-      </InputLabel>
-      <Select
-        label={props?.label}
-        name={props?.name}
-        value={selectedValue}
-        onChange={handleChange}
-        sx={{
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderWidth: '1px',
-            borderColor: '#B5B5B5',
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderWidth: '1px',
-            borderColor: '#B5B5B5',
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#15765B',
-            borderWidth: '1px',
-          },
-          '&.Mui-focused': {
-            color: '#15765B',
-          },
-          paddingRight: 0,
-        }}
-      >
-        <MenuItem value={'user'}>
-                          <div className='flex items-center'>
-                            <img src={fizlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                            <div>{user?.user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
-                          </div>
-                        </MenuItem>
-                        {organizations.length !== 0 && <ListSubheader>Мои организации</ListSubheader>}
-                        {
-                          organizations?.map(org => (
-                            <MenuItem value={org.inn}>
-                              <div className='flex items-center'>
-                                <img src={urlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                                <div>{org.name}</div>
-                              </div></MenuItem>
-                          ))
-                        }
-      </Select>
-    </FormControl> */}
-                {/* <UrlicoLoggedInForm/> */}
-
-                  
-                {/* <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
-        <Controller
-          name='name'
-          control={control}
-          defaultValue=""
-          rules={{
-            required: 'Поле обязательно к заполнению!',
-          }}
-          render={({ field }) => (
-            <Select {...field}
-            sx={{
-              '& .MuiOutlinedInput-notchedOutline': {
-                borderWidth: '1px',
-                borderColor: '#B5B5B5',
-              },
-              '&:hover .MuiOutlinedInput-notchedOutline': {
-                borderWidth: '1px',
-                borderColor: '#B5B5B5',
-              },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: '#15765B',
-                borderWidth: '1px',
-              },
-              '&.Mui-focused': {
-                color: '#15765B',
-              },
-              paddingRight: 0,
-            }}>
-              <MenuItem value={'user'}>
-                          <div className='flex items-center'>
-                            <img src={fizlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                            <div>{user?.user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
-                          </div>
-                        </MenuItem>
-                        {organizations.length !== 0 && <ListSubheader>Мои организации</ListSubheader>}
-                        {
-                          organizations?.map(org => (
-                            <MenuItem value={org.inn}>
-                              <div className='flex items-center'>
-                                <img src={urlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                                <div>{org.name}</div>
-                              </div></MenuItem>
-                          ))
-                        }
-            </Select>
-          )}
-        />
-      </FormControl> */}
-
-                  {/* <Controller
-                    name='name'
-                    control={control}
-                    defaultValue={user ? user?.user?.name : ''}
-                    rules={{
-                      required: 'Поле обязательно к заполнению!',
-                    }}
-                    render={({ field }) => (
-                      <Select
-                      { ...field }
-                        label={'Имя *'}
-                        value={client}
-                        onChange={handleChange}
-                        className='w-[340px] h-10'
-                        sx={{
-                          '& .MuiOutlinedInput-notchedOutline': {
-                            borderWidth: '1px',
-                            borderColor: '#B5B5B5',
-                          },
-                          '&:hover .MuiOutlinedInput-notchedOutline': {
-                            borderWidth: '1px',
-                            borderColor: '#B5B5B5',
-                          },
-                          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            borderColor: '#15765B',
-                            borderWidth: '1px',
-                          },
-                          '&.Mui-focused': {
-                            color: '#15765B',
-                          },
-                          paddingRight: 0,
-                        }}
-                      >
-
-                        <MenuItem value={'user'}>
-                          <div className='flex items-center'>
-                            <img src={fizlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                            <div>{user?.user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
-                          </div>
-                        </MenuItem>
-                        {organizations.length !== 0 && <ListSubheader>Мои организации</ListSubheader>}
-                        {
-                          organizations?.map(org => (
-                            <MenuItem value={org.inn}>
-                              <div className='flex items-center'>
-                                <img src={urlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                                <div>{org.name}</div>
-                              </div></MenuItem>
-                          ))
-                        }
-                      </Select>
-                    )}
-                  /> */}
-
-
-
-              { (user?.user && type === 'fizlico') && 
+                  {(user?.user && type === 'fizlico') &&
 
                     <FizlicoLoggedInForm user={user}
                       organizations={organizations}
@@ -445,67 +212,23 @@ function CartCheckout() {
                       handleConfirmVerificationCode={handleConfirmVerificationCode}
                       miniLoading={miniLoading} />}
 
-                      {(!user?.user && type === 'fizlico') && 
-                      <FizlicoNotLoggedForm/>
-                      }
+                  {(!user?.user && type === 'fizlico') &&
+                    <FizlicoNotLoggedForm />
+                  }
 
-{(user?.user && type === 'urlico') && 
-<UrlicoLoggedInForm user={user}
+                  {(user?.user && type === 'urlico') &&
+                    <UrlicoLoggedInForm user={user}
                       organizations={organizations}
                       isCode={isCode}
                       handleSendVerificationCode={handleSendVerificationCode}
                       handleConfirmVerificationCode={handleConfirmVerificationCode}
-                      miniLoading={miniLoading}/>
-                      }
+                      miniLoading={miniLoading} />
+                  }
 
-{(!user?.user && type === 'urlico') && <UrlicoNotLoggedForm/> }
-
-              
-
-              <div className='flex gap-2'>
-
-                <div
-                  className={`flex ${isCode?.verification?.success ? '' : 'space-x-2'
-                    }`}
-                >
-                  {/* <div className='w-[340px]'>
-                    <Controller
-                      name='phone'
-                      control={control}
-                      defaultValue={user ? user?.user?.phone : ''}
-
-                      rules={{
-                        required: 'Поле обязательно к заполнению!',
-                        pattern: {
-                          value:
-                            /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
-                          message: 'Введите корректный номер телефона',
-                          
-                        },
-                        validate: {
-                          confirmed: (value) => { if (user?.user?.phone || isCode?.verification?.success) {
-                            return null
-                          } else {
-                            return 'Подтвердите номер телефона'
-                          }
-                            },
-                        }
-                      }}
-                      render={({ field }) => (
-                        <CPhoneField disabled={isCode?.verification?.success || user?.user?.phone} label='Телефон' {...field} />
-                      )}
-                    />
-                    {errors?.phone && (
-                      <p className='text-red-500 mt-1 text-xs font-medium'>
-                        {errors?.phone?.message || 'Error!'}
-                      </p>
-                    )}
-                  </div> */}
+                  {(!user?.user && type === 'urlico') && <UrlicoNotLoggedForm />}
 
 
-                </div>
 
-              </div>
               </div>
             
           </div>

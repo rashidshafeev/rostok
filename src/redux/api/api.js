@@ -36,6 +36,20 @@ export const api = createApi({
     getCitiesAndRegions: builder.query({
       query: () => '/api/Location/full',
     }),
+    sendOrder: builder.mutation({
+      query: (order) => ({
+        url: '/api/Products/sendOrder',
+        method: 'POST',
+        body: order,
+      }),
+    }),
+    setCart: builder.mutation({
+      query: (cart) => ({
+        url: '/api/Products/setCart',
+        method: 'POST',
+        body: cart,
+      }),
+    }),
   }),
 });
 
@@ -46,4 +60,6 @@ export const {
   useGetProductsByCategoryQuery,
   useGetFiltersOfProductsQuery,
   useGetCitiesAndRegionsQuery,
+  useSendOrderMutation,
+  useSetCartMutation,
 } = api;

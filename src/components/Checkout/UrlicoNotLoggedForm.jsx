@@ -9,8 +9,9 @@ import fizlico from '../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../assets/icons/urlico-inactive.svg';
 import CSelectField from '../../helpers/CustomInputs/CSelectField'
 import CTextField from '../../helpers/CustomInputs/CTextField'
+import { postConfirmVerificationCode, postSendVerificationCode } from '../../api/user'
 
-function UrlicoNotLoggedForm({ user, organizations, isCode, handleSendVerificationCode, handleConfirmVerificationCode, miniLoading }) {
+function UrlicoNotLoggedForm({ user, organizations }) {
 
   const {
     control,
@@ -18,14 +19,62 @@ function UrlicoNotLoggedForm({ user, organizations, isCode, handleSendVerificati
     reset,
     register,
     watch,
+    trigger,
     formState: { errors, isValid },
   } = useFormContext()
+  
+
+  const [miniLoading, setMiniLoading] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
+  const [openSnack2, setOpenSnack2] = useState(false);
+  const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
+
+  // if (isCode.verification?.success && !errors.) {
+  // trigger('phone')
+  // }
+
+  const phone = watch('phone')
+
+  const handleSendVerificationCode = async () => {
+    setMiniLoading(true);
+    const { data } = await postSendVerificationCode(phone);
+    console.log(data)
+    if (data?.success === 'ok') {
+      setIsCode({ ...isCode, sendCode: data });
+      setOpenSnack(true);
+      setMiniLoading(false);
+    } else {
+      setIsCode({ ...isCode, sendCode: data });
+      setOpenSnack(true);
+      setMiniLoading(false);
+    }
+    
+  };
+
+  const handleConfirmVerificationCode = async (e) => {
+    const inputValue = e.target.value;
+    
+    if (/^\d*$/.test(inputValue) && inputValue.length === 4) {
+      setMiniLoading(true);
+      const { data } = await postConfirmVerificationCode(inputValue, phone);
+      if (data?.success) {
+        setIsCode({ ...isCode, verification: data });
+        setMiniLoading(false);
+      } else {
+        setOpenSnack2(true);
+        setIsCode({ ...isCode, verification: data });
+        setMiniLoading(false);
+      }
+    }
+    
+
+  };
+
 
   return (
     <>
       <div className='flex gap-2'>
         <div className='w-[340px]'>
-          <div>asdasd</div>
 
           <Controller
             name='inn'
@@ -33,11 +82,6 @@ function UrlicoNotLoggedForm({ user, organizations, isCode, handleSendVerificati
             defaultValue={''}
             rules={{
               required: 'Поле обязательно к заполнению!',
-              maxLength: {
-                value: 2,
-                message: 'Поле !',
-              }
-
             }}
             render={({ field }) => (
               <CTextField label='ИНН' type='text' {...field} />
@@ -132,7 +176,11 @@ function UrlicoNotLoggedForm({ user, organizations, isCode, handleSendVerificati
 
 
 
-        <div className='w-[340px]'>
+       
+      </div>
+<div className='flex gap-2'>
+
+<div className='w-[340px]'>
           <Controller
             name='phone'
             control={control}
@@ -199,9 +247,13 @@ function UrlicoNotLoggedForm({ user, organizations, isCode, handleSendVerificati
         ) : (
           <span
             onClick={handleSendVerificationCode}
+            // className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center ${errors.phone
+            //   ? 'cursor-pointer bg-colGreen'
+            //   : 'pointer-events-none bg-colGray'
+            //   }`}
             className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center ${errors.phone
               ? 'cursor-pointer bg-colGreen'
-              : 'pointer-events-none bg-colGray'
+              : 'bg-colGray'
               }`}
           >
             {miniLoading ? (
@@ -211,7 +263,9 @@ function UrlicoNotLoggedForm({ user, organizations, isCode, handleSendVerificati
             )}
           </span>
         )}
-      </div>
+
+</div>
+
     </>)
 }
 

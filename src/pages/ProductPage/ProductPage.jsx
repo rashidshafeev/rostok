@@ -18,22 +18,13 @@ import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 
 
 function ProductPage() {
-  const [currentData, setCurrentData] = useState({})
-  // const [product, setProduct] = useState({})
-
-  const [currentGroup, setCurrentGroup] = useState([]);
-
   const [attributesList, setAttributesList] = useState({})
   const [currentAttributes, setCurrentAttributes] = useState({})
-  // const currentAttributes = useRef({})
   const [currentProductGroup, setCurrentProductGroup] = useState({})
-  // const currentProductGroup = useRef({})
   const [currentProduct, setCurrentProduct] = useState({})
 
   const [tabIndex, setTabIndex] = useState(3);
 
-
-  console.log("ProductPage")
   const params = useParams()
   const loader = useLoaderData()
 const navigate = useNavigate()
@@ -108,7 +99,18 @@ const product = loader.data
 
 
   const getProductByAttributes = () => {
+    
 
+    console.log("currentAttributes")
+    console.log(currentAttributes)
+    console.log(Object.keys(currentAttributes).length === 0)
+
+    if (Object.keys(currentAttributes).length === 0) {
+      setCurrentProduct(product.variants[0])
+      return
+    }
+
+    // if ()
     const products = currentProductGroup
     let currentProduct = {}
 
@@ -164,7 +166,6 @@ const product = loader.data
 
 
   const handleChangeAttribute = (event) => {
-    console.log("fired")
     const id = event.currentTarget.getAttribute("data-id")
     const value = event.currentTarget.getAttribute("data-value")
     const text = event.currentTarget.getAttribute("data-text")
@@ -183,7 +184,6 @@ const product = loader.data
       setCurrentAttributes(availible)
     }
 
-    console.log("currentAttributes handler")
     console.log(currentAttributes)
 
   }
@@ -230,7 +230,6 @@ const product = loader.data
     return availible
   }
 
-  // console.log(currentAttributes)
 
   useEffect(getAttributeList, [])
   useEffect(getProducts, [])

@@ -22,7 +22,7 @@ function TopControls({product, reviews}) {
 
   const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
   const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
-  console.log(product, reviews);
+  
   return (
     <>
     <div className='flex justify-between mb-[10px]'>

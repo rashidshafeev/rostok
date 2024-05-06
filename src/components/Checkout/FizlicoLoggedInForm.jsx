@@ -31,7 +31,7 @@ function FizlicoLoggedInForm({ user, organizations, isCode, handleSendVerificati
             '&.Mui-focused': {
               color: '#15765B',
             },
-          }}>Имя</InputLabel>
+          }}>Покупатель</InputLabel>
         <Controller
           name='name'
           control={control}
@@ -43,7 +43,7 @@ function FizlicoLoggedInForm({ user, organizations, isCode, handleSendVerificati
             <Select {...field}
               className='w-[340px]'
 
-              label='Имя'
+              label='Покупатель'
               sx={{
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderWidth: '1px',
@@ -219,6 +219,7 @@ function FizlicoLoggedInForm({ user, organizations, isCode, handleSendVerificati
         </span>
       )}
     </div>
+  
   )
 }
 

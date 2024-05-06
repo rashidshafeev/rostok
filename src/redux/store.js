@@ -4,17 +4,29 @@ import storage from 'redux-persist/lib/storage';
 import userReducer from './slices/userSlice';
 import cartReducer, { addToCart, removeFromCart } from './slices/cartSlice';
 import productsReducer from './slices/productsSlice';
-import { api } from './api/api';
+import { api  } from './api/api';
 import favoriteReducer, { toggleFavorite } from './slices/favoriteSlice';
 import comparisonReducer, { toggleComparison } from './slices/comparisonSlice';
 import organizationsReducer, { addOrganization } from './slices/organizationsSlice';
 
-
 const listenerMiddleware = createListenerMiddleware()
+
 listenerMiddleware.startListening({
   matcher: isAnyOf(toggleFavorite, toggleComparison, addToCart, removeFromCart),
   effect: async (action, listenerApi) => {
     const state = listenerApi.getState()
+
+    if (action.type === 'cart/addToCart' || action.type === 'cart/removeFromCart') {
+      console.log('cart synch')
+      try {
+        const result = await listenerApi.dispatch(api.endpoints.setCart.initiate({ ...state.cart.cart}));
+      } catch (error) {
+        console.log(error)
+      }
+    }
+      
+    
+    
   }
 })
 

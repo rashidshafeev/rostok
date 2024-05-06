@@ -11,13 +11,11 @@ import UpdateOrganizationModal from '../../../helpers/CModal/UpdateOrganizationM
 const Organizations = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [content, setContent] = useState('');
-  // const [open, setOpen] = useState(false);
   const [openAddOrgModal, setOpenAddOrgModal] = useState(false);
   const [openDeleteOrgModal, setOpenDeleteOrgModal] = useState(false);
   const [openUpdateOrgModal, setOpenUpdateOrgModal] = useState(false);
 
   const handleOpenAddOrgModal = () => {
-    console.log("set open");
     setOpenAddOrgModal(true);
   
   }
@@ -114,13 +112,6 @@ const Organizations = () => {
                 </div>
                 <div className='flex justify-end space-x-3'>
                   <span
-                    // onClick={() => {
-                    //   setContent({
-                    //     name: 'updateOrganization',
-                    //     item: el,
-                    //   });
-                    //   setOpen(true);
-                    // }}
                     onClick={handleOpenUpdateOrgModal}
                     className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'
                   >
@@ -128,13 +119,6 @@ const Organizations = () => {
                   </span>
                   <UpdateOrganizationModal open={openUpdateOrgModal} close={handleCloseUpdateOrgModal} item={el}/>
                   <span
-                    // onClick={() => {
-                    //   setContent({
-                    //     name: 'deleteOrganization',
-                    //     item: el,
-                    //   });
-                    //   setOpen(true);
-                    // }}
                     onClick={handleOpenDeleteOrgModal}
                     
                     className='text-colDarkGray text-sm border-b border-colDarkGray cursor-pointer font-semibold'

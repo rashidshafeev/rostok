@@ -7,10 +7,31 @@ import { LoadingSmall } from '../../helpers/Loader/Loader'
 
 import fizlico from '../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../assets/icons/urlico-inactive.svg';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import CSelectField from '../../helpers/CustomInputs/CSelectField'
+
+import AddOrganizationModal from '../../helpers/CModal/AddOrganizationModal'
+import CTextField from '../../helpers/CustomInputs/CTextField'
 
 
 function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificationCode, handleConfirmVerificationCode, miniLoading }) {
+
+  const [openAddOrgModal, setOpenAddOrgModal] = useState(false);
+
+  const handleOpenAddOrgModal = () => {
+    setOpenAddOrgModal(true);
+  
+  }
+
+  const handleCloseAddOrgModal = () => {
+    setOpenAddOrgModal(false);
+  
+  }
+
+
+  
+
+
 
   const {
     control,
@@ -22,7 +43,7 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
   } = useFormContext()
 
   return (
-    
+    <>
     <div className='flex gap-2'>
       <FormControl variant='outlined' size='small' >
         <InputLabel
@@ -30,7 +51,7 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
             '&.Mui-focused': {
               color: '#15765B',
             },
-          }}>Имя</InputLabel>
+          }}>Покупатель</InputLabel>
         <Controller
           name='name'
           control={control}
@@ -42,7 +63,7 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
             <Select {...field}
               className='w-[340px]'
 
-              label='Имя'
+              label='Покупатель'
               sx={{
                 '& .MuiOutlinedInput-notchedOutline': {
                   borderWidth: '1px',
@@ -81,70 +102,52 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
           )}
         />
       </FormControl>
-      {/* <Controller
-        name='name'
-        control={control}
-        defaultValue={user ? user?.user?.name : ''}
-        rules={{
-          required: 'Поле обязательно к заполнению!',
-        }}
-        render={({ field }) => (
-          <Select
-        label={'Имя *'}
-        value={client}
-        onChange={handleChange}
-        className='w-[340px] h-10'
-        sx={{
-          '& .MuiOutlinedInput-notchedOutline': {
-            borderWidth: '1px',
-            borderColor: '#B5B5B5',
-          },
-          '&:hover .MuiOutlinedInput-notchedOutline': {
-            borderWidth: '1px',
-            borderColor: '#B5B5B5',
-          },
-          '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: '#15765B',
-            borderWidth: '1px',
-          },
-          '&.Mui-focused': {
-            color: '#15765B',
-          },
-          paddingRight: 0,
-        }}
-      >
-
-        <MenuItem value={'user'}>
-          <div className='flex items-center'>
-            <img src={fizlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-            <div>{user?.user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
-          </div>
-        </MenuItem>
-        {organizations.length !== 0 && <ListSubheader>Мои организации</ListSubheader>}
-        {
-          organizations?.map(org => (
-            <MenuItem value={org.inn}>
-              <div className='flex items-center'>
-                <img src={urlico} className='h-4 w-4 mr-1' alt="" srcset="" />
-                <div>{org.name}</div>
-              </div></MenuItem>
-          ))
-        }
-      </Select>
-        )}
-      /> */}
+        <button onClick={handleOpenAddOrgModal} className='flex items-center text-colGray cursor-pointer'>
+          <AddRoundedIcon/>
+          <div className=' font-semibold'>Добавить новую организацию</div>
+          </button>
+          <AddOrganizationModal open={openAddOrgModal} close={handleCloseAddOrgModal} organizations={organizations}/>
 
 
+      
+    </div>
 
-      <div className='w-[340px]'>
+    <div className='flex gap-2'>
+    <div className='w-[340px]'>
+    <Controller
+                  name='inn'
+                  control={control}
+                  rules={{
+                    validate: {
+                      exists: (value) => {
+                        return !organizations.some( org => org.inn === value) || 'Такая организация уже существует'
+                    
+                      }
+                    }
+                  
+                  }}
+                  render={({ field }) => (
+                    <CTextField
+                      {...field}
+                      label='ИНН'
+                      type='number'
+                    />
+                  )}
+                />
+                {errors.inn?.type === 'exists' && (
+        <p className='text-red-600 text-sm ' role="alert">{errors.inn?.message}</p>
+      )}
+      </div>  
+    <div className='w-[340px]'>
+
+
         <Controller
           name='phone'
           control={control}
-          defaultValue={'+79992220003'}
-          // defaultValue={user ? user?.user?.phone : ''}
+          // defaultValue={'+79992220003'}
+          defaultValue={user ? user?.user?.phone : ''}
 
           rules={{
-            required: 'Поле обязательно к заполнению!',
             pattern: {
               value:
                 /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
@@ -216,8 +219,80 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
           )}
         </span>
       )}
+      
     </div>
+    <div className='flex gap-2'>
+    <div className='w-[340px]'>
+        <Controller
+          name='contact'
+          control={control}
+          rules={{
+            validate: {
+              exists: (value) => {
+                return !organizations.some(org => org.inn === value) || 'Такая организация уже существует'
 
+              }
+            }
+
+          }}
+          render={({ field }) => (
+            <CTextField
+              {...field}
+              label='ФИО контактного лица'
+              type='text'
+              required={true}
+            />
+          )}
+        />
+        {errors.contact?.type === 'exists' && (
+          <p className='text-red-600 text-sm ' role="alert">{errors.contact?.message}</p>
+        )}
+
+        
+
+
+      </div>  
+
+     
+      <div className='w-[340px]'>
+
+<Controller
+  name='email'
+  control={control}
+  defaultValue={user ? user?.user?.email : ''}
+  rules={{
+    required: 'Поле обязательно к заполнению!',
+    pattern: {
+      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+      message:
+        'Введите корректный адрес электронной почты',
+    },
+  }}
+  render={({ field }) => (
+    <CTextField
+      label='Электронная почта'
+      type='email'
+      {...field}
+    />
+  )}
+/>
+{errors?.email && (
+  <p className='text-red-500 mt-1 text-xs font-medium'>
+    {errors?.email?.message || 'Error!'}
+  </p>
+)}
+
+</div>
+
+</div>
+
+
+
+
+
+
+
+    </>
   )
 }
 
