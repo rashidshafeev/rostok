@@ -8,15 +8,16 @@ import { fetchAllCategoryProducts } from '../../api/catalog';
 import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
 import CTextField from '../CustomInputs/CTextField';
 
-const AllFiltersModal = ({
-  open,
-  setOpen,
-  category,
-  handleFetchAllProducts,
-}) => {
+const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
   const [accordion, setAccordion] = useState(null);
   const [selectedValues, setSelectedValues] = useState({});
   const [isFilterLoading, setIsFilterLoading] = useState(false);
+  const [selectedValuesTwo, setSelectedValuesTwo] = useState({
+    brands: [],
+    tags: [],
+    min_price: 0,
+    max_price: 900000,
+  });
 
   const {
     isLoading,
@@ -35,19 +36,68 @@ const AllFiltersModal = ({
     }));
   };
 
+  const handleChange = (name, value) => {
+    let updatedFilters = { ...selectedValuesTwo };
+
+    if (name === 'min_price' && parseInt(value) > selectedValuesTwo.max_price) {
+      updatedFilters = {
+        ...updatedFilters,
+        min_price: parseInt(value),
+        max_price: parseInt(value),
+      };
+    } else if (
+      name === 'max_price' &&
+      parseInt(value) < selectedValuesTwo.min_price
+    ) {
+      updatedFilters = {
+        ...updatedFilters,
+        max_price: parseInt(value),
+        min_price: parseInt(value),
+      };
+    } else {
+      updatedFilters = {
+        ...updatedFilters,
+        [name]: value,
+      };
+    }
+
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleSliderChange = (newValue) => {
+    const [newMinPrice, newMaxPrice] = newValue;
+    const updatedFilters = {
+      ...selectedValuesTwo,
+      min_price: newMinPrice,
+      max_price: newMaxPrice,
+    };
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    const updatedFilters = {
+      ...selectedValuesTwo,
+      [name]: selectedValuesTwo[name].includes(value)
+        ? selectedValuesTwo[name].filter((item) => item !== value)
+        : [...selectedValuesTwo[name], value],
+    };
+    setSelectedValuesTwo(updatedFilters);
+  };
+
   const toggleAccordion = (id) => {
     setAccordion(accordion === id ? null : id);
   };
 
   const onSubmit = async () => {
     setIsFilterLoading(true);
-    handleFetchAllProducts(category, selectedValues);
-    const { success } = await fetchAllCategoryProducts(
+    const { success, data } = await fetchAllCategoryProducts(
       category,
-      selectedValues
+      selectedValues,
+      selectedValuesTwo
     );
     if (success) {
       setOpen(false);
+      setCatProducts(data);
       setIsFilterLoading(false);
     }
     setIsFilterLoading(false);
@@ -107,15 +157,19 @@ const AllFiltersModal = ({
                               label='от 0'
                               name='min_price'
                               type='number'
-                              // value={filtersState.min_price}
-                              // onChange={(e) => handleChange('min_price', e.target.value)}
+                              value={selectedValuesTwo.min_price}
+                              onChange={(e) =>
+                                handleChange('min_price', e.target.value)
+                              }
                             />
                             <CTextField
                               label='до 900 000'
                               name='max_price'
                               type='number'
-                              // value={filtersState.max_price}
-                              // onChange={(e) => handleChange('max_price', e.target.value)}
+                              value={selectedValuesTwo.max_price}
+                              onChange={(e) =>
+                                handleChange('max_price', e.target.value)
+                              }
                             />
                           </div>
                           <Box sx={{ padding: '0 8px 0 14px' }}>
@@ -123,15 +177,15 @@ const AllFiltersModal = ({
                               sx={{ color: '#15765B' }}
                               size='small'
                               getAriaLabel={() => 'Price range'}
-                              // value={[
-                              //   filtersState?.min_price,
-                              //   filtersState?.max_price,
-                              // ]}
+                              value={[
+                                selectedValuesTwo?.min_price,
+                                selectedValuesTwo?.max_price,
+                              ]}
                               min={0}
                               max={900000}
-                              // onChange={(event, newValue) =>
-                              //   handleSliderChange(newValue)
-                              // }
+                              onChange={(event, newValue) =>
+                                handleSliderChange(newValue)
+                              }
                               valueLabelDisplay='auto'
                             />
                           </Box>
@@ -165,10 +219,12 @@ const AllFiltersModal = ({
                                     padding: '5px 4px 5px 8px',
                                   }}
                                   name='brands'
-                                  // checked={filtersState.brands.includes(el?.id)}
-                                  // onChange={() =>
-                                  //   handleCheckboxChange('brands', el?.id)
-                                  // }
+                                  checked={selectedValuesTwo.brands.includes(
+                                    el?.id
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxChange('brands', el?.id)
+                                  }
                                 />
                               }
                               label={
@@ -206,10 +262,12 @@ const AllFiltersModal = ({
                                     color: '#15765B',
                                     padding: '1px 4px 1px 8px',
                                   }}
-                                  // checked={filtersState.tags.includes(el?.tag)}
-                                  // onChange={() =>
-                                  //   handleCheckboxChange('tags', el?.tag)
-                                  // }
+                                  checked={selectedValuesTwo.tags.includes(
+                                    el?.tag
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxChange('tags', el?.tag)
+                                  }
                                 />
                               }
                               label={
