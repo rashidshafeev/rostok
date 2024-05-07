@@ -304,7 +304,7 @@ const AllFiltersModal = ({
               />
             )}
           </div>
-          <div className='flex space-x-3 h-10'>
+          <div className='flex space-x-3 h-10 bg-white z-[999]'>
             <span
               onClick={() => setSelectedValues({})}
               className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'

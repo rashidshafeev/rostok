@@ -15,7 +15,7 @@ const Footer = () => {
   });
 
   return (
-    <footer className='pt-10 pb-4 md:py-14 bg-colSuperLight'>
+    <footer className='pt-10 pb-24 lg:pb-4 md:py-14 bg-colSuperLight'>
       <div className='content'>
         <div className='lg:flex justify-between lg:space-x-5 border-b border-colGray pb-10 md:pb-20'>
           <div className='lg:max-w-[380px] xl:max-w-[580px] w-full'>
