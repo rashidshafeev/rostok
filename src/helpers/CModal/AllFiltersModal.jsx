@@ -88,6 +88,16 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
     setAccordion(accordion === id ? null : id);
   };
 
+  const handleClearFilter = () => {
+    setSelectedValues({});
+    setSelectedValuesTwo({
+      brands: [],
+      tags: [],
+      min_price: 0,
+      max_price: 900000,
+    });
+  };
+
   const onSubmit = async () => {
     setIsFilterLoading(true);
     const { success, data } = await fetchAllCategoryProducts(
@@ -364,7 +374,7 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
           </div>
           <div className='flex space-x-3 h-10 bg-white z-[999]'>
             <span
-              onClick={() => setSelectedValues({})}
+              onClick={handleClearFilter}
               className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'
             >
               Сбросить
