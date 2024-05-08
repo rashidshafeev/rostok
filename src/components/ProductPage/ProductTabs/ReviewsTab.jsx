@@ -5,7 +5,7 @@ import star from '../../../assets/icons/adv1.svg';
 import starhalf from '../../../assets/icons/adv1half.svg';
 import starfill from '../../../assets/icons/adv1fill.svg';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
-import RatingStars from '../../Reviews/RatingStars';
+import RatingStars from '../../../helpers/RatingStars';
 import ReviewModal from '../../../helpers/CModal/ReviewModal';
 
 function ReviewsTab({reviews}) {
@@ -41,7 +41,10 @@ const handleOpen = () => {
 
                 {reviews?.list?.map( (review, i) => {
                     return(
+
+                        <div className='basis-[calc(50%-10px)]'>
                         <Review key={i} review={review}/>
+                        </div>
                     )
                 })}
             </div>

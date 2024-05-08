@@ -15,6 +15,14 @@ import { useGetCategoryTreeQuery, useGetProductsQuery, useLazyGetProductsQuery }
 import { Loading } from '../../helpers/Loader/Loader';
 import ProductGallery from '../../components/ProductPage/ProductGallery';
 import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
+import MobileAddToCartBar from '../../components/ProductPage/Mobile/MobileAddToCartBar';
+import MobileInfo from '../../components/ProductPage/Mobile/MobileNameBar';
+import CharactersticsTab from '../../components/ProductPage/ProductTabs/CharactersticsTab';
+import FilesTab from '../../components/ProductPage/ProductTabs/FilesTab';
+import ReviewsTab from '../../components/ProductPage/ProductTabs/ReviewsTab';
+import InfoTab from '../../components/ProductPage/ProductTabs/InfoTab';
+import MobileProductInfo from '../../components/ProductPage/Mobile/MobileProductInfo/MobileProductInfo';
+import MobileTopBar from '../../components/ProductPage/Mobile/MobileTopBar';
 
 
 function ProductPage() {
@@ -27,14 +35,14 @@ function ProductPage() {
 
   const params = useParams()
   const loader = useLoaderData()
-const navigate = useNavigate()
+  const navigate = useNavigate()
 
 
-console.log("loader.data")
-console.log(loader.data)
+  console.log("loader.data")
+  console.log(loader.data)
 
 
-const product = loader.data
+  const product = loader.data
 
   const getAttributeList = () => {
     const attributesList = {}
@@ -74,7 +82,7 @@ const product = loader.data
 
     console.log(attributesList)
     console.log(attributesState) // currentAttributes.current = attributesState
-  
+
   }
 
 
@@ -99,7 +107,7 @@ const product = loader.data
 
 
   const getProductByAttributes = () => {
-    
+
 
     console.log("currentAttributes")
     console.log(currentAttributes)
@@ -132,7 +140,7 @@ const product = loader.data
     }
 
     setCurrentProduct(currentProduct)
-   navigate(`../${currentProduct.slug}`, { replace: true })
+    navigate(`../${currentProduct.slug}`, { replace: true })
 
 
   }
@@ -240,7 +248,7 @@ const product = loader.data
   const cart = useSelector(state => state?.cart)
   const favorite = useSelector(state => state?.favorite)
   const comparison = useSelector(state => state?.comparison)
-  
+
   const dispatch = useDispatch()
 
 
@@ -248,47 +256,59 @@ const product = loader.data
   const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
   const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
 
-  
 
-    return (
 
+  return (
+    <>
       <div className='content lining-nums proportional-nums'>
-        <Breadcrumbs breadCrumps={product?.category_chain}/>
-        <div className=''>
-          <div className='text-xl font-semibold mb-[10px]'>{product.name} {currentProduct.name}</div>
-          <TopControls product={currentProduct} reviews={product.reviews}/>
+        <Breadcrumbs breadCrumps={product?.category_chain} />
+        <div className='lg:block hidden'>
+          <div className=' text-xl font-semibold mb-[10px]'>{product.name} {currentProduct.name}</div>
+          <TopControls product={currentProduct} reviews={product.reviews} />
         </div>
-        <div className='flex pb-5 min-h-[420px] gap-5'>
-          <div className='basis-5/12'>
+        <div className='lg:hidden'>
+          <MobileTopBar product={currentProduct}/>
+        </div>
+        <div className='flex  flex-wrap pb-5 min-h-[420px] gap-5'>
+          <div className='lg:basis-[calc(42%-40px/3)] basis-full'>
             <ProductGallery files={currentProduct.files} />
-  
-  
           </div>
-  
-          <div className='basis-4/12 flex flex-col gap-[10px]'>
-  
+          <MobileInfo name={`${product.name} ${currentProduct.name}`} reviews={product.reviews} sku={currentProduct.sku} />
+
+          <div className='lg:basis-[calc(33%-40px/3)] flex flex-col gap-[10px] basis-full'>
+
             <div><img className='h-6' src={dummylogo} alt='*' /></div>
             <ProductAttributesList list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList>
-  
-  
-            <CharacteristicsList current={currentProduct} product={product} setTabIndex={setTabIndex}/>
+
+            <div className='lg:block hidden'>
+            <CharacteristicsList current={currentProduct} product={product} setTabIndex={setTabIndex} />
+
+            </div>
           </div>
-  
-          <div className='basis-3/12'>
-            <RightBar product={currentProduct}/>
+
+          <div className='lg:basis-[calc(25%-40px/3)] basis-full'>
+            <RightBar product={currentProduct} />
           </div>
-  
+
         </div>
-        <div className='flex pb-5 min-h-[420px] gap-5'>
-  
+
+        <div className='lg:block hidden pb-5 min-h-[420px] gap-5'>
           <ProductTabs current={currentProduct} product={product} tabIndex={tabIndex} setTabIndex={setTabIndex}></ProductTabs>
-  
         </div>
+
+        <div className='lg:hidden'>
+          <MobileProductInfo current={currentProduct} product={product} />
+        </div>
+
+
+
+
       </div>
-  
-  
-    )
-  }
+      <MobileAddToCartBar product={currentProduct} />
+
+    </>
+  )
+}
 
 
 
