@@ -294,7 +294,6 @@ const SRSidebar = ({
         setOpen={setOpen}
         filters={filters}
         isLoading={isLoading}
-        searchQuery={searchQuery}
         handleFetchAllProducts={handleFetchAllProducts}
       />
     </div>

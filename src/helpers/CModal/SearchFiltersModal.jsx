@@ -13,8 +13,7 @@ const SearchFiltersModal = ({
 }) => {
   const [accordion, setAccordion] = useState(null);
   const [selectedValues, setSelectedValues] = useState({});
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
-
+  console.log(isLoading);
   const toggleValue = (filterId, valueId) => {
     setSelectedValues((prevState) => ({
       ...prevState,
@@ -31,10 +30,8 @@ const SearchFiltersModal = ({
   };
 
   const onSubmit = async () => {
-    setIsFilterLoading(true);
     handleFetchAllProducts('', selectedValues);
     setOpen(false);
-    setIsFilterLoading(false);
   };
 
   if (!open) return null;
@@ -60,9 +57,11 @@ const SearchFiltersModal = ({
                 &times;
               </span>
             </div>
-            {isLoading || isFilterLoading ? (
+            {isLoading ? (
               <Loading />
-            ) : filters?.dynamics?.length > 0 ? (
+            ) : filters?.dynamics?.length > 0 ||
+              filters?.basics?.brands?.length > 0 ||
+              filters?.basics?.tags?.length > 0 ? (
               <div className='mt-2 pr-3 md:border-t md:border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[calc(100vh_-_136px)] md:h-[calc(100vh_-_205px)] lg:h-[92%]'>
                 <div className='pt-5'>
                   <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8'>
