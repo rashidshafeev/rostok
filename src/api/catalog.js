@@ -29,7 +29,12 @@ export const fetchCategoryProductsFilter = async (category_id, filters) => {
   }
 };
 
-export const fetchAllCategoryProducts = async (slug, filters, filtersTwo) => {
+export const fetchAllCategoryProducts = async (
+  slug,
+  filters,
+  filtersTwo,
+  searchQuery
+) => {
   try {
     const queryParams = {
       category_id: slug,
@@ -59,9 +64,12 @@ export const fetchAllCategoryProducts = async (slug, filters, filtersTwo) => {
       }
     }
 
-    const res = await request.get('api/Products/variants', {
-      params: queryParams,
-    });
+    const res = await request.get(
+      `api/Products/variants?search=${searchQuery || ''}`,
+      {
+        params: queryParams,
+      }
+    );
 
     return { success: true, data: res?.data };
   } catch (error) {

@@ -32,7 +32,9 @@ const SRMain = () => {
   const handleFetchAllProducts = async (category_id, filters) => {
     const { success, data } = await fetchAllCategoryProducts(
       category_id,
-      filters
+      filters,
+      '',
+      searchQuery
     );
     if (success) {
       setProducts(data);

@@ -3,14 +3,12 @@ import { useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { Loading } from '../Loader/Loader';
 import ErrorEmpty from '../Errors/ErrorEmpty';
-import { fetchAllCategoryProducts } from '../../api/catalog';
 
 const SearchFiltersModal = ({
   open,
   setOpen,
   filters,
   isLoading,
-  searchQuery,
   handleFetchAllProducts,
 }) => {
   const [accordion, setAccordion] = useState(null);
@@ -34,12 +32,8 @@ const SearchFiltersModal = ({
 
   const onSubmit = async () => {
     setIsFilterLoading(true);
-    handleFetchAllProducts('', selectedValues, searchQuery);
-    const { success } = await fetchAllCategoryProducts('', selectedValues);
-    if (success) {
-      setOpen(false);
-      setIsFilterLoading(false);
-    }
+    handleFetchAllProducts('', selectedValues);
+    setOpen(false);
     setIsFilterLoading(false);
   };
 
