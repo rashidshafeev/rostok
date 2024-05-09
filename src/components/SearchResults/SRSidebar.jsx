@@ -21,8 +21,9 @@ const SRSidebar = ({
   filtersValue,
   setFiltersValue,
   setCategories,
+  open,
+  setOpen,
 }) => {
-  const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(null);
 
@@ -108,7 +109,7 @@ const SRSidebar = ({
   }, [searchQuery, setCategories]);
 
   return (
-    <div className='max-w-[220px] min-w-[220px] w-full mr-5'>
+    <div className='max-w-[220px] min-w-[220px] w-full mr-5 hidden md:block'>
       {isLoading ? (
         <Loading extraStyle='240px' />
       ) : (
@@ -291,7 +292,7 @@ const SRSidebar = ({
       <SearchFiltersModal
         open={open}
         setOpen={setOpen}
-        filters={filters?.dynamics}
+        filters={filters}
         isLoading={isLoading}
         searchQuery={searchQuery}
         handleFetchAllProducts={handleFetchAllProducts}

@@ -1,10 +1,15 @@
 import { useState } from 'react';
 import search from '../../assets/icons/search.svg';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function SearchBar() {
   const [value, setValue] = useState('');
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('search');
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +24,7 @@ function SearchBar() {
       <input
         className='w-full h-[34px] mm:h-10 outline-none rounded-l-md bg-white px-3 border-none'
         type='search'
+        defaultValue={searchQuery}
         placeholder='Поиск по сайту'
         onChange={(e) => setValue(e.target.value)}
       />

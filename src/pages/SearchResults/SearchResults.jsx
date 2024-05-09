@@ -1,11 +1,7 @@
-import { SRMain } from '../../components'
+import { SRMain } from '../../components';
 
 const SearchResults = () => {
-  return (
-    <div>
-      <SRMain />
-    </div>
-  )
-}
+  return <SRMain />;
+};
 
-export default SearchResults
+export default SearchResults;

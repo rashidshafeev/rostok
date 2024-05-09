@@ -15,6 +15,7 @@ const SRMain = () => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  const [open, setOpen] = useState(false);
   const [filtersValue, setFiltersValue] = useState({
     highRating: true,
     brands: [],
@@ -25,6 +26,8 @@ const SRMain = () => {
   });
 
   const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const searchQuery = searchParams.get('search');
 
   const handleFetchAllProducts = async (category_id, filters) => {
     const { success, data } = await fetchAllCategoryProducts(
@@ -45,8 +48,19 @@ const SRMain = () => {
     setFiltersValue(updatedFilters);
   };
 
-  const searchParams = new URLSearchParams(location.search);
-  const searchQuery = searchParams.get('search');
+  const handlePagination = async (e, p) => {
+    scrollToTop();
+    const { success, data } = await fetchSearchResults(
+      searchQuery,
+      filtersValue,
+      p
+    );
+    if (success) {
+      setProducts(data);
+    } else {
+      setProducts(data);
+    }
+  };
 
   useEffect(() => {
     const handleSearchResults = async () => {
@@ -72,9 +86,9 @@ const SRMain = () => {
 
   return (
     <div className='content lining-nums proportional-nums'>
-      <div className='bg-gray-100 rounded-lg p-4 mb-8 mt-4'>
+      <div className='bg-gray-100 rounded-lg p-3 mm:p-4 mb-8 mt-4'>
         <h3
-          className={`font-semibold text-4xl text-colBlack ${
+          className={`font-semibold text-2xl mm:text-4xl text-colBlack ${
             categories?.length > 0 ? 'pb-2' : 'pb-5'
           }`}
         >
@@ -82,14 +96,14 @@ const SRMain = () => {
         </h3>
         {categories?.length > 0 && (
           <>
-            <h4 className='font-semibold text-xl text-colBlack pb-3'>
+            <h4 className='font-medium mm:font-semibold mm:text-xl text-colBlack pb-3'>
               Найдены товары в категориях:
             </h4>
-            <div className='grid grid-cols-7 gap-3'>
+            <div className='overflow-x-scroll md:overflow-x-hidden scrollable flex py-3 md:grid md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 gap-3 pr-2'>
               <button
                 className={`${
                   filtersValue?.category_id == '' ? 'bg-gray-200' : 'bg-white'
-                } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-2 rounded-md flex justify-center items-center outline-none`}
+                } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-1 lg:p-2 rounded-md flex justify-center items-center outline-none min-w-[120px]`}
                 onClick={() => handleCategories('')}
               >
                 <img className='w-4 mr-1' src={categoryIcon} alt='*' />
@@ -101,7 +115,7 @@ const SRMain = () => {
                     filtersValue?.category_id == el?.id
                       ? 'bg-gray-200'
                       : 'bg-white'
-                  } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-2 rounded-md flex items-center relative outline-none`}
+                  } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-1 lg:p-2 rounded-md flex items-center relative outline-none min-w-[220px] md:min-w-[auto]`}
                   key={el?.id}
                   onClick={() => handleCategories(el?.id)}
                 >
@@ -135,8 +149,15 @@ const SRMain = () => {
           setFiltersValue={setFiltersValue}
           setCategories={setCategories}
           searchQuery={searchQuery}
+          open={open}
+          setOpen={setOpen}
         />
-        <SRContent products={products} isLoading={isLoading} />
+        <SRContent
+          products={products}
+          isLoading={isLoading}
+          handlePagination={handlePagination}
+          setOpen={setOpen}
+        />
       </div>
       <Promotions />
       <Brands />

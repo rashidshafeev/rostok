@@ -10,6 +10,7 @@ const SearchFiltersModal = ({
   setOpen,
   filters,
   isLoading,
+  searchQuery,
   handleFetchAllProducts,
 }) => {
   const [accordion, setAccordion] = useState(null);
@@ -33,11 +34,8 @@ const SearchFiltersModal = ({
 
   const onSubmit = async () => {
     setIsFilterLoading(true);
-    handleFetchAllProducts('', selectedValues);
-    const { success } = await fetchAllCategoryProducts(
-      '',
-      selectedValues,
-    );
+    handleFetchAllProducts('', selectedValues, searchQuery);
+    const { success } = await fetchAllCategoryProducts('', selectedValues);
     if (success) {
       setOpen(false);
       setIsFilterLoading(false);
@@ -54,28 +52,28 @@ const SearchFiltersModal = ({
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[90%] lining-nums proportional-nums bg-white outline-none rounded-lg border-none p-6 overflow-hidden'>
+      <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full mm:w-[95%] lg:w-[85%] h-full mm:h-[95%] lg:h-[90%] lining-nums proportional-nums bg-white outline-none rounded-lg border-none p-3 md:p-6 overflow-hidden'>
         <div className='flex flex-col justify-between h-full'>
           <div className='h-[90%]'>
             <div className='flex justify-between items-center'>
-              <h2 className='text-colBlack text-3xl font-semibold'>
+              <h2 className='text-colBlack text-xl lg:text-3xl font-semibold'>
                 Все фильтры
               </h2>
               <span
                 onClick={() => setOpen(false)}
-                className='text-5xl text-colGray font-light cursor-pointer pr-2'
+                className='text-4xl lg:text-5xl text-colGray font-light cursor-pointer pr-2'
               >
                 &times;
               </span>
             </div>
             {isLoading || isFilterLoading ? (
               <Loading />
-            ) : filters?.length > 0 ? (
-              <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
+            ) : filters?.dynamics?.length > 0 ? (
+              <div className='mt-2 pr-3 md:border-t md:border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[calc(100vh_-_136px)] md:h-[calc(100vh_-_205px)] lg:h-[92%]'>
                 <div className='pt-5'>
-                  <div className='grid grid-cols-3 gap-8'>
-                    {filters?.map((el) => (
-                      <div key={el?.id}>
+                  <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8'>
+                    {filters?.dynamics?.map((el) => (
+                      <div className='border-b md:border-b-0 pb-3' key={el?.id}>
                         <div
                           className='flex justify-between items-center cursor-pointer'
                           onClick={() => toggleAccordion(el?.id)}
