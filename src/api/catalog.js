@@ -49,7 +49,7 @@ export const fetchAllCategoryProducts = async (
       queryParams.filters = `{${filtersString}}`;
     }
 
-    if (window.innerWidth < 991 && filtersTwo) {
+    if (window.innerWidth < 768 && filtersTwo) {
       if (filtersTwo.tags && filtersTwo.tags.length > 0) {
         queryParams.tags = JSON.stringify(filtersTwo.tags);
       }

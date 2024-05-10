@@ -104,7 +104,7 @@ const SRMain = () => {
                     filtersValue?.category_id == el?.id
                       ? 'bg-gray-200'
                       : 'bg-white'
-                  } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-1 lg:p-2 rounded-md flex items-center relative outline-none min-w-[220px] md:min-w-[auto]`}
+                  } shadow-[0_1px_2px_0_rgba(0,0,0,.1)] p-1 lg:p-2 rounded-md flex items-center relative outline-none whitespace-nowrap md:whitespace-normal md:min-w-[auto]`}
                   key={el?.id}
                   onClick={() => handleCategories(el?.id)}
                 >

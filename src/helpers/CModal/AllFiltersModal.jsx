@@ -126,7 +126,7 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
         <div className='flex flex-col justify-between h-full'>
           <div className='h-[90%]'>
             <div className='flex justify-between items-center pr-3 lg:pr-5'>
-              <h2 className='text-colBlack text-xl lg:text-3xl font-semibold'>
+              <h2 className='text-colBlack text-2xl lg:text-3xl font-semibold'>
                 Все фильтры
               </h2>
               <span
@@ -144,7 +144,7 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
               <div className='mt-2 pr-2 lg:pr-5 md:border-t border-b border-[#EBEBEB] overflow-y-scroll scrollable overflow-hidden h-[calc(100vh_-_124px)] mm:h-[calc(100vh_-_185px)] lg:h-[92%]'>
                 <div className='pt-5'>
                   <div className='grid mm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>
-                    <div className='md:hidden border-b pb-3'>
+                    <div className='md:hidden border-b pb-2'>
                       <div
                         className='flex justify-between items-center cursor-pointer'
                         onClick={() => toggleAccordion('cost')}
@@ -296,7 +296,7 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
                         ))}
                     </div>
                     {filters?.dynamics?.map((el) => (
-                      <div className='border-b md:border-b-0 pb-3' key={el?.id}>
+                      <div className='border-b md:border-b-0 pb-2' key={el?.id}>
                         <div
                           className='flex justify-between items-center cursor-pointer'
                           onClick={() => toggleAccordion(el?.id)}
