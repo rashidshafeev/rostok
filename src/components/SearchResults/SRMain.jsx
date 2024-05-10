@@ -5,7 +5,6 @@ import SRContent from './SRContent';
 import SRSidebar from './SRSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import { fetchAllCategoryProducts } from '../../api/catalog';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
 import noImg from '../../assets/images/no-image.png';
@@ -28,18 +27,6 @@ const SRMain = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
-
-  const handleFetchAllProducts = async (category_id, filters) => {
-    const { success, data } = await fetchAllCategoryProducts(
-      category_id,
-      filters,
-      '',
-      searchQuery
-    );
-    if (success) {
-      setProducts(data);
-    }
-  };
 
   const handleCategories = (id) => {
     let updatedFilters = { ...filtersValue };
@@ -146,13 +133,13 @@ const SRMain = () => {
       </div>
       <div className='flex pb-10 min-h-[420px]'>
         <SRSidebar
-          handleFetchAllProducts={handleFetchAllProducts}
           filtersValue={filtersValue}
           setFiltersValue={setFiltersValue}
           setCategories={setCategories}
           searchQuery={searchQuery}
           open={open}
           setOpen={setOpen}
+          setProducts={setProducts}
         />
         <SRContent
           products={products}

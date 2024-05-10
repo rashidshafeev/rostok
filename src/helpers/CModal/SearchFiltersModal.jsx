@@ -3,17 +3,20 @@ import { useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { Loading } from '../Loader/Loader';
 import ErrorEmpty from '../Errors/ErrorEmpty';
+import { fetchAllCategoryProducts } from '../../api/catalog';
 
 const SearchFiltersModal = ({
   open,
   setOpen,
   filters,
-  isLoading,
-  handleFetchAllProducts,
+  filterLoading,
+  setProducts,
+  searchQuery,
 }) => {
   const [accordion, setAccordion] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
-  console.log(isLoading);
+
   const toggleValue = (filterId, valueId) => {
     setSelectedValues((prevState) => ({
       ...prevState,
@@ -30,8 +33,20 @@ const SearchFiltersModal = ({
   };
 
   const onSubmit = async () => {
-    handleFetchAllProducts('', selectedValues);
+    setIsLoading(true);
+    const { success, data } = await fetchAllCategoryProducts(
+      '',
+      selectedValues,
+      '',
+      searchQuery
+    );
+    if (success) {
+      setProducts(data);
+      setIsLoading(false);
+      setOpen(false);
+    }
     setOpen(false);
+    setIsLoading(false);
   };
 
   if (!open) return null;
@@ -57,7 +72,7 @@ const SearchFiltersModal = ({
                 &times;
               </span>
             </div>
-            {isLoading ? (
+            {isLoading || filterLoading ? (
               <Loading />
             ) : filters?.dynamics?.length > 0 ||
               filters?.basics?.brands?.length > 0 ||

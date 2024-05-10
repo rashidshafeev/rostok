@@ -17,12 +17,12 @@ import { useLocation } from 'react-router-dom';
 import SearchFiltersModal from '../../helpers/CModal/SearchFiltersModal';
 
 const SRSidebar = ({
-  handleFetchAllProducts,
   filtersValue,
   setFiltersValue,
   setCategories,
   open,
   setOpen,
+  setProducts,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState(null);
@@ -293,8 +293,9 @@ const SRSidebar = ({
         open={open}
         setOpen={setOpen}
         filters={filters}
-        isLoading={isLoading}
-        handleFetchAllProducts={handleFetchAllProducts}
+        filterLoading={isLoading}
+        setProducts={setProducts}
+        searchQuery={searchQuery}
       />
     </div>
   );
