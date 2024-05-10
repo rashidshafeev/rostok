@@ -375,7 +375,7 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
           <div className='flex space-x-3 h-10 bg-white z-[999]'>
             <span
               onClick={handleClearFilter}
-              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'
+              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm cursor-pointer'
             >
               Сбросить
             </span>
