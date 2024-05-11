@@ -9,6 +9,8 @@ import { orders } from '../../../constants/data';
 import CSearchField from '../../../helpers/CustomInputs/CSearchField';
 import CSelectField from '../../../helpers/CustomInputs/CSelectField';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import arrowIcon from '../../../assets/icons/arrow-icon.svg';
 
 const MyOrders = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -19,6 +21,10 @@ const MyOrders = () => {
 
   return (
     <div className='w-full lining-nums proportional-nums'>
+      <NavLink className='flex items-center space-x-1 mb-2' to='/profile'>
+        <img src={arrowIcon} alt='*' />
+        <span className='text-sm font-semibold'>Вернуться к профилю</span>
+      </NavLink>
       <h3 className='text-xl font-semibold text-colBlack pb-4'>Все заказы</h3>
       <div className='max-w-[700px] w-full space-y-4 mb-5'>
         <CSearchField

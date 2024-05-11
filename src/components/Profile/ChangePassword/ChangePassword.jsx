@@ -1,12 +1,18 @@
+import { NavLink } from 'react-router-dom';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
+import arrowIcon from '../../../assets/icons/arrow-icon.svg';
 
 const ChangePassword = () => {
   return (
     <div>
-      <h3 className='text-xl font-semibold text-colBlack pb-4'>
+      <NavLink className='flex items-center space-x-1 mb-2' to='/profile'>
+        <img src={arrowIcon} alt='*' />
+        <span className='text-sm font-semibold'>Вернуться к профилю</span>
+      </NavLink>
+      <h3 className='text-lg mm:text-xl font-semibold text-colBlack pb-4'>
         Изменить пароль
       </h3>
-      <form className='max-w-[340px] w-full space-y-5'>
+      <form className='mm:max-w-[340px] w-full space-y-5'>
         <CTextField label='Новый пароль' name='newPassword' type='password' />
         <CTextField
           label='Повторите пароль'

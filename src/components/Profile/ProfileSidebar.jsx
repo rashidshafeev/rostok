@@ -1,17 +1,13 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import CModal from '../../helpers/CModal/CModal';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logOutFetch } from '../../api/user';
 import { logOut } from '../../redux/slices/userSlice';
 
-const ProfileSidebar = () => {
+const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
   const { user } = useSelector((state) => state?.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [content, setContent] = useState('');
-  const [open, setOpen] = useState(false);
 
   const logOutFromAccount = async () => {
     const { success } = await logOutFetch(dispatch, user?.phone);
@@ -23,7 +19,7 @@ const ProfileSidebar = () => {
   };
 
   return (
-    <div className='max-w-[220px] w-full'>
+    <div className='max-w-[220px] w-full hidden mm:block'>
       <h4 className='font-semibold text-colBlack'>Профиль</h4>
       <ul className='pl-3 pt-1 space-y-1'>
         <li>

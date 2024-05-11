@@ -1,10 +1,12 @@
 /* eslint-disable no-useless-escape */
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
 import CDatePicker from '../../../helpers/CustomInputs/CDatePicker';
-import { useSelector } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import CPhoneField from '../../../helpers/CustomInputs/CPhoneField';
+import arrowIcon from '../../../assets/icons/arrow-icon.svg';
 
 const PersonalData = () => {
   const { user } = useSelector((state) => state?.user);
@@ -13,10 +15,14 @@ const PersonalData = () => {
 
   return (
     <div className='w-full'>
-      <h3 className='text-xl font-semibold text-colBlack pb-4'>
+      <NavLink className='flex items-center space-x-1 mb-2' to='/profile'>
+        <img src={arrowIcon} alt='*' />
+        <span className='text-sm font-semibold'>Вернуться к профилю</span>
+      </NavLink>
+      <h3 className='text-lg mm:text-xl font-semibold text-colBlack pb-4'>
         Личные данные
       </h3>
-      <form className='grid grid-cols-3 gap-5 max-w-[1060px]'>
+      <form className='grid md:grid-cols-2 lg:grid-cols-3 gap-3 xl:gap-5 max-w-[1060px]'>
         <div className='w-full space-y-5'>
           <Controller
             name='name'
@@ -41,7 +47,7 @@ const PersonalData = () => {
             )}
           />
 
-          <div>
+          <div className='!mt-3 md:!mt-5'>
             <p className='text-colBlack'>Пол</p>
             <RadioGroup
               row
@@ -77,11 +83,11 @@ const PersonalData = () => {
             }}
             render={({ field }) => <CPhoneField label='Телефон' {...field} />}
           />
-          <div className='pt-6'>
+          <div className='lg:pt-6'>
             <CDatePicker name='dateOfBirth' label='Дата рождения' />
           </div>
         </div>
-        <div className='flex items-center h-max'>
+        <div className='flex items-center h-max pt-3 mm:pt-0'>
           <button className='h-[38px] px-6 bg-colGreen rounded text-white'>
             Сохранить
           </button>
