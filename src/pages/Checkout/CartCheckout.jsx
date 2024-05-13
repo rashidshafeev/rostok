@@ -54,7 +54,7 @@ function CartCheckout() {
   const [type, setType] = useState('fizlico')
   const [deliveryType, setDeliveryType] = useState('pickup')
   const [deliveryDate, setDeliveryDate] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('onDelivery')
   const [formErrors, setFormErrors] = useState({})
 
   const [pickupPoint, setPickupPoint] = useState({
@@ -172,7 +172,7 @@ function CartCheckout() {
   };
 
   return (
-    <div className='content pb-6 lining-nums proportional-nums'>
+    <div className='content pb-6 lining-nums proportional-nums overflow-auto'>
       <FormProvider { ...methods}>
             <form  onSubmit={methods.handleSubmit(onPersonalInfoSubmit, onError)}>
 
@@ -191,12 +191,12 @@ function CartCheckout() {
             <div className='font-semibold text-2xl my-5'>
               1. Укажите данные получателя
             </div>
-            <div className='flex gap-2'>
-              <button onClick={() => setType('fizlico')} className={`p-3 border ${type === 'fizlico' ? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'}  rounded font-semibold  flex gap-1 items-center`}>
+            <div className='flex flex-wrap gap-2'>
+              <button onClick={() => setType('fizlico')} className={`p-3 border ${type === 'fizlico' ? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'} md:basis-auto sm:basis-[calc(50%-8px/2)] basis-full rounded font-semibold  flex gap-1 items-center`}>
                 <img src={type === 'fizlico' ? fizlicoactive : fizlico} width={20} height={20} alt="" srcset="" />
                 Покупаю как физлицо
               </button>
-              <button onClick={() => setType('urlico')} className={`p-3 border ${type === 'urlico' ? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'} rounded font-semibold  flex gap-1 items-center`}>
+              <button onClick={() => setType('urlico')} className={`p-3 border ${type === 'urlico' ? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'} md:basis-auto sm:basis-[calc(50%-8px/2)] basis-full rounded font-semibold  flex gap-1 items-center`}>
                 <img src={type === 'urlico' ? urlicoactive : urlico} width={20} height={20} alt="" srcset="" />
                 Покупаю как юрлицо
               </button>
@@ -231,14 +231,15 @@ function CartCheckout() {
 
 
 
-          <div className='flex flex-col gap-5'>
+          <div className='flex flex-col gap-5 w-full'>
             <div className='font-semibold text-2xl my-5 mt-12'>
               2. Где и как вы хотите получить заказ
             </div>
 
-            <div className='flex gap-5'>
+            {/* <div className='flex gap-5 overflow-x-auto lg:max-w-[991px] lg:min-w-[768px] snap-x'> */}
+            <div className='flex flex-wrap gap-5 w-full'>
 
-              <div onClick={() => setDeliveryType('pickup')} className={`flex flex-col basis-[calc(33%-20px/3)] p-5 border ${deliveryType === 'pickup' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
+              <div onClick={() => setDeliveryType('pickup')} className={`flex flex-col basis-full lg:basis-[calc(33%-20px*2/3)]  p-5 box-border border ${deliveryType === 'pickup' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={stallicon} alt="" />
                 </div>
@@ -248,7 +249,7 @@ function CartCheckout() {
                   сегодня, из 1 магазина</div>
 
               </div>
-              <div onClick={() => setDeliveryType('delivery')} className={`flex flex-col basis-[calc(33%-20px/3)] p-5 border ${deliveryType === 'delivery' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`} >
+              <div onClick={() => setDeliveryType('delivery')} className={`flex flex-col basis-full lg:basis-[calc(33%-20px*2/3)] box-border p-5 border ${deliveryType === 'delivery' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`} >
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={truckicon} alt="" />
                 </div>
@@ -258,7 +259,7 @@ function CartCheckout() {
                   завтра, от 500 р.</div>
 
               </div>
-              <div onClick={() => setDeliveryType('tk')} className={`flex flex-col basis-[calc(33%-20px/3)] p-5 border ${deliveryType === 'tk' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
+              <div onClick={() => setDeliveryType('tk')} className={`flex flex-col basis-full lg:basis-[calc(33%-20px*2/3)] box-border p-5 border ${deliveryType === 'tk' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={boxicon} alt="" />
                 </div>
@@ -367,7 +368,7 @@ function CartCheckout() {
               3. Когда вам будет удобно забрать заказ?
             </div>
 
-            <div className='flex gap-5'>
+            <div className='flex flex-wrap gap-5'>
               {
                 dates?.map((date) => {
                   return ( 
@@ -379,20 +380,20 @@ function CartCheckout() {
 
           </div>
 
-          <div className='flex flex-col gap-5'>
+          <div className='flex flex-col gap-5 mb-12'>
             <div className='font-semibold text-2xl my-5 mt-12 '>
               4. Как вам будет удобнее оплатить заказ?
             </div>
-            <div className='flex gap-5'>
-              <CustomRadioButton value='onDelivery' handleChange={handlePaymentMethodChange} checked={'onDelivery' === paymentMethod} >
+            <div className='flex flex-wrap gap-5'>
+              <CustomRadioButton value='onDelivery' className='basis-full lg:basis-[calc(50%-20px/2)]' handleChange={handlePaymentMethodChange} checked={'onDelivery' === paymentMethod} >
                 <div>
-                  <div className='font-semibold mb-3'>Наличными или картой в магазине</div>
+                  <div className='font-semibold mb-3 '>Наличными или картой в магазине</div>
                   <div>При получении заказа</div>
                 </div>
               </CustomRadioButton>
-              <CustomRadioButton value='onlinePayment' handleChange={handlePaymentMethodChange} checked={'onlinePayment' === paymentMethod}>
+              <CustomRadioButton value='onlinePayment' className='basis-full lg:basis-[calc(50%-20px/2)]' handleChange={handlePaymentMethodChange} checked={'onlinePayment' === paymentMethod}>
                 <div>
-                  <div className='font-semibold mb-3'>Онлайн-оплата</div>
+                  <div className='font-semibold mb-3 '>Онлайн-оплата</div>
                   <div>Картами Visa, MasterCard, Мир</div>
                 </div>
               </CustomRadioButton>

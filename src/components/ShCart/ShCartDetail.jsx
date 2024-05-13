@@ -133,8 +133,8 @@ const ShCartDetail = () => {
           </div>
     </div>
       
-      <div className='flex space-x-10 py-5'>
-        <div className='w-[70%]'>
+      <div className='flex flex-wrap gap-10 py-5'>
+        <div className='lg:basis-[calc(70%-20px)] basis-full'>
           <div className='flex justify-between items-center pb-2'>
             <div className='flex items-center'>
               <div className='pb-[3px]'>
@@ -200,7 +200,7 @@ const ShCartDetail = () => {
             />
           )}
         </div>
-        <div className='w-[30%]'>
+        <div className='lg:basis-[calc(30%-20px)] basis-full'>
           
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
             { selected.length === 0 ? (

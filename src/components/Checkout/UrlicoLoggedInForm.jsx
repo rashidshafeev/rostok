@@ -44,8 +44,8 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
 
   return (
     <>
-    <div className='flex gap-2'>
-      <FormControl variant='outlined' size='small' >
+    <div className='flex flex-wrap gap-3'>
+      <FormControl className='md:w-[340px] w-full' variant='outlined' size='small' >
         <InputLabel
           sx={{
             '&.Mui-focused': {
@@ -61,7 +61,7 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
           }}
           render={({ field }) => (
             <Select {...field}
-              className='w-[340px]'
+            className='md:w-[340px] w-full'
 
               label='Покупатель'
               sx={{
@@ -112,8 +112,8 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
       
     </div>
 
-    <div className='flex gap-2'>
-    <div className='w-[340px]'>
+    <div className='flex flex-wrap gap-3'>
+    <div className='md:w-[340px] w-full'>
     <Controller
                   name='inn'
                   control={control}
@@ -138,10 +138,11 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
         <p className='text-red-600 text-sm ' role="alert">{errors.inn?.message}</p>
       )}
       </div>  
-    <div className='w-[340px]'>
+    <div className='md:w-[340px] w-full'>
 
 
         <Controller
+        
           name='phone'
           control={control}
           defaultValue={user ? user?.user?.phone : ''}
@@ -164,7 +165,7 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
             }
           }}
           render={({ field }) => (
-            <CPhoneField disabled={isCode?.verification?.success || user?.user?.phone} label='Телефон' {...field} />
+            <CPhoneField   disabled={isCode?.verification?.success || user?.user?.phone} success={isCode?.verification?.success || user?.user?.phone} fail={!(isCode?.verification === null) && !(isCode?.verification?.success || user?.user?.phone)} loading={miniLoading}  label='Телефон' {...field} />
           )}
         />
         {errors?.phone && (
@@ -174,34 +175,14 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
         )}
       </div>
       {isCode?.sendCode?.success === 'ok' || user?.user?.phone ? (
-        <div className='relative'>
+        <div className={`${isCode?.verification?.success || user?.user?.phone ? 'hidden' : 'relative'} `}>
           <input
             type='text'
             placeholder='Код из смс'
             onChange={handleConfirmVerificationCode}
             maxLength={4}
-            className={`${isCode?.verification?.success || user?.user?.phone ? 'hidden' : ''
-              } min-w-[140px] h-10 px-4 rounded border outline-none border-colBlack lining-nums proportional-nums font-medium text-sm`}
+            className={` min-w-[140px] h-10 px-4 rounded border outline-none border-colBlack lining-nums proportional-nums font-medium text-sm`}
           />
-          {miniLoading ? (
-            <div className='absolute top-1/2 right-2 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-              <LoadingSmall extraStyle='#15765B' />
-            </div>
-          ) : user?.user?.phone ? (
-            <div className='absolute top-1/2 right-3 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-              <CheckCircleRounded className='text-colGreen' />
-            </div>
-          ) : isCode?.verification === null ? (
-            ''
-          ) : isCode?.verification?.success ? (
-            <div className='absolute top-1/2 right-3 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-              <CheckCircleRounded className='text-colGreen' />
-            </div>
-          ) : (
-            <div className='absolute top-1/2 right-2 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-              <CancelRounded className='text-red-500' />
-            </div>
-          )}
         </div>
       ) : (
         <span
@@ -220,8 +201,8 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
       )}
       
     </div>
-    <div className='flex gap-2'>
-    <div className='w-[340px]'>
+    <div className='flex flex-wrap gap-3'>
+    <div className='md:w-[340px] w-full'>
         <Controller
           name='contact'
           control={control}
@@ -253,7 +234,7 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
       </div>  
 
      
-      <div className='w-[340px]'>
+      <div className='md:w-[340px] w-full'>
 
 <Controller
   name='email'
