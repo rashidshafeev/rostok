@@ -22,7 +22,7 @@ import {
 const CatProdSidebar = ({
   setBreadCrumps,
   handleFetchProducts,
-  handleFetchAllProducts,
+  setCatProducts,
 }) => {
   const [open, setOpen] = useState(false);
   const [accordion, setAccordion] = useState({
@@ -437,7 +437,7 @@ const CatProdSidebar = ({
         open={open}
         setOpen={setOpen}
         category={categoryId}
-        handleFetchAllProducts={handleFetchAllProducts}
+        setCatProducts={setCatProducts}
       />
     </div>
   );

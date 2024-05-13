@@ -44,7 +44,9 @@ const MobileNavbar = () => {
         <p className='pt-[2px] text-[10px] sm:text-xs'>Избранное</p>
       </NavLink>
       <NavLink
-        to='/profile/personal-data'
+        to={`${
+          window.innerWidth < 576 ? '/profile' : '/profile/personal-data'
+        }`}
         className='flex flex-col justify-center items-center cursor-pointer'
       >
         <img

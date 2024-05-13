@@ -98,8 +98,7 @@ const ProductCard = ({ product, recommended }) => {
             )}
           </span>
           <span className='text-[8px] mm:text-xs line-through mr-2 whitespace-nowrap mb-[2px]'>
-            {product?.price &&
-              `${product?.price?.discount && product?.price?.default}`}
+            {product?.price?.discount && `${product?.price?.discount}`}
           </span>
           {product?.price?.discount && (
             <span className='px-2 py-[2px] font-semibold rounded-3xl text-[8px] mm:text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>

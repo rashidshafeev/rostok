@@ -4,13 +4,15 @@ import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import ProductCard from '../ProductCard';
 import CardLine from '../Catalog/TypesOfCards/CardLine';
 import LineNarrow from '../Catalog/TypesOfCards/LineNarrow';
+import { CustomPagination } from '../../helpers/Pagination/CustomPagination';
+import filterIcon from '../../assets/icons/filter.svg';
 
-const SRContent = ({ products, isLoading }) => {
+const SRContent = ({ products, isLoading, handlePagination, setOpen }) => {
   const [cardType, setTypeCard] = useState('tile');
 
   return (
     <div className='w-full'>
-      <div className='flex items-center pb-5'>
+      <div className='flex justify-between items-center pb-5'>
         <div className='flex justify-end items-center space-x-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
@@ -61,29 +63,44 @@ const SRContent = ({ products, isLoading }) => {
             />
           </svg>
         </div>
+        <button
+          onClick={() => setOpen(true)}
+          className='flex md:hidden items-center outline-none bg-transparent'
+        >
+          <img src={filterIcon} alt='*' />
+          <span className='text-colBlack text-xs font-semibold pt-[2px]'>
+            Фильтры
+          </span>
+        </button>
       </div>
       {isLoading ? (
         <Loading extraStyle='420px' />
-      ) : products?.length > 0 ? (
-        cardType === 'tile' ? (
-          <div className='grid grid-cols-5 gap-5'>
-            {products?.map((el) => (
-              <ProductCard key={el?.id} product={el} />
-            ))}
-          </div>
-        ) : cardType === 'line' ? (
-          <div className='space-y-4'>
-            {products?.map((el) => (
-              <CardLine key={el?.id} product={el} />
-            ))}
-          </div>
-        ) : (
-          <div className='space-y-3'>
-            {products?.map((el) => (
-              <LineNarrow key={el?.id} product={el} />
-            ))}
-          </div>
-        )
+      ) : products?.data?.length > 0 ? (
+        <>
+          {cardType === 'tile' ? (
+            <div className='grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 xl:grid-cols-5'>
+              {products?.data?.map((el) => (
+                <ProductCard key={el?.id} product={el} />
+              ))}
+            </div>
+          ) : cardType === 'line' ? (
+            <div className='space-y-4'>
+              {products?.data?.map((el) => (
+                <CardLine key={el?.id} product={el} />
+              ))}
+            </div>
+          ) : (
+            <div className='space-y-3'>
+              {products?.data?.map((el) => (
+                <LineNarrow key={el?.id} product={el} />
+              ))}
+            </div>
+          )}
+          <CustomPagination
+            count={products?.count}
+            handlePagination={handlePagination}
+          />
+        </>
       ) : (
         <ErrorEmpty
           title='Список пуст!'

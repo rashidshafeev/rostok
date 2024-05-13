@@ -8,7 +8,6 @@ import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
 import BreadCrumbs from '../../../../helpers/BreadCrumbs/BreadCrumbs';
 import {
-  fetchAllCategoryProducts,
   fetchCategoryProductsFilter,
   fetchCategoryProductsBySort,
 } from '../../../../api/catalog';
@@ -41,16 +40,6 @@ const CatProducts = () => {
       setIsLoading(false);
     }
     setIsLoading(false);
-  };
-
-  const handleFetchAllProducts = async (category_id, filters) => {
-    const { success, data } = await fetchAllCategoryProducts(
-      category_id,
-      filters
-    );
-    if (success) {
-      setCatProducts(data);
-    }
   };
 
   const handleFetchBySort = async (category_id, sort) => {
@@ -97,7 +86,7 @@ const CatProducts = () => {
         <CatProdSidebar
           setBreadCrumps={setBreadCrumps}
           handleFetchProducts={handleFetchProducts}
-          handleFetchAllProducts={handleFetchAllProducts}
+          setCatProducts={setCatProducts}
         />
         <CatProdContent
           catProducts={catProducts}
@@ -114,7 +103,7 @@ const CatProducts = () => {
         open={open}
         setOpen={setOpen}
         category={categoryId}
-        handleFetchAllProducts={handleFetchAllProducts}
+        setCatProducts={setCatProducts}
       />
     </div>
   );

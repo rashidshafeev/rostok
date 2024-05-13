@@ -1,8 +1,9 @@
 import { request } from './axios';
 
-export const fetchSearchResults = async (searchQuery, filtersValue) => {
+export const fetchSearchResults = async (searchQuery, filtersValue, page) => {
   try {
     const queryParams = {
+      page: page || '',
       search: searchQuery,
       min_price: filtersValue.min_price || '',
       max_price: filtersValue.max_price || '',
@@ -21,7 +22,7 @@ export const fetchSearchResults = async (searchQuery, filtersValue) => {
       params: queryParams,
     });
 
-    return { success: true, data: res?.data?.data };
+    return { success: true, data: res?.data };
   } catch (error) {
     return { success: false, data: [] };
   }

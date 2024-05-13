@@ -8,15 +8,16 @@ import { fetchAllCategoryProducts } from '../../api/catalog';
 import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
 import CTextField from '../CustomInputs/CTextField';
 
-const AllFiltersModal = ({
-  open,
-  setOpen,
-  category,
-  handleFetchAllProducts,
-}) => {
+const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
   const [accordion, setAccordion] = useState(null);
   const [selectedValues, setSelectedValues] = useState({});
   const [isFilterLoading, setIsFilterLoading] = useState(false);
+  const [selectedValuesTwo, setSelectedValuesTwo] = useState({
+    brands: [],
+    tags: [],
+    min_price: 0,
+    max_price: 900000,
+  });
 
   const {
     isLoading,
@@ -35,19 +36,78 @@ const AllFiltersModal = ({
     }));
   };
 
+  const handleChange = (name, value) => {
+    let updatedFilters = { ...selectedValuesTwo };
+
+    if (name === 'min_price' && parseInt(value) > selectedValuesTwo.max_price) {
+      updatedFilters = {
+        ...updatedFilters,
+        min_price: parseInt(value),
+        max_price: parseInt(value),
+      };
+    } else if (
+      name === 'max_price' &&
+      parseInt(value) < selectedValuesTwo.min_price
+    ) {
+      updatedFilters = {
+        ...updatedFilters,
+        max_price: parseInt(value),
+        min_price: parseInt(value),
+      };
+    } else {
+      updatedFilters = {
+        ...updatedFilters,
+        [name]: value,
+      };
+    }
+
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleSliderChange = (newValue) => {
+    const [newMinPrice, newMaxPrice] = newValue;
+    const updatedFilters = {
+      ...selectedValuesTwo,
+      min_price: newMinPrice,
+      max_price: newMaxPrice,
+    };
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    const updatedFilters = {
+      ...selectedValuesTwo,
+      [name]: selectedValuesTwo[name].includes(value)
+        ? selectedValuesTwo[name].filter((item) => item !== value)
+        : [...selectedValuesTwo[name], value],
+    };
+    setSelectedValuesTwo(updatedFilters);
+  };
+
   const toggleAccordion = (id) => {
     setAccordion(accordion === id ? null : id);
   };
 
+  const handleClearFilter = () => {
+    setSelectedValues({});
+    setSelectedValuesTwo({
+      brands: [],
+      tags: [],
+      min_price: 0,
+      max_price: 900000,
+    });
+  };
+
   const onSubmit = async () => {
     setIsFilterLoading(true);
-    handleFetchAllProducts(category, selectedValues);
-    const { success } = await fetchAllCategoryProducts(
+    const { success, data } = await fetchAllCategoryProducts(
       category,
-      selectedValues
+      selectedValues,
+      selectedValuesTwo
     );
     if (success) {
       setOpen(false);
+      setCatProducts(data);
       setIsFilterLoading(false);
     }
     setIsFilterLoading(false);
@@ -66,7 +126,7 @@ const AllFiltersModal = ({
         <div className='flex flex-col justify-between h-full'>
           <div className='h-[90%]'>
             <div className='flex justify-between items-center pr-3 lg:pr-5'>
-              <h2 className='text-colBlack text-xl lg:text-3xl font-semibold'>
+              <h2 className='text-colBlack text-2xl lg:text-3xl font-semibold'>
                 Все фильтры
               </h2>
               <span
@@ -84,7 +144,7 @@ const AllFiltersModal = ({
               <div className='mt-2 pr-2 lg:pr-5 md:border-t border-b border-[#EBEBEB] overflow-y-scroll scrollable overflow-hidden h-[calc(100vh_-_124px)] mm:h-[calc(100vh_-_185px)] lg:h-[92%]'>
                 <div className='pt-5'>
                   <div className='grid mm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>
-                    <div className='md:hidden border-b pb-3'>
+                    <div className='md:hidden border-b pb-2'>
                       <div
                         className='flex justify-between items-center cursor-pointer'
                         onClick={() => toggleAccordion('cost')}
@@ -107,15 +167,19 @@ const AllFiltersModal = ({
                               label='от 0'
                               name='min_price'
                               type='number'
-                              // value={filtersState.min_price}
-                              // onChange={(e) => handleChange('min_price', e.target.value)}
+                              value={selectedValuesTwo.min_price}
+                              onChange={(e) =>
+                                handleChange('min_price', e.target.value)
+                              }
                             />
                             <CTextField
                               label='до 900 000'
                               name='max_price'
                               type='number'
-                              // value={filtersState.max_price}
-                              // onChange={(e) => handleChange('max_price', e.target.value)}
+                              value={selectedValuesTwo.max_price}
+                              onChange={(e) =>
+                                handleChange('max_price', e.target.value)
+                              }
                             />
                           </div>
                           <Box sx={{ padding: '0 8px 0 14px' }}>
@@ -123,15 +187,15 @@ const AllFiltersModal = ({
                               sx={{ color: '#15765B' }}
                               size='small'
                               getAriaLabel={() => 'Price range'}
-                              // value={[
-                              //   filtersState?.min_price,
-                              //   filtersState?.max_price,
-                              // ]}
+                              value={[
+                                selectedValuesTwo?.min_price,
+                                selectedValuesTwo?.max_price,
+                              ]}
                               min={0}
                               max={900000}
-                              // onChange={(event, newValue) =>
-                              //   handleSliderChange(newValue)
-                              // }
+                              onChange={(event, newValue) =>
+                                handleSliderChange(newValue)
+                              }
                               valueLabelDisplay='auto'
                             />
                           </Box>
@@ -165,10 +229,12 @@ const AllFiltersModal = ({
                                     padding: '5px 4px 5px 8px',
                                   }}
                                   name='brands'
-                                  // checked={filtersState.brands.includes(el?.id)}
-                                  // onChange={() =>
-                                  //   handleCheckboxChange('brands', el?.id)
-                                  // }
+                                  checked={selectedValuesTwo.brands.includes(
+                                    el?.id
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxChange('brands', el?.id)
+                                  }
                                 />
                               }
                               label={
@@ -206,10 +272,12 @@ const AllFiltersModal = ({
                                     color: '#15765B',
                                     padding: '1px 4px 1px 8px',
                                   }}
-                                  // checked={filtersState.tags.includes(el?.tag)}
-                                  // onChange={() =>
-                                  //   handleCheckboxChange('tags', el?.tag)
-                                  // }
+                                  checked={selectedValuesTwo.tags.includes(
+                                    el?.tag
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxChange('tags', el?.tag)
+                                  }
                                 />
                               }
                               label={
@@ -228,7 +296,7 @@ const AllFiltersModal = ({
                         ))}
                     </div>
                     {filters?.dynamics?.map((el) => (
-                      <div className='border-b md:border-b-0 pb-3' key={el?.id}>
+                      <div className='border-b md:border-b-0 pb-2' key={el?.id}>
                         <div
                           className='flex justify-between items-center cursor-pointer'
                           onClick={() => toggleAccordion(el?.id)}
@@ -304,10 +372,10 @@ const AllFiltersModal = ({
               />
             )}
           </div>
-          <div className='flex space-x-3 h-10'>
+          <div className='flex space-x-3 h-10 bg-white z-[999]'>
             <span
-              onClick={() => setSelectedValues({})}
-              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'
+              onClick={handleClearFilter}
+              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm cursor-pointer'
             >
               Сбросить
             </span>

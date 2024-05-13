@@ -1,20 +1,28 @@
-import { Box, Checkbox, FormControlLabel, Modal } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, Modal, Slider } from '@mui/material';
 import { useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { Loading } from '../Loader/Loader';
 import ErrorEmpty from '../Errors/ErrorEmpty';
 import { fetchAllCategoryProducts } from '../../api/catalog';
+import CTextField from '../CustomInputs/CTextField';
 
 const SearchFiltersModal = ({
   open,
   setOpen,
   filters,
-  isLoading,
-  handleFetchAllProducts,
+  filterLoading,
+  setProducts,
+  searchQuery,
 }) => {
   const [accordion, setAccordion] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
-  const [isFilterLoading, setIsFilterLoading] = useState(false);
+  const [selectedValuesTwo, setSelectedValuesTwo] = useState({
+    brands: [],
+    tags: [],
+    min_price: 0,
+    max_price: 900000,
+  });
 
   const toggleValue = (filterId, valueId) => {
     setSelectedValues((prevState) => ({
@@ -31,18 +39,79 @@ const SearchFiltersModal = ({
     setAccordion(accordion === id ? null : id);
   };
 
+  const handleChange = (name, value) => {
+    let updatedFilters = { ...selectedValuesTwo };
+
+    if (name === 'min_price' && parseInt(value) > selectedValuesTwo.max_price) {
+      updatedFilters = {
+        ...updatedFilters,
+        min_price: parseInt(value),
+        max_price: parseInt(value),
+      };
+    } else if (
+      name === 'max_price' &&
+      parseInt(value) < selectedValuesTwo.min_price
+    ) {
+      updatedFilters = {
+        ...updatedFilters,
+        max_price: parseInt(value),
+        min_price: parseInt(value),
+      };
+    } else {
+      updatedFilters = {
+        ...updatedFilters,
+        [name]: value,
+      };
+    }
+
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleSliderChange = (newValue) => {
+    const [newMinPrice, newMaxPrice] = newValue;
+    const updatedFilters = {
+      ...selectedValuesTwo,
+      min_price: newMinPrice,
+      max_price: newMaxPrice,
+    };
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    const updatedFilters = {
+      ...selectedValuesTwo,
+      [name]: selectedValuesTwo[name].includes(value)
+        ? selectedValuesTwo[name].filter((item) => item !== value)
+        : [...selectedValuesTwo[name], value],
+    };
+    setSelectedValuesTwo(updatedFilters);
+  };
+
+  const handleClearFilter = () => {
+    setSelectedValues({});
+    setSelectedValuesTwo({
+      brands: [],
+      tags: [],
+      min_price: 0,
+      max_price: 900000,
+    });
+  };
+
   const onSubmit = async () => {
-    setIsFilterLoading(true);
-    handleFetchAllProducts('', selectedValues);
-    const { success } = await fetchAllCategoryProducts(
+    setIsLoading(true);
+    const { success, data } = await fetchAllCategoryProducts(
       '',
       selectedValues,
+      selectedValuesTwo,
+      searchQuery
     );
     if (success) {
+      setProducts(data);
+      setIsLoading(false);
       setOpen(false);
-      setIsFilterLoading(false);
     }
-    setIsFilterLoading(false);
+    setOpen(false);
+    setIsLoading(false);
   };
 
   if (!open) return null;
@@ -54,28 +123,181 @@ const SearchFiltersModal = ({
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[85%] h-[90%] lining-nums proportional-nums bg-white outline-none rounded-lg border-none p-6 overflow-hidden'>
+      <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full mm:w-[95%] lg:w-[85%] h-full mm:h-[95%] lg:h-[90%] lining-nums proportional-nums bg-white outline-none rounded-lg border-none p-3 md:p-6 overflow-hidden'>
         <div className='flex flex-col justify-between h-full'>
           <div className='h-[90%]'>
             <div className='flex justify-between items-center'>
-              <h2 className='text-colBlack text-3xl font-semibold'>
+              <h2 className='text-colBlack text-2xl lg:text-3xl font-semibold'>
                 Все фильтры
               </h2>
               <span
                 onClick={() => setOpen(false)}
-                className='text-5xl text-colGray font-light cursor-pointer pr-2'
+                className='text-4xl lg:text-5xl text-colGray font-light cursor-pointer pr-2'
               >
                 &times;
               </span>
             </div>
-            {isLoading || isFilterLoading ? (
+            {isLoading || filterLoading ? (
               <Loading />
-            ) : filters?.length > 0 ? (
-              <div className='mt-2 border-t border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[93%]'>
+            ) : filters?.dynamics?.length > 0 ||
+              filters?.basics?.brands?.length > 0 ||
+              filters?.basics?.tags?.length > 0 ? (
+              <div className='mt-2 pr-3 md:border-t md:border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[calc(100vh_-_136px)] md:h-[calc(100vh_-_205px)] lg:h-[92%]'>
                 <div className='pt-5'>
-                  <div className='grid grid-cols-3 gap-8'>
-                    {filters?.map((el) => (
-                      <div key={el?.id}>
+                  <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>
+                    <div className='md:hidden border-b pb-2'>
+                      <div
+                        className='flex justify-between items-center cursor-pointer'
+                        onClick={() => toggleAccordion('cost')}
+                      >
+                        <span className='text-colBlack font-semibold'>
+                          Цена, ₽
+                        </span>
+                        <ArrowIcon
+                          className={`!m-0 !w-4 !h-4 ${
+                            accordion === 'cost'
+                              ? 'rotate-[0deg]'
+                              : 'rotate-[180deg]'
+                          }`}
+                        />
+                      </div>
+                      {accordion === 'cost' && (
+                        <>
+                          <div className='grid grid-cols-2 gap-3 py-3 pl-2'>
+                            <CTextField
+                              label='от 0'
+                              name='min_price'
+                              type='number'
+                              value={selectedValuesTwo.min_price}
+                              onChange={(e) =>
+                                handleChange('min_price', e.target.value)
+                              }
+                            />
+                            <CTextField
+                              label='до 900 000'
+                              name='max_price'
+                              type='number'
+                              value={selectedValuesTwo.max_price}
+                              onChange={(e) =>
+                                handleChange('max_price', e.target.value)
+                              }
+                            />
+                          </div>
+                          <Box sx={{ padding: '0 8px 0 14px' }}>
+                            <Slider
+                              sx={{ color: '#15765B' }}
+                              size='small'
+                              getAriaLabel={() => 'Price range'}
+                              value={[
+                                selectedValuesTwo?.min_price,
+                                selectedValuesTwo?.max_price,
+                              ]}
+                              min={0}
+                              max={900000}
+                              onChange={(event, newValue) =>
+                                handleSliderChange(newValue)
+                              }
+                              valueLabelDisplay='auto'
+                            />
+                          </Box>
+                        </>
+                      )}
+                    </div>
+                    <div className='md:hidden border-b pb-3'>
+                      <div
+                        className='flex justify-between items-center cursor-pointer'
+                        onClick={() => toggleAccordion('brand')}
+                      >
+                        <span className='text-colBlack font-semibold'>
+                          Производитель
+                        </span>
+                        <ArrowIcon
+                          className={`!m-0 !w-4 !h-4 ${
+                            accordion === 'brand'
+                              ? 'rotate-[0deg]'
+                              : 'rotate-[180deg]'
+                          }`}
+                        />
+                      </div>
+                      {accordion === 'brand' &&
+                        filters?.basics?.brands?.map((el) => (
+                          <div className='pl-2' key={el?.id}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: '#15765B',
+                                    padding: '5px 4px 5px 8px',
+                                  }}
+                                  name='brands'
+                                  checked={selectedValuesTwo.brands.includes(
+                                    el?.id
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxChange('brands', el?.id)
+                                  }
+                                />
+                              }
+                              label={
+                                <p className='text-sm font-medium text-colBlack'>
+                                  {el?.name}
+                                </p>
+                              }
+                            />
+                          </div>
+                        ))}
+                    </div>
+                    <div className='md:hidden border-b pb-3'>
+                      <div
+                        className='flex justify-between items-center cursor-pointer'
+                        onClick={() => toggleAccordion('status')}
+                      >
+                        <span className='text-colBlack font-semibold'>
+                          Статус
+                        </span>
+                        <ArrowIcon
+                          className={`!m-0 !w-4 !h-4 ${
+                            accordion === 'status'
+                              ? 'rotate-[0deg]'
+                              : 'rotate-[180deg]'
+                          }`}
+                        />
+                      </div>
+                      {accordion === 'status' &&
+                        filters?.basics?.tags?.map((el, index) => (
+                          <div className='pt-2 pl-2' key={index}>
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: '#15765B',
+                                    padding: '1px 4px 1px 8px',
+                                  }}
+                                  checked={selectedValuesTwo.tags.includes(
+                                    el?.tag
+                                  )}
+                                  onChange={() =>
+                                    handleCheckboxChange('tags', el?.tag)
+                                  }
+                                />
+                              }
+                              label={
+                                <span
+                                  style={{
+                                    color: el?.text_color,
+                                    backgroundColor: el?.background_color,
+                                  }}
+                                  className='py-1 px-2 uppercase text-xs font-bold rounded-xl'
+                                >
+                                  {el?.tag}
+                                </span>
+                              }
+                            />
+                          </div>
+                        ))}
+                    </div>
+                    {filters?.dynamics?.map((el) => (
+                      <div className='border-b md:border-b-0 pb-2' key={el?.id}>
                         <div
                           className='flex justify-between items-center cursor-pointer'
                           onClick={() => toggleAccordion(el?.id)}
@@ -153,8 +375,8 @@ const SearchFiltersModal = ({
           </div>
           <div className='flex space-x-3 h-10'>
             <span
-              onClick={() => setSelectedValues({})}
-              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm'
+              onClick={handleClearFilter}
+              className='bg-white text-colGreen border border-colGreen rounded-md py-2 px-4 font-semibold w-max text-sm cursor-pointer'
             >
               Сбросить
             </span>
