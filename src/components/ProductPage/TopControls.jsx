@@ -28,24 +28,18 @@ function TopControls({product, reviews}) {
     <div className='flex justify-between mb-[10px]'>
           <div className='flex gap-[10px]'>
 
-            {/* <NavLink
-              to='#reviews'
-              className='text-center flex flex-row justify-between items-center'
-            > */}
+            <div className='flex'>
             <img className='mx-auto mr-1' src={star} alt='*' />
-              <span className='text-xs pt-1 font-normal text-colBlack'>
+              <span className='text-xs pt-1 mr-2 font-normal text-colBlack'>
                 {reviews.rating}
               </span>
-              
-            {/* </NavLink> */}
-            <NavLink
-              to='#'
-              className='text-center flex flex-row justify-between items-center mr-[10px]'
-            >
               <span className='text-xs pt-1 font-medium text-colDarkGray'>
                 {reviews.total_count_text}
               </span>
-            </NavLink>
+            </div>
+            
+            
+            
             
             <NavLink
               to='#'

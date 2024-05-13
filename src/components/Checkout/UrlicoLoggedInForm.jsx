@@ -119,10 +119,10 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
                   control={control}
                   rules={{
                     validate: {
-                      exists: (value) => {
-                        return !organizations.some( org => org.inn === value) || 'Такая организация уже существует'
+                      // exists: (value) => {
+                      //   return !organizations.some( org => org.inn === value) || 'Такая организация уже существует'
                     
-                      }
+                      // }
                     }
                   
                   }}
@@ -144,7 +144,6 @@ function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificatio
         <Controller
           name='phone'
           control={control}
-          // defaultValue={'+79992220003'}
           defaultValue={user ? user?.user?.phone : ''}
 
           rules={{

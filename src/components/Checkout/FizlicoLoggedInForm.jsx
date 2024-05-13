@@ -141,9 +141,8 @@ function FizlicoLoggedInForm({ user, organizations, isCode, handleSendVerificati
       <div className='w-[340px]'>
         <Controller
           name='phone'
-          control={control}
-          defaultValue={'+79992220003'}
-          // defaultValue={user ? user?.user?.phone : ''}
+      control={control}
+          defaultValue={user ? user?.user?.phone : ''}
 
           rules={{
             required: 'Поле обязательно к заполнению!',

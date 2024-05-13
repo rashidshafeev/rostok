@@ -7,7 +7,7 @@ import starfill from '../../assets/icons/adv1fill.svg';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css"
 
-import RatingStars from './RatingStars';
+import RatingStars from '../../helpers/RatingStars';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
@@ -60,7 +60,7 @@ function Review({review}) {
   console.log(photos)
 
   return (
-    <div className='p-5 border rounded-[10px] basis-[calc(50%-10px)] flex flex-col'>
+    <div className='p-5 border rounded-[10px]  flex flex-col'>
 
         <div className='flex justify-between mb-5'>
             <div className='flex items-center gap-2'>

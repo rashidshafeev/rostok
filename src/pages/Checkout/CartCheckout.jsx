@@ -184,8 +184,8 @@ function CartCheckout() {
         </div>
       </NavLink>
       <div className=' font-semibold text-[40px]'>Оформление заказа</div>
-      <div className='flex space-x-10 py-5'>
-        <div className='w-[70%]'>
+      <div className='flex flex-wrap  py-5'>
+        <div className='lg:basis-[70%] basis-full'>
 
           <div className='flex flex-col gap-5'>
             <div className='font-semibold text-2xl my-5'>
@@ -208,8 +208,6 @@ function CartCheckout() {
                     <FizlicoLoggedInForm user={user}
                       organizations={organizations}
                       isCode={isCode}
-                      handleSendVerificationCode={handleSendVerificationCode}
-                      handleConfirmVerificationCode={handleConfirmVerificationCode}
                       miniLoading={miniLoading} />}
 
                   {(!user?.user && type === 'fizlico') &&
@@ -220,8 +218,6 @@ function CartCheckout() {
                     <UrlicoLoggedInForm user={user}
                       organizations={organizations}
                       isCode={isCode}
-                      handleSendVerificationCode={handleSendVerificationCode}
-                      handleConfirmVerificationCode={handleConfirmVerificationCode}
                       miniLoading={miniLoading} />
                   }
 
@@ -242,7 +238,7 @@ function CartCheckout() {
 
             <div className='flex gap-5'>
 
-              <div onClick={() => setDeliveryType('pickup')} className={`flex flex-col w-[300px] p-5 border ${deliveryType === 'pickup' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
+              <div onClick={() => setDeliveryType('pickup')} className={`flex flex-col basis-[calc(33%-20px/3)] p-5 border ${deliveryType === 'pickup' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={stallicon} alt="" />
                 </div>
@@ -252,7 +248,7 @@ function CartCheckout() {
                   сегодня, из 1 магазина</div>
 
               </div>
-              <div onClick={() => setDeliveryType('delivery')} className={`flex flex-col w-[300px] p-5 border ${deliveryType === 'delivery' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`} >
+              <div onClick={() => setDeliveryType('delivery')} className={`flex flex-col basis-[calc(33%-20px/3)] p-5 border ${deliveryType === 'delivery' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`} >
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={truckicon} alt="" />
                 </div>
@@ -262,7 +258,7 @@ function CartCheckout() {
                   завтра, от 500 р.</div>
 
               </div>
-              <div onClick={() => setDeliveryType('tk')} className={`flex flex-col w-[300px] p-5 border ${deliveryType === 'tk' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
+              <div onClick={() => setDeliveryType('tk')} className={`flex flex-col basis-[calc(33%-20px/3)] p-5 border ${deliveryType === 'tk' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
                 <div className='mb-[10px]'>
                   <img className='w-10 h-10' src={boxicon} alt="" />
                 </div>
@@ -276,7 +272,7 @@ function CartCheckout() {
             </div>
 
             {deliveryType === 'pickup' && 
-            <div className='flex justify-between items-start border border-colLightGray rounded-[10px]'>
+            <div className='md:flex hidden justify-between items-start border border-colLightGray rounded-[10px]'>
             <div className='p-5 h-full flex flex-col justify-between'>
               <div className='flex flex-col gap-2 mb-5'>
                 <div className='font-semibold'>
@@ -407,7 +403,7 @@ function CartCheckout() {
 
 
         </div>
-        <div className='w-[30%]'>
+        <div className='lg:basis-[30%] basis-full'>
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
             {selected.length === 0 ? (
               <div className='text-center text-[#828282] text-lg font-medium mb-5'>

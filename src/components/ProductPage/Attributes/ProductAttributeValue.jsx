@@ -70,7 +70,7 @@ ref={refs.setReference} {...getReferenceProps()}
         ref={refs.setFloating}
         {...getFloatingProps()}
         style={{backgroundColor: `${value.color}`  ,...floatingStyles}}
-        className='w-[100px] h-[100px] border  border-colLightGray rounded-[10px] flex justify-center items-center'
+        className='w-[100px] lg:block hidden h-[100px] border  border-colLightGray rounded-[10px]'
         >
                   <img src="" alt="" className='contain' />
               </div>

@@ -10,7 +10,7 @@ function InfoTab() {
             <h3 className='text-2xl mt-5 font-semibold'>Оплата и доставка</h3>
 
             <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Способы получения</h4>
-            <div className='flex gap-5'>
+            <div className='flex lg:flex-row flex-col gap-5'>
                 
                 <div className='flex flex-col w-[300px] p-5 border border-colLightGray rounded-[10px]'>
                     <div className='mb-[10px]'>
@@ -46,7 +46,7 @@ function InfoTab() {
             </div>
 
             <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Способы оплаты</h4>
-            <div className='flex gap-5'>
+            <div className='flex lg:flex-row flex-col gap-5'>
 
             <div className='flex flex-col w-[300px] p-5 border border-colLightGray rounded-[10px]'>
                     <div className='mb-[10px]'>
