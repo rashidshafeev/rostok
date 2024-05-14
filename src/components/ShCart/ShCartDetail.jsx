@@ -10,6 +10,8 @@ import docIcon from '../../assets/icons/download-pdf.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import plural from 'plural-ru'
 import { removeFromCart, selectItem } from '../../redux/slices/cartSlice';
+import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
+import MobileToCheckoutBar from './MobileToCheckoutBar';
 
 const ShCartDetail = () => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -107,8 +109,9 @@ const ShCartDetail = () => {
 
   return (
     <>
-    <div className='flex justify-between items-end'>
-    <div className='max-w-[460px] w-full pt-3'>
+    
+    <div className='hidden lg:flex justify-between items-end'>
+    <div className='flex max-w-[460px] w-full pt-3'>
         <CSearchField
           label='Введите наименование или артикул'
           name='search'
@@ -137,6 +140,7 @@ const ShCartDetail = () => {
         <div className='lg:basis-[calc(70%-20px)] basis-full'>
           <div className='flex justify-between items-center pb-2'>
             <div className='flex items-center'>
+              <div>
               <div className='pb-[3px]'>
                 <CCheckBoxField
                   label='Выбрать всё'
@@ -151,9 +155,15 @@ const ShCartDetail = () => {
               >
                 Удалить выбранные
               </button>}
+              </div>
+
+                <img src={shareIcon} alt="" />
+            
+            
               
             </div>
-            <div className='flex justify-end items-center space-x-2'>
+
+            <div className='hidden lg:flex justify-end items-center space-x-2 '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
                 width='20'
@@ -205,7 +215,7 @@ const ShCartDetail = () => {
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
             { selected.length === 0 ? (
               <div className='text-center text-[#828282] text-lg font-medium mb-5'>
-                Корзина пуста
+                Выберите товары, которые хотите заказать
               </div> ): (
 
                 <>
@@ -259,6 +269,8 @@ const ShCartDetail = () => {
           </div>
         </div>
       </div>
+      <MobileToCheckoutBar selected={selected} quantity={cart?.selectedQuantity}/>
+
     </>
   );
 };

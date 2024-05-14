@@ -4,6 +4,11 @@ import copyicon from '../../assets/icons/copy-icon.svg';
 
 
 function CharacteristicsList({ current, product, setTabIndex }) {
+
+    console.log("current")
+    console.log(current.attributes)
+    console.log(Object.keys(current.attributes))
+
     return (
         <>
             <div className='flex flex-col gap-[10px]'>
@@ -22,7 +27,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                                 <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                 <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                 <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
-                                    {attribute.values[0].text}
+                                    { Object.keys(current.attributes).some(key => key.toString() === attribute.id) ? current.attributes[attribute.id].text  : attribute.values[0].text }
                                 </div>
                             </div>
                         )

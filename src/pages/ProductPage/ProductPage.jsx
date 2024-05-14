@@ -281,7 +281,7 @@ function ProductPage() {
             <ProductAttributesList list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList>
 
             <div className='lg:block hidden'>
-            <CharacteristicsList current={currentProduct} product={product} setTabIndex={setTabIndex} />
+            {currentProduct.attributes && <CharacteristicsList current={currentProduct} product={product} setTabIndex={setTabIndex} />}
 
             </div>
           </div>

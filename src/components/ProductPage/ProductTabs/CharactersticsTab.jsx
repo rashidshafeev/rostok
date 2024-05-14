@@ -21,111 +21,17 @@ function CharactersticsTab({ current, product, setTabIndex }) {
                                 <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                 <div className='grow border-b-2 border-dotted'></div>
                                 <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
-                                    {attribute.values[0].text}
+                                    
+                                    { Object.keys(current.attributes).some(key => key.toString() === attribute.id) ? current.attributes[attribute.id].text  : attribute.values[0].text }
+
                                 </div>
                             </div>
                         )
                     })
 
                 }
-                {/* <div className='flex gap-20'>
-
-                    <div className='flex flex-col basis-1/2 '>
-
-                        <div className='flex items-end'>
-                            <div className='shrink leading-none text-colDarkGray mr-1'>Цвет</div>
-                            <div className='grow border-b-2 border-dotted'></div>
-                            <div className='flex items-end leading-none shrink ml-1'>
-                                Жёлтый</div>
-                        </div>
-                    </div>
-                    <div className='flex flex-col basis-1/2 '>
-
-                        <div className='flex items-end'>
-                            <div className='shrink leading-none text-colDarkGray mr-1'>Длина, см</div>
-                            <div className='grow border-b-2 border-dotted'></div>
-                            <div className='flex items-end leading-none shrink ml-1'>
-                                76</div>
-                        </div>
-                    </div>
-
-                </div> */}
-
-
             </div>
 
-            {/* <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Общие характеристики</h4>
-            <div className='flex gap-20'>
-
-                <div className='flex flex-col basis-1/2 '>
-
-                    <div className='flex items-end'>
-                        <div className='shrink leading-none text-colDarkGray mr-1'>Цвет</div>
-                        <div className='grow border-b-2 border-dotted'></div>
-                        <div className='flex items-end leading-none shrink ml-1'>
-                            Жёлтый</div>
-                    </div>
-                </div>
-                <div className='flex flex-col basis-1/2 '>
-
-                    <div className='flex items-end'>
-                        <div className='shrink leading-none text-colDarkGray mr-1'>Длина, см</div>
-                        <div className='grow border-b-2 border-dotted'></div>
-                        <div className='flex items-end leading-none shrink ml-1'>
-                            76</div>
-                    </div>
-                </div>
-
-            </div>
-
-            <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Материал</h4>
-            <div className='flex gap-20'>
-
-                <div className='flex flex-col basis-1/2 '>
-
-                    <div className='flex items-end'>
-                        <div className='shrink leading-none text-colDarkGray mr-1'>Цвет</div>
-                        <div className='grow border-b-2 border-dotted'></div>
-                        <div className='flex items-end leading-none shrink ml-1'>
-                            Жёлтый</div>
-                    </div>
-                </div>
-                <div className='flex flex-col basis-1/2 '>
-
-                    <div className='flex items-end'>
-                        <div className='shrink leading-none text-colDarkGray mr-1'>Длина, см</div>
-                        <div className='grow border-b-2 border-dotted'></div>
-                        <div className='flex items-end leading-none shrink ml-1'>
-                            76</div>
-                    </div>
-                </div>
-
-            </div>
-
-
-            <h4 className='text-xl mt-5 mb-[10px] font-semibold'>Габариты</h4>
-            <div className='flex gap-20'>
-
-                <div className='flex flex-col basis-1/2 '>
-
-                    <div className='flex items-end'>
-                        <div className='shrink leading-none text-colDarkGray mr-1'>Цвет</div>
-                        <div className='grow border-b-2 border-dotted'></div>
-                        <div className='flex items-end leading-none shrink ml-1'>
-                            Жёлтый</div>
-                    </div>
-                </div>
-                <div className='flex flex-col basis-1/2 '>
-
-                    <div className='flex items-end'>
-                        <div className='shrink leading-none text-colDarkGray mr-1'>Длина, см</div>
-                        <div className='grow border-b-2 border-dotted'></div>
-                        <div className='flex items-end leading-none shrink ml-1'>
-                            76</div>
-                    </div>
-                </div>
-
-            </div> */}
 
             <h3 className='text-2xl mt-5 mb-[10px] font-semibold'>Описание</h3>
             <div className='text-[14px]'>
