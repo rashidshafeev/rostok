@@ -7,14 +7,16 @@ import MobileInfo from './MobileInfo'
 function MobileProductInfo({ current, product }) {
     return (
         <>
-            <div className='mt-10'>
+            {  current?.attributes && <div className='mt-10'>
                 <MobileCharacteristics current={current} product={product} />
 
-            </div>
-            <div className='mt-20'>
+            </div> }
+
+
+            {product?.files && <div className='mt-20'>
                 <MobileFiles product={product} />
 
-            </div>
+            </div>}
             <div className='mt-20'>
                 <MobileReviews reviews={product.reviews} />
 

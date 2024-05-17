@@ -24,7 +24,7 @@ function RightBar({ product }) {
 
     return (
         <>
-            <div className='lg:block hidden'>
+            {/* <div className='lg:block hidden'> */}
                 <div className='shadow-[1px_1px_34px_0_rgba(0,0,0,0.1)] p-5 rounded-xl flex flex-col gap-8 mb-5'>
 
                     {productInCart && <div className='flex justify-between'>
@@ -72,7 +72,7 @@ function RightBar({ product }) {
                     </div>
 
                 </div>
-            </div>
+            {/* </div> */}
             
 
             <div className='flex flex-col gap-4 px-5'>

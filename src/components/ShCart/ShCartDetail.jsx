@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useOutletContext } from 'react-router-dom';
 import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import CSearchField from '../../helpers/CustomInputs/CSearchField';
 import ShCartItem from './ShCartItem';
+import MobileShCartItem from './MobileShCartItem';
 import ShCartItemLine from './ShCartItemLine';
 import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
@@ -12,7 +13,8 @@ import plural from 'plural-ru'
 import { removeFromCart, selectItem } from '../../redux/slices/cartSlice';
 import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
-
+// import { useIntersectionObserver } from "@uidotdev/usehooks";
+import { useIntersection, useWindowSize } from 'react-use';
 const ShCartDetail = () => {
   const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
@@ -20,6 +22,14 @@ const ShCartDetail = () => {
   const [filteredCart, setFilteredCart] = useState([])
   const [itemsQuantity, setItemsQuantity] = useState(0);
 
+  const orderInfo = useRef(null);
+  const orderInfoVisible = useIntersection(orderInfo, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1
+  });
+
+  const {width, height} = useWindowSize();
   // eslint-disable-next-line no-unused-vars
   // const [cartProducts, addToCart, removeFromCart, removeAllCart] =
   //   useOutletContext();
@@ -140,7 +150,6 @@ const ShCartDetail = () => {
         <div className='lg:basis-[calc(70%-20px)] basis-full'>
           <div className='flex justify-between items-center pb-2'>
             <div className='flex items-center'>
-              <div>
               <div className='pb-[3px]'>
                 <CCheckBoxField
                   label='Выбрать всё'
@@ -155,14 +164,15 @@ const ShCartDetail = () => {
               >
                 Удалить выбранные
               </button>}
-              </div>
-
-                <img src={shareIcon} alt="" />
+                
             
             
               
             </div>
+            <div className='block lg:hidden'>
+                <img className="w-6 h-6"src={shareIcon} alt="" />
 
+                </div>
             <div className='hidden lg:flex justify-end items-center space-x-2 '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -198,19 +208,24 @@ const ShCartDetail = () => {
               </svg>
             </div>
           </div>
-          {itemType === 'lineBig' ? (
+          {(itemType === 'lineBig' && width > 991)  ? (
             <ShCartItem
               cart={filteredCart}
               selectedItems={selected}
             />
-          ) : (
+          ) : (itemType === 'lineSmall' && width > 991) ? (
             <ShCartItemLine
+              cart={filteredCart}
+              selectedItems={selected}
+            />
+          ) : (
+            <MobileShCartItem
               cart={filteredCart}
               selectedItems={selected}
             />
           )}
         </div>
-        <div className='lg:basis-[calc(30%-20px)] basis-full'>
+        <div ref={orderInfo} className='lg:basis-[calc(30%-20px)] basis-full'>
           
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
             { selected.length === 0 ? (
@@ -269,7 +284,7 @@ const ShCartDetail = () => {
           </div>
         </div>
       </div>
-      <MobileToCheckoutBar selected={selected} quantity={cart?.selectedQuantity}/>
+      { (orderInfoVisible && orderInfoVisible.intersectionRatio < 1) && <MobileToCheckoutBar selected={selected} quantity={cart?.selectedQuantity}/> }
 
     </>
   );

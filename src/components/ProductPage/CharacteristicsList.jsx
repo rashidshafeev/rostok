@@ -38,7 +38,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
 
             </div>
             <a  href="#char">
-            <div onClick={() => { setTabIndex(0)}} className='text-colGreen font-semibold underline underline-offset-8 cursor-pointer mr-2'>Смотреть все характеристики</div></a>
+            <div onClick={() => { setTabIndex(0)}} className='text-colGreen font-semibold underline underline-offset-8 cursor-pointer mt-3'>Смотреть все характеристики</div></a>
         </>
     )
 }

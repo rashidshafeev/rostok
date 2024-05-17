@@ -24,7 +24,9 @@ const ProductCard = ({ product, recommended }) => {
     dispatch(toggleComparison(product));
   };
 
-  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
+  const isProductInCart = cart?.cart?.some(
+    (el) => el?.id === product?.id
+  );
   const isProductInFavorite = favorite?.favorite?.some(
     (el) => el?.id === product?.id
   );
@@ -41,7 +43,7 @@ const ProductCard = ({ product, recommended }) => {
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
           {product?.files?.length > 0 && (
             <img
-              className='w-full h-full object-cover'
+              className='w-full h-full object-contain'
               src={product?.files[0]?.medium || noImg}
               onError={(e) => {
                 e.target.onError = null;

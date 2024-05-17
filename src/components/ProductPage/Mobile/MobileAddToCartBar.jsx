@@ -13,7 +13,7 @@ function MobileAddToCartBar({ product }) {
 
 
     return (
-        <div className='lg:hidden z-10 fixed bottom-[72px] w-full bg-white'>
+        <div className='lg:hidden z-10 fixed bottom-[72px] w-full bg-white lining-nums proportional-nums'>
 
             <div className='flex justify-between px-5 py-3'>
                 {productInCart && <div className='flex justify-between w-full'>

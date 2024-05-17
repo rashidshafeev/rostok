@@ -22,9 +22,9 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
       {cart?.map((product, index) => (
         <div
           key={index}
-          className='flex border-t border-b border-[#EBEBEB] pt-2 pb-4'
+          className='flex flex-col border-t border-b border-[#EBEBEB] pt-2 pb-4'
         >
-          <div className='w-3/5 flex space-x-4'>
+          <div className='flex space-x-4'>
             <div className='flex items-start'>
               <CCheckBoxField
                 checked={selectedItems.some(el => el?.id === product?.id)}
@@ -70,32 +70,42 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
               </span>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                  <span>Артикул:</span>
-                  <span>{product?.sku}</span>
+                  <span>{ product?.price?.discount?.price ? product?.price?.discount?.price : product?.price ? product?.price : 'Цена со скидкой не указана'}</span>
                 </p>
-                <p className='text-xs text-colDarkGray flex items-center space-x-2'>
+                 { product?.price?.discount?.price && <p className='text-xs text-colDarkGray flex items-center space-x-2'>
+                  <span>{ product?.price?.discount?.price }</span>
+                  
+                </p>}
+              </div>
+              <div className='flex pt-2'>
+              <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>Цвет:</span>
                   <span className='w-3 h-3 min-w-[12px] bg-black rounded-full'></span>
                   <span>Чёрный</span>
                 </p>
-              </div>
-              <div className='flex pt-2'>
-                <button className='flex items-center outline-none'>
+                {/* <button className='flex items-center outline-none'>
                   <span className='text-sm font-semibold text-colBlack'>
                     С этим товаром покупают
                   </span>
                   <ExpandMore />
-                </button>
-                <div className='flex space-x-2 pl-5'>
-                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
-                  <DeleteIcon className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
-                </div>
+                </button> */}
+                
+              </div>
+              <div className='flex pt-2'>
+              <p className='text-xs text-colDarkGray flex items-center space-x-2'>
+                  <span>Можно забрать</span>
+                  <span className='text-colGreen'>сегодня</span>
+                </p>
+                
               </div>
             </div>
           </div>
-          <div className='w-2/5 '>
           <div className='flex items-center justify-between space-x-3 pt-[27px]'>
-            <div>
+          <div className='flex space-x-2 pl-5'>
+                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
+                  <DeleteIcon className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
+                </div>
+            {/* <div>
               <div className='text-colBlack'>
                 {product?.price
                   ? `${
@@ -110,6 +120,10 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                   <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
                 )}
               </p>
+            </div> */}
+            <div className='flex items-center text-colBlack font-bold'>
+              <span>{product?.price ? product?.price * product?.quantity : 'Цена не указана'}</span>
+              <span className='pl-1'>₽</span>
             </div>
             <div className='flex items-center space-x-3'>
               <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
@@ -122,11 +136,7 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 <AddOutlined className='text-colGreen cursor-pointer' />
               </span>
             </div>
-            <div className='flex items-center text-colBlack font-bold'>
-              <span>{product?.price ? product?.price : 'Цена не указана'}</span>
-              <span className='pl-1'>₽</span>
-            </div>
-          </div>
+            
           </div>
           
         </div>

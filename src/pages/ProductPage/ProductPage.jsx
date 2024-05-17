@@ -23,6 +23,7 @@ import ReviewsTab from '../../components/ProductPage/ProductTabs/ReviewsTab';
 import InfoTab from '../../components/ProductPage/ProductTabs/InfoTab';
 import MobileProductInfo from '../../components/ProductPage/Mobile/MobileProductInfo/MobileProductInfo';
 import MobileTopBar from '../../components/ProductPage/Mobile/MobileTopBar';
+import { useIntersection } from 'react-use';
 
 
 function ProductPage() {
@@ -32,6 +33,15 @@ function ProductPage() {
   const [currentProduct, setCurrentProduct] = useState({})
 
   const [tabIndex, setTabIndex] = useState(3);
+
+
+  const addCard = useRef(null);
+  const addCardVisible = useIntersection(addCard, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1
+  });
+
 
   const params = useParams()
   const loader = useLoaderData()
@@ -286,7 +296,7 @@ function ProductPage() {
             </div>
           </div>
 
-          <div className='lg:basis-[calc(25%-40px/3)] basis-full'>
+          <div ref={addCard} className='lg:basis-[calc(25%-40px/3)] basis-full'>
             <RightBar product={currentProduct} />
           </div>
 
@@ -304,7 +314,7 @@ function ProductPage() {
 
 
       </div>
-      <MobileAddToCartBar product={currentProduct} />
+      { (addCardVisible && addCardVisible.intersectionRatio < 1) &&  <MobileAddToCartBar product={currentProduct} />}
 
     </>
   )
