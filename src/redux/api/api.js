@@ -22,7 +22,6 @@ export const api = createApi({
     }),
     getCategoryTree: builder.query({
       query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,
-      keepUnusedDataFor: 5,
       staleTime: 60000,
     }),
     getProductsByCategory: builder.query({

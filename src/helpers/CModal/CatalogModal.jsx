@@ -50,9 +50,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
 
   return (
     <div
-      className={`${
-        showCatalog ? 'visible opacity-100' : 'invisible opacity-0'
-      } fixed left-0 w-full h-full z-[999] hidden md:block ${
+      className={`fixed left-0 w-full h-full z-[999] hidden md:block ${
         scrollPosition > 32 ? 'top-[65px]' : 'top-[100px]'
       } bg-white duration-300`}
     >

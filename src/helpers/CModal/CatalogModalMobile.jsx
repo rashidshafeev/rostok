@@ -51,9 +51,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
 
   return (
     <div
-      className={`${
-        showCatalog ? 'visible opacity-100' : 'invisible opacity-0'
-      } fixed left-0 w-full h-full z-[999] md:hidden ${
+      className={`fixed left-0 w-full h-full z-[999] md:hidden ${
         scrollPosition > 32 ? 'top-[64px]' : 'top-[105px]'
       } bg-white duration-300`}
     >
@@ -163,18 +161,20 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
                       >
                         {el?.name}
                       </NavLink>
-                      <button
-                        onClick={() =>
-                          setIsOpen(isOpen === el?.id ? null : el?.id)
-                        }
-                        className={`${
-                          isOpen === el?.id
-                            ? 'rotate-[180deg]'
-                            : 'rotate-[0deg]'
-                        } w-6 h-6 flex justify-center items-center duration-200`}
-                      >
-                        <img src={arrowBack} alt='*' />
-                      </button>
+                      {el?.children?.length > 0 && (
+                        <button
+                          onClick={() =>
+                            setIsOpen(isOpen === el?.id ? null : el?.id)
+                          }
+                          className={`${
+                            isOpen === el?.id
+                              ? 'rotate-[180deg]'
+                              : 'rotate-[0deg]'
+                          } w-6 h-6 flex justify-center items-center duration-200`}
+                        >
+                          <img src={arrowBack} alt='*' />
+                        </button>
+                      )}
                     </div>
                     {el?.children?.length > 0 && isOpen === el?.id && (
                       <div className='pt-1 pl-3'>

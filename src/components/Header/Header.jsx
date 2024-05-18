@@ -6,6 +6,8 @@ import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';
 import HeaderControls from './HeaderControls';
 import logo from '../../assets/images/logo.svg';
+import CatalogModal from '../../helpers/CModal/CatalogModal';
+import CatalogModalMobile from '../../helpers/CModal/CatalogModalMobile';
 
 const Header = ({ showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
@@ -69,6 +71,20 @@ const Header = ({ showCatalog, setShowCatalog }) => {
         content={content}
         setContent={setContent}
       />
+      <div
+        className={`${
+          showCatalog ? 'visible opacity-100' : 'invisible opacity-0'
+        }`}
+      >
+        <CatalogModal
+          showCatalog={showCatalog}
+          setShowCatalog={setShowCatalog}
+        />
+        <CatalogModalMobile
+          showCatalog={showCatalog}
+          setShowCatalog={setShowCatalog}
+        />
+      </div>
     </>
   );
 };
