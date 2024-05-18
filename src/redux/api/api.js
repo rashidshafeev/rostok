@@ -18,10 +18,12 @@ export const api = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (id) => `api/Products/item?id=${id}`,
+      staleTime: 60000,
     }),
     getCategoryTree: builder.query({
       query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,
       keepUnusedDataFor: 5,
+      staleTime: 60000,
     }),
     getProductsByCategory: builder.query({
       query: (params) => {
@@ -32,9 +34,11 @@ export const api = createApi({
     }),
     getFiltersOfProducts: builder.query({
       query: (id) => `api/Products/filters/?category_id=${id || ''}`,
+      staleTime: 60000,
     }),
     getCitiesAndRegions: builder.query({
       query: () => '/api/Location/full',
+      staleTime: 60000,
     }),
     sendOrder: builder.mutation({
       query: (order) => ({

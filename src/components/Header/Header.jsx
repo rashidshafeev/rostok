@@ -59,7 +59,7 @@ const Header = ({ showCatalog, setShowCatalog }) => {
           )}
           <span className='hidden mm:block ml-2'>Каталог</span>
         </button>
-        <SearchBar />
+        <SearchBar setShowCatalog={setShowCatalog} />
         <HeaderControls setOpen={setOpen} setContent={setContent} />
       </div>
       <CatalogFastAccess />
