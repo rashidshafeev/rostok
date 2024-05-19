@@ -61,11 +61,13 @@ export const api = createApi({
       invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
     }),
     removeFromFavorites: builder.mutation({
-      query: (productId) => ({
-        url: `/api/ProductsFavourites/delete`,
-        method: 'POST',
-        body: { id: productId },
-      }),
+      query: (productId) => {
+        return {
+          url: `/api/ProductsFavourites/delete`,
+          method: 'POST',
+          body: { id: productId },
+        };
+      },
       invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
     }),
     setCart: builder.mutation({

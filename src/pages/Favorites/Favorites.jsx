@@ -11,8 +11,6 @@ const Favorites = () => {
   const { user } = useSelector((state) => state?.user);
   const { data } = useGetFavoritesQuery();
 
-  console.log(data);
-
   useEffect(() => {
     scrollToTop();
   }, []);
