@@ -4,9 +4,12 @@ import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { FavDetail, FavSidebar } from '../../components';
 import chair from '../../assets/temp-images/chair.png';
+import { useGetFavoritesQuery } from '../../redux/api/api';
 
 const Favorites = () => {
   const favorite = useSelector((state) => state?.favorite?.favorite);
+  const { data } = useGetFavoritesQuery();
+  const user = useSelector((state) => state?.user?.user);
 
   useEffect(() => {
     scrollToTop();
@@ -17,7 +20,7 @@ const Favorites = () => {
       <h1 className='font-semibold text-2xl md:text-3xl lg:text-[40px] text-colBlack pt-3'>
         Избранное
       </h1>
-      <div className='md:pl-[240px]'>
+      <div className={`${user && 'md:pl-[240px]'}`}>
         <div className='flex items-center space-x-2 mm:space-x-3 overflow-x-scroll hide-scrollable pt-3 md:pt-6 w-full'>
           <button className='min-h-10 mm:min-h-[44px] outline-none border border-colSuperLight rounded-lg p-[5px] bg-white flex justify-between items-center'>
             <svg
@@ -66,9 +69,9 @@ const Favorites = () => {
         </div>
       </div>
       {favorite.length ? (
-        <div className='md:flex'>
-          <FavSidebar />
-          <FavDetail favorite={favorite} />
+        <div className={`${user && 'md:flex'}`}>
+          {user && <FavSidebar />}
+          <FavDetail favorite={user ? data?.data : favorite} user={user} />
         </div>
       ) : (
         <ErrorEmpty

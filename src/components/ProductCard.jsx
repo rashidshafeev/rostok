@@ -1,22 +1,34 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import noImg from '../assets/images/no-image.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
 import { toggleFavorite } from '../redux/slices/favoriteSlice';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
 import { toggleComparison } from '../redux/slices/comparisonSlice';
+import { useSetToFavoritesMutation } from '../redux/api/api';
+import noImg from '../assets/images/no-image.png';
 
-const ProductCard = ({ product, recommended }) => {
-  const cart = useSelector((state) => state?.cart);
-  const favorite = useSelector((state) => state?.favorite);
-  const comparison = useSelector((state) => state?.comparison);
+const ProductCard = ({ product, recommended, favorite }) => {
+  const [setToFavorites] = useSetToFavoritesMutation();
+
+  const { cart } = useSelector((state) => state?.cart);
+  const { comparison } = useSelector((state) => state?.comparison);
+  const { user } = useSelector((state) => state?.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleToggleFavorite = (event) => {
+  const handleToggleFavorite = async (event) => {
     event.preventDefault();
-    dispatch(toggleFavorite(product));
+    if (!user) {
+      dispatch(toggleFavorite(product));
+    } else {
+      try {
+        const { data } = await setToFavorites(product?.id);
+        console.log('Product added to favorites:', data);
+      } catch (error) {
+        console.error('Failed to add product to favorites:', error);
+      }
+    }
   };
 
   const handleToggleComparison = (event) => {
@@ -24,11 +36,9 @@ const ProductCard = ({ product, recommended }) => {
     dispatch(toggleComparison(product));
   };
 
-  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
-  const isProductInFavorite = favorite?.favorite?.some(
-    (el) => el?.id === product?.id
-  );
-  const isProductInComparison = comparison?.comparison?.some(
+  const isProductInCart = cart?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = favorite?.some((el) => el?.id === product?.id);
+  const isProductInComparison = comparison?.some(
     (el) => el?.id === product?.id
   );
 

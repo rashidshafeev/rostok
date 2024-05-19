@@ -46,6 +46,17 @@ export const api = createApi({
         body: order,
       }),
     }),
+    getFavorites: builder.query({
+      query: () => '/api/ProductsFavourites/get',
+      staleTime: 60000,
+    }),
+    setToFavorites: builder.mutation({
+      query: (productId) => ({
+        url: '/api/ProductsFavourites/set',
+        method: 'POST',
+        body: { id: productId },
+      }),
+    }),
     setCart: builder.mutation({
       query: (cart) => ({
         url: '/api/Products/setCart',
@@ -64,5 +75,7 @@ export const {
   useGetFiltersOfProductsQuery,
   useGetCitiesAndRegionsQuery,
   useSendOrderMutation,
+  useGetFavoritesQuery,
+  useSetToFavoritesMutation,
   useSetCartMutation,
 } = api;
