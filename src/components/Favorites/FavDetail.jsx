@@ -5,10 +5,7 @@ import filterIcon from '../../assets/icons/filter.svg';
 const FavDetail = ({ favorite, user }) => {
   return (
     <div className={`${user && 'md:pl-5'} pb-10 min-h-[560px]`}>
-      <button
-        // onClick={() => setOpen(true)}
-        className='flex md:hidden items-center ml-auto outline-none bg-transparent mt-4 md:mt-0'
-      >
+      <button className='flex md:hidden items-center ml-auto outline-none bg-transparent mt-4 md:mt-0'>
         <img src={filterIcon} alt='*' />
         <span className='text-colBlack text-xs font-medium pt-[2px]'>
           Фильтры
@@ -21,7 +18,7 @@ const FavDetail = ({ favorite, user }) => {
       >
         {favorite?.map((el) => (
           <Fragment key={el?.id}>
-            <ProductCard product={el} favorite={favorite} />
+            <ProductCard product={el} />
           </Fragment>
         ))}
       </div>

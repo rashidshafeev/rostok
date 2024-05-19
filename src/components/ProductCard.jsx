@@ -7,15 +7,26 @@ import { toggleComparison } from '../redux/slices/comparisonSlice';
 import { useSetToFavoritesMutation } from '../redux/api/api';
 import noImg from '../assets/images/no-image.png';
 
-const ProductCard = ({ product, recommended, favorite }) => {
+const ProductCard = ({ product, recommended }) => {
   const [setToFavorites] = useSetToFavoritesMutation();
 
   const { cart } = useSelector((state) => state?.cart);
   const { comparison } = useSelector((state) => state?.comparison);
   const { user } = useSelector((state) => state?.user);
+  const { favorite } = useSelector((state) => state?.favorite);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const data = [];
+
+  const isProductInCart = cart?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = user
+    ? data?.data?.some((el) => el?.id === product?.id)
+    : favorite?.some((el) => el?.id === product?.id);
+  const isProductInComparison = comparison?.some(
+    (el) => el?.id === product?.id
+  );
 
   const handleToggleFavorite = async (event) => {
     event.preventDefault();
@@ -23,8 +34,12 @@ const ProductCard = ({ product, recommended, favorite }) => {
       dispatch(toggleFavorite(product));
     } else {
       try {
-        const { data } = await setToFavorites(product?.id);
-        console.log('Product added to favorites:', data);
+        if (isProductInFavorite) {
+          alert('Hi');
+        } else {
+          const { data } = await setToFavorites(product?.id);
+          console.log('Product added to favorites:', data);
+        }
       } catch (error) {
         console.error('Failed to add product to favorites:', error);
       }
@@ -35,12 +50,6 @@ const ProductCard = ({ product, recommended, favorite }) => {
     event.preventDefault();
     dispatch(toggleComparison(product));
   };
-
-  const isProductInCart = cart?.some((el) => el?.id === product?.id);
-  const isProductInFavorite = favorite?.some((el) => el?.id === product?.id);
-  const isProductInComparison = comparison?.some(
-    (el) => el?.id === product?.id
-  );
 
   return (
     <NavLink

@@ -6,11 +6,9 @@ export const api = createApi({
     baseUrl: 'https://bot-adash.host2bot.ru/',
     prepareHeaders: (headers, { getState }) => {
       const token = getState().user.token;
-
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }
-
       return headers;
     },
     credentials: 'include',
@@ -48,7 +46,7 @@ export const api = createApi({
     }),
     getFavorites: builder.query({
       query: () => '/api/ProductsFavourites/get',
-      staleTime: 60000,
+      staleTime: 20000,
     }),
     setToFavorites: builder.mutation({
       query: (productId) => ({
