@@ -1,13 +1,15 @@
+import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
+import { useGetFavoritesQuery } from '../../redux/api/api';
 import order from '../../assets/icons/order.svg';
 import cart from '../../assets/icons/cart.svg';
 import favoriteIcon from '../../assets/icons/favorite.svg';
 import comparisonIcon from '../../assets/icons/comparison.svg';
 import profile from '../../assets/icons/profile.svg';
 
-import { useSelector } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-
 function HeaderControls({ setContent, setOpen }) {
+  const { data: favorites } = useGetFavoritesQuery();
+
   const { user } = useSelector((state) => state?.user);
   const itemsQuantity = useSelector((state) => state?.cart?.itemsQuantity);
   const favorite = useSelector((state) => state?.favorite?.favorite);
@@ -57,11 +59,19 @@ function HeaderControls({ setContent, setOpen }) {
         <span className='text-xs pt-1 font-medium text-colBlack'>
           Избранное
         </span>
-        {favorite.length > 0 && (
-          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-            {!favorite.length > 99 ? '99+' : favorite.length}
-          </span>
-        )}
+        {user
+          ? favorites?.data?.length > 0 && (
+              <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+                {!favorites?.data?.length > 99
+                  ? '99+'
+                  : favorites?.data?.length}
+              </span>
+            )
+          : favorite.length > 0 && (
+              <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+                {!favorite.length > 99 ? '99+' : favorite.length}
+              </span>
+            )}
       </NavLink>
       <NavLink
         to='/shopping-cart'

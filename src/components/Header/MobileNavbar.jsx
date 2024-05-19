@@ -1,3 +1,8 @@
+import { NavLink, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import AuthModal from '../../helpers/CModal/AuthModal';
+import { useState } from 'react';
+import { useGetFavoritesQuery } from '../../redux/api/api';
 import homeIcon from '../../assets/icons/mobile-navbar/home.svg';
 import catalogIcon from '../../assets/icons/mobile-navbar/catalog.svg';
 import favoriteIcon from '../../assets/icons/mobile-navbar/favorite.svg';
@@ -8,12 +13,10 @@ import activeCatalogIcon from '../../assets/icons/mobile-navbar/active-catalog.s
 import activeFavoriteIcon from '../../assets/icons/mobile-navbar/active-favorite.svg';
 import activeProfileIcon from '../../assets/icons/mobile-navbar/active-profile.svg';
 import activeCartIcon from '../../assets/icons/mobile-navbar/active-cart.svg';
-import { NavLink, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import AuthModal from '../../helpers/CModal/AuthModal';
-import { useState } from 'react';
 
 const MobileNavbar = () => {
+  const { data: favorites } = useGetFavoritesQuery();
+
   const { user } = useSelector((state) => state?.user);
   const itemsQuantity = useSelector((state) => state?.cart?.itemsQuantity);
   const favorite = useSelector((state) => state?.favorite?.favorite);
@@ -53,11 +56,19 @@ const MobileNavbar = () => {
             alt='*'
           />
           <p className='pt-[2px] text-[10px] sm:text-xs'>Избранное</p>
-          {favorite.length > 0 && (
-            <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-              {!favorite.length > 99 ? '99+' : favorite.length}
-            </span>
-          )}
+          {user
+            ? favorites?.data?.length > 0 && (
+                <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+                  {!favorites?.data?.length > 99
+                    ? '99+'
+                    : favorites?.data?.length}
+                </span>
+              )
+            : favorite.length > 0 && (
+                <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+                  {!favorite.length > 99 ? '99+' : favorite.length}
+                </span>
+              )}
         </NavLink>
         {user ? (
           <NavLink

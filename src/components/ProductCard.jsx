@@ -12,8 +12,10 @@ import {
 import noImg from '../assets/images/no-image.png';
 
 const ProductCard = ({ product, recommended }) => {
-  const [setToFavorites] = useSetToFavoritesMutation();
-  const [removeFromFavorite] = useRemoveFromFavoritesMutation();
+  const [setToFavorites, { isLoading: setLoading }] =
+    useSetToFavoritesMutation();
+  const [removeFromFavorite, { isLoading: removeLoading }] =
+    useRemoveFromFavoritesMutation();
   const { data } = useGetFavoritesQuery();
 
   const { cart } = useSelector((state) => state?.cart);
@@ -32,8 +34,8 @@ const ProductCard = ({ product, recommended }) => {
     (el) => el?.id === product?.id
   );
 
-  const handleToggleFavorite = async (event) => {
-    event.preventDefault();
+  const handleToggleFavorite = async (e) => {
+    e.preventDefault();
     if (!user) {
       dispatch(toggleFavorite(product));
     } else {
@@ -49,15 +51,17 @@ const ProductCard = ({ product, recommended }) => {
     }
   };
 
-  const handleToggleComparison = (event) => {
-    event.preventDefault();
+  const handleToggleComparison = (e) => {
+    e.preventDefault();
     dispatch(toggleComparison(product));
   };
 
   return (
     <NavLink
       to={`/catalog/${product?.category?.slug}/${product?.slug}`}
-      className='overflow-hidden group'
+      className={`${
+        (setLoading || removeLoading) && 'opacity-50 cursor-not-allowed'
+      } overflow-hidden group duration-500`}
     >
       <div>
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>

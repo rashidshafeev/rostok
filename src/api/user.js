@@ -24,7 +24,6 @@ export const postAuthWithEmail = async (dispatch, data) => {
   };
   try {
     const res = await request.post('/api/User/auth', sendData);
-    // localStorage.setItem('rosstokToken', res?.data?.token);
     dispatch(setToken(res?.data?.token));
     dispatch(loginSuccess(res?.data));
     return { success: res?.data?.success, resData: res?.data };
@@ -93,5 +92,19 @@ export const logOutFetch = async (phone) => {
     return { success: res?.data?.success };
   } catch (error) {
     return { success: false };
+  }
+};
+
+export const updateProfile = async (sendData, token) => {
+  try {
+    const res = await request.post('/api/Profile/saveInfo', sendData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    alert('Ошибка! Данная функция в процессе разработки.');
+    return res.data;
+  } catch (err) {
+    console.error(err);
   }
 };

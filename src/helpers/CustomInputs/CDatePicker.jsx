@@ -1,6 +1,7 @@
+/* eslint-disable react/display-name */
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const StyledDatePicker = styled(DatePicker)(() => ({
@@ -29,16 +30,20 @@ const StyledDatePicker = styled(DatePicker)(() => ({
   },
 }));
 
-const CDatePicker = ({ ...props }) => {
+const CDatePicker = forwardRef(({ value, onChange, label }, ref) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <StyledDatePicker
-        {...props}
+        ref={ref}
+        label={label}
+        value={value}
+        onChange={(date) => {
+          onChange(date);
+        }}
         slotProps={{ textField: { size: 'small', fullWidth: true } }}
-        onChange={(value) => console.log(dayjs(value).format('DD-MM-YYYY'))}
       />
     </LocalizationProvider>
   );
-};
+});
 
 export default CDatePicker;
