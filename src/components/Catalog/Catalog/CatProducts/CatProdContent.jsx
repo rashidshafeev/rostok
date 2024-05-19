@@ -5,9 +5,9 @@ import ErrorEmpty from '../../../../helpers/Errors/ErrorEmpty';
 import ProductCard from '../../../ProductCard';
 import CardLine from '../../TypesOfCards/CardLine';
 import LineNarrow from '../../TypesOfCards/LineNarrow';
+import { CustomPagination } from '../../../../helpers/Pagination/CustomPagination';
 import filterIcon from '../../../../assets/icons/filter.svg';
 import arrow from '../../../../assets/icons/arrow-black.svg';
-import { CustomPagination } from '../../../../helpers/Pagination/CustomPagination';
 
 const CatProdContent = ({
   catProducts,
