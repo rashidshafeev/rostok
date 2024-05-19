@@ -13,6 +13,7 @@ export const api = createApi({
     },
     credentials: 'include',
   }),
+  tagTypes: ['Favorite'],
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: (id) => `api/Products/item?id=${id}`,
@@ -46,7 +47,10 @@ export const api = createApi({
     }),
     getFavorites: builder.query({
       query: () => '/api/ProductsFavourites/get',
-      staleTime: 20000,
+      providesTags: (result) =>
+        result
+          ? [{ type: 'Favorite', id: 'LIST' }]
+          : [{ type: 'Favorite', id: 'LIST' }],
     }),
     setToFavorites: builder.mutation({
       query: (productId) => ({
@@ -54,6 +58,15 @@ export const api = createApi({
         method: 'POST',
         body: { id: productId },
       }),
+      invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
+    }),
+    removeFromFavorites: builder.mutation({
+      query: (productId) => ({
+        url: `/api/ProductsFavourites/delete`,
+        method: 'POST',
+        body: { id: productId },
+      }),
+      invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
     }),
     setCart: builder.mutation({
       query: (cart) => ({
@@ -75,5 +88,6 @@ export const {
   useSendOrderMutation,
   useGetFavoritesQuery,
   useSetToFavoritesMutation,
+  useRemoveFromFavoritesMutation,
   useSetCartMutation,
 } = api;

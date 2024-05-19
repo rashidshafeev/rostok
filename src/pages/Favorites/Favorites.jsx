@@ -3,13 +3,15 @@ import { useSelector } from 'react-redux';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { FavDetail, FavSidebar } from '../../components';
-import chair from '../../assets/temp-images/chair.png';
 import { useGetFavoritesQuery } from '../../redux/api/api';
+import chair from '../../assets/temp-images/chair.png';
 
 const Favorites = () => {
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const { user } = useSelector((state) => state?.user);
   const { data } = useGetFavoritesQuery();
+
+  console.log(data);
 
   useEffect(() => {
     scrollToTop();

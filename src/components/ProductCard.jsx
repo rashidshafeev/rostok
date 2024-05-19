@@ -4,11 +4,17 @@ import { addToCart } from '../redux/slices/cartSlice';
 import { toggleFavorite } from '../redux/slices/favoriteSlice';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
 import { toggleComparison } from '../redux/slices/comparisonSlice';
-import { useSetToFavoritesMutation } from '../redux/api/api';
+import {
+  useGetFavoritesQuery,
+  useRemoveFromFavoritesMutation,
+  useSetToFavoritesMutation,
+} from '../redux/api/api';
 import noImg from '../assets/images/no-image.png';
 
 const ProductCard = ({ product, recommended }) => {
   const [setToFavorites] = useSetToFavoritesMutation();
+  const [removeFromFavorite] = useRemoveFromFavoritesMutation();
+  const { data } = useGetFavoritesQuery();
 
   const { cart } = useSelector((state) => state?.cart);
   const { comparison } = useSelector((state) => state?.comparison);
@@ -17,8 +23,6 @@ const ProductCard = ({ product, recommended }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const data = [];
 
   const isProductInCart = cart?.some((el) => el?.id === product?.id);
   const isProductInFavorite = user
@@ -35,10 +39,9 @@ const ProductCard = ({ product, recommended }) => {
     } else {
       try {
         if (isProductInFavorite) {
-          alert('Hi');
+          await removeFromFavorite(product?.id);
         } else {
-          const { data } = await setToFavorites(product?.id);
-          console.log('Product added to favorites:', data);
+          await setToFavorites(product?.id);
         }
       } catch (error) {
         console.error('Failed to add product to favorites:', error);
