@@ -54,7 +54,7 @@ const MyOrders = () => {
 
   return (
     <div className='w-full lining-nums proportional-nums'>
-      <NavLink className='flex items-center space-x-1 mb-2' to='/profile'>
+      <NavLink className='flex mm:hidden items-center space-x-1 mb-2' to='/profile'>
         <img src={arrowIcon} alt='*' />
         <span className='text-sm font-semibold'>Вернуться к профилю</span>
       </NavLink>

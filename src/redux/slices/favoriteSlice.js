@@ -11,20 +11,20 @@ export const favoriteSlice = createSlice({
   initialState,
   reducers: {
     toggleFavorite: (state, action) => {
-
-      const product = state.favorite.find((item) => item.id === action.payload.id)
+      const product = state.favorite.find(
+        (item) => item.id === action.payload.id
+      );
 
       if (product) {
-        state.favorite = state.favorite.filter((product) => product.id !== action.payload.id);
+        state.favorite = state.favorite.filter(
+          (product) => product.id !== action.payload.id
+        );
       } else {
-        state.favorite.push({ ...action.payload})
+        state.favorite.push({ ...action.payload });
       }
-
-    }
+    },
   },
 });
 
-export const {
- toggleFavorite
-} = favoriteSlice.actions;
+export const { toggleFavorite } = favoriteSlice.actions;
 export default favoriteSlice.reducer;

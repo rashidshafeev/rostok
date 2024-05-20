@@ -22,7 +22,7 @@ import {
 } from '../../api/user';
 import modalLogo from '../../assets/images/modal-logo.svg';
 import { Loading, LoadingSmall } from '../Loader/Loader';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import ModalSnackbar from './ModalSnackbar';
 
 const AuthModal = ({ open, setOpen, content, setContent }) => {
@@ -47,6 +47,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   });
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const password = watch('password');
   const phone = watch('phone');
 
@@ -101,6 +102,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
       setIsLoading(false);
       setOpen(false);
       setResError(null);
+      navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
       reset();
     } else {
       setResError(resData?.err);
@@ -116,6 +118,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
       setIsCode({ verification: null, sendCode: null });
       setResError(null);
       setOpen(false);
+      navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
       reset();
     } else {
       setResError(resData?.err);
@@ -134,7 +137,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
         aria-describedby='modal-modal-description'
       >
         {content === 'checkAuth' ? (
-          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
+          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none pt-10 pb-4 px-4 mm:py-10 mm:px-8 max-w-[500px] w-[95%] mm:w-full'>
             {isLoading ? (
               <Loading extraStyle='237px' />
             ) : (
@@ -150,7 +153,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                   src={modalLogo}
                   alt='*'
                 />
-                <h1 className='text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
+                <h1 className='text-2xl mm:text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
                   Вход или Регистрация
                 </h1>
                 <form onSubmit={handleSubmit(onSubmitAuthCheck)}>
@@ -179,7 +182,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
             )}
           </Box>
         ) : content === 'authWithEmail' ? (
-          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none py-10 px-8 max-w-[500px] w-full'>
+          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none pt-10 pb-4 px-4 mm:py-10 mm:px-8 max-w-[500px] w-[95%] mm:w-full'>
             {isLoading ? (
               <Loading extraStyle='296px' />
             ) : (
@@ -265,313 +268,313 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
               </>
             )}
           </Box>
-        ) : content === 'register' ? (
-          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-8 pt-10 pb-5 max-w-[500px] w-full'>
-            {isLoading ? (
-              <Loading extraStyle='528px' />
-            ) : (
-              <>
-                <span
-                  onClick={() => {
-                    setContent('checkAuth');
-                    setResError(null);
-                    reset();
-                  }}
-                  className='absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4'
-                >
-                  <KeyboardArrowLeft className='!w-4 pb-[2px]' />
-                  Назад
-                </span>
-                <span
-                  onClick={() => setOpen(false)}
-                  className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
-                >
-                  &times;
-                </span>
-                <h1 className='text-3xl text-colBlack text-center py-5 font-semibold'>
-                  Регистрация
-                </h1>
-                <form onSubmit={handleSubmit(onSubmitRegister)}>
-                  <div className='w-full space-y-5'>
-                    <div>
-                      <Controller
-                        name='name'
-                        control={control}
-                        defaultValue=''
-                        rules={{
-                          required: 'Поле обязательно к заполнению!',
-                        }}
-                        render={({ field }) => (
-                          <CTextField label='Имя' type='text' {...field} />
-                        )}
-                      />
-                      {errors?.name && (
-                        <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.name?.message || 'Error!'}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <div
-                        className={`flex items-center ${
-                          isCode?.verification?.success ? '' : 'space-x-2'
-                        }`}
-                      >
+        ) : (
+          content === 'register' && (
+            <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-4 mm:px-8 pt-10 pb-4 mm:pb-5 max-w-[500px] w-[95%] mm:w-full overflow-y-scroll scrollable h-[95%] xs:h-auto'>
+              {isLoading ? (
+                <Loading extraStyle='528px' />
+              ) : (
+                <>
+                  <span
+                    onClick={() => {
+                      setContent('checkAuth');
+                      setResError(null);
+                      reset();
+                    }}
+                    className='absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4'
+                  >
+                    <KeyboardArrowLeft className='!w-4 pb-[2px]' />
+                    Назад
+                  </span>
+                  <span
+                    onClick={() => setOpen(false)}
+                    className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+                  >
+                    &times;
+                  </span>
+                  <h1 className='text-3xl text-colBlack text-center py-5 font-semibold'>
+                    Регистрация
+                  </h1>
+                  <form onSubmit={handleSubmit(onSubmitRegister)}>
+                    <div className='w-full space-y-5'>
+                      <div>
                         <Controller
-                          name='phone'
+                          name='name'
+                          control={control}
+                          defaultValue=''
+                          rules={{
+                            required: 'Поле обязательно к заполнению!',
+                          }}
+                          render={({ field }) => (
+                            <CTextField label='Имя' type='text' {...field} />
+                          )}
+                        />
+                        {errors?.name && (
+                          <p className='text-red-500 mt-1 text-xs font-medium'>
+                            {errors?.name?.message || 'Error!'}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <div
+                          className={`flex items-center ${
+                            isCode?.verification?.success ? '' : 'space-x-2'
+                          }`}
+                        >
+                          <Controller
+                            name='phone'
+                            control={control}
+                            defaultValue=''
+                            rules={{
+                              required: 'Поле обязательно к заполнению!',
+                              pattern: {
+                                value:
+                                  /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
+                                message: 'Введите корректный номер телефона',
+                              },
+                            }}
+                            render={({ field }) => (
+                              <CPhoneField label='Телефон' {...field} />
+                            )}
+                          />
+                          {isCode?.sendCode?.success === 'ok' ? (
+                            <div className='relative'>
+                              <input
+                                type='text'
+                                placeholder='Код из смс'
+                                onChange={handleConfirmVerificationCode}
+                                maxLength={4}
+                                className={`${
+                                  isCode?.verification?.success ? 'hidden' : ''
+                                } min-w-[140px] h-10 px-4 rounded border outline-none border-colBlack lining-nums proportional-nums font-medium text-sm`}
+                              />
+                              {miniLoading ? (
+                                <div className='absolute top-1/2 right-2 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
+                                  <LoadingSmall extraStyle='#15765B' />
+                                </div>
+                              ) : isCode?.verification === null ? (
+                                ''
+                              ) : isCode?.verification?.success ? (
+                                <div className='absolute top-1/2 right-3 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
+                                  <CheckCircleRounded className='text-colGreen' />
+                                </div>
+                              ) : (
+                                <div className='absolute top-1/2 right-2 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
+                                  <CancelRounded className='text-red-500' />
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <span
+                              onClick={handleSendVerificationCode}
+                              className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center ${
+                                !errors.phone
+                                  ? 'cursor-pointer bg-colGreen'
+                                  : 'pointer-events-none bg-colGray'
+                              }`}
+                            >
+                              {miniLoading ? (
+                                <LoadingSmall extraStyle='#fff' />
+                              ) : (
+                                'Получить код'
+                              )}
+                            </span>
+                          )}
+                        </div>
+                        {errors?.phone && (
+                          <p className='text-red-500 mt-1 text-xs font-medium'>
+                            {errors?.phone?.message || 'Error!'}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <Controller
+                          name='email'
                           control={control}
                           defaultValue=''
                           rules={{
                             required: 'Поле обязательно к заполнению!',
                             pattern: {
-                              value:
-                                /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
-                              message: 'Введите корректный номер телефона',
-                            },
-                          }}
-                          render={({ field }) => (
-                            <CPhoneField label='Телефон' {...field} />
-                          )}
-                        />
-                        {isCode?.sendCode?.success === 'ok' ? (
-                          <div className='relative'>
-                            <input
-                              type='text'
-                              placeholder='Код из смс'
-                              onChange={handleConfirmVerificationCode}
-                              maxLength={4}
-                              className={`${
-                                isCode?.verification?.success ? 'hidden' : ''
-                              } min-w-[140px] h-10 px-4 rounded border outline-none border-colBlack lining-nums proportional-nums font-medium text-sm`}
-                            />
-                            {miniLoading ? (
-                              <div className='absolute top-1/2 right-2 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-                                <LoadingSmall extraStyle='#15765B' />
-                              </div>
-                            ) : isCode?.verification === null ? (
-                              ''
-                            ) : isCode?.verification?.success ? (
-                              <div className='absolute top-1/2 right-3 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-                                <CheckCircleRounded className='text-colGreen' />
-                              </div>
-                            ) : (
-                              <div className='absolute top-1/2 right-2 -translate-y-1/2 w-7 h-7 flex justify-center items-center'>
-                                <CancelRounded className='text-red-500' />
-                              </div>
-                            )}
-                          </div>
-                        ) : (
-                          <span
-                            onClick={handleSendVerificationCode}
-                            className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center ${
-                              !errors.phone
-                                ? 'cursor-pointer bg-colGreen'
-                                : 'pointer-events-none bg-colGray'
-                            }`}
-                          >
-                            {miniLoading ? (
-                              <LoadingSmall extraStyle='#fff' />
-                            ) : (
-                              'Получить код'
-                            )}
-                          </span>
-                        )}
-                      </div>
-                      {errors?.phone && (
-                        <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.phone?.message || 'Error!'}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <Controller
-                        name='email'
-                        control={control}
-                        defaultValue=''
-                        rules={{
-                          required: 'Поле обязательно к заполнению!',
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message:
-                              'Введите корректный адрес электронной почты',
-                          },
-                        }}
-                        render={({ field }) => (
-                          <CTextField
-                            label='Электронная почта'
-                            type='email'
-                            {...field}
-                          />
-                        )}
-                      />
-                      {errors?.email && (
-                        <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.email.message || 'Error!'}
-                        </p>
-                      )}
-                    </div>
-                    <div>
-                      <div className='flex relative mt-5'>
-                        <Controller
-                          name='password'
-                          control={control}
-                          defaultValue=''
-                          rules={{
-                            validate: (value) => {
-                              if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
-                                return 'Требуется хотя бы одна строчная и прописная буква!';
-                              }
-                              if (!/(?=.*\d)/.test(value)) {
-                                return 'Требуется хотя бы одна цифра!';
-                              }
-                              if (!/(?=.*[@$!%*?&#])/.test(value)) {
-                                return 'Требуется хотя бы один специальный символ!';
-                              }
-                              if (value.length < 8) {
-                                return 'Минимальная длина пароля - 8 символов!';
-                              }
-                              return true;
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                              message:
+                                'Введите корректный адрес электронной почты',
                             },
                           }}
                           render={({ field }) => (
                             <CTextField
-                              label='Пароль'
-                              type={`${isShow ? 'text' : 'password'}`}
-                              icon='true'
+                              label='Электронная почта'
+                              type='email'
                               {...field}
                             />
                           )}
                         />
-                        {isShow ? (
-                          <VisibilityOff
-                            onClick={() => setIsShow(false)}
-                            className='absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
-                          />
-                        ) : (
-                          <Visibility
-                            onClick={() => setIsShow(true)}
-                            className='absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
-                          />
+                        {errors?.email && (
+                          <p className='text-red-500 mt-1 text-xs font-medium'>
+                            {errors?.email.message || 'Error!'}
+                          </p>
                         )}
                       </div>
-                      {errors?.password && (
-                        <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.password.message || 'Error!'}
-                        </p>
-                      )}
+                      <div>
+                        <div className='flex relative mt-5'>
+                          <Controller
+                            name='password'
+                            control={control}
+                            defaultValue=''
+                            rules={{
+                              validate: (value) => {
+                                if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
+                                  return 'Требуется хотя бы одна строчная и прописная буква!';
+                                }
+                                if (!/(?=.*\d)/.test(value)) {
+                                  return 'Требуется хотя бы одна цифра!';
+                                }
+                                if (!/(?=.*[@$!%*?&#])/.test(value)) {
+                                  return 'Требуется хотя бы один специальный символ!';
+                                }
+                                if (value.length < 8) {
+                                  return 'Минимальная длина пароля - 8 символов!';
+                                }
+                                return true;
+                              },
+                            }}
+                            render={({ field }) => (
+                              <CTextField
+                                label='Пароль'
+                                type={`${isShow ? 'text' : 'password'}`}
+                                icon='true'
+                                {...field}
+                              />
+                            )}
+                          />
+                          {isShow ? (
+                            <VisibilityOff
+                              onClick={() => setIsShow(false)}
+                              className='absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
+                            />
+                          ) : (
+                            <Visibility
+                              onClick={() => setIsShow(true)}
+                              className='absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
+                            />
+                          )}
+                        </div>
+                        {errors?.password && (
+                          <p className='text-red-500 mt-1 text-xs font-medium'>
+                            {errors?.password.message || 'Error!'}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <div className='flex relative mt-5'>
+                          <Controller
+                            name='confirmPassword'
+                            control={control}
+                            defaultValue=''
+                            rules={{
+                              validate: (value) => {
+                                if (value !== password) {
+                                  return 'Пароли не совпадают!';
+                                }
+                                return true;
+                              },
+                            }}
+                            render={({ field }) => (
+                              <CTextField
+                                label='Подтвердите пароль'
+                                type={`${isShowTwo ? 'text' : 'password'}`}
+                                icon='true'
+                                {...field}
+                              />
+                            )}
+                          />
+                          {isShowTwo ? (
+                            <VisibilityOff
+                              onClick={() => setIsShowTwo(false)}
+                              className='absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
+                            />
+                          ) : (
+                            <Visibility
+                              onClick={() => setIsShowTwo(true)}
+                              className='absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
+                            />
+                          )}
+                        </div>
+                        {errors?.confirmPassword && (
+                          <p className='text-red-500 mt-1 text-xs font-medium'>
+                            {errors?.confirmPassword.message || 'Error!'}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <div className='flex relative mt-5'>
-                        <Controller
-                          name='confirmPassword'
-                          control={control}
-                          defaultValue=''
-                          rules={{
-                            validate: (value) => {
-                              if (value !== password) {
-                                return 'Пароли не совпадают!';
-                              }
-                              return true;
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          {...register('legalRepresentative')}
+                          sx={{
+                            color: '#15765B',
+                            '&.Mui-checked': {
+                              color: '#15765B',
                             },
                           }}
-                          render={({ field }) => (
-                            <CTextField
-                              label='Подтвердите пароль'
-                              type={`${isShowTwo ? 'text' : 'password'}`}
-                              icon='true'
-                              {...field}
-                            />
-                          )}
                         />
-                        {isShowTwo ? (
-                          <VisibilityOff
-                            onClick={() => setIsShowTwo(false)}
-                            className='absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
-                          />
-                        ) : (
-                          <Visibility
-                            onClick={() => setIsShowTwo(true)}
-                            className='absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer'
-                          />
-                        )}
-                      </div>
-                      {errors?.confirmPassword && (
-                        <p className='text-red-500 mt-1 text-xs font-medium'>
-                          {errors?.confirmPassword.message || 'Error!'}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        {...register('legalRepresentative')}
-                        sx={{
-                          color: '#15765B',
-                          '&.Mui-checked': {
-                            color: '#15765B',
-                          },
-                        }}
-                      />
-                    }
-                    label={
-                      <span className='text-sm font-medium text-colBlack'>
-                        Я представитель юридического лица или ИП
-                      </span>
-                    }
-                  />
-                  {resError && (
-                    <p className='text-red-500 mt-1 text-sm font-medium'>
-                      {resError}
-                    </p>
-                  )}
-                  <button
-                    disabled={!isValid}
-                    className={`${
-                      isValid ? 'bg-colGreen' : 'bg-colGray'
-                    } w-full h-10 px-6 rounded my-2 text-white font-semibold`}
-                  >
-                    Зарегистрироваться
-                  </button>
-                  <FormControlLabel
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'flex-start',
-                    }}
-                    control={
-                      <Checkbox
-                        {...register('privacyPolicy')}
-                        defaultChecked
-                        required
-                        sx={{
-                          color: '#15765B',
-                          padding: '0 9px',
-                          '&.Mui-checked': {
-                            color: '#15765B',
-                          },
-                        }}
-                      />
-                    }
-                    label={
-                      <p className='text-xs leading-[14px] text-colDarkGray'>
-                        Я даю согласие на обработку моих персональных данных и
-                        принимаю условия{' '}
-                        <NavLink className='text-colGreen' to='#'>
-                          Пользовательского соглашения
-                        </NavLink>{' '}
-                        и{' '}
-                        <NavLink className='text-colGreen' to='#'>
-                          Политики обработки персональных данных
-                        </NavLink>
+                      }
+                      label={
+                        <span className='text-sm font-medium text-colBlack'>
+                          Я представитель юридического лица или ИП
+                        </span>
+                      }
+                    />
+                    {resError && (
+                      <p className='text-red-500 mt-1 text-sm font-medium'>
+                        {resError}
                       </p>
-                    }
-                  />
-                </form>
-              </>
-            )}
-          </Box>
-        ) : (
-          ''
+                    )}
+                    <button
+                      disabled={!isValid}
+                      className={`${
+                        isValid ? 'bg-colGreen' : 'bg-colGray'
+                      } w-full h-10 px-6 rounded my-2 text-white font-semibold`}
+                    >
+                      Зарегистрироваться
+                    </button>
+                    <FormControlLabel
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                      }}
+                      control={
+                        <Checkbox
+                          {...register('privacyPolicy')}
+                          defaultChecked
+                          required
+                          sx={{
+                            color: '#15765B',
+                            padding: '0 9px',
+                            '&.Mui-checked': {
+                              color: '#15765B',
+                            },
+                          }}
+                        />
+                      }
+                      label={
+                        <p className='text-xs leading-[14px] text-colDarkGray'>
+                          Я даю согласие на обработку моих персональных данных и
+                          принимаю условия{' '}
+                          <NavLink className='text-colGreen' to='#'>
+                            Пользовательского соглашения
+                          </NavLink>{' '}
+                          и{' '}
+                          <NavLink className='text-colGreen' to='#'>
+                            Политики обработки персональных данных
+                          </NavLink>
+                        </p>
+                      }
+                    />
+                  </form>
+                </>
+              )}
+            </Box>
+          )
         )}
       </Modal>
       <ModalSnackbar

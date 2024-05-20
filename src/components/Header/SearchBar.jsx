@@ -2,7 +2,7 @@ import { useState } from 'react';
 import search from '../../assets/icons/search.svg';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function SearchBar() {
+function SearchBar({ setShowCatalog }) {
   const [value, setValue] = useState('');
 
   const navigate = useNavigate();
@@ -13,6 +13,7 @@ function SearchBar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
+    setShowCatalog(false);
     navigate(`/search-results?search=${value}`);
   };
 

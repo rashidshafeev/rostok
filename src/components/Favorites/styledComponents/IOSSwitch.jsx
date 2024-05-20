@@ -48,6 +48,6 @@ export const IOSSwitch = styled(Switch)(({ theme }) => ({
     }),
   },
   '& .MuiTypography-root': {
-    marginRight: 0, // Убираем margin-right у label
+    marginRight: 0,
   },
 }));

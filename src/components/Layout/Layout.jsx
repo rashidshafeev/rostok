@@ -1,9 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import { Footer, Header } from '..';
 import { useState } from 'react';
-import CatalogModal from '../../helpers/CModal/CatalogModal';
 import MobileNavbar from '../Header/MobileNavbar';
-import CatalogModalMobile from '../../helpers/CModal/CatalogModalMobile';
 
 const Layout = () => {
   const [cartProducts, setCartProducts] = useState([]);
@@ -43,11 +41,6 @@ const Layout = () => {
   return (
     <>
       <Header showCatalog={showCatalog} setShowCatalog={setShowCatalog} />
-      <CatalogModal showCatalog={showCatalog} setShowCatalog={setShowCatalog} />
-      <CatalogModalMobile
-        showCatalog={showCatalog}
-        setShowCatalog={setShowCatalog}
-      />
       <Outlet
         context={[cartProducts, addToCart, removeFromCart, removeAllCart]}
       />

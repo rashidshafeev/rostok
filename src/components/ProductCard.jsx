@@ -1,43 +1,67 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import noImg from '../assets/images/no-image.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../redux/slices/cartSlice';
 import { toggleFavorite } from '../redux/slices/favoriteSlice';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
 import { toggleComparison } from '../redux/slices/comparisonSlice';
+import {
+  useGetFavoritesQuery,
+  useRemoveFromFavoritesMutation,
+  useSetToFavoritesMutation,
+} from '../redux/api/api';
+import noImg from '../assets/images/no-image.png';
 
 const ProductCard = ({ product, recommended }) => {
-  const cart = useSelector((state) => state?.cart);
-  const favorite = useSelector((state) => state?.favorite);
-  const comparison = useSelector((state) => state?.comparison);
+  const [setToFavorites, { isLoading: setLoading }] =
+    useSetToFavoritesMutation();
+  const [removeFromFavorite, { isLoading: removeLoading }] =
+    useRemoveFromFavoritesMutation();
+  const { data } = useGetFavoritesQuery();
+
+  const { cart } = useSelector((state) => state?.cart);
+  const { comparison } = useSelector((state) => state?.comparison);
+  const { user } = useSelector((state) => state?.user);
+  const { favorite } = useSelector((state) => state?.favorite);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleToggleFavorite = (event) => {
-    event.preventDefault();
-    dispatch(toggleFavorite(product));
+  const isProductInCart = cart?.some((el) => el?.id === product?.id);
+  const isProductInFavorite = user
+    ? data?.data?.some((el) => el?.id === product?.id)
+    : favorite?.some((el) => el?.id === product?.id);
+  const isProductInComparison = comparison?.some(
+    (el) => el?.id === product?.id
+  );
+
+  const handleToggleFavorite = async (e) => {
+    e.preventDefault();
+    if (!user) {
+      dispatch(toggleFavorite(product));
+    } else {
+      try {
+        if (isProductInFavorite) {
+          await removeFromFavorite(product?.id);
+        } else {
+          await setToFavorites(product?.id);
+        }
+      } catch (error) {
+        console.error('Failed to add product to favorites:', error);
+      }
+    }
   };
 
-  const handleToggleComparison = (event) => {
-    event.preventDefault();
+  const handleToggleComparison = (e) => {
+    e.preventDefault();
     dispatch(toggleComparison(product));
   };
-
-  const isProductInCart = cart?.cart?.some(
-    (el) => el?.id === product?.id
-  );
-  const isProductInFavorite = favorite?.favorite?.some(
-    (el) => el?.id === product?.id
-  );
-  const isProductInComparison = comparison?.comparison?.some(
-    (el) => el?.id === product?.id
-  );
 
   return (
     <NavLink
       to={`/catalog/${product?.category?.slug}/${product?.slug}`}
-      className='overflow-hidden group'
+      className={`${
+        (setLoading || removeLoading) && 'opacity-50 cursor-not-allowed'
+      } overflow-hidden group duration-500`}
     >
       <div>
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
@@ -68,7 +92,7 @@ const ProductCard = ({ product, recommended }) => {
             />
           </div>
           <ComparisonIcon
-            className='group-hover:opacity-100 mm:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
+            className='group-hover:opacity-100 lg:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2'
             comparison={isProductInComparison.toString()}
             onClick={handleToggleComparison}
           />

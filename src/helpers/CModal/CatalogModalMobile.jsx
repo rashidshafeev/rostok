@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import { ArrowIcon } from '../Icons';
 import catalogIcon1 from '../../assets/images/catalogIcon1.svg';
@@ -11,6 +11,7 @@ import arrowBack from '../../assets/icons/arrow-black.svg';
 const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
   const categoryTree = data?.children;
+  const { pathname } = useLocation();
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState({});
@@ -24,7 +25,6 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
         document.body.style.overflowY = 'auto';
       }
     };
-
     handleBodyOverflow();
 
     return () => {
@@ -45,11 +45,13 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
     };
   }, []);
 
+  useEffect(() => {
+    setShowCatalog(false);
+  }, [pathname]);
+
   return (
     <div
-      className={`${
-        showCatalog ? 'visible opacity-100' : 'invisible opacity-0'
-      } fixed left-0 w-full h-full z-[999] md:hidden ${
+      className={`fixed left-0 w-full h-full z-[999] md:hidden ${
         scrollPosition > 32 ? 'top-[64px]' : 'top-[105px]'
       } bg-white duration-300`}
     >
@@ -152,23 +154,28 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
               <div className='space-y-2'>
                 {activeItem?.children?.map((el) => (
                   <div key={el?.id}>
-                    <button
-                      onClick={() =>
-                        setIsOpen(isOpen === el?.id ? null : el?.id)
-                      }
-                      className='font-semibold text-colBlack hover:text-colGreen leading-[120%] border-b w-full flex justify-between items-center pb-1'
-                    >
-                      <span>{el?.name}</span>
-                      <div
-                        className={`${
-                          isOpen === el?.id
-                            ? 'rotate-[180deg]'
-                            : 'rotate-[0deg]'
-                        } w-6 h-6 flex justify-center items-center duration-200`}
+                    <div className='font-semibold text-colBlack leading-[120%] border-b w-full flex justify-between items-center pb-1'>
+                      <NavLink
+                        to={`/catalog/${el?.slug}`}
+                        onClick={() => setShowCatalog(false)}
                       >
-                        <img src={arrowBack} alt='*' />
-                      </div>
-                    </button>
+                        {el?.name}
+                      </NavLink>
+                      {el?.children?.length > 0 && (
+                        <button
+                          onClick={() =>
+                            setIsOpen(isOpen === el?.id ? null : el?.id)
+                          }
+                          className={`${
+                            isOpen === el?.id
+                              ? 'rotate-[180deg]'
+                              : 'rotate-[0deg]'
+                          } w-6 h-6 flex justify-center items-center duration-200`}
+                        >
+                          <img src={arrowBack} alt='*' />
+                        </button>
+                      )}
+                    </div>
                     {el?.children?.length > 0 && isOpen === el?.id && (
                       <div className='pt-1 pl-3'>
                         {el?.children?.map((child) => (
