@@ -14,10 +14,11 @@ const Comparison = () => {
   console.log(comparison);
   return (
     <>
-    <div className='content pb-6'>
-      <h1 className='  text-[40px] font-semibold text-colBlack'>
-        Сравнение товаров
-      </h1>
+    <div className=' pb-6 content'>
+          <h1 className='  text-[40px] font-semibold text-colBlack'>
+            Сравнение товаров
+          </h1>
+
       <div className=' '>
       { comparison?.length ? (
         <ComDetail comparison={comparison}/>

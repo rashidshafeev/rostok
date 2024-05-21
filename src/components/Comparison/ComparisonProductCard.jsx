@@ -7,14 +7,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 
-function ComparisonProductCard({ product }) {
+function ComparisonProductCard({ sticky,product }) {
 
-  const tableHeader = useRef(null);
-  const tableHeaderVisible = useIntersection(orderInfo, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.01
-  });
 
 
     const cart = useSelector((state) => state?.cart);
@@ -52,9 +46,9 @@ function ComparisonProductCard({ product }) {
   return (
     <NavLink
       to={`/catalog/${product?.category?.slug}/${product?.slug}`}
-      className='overflow-hidden group'
+      className='overflow-hidden group box-border pr-4 mb-2'
     >
-        <div className="flex gap-2 min-w-[300px] ">
+        <div className="flex gap-2 ">
       <div className='basis-1/2'>
         <div className='rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
           {product?.files?.length > 0 && (

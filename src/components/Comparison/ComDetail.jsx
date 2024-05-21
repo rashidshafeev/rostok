@@ -3,19 +3,88 @@ import ProductCard from '../ProductCard';
 import { products } from '../../constants/data';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import ComparisonProductCard from './ComparisonProductCard';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useIntersection } from 'react-use';
+import arrow from '../../assets/icons/arrow-black.svg'
+import { current } from '@reduxjs/toolkit';
 
 
 const ComDetail = ({ comparison }) => {
+
+  const buttonContainer = useRef(null)
+  const item = useRef(null)
+  const [maxStep, setMaxStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1)
+
+  const [translateX, setTranslateX] = useState(0);
+
+  const scrollLeft = () => {
+    setTranslateX((translateX) => translateX + 300); // Adjust the scroll amount as needed
+    setCurrentStep((currentStep) => currentStep - 1);
+    console.log(maxStep)
+  };
+
+  const scrollRight = () => {
+    setTranslateX((translateX) => translateX - 300); // Adjust the scroll amount as needed
+    setCurrentStep((currentStep) => currentStep + 1);
+
+  };
+
+
+  const tableHeader = useRef(null);
+  const tableHeaderPlaceholder = useRef(null);
+  const tableHeaderVisible = useIntersection(tableHeader, {
+    root: null,
+    rootMargin: "-68px 0px 0px 0px",
+    threshold: 1
+  });
+  const tableHeaderPlaceholderVisible = useIntersection(tableHeaderPlaceholder, {
+    root: null,
+    rootMargin: "-68px 0px 0px 0px",
+    threshold: 1
+  });
+
+  console.log("tableHeaderVisible")
+  console.log(tableHeaderVisible);
+
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    if (tableHeaderVisible) {
+      setIsSticky(tableHeaderVisible.intersectionRatio < 1);
+    }
+  }, [tableHeaderVisible]);
+
+  useEffect(() => {
+    if (tableHeader.current && buttonContainer.current) {
+      buttonContainer.current.style.width = `${tableHeader.current.offsetWidth}px`;
+    }
+  }, [tableHeader.current])
+
+  useEffect(() => {
+    if (tableHeader.current && item.current) {
+    console.log((item.current.offsetWidth * comparison.length - tableHeader.current.offsetWidth) / item.current.offsetWidth)
+
+      item.current.offsetWidth * comparison.length < tableHeader.current.offsetWidth 
+      ? setMaxStep(1) 
+      : setMaxStep(Math.ceil((item.current.offsetWidth * comparison.length - tableHeader.current.offsetWidth) / item.current.offsetWidth) + 1);
+
+    }
+  }, [tableHeader.current, item.current])
+
+  useEffect(() => {
+    if (tableHeaderPlaceholderVisible) {
+      setIsSticky(!tableHeaderPlaceholderVisible.intersectionRatio === 1);
+    }
+  }, [tableHeaderPlaceholderVisible]);
+
+  useEffect(() => {
+    if (tableHeader.current && tableHeaderPlaceholder.current) {
+      tableHeaderPlaceholder.current.style.height = `${tableHeader.current.offsetHeight}px`;
+    }
+  }, [isSticky]);
+
   
-  // const allAttributes = Array.from(
-  //   new Set(comparison.flatMap(product => Object.keys(product.attributes)))
-  // );
-
-  //  // Extract all product names
-  //  const productNames = comparison.map(product => product.name);
-
    const getUniqueAttributes = (products) => {
     const attributesSet = new Set();
     products.forEach(product => {
@@ -29,308 +98,91 @@ const ComDetail = ({ comparison }) => {
 
    const attributes = getUniqueAttributes(comparison);
 
+
   return (
     <>
-{/* <div className="sticky top-20 z-20">
-<div className="overflow-x-auto ">
 
-    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus, inventore.
-  </div> */}
+<div ref={tableHeader} className={`w-full  h-[130px] transition-all duration-1000 ${
+              isSticky ? 'fixed top-[68px] z-50 ' : 'relative'
+            }`}>
+              <div ref={buttonContainer} className="relative">
+              <button onClick={scrollLeft} className={`absolute opacity-50 hover:opacity-100 transition-all
+              duration-500 left-5 top-1/2 z-20 bg-white text-white p-4 rounded-full
+              ${ maxStep === 1 ? 'hidden' : currentStep === 1 ? 'hidden' : '' }`}>
+{/* <button onClick={scrollLeft} className="fixed opacity-50 hover:opacity-100 transition-all duration-500 left-5 top-[100px] z-20 bg-white text-white p-4 rounded-full"> */}
+          <img src={arrow} className='w-4 h-4 rotate-[90deg]' alt="" />
+        </button>
+        <button onClick={scrollRight} className={`absolute opacity-50 hover:opacity-100 transition-all
+              duration-500 right-5 top-1/2 z-20 bg-white text-white p-4 rounded-full
+              ${ maxStep === 1 ? 'hidden' : currentStep === maxStep ? 'hidden' : '' }`}>
+          <img src={arrow} className='w-4 h-4 rotate-[-90deg]' alt="" />
+        </button>
+              </div>
 
 
-<div className="overflow-auto max-h-[80vh]">
-      <div className="min-w-full grid" style={{ gridTemplateColumns: `repeat(${comparison.length + 1}, minmax(300px, 300px))` }}>
-        {/* Header */}
-        <div className="sticky top-0 bg-white z-10 border border-gray-300 p-2">Feature</div>
+<div className="flex transition-transform duration-300 bg-white " style={{ transform: `translateX(${translateX}px)` }}>
+{/* <div className="flex transition-transform duration-300 bg-white "> */}
+
         {comparison.map(product => (
-         <ComparisonProductCard product={product} />
-        ))}
+          <div className="min-w-[300px] max-w-[300px]" ref={item}>
+         <ComparisonProductCard key={product.id} product={product} />
 
-        {/* Attributes and Values */}
-        {attributes.map(attribute => (
-          <React.Fragment key={attribute}>
-            <div className="sticky left-0 bg-white border border-gray-300 p-2 z-10">{attribute}</div>
+          </div>
+        ))}
+        
+</div>
+
+        </div>
+
+<div ref={tableHeaderPlaceholder}  className={`w-full h-[130px] ${isSticky ? '' : 'hidden'}`} style={{ height: tableHeaderPlaceholder.current?.offsetHeight }}>
+</div>
+
+<div  className='mt-4'>
+{attributes.map((attribute, i)  => (
+  <div key={attribute} className={`w-full relative ${ i % 2 === 0? 'bg-gray-100' : 'bg-white' }`}>
+    
+            <div className="absolute left-2 top-1 box-border min-w-[300px] z-10 uppercase text-xs text-colGreen font-semibold">{attribute}</div>
+            <div className={`flex transition-transform duration-300 `} style={{ transform: `translateX(${translateX}px)` }}>
             {comparison.map(product => (
-              <div key={product.id} className="border border-gray-300 p-2">
+              <div key={product.id} className="pt-6 pb-4 px-2 box-border min-w-[300px] ">
                 {product.attributes ? (Object.values(product.attributes).find(attr => attr.name === attribute)?.text || 'N/A') : 'N/A'}
               </div>
             ))}
-          </React.Fragment>
+            </div>
+          </div>   
         ))}
-      </div>
-    </div>
-
-    <div className="overflow-x-auto ">
-      <table className="min-w-full  border-collapse  table-auto">
-        <thead className="sticky">
-          <tr>
-            <th className="sticky top-0 p-2 w-[100px] bg-gray-100 z-70"></th>
+{attributes.map((attribute, i)  => (
+  <div key={attribute} className={`w-full relative ${ i % 2 === 0? 'bg-gray-100' : 'bg-white' }`}>
+    
+            <div className="absolute left-2 top-1 box-border min-w-[300px] z-10 uppercase text-xs text-colGreen font-semibold">{attribute}</div>
+            <div className={`flex transition-transform duration-300 `} style={{ transform: `translateX(${translateX}px)` }}>
             {comparison.map(product => (
-              <th key={product.id} className="sticky top-0 p-2 min-w-[300px] bg-gray-100">
-              {/* //  <th key={product.id} className="bg-white sticky  top-[68px] p-2 min-w-[350px] ">  */}
-                <ComparisonProductCard product={product} />
-                </th>
+              <div key={product.id} className="pt-6 pb-4 px-2 box-border min-w-[300px] ">
+                {product.attributes ? (Object.values(product.attributes).find(attr => attr.name === attribute)?.text || 'N/A') : 'N/A'}
+              </div>
             ))}
-          </tr>
-        </thead>
-        <tbody>
-          {attributes.map((attribute, i) => (
-            <>
-            <tr key={attribute} className={`border-b ${ i % 2 === 1 ? 'bg-gray-100' : 'bg-white' }`}>
-              <td className={`sticky left-0 ${ i % 2 === 1 ? 'bg-gray-100' : 'bg-white' } font-bold uppercase text-xs text-colGreen`}>
-                <div className="border-r h-full p-2">{attribute}</div>
-                </td>
-   
-              {comparison.map(product => (
-                <td key={product.id} className="text-sm p-2">
-                  {Object.values(product.attributes).find(attr => attr.name === attribute)?.text || 'N/A'}
-                </td>
-              ))}
-            </tr>
-            
-          
-
-           
-
-            </>
-          ))}
-        </tbody>
-      </table>
-      </div>
-    {/* </div> */}
-
-
-{/* <div className="overflow-x-auto">
-      <table className="w-full text-left">
-        <thead>
-          <tr>
-            <th className="sticky top-0 left-0 z-20 bg-white"></th>
-            {productNames.map(name => (
-              <th key={name} className="sticky top-0 z-10 bg-white">
-                {name}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {allAttributes.map(attribute => (
-            <tr key={attribute}>
-              <td className="sticky left-0 z-20 bg-white">{attribute}</td>
-              {comparison.map(product => (
-                <td key={product.id}>
-                  {product.attributes[attribute] ? product.attributes[attribute].text : '-'}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div> */}
-
-    {/* <div className='pb-10 min-h-[560px] scrollable'>
-      <div className='flex space-x-3 py-3 '>
-        <div className='flex items-center space-x-2 cursor-pointer rounded-lg border border-colGreen px-2 py-1'>
-          <span className='text-sm font-medium text-colBlack'>Кресла</span>
-          <span className='text-sm font-semibold text-colGray'>4</span>
-        </div>
-        <div className='flex items-center space-x-2 cursor-pointer rounded-lg border border-colSuperdivght px-2 py-1'>
-          <span className='text-sm font-medium text-colBlack'>
-            Дверные ручки
-          </span>
-          <span className='text-sm font-semibold text-colGray'>4</span>
-        </div>
-        <div className='flex items-center space-x-2 cursor-pointer rounded-lg border border-colSuperdivght px-2 py-1'>
-          <span className='text-sm font-medium text-colBlack'>
-            Кухонные фасады
-          </span>
-          <span className='text-sm font-semibold text-colGray'>12</span>
-        </div>
-        <div className='flex items-center space-x-2 cursor-pointer rounded-lg border border-colSuperdivght px-2 py-1'>
-          <span className='text-sm font-medium text-colBlack'>
-            Мебельные петли
-          </span>
-          <span className='text-sm font-semibold text-colGray'>8</span>
-        </div>
-        <div className='flex items-center space-x-2 cursor-pointer rounded-lg border border-colSuperdivght px-2 py-1'>
-          <span className='text-sm font-medium text-colBlack'>
-            Крепление для полок
-          </span>
-          <span className='text-sm font-semibold text-colGray'>4</span>
-        </div>
-      </div>
-      <div className='flex space-x-5 pt-3 pb-8 overflow-x-scroll'>
-        <div className='min-w-[220px] space-y-7 ' key={products[0]?.id}>
-            <ProductCard sticky={true} product={products[0]} />
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              Рейтинг
-            </span>
-            <p>Кресло</p>
-          </div>
-          <div>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              специальное предложение
-            </span>
-            <p
-              className={`${
-                products[0]?.type === 'hit'
-                  ? 'bg-[#F57C1F]'
-                  : products[0]?.type === 'new'
-                  ? 'bg-[#15765B]'
-                  : 'bg-[#F04438]'
-              } py-1 px-2 uppercase text-xs font-bold text-white rounded-xl w-max`}
-            >
-              {products[0]?.type === 'hit'
-                ? 'Хит'
-                : products[0]?.type === 'new'
-                ? 'Новинки'
-                : 'Распродажа'}
-            </p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              тип
-            </span>
-            <p>Кресло</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              Бренд
-            </span>
-            <p>Fiera Carbon</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              тип плетения
-            </span>
-            <p>Карбон</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              Материал каркаса
-            </span>
-            <p>Металл и эко-ротанг</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              Длина
-            </span>
-            <p>115 см</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              ширина
-            </span>
-            <p>100 см</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              Высота
-            </span>
-            <p>125 см</p>
-          </div>
-          <div className='text-colBlack text-sm'>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              тип назначения
-            </span>
-            <p>Для дома и улицы</p>
-          </div>
-          <div>
-            <span className='text-xs text-colGreen font-bold uppercase'>
-              Цвет
-            </span>
-            <div className='w-4 h-4 min-w-[16px] rounded-fdivl bg-[#F04438]'></div>
-          </div>
-        </div>
-        {comparison?.map((product) => (
-          <div className='min-w-[220px] space-y-7' key={product?.id}>
-            <div>
-              <ProductCard product={product} />
             </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>Кресло</p>
-            </div>
-            <div>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p
-                className={`${
-                  product?.type === 'hit'
-                    ? 'bg-[#F57C1F]'
-                    : product?.type === 'new'
-                    ? 'bg-[#15765B]'
-                    : 'bg-[#F04438]'
-                } py-1 px-2 uppercase text-xs font-bold text-white rounded-xl w-max`}
-              >
-                {product?.type === 'hit'
-                  ? 'Хит'
-                  : product?.type === 'new'
-                  ? 'Новинки'
-                  : 'Распродажа'}
-              </p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>Кресло</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>Fiera Carbon</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>Карбон</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>Металл и эко-ротанг</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>115 см</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>100 см</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>125 см</p>
-            </div>
-            <div className='text-colBlack text-sm'>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <p>Для дома и улицы</p>
-            </div>
-            <div>
-              <span className='text-xs text-colGreen font-bold uppercase invisible'>
-                в
-              </span>
-              <div className='w-4 h-4 min-w-[16px] rounded-fdivl bg-[#F04438]'></div>
-            </div>
-          </div>
+          </div>   
         ))}
-      </div>
-    </div> */}
+{attributes.map((attribute, i)  => (
+  <div key={attribute} className={`w-full relative ${ i % 2 === 0? 'bg-gray-100' : 'bg-white' }`}>
+    
+            <div className="absolute left-2 top-1 box-border min-w-[300px] z-10 uppercase text-xs text-colGreen font-semibold">{attribute}</div>
+            <div className={`flex transition-transform duration-300 `} style={{ transform: `translateX(${translateX}px)` }}>
+            {comparison.map(product => (
+              <div key={product.id} className="pt-6 pb-4 px-2 box-border min-w-[300px] ">
+                {product.attributes ? (Object.values(product.attributes).find(attr => attr.name === attribute)?.text || 'N/A') : 'N/A'}
+              </div>
+            ))}
+            </div>
+          </div>   
+        ))}
+</div>
+
+
+
+
+
         </>
   );
 };

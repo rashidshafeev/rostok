@@ -5,19 +5,18 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import LeftNav from './Gallery/LeftNav';
 import RightNav from './Gallery/RightNav';
-
-import Slider from "react-slick";
+import noImg from '../../assets/images/no-image.png'
 
 function ProductGallery({ files }) {
 
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
-
+  // var settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 1,
+  // };
+  console.log("files", files, files?.length);
     const images = []
     const imageGalleryRef = useRef(null);
 
@@ -47,16 +46,15 @@ function ProductGallery({ files }) {
      
       const renderImage = (item) => {
         return (
-          <div  className="min-h-[480px] flex flex-col justify-center">
-            <img onClick={onClickHandler} src={item.original} className="shrink object-contain rounded-xl" alt="" />
+          <div  className="min-h-[480px] max-h-[480px] flex flex-col justify-center">
+            <img onClick={onClickHandler} src={item.original} className="shrink  object-scale-down rounded-xl" alt="" />
           </div>
         );
       };
 
 
       
-    
-    files?.forEach((file) => {
+    files?.length ? files?.forEach((file) => {
         if (file.type === "image") {
       
           images.push({
@@ -76,6 +74,10 @@ function ProductGallery({ files }) {
       
         }
       
+      }) : images.push({
+        original: noImg,
+        thumbnail: noImg,
+        renderItem: renderImage.bind(this),
       })
 
       
