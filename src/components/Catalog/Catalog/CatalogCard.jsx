@@ -4,7 +4,7 @@ import noImg from '../../../assets/images/no-image.png';
 function CatalogCard({ category }) {
   return (
     <NavLink
-      to={`${category?.path}`}
+      to={`${category?.slug}`}
       state={{ category: category }}
       className='p-3 lg:p-5 relative bg-colSuperLight rounded-lg lg:rounded-[20px] min-h-[120px] lg:min-h-[240px]'
     >
@@ -15,12 +15,14 @@ function CatalogCard({ category }) {
         {category?.children?.length && (
           <div className='hidden md:flex flex-wrap text-colDarkGray text-[10px] lg:text-xs font-semibold'>
             {category?.children?.slice(0, 4)?.map((item) => (
-              <p
+              <NavLink
                 className='px-1 lg:px-2 py-[2px] lg:py-1 bg-white rounded-[20px] mr-1 lg:mr-2 mb-1 lg:mb-2'
                 key={item?.id}
+                to={`/catalog/${item?.slug}`}
+                state={{ category: item }}
               >
                 {item?.name}
-              </p>
+              </NavLink>
             ))}
           </div>
         )}
