@@ -24,6 +24,8 @@ import InfoTab from '../../components/ProductPage/ProductTabs/InfoTab';
 import MobileProductInfo from '../../components/ProductPage/Mobile/MobileProductInfo/MobileProductInfo';
 import MobileTopBar from '../../components/ProductPage/Mobile/MobileTopBar';
 import { useIntersection } from 'react-use';
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+
 
 
 function ProductPage() {
@@ -33,6 +35,10 @@ function ProductPage() {
   const [currentProduct, setCurrentProduct] = useState({})
 
   const [tabIndex, setTabIndex] = useState(3);
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
 
 
   const addCard = useRef(null);
@@ -50,6 +56,8 @@ function ProductPage() {
 
   console.log("loader.data")
   console.log(loader.data)
+
+  
 
 
   const product = loader.data

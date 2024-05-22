@@ -15,17 +15,29 @@ function MobileCharacteristics({ current, product }) {
                 </div>
                 {
                     product?.attributes?.map((attribute, index) => {
-                        return (
-                            <div className='flex items-start '>
-                                <div className='shrink self-start leading-none text-colDarkGray mr-1 '>{attribute?.name}</div>
-                                <div className='grow border-b-2 border-dotted h-4'></div>
-                                <div className='flex text-end leading-none shrink ml-1 max-w-[50%] '>
-                                    
-                                    { Object.keys(current?.attributes).some(key => key.toString() === attribute?.id) ? current.attributes[attribute.id].text  : attribute.values[0].text }
+                        {/* Если атрибут модификационный выводит значение актуальное для модификации, если нет, то общее значение атрибута */}
 
+                        if (Object.keys(current.attributes).some(key => key.toString() === attribute.id)) {
+                            return(
+                                <div className='flex items-end'>
+                                    <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
+                                    <div className='grow self-start h-4 border-b-2 border-dotted'></div>
+                                    <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
+                                        {current.attributes[attribute.id].text }
+                                    </div>
+                                </div>
+                            ) 
+                        } else if ( attribute.values[0].text ) {
+                            return(
+                                <div className='flex items-end'>
+                                <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
+                                <div className='grow self-start h-4 border-b-2 border-dotted'></div>
+                                <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
+                                    { attribute.values[0].text }
                                 </div>
                             </div>
-                        )
+                            ) 
+                        }
                     })
 
                 }

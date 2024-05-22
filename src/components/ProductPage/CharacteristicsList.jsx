@@ -5,10 +5,7 @@ import copyicon from '../../assets/icons/copy-icon.svg';
 
 function CharacteristicsList({ current, product, setTabIndex }) {
 
-    console.log("current")
-    console.log(current.attributes)
-    console.log(Object.keys(current.attributes))
-
+    console.log(current, product)
     return (
         <>
             <div className='flex flex-col gap-[10px]'>
@@ -22,15 +19,29 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                 </div>
                 {
                     product?.attributes?.map((attribute, index) => {
-                        return (
-                            <div className='flex items-end'>
+                        {/* Если атрибут модификационный выводит значение актуальное для модификации, если нет, то общее значение атрибута */}
+
+                        if (Object.keys(current.attributes).some(key => key.toString() === attribute.id)) {
+                            return(
+                                <div className='flex items-end'>
+                                    <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
+                                    <div className='grow self-start h-4 border-b-2 border-dotted'></div>
+                                    <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
+                                        {current.attributes[attribute.id].text }
+                                    </div>
+                                </div>
+                            ) 
+                        } else if ( attribute.values[0].text ) {
+                            return(
+                                <div className='flex items-end'>
                                 <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                 <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                 <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
-                                    { Object.keys(current.attributes).some(key => key.toString() === attribute.id) ? current.attributes[attribute.id].text  : attribute.values[0].text }
+                                    { attribute.values[0].text }
                                 </div>
                             </div>
-                        )
+                            ) 
+                        }
                     })
 
                 }

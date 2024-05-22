@@ -46,10 +46,11 @@ const rootReducer = combineReducers({
   [api.reducerPath]: api.reducer,
 });
 
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
+  // reducer: persistedReducer,
+  reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
@@ -60,4 +61,4 @@ export const store = configureStore({
 
 export default store;
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
