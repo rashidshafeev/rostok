@@ -1,3 +1,4 @@
+import { api } from '../redux/api/api';
 import {
   loginFailure,
   loginStart,
@@ -16,7 +17,7 @@ export const postAuthCheck = async (dispatch, data) => {
 };
 
 // Auth with email
-export const postAuthWithEmail = async (dispatch, data) => {
+export const postAuthWithEmail = async (dispatch, data, favoriteItems) => {
   dispatch(loginStart());
   const sendData = {
     login: data.login,
@@ -24,12 +25,29 @@ export const postAuthWithEmail = async (dispatch, data) => {
   };
   try {
     const res = await request.post('/api/User/auth', sendData);
-    dispatch(setToken(res?.data?.token));
-    dispatch(loginSuccess(res?.data));
-    return { success: res?.data?.success, resData: res?.data };
+    const token = res?.data?.token;
+
+    if (token) {
+      dispatch(setToken(token));
+      dispatch(loginSuccess(res?.data));
+
+      const config = {
+        headers: { Authorization: `Bearer ${token}` },
+      };
+
+      await request.post(
+        '/api/ProductsFavourites/set',
+        { ids: favoriteItems },
+        config
+      );
+      dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }]));
+      return { success: res?.data?.success, resData: res?.data };
+    } else {
+      throw new Error('Token not found');
+    }
   } catch (error) {
     dispatch(loginFailure(error));
-    return { success: false };
+    return { success: false, error: error.message };
   }
 };
 

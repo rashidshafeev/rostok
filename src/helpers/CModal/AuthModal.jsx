@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-escape */
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Modal, Checkbox, FormControlLabel } from '@mui/material';
 import {
   KeyboardArrowRight,
@@ -26,6 +26,8 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import ModalSnackbar from './ModalSnackbar';
 
 const AuthModal = ({ open, setOpen, content, setContent }) => {
+  const { favorite } = useSelector((state) => state?.favorite);
+
   const [isLoading, setIsLoading] = useState(false);
   const [miniLoading, setMiniLoading] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
@@ -96,8 +98,14 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   };
 
   const onSubmitAuthWithEmail = async (data) => {
+    const favoriteItems = favorite?.map((el) => el?.id);
+
     setIsLoading(true);
-    const { success, resData } = await postAuthWithEmail(dispatch, data);
+    const { success, resData } = await postAuthWithEmail(
+      dispatch,
+      data,
+      favoriteItems
+    );
     if (success) {
       setIsLoading(false);
       setOpen(false);
