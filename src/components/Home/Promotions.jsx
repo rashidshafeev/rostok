@@ -3,8 +3,8 @@ import { promotions } from '../../constants/data';
 
 const Promotions = () => {
   return (
-    <div className='pb-10 lg:px-4'>
-      <h1 className='text-colBlack text-4xl font-semibold pb-3 px-3 sm:px-4 lg:px-0'>
+    <div className='pb-10 lg:px-4 max-w-[1420px] w-full mx-auto'>
+      <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-3 px-3 sm:px-4 lg:px-0'>
         Акции
       </h1>
       <div className='flex space-x-5 overflow-x-scroll lg:overflow-x-hidden pb-3 scrollable px-3'>
