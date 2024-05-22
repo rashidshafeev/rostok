@@ -3,7 +3,7 @@ import { roomProducts } from '../../constants/data';
 
 const RoomProducts = () => {
   return (
-    <div className='pt-5 pb-10 lg:px-4'>
+    <div className='pt-5 pb-10 lg:px-4 max-w-[1420px] w-full mx-auto'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4 px-3 mm:px-4 lg:px-0'>
         Товары по комнатам
       </h1>
