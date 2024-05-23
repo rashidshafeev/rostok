@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import AuthModal from '../../helpers/CModal/AuthModal';
 import PreHeader from './PreHeader';
@@ -8,10 +8,24 @@ import HeaderControls from './HeaderControls';
 import logo from '../../assets/images/logo.svg';
 import CatalogModal from '../../helpers/CModal/CatalogModal';
 import CatalogModalMobile from '../../helpers/CModal/CatalogModalMobile';
+import { useDispatch } from 'react-redux';
+
+import { fetchComparison } from '../../redux/slices/comparisonSlice';
+import { fetchFavorite } from '../../redux/slices/favoriteSlice';
+import { fetchCart } from '../../redux/slices/cartSlice';
 
 const Header = ({ showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchComparison())
+  dispatch(fetchFavorite())
+  dispatch(fetchCart())
+  }, [])
+  
 
   return (
     <>

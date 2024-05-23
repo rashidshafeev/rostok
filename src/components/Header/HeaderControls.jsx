@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useGetFavoritesQuery } from '../../redux/api/api';
 import order from '../../assets/icons/order.svg';
@@ -6,9 +6,12 @@ import cart from '../../assets/icons/cart.svg';
 import favoriteIcon from '../../assets/icons/favorite.svg';
 import comparisonIcon from '../../assets/icons/comparison.svg';
 import profile from '../../assets/icons/profile.svg';
+import { fetchComparison } from '../../redux/slices/comparisonSlice';
 
 function HeaderControls({ setContent, setOpen }) {
   const { data: favorites } = useGetFavoritesQuery();
+
+  
 
   const { user } = useSelector((state) => state?.user);
   const itemsQuantity = useSelector((state) => state?.cart?.itemsQuantity);

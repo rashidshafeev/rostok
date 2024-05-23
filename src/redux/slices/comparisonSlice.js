@@ -10,6 +10,10 @@ export const comparisonSlice = createSlice({
   name: 'comparison',
   initialState,
   reducers: {
+    fetchComparison: (state, action) => {},
+    setComparison: (state, action) => {
+      state.comparison = action.payload;
+    },
     toggleComparison: (state, action) => {
       const product = state.comparison.find((item) => item.id === action.payload.id)
 
@@ -24,6 +28,8 @@ export const comparisonSlice = createSlice({
 });
 
 export const {
+  fetchComparison,
+  setComparison,
   toggleComparison,
 } = comparisonSlice.actions;
 export default comparisonSlice.reducer;

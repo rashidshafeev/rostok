@@ -15,12 +15,14 @@ import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
+
+
 const ShCartDetail = () => {
-  const [selectAllChecked, setSelectAllChecked] = useState(false);
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
-  const [itemsQuantity, setItemsQuantity] = useState(0);
+  // const [itemsQuantity, setItemsQuantity] = useState(0);
+
 
   const orderInfo = useRef(null);
   const orderInfoVisible = useIntersection(orderInfo, {
@@ -30,21 +32,15 @@ const ShCartDetail = () => {
   });
 
   const {width, height} = useWindowSize();
-  // eslint-disable-next-line no-unused-vars
-  // const [cartProducts, addToCart, removeFromCart, removeAllCart] =
-  //   useOutletContext();
 
   const dispatch = useDispatch();
 
-  
-
   const cart = useSelector((state) => state?.cart);
   const selected = cart?.cart.filter((item) => item.selected === true);
-
+  
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
-    console.log(selected)
-    console.log(isChecked)
+    
 
     if (!isChecked) {
       console.log(selected)
@@ -62,39 +58,10 @@ const ShCartDetail = () => {
 
 }
 
-
-  // const handleItemChange = (itemId) => {
-  //   if (selectedItems.includes(itemId)) {
-  //     const updatedItems = selectedItems.filter((id) => id !== itemId);
-  //     setSelectedItems(updatedItems);
-
-  //     if (updatedItems.length !== cart?.cart.length) {
-  //       setSelectAllChecked(false)
-  //     }
-      
-  //   } else {
-  //     setSelectedItems([...selectedItems, itemId]);
-
-  //     if (selectedItems.length + 1 === cart?.cart.length) {
-  //       setSelectAllChecked(true)
-  //     }
-  //   }
-
-    
-  // };
-
   const handleRemoveSelected = () => {
     selected.forEach((product) => {
       dispatch(removeFromCart(product));
     })
-  }
-  const getItemsQuantity = () => {  
-    const itemsQuantity = selectedItems.reduce((accumulator, item) => { 
-      accumulator += item.quantity
-      return accumulator
-    }, 0)
-    
-    setItemsQuantity(itemsQuantity)
   }
 
   useEffect(() => {
@@ -102,9 +69,6 @@ const ShCartDetail = () => {
 
     const allItems = cart?.cart.map((el) => el);
       setSelectedItems(allItems);
-
-      setSelectAllChecked(true)
-      getItemsQuantity()
 
   }, [cart])
 
@@ -239,7 +203,7 @@ const ShCartDetail = () => {
                 Итого
               </span>
               <span className='text-xl font-semibold text-colBlack'>
-                {selected.length} {plural(selectedItems.length, 'товар', 'товара', 'товаров')}
+                {selected.length} {plural(selected.length, 'товар', 'товара', 'товаров')}
               </span>
             </div>
             <div className='flex justify-between items-center'>
