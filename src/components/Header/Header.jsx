@@ -21,11 +21,10 @@ const Header = ({ showCatalog, setShowCatalog }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchComparison())
-  dispatch(fetchFavorite())
-  dispatch(fetchCart())
-  }, [])
-  
+    dispatch(fetchComparison());
+    dispatch(fetchFavorite());
+    dispatch(fetchCart());
+  }, [dispatch]);
 
   return (
     <>
