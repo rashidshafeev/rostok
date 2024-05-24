@@ -1,8 +1,4 @@
 import chair from '../assets/temp-images/chair.png';
-import popularCategory1 from '../assets/temp-images/popularCategory1.png';
-import popularCategory2 from '../assets/temp-images/popularCategory2.png';
-import popularCategory3 from '../assets/temp-images/popularCategory3.png';
-import popularCategory4 from '../assets/temp-images/popularCategory4.png';
 import offer1 from '../assets/temp-images/offer1.jpg';
 import offer2 from '../assets/temp-images/offer2.jpg';
 import offer3 from '../assets/temp-images/offer3.jpg';
@@ -272,75 +268,6 @@ export const products = [
     article: '127504',
     type: 'hit',
     cost: '32 999',
-  },
-];
-
-export const popularCategories = [
-  {
-    id: 1,
-    title: 'Мебельная фурнитура',
-    items: [
-      'Мебельные ручки',
-      'Опоры мебельные',
-      'Кухонные комплектующие',
-      'Крепёжная фурнитура',
-      '',
-    ],
-    img: popularCategory1,
-  },
-  {
-    id: 2,
-    title: 'Плитные материалы',
-    items: [],
-    img: popularCategory2,
-  },
-  {
-    id: 3,
-    title: 'Раздвижные системы',
-    items: [
-      'Мебельные ручки',
-      'Опоры мебельные',
-      'Кухонные комплектующие',
-      'Крепёжная фурнитура',
-      '',
-    ],
-    img: popularCategory3,
-  },
-  {
-    id: 4,
-    title: 'Фасады',
-    items: [
-      'Мебельные ручки',
-      'Опоры мебельные',
-      'Кухонные комплектующие',
-      'Крепёжная фурнитура',
-      '',
-    ],
-    img: popularCategory1,
-  },
-  {
-    id: 5,
-    title: 'Фурнитуры для стеклянных конструкций',
-    items: [
-      'Мебельные ручки',
-      'Опоры мебельные',
-      'Кухонные комплектующие',
-      'Крепёжная фурнитура',
-      '',
-    ],
-    img: popularCategory1,
-  },
-  {
-    id: 6,
-    title: 'Техника и сантехника',
-    items: [
-      'Мебельные ручки',
-      'Опоры мебельные',
-      'Кухонные комплектующие',
-      'Крепёжная фурнитура',
-      '',
-    ],
-    img: popularCategory4,
   },
 ];
 
