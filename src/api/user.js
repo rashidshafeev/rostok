@@ -63,7 +63,6 @@ export const postRegister = async (dispatch, data, favoriteItems) => {
   try {
     const res = await request.post('/api/User/register', sendData);
     const token = res?.data?.token;
-    console.log(token);
     if (res?.data?.success === 'ok') {
       if (token && favoriteItems?.length > 0) {
         dispatch(setToken(token));
