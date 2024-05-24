@@ -1,10 +1,24 @@
-import { createListenerMiddleware, isAnyOf } from "@reduxjs/toolkit";
-import { fetchComparison, setComparison, toggleComparison } from "./slices/comparisonSlice";
-import { fetchFavorite, setFavorite, toggleFavorite } from "./slices/favoriteSlice";
-import { addToCart, changeQuantity, fetchCart, removeFromCart, selectItem, setCart } from "./slices/cartSlice";
+import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
+import {
+  fetchComparison,
+  setComparison,
+  toggleComparison,
+} from './slices/comparisonSlice';
+import {
+  fetchFavorite,
+  setFavorite,
+  toggleFavorite,
+} from './slices/favoriteSlice';
+import {
+  addToCart,
+  changeQuantity,
+  fetchCart,
+  removeFromCart,
+  selectItem,
+  setCart,
+} from './slices/cartSlice';
 
-
-export const listenerMiddleware = createListenerMiddleware()
+export const listenerMiddleware = createListenerMiddleware();
 
 // listenerMiddleware.startListening({
 //   matcher: isAnyOf(toggleFavorite, toggleComparison, addToCart, removeFromCart),
@@ -33,9 +47,9 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   actionCreator: toggleFavorite,
   effect: (action, listenerApi) => {
-    const state = listenerApi.getState()
-    let favorite = state.favorite.favorite
-    
+    const state = listenerApi.getState();
+    let favorite = state.favorite.favorite;
+
     sessionStorage.setItem('favorite', JSON.stringify(favorite));
   },
 });
@@ -48,34 +62,29 @@ listenerMiddleware.startListening({
   },
 });
 
-
 listenerMiddleware.startListening({
   actionCreator: toggleComparison,
   effect: (action, listenerApi) => {
-    
-    const state = listenerApi.getState()
-    let comparison = state.comparison.comparison
+    const state = listenerApi.getState();
+    let comparison = state.comparison.comparison;
 
     sessionStorage.setItem('comparison', JSON.stringify(comparison));
   },
 });
 
-
-
 listenerMiddleware.startListening({
   actionCreator: fetchCart,
   effect: (action, listenerApi) => {
     const cart = JSON.parse(sessionStorage.getItem('cart'));
-    console.log("cart", cart)
     listenerApi.dispatch(setCart(cart ? cart : []));
   },
 });
 
 listenerMiddleware.startListening({
-    matcher: isAnyOf(addToCart, removeFromCart, changeQuantity, selectItem),
+  matcher: isAnyOf(addToCart, removeFromCart, changeQuantity, selectItem),
   effect: (action, listenerApi) => {
-    const state = listenerApi.getState()
-    let cart = state.cart
+    const state = listenerApi.getState();
+    let cart = state.cart;
 
     sessionStorage.setItem('cart', JSON.stringify(cart));
   },
