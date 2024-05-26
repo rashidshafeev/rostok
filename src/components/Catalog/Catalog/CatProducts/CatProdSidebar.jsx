@@ -21,7 +21,7 @@ import {
 
 const CatProdSidebar = ({
   setBreadCrumps,
-  handleFetchProducts,
+  handleFetchByFilter,
   setCatProducts,
 }) => {
   const [open, setOpen] = useState(false);
@@ -70,7 +70,7 @@ const CatProdSidebar = ({
     }
 
     setFiltersState(updatedFilters);
-    handleFetchProducts(categoryId, updatedFilters);
+    handleFetchByFilter(categoryId, updatedFilters);
   };
 
   const handleSliderChange = (newValue) => {
@@ -81,7 +81,7 @@ const CatProdSidebar = ({
       max_price: newMaxPrice,
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts(categoryId, updatedFilters);
+    handleFetchByFilter(categoryId, updatedFilters);
   };
 
   const handleCheckboxChange = (name, value) => {
@@ -92,7 +92,7 @@ const CatProdSidebar = ({
         : [...filtersState[name], value],
     };
     setFiltersState(updatedFilters);
-    handleFetchProducts(categoryId, updatedFilters);
+    handleFetchByFilter(categoryId, updatedFilters);
   };
 
   const handleClearFilters = () => {
@@ -103,7 +103,7 @@ const CatProdSidebar = ({
       min_price: 0,
       max_price: 900000,
     };
-    handleFetchProducts(categoryId, initialFiltersState);
+    handleFetchByFilter(categoryId, initialFiltersState);
     setFiltersState(initialFiltersState);
   };
 

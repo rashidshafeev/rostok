@@ -67,7 +67,7 @@ const CatProducts = () => {
     });
   };
 
-  console.log(filters)
+  console.log(filters);
 
   const handlePagination = (e, p) => {
     setPage(p);
@@ -99,7 +99,7 @@ const CatProducts = () => {
       <div className='flex pb-10 min-h-[420px]'>
         <CatProdSidebar
           setBreadCrumps={setBreadCrumps}
-          handleFetchProducts={handleFetchByFilter}
+          handleFetchByFilter={handleFetchByFilter}
           setCatProducts={setCatProducts}
         />
         <CatProdContent
