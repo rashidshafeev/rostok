@@ -67,8 +67,6 @@ const CatProducts = () => {
     });
   };
 
-  console.log(filters);
-
   const handlePagination = (e, p) => {
     setPage(p);
     scrollToTop();
@@ -100,7 +98,7 @@ const CatProducts = () => {
         <CatProdSidebar
           setBreadCrumps={setBreadCrumps}
           handleFetchByFilter={handleFetchByFilter}
-          setCatProducts={setCatProducts}
+          setOpen={setOpen}
         />
         <CatProdContent
           catProducts={catProducts}
@@ -118,6 +116,7 @@ const CatProducts = () => {
         setOpen={setOpen}
         category={categoryId}
         setCatProducts={setCatProducts}
+        allFilters={filters}
       />
     </div>
   );

@@ -13,18 +13,12 @@ import { useEffect, useState } from 'react';
 import { Loading } from '../../../../helpers/Loader/Loader';
 import { IOSSwitch } from '../../../Favorites/styledComponents/IOSSwitch';
 import { ArrowIcon } from '../../../../helpers/Icons';
-import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
 import {
   useGetCategoryTreeQuery,
   useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/api';
 
-const CatProdSidebar = ({
-  setBreadCrumps,
-  handleFetchByFilter,
-  setCatProducts,
-}) => {
-  const [open, setOpen] = useState(false);
+const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -433,12 +427,6 @@ const CatProdSidebar = ({
           </div>
         </>
       )}
-      <AllFiltersModal
-        open={open}
-        setOpen={setOpen}
-        category={categoryId}
-        setCatProducts={setCatProducts}
-      />
     </div>
   );
 };

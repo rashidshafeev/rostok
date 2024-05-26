@@ -8,7 +8,13 @@ import { fetchAllCategoryProducts } from '../../api/catalog';
 import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
 import CTextField from '../CustomInputs/CTextField';
 
-const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
+const AllFiltersModal = ({
+  open,
+  setOpen,
+  category,
+  setCatProducts,
+  allFilters,
+}) => {
   const [accordion, setAccordion] = useState([]);
   const [selectedValues, setSelectedValues] = useState({});
   const [isFilterLoading, setIsFilterLoading] = useState(false);
@@ -113,7 +119,8 @@ const AllFiltersModal = ({ open, setOpen, category, setCatProducts }) => {
     const { success, data } = await fetchAllCategoryProducts(
       category,
       selectedValues,
-      selectedValuesTwo
+      selectedValuesTwo,
+      allFilters
     );
     if (success) {
       setOpen(false);
