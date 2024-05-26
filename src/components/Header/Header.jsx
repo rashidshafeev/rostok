@@ -30,7 +30,11 @@ const Header = ({ showCatalog, setShowCatalog }) => {
     <>
       <PreHeader />
       <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 lg:space-x-5 bg-white z-[999]'>
-        <NavLink className='min-w-[90px] w-[90px] hidden lg:block' to='/'>
+        <NavLink
+          onClick={() => setShowCatalog(false)}
+          className='min-w-[90px] w-[90px] hidden lg:block'
+          to='/'
+        >
           <img src={logo} alt='logo' />
         </NavLink>
         <button
