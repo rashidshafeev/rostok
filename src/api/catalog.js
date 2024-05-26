@@ -94,3 +94,32 @@ export const fetchCategoryProductsBySort = async (category_id, sort) => {
     return { success: false };
   }
 };
+
+export const fetchCategoryProducts = async (
+  category_id,
+  filters,
+  sortOption,
+  searchQuery = ''
+) => {
+  try {
+    const queryParams = {
+      category_id: category_id,
+      brands:
+        filters?.brands?.length > 0 ? `["${filters?.brands.join('","')}"]` : '',
+      tags: filters?.tags?.length > 0 ? `["${filters?.tags.join('","')}"]` : '',
+      max_price: filters?.max_price || '',
+      min_price: filters?.min_price || '',
+      orderBy: sortOption ? sortOption.orderBy : '',
+      sortOrder: sortOption ? sortOption.sortOrder : '',
+      search: searchQuery || '',
+    };
+    console.log('queryParams', queryParams);
+    const res = await request.get('api/Products/variants', {
+      params: queryParams,
+    });
+
+    return { success: true, data: res?.data };
+  } catch (error) {
+    return { success: false };
+  }
+};
