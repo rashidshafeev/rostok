@@ -27,7 +27,7 @@ export const postAuthWithEmail = async (dispatch, data, favoriteItems) => {
     const res = await request.post('/api/User/auth', sendData);
     const token = res?.data?.token;
 
-    if (token) {
+    if (token && favoriteItems?.length > 0) {
       dispatch(setToken(token));
       dispatch(loginSuccess(res?.data));
 
@@ -41,10 +41,8 @@ export const postAuthWithEmail = async (dispatch, data, favoriteItems) => {
         config
       );
       dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }]));
-      return { success: res?.data?.success, resData: res?.data };
-    } else {
-      throw new Error('Token not found');
     }
+    return { success: res?.data?.success, resData: res?.data };
   } catch (error) {
     dispatch(loginFailure(error));
     return { success: false, error: error.message };
@@ -52,7 +50,7 @@ export const postAuthWithEmail = async (dispatch, data, favoriteItems) => {
 };
 
 // Register
-export const postRegister = async (dispatch, data) => {
+export const postRegister = async (dispatch, data, favoriteItems) => {
   dispatch(loginStart());
   const sendData = {
     name: data.name,
@@ -64,8 +62,20 @@ export const postRegister = async (dispatch, data) => {
   };
   try {
     const res = await request.post('/api/User/register', sendData);
-    localStorage.setItem('rosstokToken', res?.data?.token);
+    const token = res?.data?.token;
     if (res?.data?.success === 'ok') {
+      if (token && favoriteItems?.length > 0) {
+        dispatch(setToken(token));
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+        };
+        await request.post(
+          '/api/ProductsFavourites/set',
+          { ids: favoriteItems },
+          config
+        );
+        dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }]));
+      }
       dispatch(loginSuccess(res?.data));
     }
     return { success: res?.data?.success, resData: res?.data };

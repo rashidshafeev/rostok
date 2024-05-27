@@ -70,7 +70,7 @@ const CardLine = ({ product }) => {
                 to={product?.slug}
                 className='font-bold text-sm  break-all hover:underline line-clamp-3 pb-1'
               >
-                {product?.name || 'Не указано'}
+                {product?.groupName || 'Не указано'}
               </NavLink>
               <p className='font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-4'>
                 {product?.description || 'Не указано'}

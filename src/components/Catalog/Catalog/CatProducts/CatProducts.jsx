@@ -7,10 +7,7 @@ import CatProdSidebar from './CatProdSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
 import BreadCrumbs from '../../../../helpers/BreadCrumbs/BreadCrumbs';
-import {
-  fetchCategoryProductsFilter,
-  fetchCategoryProductsBySort,
-} from '../../../../api/catalog';
+import { fetchCategoryProducts } from '../../../../api/catalog';
 import { useGetProductsByCategoryQuery } from '../../../../redux/api/api';
 import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
 
@@ -28,31 +25,48 @@ const CatProducts = () => {
   const [isLoading, setIsLoading] = useState(loading);
   const [open, setOpen] = useState(false);
   const [catProducts, setCatProducts] = useState(loading ? [] : data);
+  const [filters, setFilters] = useState({
+    filterOptions: {},
+    sortOption: null,
+  });
 
-  const handleFetchProducts = async (category_id, filters) => {
+  const handleFetchProducts = async (categoryId, filterOptions, sortOption) => {
     setIsLoading(true);
-    const { success, data } = await fetchCategoryProductsFilter(
-      category_id,
-      filters
+    const { success, data } = await fetchCategoryProducts(
+      categoryId,
+      filterOptions,
+      sortOption,
+      filters.selectedValues,
+      filters.selectedValuesTwo
     );
     if (success) {
       setCatProducts(data);
-      setIsLoading(false);
     }
     setIsLoading(false);
   };
 
-  const handleFetchBySort = async (category_id, sort) => {
-    setIsLoading(true);
-    const { success, data } = await fetchCategoryProductsBySort(
-      category_id,
-      sort
-    );
-    if (success) {
-      setCatProducts(data);
-      setIsLoading(false);
-    }
-    setIsLoading(false);
+  const handleFetchByFilter = (category_id, filterOptions) => {
+    setFilters((prevFilters) => {
+      const newFilters = { ...prevFilters, filterOptions };
+      handleFetchProducts(
+        category_id,
+        newFilters.filterOptions,
+        newFilters.sortOption
+      );
+      return newFilters;
+    });
+  };
+
+  const handleFetchBySort = (category_id, sortOption) => {
+    setFilters((prevFilters) => {
+      const newFilters = { ...prevFilters, sortOption };
+      handleFetchProducts(
+        category_id,
+        newFilters.filterOptions,
+        newFilters.sortOption
+      );
+      return newFilters;
+    });
   };
 
   const handlePagination = (e, p) => {
@@ -85,8 +99,8 @@ const CatProducts = () => {
       <div className='flex pb-10 min-h-[420px]'>
         <CatProdSidebar
           setBreadCrumps={setBreadCrumps}
-          handleFetchProducts={handleFetchProducts}
-          setCatProducts={setCatProducts}
+          handleFetchByFilter={handleFetchByFilter}
+          setOpen={setOpen}
         />
         <CatProdContent
           catProducts={catProducts}
@@ -104,6 +118,8 @@ const CatProducts = () => {
         setOpen={setOpen}
         category={categoryId}
         setCatProducts={setCatProducts}
+        allFilters={filters}
+        setFilters={setFilters}
       />
     </div>
   );
