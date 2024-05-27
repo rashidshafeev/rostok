@@ -225,99 +225,103 @@ const AllFiltersModal = ({
                         </>
                       )}
                     </div>
-                    <div className='md:hidden border-b pb-3'>
-                      <div
-                        className='flex justify-between items-center cursor-pointer'
-                        onClick={() => toggleAccordion('brand')}
-                      >
-                        <span className='text-colBlack font-semibold'>
-                          Производитель
-                        </span>
-                        <ArrowIcon
-                          className={`!m-0 !w-4 !h-4 ${
-                            accordion?.includes('brand')
-                              ? 'rotate-[0deg]'
-                              : 'rotate-[180deg]'
-                          }`}
-                        />
+                    {filters?.basics?.brands?.length > 0 && (
+                      <div className='md:hidden border-b pb-3'>
+                        <div
+                          className='flex justify-between items-center cursor-pointer'
+                          onClick={() => toggleAccordion('brand')}
+                        >
+                          <span className='text-colBlack font-semibold'>
+                            Производитель
+                          </span>
+                          <ArrowIcon
+                            className={`!m-0 !w-4 !h-4 ${
+                              accordion?.includes('brand')
+                                ? 'rotate-[0deg]'
+                                : 'rotate-[180deg]'
+                            }`}
+                          />
+                        </div>
+                        {accordion?.includes('brand') &&
+                          filters?.basics?.brands?.map((el) => (
+                            <div className='pl-2' key={el?.id}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    style={{
+                                      color: '#15765B',
+                                      padding: '5px 4px 5px 8px',
+                                    }}
+                                    name='brands'
+                                    checked={selectedValuesTwo.brands.includes(
+                                      el?.id
+                                    )}
+                                    onChange={() =>
+                                      handleCheckboxChange('brands', el?.id)
+                                    }
+                                  />
+                                }
+                                label={
+                                  <p className='text-sm font-medium text-colBlack'>
+                                    {el?.name}
+                                  </p>
+                                }
+                              />
+                            </div>
+                          ))}
                       </div>
-                      {accordion?.includes('brand') &&
-                        filters?.basics?.brands?.map((el) => (
-                          <div className='pl-2' key={el?.id}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  style={{
-                                    color: '#15765B',
-                                    padding: '5px 4px 5px 8px',
-                                  }}
-                                  name='brands'
-                                  checked={selectedValuesTwo.brands.includes(
-                                    el?.id
-                                  )}
-                                  onChange={() =>
-                                    handleCheckboxChange('brands', el?.id)
-                                  }
-                                />
-                              }
-                              label={
-                                <p className='text-sm font-medium text-colBlack'>
-                                  {el?.name}
-                                </p>
-                              }
-                            />
-                          </div>
-                        ))}
-                    </div>
-                    <div className='md:hidden border-b pb-3'>
-                      <div
-                        className='flex justify-between items-center cursor-pointer'
-                        onClick={() => toggleAccordion('status')}
-                      >
-                        <span className='text-colBlack font-semibold'>
-                          Статус
-                        </span>
-                        <ArrowIcon
-                          className={`!m-0 !w-4 !h-4 ${
-                            accordion?.includes('status')
-                              ? 'rotate-[0deg]'
-                              : 'rotate-[180deg]'
-                          }`}
-                        />
+                    )}
+                    {filters?.basics?.tags?.length > 0 && (
+                      <div className='md:hidden border-b pb-3'>
+                        <div
+                          className='flex justify-between items-center cursor-pointer'
+                          onClick={() => toggleAccordion('status')}
+                        >
+                          <span className='text-colBlack font-semibold'>
+                            Статус
+                          </span>
+                          <ArrowIcon
+                            className={`!m-0 !w-4 !h-4 ${
+                              accordion?.includes('status')
+                                ? 'rotate-[0deg]'
+                                : 'rotate-[180deg]'
+                            }`}
+                          />
+                        </div>
+                        {accordion?.includes('status') &&
+                          filters?.basics?.tags?.map((el, index) => (
+                            <div className='pt-2 pl-2' key={index}>
+                              <FormControlLabel
+                                control={
+                                  <Checkbox
+                                    style={{
+                                      color: '#15765B',
+                                      padding: '1px 4px 1px 8px',
+                                    }}
+                                    checked={selectedValuesTwo.tags.includes(
+                                      el?.tag
+                                    )}
+                                    onChange={() =>
+                                      handleCheckboxChange('tags', el?.tag)
+                                    }
+                                  />
+                                }
+                                label={
+                                  <span
+                                    style={{
+                                      color: el?.text_color,
+                                      backgroundColor: el?.background_color,
+                                    }}
+                                    className='py-1 px-2 uppercase text-xs font-bold rounded-xl'
+                                  >
+                                    {el?.tag}
+                                  </span>
+                                }
+                              />
+                            </div>
+                          ))}
                       </div>
-                      {accordion?.includes('status') &&
-                        filters?.basics?.tags?.map((el, index) => (
-                          <div className='pt-2 pl-2' key={index}>
-                            <FormControlLabel
-                              control={
-                                <Checkbox
-                                  style={{
-                                    color: '#15765B',
-                                    padding: '1px 4px 1px 8px',
-                                  }}
-                                  checked={selectedValuesTwo.tags.includes(
-                                    el?.tag
-                                  )}
-                                  onChange={() =>
-                                    handleCheckboxChange('tags', el?.tag)
-                                  }
-                                />
-                              }
-                              label={
-                                <span
-                                  style={{
-                                    color: el?.text_color,
-                                    backgroundColor: el?.background_color,
-                                  }}
-                                  className='py-1 px-2 uppercase text-xs font-bold rounded-xl'
-                                >
-                                  {el?.tag}
-                                </span>
-                              }
-                            />
-                          </div>
-                        ))}
-                    </div>
+                    )}
                     {filters?.dynamics?.map((el) => (
                       <div className='border-b md:border-b-0 pb-2' key={el?.id}>
                         <div
