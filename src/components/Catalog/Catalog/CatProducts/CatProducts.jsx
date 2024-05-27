@@ -35,7 +35,9 @@ const CatProducts = () => {
     const { success, data } = await fetchCategoryProducts(
       categoryId,
       filterOptions,
-      sortOption
+      sortOption,
+      filters.selectedValues,
+      filters.selectedValuesTwo
     );
     if (success) {
       setCatProducts(data);
@@ -117,6 +119,7 @@ const CatProducts = () => {
         category={categoryId}
         setCatProducts={setCatProducts}
         allFilters={filters}
+        setFilters={setFilters}
       />
     </div>
   );

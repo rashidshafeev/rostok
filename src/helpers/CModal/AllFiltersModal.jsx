@@ -4,7 +4,7 @@ import { ArrowIcon } from '../Icons';
 import { Loading } from '../Loader/Loader';
 import ErrorServer from '../Errors/ErrorServer';
 import ErrorEmpty from '../Errors/ErrorEmpty';
-import { fetchAllCategoryProducts } from '../../api/catalog';
+import { fetchCategoryProducts } from '../../api/catalog';
 import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
 import CTextField from '../CustomInputs/CTextField';
 
@@ -14,6 +14,7 @@ const AllFiltersModal = ({
   category,
   setCatProducts,
   allFilters,
+  setFilters,
 }) => {
   const [accordion, setAccordion] = useState([]);
   const [selectedValues, setSelectedValues] = useState({});
@@ -113,20 +114,25 @@ const AllFiltersModal = ({
       max_price: 900000,
     });
   };
-
   const onSubmit = async () => {
     setIsFilterLoading(true);
-    const { success, data } = await fetchAllCategoryProducts(
+    const { success, data } = await fetchCategoryProducts(
       category,
+      allFilters.filterOptions,
+      allFilters.sortOption,
       selectedValues,
-      selectedValuesTwo,
-      allFilters
+      selectedValuesTwo
     );
     if (success) {
       setOpen(false);
       setCatProducts(data);
       setIsFilterLoading(false);
     }
+    setFilters((prev) => ({
+      ...prev,
+      selectedValues: selectedValues,
+      selectedValuesTwo: selectedValuesTwo,
+    }));
     setIsFilterLoading(false);
   };
 

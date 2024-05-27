@@ -67,20 +67,42 @@ export const fetchCategoryProducts = async (
   category_id,
   filters,
   sortOption,
+  allFilters = {},
+  filtersMobile,
   searchQuery = ''
 ) => {
   try {
+    const getStringifiedFilters = (filters) => {
+      return filters?.length > 0 ? `["${filters.join('","')}"]` : '';
+    };
+
     const queryParams = {
-      category_id: category_id,
-      brands:
-        filters?.brands?.length > 0 ? `["${filters?.brands.join('","')}"]` : '',
-      tags: filters?.tags?.length > 0 ? `["${filters?.tags.join('","')}"]` : '',
+      category_id,
+      brands: getStringifiedFilters(filters?.brands),
+      tags: getStringifiedFilters(filters?.tags),
       max_price: filters?.max_price || '',
       min_price: filters?.min_price || '',
-      orderBy: sortOption ? sortOption.orderBy : '',
-      sortOrder: sortOption ? sortOption.sortOrder : '',
-      search: searchQuery || '',
+      orderBy: sortOption?.orderBy || '',
+      sortOrder: sortOption?.sortOrder || '',
+      search: searchQuery,
     };
+
+    const filtersString = Object.entries(allFilters)
+      .filter(([, values]) => values.length > 0)
+      .map(([filterId, values]) => `"${filterId}":${JSON.stringify(values)}`)
+      .join(',');
+
+    if (filtersString) {
+      queryParams.filters = `{${filtersString}}`;
+    }
+
+    if (window.innerWidth < 768 && filtersMobile) {
+      queryParams.tags = getStringifiedFilters(filtersMobile?.tags);
+      queryParams.min_price = filtersMobile?.min_price || queryParams.min_price;
+      queryParams.max_price = filtersMobile?.max_price || queryParams.max_price;
+      queryParams.brands = getStringifiedFilters(filtersMobile?.brands);
+    }
+
     const res = await request.get('api/Products/variants', {
       params: queryParams,
     });
