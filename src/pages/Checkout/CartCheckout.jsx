@@ -29,17 +29,10 @@ import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import CustomRadioButton from './CustomRadioButton';
 import PickupPointModal from '../../helpers/CModal/PickupPointModal';
 
-import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { Loading, LoadingSmall } from '../../helpers/Loader/Loader';
+import { FormProvider, useForm } from 'react-hook-form';
 
-import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
 import CTextField from '../../helpers/CustomInputs/CTextField';
-import CSearchField from '../../helpers/CustomInputs/CSearchField';
-import { CheckCircleRounded } from '@mui/icons-material';
-import { useSelector } from 'react-redux';
-import CSelectField from '../../helpers/CustomInputs/CSelectField';
 import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material';
-import AddressModal from '../../helpers/CModal/AddressModal/AddressModal';
 import FizlicoLoggedInForm from '../../components/Checkout/FizlicoLoggedInForm';
 import UrlicoLoggedInForm from '../../components/Checkout/UrlicoLoggedInForm';
 import FizlicoNotLoggedForm from '../../components/Checkout/FizlicoNotLoggedForm';
@@ -143,7 +136,6 @@ function CartCheckout() {
     console.log(sendOrder(order))
     console.log(result)
     
-    // navigate('/', { state: { order } });
   }
 
   const onError = (errors, e) => {

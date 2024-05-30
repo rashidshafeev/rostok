@@ -1,0 +1,168 @@
+import React from 'react'
+import { Controller, useForm } from 'react-hook-form';
+import image from '../../assets/images/want-to-be-partner.png'
+import CTextField from '../../helpers/CustomInputs/CTextField';
+import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
+
+
+function WantToBePartnerFrom() {
+  const {
+    control,
+    handleSubmit,
+    reset,
+    register,
+    watch,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: 'onChange',
+  });
+
+
+  const onSubmitAuthCheck = async (data) => {
+    reset();
+    console.log(data);
+
+    console.log(errors);
+  }
+
+  const InputProps = {
+    sx: {
+      '& .MuiInputBase-input::placeholder': {
+        color: 'white',
+        opacity: 1, // Ensures the white color is fully opaque
+      },
+      '&::placeholder': {
+        color: 'white',
+        opacity: 1, // Ensures the white color is fully opaque
+      },
+      '& .MuiOutlinedInput-notchedOutline': {
+        borderWidth: '1px',
+        borderColor: '#FFF',
+      },
+      '&:hover .MuiOutlinedInput-notchedOutline': {
+        borderWidth: '1px',
+        borderColor: '#FFF',
+      },
+      '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+        borderColor: '#FFF',
+        borderWidth: '1px',
+      },
+      '.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input': {
+        paddingRight: '14px',
+      },
+      color: 'white',
+    },
+  }
+
+  const InputLabelProps = {
+    sx: {
+      '&.Mui-focused': {
+        color: '#FFF',
+      },
+        color: '#FFF',
+    },
+  }
+
+  return (
+
+    <div className='flex gap-5 my-[70px]'>
+      <div className='basis-[calc(30%-20px/2)] rounded-2xl bg-colGreen p-7'>
+        <div className=' text-white text-4xl font-semibold mb-3'> Хотите стать поставщиком?</div>
+        <div className=' text-white mb-3'> Оставьте заявку и менеджер свяжется с вами в ближайшее время, чтобы обсудить все условия</div>
+        <form onSubmit={handleSubmit(onSubmitAuthCheck)} className='flex flex-col gap-3'>
+          <Controller
+            name='name'
+            control={control}
+            defaultValue=''
+            render={({ field }) => (
+              <CTextField
+                label='Имя'
+                type='text'
+                required={true}
+                onChange={field.onChange}
+                value={field.value}
+
+                InputProps = {InputProps}
+                InputLabelProps = {InputLabelProps}
+               
+              />
+            )}
+          />
+          <Controller
+            name='email'
+            control={control}
+            defaultValue=''
+            rules={{
+              required: 'Поле обязательно к заполнению!',
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message:
+                  'Введите корректный адрес электронной почты',
+              },
+            }}
+            render={({ field }) => (
+              <CTextField
+                label='Электронная почта'
+                type='email'
+
+                required={true}
+                {...field}      
+
+                InputProps = {InputProps}
+                InputLabelProps = {InputLabelProps}
+
+              />
+            )}
+          />
+          <Controller
+            name='phone'
+            control={control}
+            defaultValue=''
+            rules={{
+              required: 'Поле обязательно к заполнению!',
+              pattern: {
+                value:
+                  /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
+                message: 'Введите корректный номер телефона',
+              },
+            }}
+            render={({ field }) => (
+              <CPhoneField
+              label='Телефон' {...field}
+
+              InputProps = {InputProps}
+                InputLabelProps = {InputLabelProps}
+
+               />
+            )} />
+          <Controller
+            name='comment'
+            control={control}
+            defaultValue=''
+            render={({ field }) => (
+              <CTextField
+
+                multiline
+                minRows={3}
+                label='Комментарий'
+                type='text'
+                onChange={field.onChange}
+                value={field.value}
+
+                InputProps = {InputProps}
+                InputLabelProps = {InputLabelProps}
+          
+              />
+            )}
+          />
+          <button className=' bg-white rounded p-3 text-colGreen font-semibold'>Оставить заявку</button>
+        </form>
+      </div>
+      <div className='basis-[calc(70%-20px/2)]'>
+        <img src={image} alt="" />
+      </div>
+    </div>
+  )
+}
+
+export default WantToBePartnerFrom

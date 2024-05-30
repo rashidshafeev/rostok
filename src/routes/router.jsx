@@ -13,7 +13,14 @@ import {
   ProductPage,
   ReviewsPage,
   SearchResults,
-  CartCheckout
+  CartCheckout,
+  PaymentDelivery,
+  Warranty,
+  Wholesale,
+  Contacts,
+  About,
+  FAQ,
+  PageNotFound
 } from '../pages';
 
 import {
@@ -64,6 +71,13 @@ export const router = createBrowserRouter(
           <Route path='change-password' element={<ChangePassword />} />
           <Route path='orders' element={<MyOrders />} />
         </Route>
+        <Route path='payment-delivery' element={<PaymentDelivery />} />
+        <Route path='warranty' element={<Warranty />} />
+        <Route path='wholesale' element={<Wholesale  />}/>
+        <Route path='contacts' element={<Contacts  />}/>
+        <Route path='about' element={<About  />}/>
+        <Route path='faq' element={<FAQ  />}/>
+        <Route path='*' element={<PageNotFound  />}/>
       </Route>
     </Route>
   )

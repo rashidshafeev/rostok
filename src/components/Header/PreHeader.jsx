@@ -26,33 +26,33 @@ function PreHeader() {
       </div>
       <ul className='hidden lg:flex justify-end items-center space-x-3'>
         <li>
-          <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
+          <NavLink to='/payment-delivery' className='text-colDarkGray text-sm font-semibold'>
             Оплата и доставка
           </NavLink>
         </li>
         <li>
-          <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
+          <NavLink to='/warranty' className='text-colDarkGray text-sm font-semibold'>
             Гарантия и возврат
           </NavLink>
         </li>
         <li>
-          <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
+          <NavLink to='/wholesale' className='text-colDarkGray text-sm font-semibold'>
             Оптовым клиентам
           </NavLink>
         </li>
         <li>
-          <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
+          <NavLink to='/contacts' className='text-colDarkGray text-sm font-semibold'>
             Контакты
           </NavLink>
         </li>
         <li>
-          <NavLink to='#' className='text-colDarkGray text-sm font-semibold'>
+          <NavLink to='/about' className='text-colDarkGray text-sm font-semibold'>
             О компании
           </NavLink>
         </li>
         <li>
           <NavLink
-            to='#'
+            to='/question'
             className='text-colDarkGray text-sm font-semibold border-b border-colDarkGray pb-[1px]'
           >
             Есть вопросы?

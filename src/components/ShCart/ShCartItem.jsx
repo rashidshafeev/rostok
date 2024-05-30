@@ -9,14 +9,12 @@ import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 
 const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
-  // eslint-disable-next-line no-unused-vars
-  // const [cartProducts, addToCart, removeFromCart] = useOutletContext();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const cart = useSelector(state => state?.cart?.cart)
 
   const favorite = useSelector(state => state?.favorite)
-
+  console.log(cart)
   return (
     <>
       {cart?.map((product, index) => (
@@ -30,12 +28,10 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 checked={selectedItems.some(el => el?.id === product?.id)}
                 onChange={() => dispatch(selectItem(product))}
               />
-              <div
-              onClick={(e) => {
-                e.preventDefault();
-                navigate(`/catalog/category/${product.slug}`);
-              }}
-               className='cursor-pointer min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
+              <NavLink
+              to={`/catalog/${product.category.slug}/${product.slug}`}
+              >
+                <div className='cursor-pointer min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
                 <img
                   className='w-full h-full object-contain'
                   src={product?.files[0]?.large || noImg}
@@ -46,6 +42,8 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                   alt='*'
                 />
               </div>
+              </NavLink>
+              
             </div>
             <div className='pr-3'>
               {product?.tags?.length > 0 ? (
@@ -58,26 +56,29 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
               ) : (
                 <span></span>
               )}
-              <span
-                // to={product.slug}
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate(`/catalog/category/${product.slug}`);
-                }}
+              <NavLink
+                to={`/catalog/${product.category.slug}/${product.slug}`}>
+                <span
                 className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
               >
                 {product?.name}
               </span>
+              </NavLink>
+              
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>Артикул:</span>
                   <span>{product?.sku}</span>
                 </p>
-                <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                  <span>Цвет:</span>
-                  <span className='w-3 h-3 min-w-[12px] bg-black rounded-full'></span>
-                  <span>Чёрный</span>
-                </p>
+                <div className='flex gap-x-2 flex-wrap'>
+                  {/* product.attributes && product?.attributes?.map((attribute, index) => (
+                    <p key={index} className='text-xs text-colDarkGray flex items-center space-x-1'>
+                      <span >{attribute?.name}:</span>
+                      <span className='font-semibold' >{attribute.color ? (<div style={{ backgroundColor: `${attribute.color}` }} className={`w-3 h-3 rounded-full border`}></div>) : (attribute.text)}</span>
+                    </p>
+                  )) */}
+                </div>
+                
               </div>
               <div className='flex pt-2'>
                 <button className='flex items-center outline-none'>

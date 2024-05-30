@@ -3,11 +3,13 @@ import { forwardRef } from 'react';
 
 // eslint-disable-next-line react/display-name
 const CTextField = forwardRef(({ ...props }, ref) => {
+
+
   return (
     <TextField
       size='small'
       fullWidth
-      variant='outlined'
+      variant='outlined' 
       InputProps={{
         sx: {
           '& .MuiOutlinedInput-notchedOutline': {
@@ -34,6 +36,8 @@ const CTextField = forwardRef(({ ...props }, ref) => {
           },
         },
       }}
+      
+
       inputProps={props.inputProps}
       {...props}
       ref={ref}

@@ -29,9 +29,8 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 
 
 function ProductPage() {
-  const [attributesList, setAttributesList] = useState({})
-  const [currentAttributes, setCurrentAttributes] = useState({})
-  const [currentProductGroup, setCurrentProductGroup] = useState({})
+  // const [attributesList, setAttributesList] = useState([])
+  // const [currentAttributes, setCurrentAttributes] = useState([])
   const [currentProduct, setCurrentProduct] = useState({})
 
   const [tabIndex, setTabIndex] = useState(3);
@@ -48,281 +47,211 @@ function ProductPage() {
     threshold: 1
   });
 
+  console.log('ProductPage render')
 
   const params = useParams()
   const loader = useLoaderData()
-  const navigate = useNavigate()
-
-
   console.log("loader.data")
   console.log(loader.data)
+  const group = loader.data
 
-  
+  const navigate = useNavigate()
 
+  const getAttributesValuesListFromProductsList = (list) => {
 
-  const product = loader.data
-
-  const getAttributeList = () => {
-    const attributesList = {}
-    const attributesState = {}
-
-    product?.variants.forEach((variant, varIndex) => {
-
-
-      variant.attributes.forEach((attribute) => {
-
-        if (!attributesList[`${attribute.id}`]) {
-          attributesList[`${attribute.id}`] = {
-            values: [{
-              ...attribute
-            }],
+    let attributeTypes = {};
+    list.forEach(product => {
+      product.attributes.forEach(attribute => {
+        // If the attribute type is not already in the object, add it
+        if (!attributeTypes[attribute.name]) {
+          attributeTypes[attribute.name] = {
             name: attribute.name,
-            type: attribute.type
-          }
-        } else if (!attributesList[`${attribute.id}`].values.find(val => val.value === attribute.value)) {
-          attributesList[`${attribute.id}`].values.push({
-            ...attribute
-          })
+            id: attribute.id,
+            values: [],
+          };
         }
 
-        if (variant.slug === params.productId) {
-          attributesState[`${attribute.id}`] = {
-            ...attribute
-          }
+        // Add the attribute value to the values array if it's not already there
+        if (!attributeTypes[attribute.name].values.some(val => val.text === attribute.text && val.value === attribute.value)) {
+          attributeTypes[attribute.name].values.push({
+            text: attribute.text,
+            value: attribute.value
+          });
         }
-      })
 
-    })
+      });
+    });
 
-
-    setAttributesList(attributesList)
-    setCurrentAttributes(attributesState)
-
-    console.log(attributesList)
-    console.log(attributesState) // currentAttributes.current = attributesState
-
+    return (attributeTypes)
   }
 
 
-  const getProducts = () => {
-    const products = {}
-    product?.variants.forEach((variant) => {
-      products[`${variant.id}`] = { ...variant }
-    })
+  const getProductByAttributes = (attributes) => {
 
-    for (const product in products) {
-      let attributes = {}
+    let product = group?.variants?.filter(product => {
+      // Check if every attribute in the product matches with the given attributes
+      return attributes.every(attribute => {
+        return product.attributes.some(prodAttribute => {
+          return prodAttribute.id === attribute.id && prodAttribute.value === attribute.value;
+        });
+      });
+    });
 
-      products[product].attributes.forEach((attr) => {
-        attributes[`${attr.id}`] = { ...attr }
-      })
-
-      products[product].attributes = attributes
-    }
-    setCurrentProductGroup(products)
+    return product[0]
   }
 
+  function setAvailableProperty(fullList, availableList) {
+    const newList = { ...fullList}
 
 
-  const getProductByAttributes = () => {
+    for (let key in newList) {
+        if (newList.hasOwnProperty(key) && availableList.hasOwnProperty(key)) {
+            let values1 = newList[key].values;
+            let values2 = availableList[key].values;
 
+            // Set all values to not available initially
+            values1.forEach(value => {
+              value.availible = false;
+          });
 
-    console.log("currentAttributes")
-    console.log(currentAttributes)
-    console.log(Object.keys(currentAttributes).length === 0)
-
-    if (Object.keys(currentAttributes).length === 0) {
-      setCurrentProduct(product.variants[0])
-      return
+           // Set available to true for values that exist in obj2
+            for (let i = 0; i < values1.length; i++) {
+                for (let j = 0; j < values2.length; j++) {
+                    if (values1[i].value === values2[j].value) {
+                        values1[i].available = true;
+                        break;
+                    }
+                }
+            }
+        }
     }
 
-    // if ()
-    const products = currentProductGroup
-    let currentProduct = {}
-
-    for (const product in products) {
-      let checks = 0
-
-      for (const id in currentAttributes) {
-
-        if (products[product].attributes[id].value === currentAttributes[id].value) {
-          checks++
-        }
-
-        if (checks === Object.keys(currentAttributes).length) {
-          currentProduct = products[product]
-        }
-
-      }
-
-    }
-
-    setCurrentProduct(currentProduct)
-    navigate(`../${currentProduct.slug}`, { replace: true })
-
-
-  }
-
-
-
-  const getActiveAttributes = () => {
-
-    const list = { ...attributesList }
-
-    for (const id in currentAttributes) {
-
-      list[id].values.forEach((valueCheck, valueIndex) => {
-        const attributeCheck = { ...currentAttributes }
-        attributeCheck[id] = {
-          value: valueCheck.value,
-          text: valueCheck.text
-        }
-
-        list[id].values[valueIndex][`availible`] = checkAvailibilty(attributeCheck)
-
-      })
-
-      setAttributesList(list)
-
-    }
-
-
-  }
-
-
+    return newList;
+}
 
   const handleChangeAttribute = (event) => {
     const id = event.currentTarget.getAttribute("data-id")
     const value = event.currentTarget.getAttribute("data-value")
     const text = event.currentTarget.getAttribute("data-text")
 
-    const newAttributes = { ...currentAttributes }
+    const newAttributes = JSON.parse(JSON.stringify(currentAttributes))
 
-    newAttributes[`${id}`] = {
-      value: value,
-      text: text
-    }
-
-    if (checkAvailibilty(newAttributes)) {
+    newAttributes.find(attr => attr.id === id).value = value
+    newAttributes.find(attr => attr.id === id).text = text
+   
+    if (!getProductByAttributes(newAttributes)) {
+      console.log('no product')
+      console.log(findAvailableProductByValue(id, value))
+      setCurrentAttributes(findAvailableProductByValue(id, value).attributes)
+    } else {
       setCurrentAttributes(newAttributes)
-    } else {
-      const availible = searchAvailible(id, value)
-      setCurrentAttributes(availible)
     }
-
-    console.log(currentAttributes)
-
+    
   }
 
-  const checkAvailibilty = (attributes) => {
-    const products = currentProductGroup
-    let currentProduct = {}
+  const getAvailableProductsByAttributeValues = (attributes) => {
+    let availableProducts = []
 
-    for (const product in products) {
-      let checks = 0
+      group?.variants.forEach((variant) => {
+        let checks = 0
 
-      for (const id in attributes) {
+        variant.attributes.forEach((attr) => {
+          if (attributes.some(attribute => attribute.id === attr.id && attribute.value === attr.value)) {
+            checks++
+          }
+        })
 
-        if (products[product].attributes[id].value === attributes[id].value) {
-          checks++
+        if (checks >= (Object.keys(attributesList).length - 1)) {
+          availableProducts.push(variant)
         }
 
-        if (checks === Object.keys(attributes).length) {
-          currentProduct = products[product]
-        }
+      })
 
-      }
-
-    }
-
-    if (Object.keys(currentProduct).length) {
-      return true
-    } else {
-      return false
-    }
+      return availableProducts
   }
 
-  const searchAvailible = (id, value) => {
-    const products = currentProductGroup
-    const availible = {}
-
-    for (const product in products) {
-
-      if (products[product].attributes[id].value === value) {
-        Object.assign(availible, products[product].attributes)
-      }
-    }
-
-    return availible
+  const findAvailableProductByValue = (id, value) => {
+    let available = []
+    group?.variants?.forEach((variant) => {
+     if (variant.attributes?.find(attr => attr.id === id && attr.value === value)) {
+      available.push(variant)
+     }
+    })
+    return available[0]
   }
 
 
-  useEffect(getAttributeList, [])
-  useEffect(getProducts, [])
-  useEffect(getProductByAttributes, [currentAttributes])
-  useEffect(getActiveAttributes, [currentAttributes])
+  // useEffect(() => {
+  //   setAttributesList(getAttributesValuesListFromProductsList(group.variants))
 
+  //   const currentAttributes = group?.variants?.find((variant) => variant.slug === params.productId).attributes
 
-  const cart = useSelector(state => state?.cart)
-  const favorite = useSelector(state => state?.favorite)
-  const comparison = useSelector(state => state?.comparison)
+  //   setCurrentAttributes(currentAttributes)
+  // }, [])
 
-  const dispatch = useDispatch()
+  // useEffect(() => {
+  //   if (currentAttributes?.length === 0) {
+  //     setCurrentProduct(group?.variants[0])
+  //     return
+  //   }
 
+  //   setAttributesList(setAvailableProperty(getAttributesValuesListFromProductsList(group.variants), getAttributesValuesListFromProductsList(getAvailableProductsByAttributeValues(currentAttributes))))
+    
+  //   const currentProduct = getProductByAttributes(currentAttributes)
 
-  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
-  const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
-  const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
-
-
+  //   setCurrentProduct(currentProduct)
+  //   navigate(`../${currentProduct.slug}`, { replace: true })
+  // }, [currentAttributes])
 
   return (
     <>
       <div className='content lining-nums proportional-nums'>
-        <Breadcrumbs breadCrumps={product?.category_chain} />
+      <Breadcrumbs breadCrumps={group?.category_chain} />
         <div className='lg:block hidden'>
-          <div className=' text-xl font-semibold mb-[10px]'>{product.name} {currentProduct.name}</div>
-          <TopControls product={currentProduct} reviews={product.reviews} />
+          <div className=' text-xl font-semibold mb-[10px]'>{group.name} {currentProduct.name}</div>
+          <TopControls product={currentProduct} reviews={group.reviews} />
         </div>
         <div className='lg:hidden'>
-          <MobileTopBar product={currentProduct}/>
+          <MobileTopBar product={currentProduct} />
         </div>
         <div className='flex  flex-wrap pb-5 min-h-[420px] gap-5'>
           <div className='lg:basis-[calc(42%-40px/3)] basis-full'>
             <ProductGallery files={currentProduct.files} />
           </div>
-          <MobileInfo name={`${product.name} ${currentProduct.name}`} reviews={product.reviews} sku={currentProduct.sku} />
+          <MobileInfo name={`${group.name} ${currentProduct.name}`} reviews={group.reviews} sku={currentProduct.sku} />
 
           <div className='lg:basis-[calc(33%-40px/3)] flex flex-col gap-[10px] basis-full'>
 
             <div><img className='h-6' src={dummylogo} alt='*' /></div>
-            <ProductAttributesList list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList>
+            { group?.variants && <ProductAttributesList variants={group?.variants} setCurrentProduct={setCurrentProduct}/>}
+            {/* <ProductAttributesList variants={loader.variants} list={attributesList} current={currentAttributes} handleChangeAttribute={handleChangeAttribute}></ProductAttributesList> */}
 
             <div className='lg:block hidden'>
-            {currentProduct.attributes && <CharacteristicsList current={currentProduct} product={product} setTabIndex={setTabIndex} />}
+              {currentProduct.attributes && <CharacteristicsList current={currentProduct} product={group} setTabIndex={setTabIndex} />}
 
             </div>
           </div>
 
-          <div ref={addCard} className='lg:basis-[calc(25%-40px/3)] basis-full'>
+          {/* <div ref={addCard} className='lg:basis-[calc(25%-40px/3)] basis-full'>  */}
+          <div className='lg:basis-[calc(25%-40px/3)] basis-full'> 
             <RightBar product={currentProduct} />
           </div>
 
         </div>
 
         <div className='lg:block hidden pb-5 min-h-[420px] gap-5'>
-          <ProductTabs current={currentProduct} product={product} tabIndex={tabIndex} setTabIndex={setTabIndex}></ProductTabs>
+          <ProductTabs current={currentProduct} product={group} tabIndex={tabIndex} setTabIndex={setTabIndex}></ProductTabs>
         </div>
 
         <div className='lg:hidden'>
-          <MobileProductInfo current={currentProduct} product={product} />
+          <MobileProductInfo current={currentProduct} product={group} />
         </div>
 
 
 
 
       </div>
-      { (addCardVisible && addCardVisible.intersectionRatio < 1) &&  <MobileAddToCartBar product={currentProduct} />}
+      {/* {(addCardVisible && addCardVisible.intersectionRatio < 1) && <MobileAddToCartBar product={currentProduct} />} */}
 
     </>
   )
