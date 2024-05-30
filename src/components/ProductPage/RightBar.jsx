@@ -1,8 +1,5 @@
 import React from 'react'
 
-import minusbutton from '../../assets/icons/minus-button.svg';
-import plusbutton from '../../assets/icons/plus-button.svg';
-
 import checkicon from '../../assets/icons/check-icon.svg';
 import stallicon from '../../assets/icons/stall-icon.svg';
 import truckicon from '../../assets/icons/truck-icon.svg';
@@ -10,21 +7,16 @@ import boxicon from '../../assets/icons/box-icon.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { addToCart, changeQuantity } from '../../redux/slices/cartSlice';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function RightBar({ product }) {
-    const navigate = useNavigate()
     const dispatch = useDispatch();
     const cart = useSelector(state => state?.cart)
     const productInCart = cart?.cart?.find((el) => el?.id === product?.id);
 
-    // const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
-
-
 
     return (
         <>
-            {/* <div className='lg:block hidden'> */}
                 <div className='shadow-[1px_1px_34px_0_rgba(0,0,0,0.1)] p-5 rounded-xl flex flex-col gap-8 mb-5'>
 
                     {productInCart && <div className='flex justify-between'>
@@ -57,12 +49,12 @@ function RightBar({ product }) {
                     </div>}
 
                     {productInCart &&
-                        <NavLink>
-                            <button className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate('/shopping-cart');
-                                }}>Перейти в корзину</button>
+                        <NavLink
+                            to="/shopping-cart"
+                        >
+                            <button
+                            className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'>
+                                Перейти в корзину</button>
 
                         </NavLink>}
 
@@ -72,7 +64,6 @@ function RightBar({ product }) {
                     </div>
 
                 </div>
-            {/* </div> */}
             
 
             <div className='flex flex-col gap-4 px-5'>
