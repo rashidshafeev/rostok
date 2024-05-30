@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { Loading } from '../Loader/Loader';
 import ErrorEmpty from '../Errors/ErrorEmpty';
-import { fetchAllCategoryProducts } from '../../api/catalog';
+import { fetchCategoryProducts } from '../../api/catalog';
 import CTextField from '../CustomInputs/CTextField';
 
 const SearchFiltersModal = ({
@@ -99,7 +99,7 @@ const SearchFiltersModal = ({
 
   const onSubmit = async () => {
     setIsLoading(true);
-    const { success, data } = await fetchAllCategoryProducts(
+    const { success, data } = await fetchCategoryProducts(
       '',
       selectedValues,
       selectedValuesTwo,

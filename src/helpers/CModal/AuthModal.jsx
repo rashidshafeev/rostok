@@ -119,8 +119,13 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   };
 
   const onSubmitRegister = async (data) => {
+    const favoriteItems = favorite?.map((el) => el?.id);
     setIsLoading(true);
-    const { success, resData } = await postRegister(dispatch, data);
+    const { success, resData } = await postRegister(
+      dispatch,
+      data,
+      favoriteItems
+    );
     if (success) {
       setIsLoading(false);
       setIsCode({ verification: null, sendCode: null });

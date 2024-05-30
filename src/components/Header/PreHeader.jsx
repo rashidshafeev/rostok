@@ -10,13 +10,13 @@ function PreHeader() {
   const [city, setCity] = useState(null);
 
   return (
-    <div className='content mx-auto pt-3 lg:pt-2 flex justify-between items-center space-x-5 relative z-[999]'>
+    <div className='content mx-auto pt-3 lg:pt-2 flex justify-between items-center relative z-[999]'>
       <NavLink className='min-w-[87px] w-[87px] block lg:hidden' to='/'>
         <img src={logo} alt='logo' />
       </NavLink>
       <div
         onClick={() => setOpen(true)}
-        className='flex items-center cursor-pointer'
+        className='flex items-center cursor-pointer lg:mr-5'
       >
         <img src={address} alt='*' />
         <span className='text-colBlack text-xs font-semibold ml-1'>

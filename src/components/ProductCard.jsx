@@ -106,7 +106,7 @@ const ProductCard = ({ product, recommended }) => {
         )}
         <div className='h-[50px] mt-1'>
           <h5 className='font-medium text-sm leading-[120%] text-colBlack line-clamp-3'>
-            {product?.name || 'Не указано'}
+            {product?.groupName || 'Не указано'}
           </h5>
         </div>
         <div className='flex items-end pb-1 h-8'>
