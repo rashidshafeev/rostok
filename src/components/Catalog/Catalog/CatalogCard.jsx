@@ -4,7 +4,7 @@ import noImg from '../../../assets/images/no-image.png';
 function CatalogCard({ category }) {
   return (
     <NavLink
-      to={`${category?.slug}`}
+      to={`/catalog/${category?.slug}`}
       state={{ category: category }}
       className='p-3 lg:p-5 relative bg-colSuperLight rounded-lg lg:rounded-[20px] min-h-[120px] lg:min-h-[240px]'
     >
