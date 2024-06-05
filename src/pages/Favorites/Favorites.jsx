@@ -5,6 +5,8 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { FavDetail, FavSidebar } from '../../components';
 import { useGetFavoritesQuery } from '../../redux/api/api';
 import chair from '../../assets/temp-images/chair.png';
+import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
+import { favoritesBC } from '../../constants/breadCrumps';
 
 const Favorites = () => {
   const favorite = useSelector((state) => state?.favorite?.favorite);
@@ -17,7 +19,8 @@ const Favorites = () => {
 
   return (
     <div className='content pb-6'>
-      <h1 className='font-semibold text-2xl md:text-3xl lg:text-[40px] text-colBlack pt-3'>
+      <CustomBCrumbs breadCrumps={favoritesBC} />
+      <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack'>
         Избранное
       </h1>
       {user && data?.data?.length > 0 && (
