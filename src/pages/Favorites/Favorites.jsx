@@ -20,7 +20,7 @@ const Favorites = () => {
   return (
     <div className='content pb-6'>
       <CustomBCrumbs breadCrumps={favoritesBC} />
-      <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack'>
+      <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack pb-5'>
         Избранное
       </h1>
       {user && data?.data?.length > 0 && (

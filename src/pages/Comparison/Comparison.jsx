@@ -16,7 +16,7 @@ const Comparison = () => {
   return (
     <div className=' pb-6 content'>
       <CustomBCrumbs breadCrumps={comparisonBC} />
-      <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack'>
+      <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack pb-5'>
         Сравнение товаров
       </h1>
       <div>
