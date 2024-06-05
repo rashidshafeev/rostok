@@ -42,7 +42,7 @@ const LineNarrow = ({ product }) => {
       <div className='flex justify-between mm:pr-4 max-w-[780px] w-full'>
         <div className='flex pr-2 mm:pr-0'>
           <NavLink
-            to={product?.slug}
+            to={`/catalog/${product?.category?.slug}/${product?.slug}`}
             className='min-w-[80px] w-20 h-20 bg-gray-100 rounded-lg overflow-hidden'
           >
             <img
@@ -59,7 +59,7 @@ const LineNarrow = ({ product }) => {
             <div className='space-y-2 pt-1'>
               <div>
                 <NavLink
-                  to={product?.slug}
+                  to={`/catalog/${product?.category?.slug}/${product?.slug}`}
                   className='font-bold text-sm  break-all hover:underline line-clamp-3 pb-1'
                 >
                   {product?.groupName + ' ' + product?.name || 'Не указано'}

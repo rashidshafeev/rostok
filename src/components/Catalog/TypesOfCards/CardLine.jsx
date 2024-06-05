@@ -40,7 +40,7 @@ const CardLine = ({ product }) => {
   return (
     <div className='lg:flex justify-between'>
       <div className='mm:flex lg:pr-4 lg:max-w-[800px] w-full'>
-        <NavLink to={product?.slug}>
+        <NavLink to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
           <div className='mm:max-w-[280px] min-w-[280px] w-full h-[260px] mm:h-[180px] overflow-hidden rounded-xl relative bg-gray-100'>
             <img
               src={product?.files[0]?.large || noImg}
@@ -67,7 +67,7 @@ const CardLine = ({ product }) => {
           <div className='space-y-2 pt-1'>
             <div>
               <NavLink
-                to={product?.slug}
+                to={`/catalog/${product?.category?.slug}/${product?.slug}`}
                 className='font-bold text-sm  break-all hover:underline line-clamp-3 pb-1'
               >
                 {product?.groupName + ' ' + product?.name || 'Не указано'}
