@@ -15,15 +15,21 @@ export const cartSlice = createSlice({
   reducers: {
     fetchCart: (state, action) => {},
     setCart: (state, action) => {
-      state.cart = action.payload.cart 
-      state.selected = action.payload.selected 
-      state.itemsQuantity = action.payload.itemsQuantity 
-      state.selectedQuantity = action.payload.selectedQuantity 
+      
+      if (!action.payload) {
+        state.cart = []
+        state.selected = []
+        state.itemsQuantity = 0
+        state.selectedQuantity = 0
+      } else {
+        state.cart = action.payload.cart
+        state.selected = action.payload.selected
+        state.itemsQuantity = action.payload.itemsQuantity
+        state.selectedQuantity = action.payload.selectedQuantity
+      }
+
     },
     addToCart: (state, action) => {
-      console.log(action.payload)
-      console.log(state.cart.find((item) => item.id === action.payload.id))
-
       const product = state.cart.find((item) => item.id === action.payload.id)
 
       if (product) {

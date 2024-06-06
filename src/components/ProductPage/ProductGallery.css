@@ -1,0 +1,40 @@
+.image-gallery-thumbnail.active, .image-gallery-thumbnail:focus {
+    border-color: #15765B;
+    border-radius: 4px;
+}
+
+.image-gallery-thumbnail:hover {
+    border-color: #15765B;
+    border-radius: 4px;
+}
+
+.image-gallery-icon:hover {
+    color: #15765B;
+}
+
+/* .image-gallery-thumbnail .image-gallery-thumbnail-inner  {
+    background-color: #15765B;
+}
+
+.image-gallery-thumbnail.active .image-gallery-thumbnail-image, .image-gallery-thumbnail:hover .image-gallery-thumbnail-image {
+    border-radius: 4px;
+
+} */
+
+.image-gallery {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-gallery.fullscreen-modal {
+    background-color: transparent;
+
+}
+
+.image-gallery-content.fullscreen {
+    position: absolute;
+    background-color: transparent;
+    z-index: 70;
+
+}

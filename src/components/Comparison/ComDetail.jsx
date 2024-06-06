@@ -35,12 +35,12 @@ const ComDetail = ({ comparison }) => {
   const tableHeaderPlaceholder = useRef(null);
   const tableHeaderVisible = useIntersection(tableHeader, {
     root: null,
-    rootMargin: "-68px 0px 0px 0px",
+    rootMargin: "-82px 0px 0px 0px",
     threshold: 1
   });
   const tableHeaderPlaceholderVisible = useIntersection(tableHeaderPlaceholder, {
     root: null,
-    rootMargin: "-68px 0px 0px 0px",
+    rootMargin: "-82px 0px 0px 0px",
     threshold: 1
   });
 
@@ -103,7 +103,7 @@ const ComDetail = ({ comparison }) => {
     <>
 
 <div ref={tableHeader} className={`w-full  h-[130px] transition-all duration-1000 ${
-              isSticky ? 'fixed top-[68px] z-50 ' : 'relative'
+              isSticky ? 'fixed top-[82px] z-50 ' : 'relative'
             }`}>
               <div ref={buttonContainer} className="relative">
               <button onClick={scrollLeft} className={`absolute opacity-50 hover:opacity-100 transition-all

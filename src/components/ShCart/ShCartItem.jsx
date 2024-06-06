@@ -14,6 +14,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
   const dispatch = useDispatch();
 
   const favorite = useSelector(state => state?.favorite)
+  console.log("cart")
   console.log(cart)
   return (
     <>
@@ -61,7 +62,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 <span
                 className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
               >
-                {product?.name}
+                {product?.groupName}{product?.name}
               </span>
               </NavLink>
               
@@ -71,12 +72,12 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                   <span>{product?.sku}</span>
                 </p>
                 <div className='flex gap-x-2 flex-wrap'>
-                  {/* product.attributes && product?.attributes?.map((attribute, index) => (
+                  {product.attributes && product?.attributes?.map((attribute, index) => (
                     <p key={index} className='text-xs text-colDarkGray flex items-center space-x-1'>
                       <span >{attribute?.name}:</span>
                       <span className='font-semibold' >{attribute.color ? (<div style={{ backgroundColor: `${attribute.color}` }} className={`w-3 h-3 rounded-full border`}></div>) : (attribute.text)}</span>
                     </p>
-                  )) */}
+                  ))}
                 </div>
                 
               </div>

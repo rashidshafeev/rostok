@@ -5,7 +5,6 @@ import copyicon from '../../assets/icons/copy-icon.svg';
 
 function CharacteristicsList({ current, product, setTabIndex }) {
 
-    console.log(current, product)
     return (
         <>
             <div className='flex flex-col gap-[10px]'>
@@ -19,7 +18,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                 </div>
                 {
                     product?.attributes?.map((attribute, index) => {
-                        {/* Если атрибут модификационный выводит значение актуальное для модификации, если нет, то общее значение атрибута */}
+                        {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
                         if (Object.keys(current.attributes).some(key => key.toString() === attribute.id)) {
                             return(

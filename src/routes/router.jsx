@@ -42,6 +42,7 @@ const fetchProduct = async ({ params }) => {
       },
     }
   );
+  
   return group;
 };
 

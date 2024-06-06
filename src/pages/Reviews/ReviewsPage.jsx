@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -24,6 +18,11 @@ import { useGetProductsQuery } from "../../redux/api/api";
 
 
 export function ReviewsPage() {
+
+  useEffect(() => {
+    scrollToTop();
+  }, []);
+
 
   const state = useLocation();
   const params = useParams();

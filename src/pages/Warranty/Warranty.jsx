@@ -1,14 +1,28 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import fizlico from '../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../assets/icons/urlico-inactive.svg';
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import QuestionModal from '../../helpers/CModal/QuestionModal';
 
 function Warranty() {
     const [type, setType] = useState('urlico');
+    const [questionModalOpen, setQuestionModalOpen] = useState(false);
+
+    const questionModalHandleClose = () => {
+      setQuestionModalOpen(false);
+    }
+  
+
+    useEffect(() => {
+        scrollToTop();
+      }, []);
+    
 
 
   return (
     <div className="content lining-nums ">
+        <QuestionModal open={questionModalOpen} handleClose={questionModalHandleClose}/>
             <h3 className='text-2xl my-5 font-semibold'>Гарантия и возврат</h3>
 
             <div className="flex gap-5 mb-[40px]">
@@ -45,18 +59,18 @@ function Warranty() {
                 <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Транспортные расходы при возврате качественной фурнитуры несет покупатель</div>
                 <div className='flex gap-2 items-start mb-4'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>В случае отказа покупателем от заказа до его получения в транспортной компании, оплаченная за заказ денежная сумма возвращается покупателю за вычетом стоимости транспортных расходов за возврат. Сумма расходов за возврат заказа в данном случае является расходами, понесенными продавцом в связи с выполнением обязательств по доставке перед покупателем</div>
 
-                <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold mb-4'>Задать вопрос</button> 
+                <button onClick={() => setQuestionModalOpen(true)} className='px-8 py-3 bg-colGreen rounded text-white font-semibold mb-4'>Задать вопрос</button> 
                 <div className=' font-semibold mb-4'>Условия возврата брака</div>
                 <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Если комплектующие вышли из строя, стали работать или выглядеть хуже по причине скрытых производственных дефектов, то компания в обязательном порядке устранит проблему — заменит неисправные детали или, если это невозможно, сам товар</div>
                     <div className='flex gap-2 items-start'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Для получения сервисного обслуживания достаточно направить претензию в личном кабинете с подробным описанием проблемы</div>
                     <div className='flex gap-2 items-start mb-4'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Для экспертизы могут потребоваться фото/видео материалы, фиксирующие неисправности продукта</div>
-                <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold mb-4'>Задать вопрос</button> 
+                <button onClick={() => setQuestionModalOpen(true)} className='px-8 py-3 bg-colGreen rounded text-white font-semibold mb-4'>Задать вопрос</button> 
                 <div className=' font-semibold mb-4'>Условия возврата средств</div>
                 <div className=' mb-4'>В случае возврата всего заказа или его части, его стоимость будет возвращена в соответствии со способом оплаты, выбранном в заказе, и на основании заявления покупателя</div>
                 <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>При покупке мебельной фурнитуры за наличный расчет, возврат осуществляется наличными денежными средствами при предъявлении паспорта РФ, необходимого для оформления кассовых документов, и заявления о возврате</div>
                     <div className='flex gap-2 items-start mb-4'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>При оплате банковской картой через терминал, возврат производится в кассе на банковскую карту по терминалу. Зачисление денежных средств на карточные счета физических лиц происходит в сроки, установленные банком, выпустившим карту</div>
                     <div className='flex gap-2 items-start mb-4'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>При оплате онлайн, возврат осуществляется на расчетный счет по реквизитам банковского счета, указанного покупателем в заявлении, в течение 10 дней. Возврат производится только на реквизиты плательщика</div>
-                <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> 
+                <button  onClick={() => setQuestionModalOpen(true)} className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> 
                     </div>}
 
 
@@ -91,11 +105,11 @@ function Warranty() {
                                 
                                  <div className=' mb-4'>В случае если не будет претензий по количеству и качеству возвращенного товара, Продавец в течение 5 рабочих дней с момента приема товара выставит корректировочный счет-фактуру.
 Если возврат товара не был согласован заранее и отсутствует дополнительное соглашение, фурнитура продавцом не принимается</div>
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold  mb-4'>Задать вопрос</button>
+                    <button onClick={() => setQuestionModalOpen(true)}   className='px-8 py-3 bg-colGreen rounded text-white font-semibold  mb-4'>Задать вопрос</button>
                     <div className=' font-semibold mb-4'>Условия возврата средств</div>
                     <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Если при возврате товара образовался аванс, продавец вправе, уведомив покупателя, зачесть денежные средства в счет имеющейся задолженности, либо в счет иных поставок, если покупатель без промедления не заявит о ином</div>
                     <div className='flex gap-2 items-start mb-4'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Возврат денежных средств осуществляется на основании письменного требования покупателя, с указанием платежных реквизитов с обязательной сверкой расчетов</div>
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold  mb-4'>Задать вопрос</button>
+                    <button onClick={() => setQuestionModalOpen(true)} className='px-8 py-3 bg-colGreen rounded text-white font-semibold  mb-4'>Задать вопрос</button>
                     
                     </div>}
 

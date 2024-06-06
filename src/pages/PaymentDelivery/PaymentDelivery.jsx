@@ -1,13 +1,20 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import stallicon from '../../assets/icons/stall-icon.svg';
 import truckicon from '../../assets/icons/truck-icon.svg';
 import boxicon from '../../assets/icons/box-icon.svg';
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 
 
 function PaymentDelivery() {
     const [delivery, setDelivery] = useState('pickup');
     const [payment, setPayment] = useState('cash');
+
+
+    useEffect(() => {
+        scrollToTop();
+      }, []);
+    
 
 
 

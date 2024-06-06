@@ -53,7 +53,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/about'
                     >
                       О компании
                     </NavLink>
@@ -61,7 +61,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/contacts'
                     >
                       Контакты
                     </NavLink>
@@ -69,7 +69,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/contacts'
                     >
                       Реквизиты
                     </NavLink>
@@ -77,7 +77,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/contacts'
                     >
                       Для партнёров
                     </NavLink>
@@ -108,7 +108,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='../../'
                     >
                       Каталог
                     </NavLink>
@@ -296,7 +296,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/about'
                     >
                       О компании
                     </NavLink>
@@ -304,7 +304,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/contacts'
                     >
                       Контакты
                     </NavLink>
@@ -312,7 +312,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/contacts'
                     >
                       Реквизиты
                     </NavLink>
@@ -320,7 +320,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/wholesale'
                     >
                       Для партнёров
                     </NavLink>
@@ -335,7 +335,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/catalog'
                     >
                       Каталог
                     </NavLink>
@@ -343,7 +343,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/catalog/promo'
                     >
                       Акции
                     </NavLink>
@@ -351,7 +351,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/catalog/discount'
                     >
                       Товары со скидкой
                     </NavLink>
@@ -359,7 +359,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/catalog/new'
                     >
                       Новинки
                     </NavLink>
@@ -374,7 +374,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/faq'
                     >
                       Вопрос-ответ
                     </NavLink>
@@ -382,7 +382,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/payment-delivery'
                     >
                       Оплата и доставка
                     </NavLink>
@@ -390,7 +390,7 @@ const Footer = () => {
                   <li>
                     <NavLink
                       className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      to='/warranty'
                     >
                       Гарантия и обмен
                     </NavLink>
@@ -408,11 +408,11 @@ const Footer = () => {
           <div className='flex space-x-5'>
             <NavLink
               className='text-colGray text-xs font-semibold text-nowrap'
-              to='#'
+              to='/policy'
             >
               Политика конфиденциальности
             </NavLink>
-            <NavLink className='text-colGray text-xs font-semibold' to='#'>
+            <NavLink className='text-colGray text-xs font-semibold' to='/oferta'>
               Оферта
             </NavLink>
           </div>

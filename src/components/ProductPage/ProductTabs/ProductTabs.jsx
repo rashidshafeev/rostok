@@ -10,9 +10,6 @@ import InfoTab from './InfoTab';
 
 function ProductTabs({ current, product, tabIndex, setTabIndex }) {
 
-    console.log("product")
-    console.log(product)
-
     return (
         <Tabs id="char" className="w-full" selectedIndex={tabIndex} onSelect={(index) => setTabIndex(index)}>
             <TabList className="w-full flex gap-[10px]">

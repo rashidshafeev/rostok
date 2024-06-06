@@ -77,6 +77,13 @@ export const api = createApi({
         body: cart,
       }),
     }),
+    getVariants: builder.mutation({
+      query: (params) => ({
+        url: '/api/Products/variants',
+        method: 'POST',
+        body: params, // Send parameters as the body of the POST request
+      }),
+    }),
   }),
 });
 
@@ -92,4 +99,5 @@ export const {
   useSetToFavoritesMutation,
   useRemoveFromFavoritesMutation,
   useSetCartMutation,
+  useGetVariantsMutation
 } = api;

@@ -76,7 +76,7 @@ listenerMiddleware.startListening({
   actionCreator: fetchCart,
   effect: (action, listenerApi) => {
     const cart = JSON.parse(sessionStorage.getItem('cart'));
-    listenerApi.dispatch(setCart(cart ? cart : []));
+    listenerApi.dispatch(setCart(cart));
   },
 });
 

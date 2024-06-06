@@ -10,6 +10,7 @@ import { addToCart, changeQuantity } from '../../redux/slices/cartSlice';
 import { NavLink } from 'react-router-dom';
 
 function RightBar({ product }) {
+    
     const dispatch = useDispatch();
     const cart = useSelector(state => state?.cart)
     const productInCart = cart?.cart?.find((el) => el?.id === product?.id);
