@@ -3,18 +3,40 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { ProfileSidebar } from '../../components';
 import arrowIcon from '../../assets/icons/arrow-icon.svg';
+import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
+import {
+  changePassword,
+  myOrders,
+  myOrganizations,
+  personalData,
+  profile,
+} from '../../constants/breadCrumps';
 
 const Profile = () => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
-  const { pathname } = useLocation();
 
+  const { pathname } = useLocation();
+  const secondUrl = pathname.split('/')[2];
   useEffect(() => {
     scrollToTop();
   }, []);
 
   return (
-    <div className='content pt-3 mm:pt-5 pb-6 min-h-[520px]'>
+    <div className='content min-h-[520px]'>
+      <CustomBCrumbs
+        breadCrumps={
+          secondUrl === 'orders'
+            ? myOrders
+            : secondUrl === 'personal-data'
+            ? personalData
+            : secondUrl === 'organizations'
+            ? myOrganizations
+            : secondUrl === 'change-password'
+            ? changePassword
+            : pathname === '/profile' && profile
+        }
+      />
       <h1
         className={`${
           pathname === '/profile' ? 'block' : 'hidden mm:block'

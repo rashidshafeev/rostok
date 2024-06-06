@@ -26,21 +26,21 @@ export const postAuthWithEmail = async (dispatch, data, favoriteItems) => {
   try {
     const res = await request.post('/api/User/auth', sendData);
     const token = res?.data?.token;
-
-    if (token && favoriteItems?.length > 0) {
+    if (token) {
       dispatch(setToken(token));
       dispatch(loginSuccess(res?.data));
 
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-
-      await request.post(
-        '/api/ProductsFavourites/set',
-        { ids: favoriteItems },
-        config
-      );
-      dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }]));
+      if (favoriteItems?.length > 0) {
+        await request.post(
+          '/api/ProductsFavourites/set',
+          { ids: favoriteItems },
+          config
+        );
+        dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }]));
+      }
     }
     return { success: res?.data?.success, resData: res?.data };
   } catch (error) {

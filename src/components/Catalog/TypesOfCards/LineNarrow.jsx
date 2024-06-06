@@ -42,7 +42,7 @@ const LineNarrow = ({ product }) => {
       <div className='flex justify-between mm:pr-4 max-w-[780px] w-full'>
         <div className='flex pr-2 mm:pr-0'>
           <NavLink
-            to={product?.slug}
+            to={`/catalog/${product?.category?.slug}/${product?.slug}`}
             className='min-w-[80px] w-20 h-20 bg-gray-100 rounded-lg overflow-hidden'
           >
             <img
@@ -56,27 +56,41 @@ const LineNarrow = ({ product }) => {
             />
           </NavLink>
           <div className='pl-5 max-w-md'>
-            <div className='space-y-2 pt-1'>
+            <div className='space-y-1 pt-1'>
               <div>
                 <NavLink
-                  to={product?.slug}
-                  className='font-bold text-sm  break-all hover:underline line-clamp-3 pb-1'
+                  to={`/catalog/${product?.category?.slug}/${product?.slug}`}
+                  className='font-bold text-sm  break-all hover:underline line-clamp-1 pb-1'
                 >
-                  {product?.groupName || 'Не указано'}
+                  {product?.groupName + ' ' + product?.name || 'Не указано'}
                 </NavLink>
-                <p className='font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-3 mm:line-clamp-4'>
+                <p className='font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-2'>
                   {product?.description || 'Не указано'}
                 </p>
               </div>
               <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                 <span>Артикул:</span>
-                <span>3433434434</span>
+                <span>{product?.sku || 'Не указано'}</span>
               </p>
-              <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                <span>Цвет:</span>
-                <span className='w-3 h-3 min-w-[12px] bg-black rounded-full'></span>
-                <span>Чёрный</span>
-              </p>
+              {product.attributes &&
+                product?.attributes?.map((attribute, index) => (
+                  <p
+                    key={index}
+                    className='text-xs text-colDarkGray flex items-center space-x-1'
+                  >
+                    <span>{attribute?.name}:</span>
+                    <span className='font-semibold'>
+                      {attribute?.color ? (
+                        <div
+                          style={{ backgroundColor: `${attribute?.color}` }}
+                          className={`min-w-[12px] w-3 h-3 rounded-full`}
+                        ></div>
+                      ) : (
+                        attribute?.text
+                      )}
+                    </span>
+                  </p>
+                ))}
             </div>
           </div>
         </div>
