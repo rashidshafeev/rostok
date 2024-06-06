@@ -7,6 +7,7 @@ export const fetchCategoryProducts = async (
   sortOption,
   allFilters = {},
   filtersMobile,
+  searchParam,
   searchQuery = ''
 ) => {
   try {
@@ -15,9 +16,11 @@ export const fetchCategoryProducts = async (
     };
 
     const queryParams = {
-      category_id,
+      category_id: searchParam ? '' : category_id,
       brands: getStringifiedFilters(filters?.brands),
-      tags: getStringifiedFilters(filters?.tags),
+      tags: searchParam
+        ? getStringifiedFilters([searchParam])
+        : getStringifiedFilters(filters?.tags),
       max_price: filters?.max_price || '',
       min_price: filters?.min_price || '',
       orderBy: sortOption?.orderBy || '',
@@ -35,7 +38,9 @@ export const fetchCategoryProducts = async (
     }
 
     if (window.innerWidth < 768 && filtersMobile) {
-      queryParams.tags = getStringifiedFilters(filtersMobile?.tags);
+      queryParams.tags = searchParam
+        ? getStringifiedFilters([searchParam])
+        : getStringifiedFilters(filtersMobile?.tags);
       queryParams.min_price = filtersMobile?.min_price || queryParams.min_price;
       queryParams.max_price = filtersMobile?.max_price || queryParams.max_price;
       queryParams.brands = getStringifiedFilters(filtersMobile?.brands);
@@ -45,6 +50,17 @@ export const fetchCategoryProducts = async (
       params: queryParams,
     });
 
+    return { success: true, data: res?.data };
+  } catch (error) {
+    return { success: false };
+  }
+};
+
+export const fetchCategoryProductsByTags = async (tag, page) => {
+  try {
+    const res = await request.get(
+      `api/Products/variants/?tags=["${tag}"]&pages=${page}`
+    );
     return { success: true, data: res?.data };
   } catch (error) {
     return { success: false };

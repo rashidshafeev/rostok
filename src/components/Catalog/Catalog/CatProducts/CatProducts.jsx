@@ -7,14 +7,22 @@ import CatProdSidebar from './CatProdSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
 import BreadCrumbs from '../../../../helpers/BreadCrumbs/BreadCrumbs';
-import { fetchCategoryProducts } from '../../../../api/catalog';
+import {
+  fetchCategoryProducts,
+  fetchCategoryProductsByTags,
+} from '../../../../api/catalog';
 import { useGetProductsByCategoryQuery } from '../../../../redux/api/api';
 import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
 
 const CatProducts = () => {
   const [page, setPage] = useState(1);
-  const { state } = useLocation();
-  const { categoryId } = useParams();
+  const { categoryId: id } = useParams();
+  const { state, pathname, search } = useLocation();
+  const searchParam = search.startsWith('?')
+    ? decodeURIComponent(search.slice(1))
+    : search;
+  const secondUrl = pathname.split('/')[2];
+  const categoryId = secondUrl === 'tags' ? '' : id;
   const {
     data,
     isLoading: loading,
@@ -29,15 +37,15 @@ const CatProducts = () => {
     filterOptions: {},
     sortOption: null,
   });
-
-  const handleFetchProducts = async (categoryId, filterOptions, sortOption) => {
+  const handleFetchProducts = async (id, filterOptions, sortOption) => {
     setIsLoading(true);
     const { success, data } = await fetchCategoryProducts(
-      categoryId,
+      id,
       filterOptions,
       sortOption,
       filters.selectedValues,
-      filters.selectedValuesTwo
+      filters.selectedValuesTwo,
+      secondUrl === 'tags' && searchParam
     );
     if (success) {
       setCatProducts(data);
@@ -75,6 +83,24 @@ const CatProducts = () => {
   };
 
   useEffect(() => {
+    if (secondUrl === 'tags') {
+      const handleFetchProducts = async () => {
+        setIsLoading(true);
+        const { success, data } = await fetchCategoryProductsByTags(
+          searchParam,
+          page
+        );
+        if (success) {
+          setIsLoading(false);
+          setCatProducts(data);
+        }
+        setIsLoading(false);
+      };
+      handleFetchProducts();
+    }
+  }, [searchParam, secondUrl, page]);
+
+  useEffect(() => {
     scrollToTop();
   }, []);
 
@@ -83,8 +109,10 @@ const CatProducts = () => {
   }, [page, refetch]);
 
   useEffect(() => {
-    setCatProducts(data);
-  }, [data]);
+    if (secondUrl !== 'tags') {
+      setCatProducts(data);
+    }
+  }, [data, secondUrl]);
 
   useEffect(() => {
     setIsLoading(loading);
@@ -116,7 +144,7 @@ const CatProducts = () => {
       <AllFiltersModal
         open={open}
         setOpen={setOpen}
-        category={categoryId}
+        category={id}
         setCatProducts={setCatProducts}
         allFilters={filters}
         setFilters={setFilters}

@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import { ArrowIcon } from '../Icons';
-import catalogIcon1 from '../../assets/images/catalogIcon1.svg';
-import catalogIcon2 from '../../assets/images/catalogIcon2.svg';
-import catalogIcon3 from '../../assets/images/catalogIcon3.svg';
 import noImg from '../../assets/images/no-image.png';
 import arrowBack from '../../assets/icons/arrow-black.svg';
+import { customTags } from '../../constants/data';
 
 const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
@@ -65,42 +63,23 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
         <div className='flex pt-5'>
           <div className='w-full'>
             <ul className='space-y-3'>
-              <li
-                onMouseOver={() => setActiveItem({})}
-                className='flex justify-between items-center cursor-pointer p-1 border-b pb-2'
-              >
-                <div className='flex items-center'>
-                  <img src={catalogIcon1} alt='*' />
-                  <span className='text-cilBlack font-semibold pl-2'>
-                    Акции
-                  </span>
-                </div>
-                <ArrowIcon className='rotate-[90deg]' />
-              </li>
-              <li
-                onMouseOver={() => setActiveItem({})}
-                className='flex justify-between items-center cursor-pointer p-1 border-b pb-2'
-              >
-                <div className='flex items-center'>
-                  <img src={catalogIcon2} alt='*' />
-                  <span className='text-cilBlack font-semibold pl-2'>
-                    Новинки
-                  </span>
-                </div>
-                <ArrowIcon className='rotate-[90deg]' />
-              </li>
-              <li
-                onMouseOver={() => setActiveItem({})}
-                className='flex justify-between items-center cursor-pointer p-1 border-b pb-2'
-              >
-                <div className='flex items-center'>
-                  <img src={catalogIcon3} alt='*' />
-                  <span className='text-cilBlack font-semibold pl-2'>
-                    Хиты продаж
-                  </span>
-                </div>
-                <ArrowIcon className='rotate-[90deg]' />
-              </li>
+              {customTags?.map((el) => (
+                <li key={el?.id} onMouseOver={() => setActiveItem({})}>
+                  <NavLink
+                    to={`/catalog${el?.slug}`}
+                    onClick={() => setShowCatalog(false)}
+                    className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'
+                  >
+                    <div className='flex items-center'>
+                      <img src={el?.icon} alt='*' />
+                      <span className='text-cilBlack font-semibold pl-2'>
+                        {el?.name}
+                      </span>
+                    </div>
+                    <ArrowIcon className='rotate-[90deg]' />
+                  </NavLink>
+                </li>
+              ))}
               {categoryTree?.map((el) => (
                 <li key={el?.id}>
                   <button
