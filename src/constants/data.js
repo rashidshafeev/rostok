@@ -20,6 +20,12 @@ import adv3 from '../assets/icons/adv3.svg';
 import adv4 from '../assets/icons/adv4.svg';
 import adv5 from '../assets/icons/adv5.svg';
 import adv6 from '../assets/icons/adv6.svg';
+import catalogIcon1 from '../assets/images/catalogIcon1.svg';
+import catalogIcon2 from '../assets/images/catalogIcon2.svg';
+import catalogIcon3 from '../assets/images/catalogIcon3.svg';
+import action from '../assets/icons/action.svg';
+import sales from '../assets/icons/sales.svg';
+import news from '../assets/icons/news.svg';
 
 export const bannerOne = [
   {
@@ -632,5 +638,32 @@ export const orders = [
         status: 'Комплектуется',
       },
     ],
+  },
+];
+
+export const customTags = [
+  {
+    id: 1,
+    name: 'Распродажа',
+    slug: '/tags?РАСПРОДАЖА',
+    bgColor: '#F04438',
+    icon: catalogIcon1,
+    icon2: action,
+  },
+  {
+    id: 2,
+    name: 'Новинка',
+    slug: '/tags/?НОВИНКА',
+    bgColor: '#15765B',
+    icon: catalogIcon2,
+    icon2: news,
+  },
+  {
+    id: 3,
+    name: 'Хиты',
+    slug: '/tags/?ХИТ',
+    bgColor: '#F8981D',
+    icon: catalogIcon3,
+    icon2: sales,
   },
 ];

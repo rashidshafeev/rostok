@@ -16,7 +16,9 @@ const CatProdContent = ({
   handlePagination,
   setOpen,
 }) => {
-  const [cardType, setTypeCard] = useState('tile');
+  const cardView = localStorage.getItem('cardView');
+
+  const [cardType, setTypeCard] = useState(cardView ? cardView : 'tile');
   const [isOpenSelect, setIsOpenSelect] = useState(false);
   const [activeSort, setActiveSort] = useState(
     window.innerWidth > 1024
@@ -123,7 +125,10 @@ const CatProdContent = ({
             viewBox='0 0 20 20'
             fill='none'
             className='cursor-pointer'
-            onClick={() => setTypeCard('tile')}
+            onClick={() => {
+              setTypeCard('tile');
+              localStorage.setItem('cardView', 'tile');
+            }}
           >
             <path
               fillRule='evenodd'
@@ -139,7 +144,10 @@ const CatProdContent = ({
             viewBox='0 0 20 20'
             fill='none'
             className='cursor-pointer'
-            onClick={() => setTypeCard('line')}
+            onClick={() => {
+              setTypeCard('line');
+              localStorage.setItem('cardView', 'line');
+            }}
           >
             <path
               fillRule='evenodd'
@@ -155,13 +163,16 @@ const CatProdContent = ({
             viewBox='0 0 20 20'
             fill='none'
             className='cursor-pointer'
-            onClick={() => setTypeCard('lineNarrow')}
+            onClick={() => {
+              setTypeCard('lineArrow');
+              localStorage.setItem('cardView', 'lineArrow');
+            }}
           >
             <path
               fillRule='evenodd'
               clipRule='evenodd'
               d='M1.33301 3.6665C1.33301 3.11422 1.78072 2.6665 2.33301 2.6665H17.6663C18.2186 2.6665 18.6663 3.11422 18.6663 3.6665V5.6665C18.6663 6.21879 18.2186 6.6665 17.6663 6.6665H2.33301C1.78072 6.6665 1.33301 6.21879 1.33301 5.6665V3.6665ZM1.33301 8.99984C1.33301 8.44755 1.78072 7.99984 2.33301 7.99984H17.6663C18.2186 7.99984 18.6663 8.44755 18.6663 8.99984V10.9998C18.6663 11.5521 18.2186 11.9998 17.6663 11.9998H2.33301C1.78072 11.9998 1.33301 11.5521 1.33301 10.9998V8.99984ZM2.33301 13.3332C1.78072 13.3332 1.33301 13.7809 1.33301 14.3332V16.3332C1.33301 16.8855 1.78072 17.3332 2.33301 17.3332H17.6663C18.2186 17.3332 18.6663 16.8855 18.6663 16.3332V14.3332C18.6663 13.7809 18.2186 13.3332 17.6663 13.3332H2.33301Z'
-              fill={`${cardType === 'lineNarrow' ? '#15765B' : '#B5B5B5'}`}
+              fill={`${cardType === 'lineArrow' ? '#15765B' : '#B5B5B5'}`}
             />
           </svg>
         </div>
@@ -253,10 +264,12 @@ const CatProdContent = ({
               ))}
             </div>
           )}
-          <CustomPagination
-            count={catProducts?.count}
-            handlePagination={handlePagination}
-          />
+          {catProducts?.count > 20 && (
+            <CustomPagination
+              count={catProducts?.count}
+              handlePagination={handlePagination}
+            />
+          )}
         </>
       ) : (
         <ErrorEmpty

@@ -1,38 +1,25 @@
 import { NavLink } from 'react-router-dom';
 import { useGetCategoryTreeQuery } from '../../redux/api/api';
-
-import action from '../../assets/icons/action.svg';
-import sales from '../../assets/icons/sales.svg';
-import news from '../../assets/icons/news.svg';
+import { customTags } from '../../constants/data';
 
 function CatalogFastAccess() {
   const { data } = useGetCategoryTreeQuery();
 
   return (
     <div className='content mx-auto flex items-center scrollable overflow-x-scroll space-x-4 pb-2'>
-      <NavLink
-        to='#'
-        className='rounded h-[27px] flex items-center justify-center px-4 bg-[#F04438]'
-      >
-        <img src={action} alt='*' />
-        <span className='text-sm font-semibold text-white pl-1'>Акции</span>
-      </NavLink>
-      <NavLink
-        to='#'
-        className='rounded h-[27px] flex items-center justify-center px-4 bg-colGreen'
-      >
-        <img src={news} alt='*' />
-        <span className='text-sm font-semibold text-white pl-1'>Новинки</span>
-      </NavLink>
-      <NavLink
-        to='#'
-        className='rounded h-[27px] flex items-center justify-center px-2 bg-[#F8981D] min-w-[130px]'
-      >
-        <img src={sales} alt='*' />
-        <span className='text-sm font-semibold text-white pl-1'>
-          Хиты продаж
-        </span>
-      </NavLink>
+      {customTags?.map((el) => (
+        <NavLink
+          to={`/catalog${el?.slug}`}
+          key={el?.id}
+          style={{ backgroundColor: `${el?.bgColor}` }}
+          className='rounded h-[27px] flex items-center justify-center px-4'
+        >
+          <img src={el?.icon2} alt='*' />
+          <span className='text-sm font-semibold text-white pl-1'>
+            {el?.name}
+          </span>
+        </NavLink>
+      ))}
       {data?.children?.slice(0, 14)?.map((el) => (
         <NavLink
           to={`catalog/${el.slug}`}
