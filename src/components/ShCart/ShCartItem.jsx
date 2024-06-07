@@ -62,7 +62,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 <span
                 className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
               >
-                {product?.groupName}{product?.name}
+                {`${product?.groupName} ${product?.name}`}
               </span>
               </NavLink>
               

@@ -56,7 +56,7 @@ const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
                 }}
                 className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-1 break-all mt-1'
               >
-                {product?.name}
+                {`${product?.groupName} ${product?.name}`}
               </span>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>

@@ -3,6 +3,8 @@ import questions from './faq'
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { StyledAccordion, StyledAccordionDetails, StyledAccordionSummary } from '../../helpers/FAQStyledAccordion';
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+
 
 function FAQ() {
 

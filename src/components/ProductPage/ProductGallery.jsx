@@ -124,30 +124,6 @@ function ProductGallery({ files }) {
 
 
 
-  //   const images = files?.length ? files.map((file) => {
-  //     if (file.type === "image") {
-  //         return {
-  //             original: file.large,
-  //             thumbnail: file.small,
-  //             renderItem: renderImage.bind(this),
-  //         };
-  //     } else if (file.type === "video") {
-  //         return {
-  //             embedUrl: file.url,
-  //             thumbnail: 'video/mp4',
-  //             renderItem: renderVideo.bind(this),
-  //             originalHeight: "480px",
-  //         };
-  //     }
-  //     return null;
-  // }) : [{
-  //     original: noImg,
-  //     thumbnail: noImg,
-  //     renderItem: renderImage.bind(this),
-  // }];
-
-
-
 
   return (
     <>
@@ -166,9 +142,6 @@ function ProductGallery({ files }) {
         close={() => setLightBoxIndex(-1)}
         controller={{
           closeOnBackdropClick: true
-        }}
-        on={{
-          exited: () => {goToIndex(sliderIndex.current)  }
         }}
       />
     </>
