@@ -138,33 +138,36 @@ const [attributesList, setAttributesList] = useState([])
 
         newAttributes.find(attr => attr.id === id).value = value
         newAttributes.find(attr => attr.id === id).text = text
+
         if (!getProductByAttributes(newAttributes, variants)) {
 
          const newAttributes = findAvailableProductByValue(id, value, variants).attributes
 
           const newProduct = getProductByAttributes(newAttributes, variants)
-        const availableProductsList = getAvailableProductsByAttributeValues(newAttributes, variants)
-        const availableValuesList = getAttributesValuesListFromProductsList(availableProductsList)
+        // const availableProductsList = getAvailableProductsByAttributeValues(newAttributes, variants)
+        // const availableValuesList = getAttributesValuesListFromProductsList(availableProductsList)
 
-        const fullList = getAttributesValuesListFromProductsList(variants)
-        const newReadyAttributesList = setAvailableProperty(setCurrentProperty(fullList, newProduct.attributes),  availableValuesList)
-
-        setAttributesList(newReadyAttributesList)
-        setCurrentProduct(newProduct)
+        // const fullList = getAttributesValuesListFromProductsList(variants)
+        // const newReadyAttributesList = setAvailableProperty(setCurrentProperty(fullList, newProduct.attributes),  availableValuesList)
+        
         navigate(`../${newProduct.slug}`, { replace: true })
+
+        // setAttributesList(newReadyAttributesList)
+        // setCurrentProduct(newProduct)
           
         } else {
           
         const newProduct = getProductByAttributes(newAttributes, variants)
-        const availableProductsList = getAvailableProductsByAttributeValues(newAttributes, variants)
-        const availableValuesList = getAttributesValuesListFromProductsList(availableProductsList)
+        // const availableProductsList = getAvailableProductsByAttributeValues(newAttributes, variants)
+        // const availableValuesList = getAttributesValuesListFromProductsList(availableProductsList)
 
-        const fullList = getAttributesValuesListFromProductsList(variants)
-        const newReadyAttributesList = setAvailableProperty(setCurrentProperty(fullList, newProduct.attributes),  availableValuesList)
-
-        setAttributesList(newReadyAttributesList)
-        setCurrentProduct(newProduct)
+        // const fullList = getAttributesValuesListFromProductsList(variants)
+        // const newReadyAttributesList = setAvailableProperty(setCurrentProperty(fullList, newProduct.attributes),  availableValuesList)
+        
         navigate(`../${newProduct.slug}`, { replace: true })
+
+        // setAttributesList(newReadyAttributesList)
+        // setCurrentProduct(newProduct)
 
         }
          
@@ -223,14 +226,15 @@ const [attributesList, setAttributesList] = useState([])
     }, [params])
 
 
+
     return (
       
         <>
             {attributesList && Object.keys(attributesList).map(attr => {
-
+              console.log(attributesList[attr])
                 return (
                     <div key={attr}>
-                        <div className='flex' ><p className='text-colDarkGray mr-1'>{attr}:</p>{attributesList[attr]?.values?.find(value => value.current)?.text} </div>
+                        <div className='flex' ><p className='text-colDarkGray mr-1'>{attr}:</p>{attributesList[attr]?.values[0]?.type === 'color' && attributesList[attr]?.values?.find(value => value.current)?.text} </div>
                         <div className='flex flex-wrap gap-2'>
                             {attributesList[attr].values.map((value) => <ProductAttributeValue key={value.value} id={attributesList[attr].id} value={value} handleChangeAttribute={handleChangeAttribute} />)}
                         </div>

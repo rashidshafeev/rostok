@@ -8,21 +8,7 @@ import urlico from '../../assets/icons/urlico-inactive.svg';
 import stallicon from '../../assets/icons/stall-icon.svg';
 import truckicon from '../../assets/icons/truck-icon.svg';
 import boxicon from '../../assets/icons/box-icon.svg';
-
-import shareIcon from '../../assets/icons/share.svg';
-import docIcon from '../../assets/icons/download-pdf.svg';
-
-import SubwayIcon from '../../helpers/Icons/SubwayIcon';
-
-import plural from 'plural-ru'
-import {
-  postAuthCheck,
-  postAuthWithEmail,
-  postRegister,
-  postSendVerificationCode,
-  postConfirmVerificationCode,
-} from '../../api/user';
-
+ 
 import { NavLink, useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
@@ -32,14 +18,14 @@ import PickupPointModal from '../../helpers/CModal/PickupPointModal';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import CTextField from '../../helpers/CustomInputs/CTextField';
-import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material';
+import {  MenuItem, Select } from '@mui/material';
 import FizlicoLoggedInForm from '../../components/Checkout/FizlicoLoggedInForm';
 import UrlicoLoggedInForm from '../../components/Checkout/UrlicoLoggedInForm';
 import FizlicoNotLoggedForm from '../../components/Checkout/FizlicoNotLoggedForm';
 import UrlicoNotLoggedForm from '../../components/Checkout/UrlicoNotLoggedForm';
 import { useSendOrderMutation } from '../../redux/api/api';
-
-
+import { useSelector } from 'react-redux';
+ 
 function CartCheckout() {
 
   const navigate = useNavigate();

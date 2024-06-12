@@ -1,19 +1,26 @@
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { useGetFavoritesQuery } from '../../redux/api/api';
+
 import order from '../../assets/icons/order.svg';
-import cart from '../../assets/icons/cart.svg';
 import favoriteIcon from '../../assets/icons/favorite.svg';
 import comparisonIcon from '../../assets/icons/comparison.svg';
-import profile from '../../assets/icons/profile.svg';
+
+
+import { useState } from 'react';
+import LoginButton from './HeaderControls/LoginButton';
+import ProfileButton from './HeaderControls/ProfileButton';
+import CartButton from './HeaderControls/CartButton';
 
 function HeaderControls({ setContent, setOpen }) {
   const { data: favorites } = useGetFavoritesQuery();
 
   const { user } = useSelector((state) => state?.user);
-  const itemsQuantity = useSelector((state) => state?.cart?.itemsQuantity);
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const comparison = useSelector((state) => state?.comparison?.comparison);
+
+
+
 
   return (
     <div className='hidden lg:flex justify-between space-x-4'>
@@ -61,53 +68,23 @@ function HeaderControls({ setContent, setOpen }) {
         </span>
         {user
           ? favorites?.data?.length > 0 && (
-              <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-                {!favorites?.data?.length > 99
-                  ? '99+'
-                  : favorites?.data?.length}
-              </span>
-            )
+            <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+              {!favorites?.data?.length > 99
+                ? '99+'
+                : favorites?.data?.length}
+            </span>
+          )
           : favorite.length > 0 && (
-              <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-                {!favorite.length > 99 ? '99+' : favorite.length}
-              </span>
-            )}
+            <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+              {!favorite.length > 99 ? '99+' : favorite.length}
+            </span>
+          )}
       </NavLink>
-      <NavLink
-        to='/shopping-cart'
-        className='relative text-center flex flex-col justify-between items-center'
-      >
-        <img className='mx-auto' src={cart} alt='*' />
-        <span className='text-xs pt-1 font-medium text-colBlack'>Корзина</span>
-        {itemsQuantity > 0 && (
-          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-            {!itemsQuantity > 99 ? '99+' : itemsQuantity}
-          </span>
-        )}
-      </NavLink>
+          <CartButton/>
       {user ? (
-        <NavLink
-          to='/profile/personal-data'
-          className='text-center flex flex-col justify-between items-center'
-        >
-          <img className='mx-auto' src={profile} alt='*' />
-          <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
-            {user?.name}
-          </span>
-        </NavLink>
+        <ProfileButton />
       ) : (
-        <button
-          onClick={() => {
-            setContent('checkAuth');
-            setOpen(true);
-          }}
-          className='text-center flex flex-col justify-between items-center outline-none'
-        >
-          <img className='mx-auto' src={profile} alt='*' />
-          <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
-            Войти
-          </span>
-        </button>
+        <LoginButton setContent={setContent} setOpen={setOpen} />
       )}
     </div>
   );

@@ -18,13 +18,14 @@ const ProductCard = ({ product, recommended }) => {
     useRemoveFromFavoritesMutation();
   const { data } = useGetFavoritesQuery();
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { cart } = useSelector((state) => state?.cart);
   const { comparison } = useSelector((state) => state?.comparison);
   const { user } = useSelector((state) => state?.user);
   const { favorite } = useSelector((state) => state?.favorite);
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const isProductInCart = cart?.some((el) => el?.id === product?.id);
   const isProductInFavorite = user

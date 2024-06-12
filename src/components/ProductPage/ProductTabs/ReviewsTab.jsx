@@ -8,10 +8,10 @@ import { NavLink, useLocation, useParams } from 'react-router-dom';
 import RatingStars from '../../../helpers/RatingStars';
 import ReviewModal from '../../../helpers/CModal/ReviewModal';
 
-function ReviewsTab({reviews}) {
+function ReviewsTab({ reviews }) {
+
 const location = useLocation()
-// const params = useParams()
-// console.log(location, params)
+
 const [open, setOpen] = useState(false);
 console.log(reviews)
 
@@ -21,6 +21,7 @@ const handleOpen = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
 
     return (
         <>

@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { useSubmit } from 'react-router-dom';
 
 export const api = createApi({
   reducerPath: 'api',
@@ -84,6 +85,20 @@ export const api = createApi({
         body: params, // Send parameters as the body of the POST request
       }),
     }),
+    getSuggestions: builder.mutation({
+      query: (params) => ({
+        url: '/api/Products/search/suggestions',
+        method: 'POST',
+        body: params, // Send parameters as the body of the POST request
+      }),
+    }),
+    submitReview: builder.mutation({
+      query: (params) => ({
+        url: '/api/submitReview',
+        method: 'POST',
+        body: params, // Send parameters as the body of the POST request
+      }),
+    }),
   }),
 });
 
@@ -99,5 +114,7 @@ export const {
   useSetToFavoritesMutation,
   useRemoveFromFavoritesMutation,
   useSetCartMutation,
-  useGetVariantsMutation
+  useGetVariantsMutation,
+  useGetSuggestionsMutation,
+  useSubmitReviewMutation,
 } = api;

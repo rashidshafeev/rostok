@@ -22,18 +22,12 @@ import { useIntersection } from 'react-use';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 
 function ProductPage() {
-  // const [attributesList, setAttributesList] = useState([])
-  // const [currentAttributes, setCurrentAttributes] = useState([])
   const [currentProduct, setCurrentProduct] = useState({})
-
   const [tabIndex, setTabIndex] = useState(3);
 
   useEffect(() => {
     scrollToTop();
   }, []);
-
-  
-
 
   const addCard = useRef(null);
   const addCardVisible = useIntersection(addCard, {
@@ -44,18 +38,15 @@ function ProductPage() {
 
   console.log('ProductPage render')
 
-  const params = useParams()
   const loader = useLoaderData()
-  const navigate = useNavigate()
-  const navigation = useNavigation();
 
   console.log("loader.data")
   console.log(loader.data)
   const group = loader.data
 
-  if (navigation.state === 'loading') {
-    return <Loading/>;
-  }
+  // if (navigation.state === 'loading') {
+  //   return <Loading/>;
+  // }
 
 
   return (
@@ -94,7 +85,7 @@ function ProductPage() {
         </div>
 
         <div className='lg:block hidden pb-5 min-h-[420px] gap-5'>
-          <ProductTabs current={currentProduct} product={group} tabIndex={tabIndex} setTabIndex={setTabIndex}></ProductTabs>
+          <ProductTabs current={currentProduct} group={group} tabIndex={tabIndex} setTabIndex={setTabIndex}></ProductTabs>
         </div>
 
         <div className='lg:hidden'>
