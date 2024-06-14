@@ -21,7 +21,6 @@ const ShCartDetail = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
-  // const [itemsQuantity, setItemsQuantity] = useState(0);
 
 
   const orderInfo = useRef(null);
@@ -31,32 +30,32 @@ const ShCartDetail = () => {
     threshold: 1
   });
 
-  const {width, height} = useWindowSize();
+  const { width, height } = useWindowSize();
 
   const dispatch = useDispatch();
 
   const cart = useSelector((state) => state?.cart);
   const selected = cart?.cart.filter((item) => item.selected === true);
-  
+
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
-    
+
 
     if (!isChecked) {
       console.log(selected)
       selected.forEach((item) => {
-      dispatch(selectItem(item));
-    })
-  } else {
-    cart?.cart.forEach((item) => {
-      if (!item.selected) {
-      dispatch(selectItem(item));
-      }
-    })
-  
-  }
+        dispatch(selectItem(item));
+      })
+    } else {
+      cart?.cart.forEach((item) => {
+        if (!item.selected) {
+          dispatch(selectItem(item));
+        }
+      })
 
-}
+    }
+
+  }
 
   const handleRemoveSelected = () => {
     selected.forEach((product) => {
@@ -68,14 +67,14 @@ const ShCartDetail = () => {
     setFilteredCart(cart?.cart)
 
     const allItems = cart?.cart.map((el) => el);
-      setSelectedItems(allItems);
+    setSelectedItems(allItems);
 
   }, [cart])
 
   const handleFilter = (event) => {
     const filterValue = event.target.value;
 
-    let filteredCart = [...cart.cart].filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase())||product.sku.includes(filterValue))
+    let filteredCart = [...cart.cart].filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
 
     setFilteredCart(filteredCart)
   }
@@ -83,33 +82,33 @@ const ShCartDetail = () => {
 
   return (
     <>
-    
-    <div className='hidden lg:flex justify-between items-end'>
-    <div className='flex max-w-[460px] w-full pt-3'>
-        <CSearchField
-          label='Введите наименование или артикул'
-          name='search'
-          type='search'
-          handleChange={handleFilter}
-        />
 
-      </div>
-    <div className='flex justify-end items-center space-x-4 '>
-            <div className='flex cursor-pointer'>
-              <img src={shareIcon} alt='*' />
-              <span className='text-xs font-medium text-colBlack pl-2'>
-                Поделиться
-              </span>
-            </div>
-            <div className='flex cursor-pointer'>
-              <img src={docIcon} alt='*' />
-              <span className='text-xs font-medium text-colBlack pl-2'>
-                Скачать PDF заказа
-              </span>
-            </div>
+      <div className='hidden lg:flex justify-between items-end'>
+        <div className='flex max-w-[460px] w-full pt-3'>
+          <CSearchField
+            label='Введите наименование или артикул'
+            name='search'
+            type='search'
+            handleChange={handleFilter}
+          />
+
+        </div>
+        <div className='flex justify-end items-center space-x-4 '>
+          <div className='flex cursor-pointer'>
+            <img src={shareIcon} alt='*' />
+            <span className='text-xs font-medium text-colBlack pl-2'>
+              Поделиться
+            </span>
           </div>
-    </div>
-      
+          <div className='flex cursor-pointer'>
+            <img src={docIcon} alt='*' />
+            <span className='text-xs font-medium text-colBlack pl-2'>
+              Скачать PDF заказа
+            </span>
+          </div>
+        </div>
+      </div>
+
       <div className='flex flex-wrap gap-10 py-5'>
         <div className='lg:basis-[calc(70%-20px)] basis-full'>
           <div className='flex justify-between items-center pb-2'>
@@ -122,21 +121,21 @@ const ShCartDetail = () => {
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>
-              { selected.length !== 0 && <button
+              {selected.length !== 0 && <button
                 onClick={handleRemoveSelected}
                 className='text-colDarkGray font-medium text-sm ml-4'
               >
                 Удалить выбранные
               </button>}
-                
-            
-            
-              
+
+
+
+
             </div>
             <div className='block lg:hidden'>
-                <img className="w-6 h-6"src={shareIcon} alt="" />
+              <img className="w-6 h-6" src={shareIcon} alt="" />
 
-                </div>
+            </div>
             <div className='hidden lg:flex justify-end items-center space-x-2 '>
               <svg
                 xmlns='http://www.w3.org/2000/svg'
@@ -172,7 +171,7 @@ const ShCartDetail = () => {
               </svg>
             </div>
           </div>
-          {(itemType === 'lineBig' && width > 991)  ? (
+          {(itemType === 'lineBig' && width > 991) ? (
             <ShCartItem
               cart={filteredCart}
               selectedItems={selected}
@@ -190,65 +189,65 @@ const ShCartDetail = () => {
           )}
         </div>
         <div ref={orderInfo} className='lg:basis-[calc(30%-20px)] basis-full'>
-          
+
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
-            { selected.length === 0 ? (
+            {selected.length === 0 ? (
               <div className='text-center text-[#828282] text-lg font-medium mb-5'>
                 Выберите товары, которые хотите заказать
-              </div> ): (
+              </div> ) : (
 
-                <>
+              <>
                 <div className='flex justify-between items-center pb-3'>
-              <span className='text-xl font-semibold text-colBlack'>
-                Итого
-              </span>
-              <span className='text-xl font-semibold text-colBlack'>
-                {selected.length} {plural(selected.length, 'товар', 'товара', 'товаров')}
-              </span>
-            </div>
-            <div className='flex justify-between items-center'>
-              <span className='text-colBlack text-sm whitespace-nowrap'>
-                Количество
-              </span>
-              <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>{cart?.selectedQuantity} шт</span>
-            </div>
-            <div className='flex justify-between items-center pt-2'>
-              <span className='text-colBlack text-sm'>Вес</span>
-              <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>19.5 кг</span>
-            </div>
-            <br />
-            <div className='flex justify-between items-center'>
-              <span className='text-colBlack text-sm'>Сумма</span>
-              <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>53 848 ₽</span>
-            </div>
-            <div className='flex justify-between items-center pt-2'>
-              <span className='text-colBlack text-sm'>Скидка</span>
-              <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-              <span className='font-bold whitespace-nowrap'>- 13 848 ₽</span>
-            </div>
-            <div className='flex justify-between items-center pt-3 pb-5'>
-              <span className='text-lg font-semibold text-colBlack'>Итого</span>
-              <span className='text-lg font-semibold text-colBlack'>
-                40 000 ₽
-              </span>
-            </div>
-                
-                </>
-              )
-            
-            
+                  <span className='text-xl font-semibold text-colBlack'>
+                    Итого
+                  </span>
+                  <span className='text-xl font-semibold text-colBlack'>
+                    {selected.length} {plural(selected.length, 'товар', 'товара', 'товаров')}
+                  </span>
+                </div>
+                <div className='flex justify-between items-center'>
+                  <span className='text-colBlack text-sm whitespace-nowrap'>
+                    Количество
+                  </span>
+                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
+                  <span className='font-bold whitespace-nowrap'>{cart?.selectedQuantity} шт</span>
+                </div>
+                <div className='flex justify-between items-center pt-2'>
+                  <span className='text-colBlack text-sm'>Вес</span>
+                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
+                  <span className='font-bold whitespace-nowrap'>19.5 кг</span>
+                </div>
+                <br />
+                <div className='flex justify-between items-center'>
+                  <span className='text-colBlack text-sm'>Сумма</span>
+                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
+                  <span className='font-bold whitespace-nowrap'>53 848 ₽</span>
+                </div>
+                <div className='flex justify-between items-center pt-2'>
+                  <span className='text-colBlack text-sm'>Скидка</span>
+                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
+                  <span className='font-bold whitespace-nowrap'>- 13 848 ₽</span>
+                </div>
+                <div className='flex justify-between items-center pt-3 pb-5'>
+                  <span className='text-lg font-semibold text-colBlack'>Итого</span>
+                  <span className='text-lg font-semibold text-colBlack'>
+                    40 000 ₽
+                  </span>
+                </div>
+
+              </>
+            )
+
+
             }
-            
-            <NavLink to='../checkout' className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen' } rounded w-full h-[50px] flex justify-center items-center`}>
+
+            <NavLink to='../checkout' className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center`}>
               Перейти к оформлению
             </NavLink>
           </div>
         </div>
       </div>
-      { (orderInfoVisible && orderInfoVisible.intersectionRatio < 1) && <MobileToCheckoutBar selected={selected} quantity={cart?.selectedQuantity}/> }
+      {(orderInfoVisible && orderInfoVisible.intersectionRatio < 1) && <MobileToCheckoutBar selected={selected} quantity={cart?.selectedQuantity} />}
 
     </>
   );

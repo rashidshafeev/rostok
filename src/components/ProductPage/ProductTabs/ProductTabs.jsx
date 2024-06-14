@@ -29,7 +29,7 @@ function ProductTabs({ current, group, tabIndex, setTabIndex }) {
 
 
             <TabPanel>
-                <ReviewsTab reviews={group.reviews} ></ReviewsTab>
+                <ReviewsTab current={current} reviews={group.reviews} ></ReviewsTab>
 
             </TabPanel>
             <TabPanel>

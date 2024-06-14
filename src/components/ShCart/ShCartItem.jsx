@@ -124,9 +124,9 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 <AddOutlined className='text-colGreen cursor-pointer' />
               </span>
             </div>
-            <div className='flex items-center text-colBlack font-bold'>
-              <span>{product?.price ? product?.price : 'Цена не указана'}</span>
-              <span className='pl-1'>₽</span>
+            <div className='flex items-center text-colBlack font-bold basis-1/4'>
+              <span>{product?.price?.default ? product?.price?.default : 'Цена не указана'}</span>
+              <span className='pl-1'>{product?.price?.currency ? product?.price?.currency : '₽'}</span>
             </div>
           </div>
           </div>

@@ -17,11 +17,15 @@ import { NavLink } from 'react-router-dom';
 import profile from '../../../assets/icons/profile.svg'; 
 import { useSelector } from 'react-redux';
 
+import fizlico from '../../../assets/icons/fizlico-inactive.svg';
+import urlico from '../../../assets/icons/urlico-inactive.svg';
+
 
 function ProfileButton() {
 
     const { user } = useSelector((state) => state?.user);
-
+    const { organizations }  = useSelector((state)  => state?.organizations);
+    const [hoverTimeout, setHoverTimeout] = useState(null);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -40,18 +44,29 @@ function ProfileButton() {
       ]
     });
   
-    const hover = useHover(context, { move: false });
+    // const hover = useHover(context, { move: false });
     const focus = useFocus(context);
     const dismiss = useDismiss(context);
     // Role props for screen readers
     const role = useRole(context, { role: "tooltip" });
   
     const { getReferenceProps, getFloatingProps } = useInteractions([
-      hover,
+    //   hover,
       focus,
       dismiss,
       role
     ]);
+
+    const handleMouseEnter = () => {
+        clearTimeout(hoverTimeout);
+        setHoverTimeout(setTimeout(() => setIsOpen(true), 500));
+    };
+
+    const handleMouseLeave = () => {
+        clearTimeout(hoverTimeout);
+        setHoverTimeout(setTimeout(() => setIsOpen(false), 500));
+    };
+    
 
 
 
@@ -61,6 +76,8 @@ function ProfileButton() {
     ref={refs.setReference} {...getReferenceProps()}
           to='/profile/personal-data'
           className='text-center flex flex-col justify-between items-center'
+          onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
         >
           <img className='mx-auto' src={profile} alt='*' />
           <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
@@ -77,9 +94,57 @@ function ProfileButton() {
           ref={refs.setFloating}
           {...getFloatingProps()}
           style={{  ...floatingStyles }}
-          className='w-[100px] lg:flex hidden h-[100px] border  border-colLightGray rounded-[10px] overflow-hidden'
+          className=' lining-nums proportional-nums max-w-[300px] flex flex-col gap-2  border bg-white p-3  border-colLightGray rounded-[10px] overflow-hidden z-50'
+          onMouseEnter={() =>{
+            clearTimeout(hoverTimeout)
+          }}
+          onMouseLeave={handleMouseLeave}
         >
-        
+            <NavLink
+            to='/profile/personal-data'
+            >
+            <li className='rounded font-semibold hover:bg-colSuperLight px-2 py-1'>Мой кабинет</li>
+
+            </NavLink>
+            <NavLink
+            to='/profile/organizations'
+            >
+            <li className='rounded font-semibold hover:bg-colSuperLight px-2 py-1'>Мои организации</li>
+
+            </NavLink>
+            <NavLink
+            to='/profile/orders'
+            >
+            <li className='rounded font-semibold hover:bg-colSuperLight px-2 py-1'>Мои заказы</li>
+
+            </NavLink>
+            <NavLink
+            to='/favorites'
+            >
+            <li className='rounded font-semibold hover:bg-colSuperLight px-2 py-1'>Избранное</li>
+
+            </NavLink>
+            <NavLink
+            to='/comparison'
+            >
+            <li className='rounded font-semibold hover:bg-colSuperLight px-2 py-1'>Сравнение</li>
+
+            </NavLink>
+            <div className=' border-t border-b border-colSuperLight'>
+                <div className=' text-xs text-colDarkGray py-2'>Мои организации</div>
+                {
+                organizations?.map(org => (
+                    <div className='flex gap-2 items-center rounded font-semibold hover:bg-colSuperLight px-2 py-1'>
+                      <img src={urlico} className='h-4 w-4' alt="" srcset="" />
+                      <div className=''>{org.name}</div>
+                    </div>
+                ))
+              }
+            </div>
+            <div className='flex gap-2 items-center rounded font-semibold hover:bg-colSuperLight px-2 py-1'>
+                  <img src={fizlico} className='h-4 w-4' alt="" srcset="" />
+                  <div>{user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
+                </div>
         </div>
       )}
 

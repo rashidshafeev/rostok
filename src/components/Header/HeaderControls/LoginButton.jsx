@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import profile from '../../../assets/icons/profile.svg'; 
 
 import {
@@ -12,42 +12,61 @@ import {
     useDismiss,
     useRole,
     useInteractions,
-    FloatingPortal
+    FloatingPortal,
+    arrow,
+    FloatingArrow
   } from "@floating-ui/react";
 
 function LoginButton({ setContent, setOpen}) {
 
     const [isOpen, setIsOpen] = useState(false);
+    const [hoverTimeout, setHoverTimeout] = useState(null);
+    const arrowRef = useRef(null);
 
-    const { refs, floatingStyles, context } = useFloating({
+    const { refs, floatingStyles, context, middlewareData, placement } = useFloating({
       open: isOpen,
       onOpenChange: setIsOpen,
       placement: "top",
       // Make sure the tooltip stays on the screen
       whileElementsMounted: autoUpdate,
       middleware: [
-        offset(5),
+        offset(1),
         flip({
           fallbackAxisSideDirection: "start"
         }),
-        shift()
+        shift(),
+        arrow({
+            element: arrowRef,
+          }),
       ]
     });
   
-    const hover = useHover(context, { move: false });
+    // const hover = useHover(context, { move: false });
     const focus = useFocus(context);
     const dismiss = useDismiss(context);
     // Role props for screen readers
     const role = useRole(context, { role: "tooltip" });
   
     const { getReferenceProps, getFloatingProps } = useInteractions([
-      hover,
+    //   hover,
       focus,
       dismiss,
       role
     ]);
   
+    console.log('middlewareData.arrow?.y');
+    console.log(middlewareData.arrow);
 
+    const handleMouseEnter = () => {
+        clearTimeout(hoverTimeout);
+        setHoverTimeout(setTimeout(() => setIsOpen(true), 500));
+    };
+
+    const handleMouseLeave = () => {
+        clearTimeout(hoverTimeout);
+        setHoverTimeout(setTimeout(() => setIsOpen(false), 500));
+    };
+    
 
   return (
     <>
@@ -57,7 +76,10 @@ function LoginButton({ setContent, setOpen}) {
             setContent('checkAuth');
             setOpen(true);
           }}
+          onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
           className='text-center flex flex-col justify-between items-center outline-none'
+
         >
           <img className='mx-auto' src={profile} alt='*' />
           <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
@@ -75,12 +97,23 @@ function LoginButton({ setContent, setOpen}) {
           ref={refs.setFloating}
           {...getFloatingProps()}
           style={{  ...floatingStyles }}
-          className='w-[100px] flex flex-col h-[100px] border bg-white p-3  border-colLightGray rounded-[10px] overflow-hidden'
+          className='max-w-[300px] flex flex-col gap-2  border bg-white p-3  border-colLightGray rounded-[10px] overflow-hidden z-50'
+          onMouseEnter={() =>{
+            clearTimeout(hoverTimeout)
+          }}
+          onMouseLeave={handleMouseLeave}
         >
+                     
 
-            <div>Войдите в профиль</div>
+<FloatingArrow ref={arrowRef} context={context} style={{ zIndex: '50' }}/>
+
+            <div className=' font-semibold'>Войдите в профиль</div>
             <div>Вы сможете отслеживать статусы заказов и сохранять товары в «Избранном»</div>
-            <button className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            <button className='text-xs xs:text-sm sm:text-base bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-1/2'
+            onClick={() => {
+                setContent('checkAuth');
+                setOpen(true);
+              }}
             >Войти</button>
         </div>
       )}

@@ -16,7 +16,7 @@ import CTextField from '../../helpers/CustomInputs/CTextField'
 
 function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificationCode, handleConfirmVerificationCode, miniLoading }) {
 
-  const [openAddOrgModal, setOpenAddOrgModal] = useState(false);
+  const [openAddOrgModal, setOpenAddOrgModal] = useState(faZlse);
 
   const handleOpenAddOrgModal = () => {
     setOpenAddOrgModal(true);
