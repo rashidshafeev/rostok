@@ -25,7 +25,10 @@ import FizlicoNotLoggedForm from '../../components/Checkout/FizlicoNotLoggedForm
 import UrlicoNotLoggedForm from '../../components/Checkout/UrlicoNotLoggedForm';
 import { useSendOrderMutation } from '../../redux/api/api';
 import { useSelector } from 'react-redux';
- 
+import SimpleCheckoutFrom from '../../components/Checkout/SimpleCheckoutFrom';
+
+
+
 function CartCheckout() {
 
   const navigate = useNavigate();
@@ -79,7 +82,7 @@ function CartCheckout() {
     mode: 'onChange'
   })
 
-  const [ sendOrder, result] = useSendOrderMutation()
+  const [sendOrder, result] = useSendOrderMutation()
 
 
   const dates = [
@@ -97,7 +100,7 @@ function CartCheckout() {
 
  
 
-  const onPersonalInfoSubmit = (data) => {
+  const onOrderSubmit = (data) => {
     console.log(data)
 
     const items = []
@@ -110,15 +113,15 @@ function CartCheckout() {
     })
 
     const order = {
-      type,
+      // type,
       clientInfo: data,
-      deliveryType,
-      pickupPoint,
-      deliveryDate,
-      paymentMethod,
+      // deliveryType,
+      // pickupPoint,
+      // deliveryDate,
+      // paymentMethod,
       order: items,
     }
-    
+    console.log(order)
     console.log(sendOrder(order))
     console.log(result)
     
@@ -143,6 +146,7 @@ function CartCheckout() {
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
   };
+
   const [client, setClient] = useState('');
   const handleChange = (event) => {
     setClient(event.target.value);
@@ -152,7 +156,7 @@ function CartCheckout() {
   return (
     <div className='content pb-6 lining-nums proportional-nums overflow-auto'>
       <FormProvider { ...methods}>
-            <form  onSubmit={methods.handleSubmit(onPersonalInfoSubmit, onError)}>
+            <form  onSubmit={methods.handleSubmit(onOrderSubmit)}>
 
 
       <NavLink to='/shopping-cart'>
@@ -167,9 +171,12 @@ function CartCheckout() {
 
           <div className='flex flex-col gap-5'>
             <div className='font-semibold text-2xl my-5'>
-              1. Укажите данные получателя
+              Укажите данные контактного лицо
             </div>
-            <div className='flex flex-wrap gap-2'>
+            {/* <div className='font-semibold text-2xl my-5'>
+              1. Укажите данные получателя
+            </div> */}
+            {/* <div className='flex flex-wrap gap-2'>
               <button onClick={() => setType('fizlico')} className={`p-3 border ${type === 'fizlico' ? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'} md:basis-auto sm:basis-[calc(50%-8px/2)] basis-full rounded font-semibold  flex gap-1 items-center`}>
                 <img src={type === 'fizlico' ? fizlicoactive : fizlico} width={20} height={20} alt="" srcset="" />
                 Покупаю как физлицо
@@ -178,8 +185,8 @@ function CartCheckout() {
                 <img src={type === 'urlico' ? urlicoactive : urlico} width={20} height={20} alt="" srcset="" />
                 Покупаю как юрлицо
               </button>
-            </div>
-              <div className='flex flex-col gap-3'>
+            </div> */}
+              {/* <div className='flex flex-col gap-3'>
 
                   {(user?.user && type === 'fizlico') &&
 
@@ -203,18 +210,33 @@ function CartCheckout() {
 
 
 
-              </div>
-            
+              </div> */}
+            <SimpleCheckoutFrom
+            user={user}
+            isCode={isCode}
+            miniLoading={miniLoading}/>
           </div>
 
+          <div className='flex flex-col gap-5'>
+            <div className='font-semibold text-2xl my-5'>
+              Оплата и доставка
+            </div>
+            <div className=' mb-4'>Оплата наличными при получении товара возможна в филиалах компании «РОСТОК»</div>
 
+            <div className=' mb-4'>
+                        <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> Доставка заказа до магазина и пункта самовывоза бесплатная</div>
+                        <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> Если товары в заказе суммарно весят больше 70 кг или в нем содержится больше 30 позиций товаров, получить такой заказ можно самовывозом со склада, доставкой курьером или транспортной компанией</div>
+                        <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> Цены в розничных магазинах могут отличаться от цен на нашем сайте. Для уточнения цены товара в вашем городе нужно обратиться к менеджеру</div>
 
-          <div className='flex flex-col gap-5 w-full'>
+                    </div>
+                    <div className=' mb-4'>Уточните заранее наличие товара в нужном филиале и предварительно его зарезервируйте.</div>
+          </div>
+
+          {/* <div className='flex flex-col gap-5 w-full'>
             <div className='font-semibold text-2xl my-5 mt-12'>
               2. Где и как вы хотите получить заказ
             </div>
 
-            {/* <div className='flex gap-5 overflow-x-auto lg:max-w-[991px] lg:min-w-[768px] snap-x'> */}
             <div className='flex flex-wrap gap-5 w-full'>
 
               <div onClick={() => setDeliveryType('pickup')} className={`flex flex-col basis-full lg:basis-[calc(33%-20px*2/3)]  p-5 box-border border ${deliveryType === 'pickup' ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen rounded-[10px] cursor-pointer`}>
@@ -339,9 +361,9 @@ function CartCheckout() {
 
 
 
-          </div>
+          </div> */}
 
-          <div className='flex flex-col gap-5'>
+          {/* <div className='flex flex-col gap-5'>
             <div className='font-semibold text-2xl my-5 mt-12 '>
               3. Когда вам будет удобно забрать заказ?
             </div>
@@ -356,9 +378,9 @@ function CartCheckout() {
               }
             </div>
 
-          </div>
+          </div> */}
 
-          <div className='flex flex-col gap-5 mb-12'>
+          {/* <div className='flex flex-col gap-5 mb-12'>
             <div className='font-semibold text-2xl my-5 mt-12 '>
               4. Как вам будет удобнее оплатить заказ?
             </div>
@@ -378,7 +400,7 @@ function CartCheckout() {
             </div>
 
 
-          </div>
+          </div> */}
 
 
         </div>
@@ -436,7 +458,7 @@ function CartCheckout() {
 
             }
 
-            <button className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center`}>
+            <button className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center cursor-pointer`}>
               Подтвердить заказ
             </button>
           </div>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import checkicon from '../../assets/icons/check-icon.svg';
 import stallicon from '../../assets/icons/stall-icon.svg';
@@ -8,8 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { addToCart, changeQuantity } from '../../redux/slices/cartSlice';
 import { NavLink } from 'react-router-dom';
+import FastOrderModal from '../../helpers/CModal/FastOrderModal';
 
 function RightBar({ product }) {
+    const [fastOrderModal, setFastOrderModal] = useState(false);
+
+    const handleCloseFastOrderModal  = ()  => {
+        setFastOrderModal(false);
+    }
     
     const dispatch = useDispatch();
     const cart = useSelector(state => state?.cart)
@@ -45,8 +51,10 @@ function RightBar({ product }) {
                             onClick={() => { dispatch(addToCart(product)) }}>Добавить в корзину</button>
 
 
-                        <button className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'>Купить в 1 клик</button>
-
+                        <button 
+                        onClick={() =>  setFastOrderModal(true)}
+                        className='py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer'>Купить в 1 клик</button>
+                        <FastOrderModal open={fastOrderModal} handleClose={handleCloseFastOrderModal} product={product}/>
                     </div>}
 
                     {productInCart &&

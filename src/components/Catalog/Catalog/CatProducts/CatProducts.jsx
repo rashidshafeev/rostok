@@ -23,6 +23,7 @@ const CatProducts = () => {
     : search;
   const secondUrl = pathname.split('/')[2];
   const categoryId = secondUrl === 'tags' ? '' : id;
+
   const {
     data,
     isLoading: loading,
@@ -30,13 +31,18 @@ const CatProducts = () => {
   } = useGetProductsByCategoryQuery({ categoryId, page });
 
   const [breadCrumps, setBreadCrumps] = useState([]);
+
   const [isLoading, setIsLoading] = useState(loading);
+  
   const [open, setOpen] = useState(false);
+
   const [catProducts, setCatProducts] = useState(loading ? [] : data);
+
   const [filters, setFilters] = useState({
     filterOptions: {},
     sortOption: null,
   });
+
   const handleFetchProducts = async (id, filterOptions, sortOption) => {
     setIsLoading(true);
     const { success, data } = await fetchCategoryProducts(

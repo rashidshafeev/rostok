@@ -111,7 +111,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   useEffect(() => {
     setBreadCrumps(filters?.category_chain);
   }, [filters?.category_chain]);
-
+  console.log("filters?.category_chain")
+  console.log(filters?.category_chain)
   return (
     <div className='md:block hidden max-w-[220px] min-w-[220px] w-full mr-5'>
       {isLoading ? (
@@ -119,15 +120,16 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
       ) : (
         <>
           <ul className='space-y-2'>
-            <li className='text-colBlack leading-5 font-semibold'>
-              <button
-                onClick={() => navigate(-1)}
-                className='flex items-center bg-white'
-              >
+            {/* <li className='text-colBlack leading-5 font-semibold'>
+              <NavLink
+              to={filters?.category_chain[filters?.category_chain?.length - 2] ? `/catalog/${filters?.category_chain[filters?.category_chain?.length - 2].slug}` : `/catalog` }>
+                <div className='flex gap-1'>
                 <ArrowIcon className='cursor-pointer !m-0 !w-4 !h-4 mr-1 rotate-[-90deg]' />
-                Назад
-              </button>
-            </li>
+              Назад
+                </div>
+                
+              </NavLink>
+            </li> */}
             <li>
               <NavLink
                 to={`/catalog/${categories?.category?.slug}`}

@@ -113,7 +113,7 @@ function SearchBar({ setShowCatalog }) {
                 <li onClick={(e) => { e.stopPropagation() }} key={index} className="p-2 hover:bg-gray-200">
                   <NavLink to={`/catalog/${result.categorySlug}/${result.slug}`} onClick={handleBlur}>
                     <div className='flex items-center gap-3'>
-                      <img src={result.files.small} alt="" className='w-10 h-10 rounded-md' />
+                      <img src={result.files.small} alt="" className='w-10 h-10 rounded-md object-contain' />
                       <div>
 
                         <div>{result.groupName} {result.name}</div>

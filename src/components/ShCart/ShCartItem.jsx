@@ -30,7 +30,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 onChange={() => dispatch(selectItem(product))}
               />
               <NavLink
-              to={`/catalog/${product.category.slug}/${product.slug}`}
+              to={`/catalog/${product?.category?.slug}/${product?.slug}`}
               >
                 <div className='cursor-pointer min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
                 <img
@@ -58,7 +58,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 <span></span>
               )}
               <NavLink
-                to={`/catalog/${product.category.slug}/${product.slug}`}>
+                to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
                 <span
                 className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
               >
