@@ -24,6 +24,8 @@ import modalLogo from '../../assets/images/modal-logo.svg';
 import { Loading, LoadingSmall } from '../Loader/Loader';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ModalSnackbar from './ModalSnackbar';
+import { useAuthWithEmailMutation } from '../../redux/api/userEndpoints';
+import { setToken } from '../../redux/slices/userSlice';
 
 const AuthModal = ({ open, setOpen, content, setContent }) => {
   const { favorite } = useSelector((state) => state?.favorite);
@@ -36,6 +38,9 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   const [isShowTwo, setIsShowTwo] = useState(false);
   const [resError, setResError] = useState(null);
   const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
+
+
+  const [authWithEmail, authWithEmailResult] = useAuthWithEmailMutation();
 
   const {
     control,
@@ -98,24 +103,26 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   };
 
   const onSubmitAuthWithEmail = async (data) => {
-    const favoriteItems = favorite?.map((el) => el?.id);
+    const auth = await authWithEmail(data)
+    dispatch(setToken(auth.data.token))
+    // const favoriteItems = favorite?.map((el) => el?.id);
 
-    setIsLoading(true);
-    const { success, resData } = await postAuthWithEmail(
-      dispatch,
-      data,
-      favoriteItems
-    );
-    if (success) {
-      setIsLoading(false);
-      setOpen(false);
-      setResError(null);
-      navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
-      reset();
-    } else {
-      setResError(resData?.err);
-      setIsLoading(false);
-    }
+    // setIsLoading(true);
+    // const { success, resData } = await postAuthWithEmail(
+    //   dispatch,
+    //   data,
+    //   favoriteItems
+    // );
+    // if (success) {
+    //   setIsLoading(false);
+    //   setOpen(false);
+    //   setResError(null);
+    //   navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
+    //   reset();
+    // } else {
+    //   setResError(resData?.err);
+    //   setIsLoading(false);
+    // }
   };
 
   const onSubmitRegister = async (data) => {

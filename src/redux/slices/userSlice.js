@@ -1,35 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
+import Cookies from 'js-cookie';
 
 const initialState = {
-  user: null,
   token: null,
-  loading: false,
-  error: null,
 };
 
-const saveTokenToLocalStorage = (token) => {
+const saveTokenToCookies = (token) => {
   if (token) {
-    localStorage.setItem('token', token);
+    Cookies.set('token', token, { expires: 7 }); // Expires in 7 days
   } else {
-    localStorage.removeItem('token');
+    Cookies.remove('token');
   }
 };
 
-const getTokenFromLocalStorage = () => {
-  return localStorage.getItem('token') || null;
+const getTokenFromCookies = () => {
+  return Cookies.get('token') || null;
 };
 
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
-    ...initialState,
-    token: getTokenFromLocalStorage(),
+    token: getTokenFromCookies(),
   },
   reducers: {
     setToken: (state, action) => {
+      console.log('tokenchanged');
       state.token = action.payload;
-      saveTokenToLocalStorage(action.payload);
+      saveTokenToCookies(action.payload);
     },
     registerStart: (state) => {
       state.loading = true;

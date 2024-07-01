@@ -14,6 +14,9 @@ import { fetchComparison } from '../../redux/slices/comparisonSlice';
 import { fetchFavorite } from '../../redux/slices/favoriteSlice';
 import { fetchCart } from '../../redux/slices/cartSlice';
 import { setToken } from '../../redux/slices/userSlice';
+
+import Cookies from 'js-cookie';
+
 const Header = ({ showCatalog, setShowCatalog }) => {
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
@@ -25,7 +28,7 @@ const Header = ({ showCatalog, setShowCatalog }) => {
     dispatch(fetchFavorite());
     dispatch(fetchCart());
 
-    const token = localStorage.getItem('token');
+    const token = Cookies.get('token');
     dispatch(setToken(token));
 
   }, [dispatch]);

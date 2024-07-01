@@ -11,11 +11,19 @@ import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 import CartButton from './HeaderControls/CartButton';
 import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
+import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
+
 
 function HeaderControls({ setContent, setOpen }) {
-  const { data: favorites } = useGetFavoritesQuery();
 
-  const { user } = useSelector((state) => state?.user);
+  const { data: favorites } = useGetFavoritesQuery();
+  const { data: user, isLoading, isFetching, isError } = useGetUserDataQuery();
+  console.log('rerender')
+  console.log("user")
+  console.log(user)
+
+  const { token } = useSelector((state)  => state?.user)
+  console.log(token)
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const comparison = useSelector((state) => state?.comparison?.comparison);
 
@@ -24,6 +32,7 @@ function HeaderControls({ setContent, setOpen }) {
 
   return (
     <div className='hidden lg:flex justify-between space-x-4'>
+      {token}
       {user ? (
         <NavLink
           to='/profile/orders'
@@ -81,8 +90,8 @@ function HeaderControls({ setContent, setOpen }) {
           )}
       </NavLink>
           <CartButton/>
-      {user ? (
-        <ProfileButton />
+      {!isLoading && user?.success ? (
+        <ProfileButton name={user?.user?.name} />
       ) : (
         <LoginButton setContent={setContent} setOpen={setOpen} />
       )}

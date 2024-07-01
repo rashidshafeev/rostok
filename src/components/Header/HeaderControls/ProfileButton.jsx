@@ -20,11 +20,11 @@ import { useSelector } from 'react-redux';
 
 import fizlico from '../../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../../assets/icons/urlico-inactive.svg';
+import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
 
 
-function ProfileButton() {
-
-    const { user } = useSelector((state) => state?.user);
+function ProfileButton({ name }) {
+    
     const { organizations }  = useSelector((state)  => state?.organizations);
 
     const [isOpen, setIsOpen] = useState(false);
@@ -61,18 +61,6 @@ function ProfileButton() {
       role
     ]);
 
-    const handleMouseEnter = () => {
-        clearTimeout(hoverTimeout);
-        setHoverTimeout(setTimeout(() => setIsOpen(true), 500));
-    };
-
-    const handleMouseLeave = () => {
-        clearTimeout(hoverTimeout);
-        setHoverTimeout(setTimeout(() => setIsOpen(false), 500));
-    };
-    
-
-
 
   return (
     <>
@@ -83,7 +71,7 @@ function ProfileButton() {
         >
           <img className='mx-auto' src={profile} alt='*' />
           <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
-            {user?.name}
+            {name}
           </span>
         </NavLink>
 
@@ -142,7 +130,7 @@ function ProfileButton() {
             </div>
             <div className='flex gap-2 items-center rounded font-semibold hover:bg-colSuperLight px-2 py-1'>
                   <img src={fizlico} className='h-4 w-4' alt="" srcset="" />
-                  <div>{user?.name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
+                  <div>{name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
                 </div>
         </div>
       )}
