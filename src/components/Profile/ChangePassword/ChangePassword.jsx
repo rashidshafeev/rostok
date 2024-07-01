@@ -1,10 +1,36 @@
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
+import ModalSnackbar from '../../../helpers/CModal/ModalSnackbar';
 import arrowIcon from '../../../assets/icons/arrow-icon.svg';
+import { useChangePasswordMutation } from '../../../redux/api/changePassword';
+import { Loading } from '../../../helpers/Loader/Loader';
 
 const ChangePassword = () => {
+  const [openSnack, setOpenSnack] = useState(false);
+  const [changePassword, { isLoading, data }] = useChangePasswordMutation();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    getValues,
+  } = useForm({
+    mode: 'onChange',
+  });
+
+  const onSubmit = async (data) => {
+    try {
+      await changePassword(data).unwrap();
+    } catch (err) {
+      console.error(err);
+    }
+    setOpenSnack(true);
+  };
+
   return (
-    <div>
+    <div className='w-full'>
       <NavLink
         className='flex mm:hidden items-center space-x-1 mb-2'
         to='/profile'
@@ -15,20 +41,99 @@ const ChangePassword = () => {
       <h3 className='text-lg mm:text-xl font-semibold text-colBlack pb-4'>
         Изменить пароль
       </h3>
-      <form className='mm:max-w-[340px] w-full space-y-5'>
-        <CTextField label='Новый пароль' name='newPassword' type='password' />
-        <CTextField
-          label='Повторите пароль'
-          name='repeatPassword'
-          type='password'
-        />
-        <button
-          disabled
-          className='h-[38px] px-6 bg-colGray rounded text-white'
+      {isLoading ? (
+        <Loading extraStyle={380} />
+      ) : (
+        <form
+          className='mm:max-w-[340px] w-full space-y-5'
+          onSubmit={handleSubmit(onSubmit)}
         >
-          Изменить
-        </button>
-      </form>
+          <div>
+            <CTextField
+              label='Текущий пароль'
+              type='password'
+              icon
+              {...register('current_password', {
+                required: 'Это поле обязательно',
+              })}
+              error={errors.current_password}
+            />
+            {errors.current_password && (
+              <p className='text-red-500 mt-1 text-xs font-medium'>
+                {errors.current_password.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <CTextField
+              label='Новый пароль'
+              type='password'
+              icon
+              {...register('password', {
+                required: 'Это поле обязательно',
+                validate: (value) => {
+                  if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
+                    return 'Требуется хотя бы одна строчная и прописная буква!';
+                  }
+                  if (!/(?=.*\d)/.test(value)) {
+                    return 'Требуется хотя бы одна цифра!';
+                  }
+                  if (!/(?=.*[@$!%*?&#])/.test(value)) {
+                    return 'Требуется хотя бы один специальный символ!';
+                  }
+                  if (value.length < 8) {
+                    return 'Минимальная длина пароля - 8 символов!';
+                  }
+                  return true;
+                },
+              })}
+            />
+            {errors?.password && (
+              <p className='text-red-500 mt-1 text-xs font-medium'>
+                {errors?.password.message || 'Error!'}
+              </p>
+            )}
+          </div>
+          <div>
+            <CTextField
+              label='Повторите пароль'
+              type='password'
+              icon
+              {...register('password_confirmation', {
+                required: 'Это поле обязательно',
+                validate: (value) =>
+                  value === getValues('password') || 'Пароли не совпадают',
+              })}
+              error={errors.password_confirmation}
+            />
+            {errors.password_confirmation && (
+              <p className='text-red-500 mt-1 text-xs font-medium'>
+                {errors.password_confirmation.message}
+              </p>
+            )}
+          </div>
+          <button
+            type='submit'
+            disabled={!isValid}
+            className={`${
+              isValid ? 'bg-colGreen' : 'bg-colGray'
+            } h-[38px] px-6 rounded text-white`}
+          >
+            Изменить
+          </button>
+        </form>
+      )}
+      <ModalSnackbar
+        message={
+          data
+            ? data.success
+              ? 'Ваш пароль успешно изменён!'
+              : `${data.err}`
+            : ''
+        }
+        open={openSnack}
+        onClose={() => setOpenSnack(false)}
+      />
     </div>
   );
 };

@@ -1,16 +1,32 @@
 import TextField from '@mui/material/TextField';
-import { forwardRef } from 'react';
+import { forwardRef, useState } from 'react';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 // eslint-disable-next-line react/display-name
-const CTextField = forwardRef(({ ...props }, ref) => {
+const CTextField = forwardRef(({ icon, type, ...props }, ref) => {
+  const [showPassword, setShowPassword] = useState(false);
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <TextField
       size='small'
       fullWidth
-      variant='outlined' 
+      variant='outlined'
+      type={showPassword ? 'text' : type}
       InputProps={{
+        endAdornment: icon && (
+          <InputAdornment position='end'>
+            <IconButton onClick={togglePasswordVisibility} edge='end'>
+              {showPassword ? <VisibilityOff /> : <Visibility />}
+            </IconButton>
+          </InputAdornment>
+        ),
         sx: {
           '& .MuiOutlinedInput-notchedOutline': {
             borderWidth: '1px',
@@ -25,7 +41,7 @@ const CTextField = forwardRef(({ ...props }, ref) => {
             borderWidth: '1px',
           },
           '.css-1n4twyu-MuiInputBase-input-MuiOutlinedInput-input': {
-            paddingRight: props.icon === 'true' ? '42px' : '14px',
+            paddingRight: icon ? '42px' : '14px',
           },
         },
       }}
@@ -36,8 +52,6 @@ const CTextField = forwardRef(({ ...props }, ref) => {
           },
         },
       }}
-      
-
       inputProps={props.inputProps}
       {...props}
       ref={ref}
