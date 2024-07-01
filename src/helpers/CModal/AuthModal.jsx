@@ -248,7 +248,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                             label='Пароль'
                             type={`${isShow ? 'text' : 'password'}`}
                             required={true}
-                            icon='true'
                             {...field}
                           />
                         )}
@@ -454,7 +453,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                               <CTextField
                                 label='Пароль'
                                 type={`${isShow ? 'text' : 'password'}`}
-                                icon='true'
                                 {...field}
                               />
                             )}
@@ -495,7 +493,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                               <CTextField
                                 label='Подтвердите пароль'
                                 type={`${isShowTwo ? 'text' : 'password'}`}
-                                icon='true'
                                 {...field}
                               />
                             )}
