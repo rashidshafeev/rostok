@@ -9,7 +9,6 @@ import noImg from '../../assets/images/no-image.png';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { useGetProductsQuery } from "../../redux/api/api";
 import { Loading } from "../../helpers/Loader/Loader";
 import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
 import Review from "../../components/Reviews/Review";
@@ -18,6 +17,7 @@ import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
 import { addToCart, changeQuantity } from "../../redux/slices/cartSlice";
 import RatingStars from "../../helpers/RatingStars";
 import ReviewModal from "../../helpers/CModal/ReviewModal";
+import { useGetProductsQuery } from "../../redux/api/productEndpoints";
 
 export function ReviewsPage() {
 

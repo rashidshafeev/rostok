@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import { ArrowIcon } from '../Icons';
 import noImg from '../../assets/images/no-image.png';
 import arrowBack from '../../assets/icons/arrow-black.svg';
 import { customTags } from '../../constants/data';
+import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();

@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { useGetFavoritesQuery } from '../../redux/api/api';
 
 import order from '../../assets/icons/order.svg';
 import favoriteIcon from '../../assets/icons/favorite.svg';
@@ -11,6 +10,7 @@ import { useState } from 'react';
 import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 import CartButton from './HeaderControls/CartButton';
+import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 
 function HeaderControls({ setContent, setOpen }) {
   const { data: favorites } = useGetFavoritesQuery();

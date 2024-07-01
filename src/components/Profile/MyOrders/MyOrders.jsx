@@ -5,7 +5,6 @@ import {
   Cached,
   DescriptionOutlined,
 } from '@mui/icons-material';
-import { orders } from '../../../constants/data';
 import CSearchField from '../../../helpers/CustomInputs/CSearchField';
 import CSelectField from '../../../helpers/CustomInputs/CSelectField';
 import { useState } from 'react';
@@ -13,9 +12,16 @@ import { NavLink } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import arrowIcon from '../../../assets/icons/arrow-icon.svg';
+import { useGetUserOrdersQuery } from '../../../redux/api/orderEndpoints';
 
 const MyOrders = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
+
+  const { data: orders, isLoading, isSuccess, isError } = useGetUserOrdersQuery();
+
+ 
+
+  console.log(orders)
 
   const options = [
     {
@@ -89,10 +95,10 @@ const MyOrders = () => {
         </div>
       </div>
       <div className='space-y-5'>
-        {orders?.map((el, index) => (
+        {isSuccess && orders?.data?.map((order, index) => (
           <div
             className='rounded-[10px] overflow-hidden border border-[#EBEBEB]'
-            key={el?.id}
+            key={order?.order_number}
           >
             <div className='lg:flex justify-between lg:space-x-3 bg-colSuperLight p-2 sm:p-3 lg:p-5'>
               <div>
@@ -100,7 +106,7 @@ const MyOrders = () => {
                   <div className='flex justify-between items-center'>
                     <div className='flex items-center'>
                       <h4 className='mm:text-lg lg:text-xl font-semibold text-colBlack mr-2'>
-                        № {el?.orderNumber}
+                        № {order?.order_number}
                       </h4>
                       <ContentCopy className='!w-4 cursor-pointer !mr-3' />
                     </div>
@@ -146,8 +152,11 @@ const MyOrders = () => {
                     </div>
                   </div>
                   <span
-                    className={`${
-                      el?.status === 'Комплектуется'
+                    className={` px-2 sm:px-3 lg:px-5 py-[2px] sm:py-1 lg:py-2 rounded-[100px] text-xs sm:text-xs lg:text-sm font-semibold text-center`}
+                    style={{ color: order?.status?.text_color, backgroundColor: order?.status?.background_color }}
+                  >
+                    {/* className={`${
+                      order?.status === 'Комплектуется'
                         ? 'bg-[#58C7DA] text-white'
                         : el?.status === 'Ожидает получения'
                         ? 'bg-[#D62D30] text-white'
@@ -155,11 +164,11 @@ const MyOrders = () => {
                         ? 'bg-[#15765B] text-white'
                         : 'bg-colGray'
                     } px-2 sm:px-3 lg:px-5 py-[2px] sm:py-1 lg:py-2 rounded-[100px] text-xs sm:text-xs lg:text-sm font-semibold text-center`}
-                  >
-                    {el?.status}
+                  > */}
+                    {order?.status?.name}
                   </span>
                 </div>
-                <p className='text-colBlack'>от {el?.date}</p>
+                <p className='text-colBlack'>от {order?.date}</p>
               </div>
               <div className='flex mm:justify-end'>
                 <span className='text-colBlack mr-1 leading-[120%]'>
@@ -171,7 +180,7 @@ const MyOrders = () => {
               </div>
             </div>
             <div className='grid lg:grid-cols-2 gap-3 lg:gap-5 sm:p-2 p-3 lg:p-4'>
-              <div>
+              {/* <div>
                 <div className='flex mb-2'>
                   <span className='text-colBlack mr-1 leading-[120%]'>
                     Доставим до:
@@ -197,17 +206,17 @@ const MyOrders = () => {
                     {el?.paymentType}
                   </span>
                 </div>
-              </div>
+              </div> */}
               <div className='lg:flex flex-col justify-between items-start'>
                 <div className='flex lg:justify-end items-start space-x-3'>
-                  {el?.items?.map((el) => (
+                  {order?.items?.map((item) => (
                     <div
-                      key={el?.id}
+                      key={item?.sku}
                       className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-colSuperLight p-1'
                     >
                       <img
                         className='w-full h-full object-contain'
-                        src={el?.image}
+                        src={item?.variant_files?.medium}
                         alt=''
                       />
                     </div>
@@ -215,7 +224,7 @@ const MyOrders = () => {
                 </div>
                 <button
                   onClick={() => handleToggleAccordion(index)}
-                  className='flex items-center ml-auto outline-none mt-2 lg:mt-0'
+                  className='flex items-center outline-none mt-2 '
                 >
                   <span className='text-sm font-semibold text-colBlack'>
                     Посмотреть заказ
@@ -251,22 +260,22 @@ const MyOrders = () => {
                   </button>
                 </div>
                 <div className='space-y-3'>
-                  {el?.items?.map((el) => (
+                  {order?.items?.map((item) => (
                     <div
-                      key={el?.id}
+                      key={item?.sku}
                       className='md:flex justify-between md:space-x-3 border-t border-[#EBEBEB] pt-3'
                     >
                       <div className='flex space-x-2 md:space-x-3 md:w-1/2'>
                         <div className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-colSuperLight p-1'>
                           <img
                             className='w-full h-full object-contain'
-                            src={el?.image}
+                            src={item?.variant_files?.medium}
                             alt=''
                           />
                         </div>
                         <div>
                           <p className='text-colBlack text-sm font-medium line-clamp-2 break-all'>
-                            {el?.name}
+                            {`${item?.prod_name} ${item?.variant_name}`}
                           </p>
 
                           <div className='flex space-x-2 py-1'>
@@ -274,27 +283,27 @@ const MyOrders = () => {
                               Артикуль:
                             </span>
                             <span className='text-xs text-colDarkGray'>
-                              {el?.article}
+                              {item?.sku}
                             </span>
                           </div>
-                          <div className='flex space-x-2'>
+                          {/* <div className='flex space-x-2'>
                             <span className='text-xs lg:text-sm text-colBlack'>
                               Дата отправки:
                             </span>
                             <span className='text-xs lg:text-sm text-colGreen font-medium'>
                               {el?.deliveryDate}
                             </span>
-                          </div>
+                          </div> */}
                         </div>
                       </div>
                       <div className='flex justify-between items-center md:items-start space-x-3 pl-[58px] md:pl-0 pt-3 md:pt-0'>
                         <span className='text-colBlack whitespace-nowrap'>
-                          {el?.count} шт
+                          {item?.quantity} шт
                         </span>
                         <span className='text-colBlack font-bold whitespace-nowrap'>
-                          {el?.cost} ₽
+                        {item?.price} ₽
                         </span>
-                        <div className='max-w-[120px] lg:max-w-[160px] w-full flex justify-end items-start'>
+                        {/* <div className='max-w-[120px] lg:max-w-[160px] w-full flex justify-end items-start'>
                           <span
                             className={`${
                               el?.status === 'Комплектуется'
@@ -308,7 +317,7 @@ const MyOrders = () => {
                           >
                             {el?.status}
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   ))}

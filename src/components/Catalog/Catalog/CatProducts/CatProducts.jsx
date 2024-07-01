@@ -11,8 +11,9 @@ import {
   fetchCategoryProducts,
   fetchCategoryProductsByTags,
 } from '../../../../api/catalog';
-import { useGetProductsByCategoryQuery } from '../../../../redux/api/api';
+
 import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
+import { useGetProductsByCategoryQuery } from '../../../../redux/api/productEndpoints';
 
 const CatProducts = () => {
   const [page, setPage] = useState(1);

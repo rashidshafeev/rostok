@@ -14,12 +14,12 @@ import {
     useDismiss,
     useRole,
     useInteractions,
-    FloatingPortal
+    FloatingPortal,
+    safePolygon
   } from "@floating-ui/react";
 
 function CartButton() {
 
-    const [hoverTimeout, setHoverTimeout] = useState(null);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -42,28 +42,22 @@ function CartButton() {
     ]
   });
 
-//   const hover = useHover(context, { move: false });
+  const hover = useHover(context, {
+    move: true,
+    delay: 500,
+    handleClose: safePolygon(),
+  });
   const focus = useFocus(context);
   const dismiss = useDismiss(context);
   // Role props for screen readers
   const role = useRole(context, { role: "tooltip" });
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
-    // hover,
+    hover,
     focus,
     dismiss,
     role
   ]);
-
-  const handleMouseEnter = () => {
-    clearTimeout(hoverTimeout);
-    setHoverTimeout(setTimeout(() => setIsOpen(true), 500));
-};
-
-const handleMouseLeave = () => {
-    clearTimeout(hoverTimeout);
-    setHoverTimeout(setTimeout(() => setIsOpen(false), 500));
-};
 
 
 
@@ -74,8 +68,7 @@ const handleMouseLeave = () => {
 
         to='/shopping-cart'
         className='relative text-center flex flex-col justify-between items-center'
-        onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+      
       >
         <img className='mx-auto' src={cartIcon} alt='*' />
         <span className='text-xs pt-1 font-medium text-colBlack'>Корзина</span>
@@ -95,10 +88,7 @@ const handleMouseLeave = () => {
           {...getFloatingProps()}
           style={{  ...floatingStyles }}
           className='max-w-[300px] flex flex-col gap-2  border bg-white p-3  border-colLightGray rounded-[10px] overflow-hidden z-50'
-          onMouseEnter={() =>{
-            clearTimeout(hoverTimeout)
-          }}
-          onMouseLeave={handleMouseLeave}
+        
         >
 
             {

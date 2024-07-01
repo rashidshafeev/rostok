@@ -10,7 +10,8 @@ import {
     useDismiss,
     useRole,
     useInteractions,
-    FloatingPortal
+    FloatingPortal,
+    safePolygon
   } from "@floating-ui/react";
 import { NavLink } from 'react-router-dom';
  
@@ -25,7 +26,6 @@ function ProfileButton() {
 
     const { user } = useSelector((state) => state?.user);
     const { organizations }  = useSelector((state)  => state?.organizations);
-    const [hoverTimeout, setHoverTimeout] = useState(null);
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -44,14 +44,18 @@ function ProfileButton() {
       ]
     });
   
-    // const hover = useHover(context, { move: false });
+    const hover = useHover(context, {
+      move: true,
+      delay: 500,
+      handleClose: safePolygon(),
+    });
     const focus = useFocus(context);
     const dismiss = useDismiss(context);
     // Role props for screen readers
     const role = useRole(context, { role: "tooltip" });
   
     const { getReferenceProps, getFloatingProps } = useInteractions([
-    //   hover,
+      hover,
       focus,
       dismiss,
       role
@@ -76,8 +80,6 @@ function ProfileButton() {
     ref={refs.setReference} {...getReferenceProps()}
           to='/profile/personal-data'
           className='text-center flex flex-col justify-between items-center'
-          onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
         >
           <img className='mx-auto' src={profile} alt='*' />
           <span className='text-xs pt-1 font-medium text-colBlack line-clamp-1 w-[63px] break-all'>
@@ -95,10 +97,7 @@ function ProfileButton() {
           {...getFloatingProps()}
           style={{  ...floatingStyles }}
           className=' lining-nums proportional-nums max-w-[300px] flex flex-col gap-2  border bg-white p-3  border-colLightGray rounded-[10px] overflow-hidden z-50'
-          onMouseEnter={() =>{
-            clearTimeout(hoverTimeout)
-          }}
-          onMouseLeave={handleMouseLeave}
+       
         >
             <NavLink
             to='/profile/personal-data'

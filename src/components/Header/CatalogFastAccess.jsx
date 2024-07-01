@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
-import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import { customTags } from '../../constants/data';
+import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 function CatalogFastAccess() {
   const { data } = useGetCategoryTreeQuery();

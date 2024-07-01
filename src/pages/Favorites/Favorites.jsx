@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { FavDetail, FavSidebar } from '../../components';
-import { useGetFavoritesQuery } from '../../redux/api/api';
 import chair from '../../assets/temp-images/chair.png';
 import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
 import { favoritesBC } from '../../constants/breadCrumps';
+import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 
 const Favorites = () => {
   const favorite = useSelector((state) => state?.favorite?.favorite);

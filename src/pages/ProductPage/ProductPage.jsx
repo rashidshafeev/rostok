@@ -11,7 +11,6 @@ import ProductTabs from '../../components/ProductPage/ProductTabs/ProductTabs';
 import RightBar from '../../components/ProductPage/RightBar';
 import CharacteristicsList from '../../components/ProductPage/CharacteristicsList';
 import TopControls from '../../components/ProductPage/TopControls';
-import { useGetCategoryTreeQuery, useGetProductsQuery, useLazyGetProductsQuery } from '../../redux/api/api';
 import { Loading } from '../../helpers/Loader/Loader';
 import ProductGallery from '../../components/ProductPage/ProductGallery';
 import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';

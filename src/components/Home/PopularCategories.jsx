@@ -1,7 +1,8 @@
-import { useGetCategoryTreeQuery } from '../../redux/api/api';
+
 import CatalogCard from '../Catalog/Catalog/CatalogCard';
 import { Loading } from '../../helpers/Loader/Loader';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
+import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 const PopularCategories = () => {
   const { isLoading, isError, data } = useGetCategoryTreeQuery();

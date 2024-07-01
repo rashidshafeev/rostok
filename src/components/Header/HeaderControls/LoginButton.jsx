@@ -14,13 +14,13 @@ import {
     useInteractions,
     FloatingPortal,
     arrow,
-    FloatingArrow
+    FloatingArrow,
+    safePolygon
   } from "@floating-ui/react";
 
 function LoginButton({ setContent, setOpen}) {
 
     const [isOpen, setIsOpen] = useState(false);
-    const [hoverTimeout, setHoverTimeout] = useState(null);
     const arrowRef = useRef(null);
 
     const { refs, floatingStyles, context, middlewareData, placement } = useFloating({
@@ -41,31 +41,22 @@ function LoginButton({ setContent, setOpen}) {
       ]
     });
   
-    // const hover = useHover(context, { move: false });
+    const hover = useHover(context, {
+      move: true,
+      delay: 500,
+      handleClose: safePolygon(),
+    });
     const focus = useFocus(context);
     const dismiss = useDismiss(context);
     // Role props for screen readers
     const role = useRole(context, { role: "tooltip" });
   
     const { getReferenceProps, getFloatingProps } = useInteractions([
-    //   hover,
+      hover,
       focus,
       dismiss,
       role
     ]);
-  
-    console.log('middlewareData.arrow?.y');
-    console.log(middlewareData.arrow);
-
-    const handleMouseEnter = () => {
-        clearTimeout(hoverTimeout);
-        setHoverTimeout(setTimeout(() => setIsOpen(true), 500));
-    };
-
-    const handleMouseLeave = () => {
-        clearTimeout(hoverTimeout);
-        setHoverTimeout(setTimeout(() => setIsOpen(false), 500));
-    };
     
 
   return (
@@ -76,8 +67,6 @@ function LoginButton({ setContent, setOpen}) {
             setContent('checkAuth');
             setOpen(true);
           }}
-          onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
           className='text-center flex flex-col justify-between items-center outline-none'
 
         >
@@ -98,10 +87,7 @@ function LoginButton({ setContent, setOpen}) {
           {...getFloatingProps()}
           style={{  ...floatingStyles }}
           className='max-w-[300px] flex flex-col gap-2  border bg-white p-3  border-colLightGray rounded-[10px] overflow-hidden z-50'
-          onMouseEnter={() =>{
-            clearTimeout(hoverTimeout)
-          }}
-          onMouseLeave={handleMouseLeave}
+      
         >
                      
 

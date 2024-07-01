@@ -15,8 +15,9 @@ import { IOSSwitch } from '../../../Favorites/styledComponents/IOSSwitch';
 import { ArrowIcon } from '../../../../helpers/Icons';
 import {
   useGetCategoryTreeQuery,
-  useGetFiltersOfProductsQuery,
-} from '../../../../redux/api/api';
+  useGetFiltersOfProductsQuery
+} from '../../../../redux/api/productEndpoints';
+
 
 const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   const [accordion, setAccordion] = useState({

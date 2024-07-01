@@ -23,15 +23,16 @@ import FizlicoLoggedInForm from '../../components/Checkout/FizlicoLoggedInForm';
 import UrlicoLoggedInForm from '../../components/Checkout/UrlicoLoggedInForm';
 import FizlicoNotLoggedForm from '../../components/Checkout/FizlicoNotLoggedForm';
 import UrlicoNotLoggedForm from '../../components/Checkout/UrlicoNotLoggedForm';
-import { useSendOrderMutation } from '../../redux/api/api';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import SimpleCheckoutFrom from '../../components/Checkout/SimpleCheckoutFrom';
-
+import { removeFromCart } from '../../redux/slices/cartSlice';
+import { useSendOrderMutation } from '../../redux/api/orderEndpoints';
 
 
 function CartCheckout() {
 
   const navigate = useNavigate();
+  const dispatch  = useDispatch();
 
   const [type, setType] = useState('fizlico')
   const [deliveryType, setDeliveryType] = useState('pickup')
@@ -73,9 +74,10 @@ function CartCheckout() {
 
   const user = useSelector((state) => state?.user);
   const cart = useSelector((state) => state?.cart);
+  const selected = cart?.cart.filter((item) => item.selected === true);
+
   const { organizations } = useSelector((state) => state?.organizations);
 
-  const selected = cart?.cart.filter((item) => item.selected === true);
 
 
   const methods = useForm({
@@ -121,9 +123,11 @@ function CartCheckout() {
       // paymentMethod,
       order: items,
     }
-    console.log(order)
-    console.log(sendOrder(order))
-    console.log(result)
+    sendOrder(order)
+    selected.forEach((product) => {
+      dispatch(removeFromCart(product));
+    })
+    navigate('/profile/orders');
     
   }
 

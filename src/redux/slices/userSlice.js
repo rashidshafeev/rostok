@@ -7,12 +7,29 @@ const initialState = {
   error: null,
 };
 
+const saveTokenToLocalStorage = (token) => {
+  if (token) {
+    localStorage.setItem('token', token);
+  } else {
+    localStorage.removeItem('token');
+  }
+};
+
+const getTokenFromLocalStorage = () => {
+  return localStorage.getItem('token') || null;
+};
+
+
 export const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: {
+    ...initialState,
+    token: getTokenFromLocalStorage(),
+  },
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
+      saveTokenToLocalStorage(action.payload);
     },
     registerStart: (state) => {
       state.loading = true;
@@ -35,6 +52,7 @@ export const userSlice = createSlice({
       state.loading = false;
       state.user = action.payload.user;
       state.error = false;
+      saveTokenToLocalStorage(action.payload.token);
     },
     loginFailure: (state) => {
       state.loading = false;
@@ -43,6 +61,7 @@ export const userSlice = createSlice({
     logOut: (state) => {
       state.user = null;
       state.token = null;
+      saveTokenToLocalStorage(null);
     },
   },
 });

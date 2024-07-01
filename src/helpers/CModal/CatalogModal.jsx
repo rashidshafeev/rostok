@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { NavLink } from 'react-router-dom';
-import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import { customTags } from '../../constants/data';
 import noImg from '../../assets/images/no-image.png';
+import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
+
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();

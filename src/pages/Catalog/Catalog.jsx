@@ -8,9 +8,9 @@ import {
 } from '../../components';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { Loading } from '../../helpers/Loader/Loader';
-import { useGetCategoryTreeQuery } from '../../redux/api/api';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
+import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 const Catalog = () => {
   const { isLoading, isError, data } = useGetCategoryTreeQuery();

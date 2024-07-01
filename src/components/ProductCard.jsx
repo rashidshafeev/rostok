@@ -1,15 +1,17 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../redux/slices/cartSlice';
+import { addToCart, changeQuantity } from '../redux/slices/cartSlice';
 import { toggleFavorite } from '../redux/slices/favoriteSlice';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
-import { toggleComparison } from '../redux/slices/comparisonSlice';
+import { toggleComparison } from '../redux/slices/comparisonSlice';;
+import noImg from '../assets/images/no-image.png';
+import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import {
   useGetFavoritesQuery,
   useRemoveFromFavoritesMutation,
-  useSetToFavoritesMutation,
-} from '../redux/api/api';
-import noImg from '../assets/images/no-image.png';
+  useSetToFavoritesMutation 
+} from '../redux/api/favoritesEndpoints';
+
 
 const ProductCard = ({ product, recommended }) => {
   const [setToFavorites, { isLoading: setLoading }] =
@@ -34,6 +36,7 @@ const ProductCard = ({ product, recommended }) => {
   const isProductInComparison = comparison?.some(
     (el) => el?.id === product?.id
   );
+  const productInCart = cart?.find((el) => el?.id === product?.id)
 
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
@@ -135,22 +138,38 @@ const ProductCard = ({ product, recommended }) => {
           )}
         </div>
         {isProductInCart ? (
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              navigate('/shopping-cart');
-            }}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
-          >
-            Перейти в корзину
-          </button>
+          // <button
+          //   onClick={(e) => {
+          //     e.preventDefault();
+          //     navigate('/shopping-cart');
+          //   }}
+          //   className='transition-all text-xs xs:text-sm sm:text-base  bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+          // >
+          //   Перейти в корзину
+          // </button>
+          <div className='flex justify-between items-center space-x-3'>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+              onClick={(e) => {
+                e.preventDefault();
+                product?.quantity !== 1 ? dispatch(changeQuantity({product, quantity: -1})) : dispatch(changeQuantity({product, quantity: 0}))}}>
+                <RemoveOutlined className={`${product?.quantity !== 1 ? `text-colGreen` : `text-colGray`} cursor-pointer`} />
+              </span>
+              <span className='text-colGreen font-semibold'>{productInCart?.quantity}</span>
+              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(changeQuantity({product, quantity: 1}))}}>
+                <AddOutlined className='text-colGreen cursor-pointer' />
+              </span>
+            </div>
+          
         ) : (
           <button
             onClick={(e) => {
               e.preventDefault();
               dispatch(addToCart(product));
             }}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 group-hover:opacity-100 lg:opacity-0 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            className='transition-all text-xs xs:text-sm sm:text-base  bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
           >
             В корзину
           </button>

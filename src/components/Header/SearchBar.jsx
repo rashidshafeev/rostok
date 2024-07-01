@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import search from '../../assets/icons/search.svg';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { useGetSuggestionsMutation, useGetVariantsMutation } from '../../redux/api/api';
+import { useGetSuggestionsMutation } from '../../redux/api/cartEndpoints';
+
 
 function SearchBar({ setShowCatalog }) {
 
-  // const [getVariants, { data, error, isLoading }] = useGetVariantsMutation();
   const [getSuggestions, { data, error, isLoading }] = useGetSuggestionsMutation();
 
   const [isFocused, setIsFocused] = useState(false);

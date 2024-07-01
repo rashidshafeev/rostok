@@ -5,8 +5,9 @@ import { Loading } from '../Loader/Loader';
 import ErrorServer from '../Errors/ErrorServer';
 import ErrorEmpty from '../Errors/ErrorEmpty';
 import { fetchCategoryProducts } from '../../api/catalog';
-import { useGetFiltersOfProductsQuery } from '../../redux/api/api';
+
 import CTextField from '../CustomInputs/CTextField';
+import { useGetFiltersOfProductsQuery } from '../../redux/api/productEndpoints';
 
 const AllFiltersModal = ({
   open,
