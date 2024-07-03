@@ -9,7 +9,7 @@ export const favoritesEndpoints = (builder) => ({
           ? [{ type: 'Favorite', id: 'LIST' }]
           : [{ type: 'Favorite', id: 'LIST' }],
     }),
-    setToFavorites: builder.mutation({
+    sendFavorites: builder.mutation({
       query: (productId) => ({
         url: '/api/ProductsFavourites/set',
         method: 'POST',
@@ -30,6 +30,6 @@ export const favoritesEndpoints = (builder) => ({
   // Export hooks for favorites endpoints
   export const {
     useGetFavoritesQuery,
-    useSetToFavoritesMutation,
+    useSendFavoritesMutation,
     useRemoveFromFavoritesMutation,
   } = api.injectEndpoints({ endpoints: favoritesEndpoints });

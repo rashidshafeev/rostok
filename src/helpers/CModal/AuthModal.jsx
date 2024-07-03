@@ -26,9 +26,16 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import ModalSnackbar from './ModalSnackbar';
 import { useAuthWithEmailMutation } from '../../redux/api/userEndpoints';
 import { setToken } from '../../redux/slices/userSlice';
-
+import { useSendCartMutation } from '../../redux/api/cartEndpoints';
+import { useSendFavoritesMutation } from '../../redux/api/favoritesEndpoints';
+import { setCart } from '../../redux/slices/cartSlice';
+import { setFavorite } from '../../redux/slices/favoriteSlice';
+import { useSendComparisonMutation } from '../../redux/api/comparisonEndpoints';
+import { setComparison } from '../../redux/slices/comparisonSlice';
 const AuthModal = ({ open, setOpen, content, setContent }) => {
-  const { favorite } = useSelector((state) => state?.favorite);
+  const cart = useSelector((state) => state.cart.cart);
+  const comparison = useSelector((state) => state.comparison.comparison);
+  const favorite = useSelector((state) => state.favorite.favorite);
 
   const [isLoading, setIsLoading] = useState(false);
   const [miniLoading, setMiniLoading] = useState(false);
@@ -41,6 +48,9 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
 
 
   const [authWithEmail, authWithEmailResult] = useAuthWithEmailMutation();
+  const [sendCart, sendCartResult]  = useSendCartMutation();
+  const [sendFavorites, sendFavoritesResult]  = useSendFavoritesMutation();
+  const [sendComparison, sendComparisonResult]  = useSendComparisonMutation();
 
   const {
     control,
@@ -102,27 +112,43 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     }
   };
 
-  const onSubmitAuthWithEmail = async (data) => {
-    const auth = await authWithEmail(data)
-    dispatch(setToken(auth.data.token))
-    // const favoriteItems = favorite?.map((el) => el?.id);
+  const sendAndClearData = async () => {
+    try {
+      // Send cart
+      await sendCart({ items: cart.map(item => ({ id: item.id, quantity: item.quantity }))});
+      console.log('Success sending data to server:', send);
 
-    // setIsLoading(true);
-    // const { success, resData } = await postAuthWithEmail(
-    //   dispatch,
-    //   data,
-    //   favoriteItems
-    // );
-    // if (success) {
-    //   setIsLoading(false);
-    //   setOpen(false);
-    //   setResError(null);
-    //   navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
-    //   reset();
-    // } else {
-    //   setResError(resData?.err);
-    //   setIsLoading(false);
-    // }
+      // Send comparison
+      await sendComparison(comparison.map(item => item.id));
+
+      // Send favorites
+      await sendFavorites(favorite.map(item => item.id));
+
+      // Clear local storage
+      sessionStorage.removeItem('cart');
+      sessionStorage.removeItem('comparison');
+      sessionStorage.removeItem('favorite');
+
+      // Clear Redux store
+      dispatch(setCart({ cart: [], selected: [], itemsQuantity: 0, selectedQuantity: 0 }));
+      dispatch(setComparison([]));
+      dispatch(setFavorite([]));
+    } catch (error) {
+      console.error('Error sending data to server:', error);
+    }
+  };
+
+  const onSubmitAuthWithEmail = async (data) => {
+    try {
+      const auth = await authWithEmail(data);
+      dispatch(setToken(auth.data.token));
+  
+      await sendAndClearData();
+    } catch (error) {
+      console.error('Authorization failed:', error);
+    }
+
+
   };
 
   const onSubmitRegister = async (data) => {

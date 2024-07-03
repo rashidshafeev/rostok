@@ -21,10 +21,6 @@ import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
 
 function LoginButton({ setContent, setOpen}) {
 
-  const { data: user, isLoading, isFetching, isError } = useGetUserDataQuery();
-    // const { user } = useSelector((state) => state?.user);
-    console.log("user");
-    console.log(user);
 
     const [isOpen, setIsOpen] = useState(false);
     const arrowRef = useRef(null);

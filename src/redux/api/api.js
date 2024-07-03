@@ -6,8 +6,12 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://bot-adash.host2bot.ru/',
-    prepareHeaders: ( headers ) => {
-      const token = Cookies.get('token');
+    prepareHeaders: ( headers, { getState } ) => {
+      // const token = Cookies.get('token');
+      const token = getState().user.token
+      console.log("getststa")
+      console.log(getState().user)
+
       if (token) {
         headers.set('Authorization', `Bearer ${token}`);
       }

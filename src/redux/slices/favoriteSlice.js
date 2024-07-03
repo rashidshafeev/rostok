@@ -10,7 +10,10 @@ export const favoriteSlice = createSlice({
   name: 'favorite',
   initialState,
   reducers: {
-    fetchFavorite: () => {},
+    fetchFavorite: (state) => {
+      const favorite = JSON.parse(sessionStorage.getItem('favorite'));
+      state.favorite = favorite || []
+    },
     setFavorite: (state, action) => {
       state.favorite = action.payload;
     },

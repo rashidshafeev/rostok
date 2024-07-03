@@ -15,7 +15,16 @@ export const userEndpoints = (builder) => ({
          ({
             url: '/api/UserData/get',
             method: 'GET',
-         })
+            prepareHeaders: (headers, { getState }) => {
+                // Access the token from the Redux store
+                const token = getState().user.token;
+                if (token) {
+                  headers.set('Authorization', `Bearer ${token}`);
+                }
+                return headers;
+              },
+         }),
+         keepUnusedDataFor: 0
     }),
     
 });

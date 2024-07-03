@@ -9,13 +9,13 @@ import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import {
   useGetFavoritesQuery,
   useRemoveFromFavoritesMutation,
-  useSetToFavoritesMutation 
+  useSendFavoritesMutation 
 } from '../redux/api/favoritesEndpoints';
 
 
 const ProductCard = ({ product, recommended }) => {
-  const [setToFavorites, { isLoading: setLoading }] =
-    useSetToFavoritesMutation();
+  const [sendFavorites, { isLoading: setLoading }] =
+    useSendFavoritesMutation();
   const [removeFromFavorite, { isLoading: removeLoading }] =
     useRemoveFromFavoritesMutation();
   const { data } = useGetFavoritesQuery();
@@ -47,7 +47,7 @@ const ProductCard = ({ product, recommended }) => {
         if (isProductInFavorite) {
           await removeFromFavorite(product?.id);
         } else {
-          await setToFavorites(product?.id);
+          await sendFavorites(product?.id);
         }
       } catch (error) {
         console.error('Failed to add product to favorites:', error);

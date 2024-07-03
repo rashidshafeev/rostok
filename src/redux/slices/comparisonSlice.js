@@ -10,7 +10,10 @@ export const comparisonSlice = createSlice({
   name: 'comparison',
   initialState,
   reducers: {
-    fetchComparison: (state, action) => {},
+    fetchComparison: (state, action) => {
+      const comparison = JSON.parse(sessionStorage.getItem('comparison'));
+      state.comparison = comparison || []
+    },
     setComparison: (state, action) => {
       state.comparison = action.payload;
     },

@@ -25,6 +25,7 @@ import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
 
 function ProfileButton({ name }) {
     
+    
     const { organizations }  = useSelector((state)  => state?.organizations);
 
     const [isOpen, setIsOpen] = useState(false);

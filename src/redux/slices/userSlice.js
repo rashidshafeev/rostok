@@ -25,9 +25,10 @@ export const userSlice = createSlice({
   },
   reducers: {
     setToken: (state, action) => {
-      console.log('tokenchanged');
-      state.token = action.payload;
+      
       saveTokenToCookies(action.payload);
+      state.token = action.payload;
+
     },
     registerStart: (state) => {
       state.loading = true;

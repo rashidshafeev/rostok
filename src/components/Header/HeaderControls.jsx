@@ -6,7 +6,7 @@ import favoriteIcon from '../../assets/icons/favorite.svg';
 import comparisonIcon from '../../assets/icons/comparison.svg';
 
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 import CartButton from './HeaderControls/CartButton';
@@ -15,24 +15,30 @@ import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
 
 
 function HeaderControls({ setContent, setOpen }) {
+  const { token } = useSelector((state) => state.user);
+  console.log('token in header:', token);
 
-  const { data: favorites } = useGetFavoritesQuery();
-  const { data: user, isLoading, isFetching, isError } = useGetUserDataQuery();
-  console.log('rerender')
-  console.log("user")
-  console.log(user)
-
-  const { token } = useSelector((state)  => state?.user)
-  console.log(token)
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const comparison = useSelector((state) => state?.comparison?.comparison);
+  
+  const { data: favorites } = useGetFavoritesQuery();
+  const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
+  console.log('rerender');
+  console.log('user', user);
+
+  
+  useEffect(() => {
+    if (token) {
+      refetch(); // refetch the user data when token changes
+    }
+  }, [token, refetch]);
 
 
 
   return (
     <div className='hidden lg:flex justify-between space-x-4'>
-      {token}
+      {/* {token} */}
       {user ? (
         <NavLink
           to='/profile/orders'

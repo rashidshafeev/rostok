@@ -28,8 +28,8 @@ const Header = ({ showCatalog, setShowCatalog }) => {
     dispatch(fetchFavorite());
     dispatch(fetchCart());
 
-    const token = Cookies.get('token');
-    dispatch(setToken(token));
+    // const token = Cookies.get('token');
+    // dispatch(setToken(token));
 
   }, [dispatch]);
 
