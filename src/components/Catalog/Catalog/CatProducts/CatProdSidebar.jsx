@@ -1,4 +1,4 @@
-import { NavLink, useNavigate, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import CTextField from '../../../../helpers/CustomInputs/CTextField';
 import {
   Accordion,
@@ -15,11 +15,19 @@ import { IOSSwitch } from '../../../Favorites/styledComponents/IOSSwitch';
 import { ArrowIcon } from '../../../../helpers/Icons';
 import {
   useGetCategoryTreeQuery,
-  useGetFiltersOfProductsQuery
+  useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/productEndpoints';
 
-
 const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
+  const { categoryId } = useParams();
+
+  const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
+  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
+
+  const filtersInColumn = filters?.dynamics?.filter(
+    (el) => el?.display_in_filters === '1'
+  );
+
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -29,15 +37,9 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
     highRating: true,
     brands: [],
     tags: [],
-    min_price: 0,
-    max_price: 900000,
+    min_price: filters?.basics?.price?.min,
+    max_price: filters?.basics?.price?.max,
   });
-
-  const { categoryId } = useParams();
-  const navigate = useNavigate();
-
-  const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
@@ -112,8 +114,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   useEffect(() => {
     setBreadCrumps(filters?.category_chain);
   }, [filters?.category_chain]);
-  console.log("filters?.category_chain")
-  console.log(filters?.category_chain)
+
   return (
     <div className='md:block hidden max-w-[220px] min-w-[220px] w-full mr-5'>
       {isLoading ? (
@@ -121,16 +122,6 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
       ) : (
         <>
           <ul className='space-y-2'>
-            {/* <li className='text-colBlack leading-5 font-semibold'>
-              <NavLink
-              to={filters?.category_chain[filters?.category_chain?.length - 2] ? `/catalog/${filters?.category_chain[filters?.category_chain?.length - 2].slug}` : `/catalog` }>
-                <div className='flex gap-1'>
-                <ArrowIcon className='cursor-pointer !m-0 !w-4 !h-4 mr-1 rotate-[-90deg]' />
-              Назад
-                </div>
-                
-              </NavLink>
-            </li> */}
             <li>
               <NavLink
                 to={`/catalog/${categories?.category?.slug}`}
@@ -280,17 +271,17 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
               <AccordionDetails sx={{ padding: 0 }}>
                 <div className='grid grid-cols-2 gap-3 pb-3'>
                   <CTextField
-                    label='от 0'
+                    label={`от ${filters?.basics?.price?.min}`}
                     name='min_price'
                     type='number'
-                    value={filtersState.min_price}
+                    value={Number(filtersState.min_price)}
                     onChange={(e) => handleChange('min_price', e.target.value)}
                   />
                   <CTextField
-                    label='до 900 000'
+                    label={`до ${filters?.basics?.price?.max}`}
                     name='max_price'
                     type='number'
-                    value={filtersState.max_price}
+                    value={Number(filtersState.max_price)}
                     onChange={(e) => handleChange('max_price', e.target.value)}
                   />
                 </div>
@@ -300,8 +291,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                     size='small'
                     getAriaLabel={() => 'Price range'}
                     value={[filtersState?.min_price, filtersState?.max_price]}
-                    min={0}
-                    max={900000}
+                    min={Number(filters?.basics?.price?.min)}
+                    max={Number(filters?.basics?.price?.max)}
                     onChange={(event, newValue) => handleSliderChange(newValue)}
                     valueLabelDisplay='auto'
                   />
@@ -409,6 +400,97 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </AccordionDetails>
               </Accordion>
             )}
+            {filtersInColumn?.length > 0 &&
+              filtersInColumn?.map((el, index) => (
+                <div key={index}>
+                  <Accordion
+                    sx={{
+                      boxShadow: 'none',
+                      padding: 0,
+                    }}
+                    defaultExpanded
+                  >
+                    <AccordionSummary
+                      sx={{ padding: 0 }}
+                      style={{ minHeight: 0 }}
+                      expandIcon={
+                        <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
+                      }
+                    >
+                      <p className='font-semibold text-colBlack line-clamp-2 break-all leading-[120%]'>
+                        {el?.name}
+                      </p>
+                    </AccordionSummary>
+                    <AccordionDetails sx={{ padding: 0 }}>
+                      {/* <FormControlLabel
+                        control={
+                          <Checkbox
+                            style={{
+                              color: '#15765B',
+                              padding: '5px',
+                            }}
+                            checked={filtersState.tags.includes(el?.tag)}
+                            onChange={() =>
+                              handleCheckboxChange('tags', el?.tag)
+                            }
+                          />
+                        }
+                        label={
+                          <span
+                            style={{
+                              color: el?.text_color,
+                              backgroundColor: el?.background_color,
+                            }}
+                            className='text-xs font-bold rounded-xl'
+                          >
+                            {el?.name}
+                          </span>
+                        }
+                      /> */}
+                      <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable'>
+                        {el?.values?.map((val) => (
+                          <div key={val?.id}>
+                            <FormControlLabel
+                              style={{ margin: 0 }}
+                              control={
+                                <Checkbox
+                                  style={{
+                                    color: '#15765B',
+                                    padding: '2px 3px',
+                                  }}
+                                  // checked={
+                                  //   selectedValues[el?.id]?.includes(
+                                  //     val?.id
+                                  //   ) || false
+                                  // }
+                                  // onChange={() =>
+                                  //   toggleValue(el?.id, val?.id)
+                                  // }
+                                />
+                              }
+                              label={
+                                <div className='flex space-x-2 items-center'>
+                                  {el?.type === 'color' && (
+                                    <span
+                                      style={{
+                                        backgroundColor: val?.color,
+                                      }}
+                                      className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
+                                    ></span>
+                                  )}
+                                  <p className='text-sm font-medium text-colBlack line-clamp-1 break-all'>
+                                    {val?.text}
+                                  </p>
+                                </div>
+                              }
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </AccordionDetails>
+                  </Accordion>
+                </div>
+              ))}
             <FormControlLabel
               sx={{ margin: '10px 0' }}
               control={
