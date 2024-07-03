@@ -147,8 +147,6 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     } catch (error) {
       console.error('Authorization failed:', error);
     }
-
-
   };
 
   const onSubmitRegister = async (data) => {

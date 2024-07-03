@@ -1,3 +1,4 @@
+// src/redux/middleware/listenerMiddleware.js
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import {
   fetchComparison,
@@ -19,26 +20,11 @@ import {
 } from './slices/cartSlice';
 import { api } from './api/api';
 
-
 export const listenerMiddleware = createListenerMiddleware();
 
 // Utility function to save to session storage
 const saveToSession = (key, data) => {
   sessionStorage.setItem(key, JSON.stringify(data));
-};
-
-
-// Utility function to save to server
-const saveToServer = async (key, data, listenerApi) => {
-  const { useSendCartMutation, useSendComparisonMutation, useSendFavoritesMutation } = api;
-  const actionsMap = {
-    cart: useSendCartMutation,
-    comparison: useSendComparisonMutation,
-    favorite: useSendFavoritesMutation,
-  };
-
-  const [sendDataMutation] = actionsMap[key]();
-  await sendDataMutation(data);
 };
 
 // Listener for cart actions
@@ -47,10 +33,10 @@ listenerMiddleware.startListening({
   effect: async (action, listenerApi) => {
     const state = listenerApi.getState();
     const token = state.user.token;
-
     if (token) {
       try {
-        await saveToServer('cart', state.cart.cart, listenerApi);
+        await listenerApi.dispatch(api.endpoints.sendCart.initiate(state.cart.cart)).unwrap();
+        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
       } catch (error) {
         console.error('Error saving cart to server:', error);
       }
@@ -63,14 +49,18 @@ listenerMiddleware.startListening({
 // Listener for favorite actions
 listenerMiddleware.startListening({
   actionCreator: toggleFavorite,
-  effect: (action, listenerApi) => {
+  effect: async (action, listenerApi) => {
     const state = listenerApi.getState();
     const token = state.user.token;
-    let favorite = state.favorite.favorite;
+    // const favorite = state.favorite.favorite;
+    const favorite = await listenerApi.dispatch(api.endpoints.getFavorites.initiate())
+    console.log("favorite")
+    console.log(favorite)
 
     if (token) {
       try {
-        saveToServer('favorite', favorite, listenerApi);
+        await listenerApi.dispatch(api.endpoints.sendFavorites.initiate({ id: action.payload.id,  })).unwrap();
+        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
       } catch (error) {
         console.error('Error saving favorite to server:', error);
       }
@@ -83,14 +73,14 @@ listenerMiddleware.startListening({
 // Listener for comparison actions
 listenerMiddleware.startListening({
   actionCreator: toggleComparison,
-  effect: (action, listenerApi) => {
+  effect: async (action, listenerApi) => {
     const state = listenerApi.getState();
     const token = state.user.token;
-    let comparison = state.comparison.comparison;
-
+    const comparison = state.comparison.comparison;
     if (token) {
       try {
-        saveToServer('comparison', comparison, listenerApi);
+        await listenerApi.dispatch(api.endpoints.sendComparison.initiate(comparison.map(item => item.id))).unwrap();
+        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
       } catch (error) {
         console.error('Error saving comparison to server:', error);
       }
@@ -99,7 +89,6 @@ listenerMiddleware.startListening({
     }
   },
 });
-
 
 // Listener to fetch data from session storage if no token on first load
 listenerMiddleware.startListening({

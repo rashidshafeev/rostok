@@ -2,13 +2,6 @@
 import { api } from  './api';
 
 export const cartEndpoints = (builder) => ({
-    // setCart: builder.mutation({
-    //   query: (cart) => ({
-    //     url: '/api/Products/setCart',
-    //     method: 'POST',
-    //     body: cart,
-    //   }),
-    // }),
     getVariants: builder.mutation({
       query: (params) => ({
         url: '/api/Products/variants',
@@ -23,12 +16,17 @@ export const cartEndpoints = (builder) => ({
         body: params,
       }),
     }),
+    getUserCart: builder.query({
+      query: () => '/api/ProductsCart/get',
+      providesTags: [{ type: 'Cart', id: 'LIST' }],
+    }),
     sendCart: builder.mutation({
       query: (cart) => ({
         url: '/api/ProductsCart/set',
         method: 'POST',
         body: cart,
       }),
+      invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),
     removeFromCart: builder.mutation({
       query: (productId) => ({
@@ -36,14 +34,9 @@ export const cartEndpoints = (builder) => ({
         method: 'POST',
         body: { id: productId },
       }),
-      invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
+      invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),
-    getUserCart: builder.query({
-      query: () => ({
-        url: '/api/ProductsCart/get',
-        method: 'GET'
-      }),
-    }),
+    
   });
   
   // Export hooks for cart endpoints

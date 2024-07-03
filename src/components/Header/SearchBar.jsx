@@ -4,6 +4,7 @@ import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useGetSuggestionsMutation } from '../../redux/api/cartEndpoints';
 
 
+
 function SearchBar({ setShowCatalog }) {
 
   const [getSuggestions, { data, error, isLoading }] = useGetSuggestionsMutation();
@@ -11,6 +12,7 @@ function SearchBar({ setShowCatalog }) {
   const [isFocused, setIsFocused] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [results, setResults] = useState([]);
+
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -42,13 +44,24 @@ function SearchBar({ setShowCatalog }) {
   }, [searchTerm])
 
 
-  const [value, setValue] = useState('');
+  // const [value, setValue] = useState('');
 
   const navigate = useNavigate();
   const location = useLocation();
 
+  
+
+  console.log("location")
+  console.log(location)
+
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
+
+  useEffect(()  => {
+    if (location.pathname  ===  '/search-results') {
+      setSearchTerm(searchParams.get('search'))
+    }
+  }, [location])
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -75,7 +88,7 @@ function SearchBar({ setShowCatalog }) {
             <input
               className='w-full h-[34px] mm:h-10 outline-none rounded-l-md  bg-white px-3 border-none'
               type='search'
-              defaultValue={searchTerm}
+              // defaultValue={searchTerm}
               placeholder='Поиск по сайту'
               onFocus={handleFocus}
               // onBlur={handleBlur}

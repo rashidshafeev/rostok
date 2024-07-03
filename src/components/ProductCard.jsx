@@ -40,19 +40,23 @@ const ProductCard = ({ product, recommended }) => {
 
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
-    if (!user) {
+    console.log("product")
+    console.log(product)
       dispatch(toggleFavorite(product));
-    } else {
-      try {
-        if (isProductInFavorite) {
-          await removeFromFavorite(product?.id);
-        } else {
-          await sendFavorites(product?.id);
-        }
-      } catch (error) {
-        console.error('Failed to add product to favorites:', error);
-      }
-    }
+
+    // if (!user) {
+    //   dispatch(toggleFavorite(product));
+    // } else {
+    //   try {
+    //     if (isProductInFavorite) {
+    //       await removeFromFavorite(product?.id);
+    //     } else {
+    //       await sendFavorites(product?.id);
+    //     }
+    //   } catch (error) {
+    //     console.error('Failed to add product to favorites:', error);
+    //   }
+    // }
   };
 
   const handleToggleComparison = (e) => {

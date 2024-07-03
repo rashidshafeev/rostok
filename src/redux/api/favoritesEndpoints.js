@@ -1,35 +1,31 @@
-// favoritesEndpoints.js
-import { api } from  './api';
+// src/redux/api/favoritesEndpoints.js
+import { api } from './api';
 
 export const favoritesEndpoints = (builder) => ({
-    getFavorites: builder.query({
-      query: () => '/api/ProductsFavourites/get',
-      providesTags: (result) =>
-        result
-          ? [{ type: 'Favorite', id: 'LIST' }]
-          : [{ type: 'Favorite', id: 'LIST' }],
+  getFavorites: builder.query({
+    query: () => '/api/ProductsFavourites/get',
+    providesTags: [{ type: 'Favorite', id: 'LIST' }],
+  }),
+  sendFavorites: builder.mutation({
+    query: (data) => ({
+      url: '/api/ProductsFavourites/set',
+      method: 'POST',
+      body: data,
     }),
-    sendFavorites: builder.mutation({
-      query: (productId) => ({
-        url: '/api/ProductsFavourites/set',
-        method: 'POST',
-        body: { id: productId },
-      }),
-      invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
+    invalidatesTags: [{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+  }),
+  removeFromFavorites: builder.mutation({
+    query: (productId) => ({
+      url: '/api/ProductsFavourites/delete',
+      method: 'POST',
+      body: { id: productId },
     }),
-    removeFromFavorites: builder.mutation({
-      query: (productId) => ({
-        url: '/api/ProductsFavourites/delete',
-        method: 'POST',
-        body: { id: productId },
-      }),
-      invalidatesTags: [{ type: 'Favorite', id: 'LIST' }],
-    }),
-  });
-  
-  // Export hooks for favorites endpoints
-  export const {
-    useGetFavoritesQuery,
-    useSendFavoritesMutation,
-    useRemoveFromFavoritesMutation,
-  } = api.injectEndpoints({ endpoints: favoritesEndpoints });
+    invalidatesTags: [{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+  }),
+});
+
+export const {
+  useGetFavoritesQuery,
+  useSendFavoritesMutation,
+  useRemoveFromFavoritesMutation,
+} = api.injectEndpoints({ endpoints: favoritesEndpoints });
