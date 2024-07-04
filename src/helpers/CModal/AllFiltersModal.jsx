@@ -17,21 +17,21 @@ const AllFiltersModal = ({
   allFilters,
   setFilters,
 }) => {
+  const {
+    isLoading,
+    isError,
+    data: filters,
+  } = useGetFiltersOfProductsQuery(category);
+
   const [accordion, setAccordion] = useState([]);
   const [selectedValues, setSelectedValues] = useState({});
   const [isFilterLoading, setIsFilterLoading] = useState(false);
   const [selectedValuesTwo, setSelectedValuesTwo] = useState({
     brands: [],
     tags: [],
-    min_price: 0,
-    max_price: 900000,
+    min_price: Number(filters?.basics?.price?.min) || 0,
+    max_price: Number(filters?.basics?.price?.max) || 0,
   });
-
-  const {
-    isLoading,
-    isError,
-    data: filters,
-  } = useGetFiltersOfProductsQuery(category);
 
   const toggleValue = (filterId, valueId) => {
     setSelectedValues((prevState) => ({
@@ -137,6 +137,10 @@ const AllFiltersModal = ({
     setIsFilterLoading(false);
   };
 
+  const dynamicFilters = filters?.dynamics?.filter(
+    (el) => el?.display_in_filters !== '1'
+  );
+
   if (!open) return null;
 
   return (
@@ -160,11 +164,15 @@ const AllFiltersModal = ({
                 &times;
               </span>
             </div>
+            {console.log(filters)}
             {isLoading || isFilterLoading ? (
               <Loading />
             ) : isError ? (
               <ErrorServer errorMessage='Что-то пошло не так! Пожалуйста, повторите попытку еще раз.' />
-            ) : filters?.dynamics?.length > 0 ? (
+            ) : filters?.basics &&
+              Object.keys(filters.basics).length > 0 &&
+              filters?.dynamics &&
+              filters.dynamics.length > 0 ? (
               <div className='mt-2 pr-2 lg:pr-5 md:border-t border-b border-[#EBEBEB] overflow-y-scroll scrollable overflow-hidden h-[calc(100vh_-_124px)] mm:h-[calc(100vh_-_185px)] lg:h-[92%]'>
                 <div className='pt-5'>
                   <div className='grid mm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>
@@ -188,7 +196,7 @@ const AllFiltersModal = ({
                         <>
                           <div className='grid grid-cols-2 gap-3 py-3 pl-2'>
                             <CTextField
-                              label='от 0'
+                              label={`от ${filters?.basics?.price?.min}`}
                               name='min_price'
                               type='number'
                               value={selectedValuesTwo.min_price}
@@ -197,7 +205,7 @@ const AllFiltersModal = ({
                               }
                             />
                             <CTextField
-                              label='до 900 000'
+                              label={`до ${filters?.basics?.price?.max}`}
                               name='max_price'
                               type='number'
                               value={selectedValuesTwo.max_price}
@@ -215,8 +223,8 @@ const AllFiltersModal = ({
                                 selectedValuesTwo?.min_price,
                                 selectedValuesTwo?.max_price,
                               ]}
-                              min={0}
-                              max={900000}
+                              min={Number(filters?.basics?.price?.min)}
+                              max={Number(filters?.basics?.price?.max)}
                               onChange={(event, newValue) =>
                                 handleSliderChange(newValue)
                               }
@@ -323,73 +331,77 @@ const AllFiltersModal = ({
                           ))}
                       </div>
                     )}
-                    {filters?.dynamics?.map((el) => (
-                      <div className='border-b md:border-b-0 pb-2' key={el?.id}>
+                    {dynamicFilters > 0 &&
+                      dynamicFilters?.map((el) => (
                         <div
-                          className='flex justify-between items-center cursor-pointer'
-                          onClick={() => toggleAccordion(el?.id)}
+                          className='border-b md:border-b-0 pb-2'
+                          key={el?.id}
                         >
-                          <span className='text-colBlack font-semibold'>
-                            {el?.name}
-                          </span>
-                          <ArrowIcon
-                            className={`!m-0 !w-4 !h-4 ${
-                              accordion?.includes(el?.id)
-                                ? 'rotate-[0deg]'
-                                : 'rotate-[180deg]'
-                            }`}
-                          />
+                          <div
+                            className='flex justify-between items-center cursor-pointer'
+                            onClick={() => toggleAccordion(el?.id)}
+                          >
+                            <span className='text-colBlack font-semibold'>
+                              {el?.name}
+                            </span>
+                            <ArrowIcon
+                              className={`!m-0 !w-4 !h-4 ${
+                                accordion?.includes(el?.id)
+                                  ? 'rotate-[0deg]'
+                                  : 'rotate-[180deg]'
+                              }`}
+                            />
+                          </div>
+                          {accordion?.includes(el?.id) &&
+                            el?.values?.length > 0 && (
+                              <div
+                                className={`${
+                                  el?.values?.length > 10 &&
+                                  'h-[274px] overflow-hidden overflow-y-scroll scrollable'
+                                } `}
+                              >
+                                {el?.values?.map((val) => (
+                                  <div key={val?.id}>
+                                    <FormControlLabel
+                                      style={{ margin: 0 }}
+                                      control={
+                                        <Checkbox
+                                          style={{
+                                            color: '#15765B',
+                                            padding: '2px 3px',
+                                          }}
+                                          checked={
+                                            selectedValues[el?.id]?.includes(
+                                              val?.id
+                                            ) || false
+                                          }
+                                          onChange={() =>
+                                            toggleValue(el?.id, val?.id)
+                                          }
+                                        />
+                                      }
+                                      label={
+                                        <div className='flex space-x-2 items-center'>
+                                          {el?.type === 'color' && (
+                                            <span
+                                              style={{
+                                                backgroundColor: val?.color,
+                                              }}
+                                              className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
+                                            ></span>
+                                          )}
+                                          <p className='text-sm font-medium text-colBlack'>
+                                            {val?.text}
+                                          </p>
+                                        </div>
+                                      }
+                                    />
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                         </div>
-                        {accordion?.includes(el?.id) &&
-                          el?.values?.length > 0 && (
-                            <div
-                              className={`${
-                                el?.values?.length > 10 &&
-                                'h-[274px] overflow-hidden overflow-y-scroll scrollable'
-                              } `}
-                            >
-                              {el?.values?.map((val) => (
-                                <div key={val?.id}>
-                                  <FormControlLabel
-                                    style={{ margin: 0 }}
-                                    control={
-                                      <Checkbox
-                                        style={{
-                                          color: '#15765B',
-                                          padding: '2px 3px',
-                                        }}
-                                        checked={
-                                          selectedValues[el?.id]?.includes(
-                                            val?.id
-                                          ) || false
-                                        }
-                                        onChange={() =>
-                                          toggleValue(el?.id, val?.id)
-                                        }
-                                      />
-                                    }
-                                    label={
-                                      <div className='flex space-x-2 items-center'>
-                                        {el?.type === 'color' && (
-                                          <span
-                                            style={{
-                                              backgroundColor: val?.color,
-                                            }}
-                                            className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
-                                          ></span>
-                                        )}
-                                        <p className='text-sm font-medium text-colBlack'>
-                                          {val?.text}
-                                        </p>
-                                      </div>
-                                    }
-                                  />
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                      </div>
-                    ))}
+                      ))}
                   </div>
                 </div>
               </div>

@@ -37,8 +37,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
     highRating: true,
     brands: [],
     tags: [],
-    min_price: filters?.basics?.price?.min,
-    max_price: filters?.basics?.price?.max,
+    min_price: Number(filters?.basics?.price?.min) || 0,
+    max_price: Number(filters?.basics?.price?.max) || 0,
   });
 
   const handleChange = (name, value) => {
@@ -84,10 +84,18 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   const handleCheckboxChange = (name, value) => {
     const updatedFilters = {
       ...filtersState,
-      [name]: filtersState[name].includes(value)
+      [name]: filtersState[name]?.includes(value)
         ? filtersState[name].filter((item) => item !== value)
-        : [...filtersState[name], value],
+        : [...(filtersState[name] || []), value],
     };
+
+    if (
+      updatedFilters[name].length === 0 &&
+      filtersInColumn.some((el) => el.id === name)
+    ) {
+      delete updatedFilters[name];
+    }
+
     setFiltersState(updatedFilters);
     handleFetchByFilter(categoryId, updatedFilters);
   };
@@ -302,6 +310,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
             {filters?.basics?.brands?.length > 0 && (
               <Accordion
                 sx={{
+                  margin: '0',
                   boxShadow: 'none',
                   '&:before': {
                     display: 'none',
@@ -310,10 +319,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 defaultExpanded
               >
                 <AccordionSummary
-                  sx={{
-                    padding: 0,
-                  }}
-                  style={{ minHeight: 0 }}
+                  style={{ minHeight: 0, padding: 0 }}
                   expandIcon={
                     <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
                   }
@@ -400,97 +406,71 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </AccordionDetails>
               </Accordion>
             )}
-            {filtersInColumn?.length > 0 &&
-              filtersInColumn?.map((el, index) => (
-                <div key={index}>
-                  <Accordion
-                    sx={{
-                      boxShadow: 'none',
-                      padding: 0,
-                    }}
-                    defaultExpanded
+            {filtersInColumn?.map((el, index) => (
+              <div key={index}>
+                <Accordion
+                  sx={{
+                    boxShadow: 'none',
+                    padding: 0,
+                  }}
+                  defaultExpanded
+                >
+                  <AccordionSummary
+                    sx={{ padding: 0 }}
+                    style={{ minHeight: 0 }}
+                    expandIcon={
+                      <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
+                    }
                   >
-                    <AccordionSummary
-                      sx={{ padding: 0 }}
-                      style={{ minHeight: 0 }}
-                      expandIcon={
-                        <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
-                      }
-                    >
-                      <p className='font-semibold text-colBlack line-clamp-2 break-all leading-[120%]'>
-                        {el?.name}
-                      </p>
-                    </AccordionSummary>
-                    <AccordionDetails sx={{ padding: 0 }}>
-                      {/* <FormControlLabel
-                        control={
-                          <Checkbox
-                            style={{
-                              color: '#15765B',
-                              padding: '5px',
-                            }}
-                            checked={filtersState.tags.includes(el?.tag)}
-                            onChange={() =>
-                              handleCheckboxChange('tags', el?.tag)
+                    <p className='font-semibold text-colBlack line-clamp-2 break-all leading-[120%]'>
+                      {el?.name}
+                    </p>
+                  </AccordionSummary>
+                  <AccordionDetails sx={{ padding: 0 }}>
+                    <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable2'>
+                      {el?.values?.map((val) => (
+                        <div key={val?.id}>
+                          <FormControlLabel
+                            sx={{ margin: '0' }}
+                            control={
+                              <Checkbox
+                                style={{
+                                  color: '#15765B',
+                                  padding: '5px',
+                                }}
+                                name={el?.name}
+                                checked={filtersState[el?.id]?.includes(
+                                  val?.id
+                                )}
+                                onChange={() =>
+                                  handleCheckboxChange(el?.id, val?.id)
+                                }
+                              />
+                            }
+                            label={
+                              <div className='flex space-x-2 items-center'>
+                                {el?.type === 'color' && (
+                                  <span
+                                    style={{
+                                      backgroundColor: val?.color,
+                                    }}
+                                    className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
+                                  ></span>
+                                )}
+                                <p className='text-sm font-medium text-colBlack line-clamp-1 break-all'>
+                                  {val?.text}
+                                </p>
+                              </div>
                             }
                           />
-                        }
-                        label={
-                          <span
-                            style={{
-                              color: el?.text_color,
-                              backgroundColor: el?.background_color,
-                            }}
-                            className='text-xs font-bold rounded-xl'
-                          >
-                            {el?.name}
-                          </span>
-                        }
-                      /> */}
-                      <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable'>
-                        {el?.values?.map((val) => (
-                          <div key={val?.id}>
-                            <FormControlLabel
-                              style={{ margin: 0 }}
-                              control={
-                                <Checkbox
-                                  style={{
-                                    color: '#15765B',
-                                    padding: '2px 3px',
-                                  }}
-                                  // checked={
-                                  //   selectedValues[el?.id]?.includes(
-                                  //     val?.id
-                                  //   ) || false
-                                  // }
-                                  // onChange={() =>
-                                  //   toggleValue(el?.id, val?.id)
-                                  // }
-                                />
-                              }
-                              label={
-                                <div className='flex space-x-2 items-center'>
-                                  {el?.type === 'color' && (
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.color,
-                                      }}
-                                      className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
-                                    ></span>
-                                  )}
-                                  <p className='text-sm font-medium text-colBlack line-clamp-1 break-all'>
-                                    {val?.text}
-                                  </p>
-                                </div>
-                              }
-                            />
-                          </div>
-                        ))}
-                      </div>
-                    </AccordionDetails>
-                  </Accordion>
-                </div>
-              ))}
+                        </div>
+                      ))}
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+            ))}
+
             <FormControlLabel
               sx={{ margin: '10px 0' }}
               control={

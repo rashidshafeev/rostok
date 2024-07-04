@@ -82,6 +82,19 @@ body {
 .scrollable::-webkit-scrollbar-track {
   background-color: #bdbdbd !important;
 }
+.scrollable2::-webkit-scrollbar {
+  height: 2px;
+  width: 2px !important;
+  border-radius: 24px !important;
+}
+
+.scrollable2::-webkit-scrollbar-thumb {
+  background-color: #d1d1d1 !important;
+}
+
+.scrollable2::-webkit-scrollbar-track {
+  background-color: transparent !important;
+}
 
 .hide-scrollable::-webkit-scrollbar {
   height: 0 !important;
@@ -96,16 +109,16 @@ body {
 /* Pagination styles */
 .pagination-mui li button {
   border: 1px solid #15765b !important;
-  color: #15765b;
-  margin-top: 6px;
+  color: #15765b !important;
+  margin-top: 6px !important;
 }
 .pagination-mui li .Mui-selected {
-  background: #15765b;
-  color: #fff;
+  background: #15765b !important;
+  color: #fff !important;
 }
 .pagination-mui li button:hover {
   background: #15765b !important;
-  color: #fff;
+  color: #fff !important;
 }
 /* // Remove input type number arrows: */
 input[type='number'] {
