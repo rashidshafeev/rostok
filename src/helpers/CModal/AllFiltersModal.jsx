@@ -164,7 +164,6 @@ const AllFiltersModal = ({
                 &times;
               </span>
             </div>
-            {console.log(filters)}
             {isLoading || isFilterLoading ? (
               <Loading />
             ) : isError ? (
