@@ -10,25 +10,23 @@ export const comparisonSlice = createSlice({
   name: 'comparison',
   initialState,
   reducers: {
-    fetchComparison: (state, action) => {
-      const comparison = JSON.parse(sessionStorage.getItem('comparison'));
-      state.comparison = comparison || []
+    fetchComparison: (state) => {
+      // No need to handle token here, as it's for initial fetch
     },
     setComparison: (state, action) => {
-      state.comparison = action.payload;
+      state.comparison = action.payload || [];
     },
     toggleComparison: (state, action) => {
-      console.log("state.comparison");
-      console.log(state.comparison);
-      const product = state.comparison.find((item) => item.id === action.payload.id)
-
-      if (product) {
-        state.comparison = state.comparison.filter((product) => product.id !== action.payload.id);
-      } else {
-        state.comparison.push({ ...action.payload })
+      const token = state.user?.token;
+      if (!token) {
+        const product = state.comparison.find((item) => item.id === action.payload.id);
+        if (product) {
+          state.comparison = state.comparison.filter((item) => item.id !== action.payload.id);
+        } else {
+          state.comparison.push({ ...action.payload });
+        }
       }
-
-    }
+    },
   },
 });
 

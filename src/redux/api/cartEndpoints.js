@@ -44,4 +44,6 @@ export const cartEndpoints = (builder) => ({
     useSendCartMutation,
     useGetVariantsMutation,
     useGetSuggestionsMutation,
+    useGetUserCartQuery,
+    useRemoveFromCartMutation
   } = api.injectEndpoints({ endpoints: cartEndpoints });

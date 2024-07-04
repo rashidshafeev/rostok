@@ -3,12 +3,12 @@ import { api } from './api';
 
 export const comparisonEndpoints = (builder) => ({
   getComparison: builder.query({
-    query: () => '/api/ProductsComparison/get',
+    query: () => '/api/ProductsComparisons/get',
     providesTags: [{ type: 'Comparison', id: 'LIST' }],
   }),
   sendComparison: builder.mutation({
     query: (productId) => ({
-      url: '/api/ProductsComparison/set',
+      url: '/api/ProductsComparisons/set',
       method: 'POST',
       body: { id: productId },
     }),
@@ -16,7 +16,7 @@ export const comparisonEndpoints = (builder) => ({
   }),
   removeFromComparison: builder.mutation({
     query: (productId) => ({
-      url: '/api/ProductsComparison/delete',
+      url: '/api/ProductsComparisons/delete',
       method: 'POST',
       body: { id: productId },
     }),

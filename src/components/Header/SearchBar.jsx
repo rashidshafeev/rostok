@@ -49,11 +49,6 @@ function SearchBar({ setShowCatalog }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  
-
-  console.log("location")
-  console.log(location)
-
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
 

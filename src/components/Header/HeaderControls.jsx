@@ -20,9 +20,9 @@ function HeaderControls({ setContent, setOpen }) {
   const comparison = useSelector((state) => state?.comparison?.comparison);
   const cart = useSelector((state) => state?.cart);
   
-  const { data: favoriteQuery } = useGetFavoritesQuery();
-  console.log("favoriteQuery");
-  console.log(favoriteQuery);
+  // const { data: favoriteQuery } = useGetFavoritesQuery();
+  // console.log("favoriteQuery");
+  // console.log(useGetFavoritesQuery());
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
   console.log('rerender controls');

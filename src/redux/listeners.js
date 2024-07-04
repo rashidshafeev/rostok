@@ -46,29 +46,29 @@ listenerMiddleware.startListening({
   },
 });
 
-// Listener for favorite actions
-listenerMiddleware.startListening({
-  actionCreator: toggleFavorite,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    // const favorite = state.favorite.favorite;
-    const favorite = await listenerApi.dispatch(api.endpoints.getFavorites.initiate())
-    console.log("favorite")
-    console.log(favorite)
+// // Listener for favorite actions
+// listenerMiddleware.startListening({
+//   actionCreator: toggleFavorite,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     // const favorite = state.favorite.favorite;
+//     const favorite = await listenerApi.dispatch(api.endpoints.getFavorites.initiate())
+//     console.log("favorite")
+//     console.log(favorite)
 
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendFavorites.initiate({ id: action.payload.id,  })).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error saving favorite to server:', error);
-      }
-    } else {
-      saveToSession('favorite', favorite);
-    }
-  },
-});
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendFavorites.initiate({ id: action.payload.id,  })).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error saving favorite to server:', error);
+//       }
+//     } else {
+//       saveToSession('favorite', favorite);
+//     }
+//   },
+// });
 
 // Listener for comparison actions
 listenerMiddleware.startListening({

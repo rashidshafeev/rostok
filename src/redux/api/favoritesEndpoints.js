@@ -15,10 +15,10 @@ export const favoritesEndpoints = (builder) => ({
     invalidatesTags: [{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }],
   }),
   removeFromFavorites: builder.mutation({
-    query: (productId) => ({
+    query: (data) => ({
       url: '/api/ProductsFavourites/delete',
       method: 'POST',
-      body: { id: productId },
+      body: data,
     }),
     invalidatesTags: [{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }],
   }),

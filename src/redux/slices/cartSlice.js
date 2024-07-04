@@ -45,36 +45,46 @@ export const cartSlice = createSlice({
       }
     },
     addToCart: (state, action) => {
-      const product = state.cart.find((item) => item.id === action.payload.id);
-
-      if (product) {
-        product.quantity += 1;
-      } else {
-        const newProduct = { ...action.payload, quantity: 1 };
-        state.cart.push(newProduct);
+      const token = state.user?.token;
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product) {
+          product.quantity += 1;
+        } else {
+          const newProduct = { ...action.payload, quantity: 1 };
+          state.cart.push(newProduct);
+        }
+        updateQuantities(state);
       }
-
-      updateQuantities(state);
     },
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter((product) => product.id !== action.payload.id);
-      updateQuantities(state);
+      const token = state.user?.token;
+      if (!token) {
+        state.cart = state.cart.filter((product) => product.id !== action.payload.id);
+        updateQuantities(state);
+      }
     },
     changeQuantity: (state, action) => {
-      const product = state.cart.find((item) => item.id === action.payload.product.id);
-
-      if (product.quantity + action.payload.quantity <= 0) {
-        state.cart = state.cart.filter((product) => product.id !== action.payload.product.id);
-      } else {
-        product.quantity = product.quantity + action.payload.quantity;
+      const token = state.user?.token;
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.product.id);
+        if (product.quantity + action.payload.quantity <= 0) {
+          state.cart = state.cart.filter((product) => product.id !== action.payload.product.id);
+        } else {
+          product.quantity += action.payload.quantity;
+        }
+        updateQuantities(state);
       }
-
-      updateQuantities(state);
     },
     selectItem: (state, action) => {
-      const product = state.cart.find((item) => item.id === action.payload.id);
-      product.selected = !product.selected;
-      updateQuantities(state);
+      const token = state.user?.token;
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product) {
+          product.selected = !product.selected;
+          updateQuantities(state);
+        }
+      }
     }
   }
 });
