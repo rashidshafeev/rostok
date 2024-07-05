@@ -21,6 +21,7 @@ const AddToCartButton = ({ product, children }) => {
     e.preventDefault();
     if (!isInCart) {
       dispatch(addToCart(product));
+    //   dispatch(addToCart({ id: product.id, quantity: 1, selected: 0}));
     }
   };
 

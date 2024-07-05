@@ -134,7 +134,7 @@ listenerMiddleware.startListening({
     const token = state.user.token;
     if (token) {
       try {
-        await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
+        await listenerApi.dispatch(api.endpoints.sendCart.initiate({ id: action.payload.id, quantity: 1, selected: 0 })).unwrap();
         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
       } catch (error) {
         console.error('Error saving cart to server:', error);

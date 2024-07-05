@@ -113,7 +113,8 @@ const ProductCard = ({ product, recommended }) => {
           {({ isInCart, handleAddToCartClick }) => (
             <button
             onClick={handleAddToCartClick}
-            className='h-8 w-full bg-colLight rounded-md text-xs text-colDarkGray hover:text-colBlack'>
+            className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+            >
               В корзину
             </button>
           )}
