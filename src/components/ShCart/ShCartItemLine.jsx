@@ -5,7 +5,7 @@ import { FavoriteIcon, DeleteIcon } from '../../helpers/Icons';
 import noImg from '../../assets/images/no-image.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
-import { toggleFavorite } from '../../redux/slices/favoriteSlice';
+// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
 

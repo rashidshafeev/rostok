@@ -21,18 +21,18 @@ export const cartEndpoints = (builder) => ({
       providesTags: [{ type: 'Cart', id: 'LIST' }],
     }),
     sendCart: builder.mutation({
-      query: (cart) => ({
+      query: (data) => ({
         url: '/api/ProductsCart/set',
         method: 'POST',
-        body: cart,
+        body: data,
       }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),
     removeFromCart: builder.mutation({
-      query: (productId) => ({
+      query: (data) => ({
         url: '/api/ProductsCart/delete',
         method: 'POST',
-        body: { id: productId },
+        body: data,
       }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),

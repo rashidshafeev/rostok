@@ -7,18 +7,18 @@ export const comparisonEndpoints = (builder) => ({
     providesTags: [{ type: 'Comparison', id: 'LIST' }],
   }),
   sendComparison: builder.mutation({
-    query: (productId) => ({
+    query: (data) => ({
       url: '/api/ProductsComparisons/set',
       method: 'POST',
-      body: { id: productId },
+      body: data,
     }),
     invalidatesTags: [{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }],
   }),
   removeFromComparison: builder.mutation({
-    query: (productId) => ({
+    query: (data) => ({
       url: '/api/ProductsComparisons/delete',
       method: 'POST',
-      body: { id: productId },
+      body: data,
     }),
     invalidatesTags: [{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }],
   }),

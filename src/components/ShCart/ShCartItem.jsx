@@ -5,7 +5,7 @@ import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
-import { toggleFavorite } from '../../redux/slices/favoriteSlice';
+// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 
 const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {

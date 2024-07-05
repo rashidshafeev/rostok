@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
-import { toggleFavorite } from '../../redux/slices/favoriteSlice';
-import { toggleComparison } from '../../redux/slices/comparisonSlice';
+// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
+// import { toggleComparison } from '../../redux/slices/comparisonSlice';
 import { addToCart, changeQuantity } from '../../redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
