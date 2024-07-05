@@ -96,10 +96,12 @@ const SRContent = ({ products, isLoading, handlePagination, setOpen }) => {
               ))}
             </div>
           )}
-          <CustomPagination
-            count={products?.count}
-            handlePagination={handlePagination}
-          />
+          {products?.count > 20 && (
+            <CustomPagination
+              count={products?.count}
+              handlePagination={handlePagination}
+            />
+          )}
         </>
       ) : (
         <ErrorEmpty

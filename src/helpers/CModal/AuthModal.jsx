@@ -24,7 +24,10 @@ import modalLogo from '../../assets/images/modal-logo.svg';
 import { Loading, LoadingSmall } from '../Loader/Loader';
 import { NavLink, useNavigate } from 'react-router-dom';
 import ModalSnackbar from './ModalSnackbar';
-import { useAuthWithEmailMutation } from '../../redux/api/userEndpoints';
+import {
+  useAuthWithEmailMutation,
+  useResetPasswordMutation,
+} from '../../redux/api/userEndpoints';
 import { setToken } from '../../redux/slices/userSlice';
 import { useSendCartMutation } from '../../redux/api/cartEndpoints';
 import { useSendFavoritesMutation } from '../../redux/api/favoritesEndpoints';
@@ -44,13 +47,17 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   const [isShow, setIsShow] = useState(false);
   const [isShowTwo, setIsShowTwo] = useState(false);
   const [resError, setResError] = useState(null);
+  const [resPassword, setResPassword] = useState({
+    successTxt: null,
+    errorTxt: null,
+  });
   const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
 
-
   const [authWithEmail, authWithEmailResult] = useAuthWithEmailMutation();
-  const [sendCart, sendCartResult]  = useSendCartMutation();
-  const [sendFavorites, sendFavoritesResult]  = useSendFavoritesMutation();
-  const [sendComparison, sendComparisonResult]  = useSendComparisonMutation();
+  const [resetPassword] = useResetPasswordMutation();
+  const [sendCart, sendCartResult] = useSendCartMutation();
+  const [sendFavorites, sendFavoritesResult] = useSendFavoritesMutation();
+  const [sendComparison, sendComparisonResult] = useSendComparisonMutation();
 
   const {
     control,
@@ -115,14 +122,15 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   const sendAndClearData = async () => {
     try {
       // Send cart
-      await sendCart({ items: cart.map(item => ({ id: item.id, quantity: item.quantity }))});
-      console.log('Success sending data to server:', send);
+      await sendCart({
+        items: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
+      });
 
       // Send comparison
-      await sendComparison(comparison.map(item => item.id));
+      await sendComparison(comparison.map((item) => item.id));
 
       // Send favorites
-      await sendFavorites(favorite.map(item => item.id));
+      await sendFavorites(favorite.map((item) => item.id));
 
       // Clear local storage
       sessionStorage.removeItem('cart');
@@ -130,7 +138,14 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
       sessionStorage.removeItem('favorite');
 
       // Clear Redux store
-      dispatch(setCart({ cart: [], selected: [], itemsQuantity: 0, selectedQuantity: 0 }));
+      dispatch(
+        setCart({
+          cart: [],
+          selected: [],
+          itemsQuantity: 0,
+          selectedQuantity: 0,
+        })
+      );
       dispatch(setComparison([]));
       dispatch(setFavorite([]));
     } catch (error) {
@@ -142,10 +157,29 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     try {
       const auth = await authWithEmail(data);
       dispatch(setToken(auth.data.token));
-  
+
       await sendAndClearData();
     } catch (error) {
       console.error('Authorization failed:', error);
+    }
+  };
+
+  const onSubmitResetPassword = async (data) => {
+    setIsLoading(true);
+    try {
+      const auth = await resetPassword(data.email);
+      setIsLoading(false);
+      if (auth?.data?.success) {
+        setResPassword({
+          successTxt: auth?.data?.message,
+          errorTxt: null,
+        });
+      } else {
+        setResPassword({ successTxt: null, errorTxt: auth?.data?.err });
+      }
+    } catch (error) {
+      setResPassword({ successTxt: null, errorTxt: 'Что-то пошло не так' });
+      setIsLoading(false);
     }
   };
 
@@ -304,10 +338,109 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                   <button className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
                     Войти
                   </button>
-                  <p className='text-center mt-4 text-colGray font-medium cursor-pointer'>
+                  <p
+                    onClick={() => setContent('resetPassword')}
+                    className='text-center mt-4 text-colGray2 font-medium cursor-pointer'
+                  >
                     Забыли пароль?
                   </p>
                 </form>
+              </>
+            )}
+          </Box>
+        ) : content === 'resetPassword' ? (
+          <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none pt-10 pb-4 px-4 mm:py-10 mm:px-8 max-w-[500px] w-[95%] mm:w-full'>
+            {isLoading ? (
+              <Loading extraStyle='237px' />
+            ) : (
+              <>
+                <span
+                  onClick={() => {
+                    setContent('authWithEmail');
+                    setResError(null);
+                    reset();
+                  }}
+                  className='absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4'
+                >
+                  <KeyboardArrowLeft className='!w-4 pb-[2px]' />
+                  Назад
+                </span>
+                <span
+                  onClick={() => setOpen(false)}
+                  className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
+                >
+                  &times;
+                </span>
+                <img
+                  className='w-[116px] mb-4 mx-auto'
+                  src={modalLogo}
+                  alt='*'
+                />
+                {!resPassword.successTxt && (
+                  <h1 className='text-2xl mm:text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
+                    Восстановить пароль
+                  </h1>
+                )}
+                <form
+                  className={resPassword.successTxt && 'hidden'}
+                  onSubmit={handleSubmit(onSubmitResetPassword)}
+                >
+                  <div className='w-full space-y-5'>
+                    <Controller
+                      name='email'
+                      control={control}
+                      defaultValue=''
+                      render={({ field }) => (
+                        <CTextField
+                          label='Введите эл. почту'
+                          type='email'
+                          required={true}
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
+                      )}
+                    />
+                  </div>
+                  {resPassword.errorTxt && (
+                    <p className='text-sm text-red-500 font-semibold pt-1'>
+                      {resPassword?.errorTxt}
+                    </p>
+                  )}
+                  <button className='w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
+                    Продолжить
+                    <KeyboardArrowRight className='!w-5' />
+                  </button>
+                </form>
+                {resPassword.successTxt && (
+                  <div className='mt-2 bg-green-50 p-3'>
+                    <svg
+                      width='40'
+                      height='40'
+                      viewBox='0 0 24 24'
+                      fill='none'
+                      className='mx-auto'
+                      xmlns='http://www.w3.org/2000/svg'
+                    >
+                      <circle
+                        cx='12'
+                        cy='12'
+                        r='10'
+                        stroke='green'
+                        strokeWidth='2'
+                      />
+                      <path
+                        d='M8 12L10.5 14.5L16 9'
+                        stroke='green'
+                        strokeWidth='2'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      />
+                    </svg>
+                    <h1 className='text-xl font-semibold text-colGreen text-center pt-2'>
+                      {resPassword?.successTxt}
+                    </h1>
+                  </div>
+                )}
               </>
             )}
           </Box>

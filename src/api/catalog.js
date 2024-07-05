@@ -26,10 +26,11 @@ export const fetchCategoryProducts = async (
       orderBy: sortOption?.orderBy || '',
       sortOrder: sortOption?.sortOrder || '',
       search: searchQuery,
+      page: filters.page || '',
     };
 
-    const filtersString = Object.entries(allFilters)
-      .filter(([, values]) => values.length > 0)
+    const filtersString = Object.entries({ ...filters, ...allFilters })
+      .filter(([, values]) => Array.isArray(values) && values.length > 0)
       .map(([filterId, values]) => `"${filterId}":${JSON.stringify(values)}`)
       .join(',');
 

@@ -25,20 +25,14 @@ const CatProducts = () => {
   const secondUrl = pathname.split('/')[2];
   const categoryId = secondUrl === 'tags' ? '' : id;
 
-  const {
-    data,
-    isLoading: loading,
-    refetch,
-  } = useGetProductsByCategoryQuery({ categoryId, page });
+  const { data, isLoading: loading } = useGetProductsByCategoryQuery({
+    categoryId,
+  });
 
   const [breadCrumps, setBreadCrumps] = useState([]);
-
   const [isLoading, setIsLoading] = useState(loading);
-  
   const [open, setOpen] = useState(false);
-
   const [catProducts, setCatProducts] = useState(loading ? [] : data);
-
   const [filters, setFilters] = useState({
     filterOptions: {},
     sortOption: null,
@@ -46,9 +40,13 @@ const CatProducts = () => {
 
   const handleFetchProducts = async (id, filterOptions, sortOption) => {
     setIsLoading(true);
+    const filterOptionsWithPage = {
+      ...filterOptions,
+      page,
+    };
     const { success, data } = await fetchCategoryProducts(
       id,
-      filterOptions,
+      filterOptionsWithPage,
       sortOption,
       filters.selectedValues,
       filters.selectedValuesTwo,
@@ -90,6 +88,10 @@ const CatProducts = () => {
   };
 
   useEffect(() => {
+    handleFetchProducts(id, filters.filterOptions, filters.sortOption);
+  }, [page]);
+
+  useEffect(() => {
     if (secondUrl === 'tags') {
       const handleFetchProducts = async () => {
         setIsLoading(true);
@@ -110,10 +112,6 @@ const CatProducts = () => {
   useEffect(() => {
     scrollToTop();
   }, []);
-
-  useEffect(() => {
-    refetch();
-  }, [page, refetch]);
 
   useEffect(() => {
     if (secondUrl !== 'tags') {

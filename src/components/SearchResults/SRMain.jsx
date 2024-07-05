@@ -19,8 +19,8 @@ const SRMain = () => {
     highRating: true,
     brands: [],
     tags: [],
-    min_price: 0,
-    max_price: 900000,
+    min_price: 1,
+    max_price: 2,
     category_id: '',
   });
 

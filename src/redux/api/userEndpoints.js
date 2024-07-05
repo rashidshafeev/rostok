@@ -9,6 +9,13 @@ export const userEndpoints = (builder) => ({
       body: data,
     }),
   }),
+  resetPassword: builder.mutation({
+    query: (email) => ({
+      url: '/api/User/sendPasswordResetLink',
+      method: 'POST',
+      body: { email: email },
+    }),
+  }),
   getUserData: builder.query({
     query: () => ({
       url: '/api/UserData/get',
@@ -22,5 +29,6 @@ export const userEndpoints = (builder) => ({
 // Export hooks for user endpoints
 export const {
   useAuthWithEmailMutation,
+  useResetPasswordMutation,
   useGetUserDataQuery,
 } = api.injectEndpoints({ endpoints: userEndpoints });

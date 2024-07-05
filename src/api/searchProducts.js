@@ -5,18 +5,26 @@ export const fetchSearchResults = async (searchQuery, filtersValue, page) => {
     const queryParams = {
       page: page || '',
       search: searchQuery,
-      min_price: filtersValue.min_price || '',
-      max_price: filtersValue.max_price || '',
-      category_id: filtersValue.category_id || '',
-      brands:
-        filtersValue.brands && filtersValue.brands.length > 0
-          ? JSON.stringify(filtersValue.brands)
-          : '',
-      tags:
-        filtersValue.tags && filtersValue.tags.length > 0
-          ? JSON.stringify(filtersValue.tags)
-          : '',
+      min_price: '',
+      max_price: '',
+      category_id: '',
+      brands: '',
+      tags: '',
+      filters: '', // Начальное значение пустое
     };
+
+    // Преобразуем фильтры из filtersValue в нужный формат для параметра filters
+    const filters = {};
+
+    Object.keys(filtersValue).forEach((key) => {
+      if (Array.isArray(filtersValue[key]) && filtersValue[key].length > 0) {
+        filters[key] = filtersValue[key];
+      }
+    });
+
+    if (Object.keys(filters).length > 0) {
+      queryParams.filters = JSON.stringify(filters);
+    }
 
     const res = await request.get('/api/Products/variants', {
       params: queryParams,
