@@ -1,4 +1,4 @@
-// userEndpoints.js
+// src/redux/api/userEndpoints.js
 import { api } from './api';
 
 export const userEndpoints = (builder) => ({
@@ -20,20 +20,13 @@ export const userEndpoints = (builder) => ({
     query: () => ({
       url: '/api/UserData/get',
       method: 'GET',
-      prepareHeaders: (headers, { getState }) => {
-        // Access the token from the Redux store
-        const token = getState().user.token;
-        if (token) {
-          headers.set('Authorization', `Bearer ${token}`);
-        }
-        return headers;
-      },
     }),
+    providesTags: [{ type: 'User', id: 'DATA' }],
     keepUnusedDataFor: 0,
   }),
 });
 
-// Export hooks for favorites endpoints
+// Export hooks for user endpoints
 export const {
   useAuthWithEmailMutation,
   useResetPasswordMutation,

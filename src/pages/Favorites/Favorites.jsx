@@ -10,7 +10,7 @@ import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 
 const Favorites = () => {
   const favorite = useSelector((state) => state?.favorite?.favorite);
-  const { user } = useSelector((state) => state?.user);
+  const token = useSelector((state) => state?.user?.token);
   const { data } = useGetFavoritesQuery();
 
   useEffect(() => {
@@ -23,8 +23,8 @@ const Favorites = () => {
       <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack pb-5'>
         Избранное
       </h1>
-      {user && data?.data?.length > 0 && (
-        <div className={`${user && 'md:pl-[240px]'}`}>
+      {token && data?.data?.length > 0 && (
+        <div className={`${token && 'md:pl-[240px]'}`}>
           <div className='flex items-center space-x-2 mm:space-x-3 overflow-x-scroll hide-scrollable pt-3 md:pt-6 w-full'>
             <button className='min-h-10 mm:min-h-[44px] outline-none border border-colSuperLight rounded-lg p-[5px] bg-white flex justify-between items-center'>
               <svg
@@ -80,11 +80,11 @@ const Favorites = () => {
           </div>
         </div>
       )}
-      {user ? (
+      {token ? (
         data?.data?.length > 0 ? (
           <div className='md:flex'>
             <FavSidebar />
-            <FavDetail favorite={data?.data} user={user} />
+            <FavDetail favorite={data?.data} user={token} />
           </div>
         ) : (
           <ErrorEmpty
@@ -95,7 +95,7 @@ const Favorites = () => {
         )
       ) : favorite?.length > 0 ? (
         <div className='md:flex'>
-          <FavDetail favorite={favorite} user={user} />
+          <FavDetail favorite={favorite} user={token} />
         </div>
       ) : (
         <ErrorEmpty

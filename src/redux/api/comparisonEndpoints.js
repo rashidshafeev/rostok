@@ -1,35 +1,32 @@
-// comparisonEndpoints.js
-import { api } from  './api';
+// src/redux/api/comparisonEndpoints.js
+import { api } from './api';
 
 export const comparisonEndpoints = (builder) => ({
-    getComparison: builder.query({
-      query: () => '/api/ProductsFavourites/get',
-      providesTags: (result) =>
-        result
-          ? [{ type: 'Comparison', id: 'LIST' }]
-          : [{ type: 'Comparison', id: 'LIST' }],
+  getComparison: builder.query({
+    query: () => '/api/ProductsComparisons/get',
+    providesTags: [{ type: 'Comparison', id: 'LIST' }],
+  }),
+  sendComparison: builder.mutation({
+    query: (data) => ({
+      url: '/api/ProductsComparisons/set',
+      method: 'POST',
+      body: data,
     }),
-    sendComparison: builder.mutation({
-      query: (productId) => ({
-        url: '/api/ProductsFavourites/set',
-        method: 'POST',
-        body: { id: productId },
-      }),
-      invalidatesTags: [{ type: 'Comparison', id: 'LIST' }],
+    invalidatesTags: [{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+  }),
+  removeFromComparison: builder.mutation({
+    query: (data) => ({
+      url: '/api/ProductsComparisons/delete',
+      method: 'POST',
+      body: data,
     }),
-    removeFromComparison: builder.mutation({
-      query: (productId) => ({
-        url: '/api/ProductsFavourites/delete',
-        method: 'POST',
-        body: { id: productId },
-      }),
-      invalidatesTags: [{ type: 'Comparison', id: 'LIST' }],
-    }),
-  });
-  
-  // Export hooks for favorites endpoints
-  export const {
-    useGetComparisonQuery,
-    useSendComparisonMutation,
-    useRemoveFromComparisonMutation,
-  } = api.injectEndpoints({ endpoints: comparisonEndpoints });
+    invalidatesTags: [{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+  }),
+});
+
+// Export hooks for comparison endpoints
+export const {
+  useGetComparisonQuery,
+  useSendComparisonMutation,
+  useRemoveFromComparisonMutation,
+} = api.injectEndpoints({ endpoints: comparisonEndpoints });

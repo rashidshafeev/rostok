@@ -9,8 +9,8 @@ import star from '../../assets/icons/adv1fill.svg';
 import share from '../../assets/icons/share.svg';
 import downloadpdf from '../../assets/icons/download-pdf.svg';
 import print from '../../assets/icons/print.svg';
-import { toggleComparison } from '../../redux/slices/comparisonSlice';
-import { toggleFavorite } from '../../redux/slices/favoriteSlice';
+// import { toggleComparison } from '../../redux/slices/comparisonSlice';
+// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 function TopControls({product, reviews}) {

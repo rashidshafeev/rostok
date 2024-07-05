@@ -97,7 +97,8 @@ const ComDetail = ({ comparison }) => {
 
 
    const attributes = getUniqueAttributes(comparison);
-
+  console.log('comparison 2')
+  console.log(comparison)
 
   return (
     <>

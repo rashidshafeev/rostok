@@ -1,3 +1,4 @@
+// src/pages/Comparison.js
 import { useEffect } from 'react';
 import { ComDetail } from '../../components';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
@@ -5,22 +6,34 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { useSelector } from 'react-redux';
 import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
 import { comparisonBC } from '../../constants/breadCrumps';
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import { useGetComparisonQuery } from '../../redux/api/comparisonEndpoints';
 
 const Comparison = () => {
-  const { comparison } = useSelector((state) => state.comparison);
+  const token = getTokenFromCookies();
+  const { comparison: localComparison } = useSelector((state) => state.comparison);
+
+  // Fetching comparison data from the server if the user is logged in
+  const { data: serverComparison, isLoading, error } = useGetComparisonQuery(undefined, { skip: !token });
 
   useEffect(() => {
     scrollToTop();
   }, []);
 
+  const comparison = token ? serverComparison?.data : localComparison;
+
   return (
-    <div className=' pb-6 content'>
+    <div className='pb-6 content'>
       <CustomBCrumbs breadCrumps={comparisonBC} />
       <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack pb-5'>
         Сравнение товаров
       </h1>
       <div>
-        {comparison?.length ? (
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : error ? (
+          <p>Error loading comparison data</p>
+        ) : comparison?.length ? (
           <ComDetail comparison={comparison} />
         ) : (
           <ErrorEmpty

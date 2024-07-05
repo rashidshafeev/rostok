@@ -7,8 +7,8 @@ import comparisonicon from '../../../assets/icons/comparison-card-inactive.svg';
 import share from '../../../assets/icons/share-gray.svg';
 import back from '../../../assets/icons/arrow-icon-gray.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleComparison } from '../../../redux/slices/comparisonSlice';
-import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
+// import { toggleComparison } from '../../../redux/slices/comparisonSlice';
+// import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
 
 function MobileTopBar({ product }) {
 
