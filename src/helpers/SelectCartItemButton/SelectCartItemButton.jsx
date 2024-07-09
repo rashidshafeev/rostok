@@ -18,8 +18,6 @@ const SelectCartItemButton = ({ product, children }) => {
     ? serverCart?.data?.some((item) => item.id === product.id && item.selected === "1")
     : cart.some((item) => item.id === product.id && item.selected === "1");
 
-    console.log("serverCart?.data")
-    console.log(serverCart?.data)
     const handleSelectClick = () => {
         if (isSelected) {
             dispatch(unselectItem({id: product.id, quantity: product.quantity, selected: 0}));

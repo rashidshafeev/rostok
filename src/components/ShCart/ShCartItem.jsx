@@ -9,6 +9,7 @@ import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormC
 import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
 import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
+
 const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
 
   const navigate = useNavigate();
@@ -24,35 +25,35 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
         >
           <div className='w-3/5 flex space-x-4'>
             <div className='flex items-start'>
-            <SelectCartItemButton product={product}>
-                                {({ isSelected, handleSelectClick }) => (
-                                    
-                                    <CCheckBoxField
-                checked={isSelected}
-                onChange={handleSelectClick}
-              />
-                                )}
-                            </SelectCartItemButton>
+              <SelectCartItemButton product={product}>
+                {({ isSelected, handleSelectClick }) => (
+
+                  <CCheckBoxField
+                    checked={isSelected}
+                    onChange={handleSelectClick}
+                  />
+                )}
+              </SelectCartItemButton>
               {/* <CCheckBoxField
                 checked={selectedItems.some(el => el?.id === product?.id)}
                 onChange={() => dispatch(selectItem(product))}
               /> */}
               <NavLink
-              to={`/catalog/${product?.category?.slug}/${product?.slug}`}
+                to={`/catalog/${product?.category?.slug}/${product?.slug}`}
               >
                 <div className='cursor-pointer min-w-[112px] w-28 h-28 overflow-hidden bg-gray-100 rounded-md'>
-                <img
-                  className='w-full h-full object-contain'
-                  src={product?.files[0]?.large || noImg}
-                  onError={(e) => {
-                    e.target.onError = null;
-                    e.target.src = noImg;
-                  }}
-                  alt='*'
-                />
-              </div>
+                  <img
+                    className='w-full h-full object-contain'
+                    src={product?.files[0]?.large || noImg}
+                    onError={(e) => {
+                      e.target.onError = null;
+                      e.target.src = noImg;
+                    }}
+                    alt='*'
+                  />
+                </div>
               </NavLink>
-              
+
             </div>
             <div className='pr-3'>
               {product?.tags?.length > 0 ? (
@@ -68,12 +69,12 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
               <NavLink
                 to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
                 <span
-                className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
-              >
-                {`${product?.groupName} ${product?.name}`}
-              </span>
+                  className='font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1'
+                >
+                  {`${product?.groupName} ${product?.name}`}
+                </span>
               </NavLink>
-              
+
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>Артикул:</span>
@@ -87,7 +88,7 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                     </p>
                   ))}
                 </div>
-                
+
               </div>
               <div className='flex pt-2'>
                 <button className='flex items-center outline-none'>
@@ -98,14 +99,14 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 </button>
                 <div className='flex space-x-2 pl-5'>
                   <FavoriteButton product={product}>
-              {({ isInFavorite, handleFavoriteClick }) => (
-                  <FavoriteIcon
-                  onClick={handleFavoriteClick}
-                  favorite={isInFavorite ? 'true' : 'false'}
+                    {({ isInFavorite, handleFavoriteClick }) => (
+                      <FavoriteIcon
+                        onClick={handleFavoriteClick}
+                        favorite={isInFavorite ? 'true' : 'false'}
 
-                  className='transition-all duration-300 hover:scale-110 cursor-pointer'/>
-              )}
-            </FavoriteButton>
+                        className='transition-all duration-300 hover:scale-110 cursor-pointer' />
+                    )}
+                  </FavoriteButton>
                   <RemoveFromCartButton product={product}>
                     {({ handleRemoveFromCartClick }) => (
                       <DeleteIcon
@@ -120,34 +121,33 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
             </div>
           </div>
           <div className='w-2/5 '>
-          <div className='flex items-center justify-between space-x-3 pt-[27px]'>
-            <div>
-              <div className='text-colBlack'>
-                {product?.price
-                  ? `${
-                      product?.price?.discount
-                        ? product?.price?.discount?.price
-                        : product?.price?.default
+            <div className='flex items-center justify-between space-x-3 pt-[27px]'>
+              <div>
+                <div className='text-colBlack'>
+                  {product?.price
+                    ? `${product?.price?.discount
+                      ? product?.price?.discount?.price
+                      : product?.price?.default
                     }  ${product?.price?.currency} / ${product?.price?.unit}`
-                  : 'Не указано'}
+                    : 'Не указано'}
+                </div>
+                <p className='text-colGray text-xs line-through'>
+                  {product?.price?.discount && (
+                    <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
+                  )}
+                </p>
               </div>
-              <p className='text-colGray text-xs line-through'>
-                {product?.price?.discount && (
-                  <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
-                )}
-              </p>
-            </div>
-            <div className='flex items-center grow px-5'>
-              
-              <ChangeQuantityGroup product={product}/>
-            </div>
-            <div className='flex items-center text-colBlack font-bold basis-1/4'>
-              <span>{product?.price?.default ? product?.price?.default : 'Цена не указана'}</span>
-              <span className='pl-1'>{product?.price?.currency ? product?.price?.currency : '₽'}</span>
+              <div className='flex items-center grow px-5'>
+
+                <ChangeQuantityGroup product={product} />
+              </div>
+              <div className='flex items-center text-colBlack font-bold basis-1/4'>
+                <span>{product?.price?.default ? product?.price?.default : 'Цена не указана'}</span>
+                <span className='pl-1'>{product?.price?.currency ? product?.price?.currency : '₽'}</span>
+              </div>
             </div>
           </div>
-          </div>
-          
+
         </div>
       ))}
     </>

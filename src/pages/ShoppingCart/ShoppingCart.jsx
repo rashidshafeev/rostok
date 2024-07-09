@@ -12,7 +12,7 @@ import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
 const ShoppingCart = () => {
   const token = getTokenFromCookies();
   const { cart: localCart } = useSelector((state) => state.cart);
-
+  console.log('shopping cart rendered')
   // Fetching cart data from the server if the user is logged in
   const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
 
@@ -22,8 +22,6 @@ const ShoppingCart = () => {
 
   const cart = token ? serverCart?.data : localCart;
 
-  console.log("cart");
-  console.log(cart);
   return (
     <div className='content pb-6 lining-nums proportional-nums'>
       <CustomBCrumbs breadCrumps={shoppingCart} />
