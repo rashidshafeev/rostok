@@ -17,7 +17,7 @@ import MobileToCheckoutBar from './MobileToCheckoutBar';
 import { useIntersection, useWindowSize } from 'react-use';
 
 
-const ShCartDetail = () => {
+const ShCartDetail = ({cart}) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
@@ -34,8 +34,7 @@ const ShCartDetail = () => {
 
   const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state?.cart);
-  const selected = cart?.cart.filter((item) => item.selected === true);
+  const selected = cart?.filter((item) => item.selected === true || item.selected === 1);
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
@@ -47,7 +46,7 @@ const ShCartDetail = () => {
         dispatch(selectItem(item));
       })
     } else {
-      cart?.cart.forEach((item) => {
+      cart?.forEach((item) => {
         if (!item.selected) {
           dispatch(selectItem(item));
         }
@@ -64,9 +63,9 @@ const ShCartDetail = () => {
   }
 
   useEffect(() => {
-    setFilteredCart(cart?.cart)
+    setFilteredCart(cart)
 
-    const allItems = cart?.cart.map((el) => el);
+    const allItems = cart?.map((el) => el);
     setSelectedItems(allItems);
 
   }, [cart])
@@ -117,7 +116,7 @@ const ShCartDetail = () => {
                 <CCheckBoxField
                   label='Выбрать всё'
                   onChange={handleSelectAllChange}
-                  checked={cart?.cart.length === selected.length}
+                  checked={cart?.length === selected.length}
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>

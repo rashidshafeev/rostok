@@ -23,7 +23,6 @@
 
 // src/redux/api/api.js
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import Cookies from 'js-cookie';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://bot-adash.host2bot.ru/',

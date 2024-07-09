@@ -5,16 +5,16 @@ import { FavoriteIcon, DeleteIcon } from '../../helpers/Icons';
 import noImg from '../../assets/images/no-image.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
+import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
+import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormCartButton';
+import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
 // import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
 
   const navigate = useNavigate();
-  // eslint-disable-next-line no-unused-vars
-  // const [cartProducts, addToCart, removeFromCart] = useOutletContext();
   const dispatch = useDispatch();
-  // const cart = useSelector(state => state?.cart?.cart)
-
+  
   const favorite = useSelector(state => state?.favorite)
 
   return (
@@ -83,24 +83,33 @@ const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
                 )}
               </p>
             </div>
-            <div className='flex items-center space-x-3'>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
-              onClick={() => {product?.quantity !== 1 ? dispatch(changeQuantity({product, quantity: -1})) : dispatch(changeQuantity({product, quantity: 0}))}}>
-                <RemoveOutlined  className={`${product?.quantity !== 1 ? `text-colGreen` : `text-colGray`} cursor-pointer`} />
-              </span>
-              <span className='text-colGreen font-semibold'>{product?.quantity}</span>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
-              onClick={() => {dispatch(changeQuantity({product, quantity: 1}))}}>
-                <AddOutlined className='text-colGreen cursor-pointer' />
-              </span>
+            <div className='flex items-center justify-between'>
+              
+              <ChangeQuantityGroup product={product}/>
             </div>
             <div className='flex items-center text-colBlack font-bold'>
               <span>{product?.price ? product?.price : 'Цена не указана'}</span>
               <span className='pl-1'>₽</span>
             </div>
             <div className='flex space-x-2'>
-              <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(toggleFavorite(product))}/>
-              <DeleteIcon className='transition-all duration-300 hover:scale-110 cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
+            <FavoriteButton product={product}>
+              {({ isInFavorite, handleFavoriteClick }) => (
+                  <FavoriteIcon
+                  onClick={handleFavoriteClick}
+                  favorite={isInFavorite ? 'true' : 'false'}
+
+                  className='transition-all duration-300 hover:scale-110 cursor-pointer'/>
+              )}
+            </FavoriteButton>
+                  <RemoveFromCartButton product={product}>
+                    {({ handleRemoveFromCartClick }) => (
+                      <DeleteIcon
+                        className='transition-all duration-300 hover:scale-110  cursor-pointer'
+                        onClick={handleRemoveFromCartClick} />
+
+                    )}
+
+                  </RemoveFromCartButton>
             </div>
           </div>
         </div>

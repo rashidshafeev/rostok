@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 
 const initialState = {
   cart: [],
@@ -45,7 +46,7 @@ export const cartSlice = createSlice({
       }
     },
     addToCart: (state, action) => {
-      const token = state.user?.token;
+      const token = getTokenFromCookies()
       if (!token) {
         const product = state.cart.find((item) => item.id === action.payload.id);
         if (product) {
@@ -58,14 +59,14 @@ export const cartSlice = createSlice({
       }
     },
     removeFromCart: (state, action) => {
-      const token = state.user?.token;
+      const token = getTokenFromCookies()
       if (!token) {
         state.cart = state.cart.filter((product) => product.id !== action.payload.id);
         updateQuantities(state);
       }
     },
     changeQuantity: (state, action) => {
-      const token = state.user?.token;
+      const token = getTokenFromCookies()
       if (!token) {
         const product = state.cart.find((item) => item.id === action.payload.product.id);
         if (product.quantity + action.payload.quantity <= 0) {
@@ -77,11 +78,21 @@ export const cartSlice = createSlice({
       }
     },
     selectItem: (state, action) => {
-      const token = state.user?.token;
+      const token = getTokenFromCookies()
       if (!token) {
         const product = state.cart.find((item) => item.id === action.payload.id);
         if (product) {
-          product.selected = !product.selected;
+          product.selected = true;
+          updateQuantities(state);
+        }
+      }
+    },
+    unselectItem: (state, action) => {
+      const token = getTokenFromCookies()
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product) {
+          product.selected = false;
           updateQuantities(state);
         }
       }
@@ -95,7 +106,8 @@ export const {
   addToCart,
   removeFromCart,
   changeQuantity,
-  selectItem
+  selectItem,
+  unselectItem
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

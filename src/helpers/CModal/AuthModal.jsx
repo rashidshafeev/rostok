@@ -35,6 +35,8 @@ import { setCart } from '../../redux/slices/cartSlice';
 import { setFavorite } from '../../redux/slices/favoriteSlice';
 import { useSendComparisonMutation } from '../../redux/api/comparisonEndpoints';
 import { setComparison } from '../../redux/slices/comparisonSlice';
+import { select } from 'redux-saga/effects';
+
 const AuthModal = ({ open, setOpen, content, setContent }) => {
   const cart = useSelector((state) => state.cart.cart);
   const comparison = useSelector((state) => state.comparison.comparison);
@@ -123,7 +125,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     try {
       // Send cart
       await sendCart({
-        items: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
+        items: cart.map((item) => ({ id: item.id, quantity: item.quantity, selected: item.selected ? 1 : 0 })),
       });
 
       // Send comparison
@@ -156,9 +158,19 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   const onSubmitAuthWithEmail = async (data) => {
     try {
       const auth = await authWithEmail(data);
-      dispatch(setToken(auth.data.token));
+      console.log(auth)
+      if (auth.data.success) {
+        dispatch(setToken(auth.data.token));
+        await sendAndClearData();
+        console.log(1)
+        setOpen(false);
+        console.log(2)
 
-      await sendAndClearData();
+        navigate('/');
+        console.log(3)
+
+        return;
+      }
     } catch (error) {
       console.error('Authorization failed:', error);
     }

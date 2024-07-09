@@ -5,17 +5,16 @@ import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
-// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
-
-
+import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormCartButton';
+import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
+import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
 const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const favorite = useSelector(state => state?.favorite)
-  console.log("cart")
-  console.log(cart)
+
   return (
     <>
       {cart?.map((product, index) => (
@@ -25,10 +24,19 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
         >
           <div className='w-3/5 flex space-x-4'>
             <div className='flex items-start'>
-              <CCheckBoxField
+            <SelectCartItemButton product={product}>
+                                {({ isSelected, handleSelectClick }) => (
+                                    
+                                    <CCheckBoxField
+                checked={isSelected}
+                onChange={handleSelectClick}
+              />
+                                )}
+                            </SelectCartItemButton>
+              {/* <CCheckBoxField
                 checked={selectedItems.some(el => el?.id === product?.id)}
                 onChange={() => dispatch(selectItem(product))}
-              />
+              /> */}
               <NavLink
               to={`/catalog/${product?.category?.slug}/${product?.slug}`}
               >
@@ -89,8 +97,24 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                   <ExpandMore />
                 </button>
                 <div className='flex space-x-2 pl-5'>
-                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
-                  <DeleteIcon className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
+                  <FavoriteButton product={product}>
+              {({ isInFavorite, handleFavoriteClick }) => (
+                  <FavoriteIcon
+                  onClick={handleFavoriteClick}
+                  favorite={isInFavorite ? 'true' : 'false'}
+
+                  className='transition-all duration-300 hover:scale-110 cursor-pointer'/>
+              )}
+            </FavoriteButton>
+                  <RemoveFromCartButton product={product}>
+                    {({ handleRemoveFromCartClick }) => (
+                      <DeleteIcon
+                        className='transition-all duration-300 hover:scale-110  cursor-pointer'
+                        onClick={handleRemoveFromCartClick} />
+
+                    )}
+
+                  </RemoveFromCartButton>
                 </div>
               </div>
             </div>
@@ -113,16 +137,9 @@ const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                 )}
               </p>
             </div>
-            <div className='flex items-center space-x-3'>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
-              onClick={() => {product?.quantity !== 1 ? dispatch(changeQuantity({product, quantity: -1})) : dispatch(changeQuantity({product, quantity: 0}))}}>
-                <RemoveOutlined className={`${product?.quantity !== 1 ? `text-colGreen` : `text-colGray`} cursor-pointer`} />
-              </span>
-              <span className='text-colGreen font-semibold'>{product?.quantity}</span>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
-              onClick={() => {dispatch(changeQuantity({product, quantity: 1}))}}>
-                <AddOutlined className='text-colGreen cursor-pointer' />
-              </span>
+            <div className='flex items-center grow px-5'>
+              
+              <ChangeQuantityGroup product={product}/>
             </div>
             <div className='flex items-center text-colBlack font-bold basis-1/4'>
               <span>{product?.price?.default ? product?.price?.default : 'Цена не указана'}</span>

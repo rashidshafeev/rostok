@@ -3,6 +3,7 @@ import { Box, Modal } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { Controller, useForm } from 'react-hook-form';
 import { setToken } from '../../redux/slices/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutModal = ({
   open,
@@ -11,7 +12,13 @@ const LogoutModal = ({
 }) => {
   
   const dispatch = useDispatch();
-  if (!open) return null;
+  const navigate  = useNavigate();
+  // if (!open) return null;
+  const logout = () => {
+    dispatch(setToken());
+    setOpen(false);
+    navigate('/');
+  }
 
   return (
     <Modal
@@ -41,7 +48,7 @@ const LogoutModal = ({
                 Отменить
               </button>
               <button
-                onClick={() => dispatch(setToken())}
+                onClick={logout}
                 className='w-1/2 h-[38px] px-6 bg-colGreen rounded text-white font-semibold'
               >
                 Да

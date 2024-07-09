@@ -116,7 +116,7 @@
 import { createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
 import { fetchComparison, setComparison, addToComparison, removeFromComparison } from './slices/comparisonSlice';
 import { fetchFavorite, setFavorite, addToFavorite, removeFromFavorite } from './slices/favoriteSlice';
-import { addToCart, changeQuantity, fetchCart, removeFromCart, setCart } from './slices/cartSlice';
+import { addToCart, changeQuantity, fetchCart, removeFromCart, selectItem, setCart, unselectItem } from './slices/cartSlice';
 import { api } from './api/api';
 
 export const listenerMiddleware = createListenerMiddleware();
@@ -153,7 +153,7 @@ listenerMiddleware.startListening({
     const token = state.user.token;
     if (token) {
       try {
-        await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
+        await listenerApi.dispatch(api.endpoints.sendCart.initiate({ id: action.payload.id, quantity: 0, selected: 0 })).unwrap();
         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
       } catch (error) {
         console.error('Error removing item from cart on server:', error);
@@ -167,6 +167,24 @@ listenerMiddleware.startListening({
 // Listener for changing quantity in cart
 listenerMiddleware.startListening({
   actionCreator: changeQuantity,
+  effect: async (action, listenerApi) => {
+    const state = listenerApi.getState();
+    const token = state.user.token;
+    if (token) {
+      try {
+        await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
+        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+      } catch (error) {
+        console.error('Error changing cart quantity on server:', error);
+      }
+    } else {
+      saveToSession('cart', state.cart);
+    }
+  },
+});
+// Listener for selecting/unselecting
+listenerMiddleware.startListening({
+  matcher: isAnyOf(selectItem, unselectItem),
   effect: async (action, listenerApi) => {
     const state = listenerApi.getState();
     const token = state.user.token;

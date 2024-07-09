@@ -12,35 +12,20 @@ import FavoriteButton from '../helpers/FavoriteButton/FavoriteButton';
 import ComparisonButton from '../helpers/ComparisonButton/ComparisonButton';
 import AddToCartButton from '../helpers/AddToCartButton/AddToCartButton';
 import { useGetUserCartQuery } from '../redux/api/cartEndpoints';
-
+import ChangeQuantityGroup from '../helpers/ChangeQuantityButton/ChangeQuantityGroup';
 const ProductCard = ({ product, recommended }) => {
   const token = getTokenFromCookies();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { cart } = useSelector((state) => state.cart);
   const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
 
   const productInCart = token ? cartData?.data?.find((el) => el.id === product.id) : cart.find((el) => el.id === product.id);
 
-
-  const handleAddToCart = (e) => {
-    e.preventDefault();
-    dispatch(addToCart(product));
-  };
-
-  const handleRemoveFromCart = (e) => {
-    e.preventDefault();
-    dispatch(removeFromCart(product));
-  };
-
-  console.log("product");
-  console.log(product);
   return (
     <NavLink
       to={product.slug ? `/catalog/${product.category.slug}/${product.slug}` : ''}
       // className={`${setLoading || removeLoading && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500`}
-      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500`}
+      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500 flex flex-col`}
     >
       <div>
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
@@ -86,7 +71,7 @@ const ProductCard = ({ product, recommended }) => {
 
         </div>
       </div>
-      <div className='lining-nums proportional-nums mt-2 flex flex-col gap-1'>
+      <div className='lining-nums proportional-nums mt-2 flex flex-col grow gap-1'>
         <div className='flex items-center justify-between gap-1'>
           <h3 className='text-xs sm:text-sm font-normal text-colText'>
             {product?.brand?.name}
@@ -110,7 +95,7 @@ const ProductCard = ({ product, recommended }) => {
         </div>
         {!productInCart && (
           <AddToCartButton product={product}>
-          {({ isInCart, handleAddToCartClick }) => (
+          {({ handleAddToCartClick }) => (
             <button
             onClick={handleAddToCartClick}
             className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
@@ -120,38 +105,9 @@ const ProductCard = ({ product, recommended }) => {
           )}
         </AddToCartButton>
         )}
-        {/* {product.quantity > 0 ? (
-          isProductInCart ? (
-            <div className='h-8 grid grid-cols-3 items-center'>
-              <button
-                className='w-8 h-8 bg-colSuperLight rounded-l-md flex items-center justify-center'
-                onClick={() => dispatch(changeQuantity({ id: product.id, quantity: productInCart.quantity - 1 }))}
-              >
-                <RemoveOutlined className='text-colBlack' />
-              </button>
-              <p className='h-8 text-xs text-colBlack bg-colLight rounded-md flex items-center justify-center'>
-                {productInCart.quantity}
-              </p>
-              <button
-                className='w-8 h-8 bg-colSuperLight rounded-r-md flex items-center justify-center'
-                onClick={() => dispatch(changeQuantity({ id: product.id, quantity: productInCart.quantity + 1 }))}
-              >
-                <AddOutlined className='text-colBlack' />
-              </button>
-            </div>
-          ) : (
-            <button
-              className='h-8 w-full bg-colLight rounded-md text-xs text-colDarkGray hover:text-colBlack'
-              onClick={handleAddToCart}
-            >
-              В корзину
-            </button>
-          )
-        ) : (
-          <button className='h-8 w-full bg-red-200 rounded-md text-xs text-colDarkGray cursor-not-allowed'>
-            Нет в наличии
-          </button>
-        )} */}
+        {productInCart && 
+            <ChangeQuantityGroup product={productInCart}/>
+          }
       </div>
     </NavLink>
   );

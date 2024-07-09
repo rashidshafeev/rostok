@@ -3,6 +3,8 @@ import { forwardRef } from 'react';
 
 // eslint-disable-next-line react/display-name
 const CCheckBoxField = forwardRef(({ label, styles, ...props }, ref) => {
+  console.log("props")
+  console.log(props)
   return (
     <FormControlLabel
       control={
