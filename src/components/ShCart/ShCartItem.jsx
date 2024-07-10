@@ -10,11 +10,10 @@ import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
 import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
 
-const ShCartItem = ({ cart, selectedItems, handleItemChange }) => {
+const ShCartItem = ({ cart, handleItemChange }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   return (
     <>

@@ -15,12 +15,11 @@ const ShoppingCart = () => {
   console.log('shopping cart rendered')
   // Fetching cart data from the server if the user is logged in
   const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
+  const cart = token ? serverCart?.data : localCart;
 
   useEffect(() => {
     scrollToTop();
   }, []);
-
-  const cart = token ? serverCart?.data : localCart;
 
   return (
     <div className='content pb-6 lining-nums proportional-nums'>

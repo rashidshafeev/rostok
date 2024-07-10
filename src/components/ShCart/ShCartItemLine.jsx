@@ -8,14 +8,14 @@ import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../red
 import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
 import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormCartButton';
 import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
 // import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
-const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
+const ShCartItemLine = ({ cart }) => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
-  const favorite = useSelector(state => state?.favorite)
 
   return (
     <>
@@ -26,10 +26,15 @@ const ShCartItemLine = ({ cart, selectedItems, handleItemChange }) => {
         >
           <div className='max-w-[480px] pr-8 w-full flex space-x-4'>
             <div className='flex items-start'>
-              <CCheckBoxField
-               checked={selectedItems.some(el => el?.id === product?.id)}
-               onChange={() => dispatch(selectItem(product))}
-              />
+            <SelectCartItemButton product={product}>
+                {({ isSelected, handleSelectClick }) => (
+
+                  <CCheckBoxField
+                    checked={isSelected}
+                    onChange={handleSelectClick}
+                  />
+                )}
+              </SelectCartItemButton>
               <div 
               onClick={(e) => {
                 e.preventDefault();

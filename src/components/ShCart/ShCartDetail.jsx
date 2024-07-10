@@ -10,15 +10,13 @@ import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import plural from 'plural-ru'
-import { removeFromCart, selectItem } from '../../redux/slices/cartSlice';
+import { removeFromCart, selectItem, unselectItem } from '../../redux/slices/cartSlice';
 import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
 
-
 const ShCartDetail = ({cart}) => {
-  const [selectedItems, setSelectedItems] = useState([]);
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
 
@@ -34,7 +32,8 @@ const ShCartDetail = ({cart}) => {
 
   const dispatch = useDispatch();
 
-  const selected = cart?.filter((item) => item.selected === true || item.selected === 1);
+  const selected = cart?.filter((item) => item.selected === true || item.selected === '1');
+  console.log(cart, selected)
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
@@ -43,12 +42,12 @@ const ShCartDetail = ({cart}) => {
     if (!isChecked) {
       console.log(selected)
       selected.forEach((item) => {
-        dispatch(selectItem(item));
+        dispatch(unselectItem({id: item.id, quantity: item.quantity, selected: 0}));
       })
     } else {
       cart?.forEach((item) => {
         if (!item.selected) {
-          dispatch(selectItem(item));
+          dispatch(selectItem({id: item.id, quantity: item.quantity, selected: 1}));
         }
       })
 
@@ -62,21 +61,24 @@ const ShCartDetail = ({cart}) => {
     })
   }
 
+  const handleFilter = (event) => {
+    const filterValue = event.target.value;
+    console.log(filterValue)
+    console.log(cart)
+
+    let filteredCart = cart.filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.groupName.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
+    console.log(filteredCart)
+
+
+    setFilteredCart(filteredCart)
+  }
+
   useEffect(() => {
     setFilteredCart(cart)
 
     const allItems = cart?.map((el) => el);
-    setSelectedItems(allItems);
 
   }, [cart])
-
-  const handleFilter = (event) => {
-    const filterValue = event.target.value;
-
-    let filteredCart = [...cart.cart].filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
-
-    setFilteredCart(filteredCart)
-  }
 
 
   return (
@@ -116,7 +118,7 @@ const ShCartDetail = ({cart}) => {
                 <CCheckBoxField
                   label='Выбрать всё'
                   onChange={handleSelectAllChange}
-                  checked={cart?.length === selected.length}
+                  checked={cart?.length === selected?.length}
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>

@@ -32,6 +32,7 @@ import {
   PersonalData,
 } from '../components';
 
+import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
 const fetchProduct = async ({ params }) => {
   let group = await fetch(
     `https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`,
@@ -66,7 +67,7 @@ export const router = createBrowserRouter(
             </Route>
           </Route>
         </Route>
-        <Route path='profile' element={<Profile />}>
+        <Route path='profile' element={<ProtectedRoute element={<Profile />} />}>
           <Route path='personal-data' element={<PersonalData />} />
           <Route path='organizations' element={<Organizations />} />
           <Route path='change-password' element={<ChangePassword />} />
