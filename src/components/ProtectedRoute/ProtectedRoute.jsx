@@ -1,16 +1,30 @@
 // src/components/ProtectedRoute.jsx
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import AuthModal from '../../helpers/CModal/AuthModal';
+import { useModal } from '../../context/ModalContext';
 
-const ProtectedRoute = ({ element }) => {
-  const token = getTokenFromCookies();
+const ProtectedRoute = ({ children }) => {
+  const isAuthenticated = getTokenFromCookies()
+  const location = useLocation();
+  const { showModal  } = useModal();
+  
+  useEffect(() => {
+    if (!isAuthenticated) {
+      showModal({ type: 'auth', content: 'checkAuth', from: location})
+    }
+  }, [isAuthenticated, location]);
 
-  if (!token) {
-    return <Navigate to="/" replace />;
+  if (!isAuthenticated) {
+    return (
+      <>
+        <Navigate to="/"  />
+      </>
+    );
   }
 
-  return element;
+  return children;
 };
 
 export default ProtectedRoute;

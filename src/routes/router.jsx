@@ -67,7 +67,7 @@ export const router = createBrowserRouter(
             </Route>
           </Route>
         </Route>
-        <Route path='profile' element={<ProtectedRoute element={<Profile />} />}>
+        <Route path='profile' element={<ProtectedRoute><Profile /></ProtectedRoute>}>
           <Route path='personal-data' element={<PersonalData />} />
           <Route path='organizations' element={<Organizations />} />
           <Route path='change-password' element={<ChangePassword />} />

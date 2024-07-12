@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import { useSubmitReviewMutation } from '../../redux/api/reviewEndpoints';
 
 function ReviewModal({ product, open, handleClose }) {
-  const [rating, setRating] = useState(0);
+  const [rating, setRating] = useState(5);
 
   const { user } = useSelector((state) => state.user);
 
@@ -29,10 +29,13 @@ function ReviewModal({ product, open, handleClose }) {
 
     const onSubmit = async (data) => {
       // Prepare data to send
+      console.log(data)
       const reviewData = {
-        ...data,
-        productId: product.id,
+        id: product.id,
         rating: rating,
+        text: data.text,
+        advantages: data.advantages,
+        disadvantages: data.disadvantages,
       };
   
       // Submit data
@@ -45,7 +48,11 @@ function ReviewModal({ product, open, handleClose }) {
       }
     };
 
-
+    // id (text): Идентификатор продукта.
+    // text (text): Текст отзыва.
+    // advantages (text): Преимущества продукта.
+    // disadvantages (text): Недостатки продукта.
+    // rating (number): Оценка продукта.
 
 
   return (
@@ -102,13 +109,13 @@ function ReviewModal({ product, open, handleClose }) {
 
           <div className='flex items-center gap-3 '>
             <div className=' font-semibold text-lg'>Общая оценка</div>
-            <div className='flex'><RatingStars totalStars={5} initialRating={5} isActive={true} handleSetRating={setRating} /></div>
+            <div className='flex'><RatingStars totalStars={5} initialRating={rating} isActive={true} handleSetRating={setRating} /></div>
           </div>
 
           <div>
             <div className=' font-semibold text-lg mb-3'>Мнение о товаре</div>
             <Controller
-              name='opinion'
+              name='text'
               control={control}
               defaultValue=''
               render={({ field }) => (
@@ -129,7 +136,7 @@ function ReviewModal({ product, open, handleClose }) {
           <div>
             <div className=' font-semibold text-lg mb-3'>Плюсы</div>
             <Controller
-              name='pros'
+              name='advantages'
               control={control}
               defaultValue=''
               render={({ field }) => (
@@ -150,7 +157,7 @@ function ReviewModal({ product, open, handleClose }) {
           <div>
             <div className=' font-semibold text-lg mb-3'>Минусы</div>
             <Controller
-              name='cons'
+              name='disadvantages'
               control={control}
               defaultValue=''
               render={({ field }) => (
@@ -168,7 +175,7 @@ function ReviewModal({ product, open, handleClose }) {
               )}
             />
           </div>
-          <div>
+          {/* <div>
             <div className=' font-semibold text-lg mb-3'>Вы оставляете отзыв, как</div>
             <div className='flex gap-2'>
               <Controller
@@ -218,7 +225,7 @@ function ReviewModal({ product, open, handleClose }) {
             </div>
             <div className='text-xs mt-1 text-colDarkGray'>Заполните, чтобы получать ответы на ваш отзыв. Ваша электронная почта не будет видна другим пользователям</div>
 
-          </div>
+          </div> */}
           <button className='py-3 flex justify-center text-white font-semibold bg-colGreen w-full rounded cursor-pointer'
           >Отправить отзыв</button>
         </form>

@@ -14,11 +14,13 @@ import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
 import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 
 
-function HeaderControls({ setContent, setOpen }) {
+function HeaderControls() {
   const token = useSelector((state) => state.user.token);
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const comparison = useSelector((state) => state?.comparison?.comparison);
   const cart = useSelector((state) => state?.cart);
+
+
   
   // const { data: favoriteQuery } = useGetFavoritesQuery();
   // console.log("favoriteQuery");
@@ -50,27 +52,13 @@ function HeaderControls({ setContent, setOpen }) {
 
   return (
     <div className='hidden lg:flex justify-between space-x-4'>
-      {/* {token} */}
-      {user ? (
-        <NavLink
+      <NavLink
           to='/profile/orders'
           className='text-center flex flex-col justify-between items-center'
         >
           <img className='mx-auto' src={order} alt='*' />
           <span className='text-xs pt-1 font-medium text-colBlack'>Заказы</span>
         </NavLink>
-      ) : (
-        <button
-          onClick={() => {
-            setContent('checkAuth');
-            setOpen(true);
-          }}
-          className='text-center flex flex-col justify-between items-center outline-none'
-        >
-          <img className='mx-auto' src={order} alt='*' />
-          <span className='text-xs pt-1 font-medium text-colBlack'>Заказы</span>
-        </button>
-      )}
       <NavLink
         to='/comparison'
         className='relative text-center flex flex-col justify-between items-center'
@@ -103,7 +91,7 @@ function HeaderControls({ setContent, setOpen }) {
       {!isLoading && user?.success ? (
         <ProfileButton name={user?.user?.name} />
       ) : (
-        <LoginButton setContent={setContent} setOpen={setOpen} />
+        <LoginButton />
       )}
     </div>
   );

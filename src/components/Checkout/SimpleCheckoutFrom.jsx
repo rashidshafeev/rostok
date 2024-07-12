@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import CPhoneField from '../../helpers/CustomInputs/CPhoneField'
 import { CancelRounded, CheckCircleRounded } from '@mui/icons-material'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -12,8 +12,8 @@ import CTextField from '../../helpers/CustomInputs/CTextField'
 import { postConfirmVerificationCode, postSendVerificationCode } from '../../api/user'
 
 function SimpleCheckoutFrom({ user}) {
-
-
+console.log("user")
+console.log(user)
     const {
         control,
         handleSubmit,
@@ -36,6 +36,15 @@ function SimpleCheckoutFrom({ user}) {
       // if (isCode.verification?.success) {
       //   trigger('phone')
       //   }
+      useEffect(() => {
+        if (user) {
+          reset({
+            name: user.user.name || '',
+            email: user.user.email || '',
+            phone: user.user.phone || ''
+          });
+        }
+      }, [user, reset]);
 
       const handleSendVerificationCode = async () => {
         setMiniLoading(true);
@@ -84,7 +93,8 @@ function SimpleCheckoutFrom({ user}) {
           <Controller
             name='name'
             control={control}
-            defaultValue={user ? user?.user?.name : ''}
+            // defaultValue={user ? user?.user?.name : ''}
+            defaultValue=''
             rules={{
               required: 'Поле обязательно к заполнению!',
             }}
@@ -107,7 +117,8 @@ function SimpleCheckoutFrom({ user}) {
         <Controller
           name='email'
           control={control}
-          defaultValue={user ? user?.user?.email : ''}
+          // defaultValue={user ? user?.user?.email : ''}
+          defaultValue=''
           rules={{
             required: 'Поле обязательно к заполнению!',
             pattern: {
@@ -146,7 +157,8 @@ function SimpleCheckoutFrom({ user}) {
 <Controller
           name='phone'
           control={control}
-          defaultValue={user ? user?.user?.phone : ''}
+          // defaultValue={user ? user?.user?.phone : ''}
+          defaultValue=''
           rules={{
             required: 'Поле обязательно к заполнению!',
             pattern: {

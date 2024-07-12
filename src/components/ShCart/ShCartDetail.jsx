@@ -241,10 +241,13 @@ const ShCartDetail = ({cart}) => {
 
 
             }
-
-            <NavLink to='../checkout' className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center`}>
+            
+            {selected?.length === 0 && <button className={`text-white cursor-auto font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center`}>
               Перейти к оформлению
-            </NavLink>
+            </button>}
+            {selected?.length !== 0 && <NavLink to='/checkout' className={`text-white font-semibold bg-colGreen rounded w-full h-[50px] flex justify-center items-center`}>
+              Перейти к оформлению
+            </NavLink>}
           </div>
         </div>
       </div>

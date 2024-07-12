@@ -27,9 +27,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import SimpleCheckoutFrom from '../../components/Checkout/SimpleCheckoutFrom';
 import { removeFromCart } from '../../redux/slices/cartSlice';
 import { useSendOrderMutation } from '../../redux/api/orderEndpoints';
-
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
+import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
 
 function CartCheckout() {
+
+  const token = getTokenFromCookies();
+  const { cart: localCart } = useSelector((state) => state.cart);
+  const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
+  const { data: user } = useGetUserDataQuery()
+
+  const cart = token ? serverCart?.data : localCart;
+  const selected = cart?.filter((item) => item.selected === true || item.selected === '1');
 
   const navigate = useNavigate();
   const dispatch  = useDispatch();
@@ -72,11 +82,11 @@ function CartCheckout() {
     setPaymentMethod(e.currentTarget.getAttribute("data-customvalue"))
   }
 
-  const user = useSelector((state) => state?.user);
-  const cart = useSelector((state) => state?.cart);
-  const selected = cart?.cart.filter((item) => item.selected === true);
+  // const user = useSelector((state) => state?.user);
+  // const cart = useSelector((state) => state?.cart);
+  // const selected = cart?.cart.filter((item) => item.selected === true);
 
-  const { organizations } = useSelector((state) => state?.organizations);
+  // const { organizations } = useSelector((state) => state?.organizations);
 
 
 
@@ -410,7 +420,7 @@ function CartCheckout() {
         </div>
         <div className='lg:basis-[30%] basis-full'>
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
-            {selected.length === 0 ? (
+            {selected?.length === 0 ? (
               <div className='text-center text-[#828282] text-lg font-medium mb-5'>
                 Корзина пуста
               </div>) : (
@@ -430,7 +440,7 @@ function CartCheckout() {
                     Выбрано товаров
                   </span>
                   <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-                  <span className='font-bold whitespace-nowrap'>{selected.length} шт</span>
+                  <span className='font-bold whitespace-nowrap'>{selected?.length} шт</span>
                 </div>
                 <div className='flex justify-between items-center pt-2'>
                   <span className='text-colBlack text-sm whitespace-nowrap'>
@@ -462,7 +472,7 @@ function CartCheckout() {
 
             }
 
-            <button className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center cursor-pointer`}>
+            <button disabled={selected?.length === 0} className={`text-white font-semibold ${selected?.length === 0 ? 'bg-colGray' : 'bg-colGreen cursor-pointer'} rounded w-full h-[50px] flex justify-center items-center `}>
               Подтвердить заказ
             </button>
           </div>

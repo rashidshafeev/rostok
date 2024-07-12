@@ -22,10 +22,11 @@ import fizlico from '../../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../../assets/icons/urlico-inactive.svg';
 import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
 import LogoutModal from '../../../helpers/CModal/LogoutModal';
+import { useModal } from '../../../context/ModalContext';
 
 
 function ProfileButton({ name }) {
-  const [logoutModalOpen, setLogoutModalOpen] = useState(false);
+  const { showModal } = useModal();
 
   const { organizations } = useSelector((state) => state?.organizations);
 
@@ -79,7 +80,7 @@ function ProfileButton({ name }) {
           {name}
         </span>
       </NavLink>
-      <LogoutModal open={logoutModalOpen} setOpen={setLogoutModalOpen} />
+      {/* <LogoutModal open={logoutModalOpen} setOpen={setLogoutModalOpen} /> */}
 
       <FloatingPortal>
 
@@ -119,7 +120,7 @@ function ProfileButton({ name }) {
 
             </NavLink>
             <button
-            onClick={() => setLogoutModalOpen(true)}
+            onClick={() => showModal({type: 'logout'})}
             >
               <li className='rounded font-semibold  text-red-500 hover:bg-colSuperLight px-2 py-1'>Выйти</li>
             </button>

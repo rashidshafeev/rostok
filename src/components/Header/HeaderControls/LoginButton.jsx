@@ -18,9 +18,13 @@ import {
     safePolygon
   } from "@floating-ui/react";
 import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
+import AuthModal from '../../../helpers/CModal/AuthModal';
+import { useModal } from '../../../context/ModalContext';
+import { useLocation } from 'react-router-dom';
 
-function LoginButton({ setContent, setOpen}) {
-
+function LoginButton() {
+  const location = useLocation()
+  const { showModal } = useModal();
 
     const [isOpen, setIsOpen] = useState(false);
     const arrowRef = useRef(null);
@@ -66,8 +70,8 @@ function LoginButton({ setContent, setOpen}) {
         <button
         ref={refs.setReference} {...getReferenceProps()}
           onClick={() => {
-            setContent('checkAuth');
-            setOpen(true);
+            showModal({ type: 'auth', content: 'checkAuth', from: location})
+
           }}
           className='text-center flex flex-col justify-between items-center outline-none'
 
@@ -77,7 +81,6 @@ function LoginButton({ setContent, setOpen}) {
             Войти
           </span>
         </button>
-        
           
         <FloatingPortal>
       
@@ -99,9 +102,8 @@ function LoginButton({ setContent, setOpen}) {
             <div>Вы сможете отслеживать статусы заказов и сохранять товары в «Избранном»</div>
             <button className='text-xs xs:text-sm sm:text-base bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-1/2'
             onClick={() => {
-                setContent('checkAuth');
-                setOpen(true);
-              }}
+              showModal({ type: 'auth', content: 'checkAuth', from: location})
+            }}
             >Войти</button>
         </div>
       )}
