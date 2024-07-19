@@ -52,7 +52,7 @@ export const cartSlice = createSlice({
         if (product) {
           product.quantity += 1;
         } else {
-          const newProduct = { ...action.payload, quantity: 1 };
+          const newProduct = { ...action.payload, quantity: 1, selected: 0 };
           state.cart.push(newProduct);
         }
         updateQuantities(state);
@@ -66,13 +66,15 @@ export const cartSlice = createSlice({
       }
     },
     changeQuantity: (state, action) => {
+      console.log("action change")
+      console.log(action)
       const token = getTokenFromCookies()
       if (!token) {
-        const product = state.cart.find((item) => item.id === action.payload.product.id);
+        const product = state.cart.find((item) => item.id === action.payload.id);
         if (product.quantity + action.payload.quantity <= 0) {
           state.cart = state.cart.filter((product) => product.id !== action.payload.product.id);
         } else {
-          product.quantity += action.payload.quantity;
+          product.quantity = action.payload.quantity;
         }
         updateQuantities(state);
       }
@@ -82,7 +84,7 @@ export const cartSlice = createSlice({
       if (!token) {
         const product = state.cart.find((item) => item.id === action.payload.id);
         if (product) {
-          product.selected = true;
+          product.selected = 1;
           updateQuantities(state);
         }
       }
@@ -92,7 +94,7 @@ export const cartSlice = createSlice({
       if (!token) {
         const product = state.cart.find((item) => item.id === action.payload.id);
         if (product) {
-          product.selected = false;
+          product.selected = 0;
           updateQuantities(state);
         }
       }

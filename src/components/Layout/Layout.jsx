@@ -4,8 +4,9 @@ import { useState } from 'react';
 import MobileNavbar from '../Header/MobileNavbar';
 import LogoutModal from '../../helpers/CModal/LogoutModal';
 import { ModalProvider } from '../../context/ModalContext';
-import AuthModal from '../../helpers/CModal/AuthModal';
-
+import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
+// import AuthModal from '../../helpers/CModal/AuthModal';
+AuthModal 
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);

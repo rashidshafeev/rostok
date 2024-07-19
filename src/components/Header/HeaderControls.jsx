@@ -27,8 +27,6 @@ function HeaderControls() {
   // console.log(useGetFavoritesQuery());
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
-  console.log('rerender controls');
-  console.log('user', user);
   
   useEffect(() => {
     if (token) {

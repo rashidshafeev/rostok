@@ -18,7 +18,7 @@ import {
     safePolygon
   } from "@floating-ui/react";
 import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
-import AuthModal from '../../../helpers/CModal/AuthModal';
+// import AuthModal from '../../../helpers/CModal/AuthModal';
 import { useModal } from '../../../context/ModalContext';
 import { useLocation } from 'react-router-dom';
 

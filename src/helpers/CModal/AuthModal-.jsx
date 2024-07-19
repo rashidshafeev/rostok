@@ -195,26 +195,7 @@ const AuthModal = ({ open, setOpen, from }) => {
     }
   };
 
-  const onSubmitRegister = async (data) => {
-    const favoriteItems = favorite?.map((el) => el?.id);
-    setIsLoading(true);
-    const { success, resData } = await postRegister(
-      dispatch,
-      data,
-      favoriteItems
-    );
-    if (success) {
-      setIsLoading(false);
-      setIsCode({ verification: null, sendCode: null });
-      setResError(null);
-      setOpen(false);
-      navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
-      reset();
-    } else {
-      setResError(resData?.err);
-      setIsLoading(false);
-    }
-  };
+
 
   if (!isModalVisible) return null;
 

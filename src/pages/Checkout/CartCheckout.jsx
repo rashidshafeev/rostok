@@ -39,7 +39,7 @@ function CartCheckout() {
   const { data: user } = useGetUserDataQuery()
 
   const cart = token ? serverCart?.data : localCart;
-  const selected = cart?.filter((item) => item.selected === true || item.selected === '1');
+  const selected = cart?.filter((item) => item.selected === true || item.selected.toString() === '1');
 
   const navigate = useNavigate();
   const dispatch  = useDispatch();
@@ -137,7 +137,9 @@ function CartCheckout() {
     selected.forEach((product) => {
       dispatch(removeFromCart(product));
     })
+    if (user) {
     navigate('/profile/orders');
+    }
     
   }
 
@@ -226,9 +228,7 @@ function CartCheckout() {
 
               </div> */}
             <SimpleCheckoutFrom
-            user={user}
-            isCode={isCode}
-            miniLoading={miniLoading}/>
+            user={user}/>
           </div>
 
           <div className='flex flex-col gap-5'>

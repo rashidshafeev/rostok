@@ -20,12 +20,12 @@ const ProductCard = ({ product, recommended }) => {
   const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
 
   const productInCart = token ? cartData?.data?.find((el) => el.id === product.id) : cart.find((el) => el.id === product.id);
-
+  
   return (
     <NavLink
       to={product.slug ? `/catalog/${product.category.slug}/${product.slug}` : ''}
       // className={`${setLoading || removeLoading && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500`}
-      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500 flex flex-col`}
+      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500 flex flex-col justify-between`}
     >
       <div>
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
@@ -71,7 +71,7 @@ const ProductCard = ({ product, recommended }) => {
 
         </div>
       </div>
-      <div className='lining-nums proportional-nums mt-2 flex flex-col grow gap-1'>
+      <div className='lining-nums proportional-nums mt-2 flex flex-col gap-1'>
         <div className='flex items-center justify-between gap-1'>
           <h3 className='text-xs sm:text-sm font-normal text-colText'>
             {product?.brand?.name}
@@ -79,7 +79,7 @@ const ProductCard = ({ product, recommended }) => {
           <span className='flex items-center gap-1'>
             <p className='text-xs sm:text-sm font-semibold'>
               {product?.price?.discount
-                ? product?.price?.discount
+                ? product?.price?.discount?.price
                 : product?.price?.default}
             </p>
             <p className='text-[8px] sm:text-[10px] text-colText'>
@@ -106,7 +106,7 @@ const ProductCard = ({ product, recommended }) => {
         </AddToCartButton>
         )}
         {productInCart && 
-            <ChangeQuantityGroup product={productInCart}/>
+            <ChangeQuantityGroup product={productInCart} enableRemove={true}/>
           }
       </div>
     </NavLink>

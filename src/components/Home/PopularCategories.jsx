@@ -2,31 +2,22 @@
 import CatalogCard from '../Catalog/Catalog/CatalogCard';
 import { Loading } from '../../helpers/Loader/Loader';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
-import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
+import { useGetCategoryTreeQuery, useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
+// const PopularCategories = ({ data }) => {
 const PopularCategories = () => {
-  const { isLoading, isError, data } = useGetCategoryTreeQuery();
-
+  const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
+  
   return (
     <div className='pt-5 pb-10'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4'>
         Популярные категории
       </h1>
-      {isLoading ? (
-        <Loading extraStyle='520px' />
-      ) : isError ? (
-        <ErrorEmpty
-          title='Что-то пошло не так!'
-          desc='Произошла ошибка! Пожалуйста, повторите попытку еще раз.'
-          height='420px'
-        />
-      ) : (
         <div className='grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5'>
-          {data?.children?.slice?.(0, 6)?.map((el) => (
+          {isSuccess && data?.popularCategories?.slice?.(0, 6)?.map((el) => (
             <CatalogCard category={el} key={el?.id} />
           ))}
         </div>
-      )}
     </div>
   );
 };

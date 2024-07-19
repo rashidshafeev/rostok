@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import AuthModal from '../../helpers/CModal/AuthModal';
+// import AuthModal from '../../helpers/CModal/AuthModal';
 import PreHeader from './PreHeader';
 import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';

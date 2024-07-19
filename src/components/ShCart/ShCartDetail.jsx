@@ -20,6 +20,7 @@ const ShCartDetail = ({cart}) => {
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
 
+  console.log(cart)
 
   const orderInfo = useRef(null);
   const orderInfoVisible = useIntersection(orderInfo, {
@@ -32,8 +33,8 @@ const ShCartDetail = ({cart}) => {
 
   const dispatch = useDispatch();
 
-  const selected = cart?.filter((item) => item.selected === true || item.selected === '1');
-  console.log(cart, selected)
+  const selected = cart?.filter((item) => item.selected === true || item.selected.toString() === '1');
+  console.log(selected)
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;

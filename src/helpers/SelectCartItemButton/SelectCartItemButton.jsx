@@ -16,7 +16,7 @@ const SelectCartItemButton = ({ product, children }) => {
 
   const isSelected = token
     ? serverCart?.data?.some((item) => item.id === product.id && item.selected === "1")
-    : cart.some((item) => item.id === product.id && item.selected === "1");
+    : cart.some((item) => item.id === product.id && (item.selected.toString() === "1" || item.selected === true));
 
     const handleSelectClick = () => {
         if (isSelected) {

@@ -26,7 +26,6 @@ export const ModalProvider = ({ children }) => {
     setIsModalVisible(false);
   };
 
-console.log("modal close", modalContent, isModalVisible)
   return (
     <ModalContext.Provider value={{ showModal, hideModal, modalContent, isModalVisible }}>
       {children}

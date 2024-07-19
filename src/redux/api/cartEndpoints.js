@@ -2,13 +2,6 @@
 import { api } from  './api';
 
 export const cartEndpoints = (builder) => ({
-    getVariants: builder.mutation({
-      query: (params) => ({
-        url: '/api/Products/variants',
-        method: 'POST',
-        body: params,
-      }),
-    }),
     getSuggestions: builder.mutation({
       query: (params) => ({
         url: '/api/Products/search/suggestions',
@@ -42,7 +35,6 @@ export const cartEndpoints = (builder) => ({
   // Export hooks for cart endpoints
   export const {
     useSendCartMutation,
-    useGetVariantsMutation,
     useGetSuggestionsMutation,
     useGetUserCartQuery,
     useRemoveFromCartMutation

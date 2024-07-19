@@ -449,16 +449,32 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                                 />
                               }
                               label={
-                                <div className='flex space-x-2 items-center'>
-                                  {el?.type === 'color' && (
+                                <div className='flex items-center'>
+                                  {(el?.type === 'color' && val?.second_color)  && (
+                                    <>
                                     <span
                                       style={{
                                         backgroundColor: val?.color,
                                       }}
-                                      className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
+                                      className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${ val?.color === '#FFFFFF' ? ' border-l border-colGray': ''}`}
+                                    ></span>
+                                    <span
+                                      style={{
+                                        backgroundColor: val?.second_color,
+                                      }}
+                                      className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${ val?.second_color === '#FFFFFF' ? ' border-r border-colGray': ''}`}
+                                    ></span>
+                                    </>
+                                  )}
+                                  {(el?.type === 'color' && !val?.second_color)  && (
+                                    <span
+                                      style={{
+                                        backgroundColor: val?.color,
+                                      }}
+                                      className={`min-w-[20px] min-h-[20px] rounded-full ${ val?.color === '#FFFFFF' ? 'border border-colGray': ''}`}
                                     ></span>
                                   )}
-                                  <p className='text-sm font-medium text-colBlack line-clamp-1 break-all'>
+                                  <p className='text-sm font-medium text-colBlack line-clamp-1 break-all ml-1'>
                                     {val?.text}
                                   </p>
                                 </div>
