@@ -15,7 +15,6 @@ import CTextField from '../CustomInputs/CTextField';
 import CPhoneField from '../CustomInputs/CPhoneField';
 import {
   postAuthCheck,
-  postAuthWithEmail,
   postRegister,
   postSendVerificationCode,
   postConfirmVerificationCode,
@@ -35,10 +34,18 @@ import { setCart } from '../../redux/slices/cartSlice';
 import { setFavorite } from '../../redux/slices/favoriteSlice';
 import { useSendComparisonMutation } from '../../redux/api/comparisonEndpoints';
 import { setComparison } from '../../redux/slices/comparisonSlice';
-const AuthModal = ({ open, setOpen, content, setContent }) => {
+import { useModal } from '../../context/ModalContext';
+
+const AuthModal = ({ open, setOpen, from }) => {
   const cart = useSelector((state) => state.cart.cart);
   const comparison = useSelector((state) => state.comparison.comparison);
   const favorite = useSelector((state) => state.favorite.favorite);
+
+  const { hideModal, modalContent, isModalVisible } = useModal();
+
+  const [content, setContent] = useState(modalContent?.content || 'checkAuth')
+  console.log("from")
+  console.log(modalContent)
 
   const [isLoading, setIsLoading] = useState(false);
   const [miniLoading, setMiniLoading] = useState(false);
@@ -123,7 +130,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     try {
       // Send cart
       await sendCart({
-        items: cart.map((item) => ({ id: item.id, quantity: item.quantity })),
+        items: cart.map((item) => ({ id: item.id, quantity: item.quantity, selected: item.selected ? 1 : 0 })),
       });
 
       // Send comparison
@@ -156,9 +163,14 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
   const onSubmitAuthWithEmail = async (data) => {
     try {
       const auth = await authWithEmail(data);
-      dispatch(setToken(auth.data.token));
-
-      await sendAndClearData();
+      console.log(auth)
+      if (auth.data.success) {
+        dispatch(setToken(auth.data.token));
+        await sendAndClearData();
+        hideModal();
+        navigate('/');
+        return;
+      }
     } catch (error) {
       console.error('Authorization failed:', error);
     }
@@ -183,34 +195,15 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
     }
   };
 
-  const onSubmitRegister = async (data) => {
-    const favoriteItems = favorite?.map((el) => el?.id);
-    setIsLoading(true);
-    const { success, resData } = await postRegister(
-      dispatch,
-      data,
-      favoriteItems
-    );
-    if (success) {
-      setIsLoading(false);
-      setIsCode({ verification: null, sendCode: null });
-      setResError(null);
-      setOpen(false);
-      navigate(window.innerWidth < 576 ? '/profile' : '/profile/personal-data');
-      reset();
-    } else {
-      setResError(resData?.err);
-      setIsLoading(false);
-    }
-  };
 
-  if (!open) return null;
+
+  if (!isModalVisible) return null;
 
   return (
     <>
       <Modal
-        open={open}
-        onClose={() => setOpen(false)}
+        open={isModalVisible && modalContent.type === 'auth'}
+        onClose={() => hideModal()}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
@@ -221,7 +214,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
             ) : (
               <>
                 <span
-                  onClick={() => setOpen(false)}
+                  onClick={() => hideModal()}
                   className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
                 >
                   &times;
@@ -277,7 +270,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                   Назад
                 </span>
                 <span
-                  onClick={() => setOpen(false)}
+                  onClick={() => hideModal()}
                   className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
                 >
                   &times;
@@ -366,7 +359,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                   Назад
                 </span>
                 <span
-                  onClick={() => setOpen(false)}
+                  onClick={() => hideModal()}
                   className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
                 >
                   &times;
@@ -463,7 +456,7 @@ const AuthModal = ({ open, setOpen, content, setContent }) => {
                     Назад
                   </span>
                   <span
-                    onClick={() => setOpen(false)}
+                    onClick={() => hideModal()}
                     className='absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4'
                   >
                     &times;

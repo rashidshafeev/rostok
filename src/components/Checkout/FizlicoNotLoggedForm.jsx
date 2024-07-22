@@ -9,7 +9,8 @@ import fizlico from '../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../assets/icons/urlico-inactive.svg';
 import CSelectField from '../../helpers/CustomInputs/CSelectField'
 import CTextField from '../../helpers/CustomInputs/CTextField'
-import { postConfirmVerificationCode, postSendVerificationCode } from '../../api/user'
+// import { postConfirmVerificationCode, postSendVerificationCode } from '../../api/user'
+import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints'
 
 
 function FizlicoNotLoggedForm({ user, organizations}) {

@@ -3,10 +3,10 @@ import { api } from  './api';
 
 export const reviewEndpoints = (builder) => ({
     submitReview: builder.mutation({
-      query: (params) => ({
-        url: '/api/submitReview',
+      query: (data) => ({
+        url: '/api/Products/review/set',
         method: 'POST',
-        body: params,
+        body: data,
       }),
     }),
   });

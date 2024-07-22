@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 
 const initialState = {
   cart: [],
@@ -45,36 +46,58 @@ export const cartSlice = createSlice({
       }
     },
     addToCart: (state, action) => {
-      const product = state.cart.find((item) => item.id === action.payload.id);
-
-      if (product) {
-        product.quantity += 1;
-      } else {
-        const newProduct = { ...action.payload, quantity: 1 };
-        state.cart.push(newProduct);
+      const token = getTokenFromCookies()
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product) {
+          product.quantity += 1;
+        } else {
+          const newProduct = { ...action.payload, quantity: 1, selected: 0 };
+          state.cart.push(newProduct);
+        }
+        updateQuantities(state);
       }
-
-      updateQuantities(state);
     },
     removeFromCart: (state, action) => {
-      state.cart = state.cart.filter((product) => product.id !== action.payload.id);
-      updateQuantities(state);
+      const token = getTokenFromCookies()
+      if (!token) {
+        state.cart = state.cart.filter((product) => product.id !== action.payload.id);
+        updateQuantities(state);
+      }
     },
     changeQuantity: (state, action) => {
-      const product = state.cart.find((item) => item.id === action.payload.product.id);
-
-      if (product.quantity + action.payload.quantity <= 0) {
-        state.cart = state.cart.filter((product) => product.id !== action.payload.product.id);
-      } else {
-        product.quantity = product.quantity + action.payload.quantity;
+      console.log("action change")
+      console.log(action)
+      const token = getTokenFromCookies()
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product.quantity + action.payload.quantity <= 0) {
+          state.cart = state.cart.filter((product) => product.id !== action.payload.product.id);
+        } else {
+          product.quantity = action.payload.quantity;
+        }
+        updateQuantities(state);
       }
-
-      updateQuantities(state);
     },
     selectItem: (state, action) => {
-      const product = state.cart.find((item) => item.id === action.payload.id);
-      product.selected = !product.selected;
-      updateQuantities(state);
+      const token = getTokenFromCookies()
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product) {
+          product.selected = 1;
+          updateQuantities(state);
+        }
+      }
+    },
+    unselectItem: (state, action) => {
+      const token = getTokenFromCookies()
+      if (!token) {
+        const product = state.cart.find((item) => item.id === action.payload.id);
+        if (product) {
+          product.selected = 0;
+          updateQuantities(state);
+        }
+      }
     }
   }
 });
@@ -85,7 +108,8 @@ export const {
   addToCart,
   removeFromCart,
   changeQuantity,
-  selectItem
+  selectItem,
+  unselectItem
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

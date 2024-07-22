@@ -10,18 +10,17 @@ import shareIcon from '../../assets/icons/share.svg';
 import docIcon from '../../assets/icons/download-pdf.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import plural from 'plural-ru'
-import { removeFromCart, selectItem } from '../../redux/slices/cartSlice';
+import { removeFromCart, selectItem, unselectItem } from '../../redux/slices/cartSlice';
 import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
 
-
-const ShCartDetail = () => {
-  const [selectedItems, setSelectedItems] = useState([]);
+const ShCartDetail = ({cart}) => {
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
 
+  console.log(cart)
 
   const orderInfo = useRef(null);
   const orderInfoVisible = useIntersection(orderInfo, {
@@ -34,8 +33,8 @@ const ShCartDetail = () => {
 
   const dispatch = useDispatch();
 
-  const cart = useSelector((state) => state?.cart);
-  const selected = cart?.cart.filter((item) => item.selected === true);
+  const selected = cart?.filter((item) => item.selected === true || item.selected.toString() === '1');
+  console.log(selected)
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
@@ -44,12 +43,12 @@ const ShCartDetail = () => {
     if (!isChecked) {
       console.log(selected)
       selected.forEach((item) => {
-        dispatch(selectItem(item));
+        dispatch(unselectItem({id: item.id, quantity: item.quantity, selected: 0}));
       })
     } else {
-      cart?.cart.forEach((item) => {
+      cart?.forEach((item) => {
         if (!item.selected) {
-          dispatch(selectItem(item));
+          dispatch(selectItem({id: item.id, quantity: item.quantity, selected: 1}));
         }
       })
 
@@ -63,21 +62,24 @@ const ShCartDetail = () => {
     })
   }
 
-  useEffect(() => {
-    setFilteredCart(cart?.cart)
-
-    const allItems = cart?.cart.map((el) => el);
-    setSelectedItems(allItems);
-
-  }, [cart])
-
   const handleFilter = (event) => {
     const filterValue = event.target.value;
+    console.log(filterValue)
+    console.log(cart)
 
-    let filteredCart = [...cart.cart].filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
+    let filteredCart = cart.filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.groupName.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
+    console.log(filteredCart)
+
 
     setFilteredCart(filteredCart)
   }
+
+  useEffect(() => {
+    setFilteredCart(cart)
+
+    const allItems = cart?.map((el) => el);
+
+  }, [cart])
 
 
   return (
@@ -117,7 +119,7 @@ const ShCartDetail = () => {
                 <CCheckBoxField
                   label='Выбрать всё'
                   onChange={handleSelectAllChange}
-                  checked={cart?.cart.length === selected.length}
+                  checked={cart?.length === selected?.length}
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>
@@ -240,10 +242,13 @@ const ShCartDetail = () => {
 
 
             }
-
-            <NavLink to='../checkout' className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center`}>
+            
+            {selected?.length === 0 && <button className={`text-white cursor-auto font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center`}>
               Перейти к оформлению
-            </NavLink>
+            </button>}
+            {selected?.length !== 0 && <NavLink to='/checkout' className={`text-white font-semibold bg-colGreen rounded w-full h-[50px] flex justify-center items-center`}>
+              Перейти к оформлению
+            </NavLink>}
           </div>
         </div>
       </div>

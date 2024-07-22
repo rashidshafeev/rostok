@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import AuthModal from '../../helpers/CModal/AuthModal';
+// import AuthModal from '../../helpers/CModal/AuthModal';
 import PreHeader from './PreHeader';
 import CatalogFastAccess from './CatalogFastAccess';
 import SearchBar from './SearchBar';
@@ -18,8 +18,6 @@ import { setToken } from '../../redux/slices/userSlice';
 import Cookies from 'js-cookie';
 
 const Header = ({ showCatalog, setShowCatalog }) => {
-  const [content, setContent] = useState('');
-  const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -27,9 +25,6 @@ const Header = ({ showCatalog, setShowCatalog }) => {
     dispatch(fetchComparison());
     dispatch(fetchFavorite());
     dispatch(fetchCart());
-
-    // const token = Cookies.get('token');
-    // dispatch(setToken(token));
 
   }, [dispatch]);
 
@@ -86,15 +81,10 @@ const Header = ({ showCatalog, setShowCatalog }) => {
           <span className='hidden mm:block ml-2'>Каталог</span>
         </button>
         <SearchBar setShowCatalog={setShowCatalog} />
-        <HeaderControls setOpen={setOpen} setContent={setContent} />
+        <HeaderControls />
+        {/* <HeaderControls setOpen={setOpen} setContent={setContent} /> */}
       </div>
       <CatalogFastAccess />
-      <AuthModal
-        open={open}
-        setOpen={setOpen}
-        content={content}
-        setContent={setContent}
-      />
       <div
         className={`${
           showCatalog ? 'visible opacity-100' : 'invisible opacity-0'

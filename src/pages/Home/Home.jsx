@@ -13,29 +13,34 @@ import {
   Suggestions,
 } from '../../components';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
 const Home = () => {
+
+  const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
+
   useEffect(() => {
     scrollToTop();
   }, []);
+
   return (
     <>
       <div className='content'>
         <Banner />
-        <News />
+         <News  />
         <SaleBanner />
         <Suggestions />
-        <PopularCategories />
+       <PopularCategories  />
       </div>
-      <Promotions />
+      <Promotions/>
       <div className='content'>
-        <SaleProducts />
+        <SaleProducts  />
       </div>
-      <RoomProducts />
+     <RoomProducts />
       <div className='content'>
         <FurnitureFittings />
-        <Brands />
-        <Advantages />
+       <Brands  />
+      <Advantages /> 
       </div>
     </>
   );

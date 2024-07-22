@@ -18,7 +18,7 @@ import {
     safePolygon
   } from "@floating-ui/react";
 
-function CartButton() {
+function CartButton({ getCartQuantity }) {
 
 
   const [isOpen, setIsOpen] = useState(false);
@@ -72,9 +72,9 @@ function CartButton() {
       >
         <img className='mx-auto' src={cartIcon} alt='*' />
         <span className='text-xs pt-1 font-medium text-colBlack'>Корзина</span>
-        {itemsQuantity > 0 && (
+        {getCartQuantity() > 0 && (
           <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-            {!itemsQuantity > 99 ? '99+' : itemsQuantity}
+            {getCartQuantity() > 99 ? '99+' : getCartQuantity()}
           </span>
         )}
       </NavLink>

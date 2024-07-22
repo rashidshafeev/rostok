@@ -1,7 +1,35 @@
-// userEndpoints.js
+// src/redux/api/userEndpoints.js
 import { api } from './api';
 
 export const userEndpoints = (builder) => ({
+  userRegister: builder.mutation({
+    query: (data) => ({
+      url: '/api/User/register',
+      method: 'POST',
+      body: data,
+    }),
+  }),
+  registrationCheck: builder.mutation({
+    query: (data) => ({
+      url: '/api/User/check',
+      method: 'POST',
+      body: data,
+    }),
+  }),
+  sendVerificationCode: builder.mutation({
+    query: (data) => ({
+      url: '/api/User/phone/sendVerificationCode',
+      method: 'POST',
+      body: data,
+    })
+  }),
+  confirmVerificationCode: builder.mutation({
+    query: (data) => ({
+      url: '/api/User/phone/confirmVerificationCode',
+      method: 'POST',
+      body: data,
+    })
+  }),
   authWithEmail: builder.mutation({
     query: (data) => ({
       url: '/api/User/auth',
@@ -16,26 +44,31 @@ export const userEndpoints = (builder) => ({
       body: { email: email },
     }),
   }),
+  changePassword: builder.mutation({
+    query: (params) => ({
+      url: '/api/Profile/updatePass',
+      method: 'POST',
+      body: params,
+    }),
+  }),
   getUserData: builder.query({
     query: () => ({
       url: '/api/UserData/get',
       method: 'GET',
-      prepareHeaders: (headers, { getState }) => {
-        // Access the token from the Redux store
-        const token = getState().user.token;
-        if (token) {
-          headers.set('Authorization', `Bearer ${token}`);
-        }
-        return headers;
-      },
     }),
+    providesTags: [{ type: 'User', id: 'DATA' }],
     keepUnusedDataFor: 0,
   }),
 });
 
-// Export hooks for favorites endpoints
+// Export hooks for user endpoints
 export const {
+  useUserRegisterMutation,
+  useRegistrationCheckMutation,
+  useSendVerificationCodeMutation,
+  useConfirmVerificationCodeMutation,
   useAuthWithEmailMutation,
   useResetPasswordMutation,
+  useChangePasswordMutation,
   useGetUserDataQuery,
 } = api.injectEndpoints({ endpoints: userEndpoints });

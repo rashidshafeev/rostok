@@ -3,8 +3,8 @@ import { addToCart } from '../../../redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ComparisonIcon, FavoriteIcon } from '../../../helpers/Icons';
 import noImg from '../../../assets/images/no-image.png';
-import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
-import { toggleComparison } from '../../../redux/slices/comparisonSlice';
+// import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
+// import { toggleComparison } from '../../../redux/slices/comparisonSlice';
 
 const CardLine = ({ product }) => {
   const cart = useSelector((state) => state?.cart);

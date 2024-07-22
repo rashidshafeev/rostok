@@ -10,22 +10,22 @@ import { useEffect, useState } from 'react';
 import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 import CartButton from './HeaderControls/CartButton';
-import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
+import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 
 
-function HeaderControls({ setContent, setOpen }) {
-  const { token } = useSelector((state) => state.user);
-  console.log('token in header:', token);
-
+function HeaderControls() {
+  const token = useSelector((state) => state.user.token);
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const comparison = useSelector((state) => state?.comparison?.comparison);
-  
-  const { data: favorites } = useGetFavoritesQuery();
-  const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
+  const cart = useSelector((state) => state?.cart);
 
-  console.log('rerender');
-  console.log('user', user);
+
+  
+  // const { data: favoriteQuery } = useGetFavoritesQuery();
+  // console.log("favoriteQuery");
+  // console.log(useGetFavoritesQuery());
+  const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
   
   useEffect(() => {
@@ -34,31 +34,29 @@ function HeaderControls({ setContent, setOpen }) {
     }
   }, [token, refetch]);
 
+  const getFavoritesCount = () => {
+    return user ? user?.favorites?.items_count : (favorite.length || 0);
+  };
+
+  const getComparisonCount = () => {
+    return user ? user?.comparison?.items_count : (comparison.length || 0);
+  };
+
+  const getCartQuantity = () => {
+    return user ? user?.cart?.quantity : (cart.itemsQuantity || 0);
+  };
+
 
 
   return (
     <div className='hidden lg:flex justify-between space-x-4'>
-      {/* {token} */}
-      {user ? (
-        <NavLink
+      <NavLink
           to='/profile/orders'
           className='text-center flex flex-col justify-between items-center'
         >
           <img className='mx-auto' src={order} alt='*' />
           <span className='text-xs pt-1 font-medium text-colBlack'>Заказы</span>
         </NavLink>
-      ) : (
-        <button
-          onClick={() => {
-            setContent('checkAuth');
-            setOpen(true);
-          }}
-          className='text-center flex flex-col justify-between items-center outline-none'
-        >
-          <img className='mx-auto' src={order} alt='*' />
-          <span className='text-xs pt-1 font-medium text-colBlack'>Заказы</span>
-        </button>
-      )}
       <NavLink
         to='/comparison'
         className='relative text-center flex flex-col justify-between items-center'
@@ -67,9 +65,9 @@ function HeaderControls({ setContent, setOpen }) {
         <span className='text-xs pt-1 font-medium text-colBlack'>
           Сравнение
         </span>
-        {comparison.length > 0 && (
+        {getComparisonCount() > 0 && (
           <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-            {!comparison.length > 99 ? '99+' : comparison.length}
+            {getComparisonCount() > 99 ? '99+' : getComparisonCount()}
           </span>
         )}
       </NavLink>
@@ -81,25 +79,17 @@ function HeaderControls({ setContent, setOpen }) {
         <span className='text-xs pt-1 font-medium text-colBlack'>
           Избранное
         </span>
-        {user
-          ? favorites?.data?.length > 0 && (
-            <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-              {!favorites?.data?.length > 99
-                ? '99+'
-                : favorites?.data?.length}
-            </span>
-          )
-          : favorite.length > 0 && (
-            <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-              {!favorite.length > 99 ? '99+' : favorite.length}
-            </span>
-          )}
+        {getFavoritesCount() > 0 && (
+          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+            {getFavoritesCount() > 99 ? '99+' : getFavoritesCount()}
+          </span>
+        )}
       </NavLink>
-          <CartButton/>
+          <CartButton getCartQuantity={getCartQuantity}/>
       {!isLoading && user?.success ? (
         <ProfileButton name={user?.user?.name} />
       ) : (
-        <LoginButton setContent={setContent} setOpen={setOpen} />
+        <LoginButton />
       )}
     </div>
   );

@@ -4,8 +4,8 @@ import { NavLink } from 'react-router-dom';
 import CTextField from '../../../helpers/CustomInputs/CTextField';
 import ModalSnackbar from '../../../helpers/CModal/ModalSnackbar';
 import arrowIcon from '../../../assets/icons/arrow-icon.svg';
-import { useChangePasswordMutation } from '../../../redux/api/changePassword';
 import { Loading } from '../../../helpers/Loader/Loader';
+import { useChangePasswordMutation } from '../../../redux/api/userEndpoints';
 
 const ChangePassword = () => {
   const [openSnack, setOpenSnack] = useState(false);

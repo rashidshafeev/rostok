@@ -25,6 +25,7 @@ function ProductPage() {
   const [tabIndex, setTabIndex] = useState(3);
 
   useEffect(() => {
+    console.log("to top fired")
     scrollToTop();
   }, []);
 

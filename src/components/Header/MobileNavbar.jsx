@@ -1,6 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import AuthModal from '../../helpers/CModal/AuthModal';
+// import AuthModal from '../../helpers/CModal/AuthModal';
 import { useState } from 'react';
 import homeIcon from '../../assets/icons/mobile-navbar/home.svg';
 import catalogIcon from '../../assets/icons/mobile-navbar/catalog.svg';
@@ -13,6 +13,7 @@ import activeFavoriteIcon from '../../assets/icons/mobile-navbar/active-favorite
 import activeProfileIcon from '../../assets/icons/mobile-navbar/active-profile.svg';
 import activeCartIcon from '../../assets/icons/mobile-navbar/active-cart.svg';
 import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
+import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
 
 const MobileNavbar = () => {
   const { data: favorites } = useGetFavoritesQuery();
