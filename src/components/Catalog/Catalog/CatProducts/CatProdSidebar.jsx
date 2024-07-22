@@ -37,8 +37,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
     highRating: true,
     brands: [],
     tags: [],
-    min_price: Number(filters?.basics?.price?.min) || 0,
-    max_price: Number(filters?.basics?.price?.max) || 0,
+    min_price: Number(filters?.basics?.price?.min),
+    max_price: Number(filters?.basics?.price?.max),
   });
 
   const handleChange = (name, value) => {
@@ -122,6 +122,14 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   useEffect(() => {
     setBreadCrumps(filters?.category_chain);
   }, [filters?.category_chain]);
+
+  useEffect(() => {
+    setFiltersState((prev) => ({
+      ...prev,
+      min_price: Number(filters?.basics?.price?.min),
+      max_price: Number(filters?.basics?.price?.max),
+    }));
+  }, [filters?.basics?.price]);
 
   return (
     <div className='md:block hidden max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -255,58 +263,68 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
             ))}
           </ul>
           <div className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
-            <Accordion
-              sx={{
-                boxShadow: 'none',
-                padding: 0,
-                margin: 0,
-                border: 'none',
-                '&:before': {
-                  display: 'none',
-                },
-                '&.Mui-expanded': {
+            {filters?.basics?.price && (
+              <Accordion
+                sx={{
+                  boxShadow: 'none',
+                  padding: 0,
                   margin: 0,
-                },
-              }}
-              defaultExpanded
-            >
-              <AccordionSummary
-                sx={{ padding: 0, minHeight: 0 }}
-                expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
+                  border: 'none',
+                  '&:before': {
+                    display: 'none',
+                  },
+                  '&.Mui-expanded': {
+                    margin: 0,
+                  },
+                }}
+                defaultExpanded
               >
-                <span className='font-semibold text-colBlack'>Цена, ₽</span>
-              </AccordionSummary>
-              <AccordionDetails sx={{ padding: 0 }}>
-                <div className='grid grid-cols-2 gap-3 pb-3'>
-                  <CTextField
-                    label={`от ${filters?.basics?.price?.min}`}
-                    name='min_price'
-                    type='number'
-                    value={Number(filtersState.min_price)}
-                    onChange={(e) => handleChange('min_price', e.target.value)}
-                  />
-                  <CTextField
-                    label={`до ${filters?.basics?.price?.max}`}
-                    name='max_price'
-                    type='number'
-                    value={Number(filtersState.max_price)}
-                    onChange={(e) => handleChange('max_price', e.target.value)}
-                  />
-                </div>
-                <Box>
-                  <Slider
-                    sx={{ color: '#15765B' }}
-                    size='small'
-                    getAriaLabel={() => 'Price range'}
-                    value={[filtersState?.min_price, filtersState?.max_price]}
-                    min={Number(filters?.basics?.price?.min)}
-                    max={Number(filters?.basics?.price?.max)}
-                    onChange={(event, newValue) => handleSliderChange(newValue)}
-                    valueLabelDisplay='auto'
-                  />
-                </Box>
-              </AccordionDetails>
-            </Accordion>
+                <AccordionSummary
+                  sx={{ padding: 0, minHeight: 0 }}
+                  expandIcon={
+                    <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
+                  }
+                >
+                  <span className='font-semibold text-colBlack'>Цена, ₽</span>
+                </AccordionSummary>
+                <AccordionDetails sx={{ padding: 0 }}>
+                  <div className='grid grid-cols-2 gap-3 pb-3'>
+                    <CTextField
+                      label={`от ${filters?.basics?.price?.min}`}
+                      name='min_price'
+                      type='number'
+                      value={Number(filtersState.min_price)}
+                      onChange={(e) =>
+                        handleChange('min_price', e.target.value)
+                      }
+                    />
+                    <CTextField
+                      label={`до ${filters?.basics?.price?.max}`}
+                      name='max_price'
+                      type='number'
+                      value={Number(filtersState.max_price)}
+                      onChange={(e) =>
+                        handleChange('max_price', e.target.value)
+                      }
+                    />
+                  </div>
+                  <Box>
+                    <Slider
+                      sx={{ color: '#15765B' }}
+                      size='small'
+                      getAriaLabel={() => 'Price range'}
+                      value={[filtersState?.min_price, filtersState?.max_price]}
+                      min={Number(filters?.basics?.price?.min)}
+                      max={Number(filters?.basics?.price?.max)}
+                      onChange={(event, newValue) =>
+                        handleSliderChange(newValue)
+                      }
+                      valueLabelDisplay='auto'
+                    />
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            )}
             {filters?.basics?.brands?.length > 0 && (
               <Accordion
                 sx={{
@@ -330,7 +348,10 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </AccordionSummary>
                 <AccordionDetails sx={{ padding: 0 }}>
                   {filters?.basics?.brands?.map((el) => (
-                    <div key={el?.id}>
+                    <div
+                      className={!el?.is_active && 'opacity-40'}
+                      key={el?.id}
+                    >
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -340,6 +361,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                             }}
                             name='brands'
                             checked={filtersState.brands.includes(el?.id)}
+                            disabled={!el?.is_active}
                             onChange={() =>
                               handleCheckboxChange('brands', el?.id)
                             }
@@ -375,7 +397,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </AccordionSummary>
                 <AccordionDetails sx={{ padding: 0 }}>
                   {filters?.basics?.tags?.map((el, index) => (
-                    <div key={index}>
+                    <div className={!el?.is_active && 'opacity-40'} key={index}>
                       <FormControlLabel
                         control={
                           <Checkbox
@@ -384,6 +406,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                               padding: '5px',
                             }}
                             checked={filtersState.tags.includes(el?.tag)}
+                            disabled={!el?.is_active}
                             onChange={() =>
                               handleCheckboxChange('tags', el?.tag)
                             }
@@ -430,7 +453,10 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                     <AccordionDetails sx={{ padding: 0 }}>
                       <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable2'>
                         {el?.values?.map((val) => (
-                          <div key={val?.id}>
+                          <div
+                            className={!val?.is_active && 'opacity-40'}
+                            key={val?.id}
+                          >
                             <FormControlLabel
                               sx={{ margin: '0' }}
                               control={
@@ -443,6 +469,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                                   checked={filtersState[el?.id]?.includes(
                                     val?.id
                                   )}
+                                  disabled={!val?.is_active}
                                   onChange={() =>
                                     handleCheckboxChange(el?.id, val?.id)
                                   }
@@ -487,12 +514,14 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </p>
               }
             />
-            <button
-              onClick={() => setOpen(true)}
-              className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'
-            >
-              Все фильтры
-            </button>
+            {filters?.more?.length > 0 && (
+              <button
+                onClick={() => setOpen(true)}
+                className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'
+              >
+                Все фильтры
+              </button>
+            )}
             <span
               onClick={handleClearFilters}
               className='text-colDarkGray font-semibold flex justify-center cursor-pointer'

@@ -1,33 +1,29 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, changeQuantity } from '../redux/slices/cartSlice';
 import { toggleFavorite } from '../redux/slices/favoriteSlice';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
-import { toggleComparison } from '../redux/slices/comparisonSlice';;
+import { toggleComparison } from '../redux/slices/comparisonSlice';
 import noImg from '../assets/images/no-image.png';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import {
   useGetFavoritesQuery,
   useRemoveFromFavoritesMutation,
-  useSendFavoritesMutation 
+  useSendFavoritesMutation,
 } from '../redux/api/favoritesEndpoints';
 
-
 const ProductCard = ({ product, recommended }) => {
-  const [sendFavorites, { isLoading: setLoading }] =
-    useSendFavoritesMutation();
+  const [sendFavorites, { isLoading: setLoading }] = useSendFavoritesMutation();
   const [removeFromFavorite, { isLoading: removeLoading }] =
     useRemoveFromFavoritesMutation();
   const { data } = useGetFavoritesQuery();
 
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { cart } = useSelector((state) => state?.cart);
   const { comparison } = useSelector((state) => state?.comparison);
   const { user } = useSelector((state) => state?.user);
   const { favorite } = useSelector((state) => state?.favorite);
-
 
   const isProductInCart = cart?.some((el) => el?.id === product?.id);
   const isProductInFavorite = user
@@ -36,7 +32,7 @@ const ProductCard = ({ product, recommended }) => {
   const isProductInComparison = comparison?.some(
     (el) => el?.id === product?.id
   );
-  const productInCart = cart?.find((el) => el?.id === product?.id)
+  const productInCart = cart?.find((el) => el?.id === product?.id);
 
   const handleToggleFavorite = async (e) => {
     e.preventDefault();
@@ -110,7 +106,7 @@ const ProductCard = ({ product, recommended }) => {
         )}
         <div className='h-[50px] mt-1'>
           <h5 className='font-medium text-sm leading-[120%] text-colBlack line-clamp-3'>
-            {product?.groupName + ' ' + product?.name || 'Не указано'}
+            {product?.fullName || 'Не указано'}
           </h5>
         </div>
         <div className='flex items-end pb-1 h-8'>
@@ -148,21 +144,34 @@ const ProductCard = ({ product, recommended }) => {
           //   Перейти в корзину
           // </button>
           <div className='flex justify-between items-center space-x-3'>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+            <span
+              className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
               onClick={(e) => {
                 e.preventDefault();
-                product?.quantity !== 1 ? dispatch(changeQuantity({product, quantity: -1})) : dispatch(changeQuantity({product, quantity: 0}))}}>
-                <RemoveOutlined className={`${product?.quantity !== 1 ? `text-colGreen` : `text-colGray`} cursor-pointer`} />
-              </span>
-              <span className='text-colGreen font-semibold'>{productInCart?.quantity}</span>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
+                product?.quantity !== 1
+                  ? dispatch(changeQuantity({ product, quantity: -1 }))
+                  : dispatch(changeQuantity({ product, quantity: 0 }));
+              }}
+            >
+              <RemoveOutlined
+                className={`${
+                  product?.quantity !== 1 ? `text-colGreen` : `text-colGray`
+                } cursor-pointer`}
+              />
+            </span>
+            <span className='text-colGreen font-semibold'>
+              {productInCart?.quantity}
+            </span>
+            <span
+              className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(changeQuantity({product, quantity: 1}))}}>
-                <AddOutlined className='text-colGreen cursor-pointer' />
-              </span>
-            </div>
-          
+                dispatch(changeQuantity({ product, quantity: 1 }));
+              }}
+            >
+              <AddOutlined className='text-colGreen cursor-pointer' />
+            </span>
+          </div>
         ) : (
           <button
             onClick={(e) => {
