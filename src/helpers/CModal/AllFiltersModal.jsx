@@ -137,10 +137,6 @@ const AllFiltersModal = ({
     setIsFilterLoading(false);
   };
 
-  const filtersInColumn = filters?.dynamics?.filter(
-    (el) => el?.display_in_filters === '1'
-  );
-
   useEffect(() => {
     setSelectedValuesTwo((prev) => ({
       ...prev,
@@ -427,10 +423,10 @@ const AllFiltersModal = ({
                             )}
                         </div>
                       ))}
-                    {filtersInColumn?.length > 0 &&
-                      filtersInColumn?.map((el) => (
+                    {filters?.dynamics?.length > 0 &&
+                      filters?.dynamics?.map((el) => (
                         <div
-                          className='border-b md:border-b-0 pb-2'
+                          className='md:hidden border-b md:border-b-0 pb-2'
                           key={el?.id}
                         >
                           <div
@@ -502,78 +498,6 @@ const AllFiltersModal = ({
                             )}
                         </div>
                       ))}
-                    {/* {filtersInColumn?.length > 0 &&
-                      filtersInColumn?.map((el, index) => (
-                        <div key={index}>
-                          <Accordion
-                            sx={{
-                              boxShadow: 'none',
-                              padding: 0,
-                            }}
-                            defaultExpanded
-                          >
-                            <AccordionSummary
-                              sx={{ padding: 0 }}
-                              style={{ minHeight: 0 }}
-                              expandIcon={
-                                <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
-                              }
-                            >
-                              <p className='font-semibold text-colBlack line-clamp-2 break-all leading-[120%]'>
-                                {el?.name}
-                              </p>
-                            </AccordionSummary>
-                            <AccordionDetails sx={{ padding: 0 }}>
-                              <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable2'>
-                                {el?.values?.map((val) => (
-                                  <div
-                                    className={!val?.is_active && 'opacity-40'}
-                                    key={val?.id}
-                                  >
-                                    <FormControlLabel
-                                      sx={{ margin: '0' }}
-                                      control={
-                                        <Checkbox
-                                          style={{
-                                            color: '#15765B',
-                                            padding: '5px',
-                                          }}
-                                          name={el?.name}
-                                          // checked={filtersState[el?.id]?.includes(
-                                          //   val?.id
-                                          // )}
-                                          disabled={!val?.is_active}
-                                          onChange={() =>
-                                            handleCheckboxChange(
-                                              el?.id,
-                                              val?.id
-                                            )
-                                          }
-                                        />
-                                      }
-                                      label={
-                                        <div className='flex space-x-2 items-center'>
-                                          {el?.type === 'color' && (
-                                            <span
-                                              style={{
-                                                backgroundColor: val?.color,
-                                              }}
-                                              className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
-                                            ></span>
-                                          )}
-                                          <p className='text-sm font-medium text-colBlack line-clamp-1 break-all'>
-                                            {val?.text}
-                                          </p>
-                                        </div>
-                                      }
-                                    />
-                                  </div>
-                                ))}
-                              </div>
-                            </AccordionDetails>
-                          </Accordion>
-                        </div>
-                      ))} */}
                   </div>
                 </div>
               </div>

@@ -24,10 +24,6 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
   const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
 
-  const filtersInColumn = filters?.dynamics?.filter(
-    (el) => el?.display_in_filters === '1'
-  );
-
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -91,7 +87,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
 
     if (
       updatedFilters[name].length === 0 &&
-      filtersInColumn.some((el) => el.id === name)
+      filters?.dynamics?.some((el) => el?.id === name)
     ) {
       delete updatedFilters[name];
     }
@@ -429,8 +425,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </AccordionDetails>
               </Accordion>
             )}
-            {filtersInColumn?.length > 0 &&
-              filtersInColumn?.map((el, index) => (
+            {filters?.dynamics?.length > 0 &&
+              filters?.dynamics?.map((el, index) => (
                 <div key={index}>
                   <Accordion
                     sx={{
@@ -477,30 +473,44 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                               }
                               label={
                                 <div className='flex items-center'>
-                                  {(el?.type === 'color' && val?.second_color)  && (
-                                    <>
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.color,
-                                      }}
-                                      className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${ val?.color === '#FFFFFF' ? ' border-l border-colGray': ''}`}
-                                    ></span>
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.second_color,
-                                      }}
-                                      className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${ val?.second_color === '#FFFFFF' ? ' border-r border-colGray': ''}`}
-                                    ></span>
-                                    </>
-                                  )}
-                                  {(el?.type === 'color' && !val?.second_color)  && (
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.color,
-                                      }}
-                                      className={`min-w-[20px] min-h-[20px] rounded-full ${ val?.color === '#FFFFFF' ? 'border border-colGray': ''}`}
-                                    ></span>
-                                  )}
+                                  {el?.type === 'color' &&
+                                    val?.second_color && (
+                                      <>
+                                        <span
+                                          style={{
+                                            backgroundColor: val?.color,
+                                          }}
+                                          className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${
+                                            val?.color === '#FFFFFF'
+                                              ? ' border-l border-colGray'
+                                              : ''
+                                          }`}
+                                        ></span>
+                                        <span
+                                          style={{
+                                            backgroundColor: val?.second_color,
+                                          }}
+                                          className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${
+                                            val?.second_color === '#FFFFFF'
+                                              ? ' border-r border-colGray'
+                                              : ''
+                                          }`}
+                                        ></span>
+                                      </>
+                                    )}
+                                  {el?.type === 'color' &&
+                                    !val?.second_color && (
+                                      <span
+                                        style={{
+                                          backgroundColor: val?.color,
+                                        }}
+                                        className={`min-w-[20px] min-h-[20px] rounded-full ${
+                                          val?.color === '#FFFFFF'
+                                            ? 'border border-colGray'
+                                            : ''
+                                        }`}
+                                      ></span>
+                                    )}
                                   <p className='text-sm font-medium text-colBlack line-clamp-1 break-all ml-1'>
                                     {val?.text}
                                   </p>
