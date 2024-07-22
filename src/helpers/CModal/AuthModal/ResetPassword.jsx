@@ -4,10 +4,13 @@ import { Controller, useForm } from 'react-hook-form';
 import CTextField from '../../CustomInputs/CTextField';
 import { KeyboardArrowLeft } from '@mui/icons-material';
 import { Box } from '@mui/material';
+import { useState } from 'react';
+import { useResetPasswordMutation } from '../../../redux/api/userEndpoints';
+import { Loading } from '../../Loader/Loader';
 // import { Loading } from '../Loader/Loader';
-
+Loading
 const ResetPassword = ({ setContent }) => {
-
+ 
     const {
         control,
         handleSubmit,

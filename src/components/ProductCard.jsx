@@ -13,6 +13,7 @@ import ComparisonButton from '../helpers/ComparisonButton/ComparisonButton';
 import AddToCartButton from '../helpers/AddToCartButton/AddToCartButton';
 import { useGetUserCartQuery } from '../redux/api/cartEndpoints';
 import ChangeQuantityGroup from '../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+
 const ProductCard = ({ product, recommended }) => {
   const token = getTokenFromCookies();
 
@@ -25,10 +26,10 @@ const ProductCard = ({ product, recommended }) => {
     <NavLink
       to={product.slug ? `/catalog/${product.category.slug}/${product.slug}` : ''}
       // className={`${setLoading || removeLoading && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500`}
-      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500 flex flex-col justify-between`}
+      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500 flex flex-col justify-between  min-h-[360px]`}
     >
       <div>
-        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-100'>
+        <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200'>
           {product?.files?.length > 0 && (
             <img
               className='w-full h-full object-contain'
@@ -88,7 +89,7 @@ const ProductCard = ({ product, recommended }) => {
           </span>
         </div>
         <div className='flex items-center justify-between gap-1'>
-          <p className='text-xs sm:text-sm text-colText'>{product.name}</p>
+          <p className='text-xs sm:text-sm text-colText'>{product.fullName}</p>
           <span className='line-through text-[8px] sm:text-[10px] text-colText'>
             {product?.price && product?.price?.discount && `${product?.price?.default}  ${product?.price?.currency}`}
           </span>

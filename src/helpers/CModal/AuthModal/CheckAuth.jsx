@@ -22,7 +22,10 @@ const CheckAuth = ({ setContent }) => {
     const onSubmitAuthCheck = async (data) => {
         const check = await registrationCheck(data);
         if (check.data.success) {
-            if (loginType === 'email' || loginType === 'phone') {
+
+            console.log(check.data);
+            if (check.data.login_type === 'email' || check.data.login_type === 'phone') {
+                
                 setContent('authWithEmail');
             }
         } else {

@@ -18,7 +18,7 @@ import { setCart } from '../../../redux/slices/cartSlice';
 import { setToken } from '../../../redux/slices/userSlice';
 
 
-const AuthWithEmail = ({ setContent }) => {
+const AuthWithEmail = ({ hideModal, setContent }) => {
     const {
         control,
         handleSubmit,

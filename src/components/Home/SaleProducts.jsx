@@ -1,10 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import ProductCard from '../ProductCard';
-import { products } from '../../constants/data';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
-// const SaleProducts = ({ data }) => {
 const SaleProducts = () => {
 
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
@@ -16,8 +14,10 @@ const SaleProducts = () => {
       </h1>
       <div className=''>
         <Swiper
+        className='flex h-full'
           modules={[Navigation]}
           navigation={window.innerWidth >= 576}
+          wrapperClass='flex grow'
           spaceBetween={16}
           breakpoints={{
             260: {
@@ -34,8 +34,8 @@ const SaleProducts = () => {
             },
           }}
         >
-          {isSuccess && data?.data?.map((el) => (
-            <SwiperSlide key={el?.id}>
+          {isSuccess && data?.withDiscount?.map((el) => (
+            <SwiperSlide className=' h-full' key={el?.id}>
               <ProductCard product={el} />
             </SwiperSlide>
           ))}

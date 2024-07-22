@@ -9,7 +9,6 @@ import { useModal } from '../../../context/ModalContext';
 
 import modalLogo from '../../../assets/images/modal-logo.svg';
 
-
 import CheckAuth from './CheckAuth';
 import AuthWithEmail from './AuthWithEmail';
 import ResetPassword from './ResetPassword';
@@ -24,21 +23,15 @@ const AuthModal = ({ open, setOpen }) => {
 
     
 
-    const {
-        control,
-        handleSubmit,
-        reset,
-        register,
-        watch,
-        formState: { errors, isValid },
-    } = useForm({ mode: 'onChange' });
+    // const {
+    //     control,
+    //     handleSubmit,
+    //     reset,
+    //     register,
+    //     watch,
+    //     formState: { errors, isValid },
+    // } = useForm({ mode: 'onChange' });
 
-
-  
-
-    const onSubmitRegister = async (data) => {
-        // Register Logic
-    };
 
     if (!isModalVisible) return null;
 
@@ -61,21 +54,17 @@ const AuthModal = ({ open, setOpen }) => {
                     />}
                 {content === 'authWithEmail' &&
                     <AuthWithEmail
-                        control={control}
-                        handleSubmit={handleSubmit}
-                        reset={reset}
+                    hideModal={hideModal}
                         setContent={setContent}
-                        onSubmitAuthWithEmail={onSubmitAuthWithEmail}
                     />
                 }
                 {content === 'resetPassword' && <ResetPassword
-                    control={control}
-                    handleSubmit={handleSubmit}
+                    // control={control}
+                    // handleSubmit={handleSubmit}
                     setContent={setContent}
                 />}
                 {content === 'register' && <Register
-                    control={control}
-                    handleSubmit={handleSubmit}
+                    
                     setContent={setContent}
                 />}
             </Box>
