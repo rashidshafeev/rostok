@@ -66,8 +66,17 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
     handleFetchByFilter(categoryId, updatedFilters);
   };
 
-  const handleSliderChange = (newValue) => {
-    const [newMinPrice, newMaxPrice] = newValue;
+  const [sliderValue, setSliderValue] = useState([
+    filtersState.min_price,
+    filtersState.max_price,
+  ]);
+
+  const handleSliderChange = (event, newValue) => {
+    setSliderValue(newValue);
+  };
+
+  const handleSliderChangeCommitted = () => {
+    const [newMinPrice, newMaxPrice] = sliderValue;
     const updatedFilters = {
       ...filtersState,
       min_price: newMinPrice,
@@ -309,12 +318,11 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                       sx={{ color: '#15765B' }}
                       size='small'
                       getAriaLabel={() => 'Price range'}
-                      value={[filtersState?.min_price, filtersState?.max_price]}
+                      value={sliderValue}
                       min={Number(filters?.basics?.price?.min)}
                       max={Number(filters?.basics?.price?.max)}
-                      onChange={(event, newValue) =>
-                        handleSliderChange(newValue)
-                      }
+                      onChange={handleSliderChange}
+                      onMouseUp={handleSliderChangeCommitted}
                       valueLabelDisplay='auto'
                     />
                   </Box>
