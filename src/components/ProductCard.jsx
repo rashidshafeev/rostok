@@ -28,7 +28,7 @@ const ProductCard = ({ product }) => {
       // className={`${setLoading || removeLoading && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500`}
       className={`${
         false && 'opacity-50 cursor-not-allowed'
-      } overflow-hidden group duration-500 flex flex-col justify-between  min-h-[360px]`}
+      } overflow-hidden group duration-500 flex flex-col justify-between items-stretch `}
     >
       <div>
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200'>

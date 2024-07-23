@@ -28,7 +28,7 @@ function TopControls({product, reviews}) {
     <div className='flex justify-between mb-[10px]'>
           <div className='flex gap-[10px]'>
 
-            <div className='flex'>
+            <button className='flex items-end proportional-nums  lining-nums'>
             <img className='mx-auto mr-1' src={star} alt='*' />
               <span className='text-xs pt-1 mr-2 font-normal text-colBlack'>
                 {reviews.rating}
@@ -36,13 +36,12 @@ function TopControls({product, reviews}) {
               <span className='text-xs pt-1 font-medium text-colDarkGray'>
                 {reviews.total_count_text}
               </span>
-            </div>
+            </button>
             
             
             
             
-            <NavLink
-              to='#'
+            <button
               className='text-center flex flex-row justify-between items-center'
               onClick={(e) => {
                 dispatch(toggleComparison(product));
@@ -52,9 +51,8 @@ function TopControls({product, reviews}) {
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 Сравнить
               </span>
-            </NavLink>
-            <NavLink
-              to='#'
+            </button>
+            <button 
               className='text-center flex flex-row justify-between items-center'
               onClick={(e) => {
                 dispatch(toggleFavorite(product));
@@ -64,38 +62,35 @@ function TopControls({product, reviews}) {
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 В избранное
               </span>
-            </NavLink>
-            <NavLink
-              to='#'
+            </button>
+            <button 
               className='text-center flex flex-row justify-between items-center'
             >
               <img className='mx-auto mr-1' src={share} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 Поделиться
               </span>
-            </NavLink>
+            </button>
 
           </div>
 
           <div className='flex gap-[10px]'>
-            <NavLink
-              to='#'
+            <button 
               className='text-center flex flex-row justify-between items-center'
             >
               <img className='mx-auto mr-1' src={downloadpdf} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 Скачать PDF
               </span>
-            </NavLink>
-            <NavLink
-              to='#'
+            </button>
+            <button 
               className='text-center flex flex-row justify-between items-center'
             >
               <img className='mx-auto mr-1' src={print} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 Распечатать
               </span>
-            </NavLink>
+            </button>
           </div>
 
 

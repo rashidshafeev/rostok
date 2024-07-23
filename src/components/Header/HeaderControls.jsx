@@ -66,7 +66,7 @@ function HeaderControls() {
           Сравнение
         </span>
         {getComparisonCount() > 0 && (
-          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1 -z-10'>
             {getComparisonCount() > 99 ? '99+' : getComparisonCount()}
           </span>
         )}
@@ -80,7 +80,7 @@ function HeaderControls() {
           Избранное
         </span>
         {getFavoritesCount() > 0 && (
-          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
+          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1 -z-10'>
             {getFavoritesCount() > 99 ? '99+' : getFavoritesCount()}
           </span>
         )}

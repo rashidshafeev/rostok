@@ -49,8 +49,11 @@ const ResetPassword = ({ setContent }) => {
     };
 
     return (
-        <Box>
-            {/* Content of ResetPassword */}
+        // <Box>
+        <>
+        <h1 className="text-3xl text-colBlack text-center py-5 font-semibold">
+        Сброс пароля
+      </h1>
             <form onSubmit={handleSubmit(onSubmitResetPassword)}>
                 <Controller
                     name="email"
@@ -68,14 +71,15 @@ const ResetPassword = ({ setContent }) => {
                 <button className="w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold">
                     Сбросить пароль
                 </button>
-                <p onClick={() => setContent('authWithEmail')} className="text-center mt-4 text-colGray2 font-medium cursor-pointer">
+                {/* <p onClick={() => setContent('authWithEmail')} className="text-center mt-4 text-colGray2 font-medium cursor-pointer">
                     <KeyboardArrowLeft className="!w-5" /> Назад
-                </p>
+                </p> */}
                 {isLoading && <Loading />}
                 {resPassword.successTxt && <p className="text-center mt-4 text-green-500 font-medium">{resPassword.successTxt}</p>}
                 {resPassword.errorTxt && <p className="text-center mt-4 text-red-500 font-medium">{resPassword.errorTxt}</p>}
             </form>
-        </Box>
+            </>
+        // </Box>
     );
 };
 

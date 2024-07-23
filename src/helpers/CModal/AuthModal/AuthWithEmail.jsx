@@ -77,8 +77,7 @@ const AuthWithEmail = ({ hideModal, setContent }) => {
 
 
     return (
-        <Box>
-            {/* Content of AuthWithEmail */}
+        // <Box>
             <form onSubmit={handleSubmit(onSubmitAuthWithEmail)}>
                 <Controller
                     name="login"
@@ -128,7 +127,7 @@ const AuthWithEmail = ({ hideModal, setContent }) => {
                     Забыли пароль?
                 </p>
             </form>
-        </Box>
+        // </Box>
     );
 };
 

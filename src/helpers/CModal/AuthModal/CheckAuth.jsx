@@ -34,7 +34,8 @@ const CheckAuth = ({ setContent }) => {
     };
 
     return (
-        <Box>
+        // <Box>
+        <>
             <h1 className='text-2xl mm:text-3xl text-colBlack text-center pt-2 pb-8 font-semibold'>
                   Вход или Регистрация
         </h1>
@@ -58,7 +59,9 @@ const CheckAuth = ({ setContent }) => {
                     <KeyboardArrowRight className="!w-5" />
                 </button>
             </form>
-        </Box>
+            </>
+        // </Box>
+        
     );
 };
 
