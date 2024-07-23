@@ -1,12 +1,8 @@
 // src/components/ProductCard.js
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, changeQuantity, removeFromCart } from '../redux/slices/cartSlice';
-import { addToFavorite, removeFromFavorite } from '../redux/slices/favoriteSlice';
-import { addToComparison, removeFromComparison } from '../redux/slices/comparisonSlice';
+import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
 import noImg from '../assets/images/no-image.png';
-import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { getTokenFromCookies } from '../helpers/cookies/cookies';
 import FavoriteButton from '../helpers/FavoriteButton/FavoriteButton';
 import ComparisonButton from '../helpers/ComparisonButton/ComparisonButton';
@@ -14,19 +10,25 @@ import AddToCartButton from '../helpers/AddToCartButton/AddToCartButton';
 import { useGetUserCartQuery } from '../redux/api/cartEndpoints';
 import ChangeQuantityGroup from '../helpers/ChangeQuantityButton/ChangeQuantityGroup';
 
-const ProductCard = ({ product, recommended }) => {
+const ProductCard = ({ product }) => {
   const token = getTokenFromCookies();
 
   const { cart } = useSelector((state) => state.cart);
   const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
 
-  const productInCart = token ? cartData?.data?.find((el) => el.id === product.id) : cart.find((el) => el.id === product.id);
-  
+  const productInCart = token
+    ? cartData?.data?.find((el) => el.id === product.id)
+    : cart.find((el) => el.id === product.id);
+
   return (
     <NavLink
-      to={product.slug ? `/catalog/${product.category.slug}/${product.slug}` : ''}
+      to={
+        product.slug ? `/catalog/${product.category.slug}/${product.slug}` : ''
+      }
       // className={`${setLoading || removeLoading && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500`}
-      className={`${false && 'opacity-50 cursor-not-allowed'} overflow-hidden group duration-500 flex flex-col justify-between  min-h-[360px]`}
+      className={`${
+        false && 'opacity-50 cursor-not-allowed'
+      } overflow-hidden group duration-500 flex flex-col justify-between  min-h-[360px]`}
     >
       <div>
         <div className='group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200'>
@@ -69,7 +71,6 @@ const ProductCard = ({ product, recommended }) => {
               />
             )}
           </ComparisonButton>
-
         </div>
       </div>
       <div className='lining-nums proportional-nums mt-2 flex flex-col gap-1'>
@@ -91,24 +92,26 @@ const ProductCard = ({ product, recommended }) => {
         <div className='flex items-center justify-between gap-1'>
           <p className='text-xs sm:text-sm text-colText'>{product.fullName}</p>
           <span className='line-through text-[8px] sm:text-[10px] text-colText'>
-            {product?.price && product?.price?.discount && `${product?.price?.default}  ${product?.price?.currency}`}
+            {product?.price &&
+              product?.price?.discount &&
+              `${product?.price?.default}  ${product?.price?.currency}`}
           </span>
         </div>
         {!productInCart && (
           <AddToCartButton product={product}>
-          {({ handleAddToCartClick }) => (
-            <button
-            onClick={handleAddToCartClick}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
-            >
-              В корзину
-            </button>
-          )}
-        </AddToCartButton>
+            {({ handleAddToCartClick }) => (
+              <button
+                onClick={handleAddToCartClick}
+                className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+              >
+                В корзину
+              </button>
+            )}
+          </AddToCartButton>
         )}
-        {productInCart && 
-            <ChangeQuantityGroup product={productInCart} enableRemove={true}/>
-          }
+        {productInCart && (
+          <ChangeQuantityGroup product={productInCart} enableRemove={true} />
+        )}
       </div>
     </NavLink>
   );

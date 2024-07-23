@@ -96,7 +96,7 @@ const ChangePassword = () => {
           </div>
           <div>
             <CTextField
-              label='Повторите пароль'
+              label='Повторите новый пароль'
               type='password'
               icon
               {...register('password_confirmation', {
