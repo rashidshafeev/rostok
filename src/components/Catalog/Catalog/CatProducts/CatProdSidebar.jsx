@@ -18,15 +18,11 @@ import {
   useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/productEndpoints';
 
-const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
+const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterParams }) => {
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
-
-  const filtersInColumn = filters?.dynamics?.filter(
-    (el) => el?.display_in_filters === '1'
-  );
+  const { data: filters } = useGetFiltersOfProductsQuery({categoryId, filterParams});
 
   const [accordion, setAccordion] = useState({
     parent: null,
@@ -40,6 +36,40 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
     min_price: Number(filters?.basics?.price?.min),
     max_price: Number(filters?.basics?.price?.max),
   });
+  const [sliderValue, setSliderValue] = useState([
+    filtersState.min_price,
+    filtersState.max_price,
+  ]);
+
+  const handleSliderChangeCommitted = () => {
+    const [newMinPrice, newMaxPrice] = sliderValue;
+    const updatedFilters = {
+      ...filtersState,
+      min_price: newMinPrice,
+      max_price: newMaxPrice,
+    };
+    setFiltersState(updatedFilters);
+    handleFetchByFilter(categoryId, updatedFilters);
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    const updatedFilters = {
+      ...filtersState,
+      [name]: filtersState[name]?.includes(value)
+        ? filtersState[name].filter((item) => item !== value)
+        : [...(filtersState[name] || []), value],
+    };
+
+    if (
+      updatedFilters[name].length === 0 &&
+      filters?.dynamics?.some((el) => el?.id === name)
+    ) {
+      delete updatedFilters[name];
+    }
+
+    setFiltersState(updatedFilters);
+    handleFetchByFilter(categoryId, updatedFilters);
+  };
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersState };
@@ -64,36 +94,6 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
         ...updatedFilters,
         [name]: value,
       };
-    }
-
-    setFiltersState(updatedFilters);
-    handleFetchByFilter(categoryId, updatedFilters);
-  };
-
-  const handleSliderChange = (newValue) => {
-    const [newMinPrice, newMaxPrice] = newValue;
-    const updatedFilters = {
-      ...filtersState,
-      min_price: newMinPrice,
-      max_price: newMaxPrice,
-    };
-    setFiltersState(updatedFilters);
-    handleFetchByFilter(categoryId, updatedFilters);
-  };
-
-  const handleCheckboxChange = (name, value) => {
-    const updatedFilters = {
-      ...filtersState,
-      [name]: filtersState[name]?.includes(value)
-        ? filtersState[name].filter((item) => item !== value)
-        : [...(filtersState[name] || []), value],
-    };
-
-    if (
-      updatedFilters[name].length === 0 &&
-      filtersInColumn.some((el) => el.id === name)
-    ) {
-      delete updatedFilters[name];
     }
 
     setFiltersState(updatedFilters);
@@ -316,9 +316,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                       value={[filtersState?.min_price, filtersState?.max_price]}
                       min={Number(filters?.basics?.price?.min)}
                       max={Number(filters?.basics?.price?.max)}
-                      onChange={(event, newValue) =>
-                        handleSliderChange(newValue)
-                      }
+                      onChange={(event, newValue) => setSliderValue(newValue)}
+                      onMouseUp={handleSliderChangeCommitted}
                       valueLabelDisplay='auto'
                     />
                   </Box>
@@ -429,8 +428,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                 </AccordionDetails>
               </Accordion>
             )}
-            {filtersInColumn?.length > 0 &&
-              filtersInColumn?.map((el, index) => (
+            {filters?.dynamics?.length > 0 &&
+              filters?.dynamics?.map((el, index) => (
                 <div key={index}>
                   <Accordion
                     sx={{
@@ -477,30 +476,44 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                               }
                               label={
                                 <div className='flex items-center'>
-                                  {(el?.type === 'color' && val?.second_color)  && (
-                                    <>
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.color,
-                                      }}
-                                      className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${ val?.color === '#FFFFFF' ? ' border-l border-colGray': ''}`}
-                                    ></span>
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.second_color,
-                                      }}
-                                      className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${ val?.second_color === '#FFFFFF' ? ' border-r border-colGray': ''}`}
-                                    ></span>
-                                    </>
-                                  )}
-                                  {(el?.type === 'color' && !val?.second_color)  && (
-                                    <span
-                                      style={{
-                                        backgroundColor: val?.color,
-                                      }}
-                                      className={`min-w-[20px] min-h-[20px] rounded-full ${ val?.color === '#FFFFFF' ? 'border border-colGray': ''}`}
-                                    ></span>
-                                  )}
+                                  {el?.type === 'color' &&
+                                    val?.second_color && (
+                                      <>
+                                        <span
+                                          style={{
+                                            backgroundColor: val?.color,
+                                          }}
+                                          className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${
+                                            val?.color === '#FFFFFF'
+                                              ? ' border-l border-colGray'
+                                              : ''
+                                          }`}
+                                        ></span>
+                                        <span
+                                          style={{
+                                            backgroundColor: val?.second_color,
+                                          }}
+                                          className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${
+                                            val?.second_color === '#FFFFFF'
+                                              ? ' border-r border-colGray'
+                                              : ''
+                                          }`}
+                                        ></span>
+                                      </>
+                                    )}
+                                  {el?.type === 'color' &&
+                                    !val?.second_color && (
+                                      <span
+                                        style={{
+                                          backgroundColor: val?.color,
+                                        }}
+                                        className={`min-w-[20px] min-h-[20px] rounded-full ${
+                                          val?.color === '#FFFFFF'
+                                            ? 'border border-colGray'
+                                            : ''
+                                        }`}
+                                      ></span>
+                                    )}
                                   <p className='text-sm font-medium text-colBlack line-clamp-1 break-all ml-1'>
                                     {val?.text}
                                   </p>

@@ -27,7 +27,25 @@ export const productEndpoints = (builder) => ({
     staleTime: 60000,
   }),
   getFiltersOfProducts: builder.query({
-    query: (id) => `api/Products/filters/?category_id=${id || ''}`,
+    query: ({ categoryId, filterParams }) => {
+      const { filterOptionsWithPage } = filterParams;
+      const getStringifiedFilters = (filters) => {
+        return filters?.length > 0 ? `["${filters.join('","')}"]` : '';
+      };
+      const sendParams = {
+        category_id: categoryId || '',
+        brands: getStringifiedFilters(filterOptionsWithPage?.brands),
+        tags: getStringifiedFilters(filterOptionsWithPage?.tags),
+        min_price: filterOptionsWithPage?.min_price || '',
+        max_price: filterOptionsWithPage?.max_price || '',
+      };
+      const params = new URLSearchParams({
+        category_id: categoryId || '',
+        ...sendParams,
+      }).toString();
+      console.log('filterOptionsWithPage', filterOptionsWithPage);
+      return `api/Products/filters/?${params}`;
+    },
     staleTime: 60000,
   }),
   getMainPageData: builder.query({
@@ -46,5 +64,5 @@ export const {
   useGetCategoryTreeQuery,
   useGetProductsByCategoryQuery,
   useGetFiltersOfProductsQuery,
-  useGetMainPageDataQuery
+  useGetMainPageDataQuery,
 } = api.injectEndpoints({ endpoints: productEndpoints });

@@ -5,15 +5,14 @@ export const fetchSearchResults = async (searchQuery, filtersValue, page) => {
     const queryParams = {
       page: page || '',
       search: searchQuery,
-      min_price: '',
-      max_price: '',
+      min_price: filtersValue?.min_price || '',
+      max_price: filtersValue?.max_price || '',
       category_id: '',
-      brands: '',
-      tags: '',
-      filters: '', // Начальное значение пустое
+      // brands: filtersValue?.brands || '',
+      // tags: filtersValue?.tags || '',
+      filters: '',
     };
 
-    // Преобразуем фильтры из filtersValue в нужный формат для параметра filters
     const filters = {};
 
     Object.keys(filtersValue).forEach((key) => {

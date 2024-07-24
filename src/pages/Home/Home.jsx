@@ -16,8 +16,7 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
 const Home = () => {
-
-  const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
+  const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
 
   const componentMap = {
     slider: Banner,
@@ -54,7 +53,7 @@ const Home = () => {
   //     <div className='content'>
   //       <FurnitureFittings />
   //      <Brands  />
-  //     <Advantages /> 
+  //     <Advantages />
   //     </div>
   //   </>
   // );\

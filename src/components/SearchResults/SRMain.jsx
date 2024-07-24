@@ -50,7 +50,7 @@ const SRMain = () => {
       setProducts(data);
     }
   };
-
+  
   useEffect(() => {
     const handleSearchResults = async () => {
       setIsLoading(true);
