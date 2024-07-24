@@ -131,10 +131,9 @@ const SearchFiltersModal = ({
             </div>
             {isLoading || filterLoading ? (
               <Loading />
-            ) : filters?.basics &&
-              Object.keys(filters.basics).length > 0 &&
-              filters?.dynamics &&
-              filters.dynamics.length > 0 ? (
+            ) : (filters?.basics && Object.keys(filters.basics).length > 0) ||
+              filters.dynamics.length > 0 ||
+              filters.more.length > 0 ? (
               <div className='mt-2 pr-3 md:border-t md:border-b border-[#EBEBEB] overflow-y-scroll overflow-hidden h-[calc(100vh_-_136px)] md:h-[calc(100vh_-_205px)] lg:h-[92%]'>
                 <div className='pt-5'>
                   <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>

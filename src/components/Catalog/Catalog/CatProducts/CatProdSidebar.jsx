@@ -36,44 +36,10 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
     min_price: Number(filters?.basics?.price?.min),
     max_price: Number(filters?.basics?.price?.max),
   });
-
-  const handleChange = (name, value) => {
-    let updatedFilters = { ...filtersState };
-
-    if (name === 'min_price' && parseInt(value) > filtersState.max_price) {
-      updatedFilters = {
-        ...updatedFilters,
-        min_price: parseInt(value),
-        max_price: parseInt(value),
-      };
-    } else if (
-      name === 'max_price' &&
-      parseInt(value) < filtersState.min_price
-    ) {
-      updatedFilters = {
-        ...updatedFilters,
-        max_price: parseInt(value),
-        min_price: parseInt(value),
-      };
-    } else {
-      updatedFilters = {
-        ...updatedFilters,
-        [name]: value,
-      };
-    }
-
-    setFiltersState(updatedFilters);
-    handleFetchByFilter(categoryId, updatedFilters);
-  };
-
   const [sliderValue, setSliderValue] = useState([
     filtersState.min_price,
     filtersState.max_price,
   ]);
-
-  const handleSliderChange = (event, newValue) => {
-    setSliderValue(newValue);
-  };
 
   const handleSliderChangeCommitted = () => {
     const [newMinPrice, newMaxPrice] = sliderValue;
@@ -99,6 +65,35 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
       filters?.dynamics?.some((el) => el?.id === name)
     ) {
       delete updatedFilters[name];
+    }
+
+    setFiltersState(updatedFilters);
+    handleFetchByFilter(categoryId, updatedFilters);
+  };
+
+  const handleChange = (name, value) => {
+    let updatedFilters = { ...filtersState };
+
+    if (name === 'min_price' && parseInt(value) > filtersState.max_price) {
+      updatedFilters = {
+        ...updatedFilters,
+        min_price: parseInt(value),
+        max_price: parseInt(value),
+      };
+    } else if (
+      name === 'max_price' &&
+      parseInt(value) < filtersState.min_price
+    ) {
+      updatedFilters = {
+        ...updatedFilters,
+        max_price: parseInt(value),
+        min_price: parseInt(value),
+      };
+    } else {
+      updatedFilters = {
+        ...updatedFilters,
+        [name]: value,
+      };
     }
 
     setFiltersState(updatedFilters);
@@ -318,10 +313,10 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
                       sx={{ color: '#15765B' }}
                       size='small'
                       getAriaLabel={() => 'Price range'}
-                      value={sliderValue}
+                      value={[filtersState?.min_price, filtersState?.max_price]}
                       min={Number(filters?.basics?.price?.min)}
                       max={Number(filters?.basics?.price?.max)}
-                      onChange={handleSliderChange}
+                      onChange={(event, newValue) => setSliderValue(newValue)}
                       onMouseUp={handleSliderChangeCommitted}
                       valueLabelDisplay='auto'
                     />

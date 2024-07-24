@@ -26,13 +26,24 @@ const SRSidebar = ({
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({});
 
-  const filtersInColumn = filters?.dynamics?.filter(
-    (el) => el?.display_in_filters === '1'
-  );
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchQuery = searchParams.get('search');
+
+  const [sliderValue, setSliderValue] = useState([
+    filtersValue.min_price,
+    filtersValue.max_price,
+  ]);
+
+  const handleSliderChangeCommitted = () => {
+    const [newMinPrice, newMaxPrice] = sliderValue;
+    const updatedFilters = {
+      ...filtersValue,
+      min_price: newMinPrice,
+      max_price: newMaxPrice,
+    };
+    setFiltersValue(updatedFilters);
+  };
 
   const handleChange = (name, value) => {
     let updatedFilters = { ...filtersValue };
@@ -62,16 +73,6 @@ const SRSidebar = ({
     setFiltersValue(updatedFilters);
   };
 
-  const handleSliderChange = (newValue) => {
-    const [newMinPrice, newMaxPrice] = newValue;
-    const updatedFilters = {
-      ...filtersValue,
-      min_price: newMinPrice,
-      max_price: newMaxPrice,
-    };
-    setFiltersValue(updatedFilters);
-  };
-
   const handleCheckboxChange = (name, value) => {
     const updatedFilters = {
       ...filtersValue,
@@ -82,7 +83,7 @@ const SRSidebar = ({
 
     if (
       updatedFilters[name].length === 0 &&
-      filtersInColumn.some((el) => el.id === name)
+      filters?.dynamics?.some((el) => el.id === name)
     ) {
       delete updatedFilters[name];
     }
@@ -131,58 +132,67 @@ const SRSidebar = ({
       ) : (
         <>
           <div className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
-            <Accordion
-              sx={{
-                boxShadow: 'none',
-                padding: 0,
-                margin: 0,
-                border: 'none',
-                '&:before': {
-                  display: 'none',
-                },
-                '&.Mui-expanded': {
+            {filters?.basics?.price && (
+              <Accordion
+                sx={{
+                  boxShadow: 'none',
+                  padding: 0,
                   margin: 0,
-                },
-              }}
-              defaultExpanded
-            >
-              <AccordionSummary
-                sx={{ padding: 0, minHeight: 0 }}
-                expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
+                  border: 'none',
+                  '&:before': {
+                    display: 'none',
+                  },
+                  '&.Mui-expanded': {
+                    margin: 0,
+                  },
+                }}
+                defaultExpanded
               >
-                <span className='font-semibold text-colBlack'>Цена, ₽</span>
-              </AccordionSummary>
-              <AccordionDetails sx={{ padding: 0 }}>
-                <div className='grid grid-cols-2 gap-3 pb-3'>
-                  <CTextField
-                    label={`от ${filters?.basics?.price?.min}`}
-                    name='min_price'
-                    type='number'
-                    value={filtersValue.min_price}
-                    onChange={(e) => handleChange('min_price', e.target.value)}
-                  />
-                  <CTextField
-                    label={`до ${filters?.basics?.price?.max}`}
-                    name='max_price'
-                    type='number'
-                    value={filtersValue.max_price}
-                    onChange={(e) => handleChange('max_price', e.target.value)}
-                  />
-                </div>
-                <Box>
-                  <Slider
-                    sx={{ color: '#15765B' }}
-                    size='small'
-                    getAriaLabel={() => 'Price range'}
-                    value={[filtersValue?.min_price, filtersValue?.max_price]}
-                    min={Number(filters?.basics?.price?.min)}
-                    max={Number(filters?.basics?.price?.max)}
-                    onChange={(event, newValue) => handleSliderChange(newValue)}
-                    valueLabelDisplay='auto'
-                  />
-                </Box>
-              </AccordionDetails>
-            </Accordion>
+                <AccordionSummary
+                  sx={{ padding: 0, minHeight: 0 }}
+                  expandIcon={
+                    <ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />
+                  }
+                >
+                  <span className='font-semibold text-colBlack'>Цена, ₽</span>
+                </AccordionSummary>
+                <AccordionDetails sx={{ padding: 0 }}>
+                  <div className='grid grid-cols-2 gap-3 pb-3'>
+                    <CTextField
+                      label={`от ${filters?.basics?.price?.min}`}
+                      name='min_price'
+                      type='number'
+                      value={filtersValue.min_price}
+                      onChange={(e) =>
+                        handleChange('min_price', e.target.value)
+                      }
+                    />
+                    <CTextField
+                      label={`до ${filters?.basics?.price?.max}`}
+                      name='max_price'
+                      type='number'
+                      value={filtersValue.max_price}
+                      onChange={(e) =>
+                        handleChange('max_price', e.target.value)
+                      }
+                    />
+                  </div>
+                  <Box>
+                    <Slider
+                      sx={{ color: '#15765B' }}
+                      size='small'
+                      getAriaLabel={() => 'Price range'}
+                      value={[filtersValue?.min_price, filtersValue?.max_price]}
+                      min={Number(filters?.basics?.price?.min)}
+                      max={Number(filters?.basics?.price?.max)}
+                      onChange={(event, newValue) => setSliderValue(newValue)}
+                      onMouseUp={handleSliderChangeCommitted}
+                      valueLabelDisplay='auto'
+                    />
+                  </Box>
+                </AccordionDetails>
+              </Accordion>
+            )}
             {filters?.basics?.brands?.length > 0 && (
               <Accordion
                 sx={{
@@ -289,8 +299,8 @@ const SRSidebar = ({
                 </AccordionDetails>
               </Accordion>
             )}
-            {filtersInColumn?.length > 0 &&
-              filtersInColumn?.map((el, index) => (
+            {filters?.dynamics?.length > 0 &&
+              filters?.dynamics?.map((el, index) => (
                 <div key={index}>
                   <Accordion
                     sx={{
@@ -367,12 +377,14 @@ const SRSidebar = ({
                 </p>
               }
             />
-            <button
-              onClick={() => setOpen(true)}
-              className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'
-            >
-              Все фильтры
-            </button>
+            {filters?.more?.length > 0 && (
+              <button
+                onClick={() => setOpen(true)}
+                className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'
+              >
+                Все фильтры
+              </button>
+            )}
             <span
               onClick={handleClearFilters}
               className='text-colDarkGray font-semibold flex justify-center cursor-pointer'

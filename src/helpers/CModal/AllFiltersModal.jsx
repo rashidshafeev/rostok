@@ -172,10 +172,9 @@ const AllFiltersModal = ({
               <Loading />
             ) : isError ? (
               <ErrorServer errorMessage='Что-то пошло не так! Пожалуйста, повторите попытку еще раз.' />
-            ) : filters?.basics &&
-              Object.keys(filters.basics).length > 0 &&
-              filters?.dynamics &&
-              filters.dynamics.length > 0 ? (
+            ) : (filters?.basics && Object.keys(filters.basics).length > 0) ||
+              filters.dynamics.length > 0 ||
+              filters.more.length > 0 ? (
               <div className='mt-2 pr-2 lg:pr-5 md:border-t border-b border-[#EBEBEB] overflow-y-scroll scrollable overflow-hidden h-[calc(100vh_-_124px)] mm:h-[calc(100vh_-_185px)] lg:h-[92%]'>
                 <div className='pt-5'>
                   <div className='grid mm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-5 lg:gap-8'>
