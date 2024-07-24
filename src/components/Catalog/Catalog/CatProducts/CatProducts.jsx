@@ -29,15 +29,19 @@ const CatProducts = () => {
     categoryId,
   });
 
-  const [breadCrumps, setBreadCrumps] = useState([]);
-  const [isLoading, setIsLoading] = useState(loading);
-  const [open, setOpen] = useState(false);
-  const [catProducts, setCatProducts] = useState(loading ? [] : data);
   const [filters, setFilters] = useState({
     filterOptions: {},
     sortOption: null,
   });
-
+  const [breadCrumps, setBreadCrumps] = useState([]);
+  const [isLoading, setIsLoading] = useState(loading);
+  const [open, setOpen] = useState(false);
+  const [catProducts, setCatProducts] = useState(loading ? [] : data);
+  const [filterParams, setFilterParams] = useState({
+    filterOptionsWithPage: {},
+    sortOption: {},
+  });
+  
   const handleFetchProducts = async (id, filterOptions, sortOption) => {
     setIsLoading(true);
     const filterOptionsWithPage = {
@@ -52,6 +56,10 @@ const CatProducts = () => {
       filters.selectedValuesTwo,
       secondUrl === 'tags' && searchParam
     );
+    setFilterParams({
+      filterOptionsWithPage: filterOptionsWithPage,
+      sortOption: sortOption,
+    });
     if (success) {
       setCatProducts(data);
     }
@@ -134,6 +142,7 @@ const CatProducts = () => {
           setBreadCrumps={setBreadCrumps}
           handleFetchByFilter={handleFetchByFilter}
           setOpen={setOpen}
+          filterParams={filterParams}
         />
         <CatProdContent
           catProducts={catProducts}
@@ -153,6 +162,7 @@ const CatProducts = () => {
         setCatProducts={setCatProducts}
         allFilters={filters}
         setFilters={setFilters}
+        filterParams={filterParams}
       />
     </div>
   );

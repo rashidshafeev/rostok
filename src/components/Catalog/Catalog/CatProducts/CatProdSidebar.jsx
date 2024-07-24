@@ -18,11 +18,11 @@ import {
   useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/productEndpoints';
 
-const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen }) => {
+const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterParams }) => {
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-  const { data: filters } = useGetFiltersOfProductsQuery(categoryId);
+  const { data: filters } = useGetFiltersOfProductsQuery({categoryId, filterParams});
 
   const [accordion, setAccordion] = useState({
     parent: null,

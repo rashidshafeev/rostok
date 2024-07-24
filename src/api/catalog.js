@@ -29,7 +29,7 @@ export const fetchCategoryProducts = async (
       page: filters.page || '',
     };
 
-    const filtersString = Object.entries({ ...filters, ...allFilters })
+    const filtersString = Object.entries(allFilters)
       .filter(([, values]) => Array.isArray(values) && values.length > 0)
       .map(([filterId, values]) => `"${filterId}":${JSON.stringify(values)}`)
       .join(',');

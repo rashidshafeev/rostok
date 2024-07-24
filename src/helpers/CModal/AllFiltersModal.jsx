@@ -12,16 +12,17 @@ import { useGetFiltersOfProductsQuery } from '../../redux/api/productEndpoints';
 const AllFiltersModal = ({
   open,
   setOpen,
-  category,
+  category: categoryId,
   setCatProducts,
   allFilters,
   setFilters,
+  filterParams,
 }) => {
   const {
     isLoading,
     isError,
     data: filters,
-  } = useGetFiltersOfProductsQuery(category);
+  } = useGetFiltersOfProductsQuery({ categoryId, filterParams });
 
   const [accordion, setAccordion] = useState([]);
   const [selectedValues, setSelectedValues] = useState({});
@@ -118,7 +119,7 @@ const AllFiltersModal = ({
   const onSubmit = async () => {
     setIsFilterLoading(true);
     const { success, data } = await fetchCategoryProducts(
-      category,
+      categoryId,
       allFilters.filterOptions,
       allFilters.sortOption,
       selectedValues,
