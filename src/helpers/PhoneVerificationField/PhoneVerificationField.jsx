@@ -3,8 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
-import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints';
-
+import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints'; 
 const PhoneVerificationField = ({ user }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();
   const phone = watch('phone');
@@ -12,7 +11,9 @@ const PhoneVerificationField = ({ user }) => {
   const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 //   const [miniLoading, setMiniLoading] = useState(false);
-  const [verification, setVerification] = useState({ verification: null });
+  const [verification, setVerification] = useState({ success: null });
+
+  
 
   const [sendVerificationCode, { isLoading: sendVerificationIsLoading, isSuccess: sendVerificationIsSuccess }] = useSendVerificationCodeMutation();
   const [confirmVerificationCode, { isLoading: confirmVerificationIsLoading, isSuccess: confirmVerificationIsSuccess }] = useConfirmVerificationCodeMutation();
@@ -52,13 +53,20 @@ const PhoneVerificationField = ({ user }) => {
   }, [timer]);
 
   useEffect(() => {
-            trigger('phone');
-
+            // trigger('phone');
   }, [verification]);
+
+  useEffect(() => {
+    
+    if (user?.user?.phone) {
+      setVerification({ ...verification, success: 'ok'})
+    }
+  }, [])
 
   return (
     <div className='flex flex-wrap gap-2'>
-      <div className='md:w-[340px] w-[calc(100%-148px)]'>
+      {/* <div className='md:w-[340px] w-[calc(100%-148px)]'> */}
+      <div className='grow'>
         <Controller
           name='phone'
           control={control}
@@ -81,8 +89,8 @@ const PhoneVerificationField = ({ user }) => {
           }}
           render={({ field }) => (
             <CPhoneField
-              disabled={verification?.success === 'ok' || user?.user?.phone}
-              success={verification?.success === 'ok' || user?.user?.phone}
+              disabled={verification?.success === 'ok'}
+              success={verification?.success === 'ok'}
             //   fail={!(verification?.verification === null) && !(verification?.verification || user?.user?.phone)}
             //   loading={miniLoading}
               label='Телефон' {...field} />
@@ -104,7 +112,7 @@ const PhoneVerificationField = ({ user }) => {
         </button>
       }
       <div className='flex flex-col'>
-      {((sendVerificationIsSuccess || user?.user?.phone) && verification?.success !== 'ok') && 
+      {(sendVerificationIsSuccess && verification?.success !== 'ok' ) && 
           <input
             type='text'
             placeholder='Код из смс'

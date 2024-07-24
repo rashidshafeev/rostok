@@ -108,24 +108,25 @@ const Register = ({ setContent }) => {
   };
 
   return (
-    <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-4 mm:px-8 pt-10 pb-4 mm:pb-5 max-w-[500px] w-[95%] mm:w-full overflow-y-scroll scrollable h-[95%] xs:h-auto">
-      <span
-        onClick={() => {
-          setContent("checkAuth");
-          setResError(null);
-          reset();
-        }}
-        className="absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4"
-      >
-        <KeyboardArrowLeft className="!w-4 pb-[2px]" />
-        Назад
-      </span>
-      <span
-        onClick={() => hideModal()}
-        className="absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4"
-      >
-        &times;
-      </span>
+    // <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-4 mm:px-8 pt-10 pb-4 mm:pb-5 max-w-[500px] w-[95%] mm:w-full overflow-y-scroll scrollable h-[95%] xs:h-auto">
+      // <span
+      //   onClick={() => {
+      //     setContent("checkAuth");
+      //     setResError(null);
+      //     reset();
+      //   }}
+      //   className="absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4"
+      // >
+      //   <KeyboardArrowLeft className="!w-4 pb-[2px]" />
+      //   Назад
+      // </span>
+      // <span
+      //   onClick={() => hideModal()}
+      //   className="absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4"
+      // >
+      //   &times;
+      // </span> 
+      <>
       <h1 className="text-3xl text-colBlack text-center py-5 font-semibold">
         Регистрация
       </h1>
@@ -329,7 +330,8 @@ const Register = ({ setContent }) => {
         />
       </form>
       </FormProvider>
-    </Box>
+      </>
+    // </Box>
   );
 };
 

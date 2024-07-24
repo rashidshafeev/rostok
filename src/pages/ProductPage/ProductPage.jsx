@@ -40,8 +40,6 @@ function ProductPage() {
 
   const loader = useLoaderData()
 
-  console.log("loader.data")
-  console.log(loader.data)
   const group = loader.data
 
   // if (navigation.state === 'loading') {
