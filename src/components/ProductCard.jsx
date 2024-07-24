@@ -73,36 +73,41 @@ const ProductCard = ({ product }) => {
           </ComparisonButton>
         </div>
       </div>
-      <div className='lining-nums proportional-nums mt-2 flex flex-col gap-1'>
-        <div className='flex items-center justify-between gap-1'>
-          <h3 className='text-xs sm:text-sm font-normal text-colText'>
-            {product?.brand?.name}
-          </h3>
-          <span className='flex items-center gap-1'>
-            <p className='text-xs sm:text-sm font-semibold'>
-              {product?.price?.discount
-                ? product?.price?.discount?.price
-                : product?.price?.default}
-            </p>
-            <p className='text-[8px] sm:text-[10px] text-colText'>
-              {product?.price?.currency}
-            </p>
-          </span>
-        </div>
-        <div className='flex items-center justify-between gap-1'>
-          <p className='text-xs sm:text-sm text-colText'>{product.fullName}</p>
-          <span className='line-through text-[8px] sm:text-[10px] text-colText'>
-            {product?.price &&
-              product?.price?.discount &&
-              `${product?.price?.default}  ${product?.price?.currency}`}
-          </span>
+      <div className='lining-nums proportional-nums mt-2 flex h-[98px] mm:h-[112px] flex-col gap-1'>
+        <div className='flex flex-col justify-between gap-1 h-full mb-1'>
+          <div className='flex justify-end items-center'>
+            <div className='flex items-center gap-1 mr-1'>
+              <p className='text-xs sm:text-sm font-semibold whitespace-nowrap'>
+                {product?.price
+                  ? product?.price?.discount
+                    ? product?.price?.discount?.price +
+                      ' ' +
+                      product?.price?.currency
+                    : product?.price?.default + ' ' + product?.price?.currency
+                  : 'Цена не указана'}
+              </p>
+            </div>
+            {product?.price && product?.price?.discount && (
+              <div className='flex items-center'>
+                <span className='line-through text-[8px] sm:text-[10px] text-colText whitespace-nowrap'>
+                  {`${product?.price?.default}  ${product?.price?.currency}`}
+                </span>
+                <span className='ml-2 bg-[#F04438] text-[10px] mm:text-xs font-medium text-white whitespace-nowrap px-1 py-[1px] rounded-xl'>
+                  {product?.price?.discount?.percent} %
+                </span>
+              </div>
+            )}
+          </div>
+          <p className='text-xs sm:text-sm text-colText line-clamp-2'>
+            {product.fullName}
+          </p>
         </div>
         {!productInCart && (
           <AddToCartButton product={product}>
             {({ handleAddToCartClick }) => (
               <button
                 onClick={handleAddToCartClick}
-                className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
+                className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full'
               >
                 В корзину
               </button>
