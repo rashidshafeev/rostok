@@ -18,11 +18,19 @@ import {
   useGetFiltersOfProductsQuery,
 } from '../../../../redux/api/productEndpoints';
 
-const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterParams }) => {
+const CatProdSidebar = ({
+  setBreadCrumps,
+  handleFetchByFilter,
+  setOpen,
+  filterParams,
+}) => {
   const { categoryId } = useParams();
 
   const { isLoading, data: categories } = useGetCategoryTreeQuery(categoryId);
-  const { data: filters } = useGetFiltersOfProductsQuery({categoryId, filterParams});
+  const { data: filters } = useGetFiltersOfProductsQuery({
+    categoryId,
+    filterParams,
+  });
 
   const [accordion, setAccordion] = useState({
     parent: null,
@@ -43,6 +51,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
 
   const handleSliderChangeCommitted = () => {
     const [newMinPrice, newMaxPrice] = sliderValue;
+
     const updatedFilters = {
       ...filtersState,
       min_price: newMinPrice,
@@ -105,8 +114,8 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
       highRating: true,
       brands: [],
       tags: [],
-      min_price: 0,
-      max_price: 900000,
+      min_price: filters?.basics?.price?.min,
+      max_price: filters?.basics?.price?.max,
     };
     handleFetchByFilter(categoryId, initialFiltersState);
     setFiltersState(initialFiltersState);
@@ -124,12 +133,25 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
   }, [filters?.category_chain]);
 
   useEffect(() => {
+    const minPrice = filters?.basics?.price?.current_values
+      ? filters?.basics?.price?.current_values?.min
+      : filters?.basics?.price?.min;
+
+    const maxPrice = filters?.basics?.price?.current_values
+      ? filters?.basics?.price?.current_values?.max
+      : filters?.basics?.price?.max;
+
     setFiltersState((prev) => ({
       ...prev,
-      min_price: Number(filters?.basics?.price?.min),
-      max_price: Number(filters?.basics?.price?.max),
+      min_price: Number(minPrice),
+      max_price: Number(maxPrice),
     }));
+    setSliderValue([Number(minPrice), Number(maxPrice)]);
   }, [filters?.basics?.price]);
+
+  const handleSliderChange = (event, newValue) => {
+    setSliderValue(newValue);
+  };
 
   return (
     <div className='md:block hidden max-w-[220px] min-w-[220px] w-full mr-5'>
@@ -293,7 +315,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
                       label={`от ${filters?.basics?.price?.min}`}
                       name='min_price'
                       type='number'
-                      value={Number(filtersState.min_price)}
+                      value={Number(filtersState?.min_price)}
                       onChange={(e) =>
                         handleChange('min_price', e.target.value)
                       }
@@ -302,7 +324,7 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
                       label={`до ${filters?.basics?.price?.max}`}
                       name='max_price'
                       type='number'
-                      value={Number(filtersState.max_price)}
+                      value={Number(filtersState?.max_price)}
                       onChange={(e) =>
                         handleChange('max_price', e.target.value)
                       }
@@ -313,11 +335,11 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
                       sx={{ color: '#15765B' }}
                       size='small'
                       getAriaLabel={() => 'Price range'}
-                      value={[filtersState?.min_price, filtersState?.max_price]}
-                      min={Number(filters?.basics?.price?.min)}
-                      max={Number(filters?.basics?.price?.max)}
-                      onChange={(event, newValue) => setSliderValue(newValue)}
-                      onMouseUp={handleSliderChangeCommitted}
+                      value={sliderValue}
+                      min={filters?.basics?.price?.min}
+                      max={filters?.basics?.price?.max}
+                      onChange={handleSliderChange}
+                      onChangeCommitted={handleSliderChangeCommitted}
                       valueLabelDisplay='auto'
                     />
                   </Box>
@@ -465,9 +487,10 @@ const CatProdSidebar = ({ setBreadCrumps, handleFetchByFilter, setOpen, filterPa
                                     padding: '5px',
                                   }}
                                   name={el?.name}
-                                  checked={filtersState[el?.id]?.includes(
-                                    val?.id
-                                  )}
+                                  checked={
+                                    filtersState[el?.id]?.includes(val?.id) ||
+                                    false
+                                  }
                                   disabled={!val?.is_active}
                                   onChange={() =>
                                     handleCheckboxChange(el?.id, val?.id)

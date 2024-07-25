@@ -29,14 +29,29 @@ export const fetchCategoryProducts = async (
       page: filters.page || '',
     };
 
-    const filtersString = Object.entries(allFilters)
-      .filter(([, values]) => Array.isArray(values) && values.length > 0)
-      .map(([filterId, values]) => `"${filterId}":${JSON.stringify(values)}`)
-      .join(',');
+    Object.entries(filters)
+      .filter(
+        ([key, values]) =>
+          key !== 'brands' &&
+          key !== 'tags' &&
+          Array.isArray(values) &&
+          values.length > 0
+      )
+      .forEach(([filterId, values]) => {
+        queryParams[filterId] = JSON.stringify(values);
+      });
 
-    if (filtersString) {
-      queryParams.filters = `{${filtersString}}`;
-    }
+    Object.entries(allFilters)
+      .filter(
+        ([key, values]) =>
+          key !== 'brands' &&
+          key !== 'tags' &&
+          Array.isArray(values) &&
+          values.length > 0
+      )
+      .forEach(([filterId, values]) => {
+        queryParams[filterId] = JSON.stringify(values);
+      });
 
     if (window.innerWidth < 768 && filtersMobile) {
       queryParams.tags = searchParam
