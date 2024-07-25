@@ -471,7 +471,7 @@ const CatProdSidebar = ({
                         {el?.name}
                       </p>
                     </AccordionSummary>
-                    <AccordionDetails sx={{ padding: 0 }}>
+                    <AccordionDetails sx={{ padding: 0, marginLeft: '-8px' }}>
                       <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable2'>
                         {el?.values?.map((val) => (
                           <div
