@@ -239,42 +239,42 @@ listenerMiddleware.startListening({
 });
 
 // Listener for adding to comparison
-listenerMiddleware.startListening({
-  actionCreator: addToComparison,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendComparison.initiate(action.payload)).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error adding comparison to server:', error);
-      }
-    } else {
-      saveToSession('comparison', state.comparison.comparison);
-    }
-  },
-});
+// listenerMiddleware.startListening({
+//   actionCreator: addToComparison,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendComparison.initiate(action.payload)).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error adding comparison to server:', error);
+//       }
+//     } else {
+//       saveToSession('comparison', state.comparison.comparison);
+//     }
+//   },
+// });
 
-// Listener for removing from comparison
-listenerMiddleware.startListening({
-  actionCreator: removeFromComparison,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.removeFromComparison.initiate(action.payload)).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error removing comparison from server:', error);
-      }
-    } else {
-      saveToSession('comparison', state.comparison.comparison);
-    }
-  },
-});
+// // Listener for removing from comparison
+// listenerMiddleware.startListening({
+//   actionCreator: removeFromComparison,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.removeFromComparison.initiate(action.payload)).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Comparison', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error removing comparison from server:', error);
+//       }
+//     } else {
+//       saveToSession('comparison', state.comparison.comparison);
+//     }
+//   },
+// });
 
 // Listener to fetch data from session storage if no token on first load
 listenerMiddleware.startListening({

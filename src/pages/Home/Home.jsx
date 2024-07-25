@@ -14,6 +14,7 @@ import {
 } from '../../components';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import HomeSkeleton from './HomeSkeleton';
 
 const Home = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
@@ -74,6 +75,7 @@ const Home = () => {
           })}
         </>
       )}
+      {isLoading && <HomeSkeleton/>}
     </>
   );
 };

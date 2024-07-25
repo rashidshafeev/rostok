@@ -1,15 +1,14 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import ProductCard from '../ProductCard/ProductCard';
-import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
-import ProductCardSkeleton from '../ProductCard/ProductCardSkeleton';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import ProductCard from "../ProductCard/ProductCard";
+import { useGetMainPageDataQuery } from "../../redux/api/productEndpoints";
+import ProductCardSkeleton from "../ProductCard/ProductCardSkeleton";
 const News = () => {
-  
-  const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
+  const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
 
   return (
-    <div className='py-10 slider'>
-      <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-5'>
+    <div className="py-10 slider">
+      <h1 className="text-colBlack text-2xl mm:text-4xl font-semibold pb-5">
         Новинки
       </h1>
       <Swiper
@@ -31,15 +30,19 @@ const News = () => {
           },
         }}
       >
-        {isSuccess && data && data?.newProducts?.map((el) => (
-          <SwiperSlide key={el?.id}>
-            <ProductCard product={el} />
-          </SwiperSlide>
-        ))}
-        <SwiperSlide key={999}>
-        <ProductCardSkeleton />
-
-        </SwiperSlide>
+        {isSuccess &&
+          data &&
+          data?.newProducts?.map((el) => (
+            <SwiperSlide key={el?.id}>
+              <ProductCard product={el} />
+            </SwiperSlide>
+          ))}
+        {isLoading &&
+          Array.from({ length: 6 }).map((_, index) => (
+            <SwiperSlide key={index}>
+              <ProductCardSkeleton />
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

@@ -24,16 +24,18 @@ const AddToCartButton = ({ product, children }) => {
     //   dispatch(addToCart(product));
     // //   dispatch(addToCart({ id: product.id, quantity: 1, selected: 0}));
     // }
-    console.log('token', token);
-    if (!token) {
-      dispatch(addToCart(product));
-    } else {
+    console.log(token);
+    if (token) {
       sendCart({ id: product.id, quantity: 1, selected: 0 })
+
+    } else {
+      dispatch(addToCart(product));
+
     }
   };
 
   // return children({ isInCart, handleAddToCartClick, isLoading });
-  return children({ handleAddToCartClick, isLoading });
+  return children({ handleAddToCartClick, isLoading, isSuccess });
 };
 
 export default AddToCartButton;

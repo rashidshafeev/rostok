@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToComparison, removeFromComparison } from '../../redux/slices/comparisonSlice';
-import { useGetComparisonQuery } from '../../redux/api/comparisonEndpoints';
+import { useGetComparisonQuery, useRemoveFromComparisonMutation, useSendComparisonMutation } from '../../redux/api/comparisonEndpoints';
 import { getTokenFromCookies } from '../cookies/cookies';
 
 const ComparisonButton = ({ product, children }) => {
@@ -13,6 +13,10 @@ const ComparisonButton = ({ product, children }) => {
   // Fetching favorites from the server if the user is logged in
   const { data: serverComparison } = useGetComparisonQuery(undefined, { skip: !token });
 
+  const [sendComparisonMutation, {isLoading: sendIsLoading}] = useSendComparisonMutation();
+  const [removeFromComparisonMutation, {isLoading: removeIsLoading}] = useRemoveFromComparisonMutation();
+  const isLoading = sendIsLoading || removeIsLoading;
+
   const isInComparison = token
     ? serverComparison?.data?.some((el) => el.id === product.id)
     : comparison.some((el) => el.id === product.id);
@@ -22,13 +26,14 @@ const ComparisonButton = ({ product, children }) => {
     e.stopPropagation()
     
     if (isInComparison) {
-      dispatch(removeFromComparison(product));
+      token ?   removeFromComparisonMutation(product) : dispatch(removeFromComparison(product))
+
     } else {
-      dispatch(addToComparison(product));
+      token ? sendComparisonMutation(product) : dispatch(addToComparison(product))
     }
   };
 
-  return children({ isInComparison, handleComparisonClick });
+  return children({ isLoading, isInComparison, handleComparisonClick });
 };
 
 export default ComparisonButton;
