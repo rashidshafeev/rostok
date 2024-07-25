@@ -66,7 +66,7 @@ const PhoneVerificationField = ({ user }) => {
   return (
     <div className='flex flex-wrap gap-2'>
       {/* <div className='md:w-[340px] w-[calc(100%-148px)]'> */}
-      <div className='grow'>
+      <div className='grow md:max-w-[340px]'>
         <Controller
           name='phone'
           control={control}

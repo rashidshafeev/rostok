@@ -11,6 +11,10 @@ export const orderEndpoints = (builder) => ({
         method: 'POST',
         body: order,
       }),
+      invalidatesTags: (result, error, arg) => [
+        { type: 'Order', id: 'LIST' },
+        { type: 'Order', id: 'FILTERS' },
+      ],
     }),
     getUserOrders: builder.query({
       query: () => '/api/Products/orders/get',
@@ -20,6 +24,14 @@ export const orderEndpoints = (builder) => ({
           : [{ type: 'Order', id: 'LIST' }],
       refetchOnMountOrArgChange: true,
     }),
+    getOrdersFilters: builder.query({
+      query: () => '/api/Products/orders/filters',
+      providesTags: (result) =>
+        result
+          ? [{ type: 'Order', id: 'FILTERS' }]
+          : [{ type: 'Order', id: 'FILTERS' }],
+      refetchOnMountOrArgChange: true,
+    }),
   });
   
   // Export hooks for order endpoints
@@ -27,4 +39,5 @@ export const orderEndpoints = (builder) => ({
     useGetCitiesAndRegionsQuery,
     useSendOrderMutation,
     useGetUserOrdersQuery,
+    useGetOrdersFiltersQuery,
   } = api.injectEndpoints({ endpoints: orderEndpoints });

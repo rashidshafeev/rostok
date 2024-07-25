@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import ProductCard from '../ProductCard';
+import ProductCard from '../ProductCard/ProductCard';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
 const SaleProducts = () => {

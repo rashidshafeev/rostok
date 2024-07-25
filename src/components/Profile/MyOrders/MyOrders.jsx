@@ -12,17 +12,20 @@ import { NavLink } from 'react-router-dom';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import arrowIcon from '../../../assets/icons/arrow-icon.svg';
-import { useGetUserOrdersQuery } from '../../../redux/api/orderEndpoints';
+import { useGetOrdersFiltersQuery, useGetUserOrdersQuery } from '../../../redux/api/orderEndpoints';
+import { Loading } from '../../../helpers/Loader/Loader';
 
 const MyOrders = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
 
-  const { data: orders, isLoading, isSuccess, isError } = useGetUserOrdersQuery();
-
- 
+  const { data: orders, isLoading: ordersIsLoading, isSuccess: ordersIsSuccess, isError: ordersIsError } = useGetUserOrdersQuery();
+  const { data: filters, isLoading: filtersIsLoading, isSuccess: filtersIsSuccess, isError: filtersIsError } = useGetOrdersFiltersQuery();
 
   console.log(orders)
+  console.log(filters)
 
+  const statuses = filters?.statuses?.map((el) => ({ id: el.id, option: el.id, label: el.name })) || [];
+  
   const options = [
     {
       id: 1,
@@ -72,7 +75,7 @@ const MyOrders = () => {
           type='search'
         />
         <div className='grid grid-cols-2 gap-4'>
-          <CSelectField
+          {/* <CSelectField
             label='Контрагент'
             name='kontragent'
             options={[
@@ -80,22 +83,17 @@ const MyOrders = () => {
               { value: 'option2', label: 'Александр 2' },
               { value: 'option3', label: 'Александр 3' },
             ]}
-          />
+          /> */}
           <CSelectField
             label='Статус заказа'
             name='status'
-            options={[
-              { id: 1, value: 'option1', label: 'Все' },
-              { id: 2, value: 'option2', label: 'Комплектуется' },
-              { id: 3, value: 'option3', label: 'Ожидает получения' },
-              { id: 4, value: 'option3', label: 'Выполнен' },
-              { id: 5, value: 'option3', label: 'Отменен' },
-            ]}
+            options={statuses}
           />
         </div>
       </div>
       <div className='space-y-5'>
-        {isSuccess && orders?.data?.map((order, index) => (
+        {ordersIsLoading && <Loading />}
+        {ordersIsSuccess && orders?.data && orders?.data?.map((order, index) => (
           <div
             className='rounded-[10px] overflow-hidden border border-[#EBEBEB]'
             key={order?.order_number}

@@ -7,6 +7,7 @@ import favoriteReducer from './slices/favoriteSlice';
 import comparisonReducer from './slices/comparisonSlice';
 import organizationsReducer from './slices/organizationsSlice';
 import { listenerMiddleware } from './listeners';
+import delayMiddleware from './middleware/delayMiddleware';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -26,6 +27,7 @@ export const store = configureStore({
     })
       .prepend(listenerMiddleware.middleware)
       .concat(api.middleware),
+      // .concat(delayMiddleware, api.middleware),
 });
 
 export default store;

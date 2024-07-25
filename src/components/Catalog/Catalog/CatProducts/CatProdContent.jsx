@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Loading } from '../../../../helpers/Loader/Loader';
 import ErrorEmpty from '../../../../helpers/Errors/ErrorEmpty';
-import ProductCard from '../../../ProductCard';
+import ProductCard from '../../../ProductCard/ProductCard';
 import CardLine from '../../TypesOfCards/CardLine';
 import LineNarrow from '../../TypesOfCards/LineNarrow';
 import { CustomPagination } from '../../../../helpers/Pagination/CustomPagination';

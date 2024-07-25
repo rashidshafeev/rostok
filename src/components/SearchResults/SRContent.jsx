@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Loading } from '../../helpers/Loader/Loader';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
-import ProductCard from '../ProductCard';
+import ProductCard from '../ProductCard/ProductCard';
 import CardLine from '../Catalog/TypesOfCards/CardLine';
 import LineNarrow from '../Catalog/TypesOfCards/LineNarrow';
 import { CustomPagination } from '../../helpers/Pagination/CustomPagination';

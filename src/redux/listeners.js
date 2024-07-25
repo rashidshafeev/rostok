@@ -127,23 +127,23 @@ const saveToSession = (key, data) => {
 };
 
 // Listener for adding to cart
-listenerMiddleware.startListening({
-  actionCreator: addToCart,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendCart.initiate({ id: action.payload.id, quantity: 1, selected: 0 })).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error saving cart to server:', error);
-      }
-    } else {
-      saveToSession('cart', state.cart);
-    }
-  },
-});
+// listenerMiddleware.startListening({
+//   actionCreator: addToCart,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendCart.initiate({ id: action.payload.id, quantity: 1, selected: 0 })).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error saving cart to server:', error);
+//       }
+//     } else {
+//       saveToSession('cart', state.cart);
+//     }
+//   },
+// });
 
 // Listener for removing from cart
 listenerMiddleware.startListening({

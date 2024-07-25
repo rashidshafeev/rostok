@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import ProductCard from '../ProductCard';
+import ProductCard from '../ProductCard/ProductCard';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
-
+import ProductCardSkeleton from '../ProductCard/ProductCardSkeleton';
 const News = () => {
   
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
@@ -36,6 +36,10 @@ const News = () => {
             <ProductCard product={el} />
           </SwiperSlide>
         ))}
+        <SwiperSlide key={999}>
+        <ProductCardSkeleton />
+
+        </SwiperSlide>
       </Swiper>
     </div>
   );

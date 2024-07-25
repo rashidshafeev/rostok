@@ -1,5 +1,5 @@
 
-import ProductCard from '../ProductCard';
+import ProductCard from '../ProductCard/ProductCard';
 import { products } from '../../constants/data';
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import ComparisonProductCard from './ComparisonProductCard';

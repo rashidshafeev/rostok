@@ -1,14 +1,16 @@
 // src/components/ProductCard.js
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ComparisonIcon, FavoriteIcon } from '../helpers/Icons';
-import noImg from '../assets/images/no-image.png';
-import { getTokenFromCookies } from '../helpers/cookies/cookies';
-import FavoriteButton from '../helpers/FavoriteButton/FavoriteButton';
-import ComparisonButton from '../helpers/ComparisonButton/ComparisonButton';
-import AddToCartButton from '../helpers/AddToCartButton/AddToCartButton';
-import { useGetUserCartQuery } from '../redux/api/cartEndpoints';
-import ChangeQuantityGroup from '../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
+import noImg from '../../assets/images/no-image.png';
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
+import ComparisonButton from '../../helpers/ComparisonButton/ComparisonButton';
+import AddToCartButton from '../../helpers/AddToCartButton/AddToCartButton';
+import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
+import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import { LoadingSmall } from '../../helpers/Loader/Loader';
+import { CircularProgress } from '@mui/material';
 
 const ProductCard = ({ product }) => {
   const token = getTokenFromCookies();
@@ -104,12 +106,13 @@ const ProductCard = ({ product }) => {
         </div>
         {!productInCart && (
           <AddToCartButton product={product}>
-            {({ handleAddToCartClick }) => (
+            {({ handleAddToCartClick, isLoading }) => (
               <button
+                disabled={isLoading}
                 onClick={handleAddToCartClick}
-                className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full'
+                className='transition-all text-xs text-center min-h-10 xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full'
               >
-                В корзину
+                {isLoading ? <LoadingSmall extraStyle={'white'}/> : 'В корзину'}
               </button>
             )}
           </AddToCartButton>
