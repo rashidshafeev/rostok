@@ -17,6 +17,7 @@ const AllFiltersModal = ({
   allFilters,
   setFilters,
   filterParams,
+  setFilterParams,
 }) => {
   const {
     isLoading,
@@ -116,6 +117,7 @@ const AllFiltersModal = ({
       max_price: 900000,
     });
   };
+  
   const onSubmit = async () => {
     setIsFilterLoading(true);
     const { success, data } = await fetchCategoryProducts(
@@ -134,6 +136,10 @@ const AllFiltersModal = ({
       ...prev,
       selectedValues: selectedValues,
       selectedValuesTwo: selectedValuesTwo,
+    }));
+    setFilterParams((prev) => ({
+      ...prev,
+      filterOptionsWithPage: { ...selectedValuesTwo, ...selectedValues },
     }));
     setIsFilterLoading(false);
   };

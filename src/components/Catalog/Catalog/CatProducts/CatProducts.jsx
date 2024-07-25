@@ -41,7 +41,7 @@ const CatProducts = () => {
     filterOptionsWithPage: {},
     sortOption: {},
   });
-  
+
   const handleFetchProducts = async (id, filterOptions, sortOption) => {
     setIsLoading(true);
     const filterOptionsWithPage = {
@@ -163,6 +163,7 @@ const CatProducts = () => {
         allFilters={filters}
         setFilters={setFilters}
         filterParams={filterParams}
+        setFilterParams={setFilterParams}
       />
     </div>
   );

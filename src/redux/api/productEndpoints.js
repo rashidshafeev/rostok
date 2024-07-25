@@ -29,25 +29,46 @@ export const productEndpoints = (builder) => ({
   getFiltersOfProducts: builder.query({
     query: ({ categoryId, filterParams }) => {
       const { filterOptionsWithPage } = filterParams;
+      const { sortOption } = filterParams;
       const getStringifiedFilters = (filters) => {
         return filters?.length > 0 ? `["${filters.join('","')}"]` : '';
       };
+
       const sendParams = {
         category_id: categoryId || '',
         brands: getStringifiedFilters(filterOptionsWithPage?.brands),
         tags: getStringifiedFilters(filterOptionsWithPage?.tags),
         min_price: filterOptionsWithPage?.min_price || '',
         max_price: filterOptionsWithPage?.max_price || '',
+        orderBy: sortOption?.orderBy || '',
+        sortOrder: sortOption?.sortOrder || '',
       };
-      const params = new URLSearchParams({
-        category_id: categoryId || '',
-        ...sendParams,
-      }).toString();
-      console.log('filterOptionsWithPage', filterOptionsWithPage);
+
+      Object.entries(filterOptionsWithPage)
+        .filter(
+          ([key, values]) =>
+            key !== 'brands' &&
+            key !== 'tags' &&
+            Array.isArray(values) &&
+            values.length > 0
+        )
+        .forEach(([filterId, values]) => {
+          sendParams[filterId] = JSON.stringify(values);
+        });
+
+      // Сериализуем параметры вручную
+      const params = Object.entries(sendParams)
+        .map(
+          ([key, value]) =>
+            `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
+        )
+        .join('&');
+
       return `api/Products/filters/?${params}`;
     },
     staleTime: 60000,
   }),
+
   getMainPageData: builder.query({
     query: () => `api/PageContent/get?target=landing`,
   }),
