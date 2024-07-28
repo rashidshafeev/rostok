@@ -30,20 +30,12 @@ export const productEndpoints = (builder) => ({
     query: ({ categoryId, filterParams }) => {
       const { filterOptionsWithPage } = filterParams;
       const { sortOption } = filterParams;
+
       const getStringifiedFilters = (filters) => {
         return filters?.length > 0 ? `["${filters.join('","')}"]` : '';
       };
 
-      const sendParams = {
-        category_id: categoryId || '',
-        brands: getStringifiedFilters(filterOptionsWithPage?.brands),
-        tags: getStringifiedFilters(filterOptionsWithPage?.tags),
-        min_price: filterOptionsWithPage?.min_price || '',
-        max_price: filterOptionsWithPage?.max_price || '',
-        orderBy: sortOption?.orderBy || '',
-        sortOrder: sortOption?.sortOrder || '',
-      };
-
+      const filtersParams = {};
       Object.entries(filterOptionsWithPage)
         .filter(
           ([key, values]) =>
@@ -53,8 +45,21 @@ export const productEndpoints = (builder) => ({
             values.length > 0
         )
         .forEach(([filterId, values]) => {
-          sendParams[filterId] = JSON.stringify(values);
+          filtersParams[filterId] = values;
         });
+
+      const sendParams = {
+        category_id: categoryId || '',
+        orderBy: sortOption?.orderBy || '',
+        sortOrder: sortOption?.sortOrder || '',
+        search: filterParams.searchQuery || '',
+        filters: JSON.stringify(filtersParams),
+        max_price: filterOptionsWithPage?.max_price || '',
+        min_price: filterOptionsWithPage?.min_price || '',
+        page: filterOptionsWithPage.page || '',
+        brands: getStringifiedFilters(filterOptionsWithPage?.brands),
+        tags: getStringifiedFilters(filterOptionsWithPage?.tags),
+      };
 
       // Сериализуем параметры вручную
       const params = Object.entries(sendParams)
@@ -68,7 +73,6 @@ export const productEndpoints = (builder) => ({
     },
     staleTime: 60000,
   }),
-
   getMainPageData: builder.query({
     query: () => `api/PageContent/get?target=landing`,
   }),

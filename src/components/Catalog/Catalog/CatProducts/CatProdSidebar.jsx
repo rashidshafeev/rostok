@@ -133,6 +133,18 @@ const CatProdSidebar = ({
   }, [filters?.category_chain]);
 
   useEffect(() => {
+    const initialFiltersState = {
+      highRating: true,
+      brands: [],
+      tags: [],
+      min_price: filters?.basics?.price?.min,
+      max_price: filters?.basics?.price?.max,
+    };
+    handleFetchByFilter(categoryId, initialFiltersState);
+    setFiltersState(initialFiltersState);
+  }, [categoryId]);
+
+  useEffect(() => {
     const minPrice = filters?.basics?.price?.current_values
       ? filters?.basics?.price?.current_values?.min
       : filters?.basics?.price?.min;
