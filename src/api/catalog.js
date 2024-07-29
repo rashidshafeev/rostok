@@ -10,24 +10,13 @@ export const fetchCategoryProducts = async (
   searchParam,
   searchQuery = ''
 ) => {
+
   try {
     const getStringifiedFilters = (filters) => {
       return filters?.length > 0 ? `["${filters.join('","')}"]` : '';
     };
 
-    const queryParams = {
-      category_id: searchParam ? '' : category_id,
-      brands: getStringifiedFilters(filters?.brands),
-      tags: searchParam
-        ? getStringifiedFilters([searchParam])
-        : getStringifiedFilters(filters?.tags),
-      max_price: filters?.max_price || '',
-      min_price: filters?.min_price || '',
-      orderBy: sortOption?.orderBy || '',
-      sortOrder: sortOption?.sortOrder || '',
-      search: searchQuery,
-      page: filters.page || '',
-    };
+    const filtersParams = {};
 
     Object.entries(filters)
       .filter(
@@ -38,7 +27,7 @@ export const fetchCategoryProducts = async (
           values.length > 0
       )
       .forEach(([filterId, values]) => {
-        queryParams[filterId] = JSON.stringify(values);
+        filtersParams[filterId] = values;
       });
 
     Object.entries(allFilters)
@@ -50,16 +39,29 @@ export const fetchCategoryProducts = async (
           values.length > 0
       )
       .forEach(([filterId, values]) => {
-        queryParams[filterId] = JSON.stringify(values);
+        filtersParams[filterId] = values;
       });
 
-    if (window.innerWidth < 768 && filtersMobile) {
-      queryParams.tags = searchParam
+    const queryParams = {
+      category_id: searchParam ? '' : category_id,
+      orderBy: sortOption?.orderBy || '',
+      sortOrder: sortOption?.sortOrder || '',
+      search: searchQuery,
+      filters: JSON.stringify(filtersParams),
+      max_price: filters?.max_price || '',
+      min_price: filters?.min_price || '',
+      page: filters.page || '',
+      brands: getStringifiedFilters(filters?.brands),
+      tags: searchParam
         ? getStringifiedFilters([searchParam])
-        : getStringifiedFilters(filtersMobile?.tags);
-      queryParams.min_price = filtersMobile?.min_price || queryParams.min_price;
-      queryParams.max_price = filtersMobile?.max_price || queryParams.max_price;
-      queryParams.brands = getStringifiedFilters(filtersMobile?.brands);
+        : getStringifiedFilters(filters?.tags),
+    };
+
+    if (window.innerWidth < 768 && filtersMobile) {
+      queryParams.tags = getStringifiedFilters(filtersMobile?.tags || []);
+      queryParams.brands = getStringifiedFilters(filtersMobile?.brands || []);
+      queryParams.min_price = filtersMobile?.min_price || '';
+      queryParams.max_price = filtersMobile?.max_price || '';
     }
 
     const res = await request.get('api/Products/variants', {
