@@ -2,8 +2,7 @@
 
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import CTextField from "../../CustomInputs/CTextField";
-import { Box, Checkbox, FormControlLabel } from "@mui/material";
-// import { Loading } from '../Loader/Loader';
+import { Box, Checkbox, FormControlLabel } from "@mui/material"; 
 import { useSendCartMutation } from "../../../redux/api/cartEndpoints";
 import { useSendFavoritesMutation } from "../../../redux/api/favoritesEndpoints";
 import { useSendComparisonMutation } from "../../../redux/api/comparisonEndpoints";
@@ -16,7 +15,6 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useUserRegisterMutation } from "../../../redux/api/userEndpoints";
 import { useState } from "react";
 import PhoneVerificationField from "../../PhoneVerificationField/PhoneVerificationField";
-
 import {
   KeyboardArrowRight,
   KeyboardArrowLeft,
@@ -25,6 +23,7 @@ import {
   CheckCircleRounded,
   CancelRounded,
 } from "@mui/icons-material";
+import { LoadingSmall } from "../../Loader/Loader";
 
 const Register = ({ setContent }) => {
   const methods = useForm({ mode: "onChange" });
@@ -37,7 +36,6 @@ const Register = ({ setContent }) => {
     formState: { errors, isValid },
   } = methods;
 
-  const [isLoading, setIsLoading] = useState(false);
   const [resError, setResError] = useState(null);
   const [isShow, setIsShow] = useState(false);
   const [isShowTwo, setShowTwo] = useState(false);
@@ -49,10 +47,19 @@ const Register = ({ setContent }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [userRegister] = useUserRegisterMutation();
-  const [sendCart] = useSendCartMutation();
-  const [sendFavorites] = useSendFavoritesMutation();
-  const [sendComparison] = useSendComparisonMutation();
+  const [userRegister, { isLoading: registerIsLoading }] =
+    useUserRegisterMutation();
+  const [sendCart, { isLoading: sendCartIsloading }] = useSendCartMutation();
+  const [sendFavorites, { isLoading: sendFavoritesIsloading }] =
+    useSendFavoritesMutation();
+  const [sendComparison, { isLoading: sendComparisonIsloading }] =
+    useSendComparisonMutation();
+
+  const isLoading =
+    registerIsLoading ||
+    sendCartIsloading ||
+    sendComparisonIsloading ||
+    sendFavoritesIsloading;
 
   const sendAndClearData = async () => {
     try {
@@ -108,229 +115,216 @@ const Register = ({ setContent }) => {
   };
 
   return (
-    // <Box className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-4 mm:px-8 pt-10 pb-4 mm:pb-5 max-w-[500px] w-[95%] mm:w-full overflow-y-scroll scrollable h-[95%] xs:h-auto">
-      // <span
-      //   onClick={() => {
-      //     setContent("checkAuth");
-      //     setResError(null);
-      //     reset();
-      //   }}
-      //   className="absolute top-3 left-3 text-sm text-colBlack font-semibold cursor-pointer pr-4"
-      // >
-      //   <KeyboardArrowLeft className="!w-4 pb-[2px]" />
-      //   Назад
-      // </span>
-      // <span
-      //   onClick={() => hideModal()}
-      //   className="absolute top-0 right-0 text-4xl text-colGray font-light cursor-pointer pr-4"
-      // >
-      //   &times;
-      // </span> 
-      <>
+    <>
       <h1 className="text-3xl text-colBlack text-center py-5 font-semibold">
         Регистрация
       </h1>
       <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onSubmitRegister)}>
-        <div className="w-full space-y-5">
-          <div>
-            <Controller
-              name="name"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: "Поле обязательно к заполнению!",
-              }}
-              render={({ field }) => (
-                <CTextField label="Имя" type="text" {...field} />
-              )}
-            />
-            {errors?.name && (
-              <p className="text-red-500 mt-1 text-xs font-medium">
-                {errors?.name?.message || "Error!"}
-              </p>
-            )}
-          </div>
-          <div>
-            <PhoneVerificationField />
-          </div>
-          <div>
-            <Controller
-              name="email"
-              control={control}
-              defaultValue=""
-              rules={{
-                required: "Поле обязательно к заполнению!",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Введите корректный адрес электронной почты",
-                },
-              }}
-              render={({ field }) => (
-                <CTextField label="Электронная почта" type="email" {...field} />
-              )}
-            />
-            {errors?.email && (
-              <p className="text-red-500 mt-1 text-xs font-medium">
-                {errors?.email.message || "Error!"}
-              </p>
-            )}
-          </div>
-          <div>
-            <div className="flex relative mt-5">
+        <form onSubmit={handleSubmit(onSubmitRegister)}>
+          <div className="w-full space-y-5">
+            <div>
               <Controller
-                name="password"
+                name="name"
                 control={control}
                 defaultValue=""
                 rules={{
-                  validate: (value) => {
-                    if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
-                      return "Требуется хотя бы одна строчная и прописная буква!";
-                    }
-                    if (!/(?=.*\d)/.test(value)) {
-                      return "Требуется хотя бы одна цифра!";
-                    }
-                    if (!/(?=.*[@$!%*?&#])/.test(value)) {
-                      return "Требуется хотя бы один специальный символ!";
-                    }
-                    if (value.length < 8) {
-                      return "Минимальная длина пароля - 8 символов!";
-                    }
-                    return true;
+                  required: "Поле обязательно к заполнению!",
+                }}
+                render={({ field }) => (
+                  <CTextField label="Имя" type="text" {...field} />
+                )}
+              />
+              {errors?.name && (
+                <p className="text-red-500 mt-1 text-xs font-medium">
+                  {errors?.name?.message || "Error!"}
+                </p>
+              )}
+            </div>
+            <div>
+              <PhoneVerificationField />
+            </div>
+            <div>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: "Поле обязательно к заполнению!",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Введите корректный адрес электронной почты",
                   },
                 }}
                 render={({ field }) => (
                   <CTextField
-                    label="Пароль"
-                    type={`${isShow ? "text" : "password"}`}
+                    label="Электронная почта"
+                    type="email"
                     {...field}
                   />
                 )}
               />
-              {isShow ? (
-                <VisibilityOff
-                  onClick={() => setIsShow(false)}
-                  className="absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
-                />
-              ) : (
-                <Visibility
-                  onClick={() => setIsShow(true)}
-                  className="absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
-                />
+              {errors?.email && (
+                <p className="text-red-500 mt-1 text-xs font-medium">
+                  {errors?.email.message || "Error!"}
+                </p>
               )}
             </div>
-            {errors?.password && (
-              <p className="text-red-500 mt-1 text-xs font-medium">
-                {errors?.password.message || "Error!"}
-              </p>
-            )}
+            <div>
+              <div className="flex relative mt-5">
+                <Controller
+                  name="password"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    validate: (value) => {
+                      if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
+                        return "Требуется хотя бы одна строчная и прописная буква!";
+                      }
+                      if (!/(?=.*\d)/.test(value)) {
+                        return "Требуется хотя бы одна цифра!";
+                      }
+                      if (!/(?=.*[@$!%*?&#])/.test(value)) {
+                        return "Требуется хотя бы один специальный символ!";
+                      }
+                      if (value.length < 8) {
+                        return "Минимальная длина пароля - 8 символов!";
+                      }
+                      return true;
+                    },
+                  }}
+                  render={({ field }) => (
+                    <CTextField
+                      label="Пароль"
+                      type={`${isShow ? "text" : "password"}`}
+                      {...field}
+                    />
+                  )}
+                />
+                {isShow ? (
+                  <VisibilityOff
+                    onClick={() => setIsShow(false)}
+                    className="absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
+                  />
+                ) : (
+                  <Visibility
+                    onClick={() => setIsShow(true)}
+                    className="absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
+                  />
+                )}
+              </div>
+              {errors?.password && (
+                <p className="text-red-500 mt-1 text-xs font-medium">
+                  {errors?.password.message || "Error!"}
+                </p>
+              )}
+            </div>
+            <div>
+              <div className="flex relative mt-5">
+                <Controller
+                  name="confirmPassword"
+                  control={control}
+                  defaultValue=""
+                  rules={{
+                    validate: (value) => {
+                      if (value !== password) {
+                        return "Пароли не совпадают!";
+                      }
+                      return true;
+                    },
+                  }}
+                  render={({ field }) => (
+                    <CTextField
+                      label="Подтвердите пароль"
+                      type={`${isShowTwo ? "text" : "password"}`}
+                      {...field}
+                    />
+                  )}
+                />
+                {isShowTwo ? (
+                  <VisibilityOff
+                    onClick={() => setIsShowTwo(false)}
+                    className="absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
+                  />
+                ) : (
+                  <Visibility
+                    onClick={() => setIsShowTwo(true)}
+                    className="absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
+                  />
+                )}
+              </div>
+              {errors?.confirmPassword && (
+                <p className="text-red-500 mt-1 text-xs font-medium">
+                  {errors?.confirmPassword.message || "Error!"}
+                </p>
+              )}
+            </div>
           </div>
-          <div>
-            <div className="flex relative mt-5">
-              <Controller
-                name="confirmPassword"
-                control={control}
-                defaultValue=""
-                rules={{
-                  validate: (value) => {
-                    if (value !== password) {
-                      return "Пароли не совпадают!";
-                    }
-                    return true;
+          <FormControlLabel
+            control={
+              <Checkbox
+                {...register("legalRepresentative")}
+                sx={{
+                  color: "#15765B",
+                  "&.Mui-checked": {
+                    color: "#15765B",
                   },
                 }}
-                render={({ field }) => (
-                  <CTextField
-                    label="Подтвердите пароль"
-                    type={`${isShowTwo ? "text" : "password"}`}
-                    {...field}
-                  />
-                )}
               />
-              {isShowTwo ? (
-                <VisibilityOff
-                  onClick={() => setIsShowTwo(false)}
-                  className="absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
-                />
-              ) : (
-                <Visibility
-                  onClick={() => setIsShowTwo(true)}
-                  className="absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
-                />
-              )}
-            </div>
-            {errors?.confirmPassword && (
-              <p className="text-red-500 mt-1 text-xs font-medium">
-                {errors?.confirmPassword.message || "Error!"}
+            }
+            label={
+              <span className="text-sm font-medium text-colBlack">
+                Я представитель юридического лица или ИП
+              </span>
+            }
+          />
+          {resError && (
+            <p className="text-red-500 mt-1 text-sm font-medium">{resError}</p>
+          )}
+          <button
+            disabled={!isValid}
+            className={`${
+              isValid ? "bg-colGreen" : "bg-colGray"
+            } w-full h-10 px-6 rounded my-2 text-white font-semibold`}
+          >
+            {!isLoading && <>Зарегистрироваться</>}
+            {isLoading && <LoadingSmall extraStyle={"white"} />}
+          </button>
+          <FormControlLabel
+            sx={{
+              display: "flex",
+              alignItems: "flex-start",
+            }}
+            control={
+              <Checkbox
+                {...register("privacyPolicy")}
+                defaultChecked
+                required
+                sx={{
+                  color: "#15765B",
+                  padding: "0 9px",
+                  "&.Mui-checked": {
+                    color: "#15765B",
+                  },
+                }}
+              />
+            }
+            label={
+              <p className="text-xs leading-[14px] text-colDarkGray">
+                Я даю согласие на обработку моих персональных данных и принимаю
+                условия{" "}
+                <NavLink className="text-colGreen" to="#">
+                  Пользовательского соглашения
+                </NavLink>{" "}
+                и{" "}
+                <NavLink className="text-colGreen" to="#">
+                  Политики обработки персональных данных
+                </NavLink>
               </p>
-            )}
-          </div>
-        </div>
-        <FormControlLabel
-          control={
-            <Checkbox
-              {...register("legalRepresentative")}
-              sx={{
-                color: "#15765B",
-                "&.Mui-checked": {
-                  color: "#15765B",
-                },
-              }}
-            />
-          }
-          label={
-            <span className="text-sm font-medium text-colBlack">
-              Я представитель юридического лица или ИП
-            </span>
-          }
-        />
-        {resError && (
-          <p className="text-red-500 mt-1 text-sm font-medium">{resError}</p>
-        )}
-        <button
-          disabled={!isValid}
-          className={`${
-            isValid ? "bg-colGreen" : "bg-colGray"
-          } w-full h-10 px-6 rounded my-2 text-white font-semibold`}
-        >
-          Зарегистрироваться
-        </button>
-        <FormControlLabel
-          sx={{
-            display: "flex",
-            alignItems: "flex-start",
-          }}
-          control={
-            <Checkbox
-              {...register("privacyPolicy")}
-              defaultChecked
-              required
-              sx={{
-                color: "#15765B",
-                padding: "0 9px",
-                "&.Mui-checked": {
-                  color: "#15765B",
-                },
-              }}
-            />
-          }
-          label={
-            <p className="text-xs leading-[14px] text-colDarkGray">
-              Я даю согласие на обработку моих персональных данных и принимаю
-              условия{" "}
-              <NavLink className="text-colGreen" to="#">
-                Пользовательского соглашения
-              </NavLink>{" "}
-              и{" "}
-              <NavLink className="text-colGreen" to="#">
-                Политики обработки персональных данных
-              </NavLink>
-            </p>
-          }
-        />
-      </form>
+            }
+          />
+        </form>
       </FormProvider>
-      </>
+    </>
     // </Box>
   );
 };

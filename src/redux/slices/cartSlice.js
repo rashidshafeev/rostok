@@ -18,19 +18,6 @@ export const cartSlice = createSlice({
   initialState,
   reducers: {
     fetchCart: (state) => {
-      // const storedCart = JSON.parse(sessionStorage.getItem('cart'));
-      
-      // if (storedCart) {
-      //   state.cart = storedCart.cart ? storedCart.cart : [];
-      //   state.selected = storedCart.selected ?? [];
-      //   state.itemsQuantity = storedCart.itemsQuantity ?? 0;
-      //   state.selectedQuantity = storedCart.selectedQuantity ?? 0;
-      // } else {
-      //   state.cart = [];
-      //   state.selected = [];
-      //   state.itemsQuantity = 0;
-      //   state.selectedQuantity = 0;
-      // }
     },
     setCart: (state, action) => {
       if (!action.payload) {

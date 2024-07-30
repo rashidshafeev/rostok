@@ -1,10 +1,7 @@
 // src/AuthModal/AuthModal.tsx
 
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Modal, Box } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import { useState } from "react"; 
+import { Modal, Box } from "@mui/material"; 
 import { useModal } from "../../../context/ModalContext";
 
 import modalLogo from "../../../assets/images/modal-logo.svg";
@@ -15,21 +12,9 @@ import ResetPassword from "./ResetPassword";
 import Register from "./Register";
 import { KeyboardArrowLeft } from "@mui/icons-material";
 
-const AuthModal = ({ open, setOpen }) => {
+const AuthModal = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
   const [content, setContent] = useState(modalContent?.content || "checkAuth");
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  // const {
-  //     control,
-  //     handleSubmit,
-  //     reset,
-  //     register,
-  //     watch,
-  //     formState: { errors, isValid },
-  // } = useForm({ mode: 'onChange' });
 
   if (!isModalVisible) return null;
 

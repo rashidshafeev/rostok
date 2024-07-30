@@ -25,18 +25,15 @@ const ShCartItem = ({ cart, handleItemChange }) => {
           <div className='w-3/5 flex space-x-4'>
             <div className='flex items-start'>
               <SelectCartItemButton product={product}>
-                {({ isSelected, handleSelectClick }) => (
+                {({ isLoading, isSelected, handleSelectClick }) => (
 
                   <CCheckBoxField
+                    isLoading={isLoading}
                     checked={isSelected}
                     onChange={handleSelectClick}
                   />
                 )}
               </SelectCartItemButton>
-              {/* <CCheckBoxField
-                checked={selectedItems.some(el => el?.id === product?.id)}
-                onChange={() => dispatch(selectItem(product))}
-              /> */}
               <NavLink
                 to={`/catalog/${product?.category?.slug}/${product?.slug}`}
               >
@@ -98,18 +95,18 @@ const ShCartItem = ({ cart, handleItemChange }) => {
                 </button>
                 <div className='flex space-x-2 pl-5'>
                   <FavoriteButton product={product}>
-                    {({ isInFavorite, handleFavoriteClick }) => (
+                    {({ isLoading, isInFavorite, handleFavoriteClick }) => (
                       <FavoriteIcon
                         onClick={handleFavoriteClick}
                         favorite={isInFavorite ? 'true' : 'false'}
 
-                        className='transition-all duration-300 hover:scale-110 cursor-pointer' />
+                        className={`transition-all duration-300 hover:scale-110  ${isLoading ? 'cursor-wait' : 'cursor-pointer'}`} />
                     )}
                   </FavoriteButton>
                   <RemoveFromCartButton product={product}>
-                    {({ handleRemoveFromCartClick }) => (
+                    {({ isLoading, handleRemoveFromCartClick }) => (
                       <DeleteIcon
-                        className='transition-all duration-300 hover:scale-110  cursor-pointer'
+                        className={`transition-all duration-300 hover:scale-110 ${isLoading ? 'cursor-wait' : 'cursor-pointer'}`}
                         onClick={handleRemoveFromCartClick} />
 
                     )}

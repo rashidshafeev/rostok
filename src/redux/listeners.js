@@ -146,23 +146,23 @@ const saveToSession = (key, data) => {
 // });
 
 // Listener for removing from cart
-listenerMiddleware.startListening({
-  actionCreator: removeFromCart,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendCart.initiate({ id: action.payload.id, quantity: 0, selected: 0 })).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error removing item from cart on server:', error);
-      }
-    } else {
-      saveToSession('cart', state.cart);
-    }
-  },
-});
+// listenerMiddleware.startListening({
+//   actionCreator: removeFromCart,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendCart.initiate({ id: action.payload.id, quantity: 0, selected: 0 })).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error removing item from cart on server:', error);
+//       }
+//     } else {
+//       saveToSession('cart', state.cart);
+//     }
+//   },
+// });
 
 // Listener for changing quantity in cart
 listenerMiddleware.startListening({
@@ -201,42 +201,42 @@ listenerMiddleware.startListening({
   },
 });
 
-// Listener for adding to favorite
-listenerMiddleware.startListening({
-  actionCreator: addToFavorite,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendFavorites.initiate(action.payload)).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error adding favorite to server:', error);
-      }
-    } else {
-      saveToSession('favorite', state.favorite.favorite);
-    }
-  },
-});
-// Listener for removing from favorite
-listenerMiddleware.startListening({
-  actionCreator: removeFromFavorite,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.removeFromFavorites.initiate(action.payload)).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error removing favorite from server:', error);
-      }
-    } else {
-      saveToSession('favorite', state.favorite.favorite);
-    }
-  },
-});
+// // Listener for adding to favorite
+// listenerMiddleware.startListening({
+//   actionCreator: addToFavorite,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendFavorites.initiate(action.payload)).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error adding favorite to server:', error);
+//       }
+//     } else {
+//       saveToSession('favorite', state.favorite.favorite);
+//     }
+//   },
+// });
+// // Listener for removing from favorite
+// listenerMiddleware.startListening({
+//   actionCreator: removeFromFavorite,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.removeFromFavorites.initiate(action.payload)).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Favorite', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error removing favorite from server:', error);
+//       }
+//     } else {
+//       saveToSession('favorite', state.favorite.favorite);
+//     }
+//   },
+// });
 
 // Listener for adding to comparison
 // listenerMiddleware.startListening({
