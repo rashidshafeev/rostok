@@ -18,7 +18,7 @@ function MobileToCheckoutBar({ selected, quantity }) {
                             {quantity} {plural(quantity, 'товар', 'товара', 'товаров')}
                         </span>
                     </div>
-                    <NavLink to='../checkout' className={`text-white font-semibold ${selected.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center`}>
+                    <NavLink to='../checkout' className={`text-white font-semibold ${selected?.length === 0 ? 'bg-colGray' : 'bg-colGreen'} rounded w-full h-[50px] flex justify-center items-center`}>
                         Перейти к оформлению
                     </NavLink>
 

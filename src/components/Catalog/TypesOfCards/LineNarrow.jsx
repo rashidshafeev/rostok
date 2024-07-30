@@ -55,7 +55,7 @@ const LineNarrow = ({ product }) => {
               alt='*'
             />
           </NavLink>
-          <div className='pl-5 max-w-md'>
+          <div className='pl-5 basis-10/12'>
             <div className='space-y-1 pt-1'>
               <div>
                 <NavLink
@@ -68,6 +68,7 @@ const LineNarrow = ({ product }) => {
                   {product?.description || 'Не указано'}
                 </p>
               </div>
+              <div className='flex gap-3'>
               <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                 <span>Артикул:</span>
                 <span>{product?.sku || 'Не указано'}</span>
@@ -91,6 +92,7 @@ const LineNarrow = ({ product }) => {
                     </span>
                   </p>
                 ))}
+                </div>
             </div>
           </div>
         </div>

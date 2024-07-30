@@ -15,8 +15,19 @@ import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
+import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
+import CardLineSkeleton from '../Catalog/TypesOfCards/CardLineSkeleton';вв
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import LineNarrowSkeleton from '../Catalog/TypesOfCards/LineNarrowSkeleton';
+const ShCartDetail = () => {
 
-const ShCartDetail = ({cart}) => {
+  const token = getTokenFromCookies();
+  const { cart: localCart } = useSelector((state) => state.cart);
+  console.log('shopping cart rendered')
+  // Fetching cart data from the server if the user is logged in
+  const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
+  const cart = token ? serverCart?.data : localCart;
+
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
 
@@ -123,7 +134,7 @@ const ShCartDetail = ({cart}) => {
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>
-              {selected.length !== 0 && <button
+              {selected?.length !== 0 && <button
                 onClick={handleRemoveSelected}
                 className='text-colDarkGray font-medium text-sm ml-4'
               >
@@ -173,12 +184,20 @@ const ShCartDetail = ({cart}) => {
               </svg>
             </div>
           </div>
-          {(itemType === 'lineBig' && width > 991) ? (
+          {isLoading && 
+          <div className='flex flex-col gap-3'>
+              {Array.from({ length: 6 }).map((_, index) => (
+        <CardLineSkeleton key={index} />
+      ))}
+          </div>
+          
+          }
+          {(itemType === 'lineBig' && width > 991 && !isLoading) ? (
             <ShCartItem
               cart={filteredCart}
               selectedItems={selected}
             />
-          ) : (itemType === 'lineSmall' && width > 991) ? (
+          ) : (itemType === 'lineSmall' && width > 991 && !isLoading) ? (
             <ShCartItemLine
               cart={filteredCart}
               selectedItems={selected}
@@ -193,7 +212,7 @@ const ShCartDetail = ({cart}) => {
         <div ref={orderInfo} className='lg:basis-[calc(30%-20px)] basis-full'>
 
           <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
-            {selected.length === 0 ? (
+            {selected?.length === 0 ? (
               <div className='text-center text-[#828282] text-lg font-medium mb-5'>
                 Выберите товары, которые хотите заказать
               </div> ) : (
@@ -204,7 +223,7 @@ const ShCartDetail = ({cart}) => {
                     Итого
                   </span>
                   <span className='text-xl font-semibold text-colBlack'>
-                    {selected.length} {plural(selected.length, 'товар', 'товара', 'товаров')}
+                    {selected?.length} {plural(selected?.length, 'товар', 'товара', 'товаров')}
                   </span>
                 </div>
                 <div className='flex justify-between items-center'>

@@ -54,6 +54,7 @@ const CatProdContent = ({
     setActiveSort({ orderBy, sortOrder, name });
     setIsOpenSelect(false);
   };
+  console.log(catProducts)
 
   return (
     <div className="w-full">
@@ -251,7 +252,7 @@ const CatProdContent = ({
             Array.from({ length: 40 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))}
-          {!isLoading &&
+          {!isLoading && catProducts?.data &&
             catProducts?.data?.map((el) => (
               <ProductCard key={el?.id} product={el} />
             ))}
@@ -263,7 +264,7 @@ const CatProdContent = ({
             Array.from({ length: 20 }).map((_, index) => (
               <CardLineSkeleton key={index}/>
             ))}
-          {!isLoading &&
+          {!isLoading && catProducts?.data &&
             catProducts?.data?.map((el) => (
               <CardLine key={el?.id} product={el} />
             ))}
@@ -275,13 +276,13 @@ const CatProdContent = ({
             Array.from({ length: 20 }).map((_, index) => (
               <LineNarrowSkeleton key={index}/>
             ))}
-          {!isLoading &&
+          {!isLoading && catProducts?.data &&
             catProducts?.data?.map((el) => (
               <LineNarrow key={el?.id} product={el} />
             ))}
         </div>
       )}
-      {!catProducts.data &&
+      {!isLoading && !catProducts?.data &&
         <ErrorEmpty
         title="Список пуст!"
         desc="К сожалению, по вашему запросу ничего не нашли."

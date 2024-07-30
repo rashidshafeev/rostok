@@ -3,7 +3,7 @@ import Brands from '../../../Home/Brands';
 import Promotions from '../../../Home/Promotions';
 import { useLocation, useParams } from 'react-router-dom';
 import CatProdContent from './CatProdContent';
-import CatProdSidebar from './CatProdSidebar';
+import CatProdSidebar from './CatProductsSidebar/CatProdSidebar';
 import { useEffect, useState } from 'react';
 import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
 import BreadCrumbs from '../../../../helpers/BreadCrumbs/BreadCrumbs';
@@ -25,6 +25,17 @@ const CatProducts = () => {
   const secondUrl = pathname.split('/')[2];
   const categoryId = secondUrl === 'tags' ? '' : id;
 
+  const [open, setOpen] = useState(false);
+
+  const [filterParams, setFilterParams] = useState({
+    filterOptionsWithPage: {},
+    sortOption: {},
+  });
+
+
+  // const { data, isLoading: loading } = useGetProductsByCategoryQuery({
+  //   categoryId,
+  // });
   const { data, isLoading: loading } = useGetProductsByCategoryQuery({
     categoryId,
   });
@@ -35,12 +46,14 @@ const CatProducts = () => {
   });
   const [breadCrumps, setBreadCrumps] = useState([]);
   const [isLoading, setIsLoading] = useState(loading);
-  const [open, setOpen] = useState(false);
   const [catProducts, setCatProducts] = useState(loading ? [] : data);
-  const [filterParams, setFilterParams] = useState({
-    filterOptionsWithPage: {},
-    sortOption: {},
-  });
+
+  // const [open, setOpen] = useState(false);
+
+  // const [filterParams, setFilterParams] = useState({
+  //   filterOptionsWithPage: {},
+  //   sortOption: {},
+  // });
 
   const handleFetchProducts = async (id, filterOptions, sortOption) => {
     setIsLoading(true);
@@ -129,7 +142,7 @@ const CatProducts = () => {
 
   useEffect(() => {
     setIsLoading(loading);
-  }, [loading]);
+  }, [loading, categoryId]);
 
   return (
     <div className='content lining-nums proportional-nums'>
@@ -141,6 +154,7 @@ const CatProducts = () => {
         <CatProdSidebar
           setBreadCrumps={setBreadCrumps}
           handleFetchByFilter={handleFetchByFilter}
+          setCatProducts={setCatProducts}
           setOpen={setOpen}
           filterParams={filterParams}
         />
