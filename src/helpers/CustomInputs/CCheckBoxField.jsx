@@ -10,6 +10,7 @@ const CCheckBoxField = forwardRef(({ label, styles, ...props }, ref) => {
         <Checkbox
           {...props}
           sx={{
+            cursor: `${props.isLoading ? 'wait' : 'pointer'}`,
             color: '#15765B',
             marginRight: '0',
             '&.Mui-checked': {

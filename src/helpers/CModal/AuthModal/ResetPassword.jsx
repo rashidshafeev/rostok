@@ -6,9 +6,8 @@ import { KeyboardArrowLeft } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { useState } from 'react';
 import { useResetPasswordMutation } from '../../../redux/api/userEndpoints';
-import { Loading } from '../../Loader/Loader';
-// import { Loading } from '../Loader/Loader';
-Loading
+import { Loading,LoadingSmall } from '../../Loader/Loader'; 
+
 const ResetPassword = ({ setContent }) => {
  
     const {
@@ -20,20 +19,17 @@ const ResetPassword = ({ setContent }) => {
         formState: { errors, isValid },
     } = useForm({ mode: 'onChange' });
 
-    const [isLoading, setIsLoading] = useState(false);
     const [resPassword, setResPassword] = useState({
         successTxt: null,
         errorTxt: null,
     });
 
-    const [resetPassword] = useResetPasswordMutation();
+    const [resetPassword, {isLoading} ] = useResetPasswordMutation();
 
 
     const onSubmitResetPassword = async (data) => {
-        setIsLoading(true);
         try {
             const auth = await resetPassword(data.email);
-            setIsLoading(false);
             if (auth?.data?.success) {
                 setResPassword({
                     successTxt: auth?.data?.message,
@@ -44,7 +40,6 @@ const ResetPassword = ({ setContent }) => {
             }
         } catch (error) {
             setResPassword({ successTxt: null, errorTxt: 'Что-то пошло не так' });
-            setIsLoading(false);
         }
     };
 
@@ -69,12 +64,13 @@ const ResetPassword = ({ setContent }) => {
                     )}
                 />
                 <button className="w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold">
-                    Сбросить пароль
+                {!isLoading && <>Сбросить пароль</>}
+                {isLoading && <LoadingSmall extraStyle={"white"} />}
                 </button>
                 {/* <p onClick={() => setContent('authWithEmail')} className="text-center mt-4 text-colGray2 font-medium cursor-pointer">
                     <KeyboardArrowLeft className="!w-5" /> Назад
                 </p> */}
-                {isLoading && <Loading />}
+                {/* {isLoading && <Loading />} */}
                 {resPassword.successTxt && <p className="text-center mt-4 text-green-500 font-medium">{resPassword.successTxt}</p>}
                 {resPassword.errorTxt && <p className="text-center mt-4 text-red-500 font-medium">{resPassword.errorTxt}</p>}
             </form>

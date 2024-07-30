@@ -14,27 +14,13 @@ const AddToCartButton = ({ product, children }) => {
   const { data: serverCart } = useGetUserCartQuery(undefined, { skip: !token });
   const [sendCart, { isLoading, isSuccess }] = useSendCartMutation();
 
-  // const isInCart = token
-  //   ? serverCart?.data?.some((el) => el.id === product.id)
-  //   : cart.some((el) => el.id === product.id);
-
   const handleAddToCartClick = (e) => {
     e.preventDefault();
-    // if (!isInCart) {
-    //   dispatch(addToCart(product));
-    // //   dispatch(addToCart({ id: product.id, quantity: 1, selected: 0}));
-    // }
-    console.log(token);
-    if (token) {
-      sendCart({ id: product.id, quantity: 1, selected: 0 })
 
-    } else {
-      dispatch(addToCart(product));
-
-    }
+    token ? sendCart({ id: product.id, quantity: 1, selected: 0 }) : dispatch(addToCart(product))
+  
   };
 
-  // return children({ isInCart, handleAddToCartClick, isLoading });
   return children({ handleAddToCartClick, isLoading, isSuccess });
 };
 
