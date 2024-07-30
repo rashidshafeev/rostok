@@ -147,7 +147,7 @@ const CatProdSidebar = ({
   return (
     <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5">
         <SidebarCategoryTree/>
-      <SidebarFilters setOpen={setOpen} filterParams={filterParams} setBreadCrumps={setBreadCrumps}/>
+      <SidebarFilters handleFetchByFilter={handleFetchByFilter} setOpen={setOpen} filterParams={filterParams} setBreadCrumps={setBreadCrumps}/>
     </div>
   );
 };

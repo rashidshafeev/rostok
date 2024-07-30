@@ -74,18 +74,17 @@ const ShCartItemLine = ({ cart }) => {
           <div className='flex items-center justify-between space-x-5 pt-3'>
             <div>
               <div className='text-colBlack'>
-                {product?.price
-                  ? `${
-                      product?.price?.discount
-                        ? product?.price?.discount?.price
-                        : product?.price?.default
+              {product?.price
+                    ? `${product?.price?.discount
+                      ? product?.price?.discount?.price
+                      : product?.price?.default
                     }  ${product?.price?.currency} / ${product?.price?.unit}`
-                  : 'Не указано'}
+                    : 'Не указано'}
               </div>
               <p className='text-colGray text-xs line-through'>
-                {product?.price?.discount && (
-                  <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
-                )}
+              {product?.price?.discount && (
+                    <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
+                  )}
               </p>
             </div>
             <div className='flex items-center justify-between'>
@@ -93,8 +92,8 @@ const ShCartItemLine = ({ cart }) => {
               <ChangeQuantityGroup product={product}/>
             </div>
             <div className='flex items-center text-colBlack font-bold'>
-              <span>{product?.price ? product?.price : 'Цена не указана'}</span>
-              <span className='pl-1'>₽</span>
+            <span>{product?.price?.default ? product?.price?.default * product?.quantity : 'Цена не указана'}</span>
+            <span className='pl-1'>{product?.price?.currency ? product?.price?.currency : '₽'}</span>
             </div>
             <div className='flex space-x-2'>
             <FavoriteButton product={product}>

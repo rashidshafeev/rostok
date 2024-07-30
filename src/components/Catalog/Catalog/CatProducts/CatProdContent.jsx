@@ -287,7 +287,7 @@ const CatProdContent = ({
           desc='К сожалению, по вашему запросу ничего не нашли.'
           height='420px'
         />
-      )}
+      }
       {catProducts?.count > 20 && (
         <CustomPagination
           count={catProducts?.count}

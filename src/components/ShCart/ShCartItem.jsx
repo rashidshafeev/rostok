@@ -138,7 +138,7 @@ const ShCartItem = ({ cart, handleItemChange }) => {
                 <ChangeQuantityGroup product={product} />
               </div>
               <div className='flex items-center text-colBlack font-bold basis-1/4'>
-                <span>{product?.price?.default ? product?.price?.default : 'Цена не указана'}</span>
+              <span>{product?.price?.default ? product?.price?.default * product?.quantity : 'Цена не указана'}</span>
                 <span className='pl-1'>{product?.price?.currency ? product?.price?.currency : '₽'}</span>
               </div>
             </div>

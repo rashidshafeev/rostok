@@ -20,7 +20,6 @@ const SelectCartItemButton = ({ product, children }) => {
         ? serverCart?.data?.some((item) => item.id === product.id && item.selected === "1")
         : cart.some((item) => item.id === product.id && (item.selected.toString() === "1" || item.selected === true));
 
-        console.log(product,isSelected)
     const handleSelectClick = (e) => {
         e.preventDefault();
         e.stopPropagation();

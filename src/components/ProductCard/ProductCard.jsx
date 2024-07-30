@@ -2,7 +2,6 @@
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ComparisonIcon, FavoriteIcon } from "../../helpers/Icons";
-import noImg from "../../assets/images/no-image.png";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
 import FavoriteButton from "../../helpers/FavoriteButton/FavoriteButton";
 import ComparisonButton from "../../helpers/ComparisonButton/ComparisonButton";
@@ -10,7 +9,7 @@ import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
 import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
 import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
 import { LoadingSmall } from "../../helpers/Loader/Loader";
-import { CircularProgress } from "@mui/material";
+import PreviewGallery from "./PreviewGallery";
 
 const ProductCard = ({ product }) => {
   const token = getTokenFromCookies();
@@ -33,51 +32,9 @@ const ProductCard = ({ product }) => {
       } overflow-hidden group duration-500 flex flex-col justify-between items-stretch `}
     >
       <div>
-        <div className="group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200">
-          {product?.files?.length > 0 && (
-            <img
-              className="w-full h-full object-contain"
-              src={product.files[0].medium || noImg}
-              onError={(e) => {
-                e.target.onError = null;
-                e.target.src = noImg;
-              }}
-              alt="*"
-            />
-          )}
-          <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">
-            {product?.tags?.length > 0 && (
-              <span
-                style={{ color: product.tags[0].text_color }}
-                className={`bg-[${product.tags[0].background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
-              >
-                {product.tags[0].text}
-              </span>
-            )}
-            <FavoriteButton product={product}>
-              {({ isLoading, isInFavorite, handleFavoriteClick }) => (
-                <FavoriteIcon
-                  onClick={isLoading ? null : handleFavoriteClick}
-                  className={`${
-                    isLoading ? "cursor-wait" : "cursor-pointer"
-                  } transition-all duration-500 hover:scale-110 absolute right-2`}
-                  favorite={isInFavorite ? "true" : "false"}
-                />
-              )}
-            </FavoriteButton>
-          </div>
-          <ComparisonButton product={product}>
-            {({ isLoading, isInComparison, handleComparisonClick }) => (
-              <ComparisonIcon
-                onClick={isLoading ? null : handleComparisonClick}
-                className={`${
-                  isLoading ? "cursor-wait" : "cursor-pointer"
-                } group-hover:opacity-100 lg:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
-                comparison={isInComparison ? "true" : "false"}
-              />
-            )}
-          </ComparisonButton>
-        </div>
+      <PreviewGallery product={product} />
+
+        
       </div>
       <div className="lining-nums proportional-nums mt-2 flex h-[98px] mm:h-[112px] flex-col gap-1">
         <div className="flex flex-col justify-between gap-1 h-full mb-1">

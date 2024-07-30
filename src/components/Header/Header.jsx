@@ -31,7 +31,8 @@ const Header = ({ showCatalog, setShowCatalog }) => {
   return (
     <>
       <PreHeader />
-      <div className='content mx-auto sticky top-0 flex justify-between items-center py-3 lg:space-x-5 bg-white z-[40]'>
+      <div className='mx-auto sticky top-0  py-3 lg:space-x-5 bg-white z-[40]'>
+        <div className='content flex justify-between items-center'>
         <NavLink
           onClick={() => setShowCatalog(false)}
           className='min-w-[90px] w-[90px] hidden lg:block'
@@ -82,7 +83,9 @@ const Header = ({ showCatalog, setShowCatalog }) => {
         </button>
         <SearchBar setShowCatalog={setShowCatalog} />
         <HeaderControls />
-        {/* <HeaderControls setOpen={setOpen} setContent={setContent} /> */}
+
+        </div>
+        
       </div>
       <CatalogFastAccess />
       <div

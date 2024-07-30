@@ -165,41 +165,42 @@ const saveToSession = (key, data) => {
 // });
 
 // Listener for changing quantity in cart
-listenerMiddleware.startListening({
-  actionCreator: changeQuantity,
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error changing cart quantity on server:', error);
-      }
-    } else {
-      saveToSession('cart', state.cart);
-    }
-  },
-});
+// listenerMiddleware.startListening({
+//   actionCreator: changeQuantity,
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error changing cart quantity on server:', error);
+//       }
+//     } else {
+//       saveToSession('cart', state.cart);
+//     }
+//   },
+// });
+
 // Listener for selecting/unselecting
-listenerMiddleware.startListening({
-  matcher: isAnyOf(selectItem, unselectItem),
-  effect: async (action, listenerApi) => {
-    const state = listenerApi.getState();
-    const token = state.user.token;
-    if (token) {
-      try {
-        await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
-        await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
-      } catch (error) {
-        console.error('Error changing cart quantity on server:', error);
-      }
-    } else {
-      saveToSession('cart', state.cart);
-    }
-  },
-});
+// listenerMiddleware.startListening({
+//   matcher: isAnyOf(selectItem, unselectItem),
+//   effect: async (action, listenerApi) => {
+//     const state = listenerApi.getState();
+//     const token = state.user.token;
+//     if (token) {
+//       try {
+//         await listenerApi.dispatch(api.endpoints.sendCart.initiate(action.payload)).unwrap();
+//         await listenerApi.dispatch(api.util.invalidateTags([{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }]));
+//       } catch (error) {
+//         console.error('Error changing cart quantity on server:', error);
+//       }
+//     } else {
+//       saveToSession('cart', state.cart);
+//     }
+//   },
+// });
 
 // // Listener for adding to favorite
 // listenerMiddleware.startListening({

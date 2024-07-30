@@ -15,7 +15,7 @@ import {
 import { IOSSwitch } from "../../../../Favorites/styledComponents/IOSSwitch";
 import { ArrowIcon } from "../../../../../helpers/Icons";
 
-function SidebarFilters({ setOpen, filterParams, setBreadCrumps}) {
+function SidebarFilters({ handleFetchByFilter, setOpen, filterParams, setBreadCrumps}) {
 
 
   const { categoryId } = useParams();

@@ -15,12 +15,13 @@ import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
-import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
-import CardLineSkeleton from '../Catalog/TypesOfCards/CardLineSkeleton';вв
+import { useGetUserCartQuery, useSendCartMutation } from '../../redux/api/cartEndpoints';
+import CardLineSkeleton from '../Catalog/TypesOfCards/CardLineSkeleton';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import LineNarrowSkeleton from '../Catalog/TypesOfCards/LineNarrowSkeleton';
-const ShCartDetail = () => {
 
+const ShCartDetail = () => {
+  
   const token = getTokenFromCookies();
   const { cart: localCart } = useSelector((state) => state.cart);
   console.log('shopping cart rendered')
@@ -28,10 +29,10 @@ const ShCartDetail = () => {
   const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
   const cart = token ? serverCart?.data : localCart;
 
+  const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
+
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
-
-  console.log(cart)
 
   const orderInfo = useRef(null);
   const orderInfoVisible = useIntersection(orderInfo, {
@@ -45,38 +46,48 @@ const ShCartDetail = () => {
   const dispatch = useDispatch();
 
   const selected = cart?.filter((item) => item.selected === true || item.selected.toString() === '1');
-  console.log(selected)
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
 
 
     if (!isChecked) {
-      console.log(selected)
-      selected.forEach((item) => {
-        dispatch(unselectItem({id: item.id, quantity: item.quantity, selected: 0}));
-      })
+      
+      const payload = selected.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+        selected: 0
+      }))
+
+      token ? sendCart({items: payload}) : selected.forEach((item) => dispatch(unselectItem(item)));
+
     } else {
-      cart?.forEach((item) => {
-        if (!item.selected) {
-          dispatch(selectItem({id: item.id, quantity: item.quantity, selected: 1}));
-        }
-      })
+      const unselectedItems = cart?.filter(item => !item.selected);
+
+      const payload = unselectedItems.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+        selected: 1
+      }));
+
+      token ? sendCart({items: payload}) : unselectedItems.forEach((item) => dispatch(selectItem(item)));
 
     }
 
   }
 
   const handleRemoveSelected = () => {
-    selected.forEach((product) => {
-      dispatch(removeFromCart(product));
-    })
+    const payload = selected.map(item => ({
+      id: item.id,
+      quantity: 0,
+      selected: 0
+    }))
+
+    token ? sendCart({items: payload}) : selected.forEach((item) => dispatch(removeFromCart(item)));
   }
 
   const handleFilter = (event) => {
-    const filterValue = event.target.value;
-    console.log(filterValue)
-    console.log(cart)
+    const filterValue = event.target.value; 
 
     let filteredCart = cart.filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.groupName.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
     console.log(filteredCart)
