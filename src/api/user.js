@@ -114,14 +114,14 @@ export const postConfirmVerificationCode = async (code, phone) => {
   }
 };
 
-export const logOutFetch = async (phone) => {
-  try {
-    const res = await request.post('/api/User/logout', phone);
-    return { success: res?.data?.success };
-  } catch (error) {
-    return { success: false };
-  }
-};
+// export const logOutFetch = async (phone) => {
+//   try {
+//     const res = await request.post('/api/User/logout', phone);
+//     return { success: res?.data?.success };
+//   } catch (error) {
+//     return { success: false };
+//   }
+// };
 
 export const updateProfile = async (sendData, token) => {
   try {

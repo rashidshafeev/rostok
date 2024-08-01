@@ -15,10 +15,25 @@ import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
-
+import { useGetUserCartQuery, useSendCartMutation } from '../../redux/api/cartEndpoints';
+import CardLineSkeleton from '../Catalog/TypesOfCards/CardLineSkeleton';
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import LineNarrowSkeleton from '../Catalog/TypesOfCards/LineNarrowSkeleton';
+import { useModal } from '../../context/ModalContext';
 
 const ShCartDetail = () => {
-  const [selectedItems, setSelectedItems] = useState([]);
+
+  const { showModal } = useModal();
+  
+  const token = getTokenFromCookies();
+  const { cart: localCart } = useSelector((state) => state.cart);
+  console.log('shopping cart rendered')
+  // Fetching cart data from the server if the user is logged in
+  const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
+  const cart = token ? serverCart?.data : localCart;
+
+  const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
+
   const [itemType, setItemType] = useState('lineBig');
   const [filteredCart, setFilteredCart] = useState([])
   // const [itemsQuantity, setItemsQuantity] = useState(0);
@@ -93,23 +108,24 @@ const ShCartDetail = () => {
           handleChange={handleFilter}
         />
 
-      </div>
-    <div className='flex justify-end items-center space-x-4 '>
-            <div className='flex cursor-pointer'>
-              <img src={shareIcon} alt='*' />
-              <span className='text-xs font-medium text-colBlack pl-2'>
-                Поделиться
-              </span>
-            </div>
-            <div className='flex cursor-pointer'>
-              <img src={docIcon} alt='*' />
-              <span className='text-xs font-medium text-colBlack pl-2'>
-                Скачать PDF заказа
-              </span>
-            </div>
+        </div>
+        <div className='flex justify-end items-center space-x-4 '>
+          <button className='flex cursor-pointer'
+          onClick={() => showModal({ type: 'share', url: 'test-url-cart'})}>
+            <img src={shareIcon} alt='*' />
+            <span className='text-xs font-medium text-colBlack pl-2'>
+              Поделиться
+            </span>
+          </button>
+          <div className='flex cursor-pointer'>
+            <img src={docIcon} alt='*' />
+            <span className='text-xs font-medium text-colBlack pl-2'>
+              Скачать PDF заказа
+            </span>
           </div>
-    </div>
-      
+        </div>
+      </div>
+
       <div className='flex flex-wrap gap-10 py-5'>
         <div className='lg:basis-[calc(70%-20px)] basis-full'>
           <div className='flex justify-between items-center pb-2'>
