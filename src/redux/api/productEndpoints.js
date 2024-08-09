@@ -9,6 +9,20 @@ export const productEndpoints = (builder) => ({
       body: params,
     }),
   }),
+  getFilters: builder.mutation({
+    query: (params) => ({
+      url: '/api/Products/filters',
+      method: 'POST',
+      body: params,
+    }),
+  }),
+  // getCategory: builder.mutation({
+  //   query: (params) => ({
+  //     url: '/api/Products/filters',
+  //     method: 'POST',
+  //     body: params,
+  //   }),
+  // }),
   getProducts: builder.query({
     query: (id) => `api/Products/item?id=${id}`,
     staleTime: 60000,
@@ -84,6 +98,7 @@ export const productEndpoints = (builder) => ({
 // Export hooks for product endpoints
 export const {
   useGetVariantsMutation,
+  useGetFiltersMutation,
   useGetProductsQuery,
   useLazyGetProductsQuery,
   useGetCategoryTreeQuery,

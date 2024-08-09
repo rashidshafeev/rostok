@@ -65,7 +65,7 @@ function SearchBar({ setShowCatalog }) {
 
   return (
     <>
-      <div className="w-full  ">
+      <div className="w-full mx-2">
         {isFocused && (
           <div
             className="fixed h-[100vh] w-[100vw] left-0 top-0 bg-black bg-opacity-50 z-20"
@@ -75,7 +75,7 @@ function SearchBar({ setShowCatalog }) {
         <div className="flex justify-between z-30 bg-white relative rounded-lg p-2">
           <form
             onSubmit={(e) => handleSearchSubmit(e)}
-            className={`max-w-[780px] z-20 w-full border-colGreen border rounded-lg flex justify-between`}
+            className={` z-20 w-full border-colGreen border rounded-lg flex justify-between`}
           >
             <input
               className="w-full h-[34px] mm:h-10 outline-none rounded-l-md  bg-white px-3 border-none lining-nums proportional-nums"

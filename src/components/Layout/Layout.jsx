@@ -5,8 +5,7 @@ import MobileNavbar from '../Header/MobileNavbar';
 import LogoutModal from '../../helpers/CModal/LogoutModal';
 import { ModalProvider } from '../../context/ModalContext';
 import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
-// import AuthModal from '../../helpers/CModal/AuthModal';
-AuthModal 
+import ShareModal from '../../helpers/CModal/ShareModal';
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
@@ -20,6 +19,7 @@ const Layout = () => {
         <Footer />
         <LogoutModal />
         <AuthModal/>
+        <ShareModal />
       </ModalProvider>
     </>
   );

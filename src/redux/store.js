@@ -1,13 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { api } from './api/api';
+import { listenerMiddleware } from './listeners';
+import delayMiddleware from './middleware/delayMiddleware';
 import userReducer from './slices/userSlice';
 import cartReducer from './slices/cartSlice';
 import productsReducer from './slices/productsSlice';
-import { api } from './api/api';
 import favoriteReducer from './slices/favoriteSlice';
 import comparisonReducer from './slices/comparisonSlice';
 import organizationsReducer from './slices/organizationsSlice';
-import { listenerMiddleware } from './listeners';
-import delayMiddleware from './middleware/delayMiddleware';
+import filterReducer from './slices/filterSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   favorite: favoriteReducer,
   comparison: comparisonReducer,
   organizations: organizationsReducer,
+  filter: filterReducer,
   [api.reducerPath]: api.reducer,
 });
 

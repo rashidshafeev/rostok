@@ -12,8 +12,11 @@ import print from '../../assets/icons/print.svg';
 // import { toggleComparison } from '../../redux/slices/comparisonSlice';
 // import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useModal } from '../../context/ModalContext';
 
 function TopControls({product, reviews}) {
+
+  const {showModal } = useModal();
 
   const dispatch = useDispatch();
 
@@ -65,6 +68,7 @@ function TopControls({product, reviews}) {
             </button>
             <button 
               className='text-center flex flex-row justify-between items-center'
+              onClick={() => showModal({ type: 'share'})}
             >
               <img className='mx-auto mr-1' src={share} alt='*' />
               <span className='text-xs pt-1 font-medium text-colBlack'>

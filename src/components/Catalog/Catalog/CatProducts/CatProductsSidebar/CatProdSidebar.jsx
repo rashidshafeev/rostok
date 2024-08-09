@@ -4,19 +4,21 @@ import { useEffect, useState } from "react";
 import { Loading } from "../../../../../helpers/Loader/Loader";
 
 import {
+  useGetFiltersMutation,
   useGetFiltersOfProductsQuery,
 } from "../../../../../redux/api/productEndpoints";
 import SidebarCategoryTree from "./SidebarCategoryTree";
-import SidebarFilters from "./SidebarFilters";
-
-const CatProdSidebar = ({
-  setBreadCrumps,
-  handleFetchByFilter,
-  setOpen,
-  filterParams,
-}) => {
+import SidebarFilters from "./SidebarFilters/SidebarFilters";
+import { setDisplayFilters, setFilters, setIsLoading, setSendFilters } from "../../../../../redux/slices/filterSlice";
+import { useDispatch, useSelector } from "react-redux";
+// const CatProdSidebar = ({
+//   setBreadCrumps,
+//   handleFetchByFilter,
+//   setOpen,
+//   filterParams,
+// }) => {
+const CatProdSidebar = ({ handleFetchByFilter, setOpen, filterParams }) => {
   // const { categoryId } = useParams();
-
 
   // const {
   //   data: filters,
@@ -27,7 +29,6 @@ const CatProdSidebar = ({
   //   filterParams,
   // });
 
- 
   // const [filtersState, setFiltersState] = useState({
   //   highRating: true,
   //   brands: [],
@@ -144,10 +145,69 @@ const CatProdSidebar = ({
   //   setSliderValue(newValue);
   // };
 
+  const { categoryId } = useParams();
+  const dispatch = useDispatch();
+
+  const [
+    getFilters,
+    { isLoading: filtersIsLoading, isSuccess: filtersIsSuccess },
+  ] = useGetFiltersMutation();
+
+  const getInitialCategoryFilters = async () => {
+    dispatch(setIsLoading(true))
+    // const filters = await getFilters({
+    //   category_id: categoryId,
+    // });
+    const filters = await getFilters({
+      category_id: categoryId,
+      min_price: undefined,
+      max_price: undefined,
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+      brands: [],
+      tags: [],
+      filters: {},
+
+      // orderBy (string): Сортировка по полю
+      // sortOrder (string): Направление сортировки
+      last_changed: undefined
+
+    })
+    console.log(filters);
+    // dispatch(
+    //   setDisplayFilters({
+    //     basics: filters.data.basics,
+    //     dynamics: filters.data.dynamics,
+    //   })
+    // );
+    // dispatch(
+    //   setSendFilters({
+    //     basics: filters.data.basics,
+    //     dynamics: filters.data.dynamics,
+    //   })
+    // );
+    dispatch(
+      setFilters({
+        basics: filters.data.basics,
+        dynamics: filters.data.dynamics,
+      })
+    );
+  };
+
+  useEffect(() => {
+    getInitialCategoryFilters();
+  }, [categoryId]);
+
+
   return (
     <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5">
-        <SidebarCategoryTree/>
-      <SidebarFilters handleFetchByFilter={handleFetchByFilter} setOpen={setOpen} filterParams={filterParams} setBreadCrumps={setBreadCrumps}/>
+      <SidebarCategoryTree />
+      <SidebarFilters
+        handleFetchByFilter={handleFetchByFilter}
+        setOpen={setOpen}
+        filterParams={filterParams}
+        // setBreadCrumps={setBreadCrumps}
+      />
     </div>
   );
 };

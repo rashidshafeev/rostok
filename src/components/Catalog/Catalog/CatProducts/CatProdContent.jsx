@@ -10,14 +10,84 @@ import arrow from '../../../../assets/icons/arrow-black.svg';
 import ProductCardSkeleton from '../../../ProductCard/ProductCardSkeleton';
 import CardLineSkeleton from '../../TypesOfCards/CardLineSkeleton';
 import LineNarrowSkeleton from '../../TypesOfCards/LineNarrowSkeleton';
+import { useGetVariantsMutation } from '../../../../redux/api/productEndpoints';
+import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
+import { useSelector } from 'react-redux';
 
 const CatProdContent = ({
-  catProducts,
-  isLoading,
+  // catProducts,
+  // isLoading,
   handleFetchBySort,
-  handlePagination,
+  // handlePagination,
   setOpen,
 }) => {
+  const { categoryId } = useParams();
+
+  const [page, setPage] = useState(1);
+
+  const handlePagination = (e, p) => {
+    setPage(p);
+    scrollToTop();
+  };
+  const filters = useSelector((state) => state?.filter.filters);
+  const isLoading = useSelector((state) => state?.filter.isLoading);
+
+  const [getVariants, { isLoading: getVariantsIsLoading, isSuccess: getVariantsIsSuccess }] = useGetVariantsMutation();
+
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+
+    const brands = filters?.basics?.brands?.reduce((acc, brand) => {
+      if (brand.is_selected) {
+        acc.push(brand.id);
+      }
+      return acc;
+    }, []);
+
+    const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      console.log(tag)
+      if (tag.is_selected) {
+        acc.push(tag.tag);
+      }
+      return acc;
+    }, [])
+
+    const dynamicFilters = filters?.dynamics?.filter(filter => filter.values.some(value => value.is_selected))
+    .reduce((acc, filter) => {
+      acc[filter.id] = filter.values
+      .filter(value => value.is_selected) // Filter out non-selected values
+      .map(value => value.id); // Extract the ids of the selected values
+      return acc;
+    }, {});
+
+
+    const products = await getVariants({
+      page: page,
+      limit: 20,
+      category_id: categoryId,
+      min_price: filters?.basics?.price?.min,
+      max_price: filters?.basics?.price?.max,
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+      brands: brands,
+      tags: tags,
+      filters: dynamicFilters,
+
+      // orderBy (string): Сортировка по полю
+      // sortOrder (string): Направление сортировки
+      last_changed: filters?.lastChanged
+    })
+
+    setProducts(products.data);
+    console.log(products.data)
+  }
+
+  useEffect(() => {
+    getProducts()
+  }, [page, filters])
+
+
   const cardView = localStorage.getItem('cardView');
 
   const [cardType, setTypeCard] = useState(cardView ? cardView : 'tile');
@@ -28,7 +98,6 @@ const CatProdContent = ({
       : { orderBy: 'popularity', sortOrder: 'desc', name: 'По популярности' }
   );
 
-  const { categoryId } = useParams();
   const selectRef = useRef(null);
 
   useEffect(() => {
@@ -53,7 +122,7 @@ const CatProdContent = ({
     setActiveSort({ orderBy, sortOrder, name });
     setIsOpenSelect(false);
   };
-  console.log(catProducts)
+  // console.log(catProducts)
 
   return (
     <div className='w-full'>
@@ -247,6 +316,55 @@ const CatProdContent = ({
 
       {cardType === 'tile' && (
         <div className='grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 xl:grid-cols-5'>
+          {getVariantsIsLoading &&
+            Array.from({ length: 40 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))}
+          {!getVariantsIsLoading && products?.data &&
+            products?.data?.map((el) => (
+              <ProductCard key={el?.id} product={el} />
+            ))}
+        </div>
+      )}
+      {cardType === 'line' && (
+        <div className='space-y-4'>
+          {getVariantsIsLoading &&
+            Array.from({ length: 20 }).map((_, index) => (
+              <CardLineSkeleton key={index} />
+            ))}
+          {!getVariantsIsLoading && products?.data &&
+            products?.data?.map((el) => (
+              <CardLine key={el?.id} product={el} />
+            ))}
+        </div>
+      )}
+      {cardType === 'lineNarrow' && (
+        <div className='space-y-4'>
+          {getVariantsIsLoading &&
+            Array.from({ length: 20 }).map((_, index) => (
+              <LineNarrowSkeleton key={index} />
+            ))}
+          {!getVariantsIsLoading && products?.data &&
+            products?.data?.map((el) => (
+              <LineNarrow key={el?.id} product={el} />
+            ))}
+        </div>
+      )}
+      {!getVariantsIsLoading && !products?.data &&
+        <ErrorEmpty
+          title='Список пуст!'
+          desc='К сожалению, по вашему запросу ничего не нашли.'
+          height='420px'
+        />
+      }
+      {products?.count > 20 && (
+        <CustomPagination
+          count={products?.count}
+          handlePagination={handlePagination}
+        />
+      )}
+      {/* {cardType === 'tile' && (
+        <div className='grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 xl:grid-cols-5'>
           {isLoading &&
             Array.from({ length: 40 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
@@ -293,7 +411,7 @@ const CatProdContent = ({
           count={catProducts?.count}
           handlePagination={handlePagination}
         />
-      )}
+      )} */}
     </div>
   );
 };

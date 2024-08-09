@@ -84,7 +84,7 @@ const PreviewGallery = ({ product }) => {
           </ComparisonButton>
         </div>
         <div className="flex justify-center mt-2">
-        {product?.files?.map((_, index) => (
+        {product?.files?.length > 1 && product?.files?.map((_, index) => (
           <span
             key={index}
             className={`h-2 w-2 mx-1 rounded-full transition-colors duration-300 ${
