@@ -15,10 +15,7 @@ import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
 import { useSelector } from 'react-redux';
 
 const CatProdContent = ({
-  // catProducts,
-  // isLoading,
   handleFetchBySort,
-  // handlePagination,
   setOpen,
 }) => {
   const { categoryId } = useParams();
@@ -122,7 +119,6 @@ const CatProdContent = ({
     setActiveSort({ orderBy, sortOrder, name });
     setIsOpenSelect(false);
   };
-  // console.log(catProducts)
 
   return (
     <div className='w-full'>

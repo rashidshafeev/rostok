@@ -15,14 +15,23 @@ import { useFilters } from "../../../../../../context/CatalogContext";
 import { useDispatch } from "react-redux";
 import { toggleDynamicFilterCheckbox } from "../../../../../../redux/slices/filterSlice";
 useCallback
-function CheckboxFilter({ filter, filters }) {
-  const dispatch = useDispatch();
+function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
 
-  const handleCheckboxChange = useCallback((filterId, valueId) => {
-    dispatch(
-      toggleDynamicFilterCheckbox({ filterId: filterId, valueId: valueId })
-    );
-  }, [dispatch]);
+  const handleCheckboxChange = (filterId, valueId) => {
+    const currentState = JSON.parse(JSON.stringify(filters));
+
+      const filter = currentState.dynamics.find(
+        (filter) => filter.id === filterId
+      );
+      const value = filter.values.find((value) => value.id === valueId);
+      value.is_selected = !value.is_selected;
+
+      currentState.lastChanged = {
+        type: "dynamics",
+        filter: filterId
+      };
+      setFilters(currentState);
+  }
 
  
 

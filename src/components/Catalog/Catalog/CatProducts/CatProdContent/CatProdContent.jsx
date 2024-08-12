@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
 import ErrorEmpty from "../../../../../helpers/Errors/ErrorEmpty";
 import ProductCard from "../../../../ProductCard/ProductCard";
 import CardLine from "../../../TypesOfCards/CardLine";
@@ -14,41 +13,34 @@ import SortControls from "./SortControls";
 import MobileSortControls from "./MobileSortControls";
 
 const CatProdContent = ({
-  catProducts,
-  isLoading,
-  handleFetchBySort,
-  handlePagination,
-  setOpen,
+  products,
+  getVariantsIsLoading,
+  handlePagination
 }) => {
+
   const cardView = localStorage.getItem("cardView");
 
   const [cardType, setTypeCard] = useState(cardView ? cardView : "tile");
+
   const [activeSort, setActiveSort] = useState(
     window.innerWidth > 1024
       ? null
       : { orderBy: "popularity", sortOrder: "desc", name: "По популярности" }
   );
 
-  const { categoryId } = useParams();
-
-  const handleBySort = (orderBy, sortOrder, name) => {
-    handleFetchBySort(categoryId, {
-      orderBy: orderBy,
-      sortOrder: sortOrder,
-    });
-    setActiveSort({ orderBy, sortOrder, name });
-  };
-  console.log(catProducts);
 
   return (
     <div className="w-full">
       <div className="sticky ll:static top-[64px] ll:top-auto flex justify-between items-center pb-3 xl:pb-0 bg-white z-[99]">
-        <SortControls activeSort={activeSort} handleBySort={handleBySort} />
+        <SortControls
+        // activeSort={activeSort}
+        // handleBySort={handleBySort}
+        />
         <CardTypeControls cardType={cardType} setTypeCard={setTypeCard} />
 
         <MobileSortControls
-          activeSort={activeSort}
-          handleBySort={handleBySort}
+          // activeSort={activeSort}
+          // handleBySort={handleBySort}
         />
         <button
           onClick={() => setOpen(true)}
@@ -61,53 +53,53 @@ const CatProdContent = ({
 
       {cardType === "tile" && (
         <div className="grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 xl:grid-cols-5">
-          {isLoading &&
+          {getVariantsIsLoading &&
             Array.from({ length: 40 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
             ))}
-          {!isLoading &&
-            catProducts?.data &&
-            catProducts?.data?.map((el) => (
+          {!getVariantsIsLoading &&
+            products?.data &&
+            products?.data?.map((el) => (
               <ProductCard key={el?.id} product={el} />
             ))}
         </div>
       )}
       {cardType === "line" && (
         <div className="space-y-4">
-          {isLoading &&
+          {getVariantsIsLoading &&
             Array.from({ length: 20 }).map((_, index) => (
               <CardLineSkeleton key={index} />
             ))}
-          {!isLoading &&
-            catProducts?.data &&
-            catProducts?.data?.map((el) => (
+          {!getVariantsIsLoading &&
+            products?.data &&
+            products?.data?.map((el) => (
               <CardLine key={el?.id} product={el} />
             ))}
         </div>
       )}
       {cardType === "lineNarrow" && (
         <div className="space-y-4">
-          {isLoading &&
+          {getVariantsIsLoading &&
             Array.from({ length: 20 }).map((_, index) => (
               <LineNarrowSkeleton key={index} />
             ))}
-          {!isLoading &&
-            catProducts?.data &&
-            catProducts?.data?.map((el) => (
+          {!getVariantsIsLoading &&
+            products?.data &&
+            products?.data?.map((el) => (
               <LineNarrow key={el?.id} product={el} />
             ))}
         </div>
       )}
-      {!isLoading && !catProducts?.data && (
+      {!getVariantsIsLoading && !products?.data?.length === 0 && (
         <ErrorEmpty
           title="Список пуст!"
           desc="К сожалению, по вашему запросу ничего не нашли."
           height="420px"
         />
       )}
-      {catProducts?.count > 20 && (
+      {products?.count > 20 && (
         <CustomPagination
-          count={catProducts?.count}
+          count={products?.count}
           handlePagination={handlePagination}
         />
       )}

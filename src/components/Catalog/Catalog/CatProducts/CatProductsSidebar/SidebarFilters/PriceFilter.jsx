@@ -16,12 +16,12 @@ import { setPriceFilter as setPriceFilterStore } from "../../../../../../redux/s
 
 import { useDebounce } from "react-use";
 
-function PriceFilter({ filters }) {
+function PriceFilter({ filters, changeFilters, setFilters }) {
   const dispatch = useDispatch();
 
   const [priceFilter, setPriceFilter] = useState({
-    min: filters?.basics?.price?.min || "",
-    max: filters?.basics?.price?.max || "",
+    min: filters?.basics?.price?.current_value?.min || 0,
+    max: filters?.basics?.price?.current_value?.max || 0,
   });
 
   const [sliderValue, setSliderValue] = useState([
@@ -30,9 +30,11 @@ function PriceFilter({ filters }) {
   ]);
 
   useEffect(() => {
+    console.log("filters")
+    console.log(filters)
     setPriceFilter({
-      min: filters?.basics?.price?.min || "",
-      max: filters?.basics?.price?.max || "",
+      min: filters?.basics?.price?.current_value?.min || filters?.basics?.price?.min || 0,
+      max: filters?.basics?.price?.current_value?.max || filters?.basics?.price?.max || 0,
     });
     setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
   }, []);
@@ -48,12 +50,19 @@ function PriceFilter({ filters }) {
     () => {
         console.log("priceFilter", priceFilter);
 
-      dispatch(
-        setPriceFilterStore({
-          min: priceFilter.min,
-          max: priceFilter.max,
-        })
-      );
+        const currentState = JSON.parse(JSON.stringify(filters));
+
+        currentState.basics.price.current_values = {
+            min: priceFilter.min,
+            max: priceFilter.max,
+          };
+
+          currentState.lastChanged = {
+            type: "basics",
+            filter: "price",
+          };
+          setFilters(currentState);
+          
     },
     500,
     [priceFilter]

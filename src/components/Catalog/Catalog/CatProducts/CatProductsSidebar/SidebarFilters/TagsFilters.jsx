@@ -13,13 +13,22 @@ import { ArrowIcon } from "../../../../../../helpers/Icons";
 import { useDispatch } from 'react-redux';
 import { toggleTagsFilterValue } from '../../../../../../redux/slices/filterSlice';
 
-function TagsFilters({ filters }) {
+function TagsFilters({ filters, setFilters }) {
 
-  const dispatch = useDispatch();
+  const handleCheckboxChange = (tagSelected) => {
+    const currentState = JSON.parse(JSON.stringify(filters));
 
-  const handleCheckboxChange = (value) => {
-    dispatch(toggleTagsFilterValue(value));
-  }
+    const tag = currentState.basics.tags.find(
+      (tag) => tag.tag === tagSelected
+    );
+    tag.is_selected = !tag.is_selected;
+
+    currentState.lastChanged = {
+      type: "basics",
+      filter: "tags",
+    };
+    setFilters(currentState);
+  };
 
 
   return (

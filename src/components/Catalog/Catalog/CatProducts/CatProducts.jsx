@@ -1,209 +1,228 @@
-import Advantages from '../../../Home/Advantages';
-import Brands from '../../../Home/Brands';
-import Promotions from '../../../Home/Promotions';
-import { useLocation, useParams } from 'react-router-dom';
-import CatProdContent from './CatProdContent';
-import CatProdSidebar from './CatProductsSidebar/CatProdSidebar';
-import { useEffect, useState } from 'react';
-import { scrollToTop } from '../../../../helpers/scrollToTop/scrollToTop';
-import BreadCrumbs from '../../../../helpers/BreadCrumbs/BreadCrumbs';
-import {
-  fetchCategoryProducts,
-  fetchCategoryProductsByTags,
-} from '../../../../api/catalog';
+import Advantages from "../../../Home/Advantages";
+import Brands from "../../../Home/Brands";
+import Promotions from "../../../Home/Promotions";
+import { useLocation, useParams } from "react-router-dom";
+import CatProdContent from "./CatProdContent/CatProdContent";
+import CatProdSidebar from "./CatProductsSidebar/CatProdSidebar";
+import { useEffect, useRef, useState } from "react";
+import { scrollToTop } from "../../../../helpers/scrollToTop/scrollToTop";
+import BreadCrumbs from "../../../../helpers/BreadCrumbs/BreadCrumbs";
 
-import AllFiltersModal from '../../../../helpers/CModal/AllFiltersModal';
-import { useGetCategoryTreeQuery, useGetFiltersMutation, useGetProductsByCategoryQuery, useGetVariantsMutation } from '../../../../redux/api/productEndpoints';
-import { CatalogProvider, useFilters } from '../../../../context/CatalogContext';
-import { useDispatch, useSelector } from 'react-redux';
-import { setFilters, setSort } from '../../../../redux/slices/filterSlice';
+import AllFiltersModal from "../../../../helpers/CModal/AllFiltersModal";
+import {
+  useGetCategoryTreeQuery,
+  useGetFiltersMutation,
+  useGetVariantsMutation,
+} from "../../../../redux/api/productEndpoints";
 
 const CatProducts = () => {
+  const { categoryId } = useParams();jn,j,
 
+  //Breadcrumbs logic
 
-
-  const { categoryId: id } = useParams();
-  const dispatch = useDispatch();
-
-  const { data: categoryTree, isSuccess: categoryTreeIsSuccess, isError: categoryTreeIsError, isLoading: categoryTreeIsLoading } = useGetCategoryTreeQuery(id);
+  const {
+    data: categoryTree,
+    isSuccess: categoryTreeIsSuccess,
+    isError: categoryTreeIsError,
+    isLoading: categoryTreeIsLoading,
+  } = useGetCategoryTreeQuery(categoryId);
   const [breadCrumbs, setBreadCrumbs] = useState([]);
 
   useEffect(() => {
     setBreadCrumbs(categoryTree?.category_chain);
+  }, [categoryTree]);
 
-  },  [categoryTree])
-  console.log(categoryTree)
+  //Filters logic
 
-  // const { state, pathname, search } = useLocation();
-  // const searchParam = search.startsWith('?')
-  //   ? decodeURIComponent(search.slice(1))
-  //   : search;
-  // const secondUrl = pathname.split('/')[2];
-  // const categoryId = secondUrl === 'tags' ? '' : id;
+  const [filters, setFilters] = useState({});
+  const previousFilters = useRef({});
+  const previousSendObject = useRef({});
 
-  // const [open, setOpen] = useState(false);
+  const [
+    getFilters,
+    { isLoading: filtersIsLoading, isSuccess: filtersIsSuccess },
+  ] = useGetFiltersMutation();
 
-  // const [filterParams, setFilterParams] = useState({
-  //   filterOptionsWithPage: {},
-  //   sortOption: {},
-  // });
-  
+  const getNewFiltersList = async () => {
+    const newFilters = await getFilters({
+      ...getSendFiltersObject(),
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
 
-  // const { filtersContext, sortContext, setFilters: setFiltersContext, setSort: setSortContext } = useFilters();
-  // const { data, isLoading: loading } = useGetProductsByCategoryQuery({
-  //   categoryId,
-  // });
-  // console.log("filtersContext catproducts")
-  // console.log(filtersContext)
+      // orderBy (string): Сортировка по полю
+      // sortOrder (string): Направление сортировки
+    });
 
+    const newFiltersState = {
+      ...filters,
+      basics: newFilters.data.basics,
+      dynamics: newFilters.data.dynamics,
+    };
 
+    if (
+      newFilters.data.success === "ok" &&
+      JSON.stringify(newFiltersState) !==
+        JSON.stringify(previousFilters.current)
+    ) {
+      previousFilters.current = newFiltersState;
+      setFilters(newFiltersState);
+    }
+  };
 
+  useEffect(() => {
+    if (
+      JSON.stringify(previousSendObject.current) !==
+      JSON.stringify(getSendFiltersObject())
+    ) {
+      previousSendObject.current = getSendFiltersObject();
+      getNewFiltersList();
+    }
+  }, [categoryId, filters]);
 
-  
+  //Products fetching logic
 
-  // // const { data, isLoading: loading } = useGetProductsByCategoryQuery({
-  // //   categoryId,
-  // // });
+  const [page, setPage] = useState(1);
 
-  // const [filters, setFilters] = useState({
-  //   filterOptions: {},
-  //   sortOption: null,
-  // });
-  // const [isLoading, setIsLoading] = useState(loading);
-  // const [catProducts, setCatProducts] = useState(loading ? [] : data);
+  const handlePagination = (e, p) => {
+    setPage(p);
+    scrollToTop();
+  };
 
-  // // const [open, setOpen] = useState(false);
+  const [
+    getVariants,
+    { isLoading: getVariantsIsLoading, isSuccess: getVariantsIsSuccess },
+  ] = useGetVariantsMutation();
 
-  // // const [filterParams, setFilterParams] = useState({
-  // //   filterOptionsWithPage: {},
-  // //   sortOption: {},
-  // // });
+  const [products, setProducts] = useState([]);
 
-  // const handleFetchProducts = async (id, filterOptions, sortOption) => {
-  //   setIsLoading(true);
-  //   const filterOptionsWithPage = {
-  //     ...filterOptions,
-  //     page,
-  //   };
-  //   const { success, data } = await fetchCategoryProducts(
-  //     id,
-  //     filterOptionsWithPage,
-  //     sortOption,
-  //     filters.selectedValues,
-  //     filters.selectedValuesTwo,
-  //     secondUrl === 'tags' && searchParam
-  //   );
-  //   setFilterParams({
-  //     filterOptionsWithPage: filterOptionsWithPage,
-  //     sortOption: sortOption,
-  //   });
-  //   if (success) {
-  //     setCatProducts(data);
-  //   }
-  //   setIsLoading(false);
-  // };
+  const getProducts = async () => {
+    const products = await getVariants({
+      page: page,
+      limit: 20,
+      ...getSendFiltersObject(),
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+      // orderBy (string): Сортировка по полю
+      // sortOrder (string): Направление сортировки
+    });
+    if (products.data.success === "ok") {
+      setProducts(products.data);
+    }
+  };
 
-  // const handleFetchByFilter = (category_id, filterOptions) => {
-  //   setFilters((prevFilters) => {
-  //     const newFilters = { ...prevFilters, filterOptions };
-  //     handleFetchProducts(
-  //       category_id,
-  //       newFilters.filterOptions,
-  //       newFilters.sortOption
-  //     );
-  //     return newFilters;
-  //   });
-  // };
+  useEffect(() => {
+    console.log("fired");
+    console.log(
+      JSON.stringify(previousFilters.current) !== JSON.stringify(filters)
+    );
 
-  // const handleFetchBySort = (category_id, sortOption) => {
-  //   setFilters((prevFilters) => {
-  //     const newFilters = { ...prevFilters, sortOption };
-  //     handleFetchProducts(
-  //       category_id,
-  //       newFilters.filterOptions,
-  //       newFilters.sortOption
-  //     );
-  //     return newFilters;
-  //   });
-  // };
+    if (JSON.stringify(previousFilters.current) !== JSON.stringify(filters)) {
+      console.log("fired2");
 
- 
-  // useEffect(() => {
-  //   handleFetchProducts(id, filters.filterOptions, filters.sortOption);
-  // }, [page]);
+      getProducts();
+    }
+  }, [page, filters, categoryId]);
 
-  // useEffect(() => {
-  //   if (secondUrl === 'tags') {
-  //     const handleFetchProducts = async () => {
-  //       setIsLoading(true);
-  //       const { success, data } = await fetchCategoryProductsByTags(
-  //         searchParam,
-  //         page
-  //       );
-  //       if (success) {
-  //         setIsLoading(false);
-  //         setCatProducts(data);
-  //       }
-  //       setIsLoading(false);
-  //     };
-  //     handleFetchProducts();
-  //   }
-  // }, [searchParam, secondUrl, page]);
+  // Utility
 
-  // useEffect(() => {
-  //   scrollToTop();
-  // }, []);
+  const getSendFiltersObject = () => {
+    const brands = filters?.basics?.brands?.reduce((acc, brand) => {
+      if (brand.is_selected) {
+        acc.push(brand.id);
+      }
+      return acc;
+    }, []);
 
-  // useEffect(() => {
-  //   if (secondUrl !== 'tags') {
-  //     setCatProducts(data);
-  //   }
-  // }, [data, secondUrl]);
+    const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      console.log(tag);
+      if (tag.is_selected) {
+        acc.push(tag.tag);
+      }
+      return acc;
+    }, []);
 
-  // useEffect(() => {
-  //   setIsLoading(loading);
-  // }, [loading, categoryId]);
+    const dynamicFilters = filters?.dynamics
+      ?.filter((filter) => filter.values.some((value) => value.is_selected))
+      .reduce((acc, filter) => {
+        acc[filter.id] = filter.values
+          .filter((value) => value.is_selected)
+          .map((value) => value.id);
+        return acc;
+      }, {});
 
-// page (int): номер страницы, начинается с 1 (по умолчанию 1)
-// limit (int): количество в списке (по умолчанию 20)
-// category_id (int): id категории
-// filters (array): список атрибутов в формате [{"1"
-// min_price (float): минимальная цена
-// max_price (float): максимальная цена
-// min_raiting (float): минимальный рейтинг
-// max_raiting (float): максимальный рейтинг
-// brand (int): Бренд / производитель
-// brands (array): список брендов / производителей
-// tag (string): Тег / метка
-// tags (array): список тегов / меток
-// category_id (int): id категории
-// id (int): id товара
-// search (string): поисковая фраза
-// orderBy (string): Сортировка по полю
-// sortOrder (string): Направление сортировки
+    return {
+      category_id: categoryId,
+      min_price: filters?.basics?.price?.current_values?.min || 0,
+      max_price: filters?.basics?.price?.current_values?.max || 0,
+      brands: brands || [],
+      tags: tags || [],
+      filters: dynamicFilters || {},
+      last_changed: filters?.lastChanged || {},
+    };
+  };
 
+  const resetFilters = async () => {
+    const newFilters = await getFilters({
+      category_id: categoryId,
+      page: page,
+      limit: 20,
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+
+      // orderBy (string): Сортировка по полю
+      // sortOrder (string): Направление сортировки
+    });
+
+    const newFiltersState = {
+      basics: newFilters.data.basics,
+      dynamics: newFilters.data.dynamics,
+    };
+
+    if (
+      newFilters.data.success === "ok" &&
+      JSON.stringify(newFiltersState) !==
+        JSON.stringify(previousFilters.current)
+    ) {
+      previousSendObject.current = {
+        category_id: categoryId,
+        page: page,
+        limit: 20,
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+
+        // orderBy (string): Сортировка по полю
+        // sortOrder (string): Направление сортировки
+      };
+      // previousFilters.current = newFiltersState;
+      setFilters(newFiltersState);
+    }
+  };
+
+  //
+
+  useEffect(() => {
+    previousSendObject.current = getSendFiltersObject();
+  }, []);
 
   return (
-    <CatalogProvider>
-    <div className='content lining-nums proportional-nums'>
+    <div className="content lining-nums proportional-nums">
       <BreadCrumbs breadCrumps={breadCrumbs} />
-      <h3 className='font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5'>
-        {!categoryTreeIsLoading && categoryTreeIsSuccess && categoryTree?.category?.name}
+      <h3 className="font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5">
+        {!categoryTreeIsLoading &&
+          categoryTreeIsSuccess &&
+          categoryTree?.category?.name}
       </h3>
-      <div className='flex pb-10 min-h-[420px]'>
+      <div className="flex pb-10 min-h-[420px]">
         <CatProdSidebar
-          // setBreadCrumps={setBreadCrumps}
-          // handleFetchByFilter={handleFetchByFilter}
-          // setCatProducts={setCatProducts}
-          // setOpen={setOpen}
-          // filterParams={filterParams}
+          filters={filters}
+          filtersIsLoading={filtersIsLoading}
+          setFilters={setFilters}
+          resetFilters={resetFilters}
         />
         <CatProdContent
-          // catProducts={products}
-          // isLoading={isLoading}
-          // handleFetchBySort={handleFetchBySort}
-          // handlePagination={handlePagination}
-          // setOpen={setOpen}
+          products={products}
+          getVariantsIsLoading={getVariantsIsLoading}
+          handlePagination={handlePagination}
         />
       </div>
       <Promotions />
@@ -220,7 +239,6 @@ const CatProducts = () => {
         setFilterParams={setFilterParams}
       /> */}
     </div>
-    </CatalogProvider>
   );
 };
 
