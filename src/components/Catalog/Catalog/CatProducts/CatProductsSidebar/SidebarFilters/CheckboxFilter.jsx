@@ -13,9 +13,12 @@ import { ArrowIcon } from "../../../../../../helpers/Icons";
 import CTextField from "../../../../../../helpers/CustomInputs/CTextField";
 import { useFilters } from "../../../../../../context/CatalogContext";
 import { useDispatch } from "react-redux";
-import { toggleDynamicFilterCheckbox } from "../../../../../../redux/slices/filterSlice";
-useCallback
+import { useLocation, useNavigate } from "react-router-dom";
+
 function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
+
+  const navigate = useNavigate();
+const location = useLocation();
 
   const handleCheckboxChange = (filterId, valueId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
@@ -32,6 +35,36 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
       };
       setFilters(currentState);
   }
+
+  // const handleCheckboxChange = (filterId, valueId) => {
+  //   const params = new URLSearchParams(location.search);
+  // console.log(params);
+  //   // Get the current selected values for the filter from the URL
+  //   const currentValues = params.get(`filter_${filterId}`)?.split(',') || [];
+  
+  //   // Toggle the selected value in the list
+  //   const valueIndex = currentValues.indexOf(valueId.toString());
+  
+  //   if (valueIndex > -1) {
+  //     // Value is already selected, remove it
+  //     currentValues.splice(valueIndex, 1);
+  //   } else {
+  //     // Value is not selected, add it
+  //     currentValues.push(valueId.toString());
+  //   }
+  //   console.log("currentValues");
+  //   console.log(currentValues);
+  
+  //   // Update or remove the filter in the search params based on selected values
+  //   if (currentValues.length > 0) {
+  //     params.set(`filter_${filterId}`, currentValues.join(','));
+  //   } else {
+  //     params.delete(`filter_${filterId}`);
+  //   }
+  
+  //   // Update the URL with the new search parameters
+  //   navigate(`${location.pathname}?${params.toString()}`);
+  // };
 
  
 

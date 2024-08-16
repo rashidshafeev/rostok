@@ -11,7 +11,6 @@ import {
 
 import { ArrowIcon } from "../../../../../../helpers/Icons";
 import { useDispatch } from 'react-redux';
-import { toggleTagsFilterValue } from '../../../../../../redux/slices/filterSlice';
 
 function TagsFilters({ filters, setFilters }) {
 

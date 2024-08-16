@@ -1,19 +1,25 @@
 import React from 'react'
 
-function SortControls({ activeSort, handleBySort }) {
+function SortControls({ sort, setSort }) {
 
    
+  const handleSetSort = (sortBy, sortOrder) => {
+      setSort({
+        sortBy: sortBy,
+        sortOrder: sortOrder
+      });
+  }
 
 
   return (
     <div className='hidden ll:flex space-x-3 xl:pb-5'>
           <span
             onClick={() => {
-              handleBySort('popularity', 'desc');
+              handleSetSort('popularity', 'desc');
             }}
             className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'popularity' &&
-              activeSort?.sortOrder === 'desc' &&
+              sort?.sortBy === 'popularity' &&
+              sort?.sortOrder === 'desc' &&
               'text-colGreen'
             }`}
           >
@@ -21,11 +27,11 @@ function SortControls({ activeSort, handleBySort }) {
           </span>
           <span
             onClick={() => {
-              handleBySort('price', 'asc');
+              handleSetSort('price', 'asc');
             }}
             className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'price' &&
-              activeSort?.sortOrder === 'asc' &&
+              sort?.sortBy === 'price' &&
+              sort?.sortOrder === 'asc' &&
               'text-colGreen'
             }`}
           >
@@ -33,11 +39,11 @@ function SortControls({ activeSort, handleBySort }) {
           </span>
           <span
             onClick={() => {
-              handleBySort('price', 'desc');
+              handleSetSort('price', 'desc');
             }}
             className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'price' &&
-              activeSort?.sortOrder === 'desc' &&
+              sort?.sortBy === 'price' &&
+              sort?.sortOrder === 'desc' &&
               'text-colGreen'
             }`}
           >
@@ -45,11 +51,11 @@ function SortControls({ activeSort, handleBySort }) {
           </span>
           <span
             onClick={() => {
-              handleBySort('rating', 'desc');
+              handleSetSort('rating', 'desc');
             }}
             className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'rating' &&
-              activeSort?.sortOrder === 'desc' &&
+              sort?.sortBy === 'rating' &&
+              sort?.sortOrder === 'desc' &&
               'text-colGreen'
             }`}
           >
@@ -57,11 +63,11 @@ function SortControls({ activeSort, handleBySort }) {
           </span>
           <span
             onClick={() => {
-              handleBySort('discount', 'desc');
+              handleSetSort('discount', 'desc');
             }}
             className={`text-sm font-medium cursor-pointer ${
-              activeSort?.orderBy === 'discount' &&
-              activeSort?.sortOrder === 'desc' &&
+              sort?.sortBy === 'discount' &&
+              sort?.sortOrder === 'desc' &&
               'text-colGreen'
             }`}
           >

@@ -4,7 +4,6 @@ import { NavLink, useLoaderData, useNavigate, useNavigation, useParams } from 'r
 import dummylogo from '../../assets/images/dummy-logo.png';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProductStart } from '../../redux/slices/productsSlice';
 
 import ProductAttributesList from '../../components/ProductPage/Attributes/ProductAttributesList';
 import ProductTabs from '../../components/ProductPage/ProductTabs/ProductTabs';

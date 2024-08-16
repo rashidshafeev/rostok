@@ -8,16 +8,16 @@ import productsReducer from './slices/productsSlice';
 import favoriteReducer from './slices/favoriteSlice';
 import comparisonReducer from './slices/comparisonSlice';
 import organizationsReducer from './slices/organizationsSlice';
-import filterReducer from './slices/filterSlice';
+import filtersReducer from './slices/filtersSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
-  product: productsReducer,
+  products: productsReducer,
   cart: cartReducer,
   favorite: favoriteReducer,
   comparison: comparisonReducer,
   organizations: organizationsReducer,
-  filter: filterReducer,
+  filters: filtersReducer,
   [api.reducerPath]: api.reducer,
 });
 

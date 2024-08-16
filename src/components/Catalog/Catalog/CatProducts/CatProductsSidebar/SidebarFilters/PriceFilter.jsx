@@ -1,6 +1,6 @@
 // src/components/PriceFilter.jsx
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -12,16 +12,19 @@ import {
 import { ArrowIcon } from "../../../../../../helpers/Icons";
 import CTextField from "../../../../../../helpers/CustomInputs/CTextField";
 import { useDispatch } from "react-redux";
-import { setPriceFilter as setPriceFilterStore } from "../../../../../../redux/slices/filterSlice";
 
 import { useDebounce } from "react-use";
+import { useParams } from "react-router-dom";
 
 function PriceFilter({ filters, changeFilters, setFilters }) {
   const dispatch = useDispatch();
+  const { categoryId } = useParams()
+
+  const previousMinMax = useRef([ filters?.basics?.price?.min || 0, filters?.basics?.price?.max || 0 ]);
 
   const [priceFilter, setPriceFilter] = useState({
-    min: filters?.basics?.price?.current_value?.min || 0,
-    max: filters?.basics?.price?.current_value?.max || 0,
+    min: filters?.basics?.price?.min || 0,
+    max: filters?.basics?.price?.max || 0,
   });
 
   const [sliderValue, setSliderValue] = useState([
@@ -30,14 +33,15 @@ function PriceFilter({ filters, changeFilters, setFilters }) {
   ]);
 
   useEffect(() => {
-    console.log("filters")
-    console.log(filters)
-    setPriceFilter({
-      min: filters?.basics?.price?.current_value?.min || filters?.basics?.price?.min || 0,
-      max: filters?.basics?.price?.current_value?.max || filters?.basics?.price?.max || 0,
-    });
-    setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
-  }, []);
+    if ((previousMinMax.current[0] !== filters?.basics?.price?.min) || (previousMinMax.current[1] !== filters?.basics?.price?.max) ) {
+        previousMinMax.current = [ filters?.basics?.price?.min, filters?.basics?.price?.max ];
+        setPriceFilter({
+            min: filters?.basics?.price?.min || 0,
+            max: filters?.basics?.price?.max || 0,
+          });
+          setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+    }
+  }, [filters]);
 
   useEffect(() => {
     setSliderValue([
@@ -48,7 +52,7 @@ function PriceFilter({ filters, changeFilters, setFilters }) {
 
   useDebounce(
     () => {
-        console.log("priceFilter", priceFilter);
+        console.log("priceFilter2", priceFilter);
 
         const currentState = JSON.parse(JSON.stringify(filters));
 

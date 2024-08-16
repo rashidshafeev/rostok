@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import arrow from "../../../../../assets/icons/arrow-black.svg";
 
-function MobileSortControls({ activeSort, handleBySort }) {
+function MobileSortControls({ sort, setSort }) {
   const [isOpenSelect, setIsOpenSelect] = useState(false);
 
   const selectRef = useRef(null);
+
+  
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,6 +22,24 @@ function MobileSortControls({ activeSort, handleBySort }) {
     };
   }, []);
 
+  const handleSetSort = (sortBy, sortOrder) => {
+    setSort({
+      sortBy: sortBy,
+      sortOrder: sortOrder
+    });
+}
+
+const listCaption = (sort) => {
+  const captions = {
+    popularity: "По популярности",
+    price: "По цене",
+    rating: "По рейтингу",
+    discount: "По скидке",
+  };
+
+  return captions[sort?.sortBy] || "Сортировка";
+};
+
   return (
     <div ref={selectRef} className="relative ll:hidden min-w-[128px]">
       <div
@@ -27,7 +47,7 @@ function MobileSortControls({ activeSort, handleBySort }) {
         className="flex items-center space-x-2"
       >
         <span className="whitespace-nowrap text-colBlack font-medium text-xs">
-          {activeSort?.name || "Сортировка"}
+          {listCaption}
         </span>
         <img src={arrow} alt="*" />
       </div>
@@ -38,7 +58,7 @@ function MobileSortControls({ activeSort, handleBySort }) {
       >
         <li
           onClick={() => {
-            handleBySort("popularity", "desc", "По популярности");
+            handleSetSort("popularity", "desc", "По популярности");
             setIsOpenSelect(false);
           }}
           className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b pb-1"
@@ -47,7 +67,7 @@ function MobileSortControls({ activeSort, handleBySort }) {
         </li>
         <li
           onClick={() => {
-            handleBySort("price", "asc", "Сначала дешёвые");
+            handleSetSort("price", "asc", "Сначала дешёвые");
             setIsOpenSelect(false);
           }}
           className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1"
@@ -56,7 +76,7 @@ function MobileSortControls({ activeSort, handleBySort }) {
         </li>
         <li
           onClick={() => {
-            handleBySort("price", "desc", "Сначала дорогие");
+            handleSetSort("price", "desc", "Сначала дорогие");
             setIsOpenSelect(false);
           }}
           className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1"
@@ -65,7 +85,7 @@ function MobileSortControls({ activeSort, handleBySort }) {
         </li>
         <li
           onClick={() => {
-            handleBySort("rating", "desc", "Высокий рейтинг");
+            handleSetSort("rating", "desc", "Высокий рейтинг");
             setIsOpenSelect(false);
           }}
           className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1"
@@ -74,7 +94,7 @@ function MobileSortControls({ activeSort, handleBySort }) {
         </li>
         <li
           onClick={() => {
-            handleBySort("discount", "desc", "По размеру скидки");
+            handleSetSort("discount", "desc", "По размеру скидки");
             setIsOpenSelect(false);
           }}
           className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs"
