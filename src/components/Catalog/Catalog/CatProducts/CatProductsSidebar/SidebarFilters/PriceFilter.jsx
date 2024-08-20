@@ -16,11 +16,11 @@ import { useDispatch } from "react-redux";
 import { useDebounce } from "react-use";
 import { useParams } from "react-router-dom";
 
-function PriceFilter({ filters, changeFilters, setFilters }) {
-  const dispatch = useDispatch();
-  const { categoryId } = useParams()
+function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
+  const { categoryId } = useParams();
 
   const previousMinMax = useRef([ filters?.basics?.price?.min || 0, filters?.basics?.price?.max || 0 ]);
+  const previousValues = useRef({});
 
   const [priceFilter, setPriceFilter] = useState({
     min: filters?.basics?.price?.min || 0,
@@ -31,46 +31,6 @@ function PriceFilter({ filters, changeFilters, setFilters }) {
     priceFilter.min || filters?.basics?.price?.min,
     priceFilter.max || filters?.basics?.price?.max,
   ]);
-
-  useEffect(() => {
-    if ((previousMinMax.current[0] !== filters?.basics?.price?.min) || (previousMinMax.current[1] !== filters?.basics?.price?.max) ) {
-        previousMinMax.current = [ filters?.basics?.price?.min, filters?.basics?.price?.max ];
-        setPriceFilter({
-            min: filters?.basics?.price?.min || 0,
-            max: filters?.basics?.price?.max || 0,
-          });
-          setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
-    }
-  }, [filters]);
-
-  useEffect(() => {
-    setSliderValue([
-      priceFilter.min || filters?.basics?.price?.min,
-      priceFilter.max || filters?.basics?.price?.max,
-    ]);
-  }, [priceFilter]);
-
-  useDebounce(
-    () => {
-        console.log("priceFilter2", priceFilter);
-
-        const currentState = JSON.parse(JSON.stringify(filters));
-
-        currentState.basics.price.current_values = {
-            min: priceFilter.min,
-            max: priceFilter.max,
-          };
-
-          currentState.lastChanged = {
-            type: "basics",
-            filter: "price",
-          };
-          setFilters(currentState);
-          
-    },
-    500,
-    [priceFilter]
-  );
 
   const handleChangeMin = (event) => {
     const newMin = event.target.value;
@@ -89,29 +49,102 @@ function PriceFilter({ filters, changeFilters, setFilters }) {
   };
 
   const validateAndSetMin = () => {
-    const min = priceFilter.min === "" ? filters?.basics?.price?.min : Number(priceFilter.min);
+    let min =
+      priceFilter.min === ""
+        ? filters?.basics?.price?.min
+        : Number(priceFilter.min);
+    min = Math.max(min, filters?.basics?.price?.min);
+
+    if (min > priceFilter.max) {
+      min = priceFilter.max; // Ensure min is not greater than max
+    }
+
     setPriceFilter((prev) => ({
       ...prev,
-      min: Math.max(min, filters?.basics?.price?.min),
+      min: min,
     }));
+
+    setSliderValue([min, priceFilter.max]);
   };
 
   const validateAndSetMax = () => {
-    const max = priceFilter.max === "" ? filters?.basics?.price?.max : Number(priceFilter.max);
+    let max =
+      priceFilter.max === ""
+        ? filters?.basics?.price?.max
+        : Number(priceFilter.max);
+    max = Math.min(max, filters?.basics?.price?.max);
+
+    if (max < priceFilter.min) {
+      max = priceFilter.min; // Ensure max is not less than min
+    }
+
     setPriceFilter((prev) => ({
       ...prev,
-      max: Math.min(max, filters?.basics?.price?.max),
+      max: max,
     }));
+
+    setSliderValue([priceFilter.min, max]);
   };
 
   const handleSliderChange = (event, newValue) => {
     setPriceFilter({ min: newValue[0], max: newValue[1] });
+    setSliderValue([newValue[0], newValue[1]]);
   };
 
-  const handleSliderChangeCommitted = (event, newValue) => {
-    setPriceFilter({ min: newValue[0], max: newValue[1] });
-    // Handle any side effects when slider changes are committed
-  };
+  useEffect(() => {
+    if ((previousValues.current[0] !== filters?.basics?.price?.current_values?.min) || (previousValues.current[1] !== filters?.basics?.price?.current_values?.max) ) {
+    //     previousMinMax.current = [ filters?.basics?.price?.min, filters?.basics?.price?.max ];
+    //     setPriceFilter({
+    //         min: filters?.basics?.price?.min || 0,
+    //         max: filters?.basics?.price?.max || 0,
+    //       });
+    //       setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+    setPriceFilter({
+      min: filters?.basics?.price?.current_values?.min || 0,
+      max: filters?.basics?.price?.current_values?.max || 0,
+    });
+    setSliderValue([filters?.basics?.price?.current_values?.min, filters?.basics?.price?.current_values?.max]);
+    }
+
+    
+  }, [filters]);
+
+  useEffect(() => {
+    if (trigger === "categoryId") {
+      setPriceFilter({
+        min: filters?.basics?.price?.min || 0,
+        max: filters?.basics?.price?.max || 0,
+      });
+      setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+    }
+    
+  }, [trigger]);
+
+  useDebounce(
+    () => {
+      
+      if (trigger === "categoryId") {
+        setTrigger("");
+        return
+      };
+
+      const currentState = JSON.parse(JSON.stringify(filters));
+
+      currentState.basics.price.current_values = {
+        min: priceFilter.min,
+        max: priceFilter.max,
+      };
+
+      currentState.lastChanged = {
+        type: "basics",
+        filter: "price",
+      };
+      previousValues.current = [priceFilter.min, priceFilter.max];
+      setFilters(currentState);
+    },
+    1000,
+    [priceFilter]
+  );
 
   return (
     <Accordion
@@ -144,7 +177,6 @@ function PriceFilter({ filters, changeFilters, setFilters }) {
           min={filters?.basics?.price?.min}
           max={filters?.basics?.price?.max}
           onChange={handleSliderChange}
-          onChangeCommitted={handleSliderChangeCommitted}
           valueLabelDisplay="auto"
         />
         <Box>

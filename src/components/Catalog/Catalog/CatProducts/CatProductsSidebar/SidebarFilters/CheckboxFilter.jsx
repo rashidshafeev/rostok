@@ -11,7 +11,6 @@ import {
 
 import { ArrowIcon } from "../../../../../../helpers/Icons";
 import CTextField from "../../../../../../helpers/CustomInputs/CTextField";
-import { useFilters } from "../../../../../../context/CatalogContext";
 import { useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 

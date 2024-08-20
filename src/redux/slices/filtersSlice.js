@@ -1,26 +1,31 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 
-const initialState = {
-  filters: {},
-  lastChanged: null,
-};
+export const fetchFilters = createAsyncThunk('filters/fetchFilters', async () => {
+  const response = await fetch('/api/filters'); // Replace with your actual API endpoint
+  return response.json();
+});
 
 const filtersSlice = createSlice({
   name: 'filters',
-  initialState,
+  initialState: [],
   reducers: {
-    setFilters(state, action) {
-      state.filters = action.payload;
+    
+    updateFilterState: (state, action) => {
+      return action.payload;
     },
-    setLastChanged(state, action) {
-      state.lastChanged = action.payload;
-    },
-    resetFilters(state) {
-      state.filters = {};
-      state.lastChanged = null;
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchFilters.fulfilled, (state, action) => {
+      return action.payload;
+    });
   },
 });
 
-export const { setFilters, setLastChanged, resetFilters } = filtersSlice.actions;
+export const { updateFilterState } = filtersSlice.actions;
+
+export const selectFilters = createSelector(
+  (state) => state.filters,
+  (filters) => filters
+);
+
 export default filtersSlice.reducer;

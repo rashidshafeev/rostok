@@ -1,6 +1,5 @@
 import React from 'react'
 import CheckboxFilter from './CheckboxFilter'
-import { useFilters } from '../../../../../../context/CatalogContext'
 
 function DynamicFilters({ filters, changeFilters, setFilters }) {
 
