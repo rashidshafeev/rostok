@@ -17,9 +17,6 @@ import { useDebounce } from "react-use";
 import { useParams } from "react-router-dom";
 
 function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
-  const { categoryId } = useParams();
-
-  const previousMinMax = useRef([ filters?.basics?.price?.min || 0, filters?.basics?.price?.max || 0 ]);
   const previousValues = useRef({});
 
   const [priceFilter, setPriceFilter] = useState({
@@ -31,6 +28,8 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
     priceFilter.min || filters?.basics?.price?.min,
     priceFilter.max || filters?.basics?.price?.max,
   ]);
+
+  // Синхронизация и правильная работа отобржаения и установления значений
 
   const handleChangeMin = (event) => {
     const newMin = event.target.value;
@@ -91,42 +90,70 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
     setSliderValue([newValue[0], newValue[1]]);
   };
 
+//Логика отправки/изменения стейта
+
   useEffect(() => {
+
     if ((previousValues.current[0] !== filters?.basics?.price?.current_values?.min) || (previousValues.current[1] !== filters?.basics?.price?.current_values?.max) ) {
-    //     previousMinMax.current = [ filters?.basics?.price?.min, filters?.basics?.price?.max ];
-    //     setPriceFilter({
-    //         min: filters?.basics?.price?.min || 0,
-    //         max: filters?.basics?.price?.max || 0,
-    //       });
-    //       setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+  console.log("previousValues.current 3")
+  console.log(previousValues.current, filters, priceFilter)
+
     setPriceFilter({
       min: filters?.basics?.price?.current_values?.min || 0,
       max: filters?.basics?.price?.current_values?.max || 0,
     });
     setSliderValue([filters?.basics?.price?.current_values?.min, filters?.basics?.price?.current_values?.max]);
+
     }
 
-    
   }, [filters]);
 
+
+
   useEffect(() => {
+    //Чтобы установить значения фильтров по максимуму при смене категорий
     if (trigger === "categoryId") {
+      // console.log("filters", filters, {
+      //   min: filters?.basics?.price?.min || 0,
+      //   max: filters?.basics?.price?.max || 0,
+      // })
       setPriceFilter({
-        min: filters?.basics?.price?.min || 0,
-        max: filters?.basics?.price?.max || 0,
+        min: filters?.basics?.price?.current_values?.min || 0,
+        max: filters?.basics?.price?.current_values?.max || 0,
       });
-      setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+      setSliderValue([filters?.basics?.price?.current_values?.min, filters?.basics?.price?.current_values?.max]);
+      // setPriceFilter({
+      //   min: filters?.basics?.price?.min || 0,
+      //   max: filters?.basics?.price?.max || 0,
+      // });
+      // setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+
+      //Чтобы не было отправления после первого изменения чекбоксов(после первичной загрузки)
+      previousValues.current = [filters?.basics?.price?.min, filters?.basics?.price?.max];
+      
+  console.log("previousValues.current 1")
+  console.log(previousValues.current, filters, priceFilter)
     }
-    
+ 
   }, [trigger]);
 
   useDebounce(
     () => {
-      
+      //Чтобы не было отправления при первичной инициализации и после смены категории(особенно при переключении с категории без цены на категорию с ценой - это как перчиная инициалзация)
       if (trigger === "categoryId") {
         setTrigger("");
         return
+
+      console.log("not categoryId")
+
       };
+      console.log("previousValues.current 2")
+      console.log(previousValues.current, filters, priceFilter)
+
+      //Чтобы не было отправления после первого изменеия чекбоксов
+      if ((Number(previousValues.current[0]) === Number(priceFilter.min)) && (Number(previousValues.current[1]) === Number(priceFilter.max)) ) {
+        return
+      }
 
       const currentState = JSON.parse(JSON.stringify(filters));
 

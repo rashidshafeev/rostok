@@ -13,15 +13,15 @@ import {
   useGetFiltersMutation,
   useGetVariantsMutation,
 } from "../../../../redux/api/productEndpoints";
-import { useQueryParams } from "../../../../utils/queryParamUtils";
-
+import queryString from "query-string";
 
 const CatProducts = () => {
-
   //Breadcrums logic
 
   const { categoryId } = useParams();
-  const previousCategoryId = useRef(categoryId);
+
+  const navigate = useNavigate();
+  // const previousCategoryId = useRef(categoryId);
 
   const {
     data: categoryTree,
@@ -38,74 +38,162 @@ const CatProducts = () => {
   //Filters logic
 
   const [filters, setFilters] = useState({});
-  const [trigger, setTrigger] = useState(''); // Нужно в основном для фильтра цен, чтобы он не отсылал запрос при инициализации, и при смене категорий устанавливал правильные значения
+  const [filtersLoading, setFiltersLoading] = useState(false);
+  const [filtersBlock, setFiltersBlock] = useState(false);
+  const [trigger, setTrigger] = useState(""); // Нужно в основном для фильтра цен, чтобы он не отсылал запрос при инициализации, и при смене категорий устанавливал правильные значения
   const previousFilters = useRef({});
-
-  const [sort, setSort] = useState({
-    sortBy: "popularity",
-    sortOrder: "desc",
-  })
 
   const [
     getFilters,
-    { isLoading: filtersIsLoading, isSuccess: filtersIsSuccess },
+    // { isLoading: filtersIsLoading,
+    //   isSuccess: filtersIsSuccess },
   ] = useGetFiltersMutation();
 
   const getNewFiltersList = async (sendObject, trigger) => {
-      const newFilters = await getFilters(sendObject);
-  
-      const newFiltersState = {
-        ...filters,
-        basics: newFilters.data.basics,
-        dynamics: newFilters.data.dynamics,
-      };
+    console.log(trigger);
+    if (trigger === "categoryId") {
+      setFiltersLoading(true);
+    } else if (trigger === "filters") {
+      setFiltersBlock(true);
+    }
 
+    const newFilters = await getFilters(sendObject);
 
-      previousFilters.current = newFiltersState;
-      setFilters(newFiltersState);
-      setTrigger(trigger);
-
+    const newFiltersState = {
+      ...filters,
+      basics: newFilters.data.basics,
+      dynamics: newFilters.data.dynamics,
     };
 
+    previousFilters.current = newFiltersState;
+    setFilters(newFiltersState);
+    setTrigger(trigger);
 
-    useEffect(() => {
-      if (JSON.stringify(filters) !== JSON.stringify(previousFilters.current)) {
-        getNewFiltersList({
+    if (trigger === "categoryId") {
+      setFiltersLoading(false);
+    } else if (trigger === "filters") {
+      setFiltersBlock(false);
+    }
+  };
+
+  useEffect(() => {
+    if (JSON.stringify(filters) !== JSON.stringify(previousFilters.current)) {
+      getNewFiltersList(
+        {
           ...getSendFiltersObject(),
           // min_raiting (float): минимальный рейтинг
           // max_raiting (float): максимальный рейтинг
-    
+
           // orderBy (string): Сортировка по полю
           // sortOrder (string): Направление сортировки
-        })
-        getProducts({
-          ...getSendFiltersObject(),
-          page: page,
-          limit: 20,
-          orderBy: sort.sortBy,
-          sortOrder: sort.sortOrder,
-          
-          // min_raiting (float): минимальный рейтинг
-          // max_raiting (float): максимальный рейтинг
-        });
-      }
-    }, [filters])
+        },
+        "filters"
+      );
+      getProducts({
+        ...getSendFiltersObject(),
+        page: 1,
+        limit: 20,
+        orderBy: sort.sortBy,
+        sortOrder: sort.sortOrder,
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+    }
+    // scrollToTop();
+  }, [filters]);
+
+  useEffect(() => {
+    const queryParams = parseQueryParams(location.search);
+    console.log("queryParams");
+    console.log(queryParams);
+    if (isFirstLoad.current && queryParams) {
+            getNewFiltersList({ ...queryParams.filtersObject, category_id: categoryId }, "categoryId");
+            setPage(queryParams.page);
+            getProducts({
+              ...queryParams.filtersObject,
+              ...queryParams.sortObject,
+              page: queryParams.page,
+              category_id: categoryId
+            });
+          isFirstLoad.current = false; // Mark the first load as completed
+        } else {
+          getNewFiltersList(
+            {
+              category_id: categoryId,
+              min_price: null,
+              max_price: null,
+              brands: [],
+              tags: [],
+              filters: {},
+              last_changed: {},
+              // min_raiting (float): минимальный рейтинг
+              // max_raiting (float): максимальный рейтинг
     
-    useEffect(() => {
-        getNewFiltersList({
-          category_id: categoryId,
-      min_price: null,
-      max_price: null,
-      brands: [],
-      tags:[],
-      filters: {},
-      last_changed: {},
-          // min_raiting (float): минимальный рейтинг
-          // max_raiting (float): максимальный рейтинг
+              // orderBy (string): Сортировка по полю
+              // sortOrder (string): Направление сортировки
+            },
+            "categoryId"
+          );
     
-          // orderBy (string): Сортировка по полю
-          // sortOrder (string): Направление сортировки
-        }, 'categoryId')
+          getProducts({
+            page: 1,
+            limit: 20,
+            orderBy: sort.sortBy,
+            sortOrder: sort.sortOrder,
+            category_id: categoryId,
+            min_price: null,
+            max_price: null,
+            brands: [],
+            tags: [],
+            filters: {},
+            last_changed: {},
+    
+            // min_raiting (float): минимальный рейтинг
+            // max_raiting (float): максимальный рейтинг
+          });
+    
+          setPage(1);
+        }
+    
+      
+
+    scrollToTop();
+  }, [categoryId]);
+
+  const isFirstLoad = useRef(true);
+
+  // useEffect(() => {
+  //   if (isFirstLoad.current) {
+  //     const queryParams = parseQueryParams(location.search);
+  //     if (queryParams) {
+  //       setFilters(queryParams.filtersObject);
+  //       setSort(queryParams.sortObject);
+  //       setPage(queryParams.page);
+  //     }
+  //     isFirstLoad.current = false; // Mark the first load as completed
+  //   }
+  // }, []); // Only run once on initial load
+
+
+  const resetFilters = async () => {
+    getNewFiltersList(
+      {
+        category_id: categoryId,
+        min_price: null,
+        max_price: null,
+        brands: [],
+        tags: [],
+        filters: {},
+        last_changed: {},
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+
+        // orderBy (string): Сортировка по полю
+        // sortOrder (string): Направление сортировки
+      },
+      "categoryId"
+    );
 
     getProducts({
       page: page,
@@ -116,96 +204,96 @@ const CatProducts = () => {
       min_price: null,
       max_price: null,
       brands: [],
-      tags:[],
+      tags: [],
       filters: {},
       last_changed: {},
-      
 
       // min_raiting (float): минимальный рейтинг
       // max_raiting (float): максимальный рейтинг
     });
-
-    }, [categoryId])
-
-
-  const resetFilters = async () => {
-    getNewFiltersList({
-      category_id: categoryId,
-  min_price: null,
-  max_price: null,
-  brands: [],
-  tags:[],
-  filters: {},
-  last_changed: {},
-      // min_raiting (float): минимальный рейтинг
-      // max_raiting (float): максимальный рейтинг
-
-      // orderBy (string): Сортировка по полю
-      // sortOrder (string): Направление сортировки
-    }, 'categoryId')
-
-getProducts({
-  page: page,
-  limit: 20,
-  orderBy: sort.sortBy,
-  sortOrder: sort.sortOrder,
-  category_id: categoryId,
-  min_price: null,
-  max_price: null,
-  brands: [],
-  tags:[],
-  filters: {},
-  last_changed: {},
+    scrollToTop();
   
-
-  // min_raiting (float): минимальный рейтинг
-  // max_raiting (float): максимальный рейтинг
-});
-  }
+  };
   // Products logic
-
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
   const [page, setPage] = useState(1);
+  const [sort, setSort] = useState({
+    sortBy: "popularity",
+    sortOrder: "desc",
+  });
+
+  const sortPrevious = useRef(sort);
 
   const handlePagination = (e, p) => {
     setPage(p);
+    // if (pagePrevious.current !== page) {
+    getProducts({
+      ...getSendFiltersObject(),
+      page: p,
+      limit: 20,
+      orderBy: sort.sortBy,
+      sortOrder: sort.sortOrder,
+
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+    });
+    // pagePrevious.current = page;
+    // }
     scrollToTop();
   };
-
-  const pagePrevious = useRef(page);
 
   const [
     getVariants,
     { isLoading: getVariantsIsLoading, isSuccess: getVariantsIsSuccess },
   ] = useGetVariantsMutation();
 
-  const [products, setProducts] = useState([]);
-
   const getProducts = async (sendObject) => {
+    setProductsLoading(true);
+
     const products = await getVariants(sendObject);
     if (products.data.success === "ok") {
       setProducts(products.data);
     }
+    setProductsLoading(false);
   };
 
+  // useEffect(() => {
+  //   if (pagePrevious.current !== page || trigger !== 'categoryId') {
+  //     getProducts({
+  //       ...getSendFiltersObject(),
+  //       page: page,
+  //       limit: 20,
+  //       orderBy: sort.sortBy,
+  //       sortOrder: sort.sortOrder,
+
+  //       // min_raiting (float): минимальный рейтинг
+  //       // max_raiting (float): максимальный рейтинг
+  //     });
+  //     pagePrevious.current = page;
+  //   }
+  // }, [page]);
+
   useEffect(() => {
-    if (pagePrevious.current != page) {
+    if (JSON.stringify(sortPrevious.current) !== JSON.stringify(sort)) {
       getProducts({
         ...getSendFiltersObject(),
         page: page,
         limit: 20,
         orderBy: sort.sortBy,
         sortOrder: sort.sortOrder,
-        
+
         // min_raiting (float): минимальный рейтинг
         // max_raiting (float): максимальный рейтинг
       });
     }
-    
-  }, [page, sort]);
+  }, [sort]);
 
-  // Utility 
+  // Utility
 
   const getSendFiltersObject = () => {
+    console.log("filters in get send");
+    console.log(filters);
     const brands = filters?.basics?.brands?.reduce((acc, brand) => {
       if (brand.is_selected) {
         acc.push(brand.id);
@@ -241,6 +329,146 @@ getProducts({
     };
   };
 
+  const parseQueryParams = (queryString) => {
+    const params = new URLSearchParams(queryString);
+    const filtersObject = {
+      min_price: null,
+      max_price: null,
+      brands: [],
+      tags: [],
+      filters: {},
+      last_changed: {},
+    };
+    const sortObject = {
+      sortBy: undefined,
+      sortOrder: undefined,
+    };
+    let page = undefined;
+
+    // Parse min_price and max_price
+    if (params.has("min_price")) {
+      filtersObject.min_price =
+        params.get("min_price") === "null"
+          ? null
+          : parseInt(params.get("min_price"), 10);
+    }
+    if (params.has("max_price")) {
+      filtersObject.max_price =
+        params.get("max_price") === "null"
+          ? null
+          : parseInt(params.get("max_price"), 10);
+    }
+
+    // Parse brands
+    if (params.has("brands")) {
+      filtersObject.brands = params.get("brands").split(",").map(Number);
+    }
+
+    // Parse tags
+    if (params.has("tags")) {
+      filtersObject.tags = params.get("tags").split(",");
+    }
+
+    // Parse dynamic filters (filter_*)
+    params.forEach((value, key) => {
+      if (key.startsWith("filter_")) {
+        const filterId = key.replace("filter_", "");
+        filtersObject.filters[filterId] = value.split(",").map(Number);
+      }
+    });
+
+    // Parse last_changed
+    if (params.has("last_changed_type")) {
+      filtersObject.last_changed.type = params.get("last_changed_type");
+    }
+    if (params.has("last_changed_filter")) {
+      filtersObject.last_changed.filter = parseInt(
+        params.get("last_changed_filter"),
+        10
+      );
+    }
+
+    // Parse sortBy and sortOrder
+    if (params.has("sort_by")) {
+      sortObject.sortBy = params.get("sort_by");
+    }
+    if (params.has("sort_order")) {
+      sortObject.sortOrder = params.get("sort_order");
+    }
+
+    // Parse page
+    if (params.has("page")) {
+      page = parseInt(params.get("page"), 10);
+    }
+
+    return {
+      filtersObject,
+      sortObject,
+      page,
+    };
+  };
+
+  const buildQueryParams = (filtersObject, sortObject, page) => {
+    const params = new URLSearchParams();
+    // Category ID
+    // if (filtersObject.category_id) params.set('category_id', filtersObject.category_id);
+
+    // Price range
+    if (filtersObject.min_price !== undefined)
+      params.set("min_price", filtersObject.min_price);
+    if (filtersObject.max_price !== undefined)
+      params.set("max_price", filtersObject.max_price);
+
+    // Brands
+    if (filtersObject.brands?.length) {
+      params.set("brands", filtersObject.brands.join(","));
+    }
+
+    // Tags
+    if (filtersObject.tags?.length) {
+      params.set("tags", filtersObject.tags.join(","));
+    }
+
+    // Dynamic Filters
+    if (
+      filtersObject.filters &&
+      Object.keys(filtersObject.filters).length > 0
+    ) {
+      for (const key in filtersObject.filters) {
+        params.set(`filter_${key}`, filtersObject.filters[key].join(","));
+      }
+    }
+
+    // Last Changed
+    if (filtersObject.last_changed.filter !== undefined) {
+      params.set("last_changed_type", filtersObject.last_changed.type);
+      params.set("last_changed_filter", filtersObject.last_changed.filter);
+    }
+
+    if (sortObject.sortBy !== undefined)
+      params.set("sort_by", sortObject.sortBy);
+    if (sortObject.sortOrder !== undefined)
+      params.set("sort_order", sortObject.sortOrder);
+
+    if (page) params.set("page", page);
+
+    return params.toString();
+  };
+
+  // useEffect(() => {
+  //   console.log("buildQueryParams(location.search)");
+  //   const queryParams = parseQueryParams(location.search);
+  //   console.log(queryParams);
+  //   setFilters(queryParams.filtersObject);
+  //   setSort(queryParams.sortObject);
+  //   setPage(queryParams.page);
+  //   // navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
+  // }, []);
+
+  useEffect(() => {
+    navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
+  }, [filters, sort, page]);
+
   return (
     <div className="content lining-nums proportional-nums">
       <BreadCrumbs breadCrumps={breadCrumbs} />
@@ -255,12 +483,14 @@ getProducts({
           setFilters={setFilters}
           trigger={trigger}
           setTrigger={setTrigger}
-          filtersIsLoading={filtersIsLoading}
           resetFilters={resetFilters}
+          filtersIsLoading={filtersLoading}
+          filtersBlock={filtersBlock}
         />
         <CatProdContent
           products={products}
-          getVariantsIsLoading={getVariantsIsLoading}
+          getVariantsIsLoading={productsLoading}
+          page={page}
           handlePagination={handlePagination}
           sort={sort}
           setSort={setSort}
@@ -281,9 +511,6 @@ getProducts({
       /> */}
     </div>
   );
-
 };
-
-
 
 export default CatProducts;

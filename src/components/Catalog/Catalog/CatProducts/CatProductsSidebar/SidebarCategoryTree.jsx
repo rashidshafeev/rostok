@@ -20,6 +20,13 @@ function SidebarCategoryTree() {
     childLast: null,
   });
 
+  const toggleAccordion = (type, id) => {
+    setAccordion((prevState) => ({
+      ...prevState,
+      [type]: prevState[type] === id ? null : id,
+    }));
+  };
+
   return (
     <>
       {categoryTreeIsLoading && <SidebarCategoryTreeSkeleton />}

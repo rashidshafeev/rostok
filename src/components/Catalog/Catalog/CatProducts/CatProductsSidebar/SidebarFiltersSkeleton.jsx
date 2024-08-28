@@ -2,17 +2,18 @@ import { Skeleton } from '@mui/material'
 import React from 'react'
 function SidebarFiltersSkeleton() {
   return (
-    <div className='flex flex-col gap-2'>
-        <Skeleton variant="rounded" height={30} width={90}/>
+    <div className='flex flex-col gap-2 mt-5'>
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem'}} width={90}/>
+        <Skeleton variant="rounded" height={15} width={180}/>
+
         <div className='flex gap-2 '>
-            <Skeleton variant="rounded" height={40} width={90}/>
+            <Skeleton variant="rounded" height={40} width={85}/>
             
-            <Skeleton variant="rounded" height={40} width={90}/>
+            <Skeleton variant="rounded" height={40} width={85}/>
         </div>
-        <Skeleton variant="rounded" height={20} width={180}/>
 
         <div className='mt-4 flex flex-col gap-2'>
-        <Skeleton variant="rounded" height={40} width={90}/>
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem'}} width={100}/>
         <div className='flex gap-2'>
             <Skeleton variant="rounded" width={30} height={30}/>
             <Skeleton variant="text" width={90} sx={{ fontSize: '1rem'}}/>
@@ -28,7 +29,7 @@ function SidebarFiltersSkeleton() {
         </div>
 
         <div className='mt-4 flex flex-col gap-2'>
-        <Skeleton variant="rounded" height={40} width={90}/>
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem'}} width={140}/>
         <div className='flex gap-2'>
             <Skeleton variant="rounded" width={30} height={30}/>
             <Skeleton variant="text" width={90} sx={{ fontSize: '1rem'}}/>

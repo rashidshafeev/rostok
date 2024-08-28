@@ -30,14 +30,23 @@ function SidebarFilters({
   isLoading,
   trigger,
   setTrigger,
+  filtersBlock,
 }) {
 
 
 
   return (
     <>
-      {/* {isLoading && <SidebarFiltersSkeleton />} */}
-    <div className="sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2">
+       
+
+      {isLoading && <SidebarFiltersSkeleton />}
+    <div className={`${isLoading ? 'hidden' : ''}  border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2 relative`}>
+    {filtersBlock &&
+        <div
+          className=" cursor-wait absolute top-0 left-0 w-full h-full bg-white opacity-30 z-10"
+        >
+        </div>
+    }
     {filters?.basics?.price && <PriceFilter filters={filters}  setFilters={setFilters} trigger={trigger}
           setTrigger={setTrigger}/>}
     {filters?.basics?.brands?.length > 0 && (

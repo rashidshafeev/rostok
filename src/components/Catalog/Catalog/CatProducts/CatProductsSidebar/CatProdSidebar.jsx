@@ -13,70 +13,9 @@ const CatProdSidebar = ({
   filtersIsLoading,
   resetFilters,
   trigger,
-  setTrigger
+  setTrigger,
+  filtersBlock
 }) => {
-
-  // const { filters, updateFilters, resetAllFilters } = useFilters();
-  // const { setQueryParams, getQueryParams, resetQueryParams } = useQueryParams();
-
-  // useEffect(() => {
-//     const queryParams = getQueryParams();
-//     // Check if the filters need to be updated to avoid unnecessary updates
-//     if (Object.keys(queryParams).length > 0 && JSON.stringify(queryParams) !== JSON.stringify(filters)) {
-//       // updateFilters(queryParams);
-//     }
-//   }, []); // Empty dependency array ensures this runs only once on mount
-
-//   const handleFilterChange = (filter) => {
-//     updateFilters(filter);
-//     setQueryParams(filter);
-//   };
-
-//   const handleResetFilters = () => {
-//     resetAllFilters();
-//     resetQueryParams();
-//   };
-
-//   return (
-//     <div>
-//       {basics.price && (
-//         <FilterItem
-//           type="price"
-//           filter={basics.price}
-//           onFilterChange={handleFilterChange}
-//         />
-//       )}
-//       {basics.tags && basics.tags.map((tag, index) => (
-//         <FilterItem
-//           key={index}
-//           type="tag"
-//           filter={tag}
-//           onFilterChange={handleFilterChange}
-//         />
-//       ))}
-//       {basics.brands && basics.brands.map((brand, index) => (
-//         <FilterItem
-//           key={index}
-//           type="brand"
-//           filter={brand}
-//           onFilterChange={handleFilterChange}
-//         />
-//       ))}
-//       {dynamics && dynamics.map((dynamicFilter, index) => (
-//         <FilterItem
-//           key={index}
-//           type={dynamicFilter.type}
-//           filter={dynamicFilter}
-//           onFilterChange={handleFilterChange}
-//         />
-//       ))}
-//       <Button variant="contained" color="secondary" onClick={handleResetFilters}>
-//         Reset Filters
-//       </Button>
-//     </div>
-//   );
-// };
- 
 
   return (
     <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5">
@@ -89,6 +28,7 @@ const CatProdSidebar = ({
         trigger={trigger}
         setTrigger={setTrigger}
 resetFilters={resetFilters}
+filtersBlock={filtersBlock}
       />
     </div>
   );
