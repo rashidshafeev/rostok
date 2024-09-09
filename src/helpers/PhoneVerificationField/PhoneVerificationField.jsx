@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
 import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints'; 
-const PhoneVerificationField = ({ user }) => {
+const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();
   const phone = watch('phone');
 
@@ -53,8 +53,10 @@ const PhoneVerificationField = ({ user }) => {
   }, [timer]);
 
   useEffect(() => {
-            // trigger('phone');
-  }, [verification]);
+    if (verification?.success === 'ok') {
+      trigger('phone'); // Trigger validation once the phone is confirmed
+    }
+  }, [verification?.success, trigger]);
 
   useEffect(() => {
     
@@ -66,7 +68,7 @@ const PhoneVerificationField = ({ user }) => {
   return (
     <div className='flex flex-wrap gap-2'>
       {/* <div className='md:w-[340px] w-[calc(100%-148px)]'> */}
-      <div className='grow md:max-w-[340px]'>
+      <div className={`grow ${verification?.success === 'ok' && stretchOnSuccess ? 'w-full': 'md:max-w-[340px]'}`}>
         <Controller
           name='phone'
           control={control}
@@ -89,11 +91,12 @@ const PhoneVerificationField = ({ user }) => {
           }}
           render={({ field }) => (
             <CPhoneField
-              disabled={verification?.success === 'ok'}
+              disabled={verification?.success === 'ok' || sendVerificationIsLoading || sendVerificationIsSuccess}
               success={verification?.success === 'ok'}
             //   fail={!(verification?.verification === null) && !(verification?.verification || user?.user?.phone)}
             //   loading={miniLoading}
-              label='Телефон' {...field} />
+              label='Телефон'
+              {...field} />
           )}
         />
         {errors?.phone && (

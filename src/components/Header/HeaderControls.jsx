@@ -16,18 +16,13 @@ import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
 
 function HeaderControls() {
   const token = useSelector((state) => state.user.token);
+  
   const favorite = useSelector((state) => state?.favorite?.favorite);
   const comparison = useSelector((state) => state?.comparison?.comparison);
   const cart = useSelector((state) => state?.cart);
 
-
-  
-  // const { data: favoriteQuery } = useGetFavoritesQuery();
-  // console.log("favoriteQuery");
-  // console.log(useGetFavoritesQuery());
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
-  
   useEffect(() => {
     if (token) {
       refetch(); // refetch the user data when token changes

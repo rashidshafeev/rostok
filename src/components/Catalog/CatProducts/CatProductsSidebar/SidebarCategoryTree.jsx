@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import SidebarCategoryTreeSkeleton from "./SidebarCategoryTreeSkeleton";
-import { useGetCategoryTreeQuery } from "../../../../../redux/api/productEndpoints";
+import { useGetCategoryTreeQuery } from "../../../../redux/api/productEndpoints";
 import { NavLink, useParams } from "react-router-dom";
-import { ArrowIcon } from "../../../../../helpers/Icons";
+import { ArrowIcon } from "../../../../helpers/Icons";
 
 
 function SidebarCategoryTree() {

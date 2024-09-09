@@ -8,6 +8,8 @@ import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
 import { comparisonBC } from '../../constants/breadCrumps';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import { useGetComparisonQuery } from '../../redux/api/comparisonEndpoints';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 const Comparison = () => {
   const token = getTokenFromCookies();
@@ -23,6 +25,7 @@ const Comparison = () => {
   const comparison = token ? serverComparison?.data : localComparison;
 
   return (
+    <DndProvider backend={HTML5Backend}>
     <div className='pb-6 content'>
       <CustomBCrumbs breadCrumps={comparisonBC} />
       <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack pb-5'>
@@ -44,6 +47,7 @@ const Comparison = () => {
         )}
       </div>
     </div>
+    </DndProvider>
   );
 };
 

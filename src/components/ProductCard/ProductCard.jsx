@@ -17,6 +17,7 @@ const ProductCard = ({ product }) => {
   const { cart } = useSelector((state) => state.cart);
   const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
 
+  
   const productInCart = token
     ? cartData?.data?.find((el) => el.id === product.id)
     : cart.find((el) => el.id === product.id);

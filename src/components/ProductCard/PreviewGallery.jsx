@@ -42,14 +42,15 @@ const PreviewGallery = ({ product }) => {
             </div>
           </div>
         )} */}
-        <div className="flex flex-col items-center justify-center">
-            <img
+        {/* <div className="flex flex-col items-center justify-center "> */}
+        <img
               onMouseMove={handleMouseMove}
+              onMouseLeave={() => setHoveredIndex(0)}
               className="w-full h-full object-contain"
               src={displayedImage}
             />
             
-          </div>
+          {/* </div> */}
           <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">
             {product?.tags?.length > 0 && (
               <span
@@ -77,7 +78,8 @@ const PreviewGallery = ({ product }) => {
                 onClick={isLoading ? null : handleComparisonClick}
                 className={`${
                   isLoading ? "cursor-wait" : "cursor-pointer"
-                } group-hover:opacity-100 lg:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
+                } w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
+                // } group-hover:opacity-100 lg:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
                 comparison={isInComparison ? "true" : "false"}
               />
             )}
@@ -92,6 +94,9 @@ const PreviewGallery = ({ product }) => {
             }`}
           ></span>
         ))}
+        {(product?.files?.length <= 1 || !product?.files) && <span
+            className={`h-2`}
+          ></span>}
       </div>
       </>
     

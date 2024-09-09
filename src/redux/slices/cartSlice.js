@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import { getTokenFromCookies, saveToSessionStorage } from '../../helpers/cookies/cookies';
 
 const initialState = {
   cart: [],
@@ -43,6 +43,9 @@ export const cartSlice = createSlice({
           state.cart.push(newProduct);
         }
         updateQuantities(state);
+        saveToSessionStorage('cart', state);
+
+
       }
     },
     removeFromCart: (state, action) => {
@@ -50,6 +53,8 @@ export const cartSlice = createSlice({
       if (!token) {
         state.cart = state.cart.filter((product) => product.id !== action.payload.id);
         updateQuantities(state);
+        saveToSessionStorage('cart', state);
+
       }
     },
     changeQuantity: (state, action) => {
@@ -64,6 +69,9 @@ export const cartSlice = createSlice({
           product.quantity = action.payload.quantity;
         }
         updateQuantities(state);
+        saveToSessionStorage('cart', state);
+
+
       }
     },
     selectItem: (state, action) => {
@@ -74,6 +82,9 @@ export const cartSlice = createSlice({
           product.selected = 1;
           updateQuantities(state);
         }
+        saveToSessionStorage('cart', state);
+
+
       }
     },
     unselectItem: (state, action) => {
@@ -84,6 +95,8 @@ export const cartSlice = createSlice({
           product.selected = 0;
           updateQuantities(state);
         }
+        saveToSessionStorage('cart', state);
+
       }
     }
   }

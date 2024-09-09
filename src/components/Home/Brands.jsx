@@ -15,6 +15,8 @@ const Brands = () => {
       <Swiper
         modules={[Navigation, Pagination]}
         navigation={window.innerWidth >= 576}
+      autoHeight={true}
+
         pagination={true}
         spaceBetween={16}
         className='pb-16'

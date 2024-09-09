@@ -1,24 +1,21 @@
 import { useState, useRef, useEffect } from "react";
-import ErrorEmpty from "../../../../../helpers/Errors/ErrorEmpty";
-import ProductCard from "../../../../ProductCard/ProductCard";
-import CardLine from "../../../TypesOfCards/CardLine";
-import LineNarrow from "../../../TypesOfCards/LineNarrow";
-import { CustomPagination } from "../../../../../helpers/Pagination/CustomPagination";
-import filterIcon from "../../../../../assets/icons/filter.svg";
-import ProductCardSkeleton from "../../../../ProductCard/ProductCardSkeleton";
-import CardLineSkeleton from "../../../TypesOfCards/CardLineSkeleton";
-import LineNarrowSkeleton from "../../../TypesOfCards/LineNarrowSkeleton";
+import ErrorEmpty from "../../../../helpers/Errors/ErrorEmpty";
+import ProductCard from "../../../ProductCard/ProductCard";
+import CardLine from "../../../ProductCard/CardLine";
+import LineNarrow from "../../../ProductCard/LineNarrow";
+import { CustomPagination } from "../../../../helpers/Pagination/CustomPagination";
+import filterIcon from "../../../../assets/icons/filter.svg";
+import ProductCardSkeleton from "../../../ProductCard/ProductCardSkeleton";
+import CardLineSkeleton from "../../../ProductCard/CardLineSkeleton";
+import LineNarrowSkeleton from "../../../ProductCard/LineNarrowSkeleton";
 import CardTypeControls from "./CardTypeControls";
 import SortControls from "./SortControls";
 import MobileSortControls from "./MobileSortControls";
-import { useGetVariantsMutation } from "../../../../../redux/api/productEndpoints";
 import { useParams } from "react-router-dom";
-// import { useQueryParams } from "../../../../../utils/queryParamUtils";
-// import { useProducts } from "../../../../../hooks/useProducts";
-import { CircularProgress, Grid } from "@mui/material";
 
 const CatProdContent = ({
   // filters,
+  setFiltersModalOpen,
   products,
   getVariantsIsLoading,
   page,
@@ -40,13 +37,13 @@ const CatProdContent = ({
 
   return (
     <div className="w-full">
-      <div className="sticky ll:static top-[64px] ll:top-auto flex justify-between items-center pb-3 xl:pb-0 bg-white z-[99]">
+      <div className="sticky ll:static top-[76px] ll:top-auto flex justify-between items-center pb-3 xl:pb-0 bg-white z-10">
         <SortControls sort={sort} setSort={setSort} />
         <CardTypeControls cardType={cardType} setTypeCard={setTypeCard} />
 
         <MobileSortControls sort={sort} setSort={setSort} />
         <button
-          onClick={() => setOpen(true)}
+          onClick={() => setFiltersModalOpen(true)}
           className="flex md:hidden items-center outline-none bg-transparent"
         >
           <img src={filterIcon} alt="*" />

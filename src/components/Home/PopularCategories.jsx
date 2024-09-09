@@ -1,8 +1,6 @@
 
-import CatalogCard from '../Catalog/Catalog/CatalogCard';
-import { Loading } from '../../helpers/Loader/Loader';
-import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
-import { useGetCategoryTreeQuery, useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import CatalogCard from '../Catalog/CatalogCard';
+import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
 // const PopularCategories = ({ data }) => {
 const PopularCategories = () => {

@@ -7,7 +7,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
 
     console.log(current)
     console.log(product)
-
+ 
     return (
         <>
             <div className='flex flex-col gap-[10px]'>
@@ -20,7 +20,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     </div>
                 </div>
                 {
-                    product?.attributes?.map((attribute, index) => {
+                    product?.attributes?.slice(0,6).map((attribute, index) => {
                         {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
                         if (current.attributes.some( modAttr => modAttr.id === attribute.id)) {
@@ -50,8 +50,8 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                
 
             </div>
-            <a  href="#char">
-            <div onClick={() => { setTabIndex(0)}} className='text-colGreen font-semibold underline underline-offset-8 cursor-pointer mt-3'>Смотреть все характеристики</div></a>
+            
+            {product?.attributes?.length > 7 && <a  href="#char"><div onClick={() => { setTabIndex(0)}} className='text-colGreen font-semibold underline underline-offset-8 cursor-pointer mt-3'>Все характеристики</div></a>}
         </>
     )
 }

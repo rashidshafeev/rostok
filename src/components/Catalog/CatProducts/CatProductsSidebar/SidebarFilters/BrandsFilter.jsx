@@ -3,13 +3,11 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Checkbox,
   FormControlLabel,
-  Slider,
 } from "@mui/material";
 
-import { ArrowIcon } from "../../../../../../helpers/Icons";
+import { ArrowIcon } from "../../../../../helpers/Icons";
 
 function BrandsFilter({ filters, setFilters }) {
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react' 
+import React, { useState } from "react";
 
 import {
   useFloating,
@@ -11,12 +11,10 @@ import {
   useDismiss,
   useRole,
   useInteractions,
-  FloatingPortal
+  FloatingPortal,
 } from "@floating-ui/react";
 
-
 function ProductAttributeValue({ id, value, handleChangeAttribute }) {
-
   const [isOpen, setIsOpen] = useState(false);
 
   const { refs, floatingStyles, context } = useFloating({
@@ -28,10 +26,10 @@ function ProductAttributeValue({ id, value, handleChangeAttribute }) {
     middleware: [
       offset(5),
       flip({
-        fallbackAxisSideDirection: "start"
+        fallbackAxisSideDirection: "start",
       }),
-      shift()
-    ]
+      shift(),
+    ],
   });
 
   const hover = useHover(context, { move: false });
@@ -44,51 +42,79 @@ function ProductAttributeValue({ id, value, handleChangeAttribute }) {
     hover,
     focus,
     dismiss,
-    role
+    role,
   ]);
 
   return (
     <>
-      <div data-id={id} data-value={value.value} data-text={value.text} onClick={handleChangeAttribute}
-
-        ref={refs.setReference} {...getReferenceProps()}
-
-        className={`h-12 px-3 border ${value.current ? 'border-colGreen' : 'border-colLightGray'} hover:border-colGreen ${value.available ? 'bg-transparent' : 'bg-colLightGray'} rounded-[10px] flex justify-center items-center cursor-pointer`} >
-
+      <div
+        data-id={id}
+        data-value={value.value}
+        data-text={value.text}
+        onClick={handleChangeAttribute}
+        ref={refs.setReference}
+        {...getReferenceProps()}
+        className={`h-12 px-3 border ${
+          value.current ? "border-colGreen" : "border-colLightGray"
+        } hover:border-colGreen ${
+          value.available ? "bg-transparent" : "bg-colLightGray"
+        } rounded-[10px] flex justify-center items-center cursor-pointer`}
+      >
         {/* {value.color ? (<div style={{ backgroundColor: `${value.color}` }} className={`w-10 h-10 rounded-full border`}></div>) : (value.text)} */}
-        {value.second_color ? (<>
-        <div style={{ backgroundColor: `${value.color}` }} className={`w-5 h-10 rounded-l-full  border border-r-0`}></div>
-        <div style={{ backgroundColor: `${value.second_color}` }} className={`w-5 h-10 rounded-r-full border border-l-0`}></div>
-        </>)
-        : value.color ? (<div style={{ backgroundColor: `${value.color}` }} className={`w-10 h-10 rounded-full border`}></div>) 
-        : (value.text)}
-
+        {value.second_color ? (
+          <>
+            <div
+              style={{ backgroundColor: `${value.color}` }}
+              className={`w-5 h-10 rounded-l-full  border border-r-0`}
+            ></div>
+            <div
+              style={{ backgroundColor: `${value.second_color}` }}
+              className={`w-5 h-10 rounded-r-full border border-l-0`}
+            ></div>
+          </>
+        ) : value.color ? (
+          <div
+            style={{ backgroundColor: `${value.color}` }}
+            className={`w-10 h-10 rounded-full border`}
+          ></div>
+        ) : (
+          value.text
+        )}
       </div>
-      {value.color &&
+      {value.color && (
         <FloatingPortal>
-
           {isOpen && (
             <div
-
               ref={refs.setFloating}
               {...getFloatingProps()}
-              style={{  ...floatingStyles }}
-              className='w-[100px] lg:flex hidden h-[100px] border  border-colLightGray rounded-[10px] overflow-hidden'
+              style={{ ...floatingStyles }}
+              className="w-[100px] lg:flex hidden h-[100px] border  border-colLightGray rounded-[10px] overflow-hidden"
             >
-              {value.second_color ? (<>
-        <div style={{ backgroundColor: `${value.color}` }} className={`w-1/2  border border-r-0`}></div>
-        <div style={{ backgroundColor: `${value.second_color}` }} className={`w-1/2 border border-l-0`}></div>
-        </>)
-        : value.color ? (<div style={{ backgroundColor: `${value.color}` }} className={`w-full h-full rounded-full border`}></div>) 
-        : (value.text)}
+              {value.second_color ? (
+                <>
+                  <div
+                    style={{ backgroundColor: `${value.color}` }}
+                    className={`w-1/2  border border-r-0`}
+                  ></div>
+                  <div
+                    style={{ backgroundColor: `${value.second_color}` }}
+                    className={`w-1/2 border border-l-0`}
+                  ></div>
+                </>
+              ) : value.color ? (
+                <div
+                  style={{ backgroundColor: `${value.color}` }}
+                  className={`w-full h-full  border`}
+                ></div>
+              ) : (
+                value.text
+              )}
             </div>
           )}
-
         </FloatingPortal>
-      }
-
+      )}
     </>
-  )
+  );
 }
 
-export default ProductAttributeValue
+export default ProductAttributeValue;

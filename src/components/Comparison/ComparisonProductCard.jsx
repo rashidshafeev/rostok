@@ -10,24 +10,65 @@ import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import AddToCartButton from '../../helpers/AddToCartButton/AddToCartButton';
 import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
-function ComparisonProductCard({ sticky, product }) {
+import { useDrag, useDrop } from 'react-dnd';
+
+function ComparisonProductCard({ product, index, moveProduct  }) {
   const token = getTokenFromCookies();
-
-
 
   const { cart } = useSelector((state) => state.cart);
   const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
 
   const productInCart = token ? cartData?.data?.find((el) => el.id === product.id) : cart.find((el) => el.id === product.id);
 
+  const ItemTypes = {
+    CARD: 'card',
+  };
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const ref = React.useRef(null);
 
+  const [, drop] = useDrop({
+    accept: ItemTypes.CARD,
+    hover(item, monitor) {
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
 
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverMiddleX = (hoverBoundingRect.right - hoverBoundingRect.left) / 2;
+      const clientOffset = monitor.getClientOffset();
+      const hoverClientX = clientOffset.x - hoverBoundingRect.left;
+
+      if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) {
+        return;
+      }
+      if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) {
+        return;
+      }
+
+      moveProduct(dragIndex, hoverIndex);
+      item.index = hoverIndex;
+    },
+  });
+
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.CARD,
+    item: { index },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  drag(drop(ref));
 
   return (
     <NavLink
+    ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }} 
       to={`/catalog/${product?.category?.slug}/${product?.slug}`}
       className='overflow-hidden group box-border pr-4 mb-2'
     >

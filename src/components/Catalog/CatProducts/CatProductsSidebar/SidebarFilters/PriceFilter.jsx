@@ -9,12 +9,10 @@ import {
   Slider,
 } from "@mui/material";
 
-import { ArrowIcon } from "../../../../../../helpers/Icons";
-import CTextField from "../../../../../../helpers/CustomInputs/CTextField";
-import { useDispatch } from "react-redux";
+import { ArrowIcon } from "../../../../../helpers/Icons";
+import CTextField from "../../../../../helpers/CustomInputs/CTextField";
 
 import { useDebounce } from "react-use";
-import { useParams } from "react-router-dom";
 
 function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
   const previousValues = useRef({});

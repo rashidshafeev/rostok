@@ -1,6 +1,6 @@
 
 import ComparisonProductCard from "./ComparisonProductCard";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIntersection } from "react-use";
 import arrow from "../../assets/icons/arrow-black.svg";
 import { current } from "@reduxjs/toolkit";
@@ -39,9 +39,6 @@ const ComDetail = ({ comparison }) => {
       threshold: 1,
     }
   );
-
-  console.log("tableHeaderVisible");
-  console.log(tableHeaderVisible);
 
   const [isSticky, setIsSticky] = useState(false);
 
@@ -101,8 +98,15 @@ const ComDetail = ({ comparison }) => {
   };
 
   const attributes = getUniqueAttributes(comparison);
-  console.log("comparison 2");
-  console.log(comparison);
+
+  const [items, setItems] = useState(comparison);
+
+  const moveProduct = useCallback((fromIndex, toIndex) => {
+    const updatedItems = [...items];
+    const [movedItem] = updatedItems.splice(fromIndex, 1);
+    updatedItems.splice(toIndex, 0, movedItem);
+    setItems(updatedItems);
+  }, [items]);
 
   return (
     <>
@@ -144,9 +148,10 @@ const ComDetail = ({ comparison }) => {
         >
           {/* <div className="flex transition-transform duration-300 bg-white "> */}
 
-          {comparison.map((product) => (
+          {/* {comparison.map((product) => ( */}
+          {items.map((product, index) => (
             <div className="min-w-[300px] max-w-[300px]" ref={item}>
-              <ComparisonProductCard key={product.id} product={product} />
+              <ComparisonProductCard key={product.id} product={product} index={index} moveProduct={moveProduct} />
             </div>
           ))}
         </div>
@@ -173,7 +178,8 @@ const ComDetail = ({ comparison }) => {
               className={`flex transition-transform duration-300 `}
               style={{ transform: `translateX(${translateX}px)` }}
             >
-              {comparison.map((product) => (
+              {/* {comparison.map((product) => ( */}
+              {items.map((product) => (
                 <div
                   key={product.id}
                   className="pt-6 pb-4 px-2 box-border min-w-[300px] "

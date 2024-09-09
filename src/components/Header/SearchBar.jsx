@@ -98,8 +98,8 @@ function SearchBar({ setShowCatalog }) {
             <div className="absolute bg-white w-full h-full box-content bottom-0 right-0 rounded-lg ">
               <div className="relative min-w-full min-h-full bg-white rounded-lg  bottom-0"></div>
               <div
-                className={`relative min-w-full min-h-0 bg-white rounded-lg bottom-0 mt-2 overflow-hidden  proportional-nums lining-nums ${
-                  results.length !== 0 && "p-1"
+                className={`relative min-w-full min-h-0 max-h-[50vh] bg-white rounded-lg bottom-0 mt-2 overflow-auto  proportional-nums lining-nums ${
+                  results?.variants?.length !== 0 && results?.length !== 0 && "p-1"
                 }`}
               >
                 {/* {results?.variants && <div className=' font-semibold text-2xl px-4 pt-3'>Товары</div>} */}

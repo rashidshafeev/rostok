@@ -21,7 +21,7 @@ import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 
 function ProductPage() {
   const [currentProduct, setCurrentProduct] = useState({})
-  const [tabIndex, setTabIndex] = useState(3);
+  const [tabIndex, setTabIndex] = useState(0);
 
   useEffect(() => {
     console.log("to top fired")
@@ -59,7 +59,7 @@ function ProductPage() {
         </div>
         <div className='flex  flex-wrap pb-5 min-h-[420px] gap-5'>
           <div className='lg:basis-[calc(42%-40px/3)] basis-full'>
-            <ProductGallery files={currentProduct.files} />
+            <ProductGallery files={currentProduct.files} tags={currentProduct.tags} />
           </div>
           <MobileInfo name={`${group.name} ${currentProduct.name}`} reviews={group.reviews} sku={currentProduct.sku} />
 

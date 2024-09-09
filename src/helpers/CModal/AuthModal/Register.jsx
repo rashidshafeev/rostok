@@ -33,12 +33,13 @@ const Register = ({ setContent }) => {
     reset,
     register,
     watch,
+    trigger,
     formState: { errors, isValid },
   } = methods;
-
+  const password = watch("password");
   const [resError, setResError] = useState(null);
-  const [isShow, setIsShow] = useState(false);
-  const [isShowTwo, setShowTwo] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
   const cart = useSelector((state) => state.cart.cart);
   const comparison = useSelector((state) => state.comparison.comparison);
@@ -141,13 +142,14 @@ const Register = ({ setContent }) => {
               )}
             </div>
             <div>
-              <PhoneVerificationField />
+              <PhoneVerificationField stretchOnSuccess={true} />
             </div>
             <div>
               <Controller
                 name="email"
                 control={control}
                 defaultValue=""
+                required
                 rules={{
                   required: "Поле обязательно к заполнению!",
                   pattern: {
@@ -160,12 +162,16 @@ const Register = ({ setContent }) => {
                     label="Электронная почта"
                     type="email"
                     {...field}
+                    // onChange={(e) => {
+                    //   field.onChange(e);
+                    //   trigger("email"); // trigger validation
+                    // }}
                   />
                 )}
               />
               {errors?.email && (
                 <p className="text-red-500 mt-1 text-xs font-medium">
-                  {errors?.email.message || "Error!"}
+                  {errors?.email?.message || "Error!"}
                 </p>
               )}
             </div>
@@ -195,19 +201,19 @@ const Register = ({ setContent }) => {
                   render={({ field }) => (
                     <CTextField
                       label="Пароль"
-                      type={`${isShow ? "text" : "password"}`}
+                      type={`${showPassword ? "text" : "password"}`}
                       {...field}
                     />
                   )}
                 />
-                {isShow ? (
+                {showPassword ? (
                   <VisibilityOff
-                    onClick={() => setIsShow(false)}
+                    onClick={() => setShowPassword(false)}
                     className="absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
                   />
                 ) : (
                   <Visibility
-                    onClick={() => setIsShow(true)}
+                    onClick={() => setShowPassword(true)}
                     className="absolute top-5 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
                   />
                 )}
@@ -235,26 +241,30 @@ const Register = ({ setContent }) => {
                   render={({ field }) => (
                     <CTextField
                       label="Подтвердите пароль"
-                      type={`${isShowTwo ? "text" : "password"}`}
+                      type={`${showPasswordConfirm ? "text" : "password"}`}
                       {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        trigger("confirmPassword"); // trigger validation
+                      }}
                     />
                   )}
                 />
-                {isShowTwo ? (
+                {showPasswordConfirm ? (
                   <VisibilityOff
-                    onClick={() => setIsShowTwo(false)}
+                    onClick={() => setShowPasswordConfirm(false)}
                     className="absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
                   />
                 ) : (
                   <Visibility
-                    onClick={() => setIsShowTwo(true)}
+                    onClick={() => setShowPasswordConfirm(true)}
                     className="absolute top-1/2 -translate-y-1/2 right-3 opacity-60 cursor-pointer"
                   />
                 )}
               </div>
               {errors?.confirmPassword && (
                 <p className="text-red-500 mt-1 text-xs font-medium">
-                  {errors?.confirmPassword.message || "Error!"}
+                  {errors?.confirmPassword?.message || "Error!"}
                 </p>
               )}
             </div>
@@ -299,6 +309,7 @@ const Register = ({ setContent }) => {
                 {...register("privacyPolicy")}
                 defaultChecked
                 required
+                
                 sx={{
                   color: "#15765B",
                   padding: "0 9px",
@@ -319,6 +330,7 @@ const Register = ({ setContent }) => {
                 <NavLink className="text-colGreen" to="#">
                   Политики обработки персональных данных
                 </NavLink>
+                
               </p>
             }
           />

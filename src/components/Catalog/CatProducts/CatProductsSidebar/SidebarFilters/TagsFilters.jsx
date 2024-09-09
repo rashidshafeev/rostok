@@ -3,14 +3,11 @@ import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
-    Box,
     Checkbox,
     FormControlLabel,
-    Slider,
   } from "@mui/material";
 
-import { ArrowIcon } from "../../../../../../helpers/Icons";
-import { useDispatch } from 'react-redux';
+import { ArrowIcon } from "../../../../../helpers/Icons";
 
 function TagsFilters({ filters, setFilters }) {
 

@@ -9,10 +9,10 @@ import star from '../../assets/icons/adv1fill.svg';
 import share from '../../assets/icons/share.svg';
 import downloadpdf from '../../assets/icons/download-pdf.svg';
 import print from '../../assets/icons/print.svg';
-// import { toggleComparison } from '../../redux/slices/comparisonSlice';
-// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/ModalContext';
+import ComparisonButton from '../../helpers/ComparisonButton/ComparisonButton';
+import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
 
 function TopControls({product, reviews}) {
 
@@ -29,6 +29,7 @@ function TopControls({product, reviews}) {
   return (
     <>
     <div className='flex justify-between mb-[10px]'>
+      
           <div className='flex gap-[10px]'>
 
             <button className='flex items-end proportional-nums  lining-nums'>
@@ -41,21 +42,35 @@ function TopControls({product, reviews}) {
               </span>
             </button>
             
-            
-            
-            
-            <button
+         
+            {/* <button
               className='text-center flex flex-row justify-between items-center'
               onClick={(e) => {
                 dispatch(toggleComparison(product));
               }}
             >
               <img className='mx-auto mr-1' src={isProductInComparison ? comparisoniconactive : comparisonicon  } alt='*' />
+
+              <span className='text-xs pt-1 font-medium text-colBlack'>
+                Сравнить
+              </span>
+            </button> */}
+
+            <ComparisonButton product={product}>
+            {({ isLoading, isInComparison, handleComparisonClick }) => (
+              <button
+              className='text-center flex flex-row justify-between items-center'
+              onClick={handleComparisonClick}
+            >
+              <img className='mx-auto mr-1' src={isInComparison ? comparisoniconactive : comparisonicon  } alt='*' />
+
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 Сравнить
               </span>
             </button>
-            <button 
+            )}
+          </ComparisonButton>
+            {/* <button 
               className='text-center flex flex-row justify-between items-center'
               onClick={(e) => {
                 dispatch(toggleFavorite(product));
@@ -65,7 +80,21 @@ function TopControls({product, reviews}) {
               <span className='text-xs pt-1 font-medium text-colBlack'>
                 В избранное
               </span>
-            </button>
+            </button> */}
+            <FavoriteButton product={product}>
+              {({ isLoading, isInFavorite, handleFavoriteClick }) => (
+                <button 
+                className='text-center flex flex-row justify-between items-center'
+                onClick={handleFavoriteClick}
+              >
+                <img className='mx-auto mr-1' src={isInFavorite ?  favoriteiconactive  : favoriteicon} alt='*' />
+                <span className='text-xs pt-1 font-medium text-colBlack'>
+                  В избранное
+                </span>
+              </button>
+              )}
+            </FavoriteButton>
+
             <button 
               className='text-center flex flex-row justify-between items-center'
               onClick={() => showModal({ type: 'share'})}

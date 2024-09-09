@@ -15,6 +15,8 @@ const News = () => {
         modules={[Navigation]}
         navigation={window.innerWidth >= 576}
         spaceBetween={16}
+      autoHeight={true}
+
         breakpoints={{
           260: {
             slidesPerView: 2,

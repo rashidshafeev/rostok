@@ -1,6 +1,6 @@
 // src/features/favorite/favoriteSlice.ts
 import { createSlice } from '@reduxjs/toolkit';
-import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import { getTokenFromCookies, saveToSessionStorage } from '../../helpers/cookies/cookies';
 
 const initialState = {
   favorite: [],
@@ -22,12 +22,16 @@ export const favoriteSlice = createSlice({
       const token = getTokenFromCookies();
       if (!token) {
         state.favorite.push({ ...action.payload });
+        
+        saveToSessionStorage('favorite', state.favorite);
       }
     },
     removeFromFavorite: (state, action) => {
       const token = getTokenFromCookies();
       if (!token) {
         state.favorite = state.favorite.filter((item) => item.id !== action.payload.id);
+
+        saveToSessionStorage('favorite', state.favorite);
       }
     },
   },

@@ -3,21 +3,13 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Checkbox,
   FormControlLabel,
-  Slider,
 } from "@mui/material";
 
-import { ArrowIcon } from "../../../../../../helpers/Icons";
-import CTextField from "../../../../../../helpers/CustomInputs/CTextField";
-import { useDispatch } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { ArrowIcon } from "../../../../../helpers/Icons";
 
 function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
-
-  const navigate = useNavigate();
-const location = useLocation();
 
   const handleCheckboxChange = (filterId, valueId) => {
     const currentState = JSON.parse(JSON.stringify(filters));

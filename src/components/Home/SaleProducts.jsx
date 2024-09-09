@@ -14,9 +14,11 @@ const SaleProducts = () => {
       </h1>
       <div className=''>
         <Swiper
-        className='flex h-full'
+        // className='flex h-full'
           modules={[Navigation]}
           navigation={window.innerWidth >= 576}
+      autoHeight={true}
+
           wrapperClass='flex grow'
           spaceBetween={16}
           breakpoints={{
@@ -35,7 +37,7 @@ const SaleProducts = () => {
           }}
         >
           {isSuccess && data?.withDiscount?.map((el) => (
-            <SwiperSlide className=' h-full' key={el?.id}>
+            <SwiperSlide key={el?.id}>
               <ProductCard product={el} />
             </SwiperSlide>
           ))}

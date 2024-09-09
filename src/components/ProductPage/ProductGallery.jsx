@@ -1,151 +1,149 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from "react";
 
 import ImageGallery from "react-image-gallery";
 // import stylesheet if you're not already using CSS @import
 import "react-image-gallery/styles/css/image-gallery.css";
-import LeftNav from './Gallery/LeftNav';
-import RightNav from './Gallery/RightNav';
-import noImg from '../../assets/images/no-image.png'
-import './ProductGallery.css'
+import LeftNav from "./Gallery/LeftNav";
+import RightNav from "./Gallery/RightNav";
+import noImg from "../../assets/images/no-image.png";
+import "./ProductGallery.css";
 
 import Lightbox from "yet-another-react-lightbox";
 import Video from "yet-another-react-lightbox/plugins/video";
 import "yet-another-react-lightbox/styles.css";
 
-function ProductGallery({ files }) {
-
+function ProductGallery({ files, tags }) {
   console.log("files", files, files?.length);
   // const images = []
   const imageGalleryRef = useRef(null);
-  const sliderIndex = useRef(0)
+  const sliderIndex = useRef(0);
   const [lightBoxIndex, setLightBoxIndex] = useState(-1);
-
 
   const renderVideo = (item) => {
     return (
-      <div className="video-wrapper min-h-[480px] max-h-[480px]  cursor-pointer flex items-center"
-      onClick={() => {
-        setLightBoxIndex(item.index)
-        sliderIndex.current = item.index
-      }}
+      <div
+        className="video-wrapper min-h-[480px] max-h-[480px]  cursor-pointer flex items-center"
+        onClick={() => {
+          setLightBoxIndex(item.index);
+          sliderIndex.current = item.index;
+        }}
       >
         <video
-          className='rounded-lg cursor-pointer'
+          className="rounded-lg cursor-pointer"
           width="100%"
           height="480px"
           src={item.embedUrl}
           autoplay={true}
           controls
         >
-          {/* <source
-    src={item.embedUrl}
-    type="video/mp4" /> */}
-        Your browser doesn't support HTML5 video tag.
+          Your browser doesn't support HTML5 video tag.
         </video>
-
-        {/* <iframe
-          onClick={() => {
-            console.log(1)
-            setLightBoxIndex(item.index)
-          }}
-          className='rounded-lg cursor-pointer'
-          width="100%"
-          height="480px"
-          src={item.embedUrl}
-          frameBorder="0"
-          // allowFullScreen
-          title="ex"
-        /> */}
       </div>
     );
   };
 
   const renderImage = (item) => {
     return (
-
       <div className="flex flex-col  justify-center">
+       
+       {tags?.length > 0 && <div className="absolute top-5 left-5 flex gap-2">
+        {tags?.map((tag) => {
+          return (
+            <span
+              style={{ color: tag.text_color }}
+              className={`bg-[${tag.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
+            >
+              {tag.text}
+            </span>
+          );
+        })}
+      </div>}
 
         <img
           onClick={() => {
-            setLightBoxIndex(item.index)
-            sliderIndex.current = item.index
+            setLightBoxIndex(item.index);
+            sliderIndex.current = item.index;
           }}
           src={item.original}
-          className="shrink min-h-[480px] max-h-[480px]  object-scale-down rounded-xl" alt="" />
+          className="shrink min-h-[480px] max-h-[480px]  object-scale-down rounded-xl"
+          alt=""
+        />
       </div>
     );
   };
 
+  const images = [];
 
-  const images = []
-
-  files?.length ? files?.forEach((file, index) => {
-    if (file.type === "image") {
-
-      images.push({
-        //for lightbox
-        index: index,
-        src: file.large,
-        //for react-image-gallery
-        original: file.large,
-        thumbnail: file.small,
+  files?.length
+    ? files?.forEach((file, index) => {
+        if (file.type === "image") {
+          images.push({
+            //for lightbox
+            index: index,
+            src: file.large,
+            //for react-image-gallery
+            original: file.large,
+            thumbnail: file.small,
+            renderItem: renderImage.bind(this),
+          });
+        } else if (file.type === "video") {
+          images.push({
+            //for lightbox
+            index: index,
+            type: "video",
+            width: 1280,
+            height: 720,
+            sources: [
+              {
+                src: file.url,
+                type: "video/mp4",
+              },
+            ],
+            //for react-image-gallery
+            embedUrl: file.url,
+            thumbnail: "video/mp4",
+            renderItem: renderVideo.bind(this),
+            originalHeight: "480px",
+          });
+        }
+      })
+    : images.push({
+        original: noImg,
+        thumbnail: noImg,
         renderItem: renderImage.bind(this),
-        
-      })
-
-    } else if (file.type === "video") {
-
-      images.push({
-        //for lightbox
-        index: index,
-        type: "video",
-        width: 1280,
-        height: 720,
-        sources: [
-          {
-            src: file.url,
-            type: "video/mp4",
-          }
-        ],
-        //for react-image-gallery
-        embedUrl: file.url,
-        thumbnail: 'video/mp4',
-        renderItem: renderVideo.bind(this),
-        originalHeight: "480px",
-      })
-
-    }
-
-  }) : images.push({
-    original: noImg,
-    thumbnail: noImg,
-    renderItem: renderImage.bind(this),
-  })
-
-
-
+      });
 
   return (
     <>
       <ImageGallery
-        renderLeftNav={(onClick, disabled) => (<LeftNav onClick={onClick} disabled={disabled} />)}
-        renderRightNav={(onClick, disabled) => (<RightNav onClick={onClick} disabled={disabled} />)}
-        items={images} showVideo={true} additionalClass="" showFullscreenButton={false} showPlayButton={false} useBrowserFullscreen={false}
+        renderLeftNav={(onClick, disabled) => (
+          <LeftNav onClick={onClick} disabled={disabled} />
+        )}
+        renderRightNav={(onClick, disabled) => (
+          <RightNav onClick={onClick} disabled={disabled} />
+        )}
+        items={images}
+        showThumbnails={images.length > 1}
+        showVideo={true}
+        additionalClass=""
+        showFullscreenButton={false}
+        showPlayButton={false}
+        useBrowserFullscreen={false}
         startIndex={sliderIndex.current}
         ref={imageGalleryRef}
-      />
+      > </ImageGallery>
       <Lightbox
-      plugins={[  Video   ]}
+        plugins={[Video]}
         index={lightBoxIndex}
         slides={images}
         open={lightBoxIndex >= 0}
         close={() => setLightBoxIndex(-1)}
         controller={{
-          closeOnBackdropClick: true
+          closeOnBackdropClick: true,
         }}
       />
     </>
-  )
+  );
 }
 
-export default ProductGallery
+export default ProductGallery;

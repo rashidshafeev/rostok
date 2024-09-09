@@ -4,11 +4,10 @@ import SidebarCategoryTree from "./SidebarCategoryTree";
 import SidebarFilters from "./SidebarFilters/SidebarFilters";
 
 import React, { useEffect } from 'react';
-import Button from '@mui/material/Button';
-import { useQueryParams } from "../../../../../utils/queryParamUtils";
 
 const CatProdSidebar = ({
   filters,
+        setFiltersModalOpen,
   setFilters,
   filtersIsLoading,
   resetFilters,
@@ -21,7 +20,7 @@ const CatProdSidebar = ({
     <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5">
       <SidebarCategoryTree />
       <SidebarFilters
-        // setOpen={setOpen}
+        setFiltersModalOpen={setFiltersModalOpen}
         isLoading={filtersIsLoading}
         filters={filters}
         setFilters={setFilters}

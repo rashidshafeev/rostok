@@ -10,6 +10,7 @@ const BannerOne = () => {
       navigation={window.innerWidth >= 991}
       pagination={true}
       modules={[Navigation, Autoplay, EffectFade, Pagination]}
+      autoHeight={true}
       autoplay={{
         delay: 5000,
         disableOnInteraction: true,

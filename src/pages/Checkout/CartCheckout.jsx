@@ -28,7 +28,7 @@ import SimpleCheckoutFrom from '../../components/Checkout/SimpleCheckoutFrom';
 import { removeFromCart } from '../../redux/slices/cartSlice';
 import { useSendOrderMutation } from '../../redux/api/orderEndpoints';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
-import { useGetUserCartQuery } from '../../redux/api/cartEndpoints';
+import { useGetUserCartQuery, useSendCartMutation } from '../../redux/api/cartEndpoints';
 import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
 
 function CartCheckout() {
@@ -37,6 +37,7 @@ function CartCheckout() {
   const { cart: localCart } = useSelector((state) => state.cart);
   const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
   const { data: user } = useGetUserDataQuery()
+  const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
 
   const cart = token ? serverCart?.data : localCart;
   const selected = cart?.filter((item) => item.selected === true || item.selected.toString() === '1');
@@ -134,13 +135,24 @@ function CartCheckout() {
       order: items,
     }
     sendOrder(order)
-    selected.forEach((product) => {
-      dispatch(removeFromCart(product));
-    })
+    
+    
+    removeSelected()
+
     if (user) {
     navigate('/profile/orders');
     }
     
+  }
+
+  const removeSelected = () => {
+    const payload = selected.map(item => ({
+      id: item.id,
+      quantity: 0,
+      selected: 0
+    }))
+
+    token ? sendCart({items: payload}) : selected.forEach((item) => dispatch(removeFromCart(item)));
   }
 
   const onError = (errors, e) => {

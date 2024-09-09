@@ -12,6 +12,8 @@ const Suggestions = () => {
       <Swiper
         modules={[Navigation]}
         navigation={window.innerWidth >= 576}
+      autoHeight={true}
+
         spaceBetween={16}
         breakpoints={{
           260: {

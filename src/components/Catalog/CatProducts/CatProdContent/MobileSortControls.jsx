@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import arrow from "../../../../../assets/icons/arrow-black.svg";
+import arrow from "../../../../assets/icons/arrow-black.svg";
 
 function MobileSortControls({ sort, setSort }) {
   const [isOpenSelect, setIsOpenSelect] = useState(false);

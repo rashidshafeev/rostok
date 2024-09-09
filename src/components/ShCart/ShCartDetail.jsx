@@ -16,9 +16,9 @@ import MobileToCheckoutBar from './MobileToCheckoutBar';
 // import { useIntersectionObserver } from "@uidotdev/usehooks";
 import { useIntersection, useWindowSize } from 'react-use';
 import { useGetUserCartQuery, useSendCartMutation } from '../../redux/api/cartEndpoints';
-import CardLineSkeleton from '../Catalog/TypesOfCards/CardLineSkeleton';
+import CardLineSkeleton from '../ProductCard/CardLineSkeleton';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
-import LineNarrowSkeleton from '../Catalog/TypesOfCards/LineNarrowSkeleton';
+import LineNarrowSkeleton from '../ProductCard/LineNarrowSkeleton';
 
 const ShCartDetail = () => {
   

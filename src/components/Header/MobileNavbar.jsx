@@ -1,7 +1,6 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-// import AuthModal from '../../helpers/CModal/AuthModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import homeIcon from '../../assets/icons/mobile-navbar/home.svg';
 import catalogIcon from '../../assets/icons/mobile-navbar/catalog.svg';
 import favoriteIcon from '../../assets/icons/mobile-navbar/favorite.svg';
@@ -12,15 +11,36 @@ import activeCatalogIcon from '../../assets/icons/mobile-navbar/active-catalog.s
 import activeFavoriteIcon from '../../assets/icons/mobile-navbar/active-favorite.svg';
 import activeProfileIcon from '../../assets/icons/mobile-navbar/active-profile.svg';
 import activeCartIcon from '../../assets/icons/mobile-navbar/active-cart.svg';
-import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
+
 import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
+import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
+import { useModal } from '../../context/ModalContext';
 
 const MobileNavbar = () => {
-  const { data: favorites } = useGetFavoritesQuery();
+  const token = useSelector((state) => state.user.token);
 
-  const { user } = useSelector((state) => state?.user);
-  const itemsQuantity = useSelector((state) => state?.cart?.itemsQuantity);
   const favorite = useSelector((state) => state?.favorite?.favorite);
+  const cart = useSelector((state) => state?.cart);
+
+  const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
+
+  useEffect(() => {
+    if (token) {
+      refetch(); // refetch the user data when token changes
+    }
+  }, [token, refetch]);
+
+  const getFavoritesCount = () => {
+    return user ? user?.favorites?.items_count : (favorite.length || 0);
+  };
+
+  const getCartQuantity = () => {
+    return user ? user?.cart?.quantity : (cart.itemsQuantity || 0);
+  };
+
+
+  const { showModal } = useModal();
+
 
   const [content, setContent] = useState('');
   const [open, setOpen] = useState(false);
@@ -58,24 +78,24 @@ const MobileNavbar = () => {
           />
           <p className='pt-[2px] text-[10px] sm:text-xs'>Избранное</p>
           {user
-            ? favorites?.data?.length > 0 && (
+            ? getFavoritesCount() > 0 && (
                 <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-                  {!favorites?.data?.length > 99
+                  {!getFavoritesCount() > 99
                     ? '99+'
-                    : favorites?.data?.length}
+                    : getFavoritesCount()}
                 </span>
               )
-            : favorite.length > 0 && (
+            : getFavoritesCount() > 0 && (
                 <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-                  {!favorite.length > 99 ? '99+' : favorite.length}
+                  {!getFavoritesCount() > 99 ? '99+' : getFavoritesCount()}
                 </span>
               )}
         </NavLink>
-        {user ? (
-          <NavLink
-            to={`${
-              window.innerWidth < 576 ? '/profile' : '/profile/personal-data'
-            }`}
+        {token && <NavLink
+            // to={`${
+            //   window.innerWidth < 576 ? '/profile' : '/profile/personal-data'
+            // }`}
+            to={'/profile'}
             className='flex flex-col justify-center items-center cursor-pointer'
           >
             <img
@@ -83,12 +103,10 @@ const MobileNavbar = () => {
               alt='*'
             />
             <p className='pt-[2px] text-[10px] sm:text-xs'>Профиль</p>
-          </NavLink>
-        ) : (
-          <button
+          </NavLink>}
+          {!token && <button
             onClick={() => {
-              setContent('checkAuth');
-              setOpen(true);
+              showModal({ type: 'auth', content: 'checkAuth', from: location})
             }}
             className='flex flex-col justify-center items-center cursor-pointer bg-transparent outline-none'
           >
@@ -97,8 +115,7 @@ const MobileNavbar = () => {
               alt='*'
             />
             <p className='pt-[2px] text-[10px] sm:text-xs'>Профиль</p>
-          </button>
-        )}
+          </button>}
         <NavLink
           to='/shopping-cart'
           className='relative flex flex-col justify-center items-center cursor-pointer'
@@ -108,9 +125,9 @@ const MobileNavbar = () => {
             alt='*'
           />
           <p className='pt-[2px] text-[10px] sm:text-xs'>Корзина</p>
-          {itemsQuantity > 0 && (
+          {getCartQuantity() > 0 && (
             <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1'>
-              {!itemsQuantity > 99 ? '99+' : itemsQuantity}
+              {!getCartQuantity() > 99 ? '99+' : getCartQuantity()}
             </span>
           )}
         </NavLink>

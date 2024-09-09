@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { ArrowIcon } from '../../../helpers/Icons';
+import { ArrowIcon } from '../../helpers/Icons';
 
 const CatalogSidebar = ({ categoryTree }) => {
   const [accordion, setAccordion] = useState({

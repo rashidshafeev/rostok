@@ -1,8 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { addToCart } from '../../../redux/slices/cartSlice';
+import { addToCart } from '../../redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { ComparisonIcon, FavoriteIcon } from '../../../helpers/Icons';
-import noImg from '../../../assets/images/no-image.png';
+import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
+import noImg from "../../assets/images/no-image.png";
+
 // import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
 // import { toggleComparison } from '../../../redux/slices/comparisonSlice';
 

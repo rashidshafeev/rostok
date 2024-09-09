@@ -11,3 +11,9 @@ export const saveTokenToCookies = (token) => {
 export const getTokenFromCookies = () => {
     return Cookies.get('token') || null;
   };
+
+export  const saveToSessionStorage = (key, data) => {
+  console.log("key, data");
+  console.log(key, data);
+    sessionStorage.setItem(key, JSON.stringify(data));
+  };
