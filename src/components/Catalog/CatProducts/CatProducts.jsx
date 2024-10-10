@@ -52,7 +52,7 @@ const CatProducts = () => {
 
   const getNewFiltersList = async (sendObject, trigger) => {
     console.log(trigger);
-    if (trigger === "categoryId") {
+    if (trigger === "categoryId" || trigger === "tags") {
       setFiltersLoading(true);
     } else if (trigger === "filters") {
       setFiltersBlock(true);
@@ -63,6 +63,8 @@ const CatProducts = () => {
       ...obj,
       additional_filter: true
     }));
+    console.log("newFiltersState");
+    console.log(more);
     const newDynamics = newFilters.data.dynamics.concat(more);
 
     const newFiltersState = {
@@ -70,12 +72,13 @@ const CatProducts = () => {
       basics: newFilters.data.basics,
       dynamics: newDynamics,
     };
-
+    console.log("newFiltersState");
+    console.log(newDynamics);
     previousFilters.current = newFiltersState;
     setFilters(newFiltersState);
     setTrigger(trigger);
 
-    if (trigger === "categoryId") {
+    if (trigger === "categoryId" || trigger === "tags") {
       setFiltersLoading(false);
     } else if (trigger === "filters") {
       setFiltersBlock(false);
@@ -111,29 +114,9 @@ const CatProducts = () => {
 
   useEffect(() => {
     const queryParams = parseQueryParams(location.search);
-    // console.log("tags");
-    // console.log(queryParams);
-    // if (isFirstLoad.current && categoryId === 'tags') {
-    //   getNewFiltersList({
-    //     ...getSendFiltersObject(),
-
-    //     tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()] },
-    //     "categoryId"
-    //   );
-
-    //   getProducts({
-    //     ...getSendFiltersObject(),
-    //     tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()] ,
-    //     page: 1,
-    //     limit: 20,
-    //     orderBy: sort.sortBy || 'popularity',
-    //     sortOrder: sort.sortOrder || 'desc',
-
-    //     // min_raiting (float): минимальный рейтинг
-    //     // max_raiting (float): максимальный рейтинг
-    //   });
-    //   return
-    // }
+    
+    if (categoryId === 'tags') return;
+    
 
     if (isFirstLoad.current && queryParams) {
       getNewFiltersList(
@@ -197,12 +180,12 @@ const CatProducts = () => {
     const queryParams = parseQueryParams(location.search);
     console.log("tags");
     console.log(queryParams);
-    if (categoryId === 'tags' && queryParams.filtersObject.tags && !queryParams.filtersObject.max_price) {
+    if (categoryId === 'tags' && queryParams.filtersObject.tags.length > 0 && !queryParams.filtersObject.max_price) {
       getNewFiltersList({
         ...getSendFiltersObject(),
 
         tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()] },
-        "categoryId"
+        "tags"
       );
 
       getProducts({
@@ -538,6 +521,8 @@ const CatProducts = () => {
           categoryTree?.category?.name}
       </h3>
       <div className="flex pb-10 min-h-[420px]">
+      {/* <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5"> */}
+      <div className="md:block hidden basis-1/4 mr-5">
         <CatProdSidebar
         setFiltersModalOpen={setFiltersModalOpen}
           filters={filters}
@@ -548,6 +533,7 @@ const CatProducts = () => {
           filtersIsLoading={filtersLoading}
           filtersBlock={filtersBlock}
         />
+        </div>
         <CatProdContent
         setFiltersModalOpen={setFiltersModalOpen}
           products={products}

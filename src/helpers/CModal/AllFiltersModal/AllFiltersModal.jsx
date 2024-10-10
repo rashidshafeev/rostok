@@ -72,7 +72,7 @@ const AllFiltersModal = ({
           </div>
         )}
         {filters?.dynamics?.length > 0 && (
-          <DynamicFilters filters={filters} setFilters={setFilters} />
+          <DynamicFilters filters={filters} setFilters={setFilters} hideAdditional= {false} />
         )}
         <FormControlLabel
           sx={{ margin: "10px 0" }}

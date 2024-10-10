@@ -44,7 +44,7 @@ const [attributesList, setAttributesList] = useState([])
           // Check if every attribute in the product matches with the given attributes
           return attributes.every(attribute => {
             return product.attributes.some(prodAttribute => {
-              return prodAttribute.id === attribute.id && prodAttribute.value === attribute.value;
+              return Number(prodAttribute.id) === Number(attribute.id) && Number(prodAttribute.value) === Number(attribute.value);
             });
           });
         });
@@ -130,17 +130,17 @@ const [attributesList, setAttributesList] = useState([])
     }
 
     const handleChangeAttribute = (event) => {
-        const id = event.currentTarget.getAttribute("data-id")
+        const id = Number(event.currentTarget.getAttribute("data-id"))
         const value = event.currentTarget.getAttribute("data-value")
         const text = event.currentTarget.getAttribute("data-text")
 
         const newAttributes = JSON.parse(JSON.stringify(extractCurrentValues(attributesList)))
 
-        newAttributes.find(attr => attr.id === id).value = value
-        newAttributes.find(attr => attr.id === id).text = text
+        newAttributes.find(attr => Number(attr.id) === Number(id)).value = value
+        newAttributes.find(attr => Number(attr.id) === Number(id)).text = text
 
         if (!getProductByAttributes(newAttributes, variants)) {
-
+          console.log(variants)
          const newAttributes = findAvailableProductByValue(id, value, variants).attributes
 
           const newProduct = getProductByAttributes(newAttributes, variants)
@@ -182,7 +182,7 @@ const [attributesList, setAttributesList] = useState([])
             let checks = 0
     
             product.attributes.forEach((attr) => {
-              if (attributes.some(attribute => attribute.id === attr.id && attribute.value === attr.value)) {
+              if (attributes.some(attribute => Number(attribute.id) === Number(attr.id) && Number(attribute.value) === Number(attr.value))) {
                 checks++
               }
             })
@@ -199,7 +199,7 @@ const [attributesList, setAttributesList] = useState([])
       const findAvailableProductByValue = (id, value, productList) => {
         let available = []
         productList.forEach((product) => {
-         if (product.attributes?.find(attr => attr.id === id && attr.value === value)) {
+         if (product.attributes?.find(attr => Number(attr.id) === Number(id) && Number(attr.value) === Number(value))) {
           available.push(product)
          }
         })

@@ -24,6 +24,10 @@ export const productEndpoints = (builder) => ({
     query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,
     staleTime: 60000,
   }),
+  getBasicFilters: builder.query({
+    query: () => `/api/Products/filters/basic`,
+    staleTime: 60000,
+  }),
   getMainPageData: builder.query({
     query: () => `api/PageContent/get?target=landing`,
   }),
@@ -39,6 +43,7 @@ export const {
   useGetProductsQuery,
   useLazyGetProductsQuery,
   useGetCategoryTreeQuery,
+  useGetBasicFiltersQuery,
   useGetProductsByCategoryQuery,
   useGetFiltersOfProductsQuery,
   useGetMainPageDataQuery,

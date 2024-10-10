@@ -20,6 +20,34 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     </div>
                 </div>
                 {
+                    current?.attributes?.slice(0,6).map((attribute, index) => {
+                        {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
+
+                        if (current.attributes.some( modAttr => modAttr.id === attribute.id)) {
+                            return(
+                                <div className='flex items-end'>
+                                    <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
+                                    <div className='grow self-start h-4 border-b-2 border-dotted'></div>
+                                    <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
+                                        {current.attributes.find( modAttr => modAttr.id === attribute.id).text}
+                                    </div>
+                                </div>
+                            ) 
+                        } else if ( attribute.values[0].text ) {
+                            return(
+                                <div className='flex items-end'>
+                                <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
+                                <div className='grow self-start h-4 border-b-2 border-dotted'></div>
+                                <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
+                                    { attribute.values[0].text }
+                                </div>
+                            </div>
+                            ) 
+                        }
+                    })
+
+                }
+                {
                     product?.attributes?.slice(0,6).map((attribute, index) => {
                         {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
@@ -47,6 +75,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     })
 
                 }
+                
                
 
             </div>

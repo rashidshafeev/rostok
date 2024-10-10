@@ -660,7 +660,7 @@ export const customTags = [
   },
   {
     id: 3,
-    name: 'Хиты',
+    name: 'Хит',
     slug: '/tags/?ХИТ',
     bgColor: '#F8981D',
     icon: catalogIcon3,

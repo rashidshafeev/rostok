@@ -15,6 +15,7 @@ import { KeyboardArrowLeft } from "@mui/icons-material";
 const AuthModal = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
   const [content, setContent] = useState(modalContent?.content || "checkAuth");
+  const [login, setLogin] = useState('');
 
   if (!isModalVisible) return null;
 
@@ -42,9 +43,9 @@ const AuthModal = () => {
           &times;
         </span>
         <img className="w-[116px] mb-4 mx-auto" src={modalLogo} alt="*" />
-        {content === "checkAuth" && <CheckAuth setContent={setContent} />}
+        {content === "checkAuth" && <CheckAuth setContent={setContent} setLogin={setLogin} />}
         {content === "authWithEmail" && (
-          <AuthWithEmail hideModal={hideModal} setContent={setContent} />
+          <AuthWithEmail hideModal={hideModal} setContent={setContent} login={login} />
         )}
         {content === "resetPassword" && (
           <ResetPassword
@@ -53,7 +54,7 @@ const AuthModal = () => {
             setContent={setContent}
           />
         )}
-        {content === "register" && <Register setContent={setContent} />}
+        {content === "register" && <Register hideModal={hideModal} setContent={setContent} login={login}/>}
       </Box>
     </Modal>
   );

@@ -18,11 +18,16 @@ import MobileProductInfo from '../../components/ProductPage/Mobile/MobileProduct
 import MobileTopBar from '../../components/ProductPage/Mobile/MobileTopBar';
 import { useIntersection } from 'react-use';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import { getTokenFromCookies } from '../../helpers/cookies/cookies';
+import { addToRecentItems } from '../../redux/slices/recentItemsSlice';
+import ProductGalleryTest from '../../components/ProductPage/ProductGalleryTest';
 
 function ProductPage() {
+  const token =  getTokenFromCookies()
   const [currentProduct, setCurrentProduct] = useState({})
   const [tabIndex, setTabIndex] = useState(0);
 
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log("to top fired")
     scrollToTop();
@@ -44,7 +49,11 @@ function ProductPage() {
   // if (navigation.state === 'loading') {
   //   return <Loading/>;
   // }
-
+  useEffect(() => {
+    if (!token && currentProduct.id) {
+      dispatch(addToRecentItems({...currentProduct, visitTime: new Date()}))
+    }
+  }, [currentProduct]);
 
   return (
     <>
@@ -60,6 +69,7 @@ function ProductPage() {
         <div className='flex  flex-wrap pb-5 min-h-[420px] gap-5'>
           <div className='lg:basis-[calc(42%-40px/3)] basis-full'>
             <ProductGallery files={currentProduct.files} tags={currentProduct.tags} />
+            {/* <ProductGalleryTest files={currentProduct.files} tags={currentProduct.tags} /> */}
           </div>
           <MobileInfo name={`${group.name} ${currentProduct.name}`} reviews={group.reviews} sku={currentProduct.sku} />
 

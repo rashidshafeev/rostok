@@ -4,7 +4,7 @@ import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 const Advantages = () => {
 
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
-
+console.log(data);
   return (
     <div className='pt-5 pb-20'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-5'>
@@ -15,7 +15,7 @@ const Advantages = () => {
           <div
             key={el?.id}
             className={`${
-              el?.accent === '1'
+              el?.accent === 1
                 ? 'bg-[#15765B] text-white'
                 : 'bg-colSuperLight text-colBlack'
             } mm:min-h-[230px] rounded-[10px] p-3 mm:p-5`}
@@ -28,7 +28,7 @@ const Advantages = () => {
             </div>
             <p
               className={`${
-                el?.accent === '1' ? 'text-white' : 'text-colBlack'
+                el?.accent === 1 ? 'text-white' : 'text-colBlack'
               } text-xs mm:text-sm text-colDarkGray pt-2`}
             >
               {el?.text}

@@ -20,14 +20,14 @@ import CardLineSkeleton from '../ProductCard/CardLineSkeleton';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import LineNarrowSkeleton from '../ProductCard/LineNarrowSkeleton';
 
-const ShCartDetail = () => {
+const ShCartDetail = ({cart, isLoading }) => {
   
   const token = getTokenFromCookies();
-  const { cart: localCart } = useSelector((state) => state.cart);
-  console.log('shopping cart rendered')
+  // const { cart: localCart } = useSelector((state) => state.cart);
+  // console.log('shopping cart rendered')
   // Fetching cart data from the server if the user is logged in
-  const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
-  const cart = token ? serverCart?.data : localCart;
+  // const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
+  // const cart = token ? serverCart?.data : localCart;
 
   const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
 
@@ -98,11 +98,32 @@ const ShCartDetail = () => {
 
   useEffect(() => {
     setFilteredCart(cart)
-
-    const allItems = cart?.map((el) => el);
-
   }, [cart])
 
+
+  const [containerHeight, setContainerHeight] = useState('auto');
+  const containerRef = useRef(null);
+  const previousCartLengthRef = useRef(cart?.length || 0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      const itemHeight = 138; // Height of each item
+      const heightChange = (cart.length - previousCartLengthRef.current) * itemHeight;
+      const newHeight = containerRef.current.scrollHeight + heightChange;
+      setContainerHeight(`${newHeight}px`);
+      window.scroll({
+              top: window.scrollY + (cart.length - previousCartLengthRef.current) * itemHeight,
+          behavior:'smooth',
+            });
+      previousCartLengthRef.current = cart.length; // Update the previous cart length
+    }
+  }, [cart]);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setContainerHeight('auto');
+    }
+  }, []);
 
   return (
     <>
@@ -141,7 +162,7 @@ const ShCartDetail = () => {
                 <CCheckBoxField
                   label='Выбрать всё'
                   onChange={handleSelectAllChange}
-                  checked={cart?.length === selected?.length}
+                  checked={cart?.length > 0 && cart?.length === selected?.length}
                   styles='text-colBlack font-medium text-sm'
                 />
               </div>
@@ -200,9 +221,9 @@ const ShCartDetail = () => {
               {Array.from({ length: 6 }).map((_, index) => (
         <CardLineSkeleton key={index} />
       ))}
-          </div>
-          
-          }
+          </div>}
+          {/* <div  className='transition-all duration-700'> */}
+          <div ref={containerRef}  style={{ height: containerHeight }} className='transition-all duration-700'>
           {(itemType === 'lineBig' && width > 991 && !isLoading) ? (
             <ShCartItem
               cart={filteredCart}
@@ -219,6 +240,7 @@ const ShCartDetail = () => {
               selectedItems={selected}
             />
           )}
+          </div>
         </div>
         <div ref={orderInfo} className='lg:basis-[calc(30%-20px)] basis-full'>
 

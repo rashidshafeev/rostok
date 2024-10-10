@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { getTokenFromCookies } from '../helpers/cookies/cookies';
-export const baseURL = 'https://bot-adash.host2bot.ru';
+export const baseURL = 'https://rosstok.ru';
 
 // Use only for get requests:
 export const request = axios.create({

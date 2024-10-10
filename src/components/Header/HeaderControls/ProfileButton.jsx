@@ -20,8 +20,6 @@ import { useSelector } from 'react-redux';
 
 import fizlico from '../../../assets/icons/fizlico-inactive.svg';
 import urlico from '../../../assets/icons/urlico-inactive.svg';
-import { useGetUserDataQuery } from '../../../redux/api/userEndpoints';
-import LogoutModal from '../../../helpers/CModal/LogoutModal';
 import { useModal } from '../../../context/ModalContext';
 
 
@@ -49,10 +47,7 @@ function ProfileButton({ name }) {
 
   const hover = useHover(context, {
     move: true,
-    delay: {
-      open: 100,
-      close: 5000000
-    },
+    delay: 500,
     handleClose: safePolygon(),
   });
   const focus = useFocus(context);

@@ -3,12 +3,15 @@ import { ArrowIcon } from '../Icons';
 import { NavLink } from 'react-router-dom';
 import { customTags } from '../../constants/data';
 import noImg from '../../assets/images/no-image.png';
-import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
+import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
   const categoryTree = data?.children;
+
+  const {data: basicFilters} = useGetBasicFiltersQuery();
+
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState(null);
@@ -61,7 +64,20 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
         <div className='flex pt-5'>
           <div className='max-w-[220px] w-full'>
             <ul className='pr-4 border-r border-[#EBEBEB] space-y-3 sticky top-0'>
-              {customTags?.map((el) => (
+            {basicFilters?.tags?.map((tag) => (
+        <NavLink
+          to={`/catalog/tags?tags=${tag?.tag}`}
+          key={tag?.id}
+          style={{ backgroundColor: `${tag?.background_color}` }}
+          className="rounded h-[27px] flex items-center justify-center px-4"
+        >
+          {/* <img src={el?.icon2} alt="*" /> */}
+          <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1">
+            {tag?.tag}
+          </span>
+        </NavLink>
+      ))}
+              {/* {customTags?.map((el) => (
                 <li key={el?.id} onMouseOver={() => handleItemClick(null)}>
                   <NavLink
                     to={`/catalog${el?.slug}`}
@@ -77,7 +93,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
                     <ArrowIcon className='rotate-[90deg]' />
                   </NavLink>
                 </li>
-              ))}
+              ))} */}
               {categoryTree?.map((el) => (
                 <li key={el?.id}>
                   <NavLink

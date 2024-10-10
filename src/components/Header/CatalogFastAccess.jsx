@@ -1,11 +1,14 @@
 import { NavLink } from "react-router-dom";
 import { customTags } from "../../constants/data";
-import { useGetCategoryTreeQuery } from "../../redux/api/productEndpoints";
+import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from "../../redux/api/productEndpoints";
 import { useEffect, useRef } from "react";
 
 function CatalogFastAccess() {
   const { data } = useGetCategoryTreeQuery();
+  const {data: basicFilters} = useGetBasicFiltersQuery();
 
+  console.log("basicFilters");
+  console.log(basicFilters);
   const scrollableDivRef = useRef(null);
 
   useEffect(() => {
@@ -31,21 +34,23 @@ function CatalogFastAccess() {
     };
   }, []);
 
+  console.log(data);
+
   return (
     <div
       className="content mx-auto flex items-center scrollable overflow-x-scroll space-x-4 pb-2"
       ref={scrollableDivRef}
     >
-      {customTags?.map((el) => (
+      {basicFilters?.tags?.map((tag) => (
         <NavLink
-          to={`/catalog/tags?tags=${el?.name}`}
-          key={el?.id}
-          style={{ backgroundColor: `${el?.bgColor}` }}
+          to={`/catalog/tags?tags=${tag?.tag}`}
+          key={tag?.id}
+          style={{ backgroundColor: `${tag?.background_color}` }}
           className="rounded h-[27px] flex items-center justify-center px-4"
         >
-          <img src={el?.icon2} alt="*" />
-          <span className="text-sm font-semibold text-white pl-1">
-            {el?.name}
+          {/* <img src={el?.icon2} alt="*" /> */}
+          <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1">
+            {tag?.tag}
           </span>
         </NavLink>
       ))}

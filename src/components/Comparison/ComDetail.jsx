@@ -108,6 +108,10 @@ const ComDetail = ({ comparison }) => {
     setItems(updatedItems);
   }, [items]);
 
+  useEffect(() => {
+    setItems(comparison);
+  }, [comparison])
+
   return (
     <>
       <div

@@ -20,16 +20,16 @@ export const favoriteSlice = createSlice({
     },
     addToFavorite: (state, action) => {
       const token = getTokenFromCookies();
-      if (!token) {
         state.favorite.push({ ...action.payload });
+      if (!token) {
         
         saveToSessionStorage('favorite', state.favorite);
       }
     },
     removeFromFavorite: (state, action) => {
       const token = getTokenFromCookies();
-      if (!token) {
         state.favorite = state.favorite.filter((item) => item.id !== action.payload.id);
+        if (!token) {
 
         saveToSessionStorage('favorite', state.favorite);
       }

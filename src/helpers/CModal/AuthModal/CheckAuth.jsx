@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 import { useRegistrationCheckMutation } from "../../../redux/api/userEndpoints";
 import { LoadingSmall } from "../../Loader/Loader";
 
-const CheckAuth = ({ setContent }) => {
+const CheckAuth = ({ setContent, setLogin }) => {
   const {
     control,
     handleSubmit,
@@ -28,9 +28,11 @@ const CheckAuth = ({ setContent }) => {
           check.data.login_type === "email" ||
           check.data.login_type === "phone"
         ) {
+          setLogin({type: check.data.login_type, login: data.login});
           setContent("authWithEmail");
         }
       } else {
+        setLogin({type: check.data.login_type, login: data.login});
         setContent("register");
       }
     } catch (error) {

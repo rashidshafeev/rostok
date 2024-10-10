@@ -58,7 +58,7 @@ function ProductAttributeValue({ id, value, handleChangeAttribute }) {
           value.current ? "border-colGreen" : "border-colLightGray"
         } hover:border-colGreen ${
           value.available ? "bg-transparent" : "bg-colLightGray"
-        } rounded-[10px] flex justify-center items-center cursor-pointer`}
+        } rounded-[10px] border-2 flex justify-center items-center cursor-pointer`}
       >
         {/* {value.color ? (<div style={{ backgroundColor: `${value.color}` }} className={`w-10 h-10 rounded-full border`}></div>) : (value.text)} */}
         {value.second_color ? (

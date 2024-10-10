@@ -4,8 +4,7 @@ import { useDispatch } from 'react-redux';
 import { changeQuantity, removeFromCart } from '../../redux/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { getTokenFromCookies } from '../cookies/cookies';
-import { useSendCartMutation } from '../../redux/api/cartEndpoints';
-
+import { useGetCartItemPriceMutation, useSendCartMutation } from '../../redux/api/cartEndpoints';
 const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
   const token = getTokenFromCookies();
   
@@ -16,6 +15,7 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
   const dispatch = useDispatch();
 
   const [sendCart, { isLoading }] = useSendCartMutation();
+  const [getItemPrice, { isLoading: isLoadingItemPrice, isSuccess: isSuccessItemPrice }] = useGetCartItemPriceMutation();
 
   const updateQuantity = (newQuantity) => {
     setQuantity(newQuantity);
@@ -24,9 +24,18 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
       clearTimeout(debounceTimer.current);
     }
 
-    debounceTimer.current = setTimeout(() => {
+    debounceTimer.current = setTimeout( async () => {
       if (!isFirstRender.current) {
-        token ? sendCart({ id: product.id, quantity: newQuantity, selected: product.selected }) : dispatch(changeQuantity({ id: product.id, quantity: newQuantity }));
+
+        if (token) {
+          sendCart({ id: product.id, quantity: newQuantity, selected: product.selected })
+        }
+        // token ? sendCart({ id: product.id, quantity: newQuantity, selected: product.selected }) :dispatch(changeQuantity({ id: product.id, quantity: newQuantity }));
+        const price = await getItemPrice({ item_id: product.id, quantity: newQuantity })
+    // console.log(addedProduct, price)dfcx
+        dispatch(changeQuantity({ id: product.id, quantity: newQuantity, server_price: price?.data?.data }));
+
+
       }
     }, 500);
   };
@@ -54,9 +63,16 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
       updateQuantity(quantity - 1);
     } else if (enableRemove && quantity === 1) {
       clearTimeout(debounceTimer.current);
-      token ? sendCart({ id: product.id, quantity: 0, selected: product.selected }) : dispatch(removeFromCart(product));
+      if (token) {
+        sendCart({ id: product.id, quantity: 0, selected: product.selected })
+      }
+      dispatch(removeFromCart(product));
     }
   };
+
+  useEffect(() => {
+    setQuantity(Number(product.quantity));
+  }, [product.quantity]);
 
   return (
     <div className="flex justify-between items-center grow">

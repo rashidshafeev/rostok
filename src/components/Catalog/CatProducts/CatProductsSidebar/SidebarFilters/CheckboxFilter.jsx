@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 
 import { ArrowIcon } from "../../../../../helpers/Icons";
+import TooltipCaption from "./TooltipCaption";
 
 function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
-
+  console.log("filters");
+  console.log(filter);
   const handleCheckboxChange = (filterId, valueId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
 
@@ -56,7 +58,15 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
   //   // Update the URL with the new search parameters
   //   navigate(`${location.pathname}?${params.toString()}`);
   // };
+  
+  const checkCloseToWhite = (color) => {
+    if (!color) return
 
+    const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+    return r > 200 && g > 200 && b > 200;
+  }
  
 
   return (
@@ -67,9 +77,10 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
           padding: 0,
         }}
         defaultExpanded
+        disableGutters
       >
         <AccordionSummary
-          sx={{ padding: 0 }}
+          sx={{ padding: 0, flexDirection: 'row-reverse', gap: "8px" }}
           style={{ minHeight: 0 }}
           expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
         >
@@ -78,18 +89,18 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
           </p>
         </AccordionSummary>
         <AccordionDetails sx={{ padding: 0, marginLeft: "-8px" }}>
-          <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2">
+          <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2 flex flex-col gap-1">
             {filter?.values?.map((val) =>{ 
             //  console.log(val.is_active);
             return (
               <div className={!val?.is_active && "opacity-40"} key={val?.id}>
                 <FormControlLabel
-                  sx={{ margin: "0" }}
+                  sx={{ margin: "0", display: "flex", alignItems: "start" }}
                   control={
                     <Checkbox
                       style={{
                         color: "#15765B",
-                        padding: "5px",
+                        padding: "0 5px",
                       }}
                       name={filter?.name}
                       // checked={
@@ -113,7 +124,7 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
                     />
                   }
                   label={
-                    <div className="flex items-center">
+                    <div className="flex items-center" data-title={val?.text}>
                       {filter?.type === "color" && val?.second_color && (
                         <>
                           <span
@@ -121,7 +132,7 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
                               backgroundColor: val?.color,
                             }}
                             className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${
-                              val?.color === "#FFFFFF"
+                              checkCloseToWhite(val?.color)
                                 ? " border-l border-colGray"
                                 : ""
                             }`}
@@ -131,7 +142,7 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
                               backgroundColor: val?.second_color,
                             }}
                             className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${
-                              val?.second_color === "#FFFFFF"
+                              checkCloseToWhite(val?.second_color)
                                 ? " border-r border-colGray"
                                 : ""
                             }`}
@@ -144,14 +155,15 @@ function CheckboxFilter({ filter, filters, changeFilters, setFilters }) {
                             backgroundColor: val?.color,
                           }}
                           className={`min-w-[20px] min-h-[20px] rounded-full ${
-                            val?.color === "#FFFFFF"
+                            checkCloseToWhite(val?.color)
                               ? "border border-colGray"
                               : ""
                           }`}
                         ></span>
                       )}
-                      <p className="text-sm font-medium text-colBlack line-clamp-1 break-all ml-1">
+                      <p className="text-sm font-medium text-colBlack line-clamp-2 break-words ml-1">
                         {val?.text}
+                        {/* <TooltipCaption text={val?.text} tooltipText={val?.text}/> */}
                       </p>
                     </div>
                   }

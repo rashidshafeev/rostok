@@ -52,7 +52,7 @@ const CatProdContent = ({
       </div>
 
       {cardType === "tile" && (
-        <div className="grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 xl:grid-cols-5">
+        <div className="grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 gap-y-6 xl:grid-cols-5">
           {getVariantsIsLoading &&
             Array.from({ length: 40 }).map((_, index) => (
               <ProductCardSkeleton key={index} />

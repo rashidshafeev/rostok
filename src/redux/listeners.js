@@ -4,29 +4,32 @@ import { fetchComparison, setComparison, addToComparison, removeFromComparison }
 import { fetchFavorite, setFavorite, addToFavorite, removeFromFavorite } from './slices/favoriteSlice';
 import { addToCart, changeQuantity, fetchCart, removeFromCart, selectItem, setCart, unselectItem } from './slices/cartSlice';
 import { api } from './api/api';
+import { fetchRecentItems, setRecentItems } from './slices/recentItemsSlice';
 
 export const listenerMiddleware = createListenerMiddleware();
-
 // Utility function to save to session storage
 const saveToSession = (key, data) => {
   sessionStorage.setItem(key, JSON.stringify(data));
 };
 
 listenerMiddleware.startListening({
-  matcher: isAnyOf(fetchCart, fetchComparison, fetchFavorite),
+  matcher: isAnyOf(fetchCart, fetchComparison, fetchFavorite, fetchRecentItems),
   effect: (action, listenerApi) => {
     const token = listenerApi.getState().user.token;
 
     if (!token) {
       if (action.type === fetchCart.type) {
         const cart = JSON.parse(sessionStorage.getItem('cart'));
-        listenerApi.dispatch(setCart(cart ? cart : { cart: [], selected: [], itemsQuantity: 0, selectedQuantity: 0 }));
+        listenerApi.dispatch(setCart(cart ? cart : { cart: [], selected: [], itemsQuantity: 0, itemsSum: 0, selectedQuantity: 0 }));
       } else if (action.type === fetchComparison.type) {
         const comparison = JSON.parse(sessionStorage.getItem('comparison'));
         listenerApi.dispatch(setComparison(comparison ? comparison : []));
       } else if (action.type === fetchFavorite.type) {
         const favorite = JSON.parse(sessionStorage.getItem('favorite'));
         listenerApi.dispatch(setFavorite(favorite ? favorite : []));
+      } else if (action.type === fetchRecentItems.type) {
+        const recentItems = JSON.parse(sessionStorage.getItem('recentItems'));
+        listenerApi.dispatch(setRecentItems(recentItems ? recentItems : []));
       }
     }
   },

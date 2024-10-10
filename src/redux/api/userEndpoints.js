@@ -56,8 +56,18 @@ export const userEndpoints = (builder) => ({
       url: '/api/UserData/get',
       method: 'GET',
     }),
-    providesTags: [{ type: 'User', id: 'DATA' }],
+    // providesTags: [{ type: 'User', id: 'DATA' }],
     keepUnusedDataFor: 0,
+    refetchOnFocus: true,
+  }),
+  getRecentItems: builder.query({
+    query: () => ({
+      url: '/api/Products/recentlyViewed',
+      method: 'GET',
+    }),
+    providesTags: [{ type: 'User', id: 'RECENT-ITEMS' }],
+    keepUnusedDataFor: 0,
+    refetchOnFocus: true,
   }),
 });
 
@@ -71,4 +81,5 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useGetUserDataQuery,
+  useGetRecentItemsQuery,
 } = api.injectEndpoints({ endpoints: userEndpoints });

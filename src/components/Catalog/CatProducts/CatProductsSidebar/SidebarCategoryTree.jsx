@@ -32,7 +32,7 @@ function SidebarCategoryTree() {
       {categoryTreeIsLoading && <SidebarCategoryTreeSkeleton />}
       {!categoryTreeIsLoading && categoryTreeIsSuccess && (
         <ul className="space-y-2">
-          <li>
+          {categories?.category?.name && <li>
             <NavLink
               to={`/catalog/${categories?.category?.slug}`}
               className="flex text-colBlack leading-5 font-semibold bg-colSuperLight rounded py-1 px-2 cursor-pointer"
@@ -42,7 +42,7 @@ function SidebarCategoryTree() {
                 {categories?.category?.product_count}
               </span>
             </NavLink>
-          </li>
+          </li>}
           {categories?.children?.map((el) => (
             <li key={el?.id} className="pl-3">
               <div className="flex justify-between">

@@ -32,11 +32,15 @@ function TagsFilters({ filters, setFilters }) {
               sx={{
                 boxShadow: "none",
                 padding: 0,
+                "&:before": {
+          display: "none",
+        },
               }}
               defaultExpanded
+              disableGutters
             >
               <AccordionSummary
-                sx={{ padding: 0 }}
+                sx={{ padding: 0, flexDirection: 'row-reverse', gap: "8px" }}
                 style={{ minHeight: 0 }}
                 expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
               >

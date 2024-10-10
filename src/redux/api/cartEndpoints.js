@@ -29,7 +29,14 @@ export const cartEndpoints = (builder) => ({
       }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),
-    
+    getCartItemPrice: builder.mutation({
+      query: (data) => ({
+        url: '/api/Products/price/get',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+    })
   });
   
   // Export hooks for cart endpoints
@@ -37,5 +44,6 @@ export const cartEndpoints = (builder) => ({
     useSendCartMutation,
     useGetSuggestionsMutation,
     useGetUserCartQuery,
-    useRemoveFromCartMutation
+    useRemoveFromCartMutation,
+    useGetCartItemPriceMutation,
   } = api.injectEndpoints({ endpoints: cartEndpoints });

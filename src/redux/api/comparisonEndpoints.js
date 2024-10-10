@@ -4,7 +4,7 @@ import { api } from './api';
 export const comparisonEndpoints = (builder) => ({
   getComparison: builder.query({
     query: () => '/api/ProductsComparisons/get',
-    providesTags: [{ type: 'Comparison', id: 'LIST' }],
+    // providesTags: [{ type: 'Comparison', id: 'LIST' }],
   }),
   sendComparison: builder.mutation({
     query: (data) => ({

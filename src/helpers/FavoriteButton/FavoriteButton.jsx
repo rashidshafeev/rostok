@@ -11,24 +11,42 @@ const FavoriteButton = ({ product, children }) => {
   const { favorite } = useSelector((state) => state.favorite);
   
   // Fetching favorites from the server if the user is logged in
-  const { data: serverFavorites } = useGetFavoritesQuery(undefined, { skip: !token });
+  // const { data: serverFavorites } = useGetFavoritesQuery(undefined, { skip: !token });
 
   const [sendFavoritesMutation, { isLoading: sendIsLoading }] = useSendFavoritesMutation();
   const [removeFromFavoritesMutation, { isLoading: removeIsLoading }] = useRemoveFromFavoritesMutation();
   const isLoading = sendIsLoading || removeIsLoading;
 
-  const isInFavorite = token
-    ? serverFavorites?.data?.some((el) => el.id === product.id)
-    : favorite.some((el) => el.id === product.id);
+  const isInFavorite = favorite.some((el) => el.id === product.id);
+  // const isInFavorite = token
+  //   ? serverFavorites?.data?.some((el) => el.id === product.id)
+  //   : favorite.some((el) => el.id === product.id);
+
+  // const handleFavoriteClick = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+    
+  //   if (isInFavorite) {
+  //     token ? removeFromFavoritesMutation(product) : dispatch(removeFromFavorite(product));
+  //   } else {
+  //     token ? sendFavoritesMutation(product) : dispatch(addToFavorite(product));
+  //   }
+  // };
 
   const handleFavoriteClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     
     if (isInFavorite) {
-      token ? removeFromFavoritesMutation(product) : dispatch(removeFromFavorite(product));
+    if (token) {
+      removeFromFavoritesMutation(product)
+    } 
+      dispatch(removeFromFavorite(product))
     } else {
-      token ? sendFavoritesMutation(product) : dispatch(addToFavorite(product));
+      if (token) {
+        sendFavoritesMutation(product)
+      } 
+      dispatch(addToFavorite(product));
     }
   };
 

@@ -33,13 +33,16 @@ import {
 } from '../components';
 
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
+import { getTokenFromCookies } from '../helpers/cookies/cookies';
+
 const fetchProduct = async ({ params }) => {
   let group = await fetch(
-    `https://bot-adash.host2bot.ru/api/Products/item?id=${params.productId}`,
+    `https://rosstok.ru/api/Products/item?id=${params.productId}`,
     {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getTokenFromCookies()}`
       },
     }
   );

@@ -36,9 +36,11 @@ function BrandsFilter({ filters, setFilters }) {
         },
       }}
       defaultExpanded
+      disableGutters
     >
       <AccordionSummary
-        style={{ minHeight: 0, padding: 0 }}
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: "8px" }}
+        style={{ minHeight: 0 }}
         expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
       >
         <span className="font-semibold text-colBlack">Производитель</span>

@@ -2,6 +2,7 @@ import ProductCard from '../ProductCard/ProductCard';
 import filterIcon from '../../assets/icons/filter.svg';
 
 const FavDetail = ({ favorite, user }) => {
+  
   return (
     <div className={`${user && 'md:pl-5'} pb-10 min-h-[560px] w-full`}>
       <button className='flex md:hidden items-center ml-auto outline-none bg-transparent mt-4 md:mt-0'>

@@ -11,25 +11,43 @@ const ComparisonButton = ({ product, children }) => {
   const { comparison } = useSelector((state) => state.comparison);
   
   // Fetching favorites from the server if the user is logged in
-  const { data: serverComparison } = useGetComparisonQuery(undefined, { skip: !token });
+  // const { data: serverComparison } = useGetComparisonQuery(undefined, { skip: !token });
 
   const [sendComparisonMutation, {isLoading: sendIsLoading}] = useSendComparisonMutation();
   const [removeFromComparisonMutation, {isLoading: removeIsLoading}] = useRemoveFromComparisonMutation();
   const isLoading = sendIsLoading || removeIsLoading;
 
-  const isInComparison = token
-    ? serverComparison?.data?.some((el) => el.id === product.id)
-    : comparison.some((el) => el.id === product.id);
+  const isInComparison = comparison.some((el) => el.id === product.id);
+  // const isInComparison = token
+  //   ? serverComparison?.data?.some((el) => el.id === product.id)
+  //   : comparison.some((el) => el.id === product.id);
+
+  // const handleComparisonClick = (e) => {
+  //   e.preventDefault();
+  //   e.stopPropagation()
+    
+  //   if (isInComparison) {
+  //     token ?   removeFromComparisonMutation(product) : dispatch(removeFromComparison(product))
+
+  //   } else {
+  //     token ? sendComparisonMutation(product) : dispatch(addToComparison(product))
+  //   }
+  // };
 
   const handleComparisonClick = (e) => {
     e.preventDefault();
-    e.stopPropagation()
+    e.stopPropagation();
     
     if (isInComparison) {
-      token ?   removeFromComparisonMutation(product) : dispatch(removeFromComparison(product))
-
+    if (token) {
+      removeFromComparisonMutation(product)
+    } 
+      dispatch(removeFromComparison(product))
     } else {
-      token ? sendComparisonMutation(product) : dispatch(addToComparison(product))
+      if (token) {
+        sendComparisonMutation(product)
+      } 
+      dispatch(addToComparison(product));
     }
   };
 

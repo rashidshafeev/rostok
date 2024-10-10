@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CTextField from '../../helpers/CustomInputs/CTextField';
 import PhoneVerificationField from '../../helpers/PhoneVerificationField/PhoneVerificationField';
+import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
 // import PhoneVerificationField from './PhoneVerificationField';
 
 function SimpleCheckoutForm({ user }) {
@@ -61,8 +62,41 @@ function SimpleCheckoutForm({ user }) {
             </p>
           )}
         </div>
+        <div className='md:w-[340px] w-full'>
+        <Controller
+          name='phone'
+          control={control}
+          defaultValue=''
+          // rules={{
+          //   required: 'Поле обязательно к заполнению!',
+          //   pattern: {
+          //     value: /^((\+7|7|8)[\s\-]?)?(\(?\d{3}\)?[\s\-]?)?[\d\s\-]{10}$/,
+          //     message: 'Введите корректный номер телефона',
+          //   },
+          //   validate: {
+          //     confirmed: (value) => {
+          //       if (user?.user?.phone || verification?.verificationSuccess === 'ok') {
+          //         return null;
+          //       } else {
+          //         return 'Подтвердите номер телефона';
+          //       }
+          //     },
+          //   }
+          // }}
+          render={({ field }) => (
+            <CPhoneField
+              // disabled={verification?.success === 'ok' || sendVerificationIsLoading || sendVerificationIsSuccess}
+              // disabled={verification?.verificationSuccess === 'ok' || retryDisabled}
+              // success={verification?.verificationSuccess === 'ok'}
+            //   fail={!(verification?.verification === null) && !(verification?.verification || user?.user?.phone)}
+            //   loading={miniLoading}
+              label='Телефон'
+              {...field} />
+          )}
+        />
+        </div>
       </div>
-      <PhoneVerificationField user={user} />
+     
     </>
   );
 }

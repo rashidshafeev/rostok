@@ -13,7 +13,7 @@ import { setToken } from "../../../redux/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useUserRegisterMutation } from "../../../redux/api/userEndpoints";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PhoneVerificationField from "../../PhoneVerificationField/PhoneVerificationField";
 import {
   KeyboardArrowRight,
@@ -25,8 +25,8 @@ import {
 } from "@mui/icons-material";
 import { LoadingSmall } from "../../Loader/Loader";
 
-const Register = ({ setContent }) => {
-  const methods = useForm({ mode: "onChange" });
+const Register = ({ hideModal, setContent, login: enteredLogin }) => {
+  const methods = useForm({ mode: "onSubmit" });
   const {
     control,
     handleSubmit,
@@ -61,6 +61,17 @@ const Register = ({ setContent }) => {
     sendCartIsloading ||
     sendComparisonIsloading ||
     sendFavoritesIsloading;
+
+    useEffect(() => {
+      if (enteredLogin) {
+        console.log("enteredLogin");
+        console.log(enteredLogin);
+        reset({
+          email: enteredLogin.type === "email" ? enteredLogin.login : '',
+          phone: enteredLogin.type === "phone" ? enteredLogin.login : ''
+        });
+      }
+    }, [enteredLogin, reset]);
 
   const sendAndClearData = async () => {
     try {
@@ -107,12 +118,16 @@ const Register = ({ setContent }) => {
         dispatch(setToken(auth.data.token));
         await sendAndClearData();
         hideModal();
-        navigate("/");
+        navigate("/profile/orders");
         return;
       }
     } catch (error) {
       console.error("Registration failed:", error);
     }
+
+    hideModal();
+        navigate("/");
+        return;
   };
 
   return (
@@ -142,9 +157,9 @@ const Register = ({ setContent }) => {
               )}
             </div>
             <div>
-              <PhoneVerificationField stretchOnSuccess={true} />
+              <PhoneVerificationField stretchOnSuccess={true}  />
             </div>
-            <div>
+            {/* <div>
               <Controller
                 name="email"
                 control={control}
@@ -174,30 +189,30 @@ const Register = ({ setContent }) => {
                   {errors?.email?.message || "Error!"}
                 </p>
               )}
-            </div>
+            </div> */}
             <div>
               <div className="flex relative mt-5">
                 <Controller
                   name="password"
                   control={control}
                   defaultValue=""
-                  rules={{
-                    validate: (value) => {
-                      if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
-                        return "Требуется хотя бы одна строчная и прописная буква!";
-                      }
-                      if (!/(?=.*\d)/.test(value)) {
-                        return "Требуется хотя бы одна цифра!";
-                      }
-                      if (!/(?=.*[@$!%*?&#])/.test(value)) {
-                        return "Требуется хотя бы один специальный символ!";
-                      }
-                      if (value.length < 8) {
-                        return "Минимальная длина пароля - 8 символов!";
-                      }
-                      return true;
-                    },
-                  }}
+                  // rules={{
+                  //   validate: (value) => {
+                  //     if (!/^(?=.*[a-z])(?=.*[A-Z])/.test(value)) {
+                  //       return "Требуется хотя бы одна строчная и прописная буква!";
+                  //     }
+                  //     if (!/(?=.*\d)/.test(value)) {
+                  //       return "Требуется хотя бы одна цифра!";
+                  //     }
+                  //     if (!/(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/.test(value)) {
+                  //       return "Требуется хотя бы один специальный символ!";
+                  //     }
+                  //     if (value.length < 8) {
+                  //       return "Минимальная длина пароля - 8 символов!";
+                  //     }
+                  //     return true;
+                  //   },
+                  // }}
                   render={({ field }) => (
                     <CTextField
                       label="Пароль"
@@ -291,13 +306,14 @@ const Register = ({ setContent }) => {
             <p className="text-red-500 mt-1 text-sm font-medium">{resError}</p>
           )}
           <button
+          type="submit"
             disabled={!isValid}
             className={`${
               isValid ? "bg-colGreen" : "bg-colGray"
-            } w-full h-10 px-6 rounded my-2 text-white font-semibold`}
+            } w-full h-10 px-6 rounded my-2 text-white font-semibold flex justify-center items-center`}
           >
-            {!isLoading && <>Зарегистрироваться</>}
-            {isLoading && <LoadingSmall extraStyle={"white"} />}
+            {!registerIsLoading && <>Зарегистрироваться</>}
+            {registerIsLoading && <LoadingSmall extraStyle={"white"} />}
           </button>
           <FormControlLabel
             sx={{

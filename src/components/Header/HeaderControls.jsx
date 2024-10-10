@@ -23,22 +23,25 @@ function HeaderControls() {
 
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
-  useEffect(() => {
-    if (token) {
-      refetch(); // refetch the user data when token changes
-    }
-  }, [token, refetch]);
+  // useEffect(() => {
+  //   if (token) {
+  //     refetch(); // refetch the user data when token changes
+  //   }
+  // }, [token, refetch]);
 
   const getFavoritesCount = () => {
-    return user ? user?.favorites?.items_count : (favorite.length || 0);
+    return (favorite.length || 0);
+    // return user ? user?.favorites?.items_count : (favorite.length || 0);
   };
 
   const getComparisonCount = () => {
-    return user ? user?.comparison?.items_count : (comparison.length || 0);
+    return (comparison.length || 0);
+    // return user ? user?.comparison?.items_count : (comparison.length || 0);
   };
 
   const getCartQuantity = () => {
-    return user ? user?.cart?.quantity : (cart.itemsQuantity || 0);
+    return (cart.itemsQuantity || 0);
+    // return user ? user?.cart?.quantity : (cart.itemsQuantity || 0);
   };
 
 

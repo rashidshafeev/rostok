@@ -29,6 +29,7 @@ const SRMain = () => {
   const searchQuery = searchParams.get('search');
 
   const handleCategories = (id) => {
+    console.log(id);
     let updatedFilters = { ...filtersValue };
     updatedFilters = {
       ...updatedFilters,

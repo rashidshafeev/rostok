@@ -4,7 +4,7 @@ import { api } from './api';
 export const favoritesEndpoints = (builder) => ({
   getFavorites: builder.query({
     query: () => '/api/ProductsFavourites/get',
-    providesTags: [{ type: 'Favorite', id: 'LIST' }],
+    // providesTags: [{ type: 'Favorite', id: 'LIST' }],
   }),
   sendFavorites: builder.mutation({
     query: (data) => ({

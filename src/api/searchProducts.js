@@ -7,7 +7,7 @@ export const fetchSearchResults = async (searchQuery, filtersValue, page) => {
       search: searchQuery,
       min_price: filtersValue?.min_price || '',
       max_price: filtersValue?.max_price || '',
-      category_id: '',
+      category_id: filtersValue?.category_id || '',
       // brands: filtersValue?.brands || '',
       // tags: filtersValue?.tags || '',
       filters: '',

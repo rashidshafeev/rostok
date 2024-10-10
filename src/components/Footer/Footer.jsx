@@ -5,7 +5,7 @@ import vk from '../../assets/images/vk.svg';
 import telegram from '../../assets/images/telegram.svg';
 import whatsapp from '../../assets/images/whatsapp.svg';
 import arrowDown from '../../assets/icons/arrow-black.svg';
-
+import { useGetBasicFiltersQuery } from '../../redux/api/productEndpoints';
 const Footer = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
   const [menus, setMenus] = useState({
@@ -13,6 +13,8 @@ const Footer = () => {
     buyer: false,
     info: false,
   });
+
+  const {data: basicFilters} = useGetBasicFiltersQuery();
 
   return (
     <footer className='pt-10 pb-24 lg:pb-4 md:pt-14 bg-colSuperLight'>
@@ -340,30 +342,23 @@ const Footer = () => {
                       Каталог
                     </NavLink>
                   </li>
-                  <li>
-                    <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/catalog/promo'
-                    >
-                      Акции
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/catalog/discount'
-                    >
-                      Товары со скидкой
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/catalog/new'
-                    >
-                      Новинки
-                    </NavLink>
-                  </li>
+                  {basicFilters?.tags?.map((tag) => (
+                    <li>
+<NavLink
+          to={`/catalog/tags?tags=${tag?.tag}`}
+          key={tag?.id}
+          // style={{ backgroundColor: `${tag?.background_color}` }}
+          className="lowercase"
+        >
+          {/* <img src={el?.icon2} alt="*" /> */}
+          {/* <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1"> */}
+          <span className='text-colBlack font-semibold text-sm hover:text-colGreen capitalize '>
+            {tag?.tag}
+          </span>
+        </NavLink>
+                    </li>
+        
+      ))}
                 </ul>
               </div>
               <div>

@@ -17,7 +17,7 @@ const CatProdSidebar = ({
 }) => {
 
   return (
-    <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5">
+    <>
       <SidebarCategoryTree />
       <SidebarFilters
         setFiltersModalOpen={setFiltersModalOpen}
@@ -29,7 +29,7 @@ const CatProdSidebar = ({
 resetFilters={resetFilters}
 filtersBlock={filtersBlock}
       />
-    </div>
+      </>
   );
 };
 

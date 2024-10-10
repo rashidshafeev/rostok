@@ -12,10 +12,10 @@ const ShareModal = ({}) => {
   const { hideModal, modalContent, isModalVisible } = useModal();
   const location = useLocation()
 
-  const [url, setUrl] = useState(modalContent?.url || `https://bot-adash.host2bot.ru${location.pathname}`);
+  const [url, setUrl] = useState(modalContent?.url || `https://rosstok.ru${location.pathname}`);
 
   useEffect(() => {
-    setUrl(modalContent?.url || `https://bot-adash.host2bot.ru${location.pathname}`);
+    setUrl(modalContent?.url || `https://rosstok.ru${location.pathname}`);
   }, [modalContent, location.pathname]);
 
   if (!isModalVisible) return null;

@@ -92,7 +92,7 @@ function CartCheckout() {
 
 
   const methods = useForm({
-    mode: 'onChange'
+    mode: 'onSubmit'
   })
 
   const [sendOrder, result] = useSendOrderMutation()

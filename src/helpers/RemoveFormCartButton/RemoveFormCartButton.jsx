@@ -13,8 +13,11 @@ const RemoveFromCartButton = ({ product, children }) => {
 
   const handleRemoveFromCartClick = (e) => {
     e.preventDefault();
+    // dispatch(removeFromCart(product));
+    if (token) {
+      sendCart({ id: product.id, quantity: 0, selected: 0 })
+    } 
     dispatch(removeFromCart(product));
-    token ? sendCart({ id: product.id, quantity: 0, selected: 0 }) : dispatch(removeFromCart(product));
   };
 
   return children({ isLoading, handleRemoveFromCartClick });

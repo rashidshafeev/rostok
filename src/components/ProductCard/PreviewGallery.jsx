@@ -43,12 +43,24 @@ const PreviewGallery = ({ product }) => {
           </div>
         )} */}
         {/* <div className="flex flex-col items-center justify-center "> */}
-        <img
+        <div className="absolute bg-white  bg-opacity-30 backdrop-blur-lg rounded-lg overflow-hidden h-full w-full sc ">
+        <img src={displayedImage}  className="w-full h-full object-contain" />
+      </div>
+        <div className=" flex flex-col items-center">
+          {/* <div className="w-full h-full"> */}
+          <img onMouseMove={handleMouseMove}
+              onMouseLeave={() => setHoveredIndex(0)}
+              src={displayedImage} className="w-full h-full object-contain" />
+          {/* </div> */}
+        
+      
+    </div>
+        {/* <img
               onMouseMove={handleMouseMove}
               onMouseLeave={() => setHoveredIndex(0)}
               className="w-full h-full object-contain"
               src={displayedImage}
-            />
+            /> */}
             
           {/* </div> */}
           <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">

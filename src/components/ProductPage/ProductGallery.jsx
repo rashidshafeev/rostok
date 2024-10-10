@@ -65,7 +65,7 @@ function ProductGallery({ files, tags }) {
             sliderIndex.current = item.index;
           }}
           src={item.original}
-          className="shrink min-h-[480px] max-h-[480px]  object-scale-down rounded-xl"
+          className="shrink min-h-[480px] max-h-[480px] object-scale-down rounded-xl"
           alt=""
         />
       </div>
@@ -113,21 +113,26 @@ function ProductGallery({ files, tags }) {
         renderItem: renderImage.bind(this),
       });
 
+      console.log("images", images);
   return (
     <>
       <ImageGallery
-        renderLeftNav={(onClick, disabled) => (
-          <LeftNav onClick={onClick} disabled={disabled} />
-        )}
-        renderRightNav={(onClick, disabled) => (
-          <RightNav onClick={onClick} disabled={disabled} />
-        )}
+        // renderLeftNav={(onClick, disabled) => (
+        //   <LeftNav onClick={onClick} disabled={disabled} />
+        // )}
+        // renderRightNav={(onClick, disabled) => (
+        //   <RightNav onClick={onClick} disabled={disabled} />
+        // )}
+
         items={images}
         showThumbnails={images.length > 1}
         showVideo={true}
-        additionalClass=""
+        // additionalClass="max-w-[200px]"
         showFullscreenButton={false}
         showPlayButton={false}
+        showNav={false}
+        thumbnailPosition='left'
+        disableThumbnailScroll={false}
         useBrowserFullscreen={false}
         startIndex={sliderIndex.current}
         ref={imageGalleryRef}
@@ -143,6 +148,7 @@ function ProductGallery({ files, tags }) {
         }}
       />
     </>
+
   );
 }
 

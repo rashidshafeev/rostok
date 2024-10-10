@@ -4,38 +4,59 @@ import React, { useState, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
 import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints'; 
-const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
+
+const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue = false }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();
   const phone = watch('phone');
 
   const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-//   const [miniLoading, setMiniLoading] = useState(false);
-  const [verification, setVerification] = useState({ success: null });
+  const [retryDisabled, setRetryDisabled] = useState(false);
 
-  
+
+//   const [miniLoading, setMiniLoading] = useState(false);
+  // const [verification, setVerification] = useState({ success: null, notification: null });
+  const [verification, setVerification] = useState({ sent: null, verificationSuccess: null, notification: null });
+
+  //enter-phone, phone-sent, enter-code, confirm-code
+  const [step, setStep] = useState('enter-phone');
 
   const [sendVerificationCode, { isLoading: sendVerificationIsLoading, isSuccess: sendVerificationIsSuccess }] = useSendVerificationCodeMutation();
   const [confirmVerificationCode, { isLoading: confirmVerificationIsLoading, isSuccess: confirmVerificationIsSuccess }] = useConfirmVerificationCodeMutation();
 
   const handleSendVerificationCode = async () => {
-    const data = await sendVerificationCode({ phone });
-    if (data?.data?.success === 'ok') {
+    const { data } = await sendVerificationCode({ phone });
+
+    console.log("sendverificationcode data");
+    console.log(data);
+    if (data?.success === 'ok') {
       // Handle success
-    } else if (data?.data?.err_code === 'user__sendsms__wait') {
-      const serverTime = new Date(data?.data?.err_desc).getTime();
+      setVerification({ ...verification, sent: 'ok', notification: data?.data?.text});
+      // const serverTime = new Date(data?.data?.timeoutPeriod).getTime();
+      // const currentTime = new Date().getTime();
+      // const waitTime = Math.max(60 - Math.floor((currentTime - serverTime) / 1000), 0);
+      // setTimer(waitTime);ваав
+      setTimer(data?.data?.timeoutPeriod);
+      setRetryDisabled(true);
+    } else if (data?.err_code === 'user__sendsms__wait') {
+      setVerification({ ...verification, sent: 'ok', notification: data?.err});
+      const serverTime = new Date(data?.err_desc).getTime();
       const currentTime = new Date().getTime();
       const waitTime = Math.max(60 - Math.floor((currentTime - serverTime) / 1000), 0);
       setTimer(waitTime);
-      setIsButtonDisabled(true);
+      setRetryDisabled(true);
     }
   };
 
   const handleConfirmVerificationCode = async (e) => {
     const inputValue = e.target.value;
     if (/^\d*$/.test(inputValue) && inputValue.length === 4) {
-      const data = await confirmVerificationCode({ phone, code: inputValue });
-      setVerification(data?.data);
+      const { data } = await confirmVerificationCode({ phone, code: inputValue });
+      if (data?.success === 'ok') {
+      setVerification({ verification, verificationSuccess: data?.success });
+      } else {
+        setVerification({...verification, notification: data?.err });
+      }
     }
   };
 
@@ -47,16 +68,17 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
       }, 1000);
     } else {
       clearInterval(interval);
-      setIsButtonDisabled(false);
+      setRetryDisabled(false);
+      // setIsButtonDisabled(false);
     }
     return () => clearInterval(interval);
   }, [timer]);
 
   useEffect(() => {
-    if (verification?.success === 'ok') {
+    if (verification?.verificationSuccess === 'ok') {
       trigger('phone'); // Trigger validation once the phone is confirmed
     }
-  }, [verification?.success, trigger]);
+  }, [verification?.verificationSuccess, trigger]);
 
   useEffect(() => {
     
@@ -68,7 +90,8 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
   return (
     <div className='flex flex-wrap gap-2'>
       {/* <div className='md:w-[340px] w-[calc(100%-148px)]'> */}
-      <div className={`grow ${verification?.success === 'ok' && stretchOnSuccess ? 'w-full': 'md:max-w-[340px]'}`}>
+      {/* <div className={`grow ${verification?.success === 'ok' && stretchOnSuccess ? 'w-full': 'md:max-w-[340px]'}`}> */}
+      <div className={`grow w-full`}>
         <Controller
           name='phone'
           control={control}
@@ -81,7 +104,7 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
             },
             validate: {
               confirmed: (value) => {
-                if (user?.user?.phone || verification?.success === 'ok') {
+                if (user?.user?.phone || verification?.verificationSuccess === 'ok') {
                   return null;
                 } else {
                   return 'Подтвердите номер телефона';
@@ -91,8 +114,9 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
           }}
           render={({ field }) => (
             <CPhoneField
-              disabled={verification?.success === 'ok' || sendVerificationIsLoading || sendVerificationIsSuccess}
-              success={verification?.success === 'ok'}
+              // disabled={verification?.success === 'ok' || sendVerificationIsLoading || sendVerificationIsSuccess}
+              disabled={verification?.verificationSuccess === 'ok' || retryDisabled}
+              success={verification?.verificationSuccess === 'ok'}
             //   fail={!(verification?.verification === null) && !(verification?.verification || user?.user?.phone)}
             //   loading={miniLoading}
               label='Телефон'
@@ -100,33 +124,47 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false }) => {
           )}
         />
         {errors?.phone && (
-          <p className='text-red-500 mt-1 text-xs font-medium'>
+          <p className='mt-1 text-xs font-medium'>
             {errors?.phone?.message || 'Error!'}
           </p>
         )}
       </div>
-      {(!sendVerificationIsSuccess && verification?.success !== 'ok') &&
-        <button
+      {(!verification?.sent && verification?.verificationSuccess !== 'ok') &&
+        <div
           onClick={handleSendVerificationCode}
           disabled={isButtonDisabled}
-          className={`min-w-[140px] h-10 px-4 rounded text-white font-semibold flex justify-center items-center
+          className={`min-w-[140px] w-full h-10 px-4 rounded text-white font-semibold flex justify-center items-center
             ${errors?.phone?.type === 'pattern' || isButtonDisabled ? 'pointer-events-none bg-colGray' : 'cursor-pointer bg-colGreen'}`}>
           {isButtonDisabled ? `00:${timer}` : 'Получить код'}
-        </button>
+        </div>
       }
-      <div className='flex flex-col'>
-      {(sendVerificationIsSuccess && verification?.success !== 'ok' ) && 
+      <div className='flex flex-col w-full'>
+        <div className='flex gap-2 w-full'>
+        {(verification?.sent === 'ok' && verification?.verificationSuccess !== 'ok' ) && 
           <input
             type='text'
-            placeholder='Код из смс'
+            placeholder='Код подтверждения'
             onChange={handleConfirmVerificationCode}
             maxLength={4}
-            className='min-w-[140px] h-10 px-4 rounded border outline-none border-colGray focus:border-colGreen lining-nums proportional-nums font-medium text-sm'
+            className='min-w-[140px] basis-[calc(50%-4px)] h-10 px-4 rounded border outline-none border-colGray focus:border-colGreen lining-nums proportional-nums font-medium text-sm'
           />
       }
-      {(confirmVerificationIsSuccess && verification?.err) && (
-          <p className='text-red-500 mt-1 text-xs font-medium'>
-            {verification?.err || 'Ошибка'}
+      {(verification?.sent === 'ok' && verification?.verificationSuccess !== 'ok') &&
+        <div
+          onClick={handleSendVerificationCode}
+          disabled={retryDisabled}
+          className={`min-w-[140px] basis-[calc(50%-4px)] h-10 px-4 rounded text-white font-semibold flex justify-center items-center
+            ${errors?.phone?.type === 'pattern' || retryDisabled ? 'pointer-events-none bg-colGray' : 'cursor-pointer bg-colGreen'}`}>
+          {retryDisabled ? `00:${timer < 10 ? `0${timer}` : timer}` : 'Попробовать снова'}
+        </div>
+      }
+        </div>
+      
+      {/* {(!sendVerificationIsSuccess && verification?.sent === 'ok' && verification?.verificationSuccess !== 'ok') && */}
+      
+      {(verification?.notification) && (
+          <p className='mt-1 text-xs font-medium'>
+            {verification?.notification || 'Ошибка'}
           </p>
         )}
       </div>

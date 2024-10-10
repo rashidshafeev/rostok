@@ -5,6 +5,10 @@ import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
+import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
+import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
+import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormCartButton';
 // import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 
 
@@ -14,7 +18,6 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // const cart = useSelector(state => state?.cart?.cart)
-
   const favorite = useSelector(state => state?.favorite)
 
   return (
@@ -26,10 +29,15 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
         >
           <div className='flex space-x-4'>
             <div className='flex items-start'>
-              <CCheckBoxField
-                checked={selectedItems.some(el => el?.id === product?.id)}
-                onChange={() => dispatch(selectItem(product))}
-              />
+            <SelectCartItemButton product={product}>
+                {({ isSelected, handleSelectClick }) => (
+
+                  <CCheckBoxField
+                    checked={isSelected}
+                    onChange={handleSelectClick}
+                  />
+                )}
+              </SelectCartItemButton>
               <div
               onClick={(e) => {
                 e.preventDefault();
@@ -70,7 +78,10 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
               </span>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                  <span>{ product?.price?.discount?.price ? product?.price?.discount?.price : product?.price ? product?.price : 'Цена со скидкой не указана'}</span>
+                {!product?.price && "Не указано"}
+                {product?.price?.discount && <div>{`${product?.price?.discount?.price} ${product?.price?.currency}/${product?.price?.unit}`}</div>}
+                {product?.price && !product?.price?.discount && <div>{`${product?.price?.default} ${product?.price?.currency}/${product?.price?.unit}`}</div>}
+                
                 </p>
                  { product?.price?.discount?.price && <p className='text-xs text-colDarkGray flex items-center space-x-2'>
                   <span>{ product?.price?.discount?.price }</span>
@@ -102,8 +113,27 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
           </div>
           <div className='flex items-center justify-between space-x-3 pt-[27px]'>
           <div className='flex space-x-2 pl-5'>
-                  <FavoriteIcon favorite={favorite?.favorite?.some((el) => el?.id === product?.id) ? "true" : "false"} className='transition-all duration-300 hover:scale-110 cursor-pointer'  onClick={() => dispatch(toggleFavorite(product))} />
-                  <DeleteIcon className='transition-all duration-300 hover:scale-110  cursor-pointer' onClick={() => dispatch(removeFromCart(product))} />
+                  <FavoriteButton product={product}>
+                    {({ isLoading, isInFavorite, handleFavoriteClick }) => (
+                      <FavoriteIcon
+                        onClick={handleFavoriteClick}
+                        favorite={isInFavorite ? "true" : "false"}
+                        className={`transition-all duration-300 hover:scale-110  ${
+                          isLoading ? "cursor-wait" : "cursor-pointer"
+                        }`}
+                      />
+                    )}
+                  </FavoriteButton>
+                  <RemoveFromCartButton product={product}>
+                    {({ isLoading, handleRemoveFromCartClick }) => (
+                      <DeleteIcon
+                        className={`transition-all duration-300 hover:scale-110 ${
+                          isLoading ? "cursor-wait" : "cursor-pointer"
+                        }`}
+                        onClick={handleRemoveFromCartClick}
+                      />
+                    )}
+                  </RemoveFromCartButton>
                 </div>
             {/* <div>
               <div className='text-colBlack'>
@@ -122,19 +152,15 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
               </p>
             </div> */}
             <div className='flex items-center text-colBlack font-bold'>
-              <span>{product?.price ? product?.price * product?.quantity : 'Цена не указана'}</span>
-              <span className='pl-1'>₽</span>
+              <span>
+                {!product?.price && "Не указано"}
+                {product?.price?.discount && <div>{`${product?.price?.discount?.price * product?.quantity} ${product?.price?.currency}`}</div>}
+                {product?.price && !product?.price?.discount && <div>{`${product?.price?.default * product?.quantity} ${product?.price?.currency}`}</div>}
+                
+                </span>
             </div>
             <div className='flex items-center space-x-3'>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
-              onClick={() => {product?.quantity !== 1 ? dispatch(changeQuantity({product, quantity: -1})) : dispatch(changeQuantity({product, quantity: 0}))}}>
-                <RemoveOutlined className={`${product?.quantity !== 1 ? `text-colGreen` : `text-colGray`} cursor-pointer`} />
-              </span>
-              <span className='text-colGreen font-semibold'>{product?.quantity}</span>
-              <span className='w-10 h-10 min-w-[40px] rounded-full flex justify-center items-center bg-colSuperLight'
-              onClick={() => {dispatch(changeQuantity({product, quantity: 1}))}}>
-                <AddOutlined className='text-colGreen cursor-pointer' />
-              </span>
+            <ChangeQuantityGroup product={product} />
             </div>
             
           </div>

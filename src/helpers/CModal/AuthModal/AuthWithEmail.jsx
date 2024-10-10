@@ -20,7 +20,7 @@ import { setCart } from "../../../redux/slices/cartSlice";
 import { setToken } from "../../../redux/slices/userSlice";
 import { LoadingSmall } from "../../Loader/Loader";
 
-const AuthWithEmail = ({ hideModal, setContent }) => {
+const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
   const {
     control,
     handleSubmit,
@@ -100,7 +100,7 @@ const AuthWithEmail = ({ hideModal, setContent }) => {
       <Controller
         name="login"
         control={control}
-        defaultValue=""
+        defaultValue={enteredLogin.login}
         render={({ field }) => (
           <CTextField
             label="Эл. почта / телефон"

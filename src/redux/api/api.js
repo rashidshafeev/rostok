@@ -25,7 +25,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://bot-adash.host2bot.ru/',
+  baseUrl: 'https://rosstok.ru/',
   prepareHeaders: (headers, { getState }) => {
     // const token = Cookies.get('token');
     const token = getState().user.token;

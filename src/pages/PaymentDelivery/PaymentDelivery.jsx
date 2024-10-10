@@ -4,12 +4,19 @@ import stallicon from '../../assets/icons/stall-icon.svg';
 import truckicon from '../../assets/icons/truck-icon.svg';
 import boxicon from '../../assets/icons/box-icon.svg';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-
+import QuestionModal from '../../helpers/CModal/QuestionModal';
 
 function PaymentDelivery() {
     const [delivery, setDelivery] = useState('pickup');
     const [payment, setPayment] = useState('cash');
+    const [questionModalOpen, setQuestionModalOpen] = useState(false);
 
+
+
+    const questionModalHandleClose = () => {
+      setQuestionModalOpen(false);
+    }
+  
 
     useEffect(() => {
         scrollToTop();
@@ -20,6 +27,8 @@ function PaymentDelivery() {
 
     return (
         <div className="content lining-nums ">
+        <QuestionModal open={questionModalOpen} handleClose={questionModalHandleClose}/>
+
             <h3 className='text-2xl my-5 font-semibold'>Оплата и доставка</h3>
 
             <h4 className='text-xl mt-5 mb-[10px] font-semibold '>Способы оплаты</h4>
@@ -65,6 +74,14 @@ function PaymentDelivery() {
                         
 
                     </div>
+                    <button className={`flex items-center justify-center  p-5 border  bg-colGreen  rounded-[10px] gap-3`} onClick={() => setQuestionModalOpen(true)}>
+                        {/* <div className='mb-[10px]'>
+                            <img className='w-10 h-10' src={urlico} alt="" />
+                        </div> */}
+                            <div className='font-semibold cursor-pointer mr-2 text-xl text-white'>Задать вопрос</div>
+                        
+
+                    </button>
 
 
                 </div>
@@ -73,7 +90,7 @@ function PaymentDelivery() {
                 <div className=' text-xl font-semibold mb-5'>Правила</div>
                 <div className=' mb-4'>Оплата наличными при получении товара возможна в филиалах компании «РОСТОК»</div>
 
-                <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button>
+                {/* <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> */}
                     </div>}
                 {payment === 'online' &&  <div className='bg-colSuperLight h-full p-5 rounded-[10px] basis-[calc(70%-10px)]'>
                 <div className=' text-xl font-semibold mb-5'>Правила</div>
@@ -86,7 +103,7 @@ function PaymentDelivery() {
                     <div className=' mb-4'>
                         <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> В филиале можно осуществить оплату картой непосредственно на кассе</div>
                                  </div>
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button>
+                    {/* <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> */}
                     </div>}
                 {payment === 'account' &&  <div className='bg-colSuperLight h-full p-5 rounded-[10px] basis-[calc(70%-10px)]'>
                 <div className=' text-xl font-semibold mb-5'>Правила</div>
@@ -101,7 +118,7 @@ function PaymentDelivery() {
                         <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Бухгалтер филиала составляет счет и отправляет его на почту клиента, либо отдает непосредственно в руки</div>
                         <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div>Бухгалтерия формирует безналичный счет и менеджер интернет-магазина отправляет его электронной почтой клиенту для оплаты</div>
                                  </div>
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button>
+                    {/* <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> */}
                     </div>}
 
 
@@ -153,6 +170,16 @@ function PaymentDelivery() {
 
                     </div>
 
+                    <button className={`flex items-center justify-center  p-5 border  bg-colGreen  rounded-[10px] gap-3`} onClick={() => setQuestionModalOpen(true)}>
+                        {/* <div className='mb-[10px]'>
+                            <img className='w-10 h-10' src={urlico} alt="" />
+                        </div> */}
+                            <div className='font-semibold cursor-pointer mr-2 text-xl text-white'>Задать вопрос</div>
+                        
+
+                    </button>
+
+
                 </div>
                 {delivery === 'pickup' &&  <div className='bg-colSuperLight h-full grow p-5 rounded-[10px] basis-[calc(70%-10px)]'>
                     <div className=' text-xl font-semibold mb-5'>Правила</div>
@@ -163,7 +190,7 @@ function PaymentDelivery() {
 
                     </div>
                     <div className=' mb-4'>Уточните заранее наличие товара в нужном филиале и предварительно его зарезервируйте.</div>
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button>
+                    {/* <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> */}
                     </div>}
                 {delivery === 'courier' &&  <div className='bg-colSuperLight h-full p-5 rounded-[10px] basis-[calc(70%-10px)]'>
                 <div className=' text-xl font-semibold mb-5'>Правила</div>
@@ -175,7 +202,7 @@ function PaymentDelivery() {
 
                     </div>
                     
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button>
+                    {/* <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> */}
                     </div>}
                 {delivery === 'tk' &&  <div className='bg-colSuperLight h-full p-5 rounded-[10px] basis-[calc(70%-10px)]'>
                 <div className=' text-xl font-semibold mb-5'>Правила</div>
@@ -189,7 +216,7 @@ function PaymentDelivery() {
 
                     </div>
                     <div className=' mb-4'>Всегда внимательно проверяйте товар при получении, в случае обнаружения любых повреждений или расхождений по количесту мест обязательно фиксируйте это в соответствующем Акте у перевозчика. После забора посылки перевозчик уже не принимает претензий.</div> 
-                    <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button>
+                    {/* <button className='px-8 py-3 bg-colGreen rounded text-white font-semibold'>Задать вопрос</button> */}
                     </div>}
             </div>
         </div>

@@ -20,15 +20,17 @@ export const comparisonSlice = createSlice({
     },
     addToComparison: (state, action) => {
       const token = getTokenFromCookies();
-      if (!token) {
         state.comparison.push({ ...action.payload });
+      if (!token) {
+
         saveToSessionStorage('comparison', state.comparison);
       }
     },
     removeFromComparison: (state, action) => {
       const token = getTokenFromCookies();
-      if (!token) {
         state.comparison = state.comparison.filter((item) => item.id !== action.payload.id);
+      if (!token) {
+
         saveToSessionStorage('comparison', state.comparison);
       }
     },

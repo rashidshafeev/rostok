@@ -6,6 +6,7 @@ import LogoutModal from '../../helpers/CModal/LogoutModal';
 import { ModalProvider } from '../../context/ModalContext';
 import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
 import ShareModal from '../../helpers/CModal/ShareModal';
+import { Toaster } from 'sonner';
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
@@ -20,6 +21,7 @@ const Layout = () => {
         <LogoutModal />
         <AuthModal/>
         <ShareModal />
+        <Toaster />
       </ModalProvider>
     </>
   );

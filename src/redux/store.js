@@ -9,6 +9,7 @@ import favoriteReducer from './slices/favoriteSlice';
 import comparisonReducer from './slices/comparisonSlice';
 import organizationsReducer from './slices/organizationsSlice';
 import filtersReducer from './slices/filtersSlice';
+import recentItemsReducer from './slices/recentItemsSlice';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   comparison: comparisonReducer,
   organizations: organizationsReducer,
   filters: filtersReducer,
+  recentItems: recentItemsReducer,
   [api.reducerPath]: api.reducer,
 });
 

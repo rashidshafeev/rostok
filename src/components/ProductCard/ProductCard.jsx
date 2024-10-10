@@ -1,5 +1,5 @@
 // src/components/ProductCard.js
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ComparisonIcon, FavoriteIcon } from "../../helpers/Icons";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
@@ -10,17 +10,21 @@ import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
 import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
 import { LoadingSmall } from "../../helpers/Loader/Loader";
 import PreviewGallery from "./PreviewGallery";
+import { ShoppingCart } from "@mui/icons-material";
+import { SvgIcon } from "@mui/material";
 
 const ProductCard = ({ product }) => {
-  const token = getTokenFromCookies();
+  // const token = getTokenFromCookies();
+  const navigate = useNavigate() 
 
   const { cart } = useSelector((state) => state.cart);
-  const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
+  // const { data: cartData } = useGetUserCartQuery(undefined, { skip: !token });
 
   
-  const productInCart = token
-    ? cartData?.data?.find((el) => el.id === product.id)
-    : cart.find((el) => el.id === product.id);
+  const productInCart = cart.find((el) => el.id === product.id);
+  // const productInCart = token
+  //   ? cartData?.data?.find((el) => el.id === product.id)
+  //   : cart.find((el) => el.id === product.id);
 
   return (
     <NavLink
@@ -66,6 +70,7 @@ const ProductCard = ({ product }) => {
             {product.fullName}
           </p>
         </div>
+        
         {!productInCart && (
           <AddToCartButton product={product}>
             {({ handleAddToCartClick, isLoading, isSuccess }) => (
@@ -85,9 +90,21 @@ const ProductCard = ({ product }) => {
             )}
           </AddToCartButton>
         )}
-        {productInCart && (
+        {productInCart && <div className="flex justify-between gap-2">
           <ChangeQuantityGroup product={productInCart} enableRemove={true} />
-        )}
+          {/* <div className=" rounded-lg bg-colGreen h-10 w-10 flex justify-center items-center">
+            <NavLink onClick={(e) => {
+              e.stopPropagation();
+              navigate("/shopping-cart");
+            }}>
+          <SvgIcon className="w-6 h-6 text-white" component={ShoppingCart} />
+
+            </NavLink>
+
+          </div> */}
+</div>}
+        {/* {productInCart && (
+        )} */}
       </div>
     </NavLink>
   );

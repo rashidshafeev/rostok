@@ -110,7 +110,7 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
 
   useEffect(() => {
     //Чтобы установить значения фильтров по максимуму при смене категорий
-    if (trigger === "categoryId") {
+    if (trigger === "categoryId" || trigger === "tags"  ) {
       // console.log("filters", filters, {
       //   min: filters?.basics?.price?.min || 0,
       //   max: filters?.basics?.price?.max || 0,
@@ -186,9 +186,11 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
         },
       }}
       defaultExpanded
+      disableGutters
     >
       <AccordionSummary
-        sx={{ padding: 0, minHeight: 0 }}
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: "8px" }}
+        style={{ minHeight: 0 }}
         expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
       >
         <span className="font-semibold text-colBlack">Цена, ₽</span>
