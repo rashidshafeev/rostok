@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from 'react';
 import {
     Accordion,
     AccordionDetails,
@@ -56,10 +55,8 @@ function TagsFilters({ filters, setFilters }) {
                             color: "#15765B",
                             padding: "5px",
                           }}
-                          // checked={filters?.basics?.tags?.includes(el?.tag)}
                           checked={filters?.basics?.tags?.find(tag => tag?.tag === el?.tag).is_selected}
                           disabled={!el?.is_active}
-                          // onChange={() => handleCheckboxChange("tags", el?.tag)}
                           onChange={() => handleCheckboxChange(el?.tag)}
                         />
                       }

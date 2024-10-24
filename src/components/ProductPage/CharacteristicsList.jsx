@@ -1,6 +1,5 @@
-import React from 'react'
-
 import copyicon from '../../assets/icons/copy-icon.svg';
+import { toast } from 'sonner';
 
 
 function CharacteristicsList({ current, product, setTabIndex }) {
@@ -16,16 +15,18 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     <div className='grow border-b-2 border-dotted'></div>
                     <div className='flex items-end leading-none shrink ml-1'>
                         {current?.sku}
-                        <img onClick={() => {navigator.clipboard.writeText(current?.sku)}} src={copyicon} alt="" className='w-4 h-4 rounded-full cursor-pointer hover:opacity-80' />
+                        <img onClick={() => {navigator.clipboard.writeText(current?.sku)
+                            toast('Артикул скопирован')
+                        }} src={copyicon} alt="" className='w-4 h-4 rounded-full cursor-pointer hover:opacity-80' />
                     </div>
                 </div>
                 {
-                    current?.attributes?.slice(0,6).map((attribute, index) => {
+                    current?.attributes?.slice(0,6).map((attribute) => {
                         {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
                         if (current.attributes.some( modAttr => modAttr.id === attribute.id)) {
                             return(
-                                <div className='flex items-end'>
+                                <div key={attribute.id} className='flex items-end'>
                                     <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                     <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                     <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
@@ -35,7 +36,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                             ) 
                         } else if ( attribute.values[0].text ) {
                             return(
-                                <div className='flex items-end'>
+                                <div key={attribute.id} className='flex items-end'>
                                 <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                 <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                 <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
@@ -48,12 +49,12 @@ function CharacteristicsList({ current, product, setTabIndex }) {
 
                 }
                 {
-                    product?.attributes?.slice(0,6).map((attribute, index) => {
+                    product?.attributes?.slice(0,6).map((attribute) => {
                         {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
                         if (current.attributes.some( modAttr => modAttr.id === attribute.id)) {
                             return(
-                                <div className='flex items-end'>
+                                <div key={attribute.id} className='flex items-end'>
                                     <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                     <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                     <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
@@ -63,7 +64,7 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                             ) 
                         } else if ( attribute.values[0].text ) {
                             return(
-                                <div className='flex items-end'>
+                                <div key={attribute.id} className='flex items-end'>
                                 <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                 <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                 <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>

@@ -1,6 +1,3 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-
 import favoriteiconactive from '../../assets/icons/favorite-green-full.svg';
 import favoriteicon from '../../assets/icons/favorite-green.svg';
 import comparisoniconactive from '../../assets/icons/comparison-card-active.svg';
@@ -9,7 +6,6 @@ import star from '../../assets/icons/adv1fill.svg';
 import share from '../../assets/icons/share.svg';
 import downloadpdf from '../../assets/icons/download-pdf.svg';
 import print from '../../assets/icons/print.svg';
-import { useDispatch, useSelector } from 'react-redux';
 import { useModal } from '../../context/ModalContext';
 import ComparisonButton from '../../helpers/ComparisonButton/ComparisonButton';
 import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
@@ -18,13 +14,6 @@ function TopControls({product, reviews}) {
 
   const {showModal } = useModal();
 
-  const dispatch = useDispatch();
-
-  const favorite = useSelector(state => state?.favorite)
-  const comparison = useSelector(state => state?.comparison)
-
-  const isProductInFavorite = favorite?.favorite?.some((el) => el?.id === product?.id);
-  const isProductInComparison = comparison?.comparison?.some((el) => el?.id === product?.id);
   
   return (
     <>
@@ -42,22 +31,9 @@ function TopControls({product, reviews}) {
               </span>
             </button>
             
-         
-            {/* <button
-              className='text-center flex flex-row justify-between items-center'
-              onClick={(e) => {
-                dispatch(toggleComparison(product));
-              }}
-            >
-              <img className='mx-auto mr-1' src={isProductInComparison ? comparisoniconactive : comparisonicon  } alt='*' />
-
-              <span className='text-xs pt-1 font-medium text-colBlack'>
-                Сравнить
-              </span>
-            </button> */}
 
             <ComparisonButton product={product}>
-            {({ isLoading, isInComparison, handleComparisonClick }) => (
+            {({isInComparison, handleComparisonClick }) => (
               <button
               className='text-center flex flex-row justify-between items-center'
               onClick={handleComparisonClick}
@@ -70,19 +46,9 @@ function TopControls({product, reviews}) {
             </button>
             )}
           </ComparisonButton>
-            {/* <button 
-              className='text-center flex flex-row justify-between items-center'
-              onClick={(e) => {
-                dispatch(toggleFavorite(product));
-              }}
-            >
-              <img className='mx-auto mr-1' src={isProductInFavorite ?  favoriteiconactive  : favoriteicon} alt='*' />
-              <span className='text-xs pt-1 font-medium text-colBlack'>
-                В избранное
-              </span>
-            </button> */}
+
             <FavoriteButton product={product}>
-              {({ isLoading, isInFavorite, handleFavoriteClick }) => (
+              {({ isInFavorite, handleFavoriteClick }) => (
                 <button 
                 className='text-center flex flex-row justify-between items-center'
                 onClick={handleFavoriteClick}

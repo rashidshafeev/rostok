@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import {
   useFloating,
   autoUpdate,
@@ -123,15 +123,15 @@ function ProfileButton({ name }) {
               <div className=' text-xs text-colDarkGray py-2'>Мои организации</div>
               {
                 organizations?.map(org => (
-                  <div className='flex gap-2 items-center rounded font-semibold hover:bg-colSuperLight px-2 py-1'>
-                    <img src={urlico} className='h-4 w-4' alt="" srcset="" />
+                  <div key={org.inn} className='flex gap-2 items-center rounded font-semibold hover:bg-colSuperLight px-2 py-1'>
+                    <img src={urlico} className='h-4 w-4' alt="" />
                     <div className=''>{org.name}</div>
                   </div>
                 ))
               }
             </div>
             <div className='flex gap-2 items-center rounded font-semibold hover:bg-colSuperLight px-2 py-1'>
-              <img src={fizlico} className='h-4 w-4' alt="" srcset="" />
+              <img src={fizlico} className='h-4 w-4' alt=""  />
               <div>{name}<span className='text-xs text-colDarkGray'> (физ лицо)</span></div>
             </div>
             

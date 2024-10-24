@@ -48,7 +48,8 @@ function CatalogFastAccess() {
           style={{ backgroundColor: `${tag?.background_color}` }}
           className="rounded h-[27px] flex items-center justify-center px-4"
         >
-          {/* <img src={el?.icon2} alt="*" /> */}
+                   <img src={tag?.light_icon?.medium} className='w-4 h-4' alt="*" />
+
           <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1">
             {tag?.tag}
           </span>

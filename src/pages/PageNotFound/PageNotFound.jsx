@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import image from '../../assets/images/404.svg'
 import { NavLink } from 'react-router-dom'
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
@@ -13,7 +13,7 @@ function PageNotFound() {
   return (
     <div className='content flex flex-col items-center gap-10 '>
       <img className='p-20 w-[50%]' src={image} alt="" />
-      <div className='font-semibold text-4xl'>К сожалению, запрашиваемая вами страница не найдена :(</div>
+      <div className='font-semibold text-4xl'>К сожалению, запрашиваемая вами страница не найдена :</div>
       <div className='text-xl'>Давайте поищем что-то другое или вернёмся на главную</div>
       <div className='flex gap-10 mb-10'>
         <NavLink to='/'>

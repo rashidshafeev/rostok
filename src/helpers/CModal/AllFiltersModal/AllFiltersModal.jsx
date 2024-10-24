@@ -50,7 +50,7 @@ const AllFiltersModal = ({
           <div className=" cursor-wait absolute top-0 left-0 w-full h-full bg-white opacity-30 z-10"></div>
         )}
         {filters?.basics?.price && (
-          <div className=" sm:basis-[calc(33%-(20px*2/3))] md:basis-[calc(25%-(20px*3/4))]">
+          <div className=" sm:basis-[calc(33%-(20px*2/3))] md:basis-[calc(25%-(20px*3/4))]"> 
           <PriceFilter
             filters={filters}
             setFilters={setFilters}

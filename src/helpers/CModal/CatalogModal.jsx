@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { NavLink } from 'react-router-dom';
-import { customTags } from '../../constants/data';
 import noImg from '../../assets/images/no-image.png';
 import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
-
+// import { useModal } from '../../context/ModalContext';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
   const categoryTree = data?.children;
+
+  // const { hideModal, modalContent, isModalVisible } = useModal();
 
   const {data: basicFilters} = useGetBasicFiltersQuery();
 
@@ -24,6 +25,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
   useEffect(() => {
     const handleBodyOverflow = () => {
       if (showCatalog) {
+      // if (isModalVisible && modalContent.type === 'catalog') {
         document.body.style.overflowY = 'hidden';
       } else {
         document.body.style.overflowY = 'auto';
@@ -36,6 +38,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
       document.body.style.overflowY = 'auto';
     };
   }, [showCatalog]);
+  // }, [isModalVisible]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -50,12 +53,13 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
     };
   }, []);
 
+
   return (
     <div
       className={`fixed left-0 w-full h-full z-[999] hidden md:block ${
         scrollPosition > 32 ? 'top-[65px]' : 'top-[100px]'
       } bg-white duration-300`}
-    >
+    > 
       <div
         className={`${
           scrollPosition > 32 ? 'h-[90%]' : 'h-[85%]'
@@ -67,33 +71,18 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
             {basicFilters?.tags?.map((tag) => (
         <NavLink
           to={`/catalog/tags?tags=${tag?.tag}`}
+          onClick={() => setShowCatalog(false)}
+
           key={tag?.id}
-          style={{ backgroundColor: `${tag?.background_color}` }}
-          className="rounded h-[27px] flex items-center justify-center px-4"
+          className="rounded h-[27px] flex items-end p-1"
         >
-          {/* <img src={el?.icon2} alt="*" /> */}
-          <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1">
+          <img src={tag?.dark_icon?.medium} className='w-7 h-7' alt="*" />
+
+          <span className="text-colBlack leading-[115%] font-semibold pl-2">
             {tag?.tag}
           </span>
         </NavLink>
       ))}
-              {/* {customTags?.map((el) => (
-                <li key={el?.id} onMouseOver={() => handleItemClick(null)}>
-                  <NavLink
-                    to={`/catalog${el?.slug}`}
-                    onClick={() => setShowCatalog(false)}
-                    className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'
-                  >
-                    <div className='flex items-center'>
-                      <img src={el?.icon} alt='*' />
-                      <span className='text-cilBlack font-semibold pl-2'>
-                        {el?.name}
-                      </span>
-                    </div>
-                    <ArrowIcon className='rotate-[90deg]' />
-                  </NavLink>
-                </li>
-              ))} */}
               {categoryTree?.map((el) => (
                 <li key={el?.id}>
                   <NavLink

@@ -1,26 +1,24 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react'
-import { NavLink, useLoaderData, useNavigate, useNavigation, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLoaderData } from 'react-router-dom'
 
 import dummylogo from '../../assets/images/dummy-logo.png';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import ProductAttributesList from '../../components/ProductPage/Attributes/ProductAttributesList';
 import ProductTabs from '../../components/ProductPage/ProductTabs/ProductTabs';
 import RightBar from '../../components/ProductPage/RightBar';
 import CharacteristicsList from '../../components/ProductPage/CharacteristicsList';
 import TopControls from '../../components/ProductPage/TopControls';
-import { Loading } from '../../helpers/Loader/Loader';
 import ProductGallery from '../../components/ProductPage/ProductGallery';
 import Breadcrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
 import MobileInfo from '../../components/ProductPage/Mobile/MobileNameBar';
 import MobileProductInfo from '../../components/ProductPage/Mobile/MobileProductInfo/MobileProductInfo';
 import MobileTopBar from '../../components/ProductPage/Mobile/MobileTopBar';
-import { useIntersection } from 'react-use';
+// import { useIntersection } from 'react-use';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import { addToRecentItems } from '../../redux/slices/recentItemsSlice';
-import ProductGalleryTest from '../../components/ProductPage/ProductGalleryTest';
 
 function ProductPage() {
   const token =  getTokenFromCookies()
@@ -33,12 +31,12 @@ function ProductPage() {
     scrollToTop();
   }, []);
 
-  const addCard = useRef(null);
-  const addCardVisible = useIntersection(addCard, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1
-  });
+  // const addCard = useRef(null);
+  // const addCardVisible = useIntersection(addCard, {
+  //   root: null,
+  //   rootMargin: '0px',
+  //   threshold: 1
+  // });
 
   console.log('ProductPage render')
 
@@ -69,7 +67,6 @@ function ProductPage() {
         <div className='flex  flex-wrap pb-5 min-h-[420px] gap-5'>
           <div className='lg:basis-[calc(42%-40px/3)] basis-full'>
             <ProductGallery files={currentProduct.files} tags={currentProduct.tags} />
-            {/* <ProductGalleryTest files={currentProduct.files} tags={currentProduct.tags} /> */}
           </div>
           <MobileInfo name={`${group.name} ${currentProduct.name}`} reviews={group.reviews} sku={currentProduct.sku} />
 

@@ -17,7 +17,7 @@ const SaleProducts = () => {
         // className='flex h-full'
           modules={[Navigation]}
           navigation={window.innerWidth >= 576}
-      autoHeight={true}
+      // autoHeight={true}
 
           wrapperClass='flex grow'
           spaceBetween={16}

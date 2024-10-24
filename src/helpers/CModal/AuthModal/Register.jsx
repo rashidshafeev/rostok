@@ -2,7 +2,7 @@
 
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import CTextField from "../../CustomInputs/CTextField";
-import { Box, Checkbox, FormControlLabel } from "@mui/material"; 
+import { Checkbox, FormControlLabel } from "@mui/material"; 
 import { useSendCartMutation } from "../../../redux/api/cartEndpoints";
 import { useSendFavoritesMutation } from "../../../redux/api/favoritesEndpoints";
 import { useSendComparisonMutation } from "../../../redux/api/comparisonEndpoints";
@@ -16,16 +16,12 @@ import { useUserRegisterMutation } from "../../../redux/api/userEndpoints";
 import { useEffect, useState } from "react";
 import PhoneVerificationField from "../../PhoneVerificationField/PhoneVerificationField";
 import {
-  KeyboardArrowRight,
-  KeyboardArrowLeft,
   Visibility,
   VisibilityOff,
-  CheckCircleRounded,
-  CancelRounded,
 } from "@mui/icons-material";
 import { LoadingSmall } from "../../Loader/Loader";
 
-const Register = ({ hideModal, setContent, login: enteredLogin }) => {
+const Register = ({ hideModal, login: enteredLogin }) => {
   const methods = useForm({ mode: "onSubmit" });
   const {
     control,
@@ -157,7 +153,7 @@ const Register = ({ hideModal, setContent, login: enteredLogin }) => {
               )}
             </div>
             <div>
-              <PhoneVerificationField stretchOnSuccess={true}  />
+              <PhoneVerificationField />
             </div>
             {/* <div>
               <Controller

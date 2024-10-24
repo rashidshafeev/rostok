@@ -20,7 +20,7 @@ import CardLineSkeleton from '../ProductCard/CardLineSkeleton';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import LineNarrowSkeleton from '../ProductCard/LineNarrowSkeleton';
 
-const ShCartDetail = ({cart, isLoading }) => {
+const ShCartDetail = ({cart, isLoading, filteredCart, selected }) => {
   
   const token = getTokenFromCookies();
   // const { cart: localCart } = useSelector((state) => state.cart);
@@ -32,20 +32,11 @@ const ShCartDetail = ({cart, isLoading }) => {
   const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
 
   const [itemType, setItemType] = useState('lineBig');
-  const [filteredCart, setFilteredCart] = useState([])
 
-  const orderInfo = useRef(null);
-  const orderInfoVisible = useIntersection(orderInfo, {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1
-  });
 
   const { width, height } = useWindowSize();
 
   const dispatch = useDispatch();
-
-  const selected = cart?.filter((item) => item.selected === true || item.selected.toString() === '1');
 
   const handleSelectAllChange = (event) => {
     const isChecked = event.target.checked;
@@ -86,19 +77,6 @@ const ShCartDetail = ({cart, isLoading }) => {
     token ? sendCart({items: payload}) : selected.forEach((item) => dispatch(removeFromCart(item)));
   }
 
-  const handleFilter = (event) => {
-    const filterValue = event.target.value; 
-
-    let filteredCart = cart.filter((product) => product.name.toLowerCase().includes(filterValue.toLowerCase()) || product.groupName.toLowerCase().includes(filterValue.toLowerCase()) || product.sku.includes(filterValue))
-    console.log(filteredCart)
-
-
-    setFilteredCart(filteredCart)
-  }
-
-  useEffect(() => {
-    setFilteredCart(cart)
-  }, [cart])
 
 
   const [containerHeight, setContainerHeight] = useState('auto');
@@ -128,34 +106,8 @@ const ShCartDetail = ({cart, isLoading }) => {
   return (
     <>
 
-      <div className='hidden lg:flex justify-between items-end'>
-        <div className='flex max-w-[460px] w-full pt-3'>
-          <CSearchField
-            label='Введите наименование или артикул'
-            name='search'
-            type='search'
-            handleChange={handleFilter}
-          />
+      
 
-        </div>
-        <div className='flex justify-end items-center space-x-4 '>
-          <div className='flex cursor-pointer'>
-            <img src={shareIcon} alt='*' />
-            <span className='text-xs font-medium text-colBlack pl-2'>
-              Поделиться
-            </span>
-          </div>
-          <div className='flex cursor-pointer'>
-            <img src={docIcon} alt='*' />
-            <span className='text-xs font-medium text-colBlack pl-2'>
-              Скачать PDF заказа
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <div className='flex flex-wrap gap-10 py-5'>
-        <div className='lg:basis-[calc(70%-20px)] basis-full'>
           <div className='flex justify-between items-center pb-2'>
             <div className='flex items-center'>
               <div className='pb-[3px]'>
@@ -241,71 +193,7 @@ const ShCartDetail = ({cart, isLoading }) => {
             />
           )}
           </div>
-        </div>
-        <div ref={orderInfo} className='lg:basis-[calc(30%-20px)] basis-full'>
-
-          <div className='border border-[#EBEBEB] rounded-[10px] p-5'>
-            {selected?.length === 0 ? (
-              <div className='text-center text-[#828282] text-lg font-medium mb-5'>
-                Выберите товары, которые хотите заказать
-              </div> ) : (
-
-              <>
-                <div className='flex justify-between items-center pb-3'>
-                  <span className='text-xl font-semibold text-colBlack'>
-                    Итого
-                  </span>
-                  <span className='text-xl font-semibold text-colBlack'>
-                    {selected?.length} {plural(selected?.length, 'товар', 'товара', 'товаров')}
-                  </span>
-                </div>
-                <div className='flex justify-between items-center'>
-                  <span className='text-colBlack text-sm whitespace-nowrap'>
-                    Количество
-                  </span>
-                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-                  <span className='font-bold whitespace-nowrap'>{cart?.selectedQuantity} шт</span>
-                </div>
-                <div className='flex justify-between items-center pt-2'>
-                  <span className='text-colBlack text-sm'>Вес</span>
-                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-                  <span className='font-bold whitespace-nowrap'>19.5 кг</span>
-                </div>
-                <br />
-                <div className='flex justify-between items-center'>
-                  <span className='text-colBlack text-sm'>Сумма</span>
-                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-                  <span className='font-bold whitespace-nowrap'>53 848 ₽</span>
-                </div>
-                <div className='flex justify-between items-center pt-2'>
-                  <span className='text-colBlack text-sm'>Скидка</span>
-                  <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-                  <span className='font-bold whitespace-nowrap'>- 13 848 ₽</span>
-                </div>
-                <div className='flex justify-between items-center pt-3 pb-5'>
-                  <span className='text-lg font-semibold text-colBlack'>Итого</span>
-                  <span className='text-lg font-semibold text-colBlack'>
-                    40 000 ₽
-                  </span>
-                </div>
-
-              </>
-            )
-
-
-            }
-            
-            {selected?.length === 0 && <button className={`text-white cursor-auto font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center`}>
-              Перейти к оформлению
-            </button>}
-            {selected?.length !== 0 && <NavLink to='/checkout' className={`text-white font-semibold bg-colGreen rounded w-full h-[50px] flex justify-center items-center`}>
-              Перейти к оформлению
-            </NavLink>}
-          </div>
-        </div>
-      </div>
-      {(orderInfoVisible && orderInfoVisible.intersectionRatio < 1) && <MobileToCheckoutBar selected={selected} quantity={cart?.selectedQuantity} />}
-
+        
     </>
   );
 };

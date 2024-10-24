@@ -12,14 +12,7 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
   const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [retryDisabled, setRetryDisabled] = useState(false);
-
-
-//   const [miniLoading, setMiniLoading] = useState(false);
-  // const [verification, setVerification] = useState({ success: null, notification: null });
   const [verification, setVerification] = useState({ sent: null, verificationSuccess: null, notification: null });
-
-  //enter-phone, phone-sent, enter-code, confirm-code
-  const [step, setStep] = useState('enter-phone');
 
   const [sendVerificationCode, { isLoading: sendVerificationIsLoading, isSuccess: sendVerificationIsSuccess }] = useSendVerificationCodeMutation();
   const [confirmVerificationCode, { isLoading: confirmVerificationIsLoading, isSuccess: confirmVerificationIsSuccess }] = useConfirmVerificationCodeMutation();
@@ -30,22 +23,26 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
     console.log("sendverificationcode data");
     console.log(data);
     if (data?.success === 'ok') {
-      // Handle success
+
       setVerification({ ...verification, sent: 'ok', notification: data?.data?.text});
-      // const serverTime = new Date(data?.data?.timeoutPeriod).getTime();
-      // const currentTime = new Date().getTime();
-      // const waitTime = Math.max(60 - Math.floor((currentTime - serverTime) / 1000), 0);
-      // setTimer(waitTime);ваав
       setTimer(data?.data?.timeoutPeriod);
       setRetryDisabled(true);
+
     } else if (data?.err_code === 'user__sendsms__wait') {
+
       setVerification({ ...verification, sent: 'ok', notification: data?.err});
       const serverTime = new Date(data?.err_desc).getTime();
       const currentTime = new Date().getTime();
       const waitTime = Math.max(60 - Math.floor((currentTime - serverTime) / 1000), 0);
       setTimer(waitTime);
       setRetryDisabled(true);
+
+    } else if (!data?.success) {
+
+      setVerification({ ...verification, sent: false, notification: data?.err});
+
     }
+
   };
 
   const handleConfirmVerificationCode = async (e) => {
@@ -89,8 +86,6 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
 
   return (
     <div className='flex flex-wrap gap-2'>
-      {/* <div className='md:w-[340px] w-[calc(100%-148px)]'> */}
-      {/* <div className={`grow ${verification?.success === 'ok' && stretchOnSuccess ? 'w-full': 'md:max-w-[340px]'}`}> */}
       <div className={`grow w-full`}>
         <Controller
           name='phone'
@@ -103,7 +98,7 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
               message: 'Введите корректный номер телефона',
             },
             validate: {
-              confirmed: (value) => {
+              confirmed: () => {
                 if (user?.user?.phone || verification?.verificationSuccess === 'ok') {
                   return null;
                 } else {
@@ -114,17 +109,14 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
           }}
           render={({ field }) => (
             <CPhoneField
-              // disabled={verification?.success === 'ok' || sendVerificationIsLoading || sendVerificationIsSuccess}
               disabled={verification?.verificationSuccess === 'ok' || retryDisabled}
               success={verification?.verificationSuccess === 'ok'}
-            //   fail={!(verification?.verification === null) && !(verification?.verification || user?.user?.phone)}
-            //   loading={miniLoading}
               label='Телефон'
               {...field} />
           )}
         />
         {errors?.phone && (
-          <p className='mt-1 text-xs font-medium'>
+          <p className='text-xs'>
             {errors?.phone?.message || 'Error!'}
           </p>
         )}
@@ -163,7 +155,7 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
       {/* {(!sendVerificationIsSuccess && verification?.sent === 'ok' && verification?.verificationSuccess !== 'ok') && */}
       
       {(verification?.notification) && (
-          <p className='mt-1 text-xs font-medium'>
+          <p className='text-xs'>
             {verification?.notification || 'Ошибка'}
           </p>
         )}

@@ -1,28 +1,29 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import ImageGallery from "react-image-gallery";
 // import stylesheet if you're not already using CSS @import
 import "react-image-gallery/styles/css/image-gallery.css";
-import LeftNav from "./Gallery/LeftNav";
-import RightNav from "./Gallery/RightNav";
 import noImg from "../../assets/images/no-image.png";
 import "./ProductGallery.css";
 
 import Lightbox from "yet-another-react-lightbox";
 import Video from "yet-another-react-lightbox/plugins/video";
 import "yet-another-react-lightbox/styles.css";
+import { useWindowSize } from "react-use";
 
 function ProductGallery({ files, tags }) {
-  console.log("files", files, files?.length);
-  // const images = []
+  
   const imageGalleryRef = useRef(null);
   const sliderIndex = useRef(0);
   const [lightBoxIndex, setLightBoxIndex] = useState(-1);
 
+  const {width} = useWindowSize();
+console.log("files")
+console.log(files)
   const renderVideo = (item) => {
     return (
       <div
-        className="video-wrapper min-h-[480px] max-h-[480px]  cursor-pointer flex items-center"
+        className="video-wrapper min-h-[480px] lg:max-h-[480px]  cursor-pointer flex items-center"
         onClick={() => {
           setLightBoxIndex(item.index);
           sliderIndex.current = item.index;
@@ -33,10 +34,10 @@ function ProductGallery({ files, tags }) {
           width="100%"
           height="480px"
           src={item.embedUrl}
-          autoplay={true}
+          autoPlay={true}
           controls
         >
-          Your browser doesn't support HTML5 video tag.
+          Your browser doesn&apos;t support HTML5 video tag.
         </video>
       </div>
     );
@@ -49,12 +50,16 @@ function ProductGallery({ files, tags }) {
        {tags?.length > 0 && <div className="absolute top-5 left-5 flex gap-2">
         {tags?.map((tag) => {
           return (
-            <span
+            <div
+            key={tag.id}
               style={{ color: tag.text_color }}
-              className={`bg-[${tag.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
+              className={`bg-[${tag.background_color}] pb-[10px] pt-3 lg:py-1 px-1.5 lg:px-2 uppercase lg:text-xs font-medium lg:font-bold rounded-xl`}
             >
+              <span>
               {tag.text}
-            </span>
+
+              </span>
+            </div>
           );
         })}
       </div>}
@@ -65,7 +70,7 @@ function ProductGallery({ files, tags }) {
             sliderIndex.current = item.index;
           }}
           src={item.original}
-          className="shrink min-h-[480px] max-h-[480px] object-scale-down rounded-xl"
+          className="shrink min-h-[480px] lg:max-h-[480px] object-scale-down rounded-xl"
           alt=""
         />
       </div>
@@ -76,7 +81,7 @@ function ProductGallery({ files, tags }) {
 
   files?.length
     ? files?.forEach((file, index) => {
-        if (file.type === "image") {
+        if (file.type === "img") {
           images.push({
             //for lightbox
             index: index,
@@ -126,16 +131,18 @@ function ProductGallery({ files, tags }) {
 
         items={images}
         showThumbnails={images.length > 1}
+        // showThumbnails={images.length > 1}
         showVideo={true}
         // additionalClass="max-w-[200px]"
         showFullscreenButton={false}
         showPlayButton={false}
         showNav={false}
-        thumbnailPosition='left'
+        thumbnailPosition={width > 768 ? 'left' : 'bottom'}
         disableThumbnailScroll={false}
         useBrowserFullscreen={false}
         startIndex={sliderIndex.current}
         ref={imageGalleryRef}
+
       > </ImageGallery>
       <Lightbox
         plugins={[Video]}

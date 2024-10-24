@@ -4,18 +4,15 @@ import { NavLink } from 'react-router-dom';
 import address from '../../assets/icons/address.svg';
 import arrow from '../../assets/icons/arrow-black.svg';
 import logo from '../../assets/images/logo.svg';
-import QuestionModal from '../../helpers/CModal/QuestionModal';
+import { useModal } from '../../context/ModalContext';
 
 
 
 function PreHeader() {
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState(null);
-  const [questionModalOpen, setQuestionModalOpen] = useState(false);
-
-  const questionModalHandleClose = () => {
-    setQuestionModalOpen(false);
-  }
+  
+ const { showModal } = useModal();
 
   return (
     <div className='content mx-auto pt-3 lg:pt-2 flex justify-between items-center relative z-[999]'>
@@ -60,13 +57,15 @@ function PreHeader() {
         </li>
         <li>
           <button
-            // to='/question'
             className='text-colDarkGray text-sm font-semibold border-b border-colDarkGray pb-[1px]'
-            onClick={() =>  setQuestionModalOpen(true)}
+            onClick={() =>  showModal({type: 'question', data: {
+              title: 'Вопросы',
+              description: 'Если у вас есть вопросы, задайте их нам и мы обязательно ответим',
+              buttonText: 'Задать вопрос',
+            }})}
           >
             Есть вопросы?
           </button>
-          <QuestionModal open={questionModalOpen} handleClose={questionModalHandleClose}/>
         </li>
       </ul>
 

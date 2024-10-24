@@ -3,7 +3,6 @@
 import { Controller, useForm } from "react-hook-form";
 import CTextField from "../../CustomInputs/CTextField";
 import {
-  KeyboardArrowLeft,
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
@@ -19,6 +18,7 @@ import { setFavorite } from "../../../redux/slices/favoriteSlice";
 import { setCart } from "../../../redux/slices/cartSlice";
 import { setToken } from "../../../redux/slices/userSlice";
 import { LoadingSmall } from "../../Loader/Loader";
+import { toast } from "sonner";
 
 const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
   const {
@@ -31,7 +31,7 @@ const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
   } = useForm({ mode: "onChange" });
 
   const [isShow, setIsShow] = useState(false);
-  const [resError, setResError] = useState(null);
+  const [responseError, setResponseError] = useState(null);
 
   const cart = useSelector((state) => state.cart.cart);
   const comparison = useSelector((state) => state.comparison.comparison);
@@ -88,6 +88,8 @@ const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
         hideModal();
         navigate("/");
         return;
+      } else if (!auth.data.success) {
+        setResponseError(auth.data.err);
       }
     } catch (error) {
       console.error("Authorization failed:", error);
@@ -136,8 +138,8 @@ const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
           />
         )}
       </div>
-      {resError && (
-        <p className="text-red-500 text-sm font-medium pt-1">{resError}</p>
+      {responseError && (
+        <p className="text-xs mt-1">{responseError}</p>
       )}
 
       <button className="w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold flex justify-center items-center">

@@ -1,6 +1,6 @@
 // src/context/ModalContext.js
 
-import React, { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 // Define the context with default values
 const ModalContext = createContext({
@@ -8,7 +8,6 @@ const ModalContext = createContext({
   hideModal: () => {},
   modalContent: null,
   isModalVisible: false,
-  modalProps: {},
 });
 
 // Create a provider component

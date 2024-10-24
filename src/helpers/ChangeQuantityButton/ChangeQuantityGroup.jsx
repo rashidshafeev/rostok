@@ -33,7 +33,7 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
         // token ? sendCart({ id: product.id, quantity: newQuantity, selected: product.selected }) :dispatch(changeQuantity({ id: product.id, quantity: newQuantity }));
         const price = await getItemPrice({ item_id: product.id, quantity: newQuantity })
     // console.log(addedProduct, price)dfcx
-        dispatch(changeQuantity({ id: product.id, quantity: newQuantity, server_price: price?.data?.data }));
+        dispatch(changeQuantity({ id: product.id, quantity: newQuantity, price: price?.data?.data }));
 
 
       }

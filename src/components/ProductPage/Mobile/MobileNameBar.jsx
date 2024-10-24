@@ -1,7 +1,7 @@
-import React from 'react'
-
 import star from '../../../assets/icons/adv1fill.svg';
 import copyicon from '../../../assets/icons/copy-icon.svg';
+import { toast } from 'sonner';
+
 
 
 function MobileNameBar({ name, reviews, sku}) {
@@ -25,7 +25,9 @@ function MobileNameBar({ name, reviews, sku}) {
 
             <div className='flex items-end leading-none shrink ml-1 text-colDarkGray text-xs'>
             Артикул: {sku}
-                        <img onClick={() => {navigator.clipboard.writeText(sku)}} src={copyicon} alt="" className='w-3 h-3 rounded-full cursor-pointer hover:opacity-80' />
+                        <img onClick={() => {navigator.clipboard.writeText(sku)
+                            toast('Артикул скопирован')
+                        }} src={copyicon} alt="" className='w-3 h-3 rounded-full cursor-pointer hover:opacity-80' />
                     </div>
     </div>
 

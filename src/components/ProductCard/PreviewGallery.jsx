@@ -44,12 +44,12 @@ const PreviewGallery = ({ product }) => {
         )} */}
         {/* <div className="flex flex-col items-center justify-center "> */}
         <div className="absolute bg-white  bg-opacity-30 backdrop-blur-lg rounded-lg overflow-hidden h-full w-full sc ">
-        <img src={displayedImage}  className="w-full h-full object-contain" />
+        <img onMouseMove={handleMouseMove} onMouseLeave={() => setHoveredIndex(0)} src={displayedImage}  className="w-full h-full object-contain" />
       </div>
         <div className=" flex flex-col items-center">
           {/* <div className="w-full h-full"> */}
-          <img onMouseMove={handleMouseMove}
-              onMouseLeave={() => setHoveredIndex(0)}
+          <img 
+              
               src={displayedImage} className="w-full h-full object-contain" />
           {/* </div> */}
         
@@ -67,7 +67,7 @@ const PreviewGallery = ({ product }) => {
             {product?.tags?.length > 0 && (
               <span
                 style={{ color: product.tags[0].text_color }}
-                className={`bg-[${product.tags[0].background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
+                className={`bg-[${product.tags[0].background_color}] py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold rounded-xl`}
               >
                 {product.tags[0].text}
               </span>

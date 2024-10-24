@@ -2,7 +2,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
 import bgImg from '../../../assets/temp-images/pattern.png';
-import { bannerOne } from '../../../constants/data';
 import { useGetMainPageDataQuery } from '../../../redux/api/productEndpoints';
 import { NavLink } from 'react-router-dom';
 

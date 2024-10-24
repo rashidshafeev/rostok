@@ -43,7 +43,7 @@ function BrandsFilter({ filters, setFilters }) {
         style={{ minHeight: 0 }}
         expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
       >
-        <span className="font-semibold text-colBlack">Производитель</span>
+        <span className="font-semibold text-colBlack">Бренд</span>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: 0 }}>
         {filters?.basics?.brands?.map((el) => (

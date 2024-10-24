@@ -1,31 +1,22 @@
-import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { Controller, useForm } from 'react-hook-form';
 import { setToken } from '../../redux/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '../../context/ModalContext';
 
-const LogoutModal = ({
-  open,
-  setOpen,
-  content,
-}) => {
+const LogoutModal = () => {
   
   const dispatch = useDispatch();
   const navigate  = useNavigate();
 
   const { hideModal, modalContent, isModalVisible } = useModal();
+  
   const logout = () => {
     dispatch(setToken());
     hideModal();
     navigate('/');
   }
-  // const logout = () => {
-  //   dispatch(setToken());
-  //   setOpen(false);
-  //   navigate('/');
-  // }
+
   if (!isModalVisible) return null;
 
   return (
@@ -35,12 +26,6 @@ const LogoutModal = ({
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-    {/* <Modal
-      open={open}
-      onClose={() => setOpen(false)}
-      aria-labelledby='modal-modal-title'
-      aria-describedby='modal-modal-description'
-    > */}
           <Box className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 lining-nums proportional-nums bg-white rounded-lg border-none outline-none px-6 py-8 max-w-[480px] w-[95%] mm:w-full'>
             <span
               onClick={hideModal}
@@ -56,7 +41,7 @@ const LogoutModal = ({
             </p>
             <div className='flex space-x-3 pt-5'>
               <button
-                onClick={() => setOpen(false)}
+                onClick={() => hideModal()}
                 className='w-1/2 h-[38px] px-6 border border-colGreen bg-white rounded text-colGreen font-semibold'
               >
                 Отменить

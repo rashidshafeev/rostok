@@ -4,19 +4,13 @@ import stallicon from '../../assets/icons/stall-icon.svg';
 import truckicon from '../../assets/icons/truck-icon.svg';
 import boxicon from '../../assets/icons/box-icon.svg';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import QuestionModal from '../../helpers/CModal/QuestionModal';
+import { useModal } from '../../context/ModalContext';
 
 function PaymentDelivery() {
     const [delivery, setDelivery] = useState('pickup');
     const [payment, setPayment] = useState('cash');
-    const [questionModalOpen, setQuestionModalOpen] = useState(false);
 
-
-
-    const questionModalHandleClose = () => {
-      setQuestionModalOpen(false);
-    }
-  
+    const { showModal } = useModal();
 
     useEffect(() => {
         scrollToTop();
@@ -27,7 +21,6 @@ function PaymentDelivery() {
 
     return (
         <div className="content lining-nums ">
-        <QuestionModal open={questionModalOpen} handleClose={questionModalHandleClose}/>
 
             <h3 className='text-2xl my-5 font-semibold'>Оплата и доставка</h3>
 
@@ -74,7 +67,7 @@ function PaymentDelivery() {
                         
 
                     </div>
-                    <button className={`flex items-center justify-center  p-5 border  bg-colGreen  rounded-[10px] gap-3`} onClick={() => setQuestionModalOpen(true)}>
+                    <button className={`flex items-center justify-center  p-5 border  bg-colGreen  rounded-[10px] gap-3`} onClick={() => showModal({ type: 'question'})}>
                         {/* <div className='mb-[10px]'>
                             <img className='w-10 h-10' src={urlico} alt="" />
                         </div> */}
@@ -170,7 +163,7 @@ function PaymentDelivery() {
 
                     </div>
 
-                    <button className={`flex items-center justify-center  p-5 border  bg-colGreen  rounded-[10px] gap-3`} onClick={() => setQuestionModalOpen(true)}>
+                    <button className={`flex items-center justify-center  p-5 border  bg-colGreen  rounded-[10px] gap-3`} onClick={() => showModal({ type: 'question'})}>
                         {/* <div className='mb-[10px]'>
                             <img className='w-10 h-10' src={urlico} alt="" />
                         </div> */}

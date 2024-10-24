@@ -51,8 +51,8 @@ const CatProducts = () => {
   ] = useGetFiltersMutation();
 
   const getNewFiltersList = async (sendObject, trigger) => {
-    console.log(trigger);
-    if (trigger === "categoryId" || trigger === "tags") {
+    
+    if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
       setFiltersLoading(true);
     } else if (trigger === "filters") {
       setFiltersBlock(true);
@@ -63,8 +63,7 @@ const CatProducts = () => {
       ...obj,
       additional_filter: true
     }));
-    console.log("newFiltersState");
-    console.log(more);
+    
     const newDynamics = newFilters.data.dynamics.concat(more);
 
     const newFiltersState = {
@@ -72,18 +71,36 @@ const CatProducts = () => {
       basics: newFilters.data.basics,
       dynamics: newDynamics,
     };
-    console.log("newFiltersState");
-    console.log(newDynamics);
+
+    navigate(`?${buildQueryParams(getSendFiltersObject2(newFiltersState), sort, page)}`);
+
     previousFilters.current = newFiltersState;
     setFilters(newFiltersState);
     setTrigger(trigger);
 
-    if (trigger === "categoryId" || trigger === "tags") {
+    if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
       setFiltersLoading(false);
     } else if (trigger === "filters") {
       setFiltersBlock(false);
     }
   };
+
+
+  const [
+    getVariants,
+    { isLoading: getVariantsIsLoading, isSuccess: getVariantsIsSuccess },
+  ] = useGetVariantsMutation();
+
+  const getProducts = async (sendObject) => {
+    setProductsLoading(true);
+
+    const products = await getVariants(sendObject);
+    if (products.data.success === "ok") {
+      setProducts(products.data);
+    }
+    setProductsLoading(false);
+  };
+
 
   useEffect(() => {
     if (JSON.stringify(filters) !== JSON.stringify(previousFilters.current)) {
@@ -115,8 +132,7 @@ const CatProducts = () => {
   useEffect(() => {
     const queryParams = parseQueryParams(location.search);
     
-    if (categoryId === 'tags') return;
-    
+    if (categoryId === 'tags' || categoryId === 'brands') return;
 
     if (isFirstLoad.current && queryParams) {
       getNewFiltersList(
@@ -171,6 +187,7 @@ const CatProducts = () => {
       });
 
       setPage(1);
+
     }
 
     scrollToTop();
@@ -178,12 +195,11 @@ const CatProducts = () => {
 
   useEffect(() => {
     const queryParams = parseQueryParams(location.search);
-    console.log("tags");
-    console.log(queryParams);
+    scrollToTop()
+
     if (categoryId === 'tags' && queryParams.filtersObject.tags.length > 0 && !queryParams.filtersObject.max_price) {
       getNewFiltersList({
         ...getSendFiltersObject(),
-
         tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()] },
         "tags"
       );
@@ -191,6 +207,30 @@ const CatProducts = () => {
       getProducts({
         ...getSendFiltersObject(),
         tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()] ,
+
+        page: 1,
+        limit: 20,
+        orderBy: sort.sortBy || 'popularity',
+        sortOrder: sort.sortOrder || 'desc',
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+      return
+    }
+
+    if (categoryId === 'brands' && queryParams.filtersObject.brands.length > 0 && !queryParams.filtersObject.max_price) {
+
+      getNewFiltersList({
+        ...getSendFiltersObject(),
+        brands: [queryParams?.filtersObject?.brands[0]] },
+        "brands"
+      );
+
+      getProducts({
+        ...getSendFiltersObject(),
+        brands: [queryParams?.filtersObject?.brands[0]]  ,
+
         page: 1,
         limit: 20,
         orderBy: sort.sortBy || 'popularity',
@@ -220,7 +260,8 @@ const CatProducts = () => {
   const resetFilters = async () => {
     getNewFiltersList(
       {
-        category_id: categoryId,
+        category_id: categoryId === "tags" || categoryId === "brands" ? null : categoryId,
+
         min_price: null,
         max_price: null,
         brands: [],
@@ -241,7 +282,8 @@ const CatProducts = () => {
       limit: 20,
       orderBy: sort.sortBy,
       sortOrder: sort.sortOrder,
-      category_id: categoryId,
+      category_id: categoryId === "tags" || categoryId === "brands" ? null : categoryId,
+
       min_price: null,
       max_price: null,
       brands: [],
@@ -285,36 +327,6 @@ const CatProducts = () => {
     scrollToTop();
   };
 
-  const [
-    getVariants,
-    { isLoading: getVariantsIsLoading, isSuccess: getVariantsIsSuccess },
-  ] = useGetVariantsMutation();
-
-  const getProducts = async (sendObject) => {
-    setProductsLoading(true);
-
-    const products = await getVariants(sendObject);
-    if (products.data.success === "ok") {
-      setProducts(products.data);
-    }
-    setProductsLoading(false);
-  };
-
-  // useEffect(() => {
-  //   if (pagePrevious.current !== page || trigger !== 'categoryId') {
-  //     getProducts({
-  //       ...getSendFiltersObject(),
-  //       page: page,
-  //       limit: 20,
-  //       orderBy: sort.sortBy,
-  //       sortOrder: sort.sortOrder,
-
-  //       // min_raiting (float): минимальный рейтинг
-  //       // max_raiting (float): максимальный рейтинг
-  //     });
-  //     pagePrevious.current = page;
-  //   }
-  // }, [page]);
 
 
   useEffect(() => { 
@@ -334,9 +346,8 @@ const CatProducts = () => {
 
   // Utility
 
-  const getSendFiltersObject = () => {
-    console.log("filters in get send");
-    console.log(filters);
+  const getSendFiltersObject2 = (filters) => {
+    
     const brands = filters?.basics?.brands?.reduce((acc, brand) => {
       if (brand.is_selected) {
         acc.push(brand.id);
@@ -362,7 +373,46 @@ const CatProducts = () => {
       }, {});
 
     return {
-      category_id: categoryId === "tags" ? null : categoryId,
+      category_id: categoryId === "tags" || categoryId === "brands" ? null : categoryId,
+
+      min_price: filters?.basics?.price?.current_values?.min || null,
+      max_price: filters?.basics?.price?.current_values?.max || null,
+      brands: brands || [],
+      tags: tags || [],
+      filters: dynamicFilters || {},
+      last_changed: filters?.lastChanged || {},
+    };
+  };
+
+  const getSendFiltersObject = () => {
+    
+    const brands = filters?.basics?.brands?.reduce((acc, brand) => {
+      if (brand.is_selected) {
+        acc.push(brand.id);
+      }
+      return acc;
+    }, []);
+
+    const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      console.log(tag);
+      if (tag.is_selected) {
+        acc.push(tag.tag);
+      }
+      return acc;
+    }, []);
+
+    const dynamicFilters = filters?.dynamics
+      ?.filter((filter) => filter.values.some((value) => value.is_selected))
+      .reduce((acc, filter) => {
+        acc[filter.id] = filter.values
+          .filter((value) => value.is_selected)
+          .map((value) => value.id);
+        return acc;
+      }, {});
+
+    return {
+      category_id: categoryId === "tags" || categoryId === "brands" ? null : categoryId,
+      // category_id: categoryId,
       min_price: filters?.basics?.price?.current_values?.min || null,
       max_price: filters?.basics?.price?.current_values?.max || null,
       brands: brands || [],
@@ -508,18 +558,24 @@ const CatProducts = () => {
   //   // navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
   // }, []);
 
-  useEffect(() => {
-    navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
-  }, [filters, sort, page]);
+  // useEffect(() => {
+  //   navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
+  // }, [filters, sort, page]);
+
 
   return (
     <div className="content lining-nums proportional-nums">
       <BreadCrumbs breadCrumps={breadCrumbs} />
+      <div className="flex gap-3">
       <h3 className="font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5">
         {!categoryTreeIsLoading &&
           categoryTreeIsSuccess &&
           categoryTree?.category?.name}
       </h3>
+      <span className="text-colDarkGray">{categoryTree?.category?.product_count} </span>
+      </div>
+      
+      
       <div className="flex pb-10 min-h-[420px]">
       {/* <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5"> */}
       <div className="md:block hidden basis-1/4 mr-5">

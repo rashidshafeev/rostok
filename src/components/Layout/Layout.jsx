@@ -7,6 +7,7 @@ import { ModalProvider } from '../../context/ModalContext';
 import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
 import ShareModal from '../../helpers/CModal/ShareModal';
 import { Toaster } from 'sonner';
+import QuestionModal from '../../helpers/CModal/QuestionModal';
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
@@ -21,7 +22,8 @@ const Layout = () => {
         <LogoutModal />
         <AuthModal/>
         <ShareModal />
-        <Toaster />
+        <QuestionModal/>
+        <Toaster visibleToasts={1} position='bottom-center'  toastOptions={{ duration: 1000 }} />
       </ModalProvider>
     </>
   );

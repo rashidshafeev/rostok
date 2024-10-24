@@ -3,13 +3,15 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { ArrowIcon } from '../Icons';
 import noImg from '../../assets/images/no-image.png';
 import arrowBack from '../../assets/icons/arrow-black.svg';
-import { customTags } from '../../constants/data';
-import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
+import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
   const categoryTree = data?.children;
   const { pathname } = useLocation();
+
+  const {data: basicFilters} = useGetBasicFiltersQuery();
+
 
   const [scrollPosition, setScrollPosition] = useState(0);
   const [activeItem, setActiveItem] = useState({});
@@ -63,23 +65,21 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
         <div className='flex pt-5'>
           <div className='w-full'>
             <ul className='space-y-3'>
-              {customTags?.map((el) => (
-                <li key={el?.id} onMouseOver={() => setActiveItem({})}>
-                  <NavLink
-                    to={`/catalog${el?.slug}`}
-                    onClick={() => setShowCatalog(false)}
-                    className='flex justify-between items-center cursor-pointer hover:bg-colSuperLight rounded-md p-1'
-                  >
-                    <div className='flex items-center'>
-                      <img src={el?.icon} alt='*' />
-                      <span className='text-cilBlack font-semibold pl-2'>
-                        {el?.name}
-                      </span>
-                    </div>
-                    <ArrowIcon className='rotate-[90deg]' />
-                  </NavLink>
-                </li>
-              ))}
+            {basicFilters?.tags?.map((tag) => (
+        <NavLink
+          to={`/catalog/tags?tags=${tag?.tag}`}
+          onClick={() => setShowCatalog(false)}
+
+          key={tag?.id}
+          className="rounded h-[27px] flex items-end p-1"
+        >
+          <img src={tag?.dark_icon?.medium} className='w-7 h-7' alt="*" />
+
+          <span className="text-colBlack leading-[115%] font-semibold pl-2">
+            {tag?.tag}
+          </span>
+        </NavLink>
+      ))}
               {categoryTree?.map((el) => (
                 <li key={el?.id}>
                   <button

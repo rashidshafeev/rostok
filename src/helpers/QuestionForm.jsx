@@ -1,19 +1,21 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import CTextField from './CustomInputs/CTextField';
 import CPhoneField from './CustomInputs/CPhoneField';
 import { NavLink } from 'react-router-dom';
-
-function QuestionForm({ data }) {
+import { useSendFeedbackMutation } from '../redux/api/orderEndpoints';
+import { toast } from 'sonner';
+function QuestionForm({ data, hideModal }) {
 
     const [privacyPolicy, setPrivacyPolicy] = useState(true);
 
+    const [sendFeedback] = useSendFeedbackMutation();
     const {
         control,
         handleSubmit,
-        reset,
-        register,
-        watch,
+        // reset,
+        // register,
+        // watch,
         formState: { errors, isValid },
       } = useForm({
         mode: 'onChange',
@@ -21,10 +23,16 @@ function QuestionForm({ data }) {
     
     
       const onSubmitAuthCheck = async (data) => {
-        reset();
-        console.log(data);
-    
-        console.log(errors);
+        if (isValid) {
+          const feedback = await sendFeedback({
+            name: data.name,
+            phone: data.phone,
+            text: data.message,
+          })
+        }
+toast('Спасибо! Сообщение отправлено')
+        
+        hideModal();
       }
 
 
@@ -74,7 +82,7 @@ function QuestionForm({ data }) {
 
           
           <Controller
-            name='comment'
+            name='message'
             control={control}
             defaultValue=''
             render={({ field }) => (

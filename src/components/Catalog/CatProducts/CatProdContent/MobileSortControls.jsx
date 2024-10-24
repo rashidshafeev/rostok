@@ -47,7 +47,7 @@ const listCaption = (sort) => {
         className="flex items-center space-x-2"
       >
         <span className="whitespace-nowrap text-colBlack font-medium text-xs">
-          {listCaption}
+          {listCaption(sort)}
         </span>
         <img src={arrow} alt="*" />
       </div>

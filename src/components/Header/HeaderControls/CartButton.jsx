@@ -27,10 +27,9 @@ function CartButton({ getCartQuantity }) {
 // console.log(token);
   const [isOpen, setIsOpen] = useState(false);
 
-  const { cart: localCart } = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart);
   // Fetching cart data from the server if the user is logged in
   // const { data: serverCart, isLoading, error } = useGetUserCartQuery(undefined, { skip: !token });
-  const cart = localCart;
   // const cart = token ? serverCart?.data : localCart;
   console.log("cart");
   const itemsQuantity = useSelector((state) => state?.cart?.itemsQuantity);
@@ -89,7 +88,7 @@ function CartButton({ getCartQuantity }) {
       <FloatingPortal>
       
 
-      {isOpen && cart.length > 0 && (
+      {isOpen && cart?.cart?.length > 0 && (
         <div
 
           ref={refs.setFloating}
@@ -102,7 +101,7 @@ function CartButton({ getCartQuantity }) {
 <div className='flex flex-col gap-2 overflow-y-auto scrollable'>
 
 
-            {cart && cart.map((product) => {
+            {cart && cart?.cart?.map((product) => {
                    return(
                     <div className='flex flex-1'>
                     <NavLink
@@ -123,10 +122,10 @@ function CartButton({ getCartQuantity }) {
                 <div className="text-xs sm:text-sm whitespace-nowrap">
                 {product?.price
                     ? `${
-                        product?.price?.discount
-                          ? product?.price?.discount?.price
-                          : product?.price?.default
-                      }  ${product?.price?.currency} / ${product?.price?.unit}`
+                        product?.price?.discounted_price
+                          ? product?.price?.discounted_price
+                          : product?.price?.price
+                      }  ${product?.price?.currency?.symbol} / ${product?.price?.unit}`
                     : "Не указано"}
               </div>
               <div className='flex items-center justify-between'>
@@ -134,8 +133,8 @@ function CartButton({ getCartQuantity }) {
                 <ChangeQuantityGroup product={product} enableRemove={true} />
 
                 </div>
-                <div>{product?.price?.default
-                    ? product?.price?.default * product?.quantity
+                <div>{product?.price?.total_price
+                    ? product?.price?.total_price
                     : "Цена не указана"}
                     <span className="pl-1">
                   {product?.price?.default && product?.price?.currency ? product?.price?.currency : "₽"}
@@ -157,7 +156,7 @@ function CartButton({ getCartQuantity }) {
         <div></div>
         <div className='flex justify-between'>
           <span className=' font-semibold'>Итого:</span>
-          <span>40000</span>
+          <span>{cart?.itemsSum} {cart?.currency?.symbol}</span>
         </div>
         <NavLink to='/shopping-cart' className='flex items-center justify-center bg-colGreen p-3 rounded-sm'>
         <span className=' font-semibold text-white'>В корзину</span>

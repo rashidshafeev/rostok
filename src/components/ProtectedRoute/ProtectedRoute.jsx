@@ -1,10 +1,9 @@
 // src/components/ProtectedRoute.jsx
-import React, { useEffect, useState } from 'react';
+import  { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
-// import AuthModal from '../../helpers/CModal/AuthModal';
 import { useModal } from '../../context/ModalContext';
-import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
+
 const ProtectedRoute = ({ children }) => {
   const isAuthenticated = getTokenFromCookies()
   const location = useLocation();

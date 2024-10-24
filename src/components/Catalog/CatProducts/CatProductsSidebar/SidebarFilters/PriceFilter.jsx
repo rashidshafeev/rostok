@@ -1,6 +1,6 @@
 // src/components/PriceFilter.jsx
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -12,16 +12,16 @@ import {
 import { ArrowIcon } from "../../../../../helpers/Icons";
 import CTextField from "../../../../../helpers/CustomInputs/CTextField";
 
-import { useDebounce } from "react-use";
+import { useDebounce  } from "react-use";
 
 function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
   const previousValues = useRef({});
 
-  const [priceFilter, setPriceFilter] = useState({
-    min: filters?.basics?.price?.min || 0,
-    max: filters?.basics?.price?.max || 0,
-  });
-
+  const [priceFilter, setPriceFilter] = useState([
+    filters?.basics?.price?.min || 0,
+    filters?.basics?.price?.max || 0,
+  ]);
+  
   const [sliderValue, setSliderValue] = useState([
     priceFilter.min || filters?.basics?.price?.min,
     priceFilter.max || filters?.basics?.price?.max,
@@ -31,140 +31,153 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
 
   const handleChangeMin = (event) => {
     const newMin = event.target.value;
-    setPriceFilter((prev) => ({
-      ...prev,
-      min: newMin,
-    }));
+    setPriceFilter((prev) => [newMin, prev[1]]);
   };
+
 
   const handleChangeMax = (event) => {
     const newMax = event.target.value;
-    setPriceFilter((prev) => ({
-      ...prev,
-      max: newMax,
-    }));
+    setPriceFilter((prev) => [prev[0], newMax]);
   };
 
   const validateAndSetMin = () => {
     let min =
-      priceFilter.min === ""
+      priceFilter[0] === ""
         ? filters?.basics?.price?.min
-        : Number(priceFilter.min);
+        : Number(priceFilter[0]);
     min = Math.max(min, filters?.basics?.price?.min);
 
-    if (min > priceFilter.max) {
-      min = priceFilter.max; // Ensure min is not greater than max
+    if (min > priceFilter[1]) {
+      min = priceFilter[1]; // Ensure min is not greater than max
     }
 
-    setPriceFilter((prev) => ({
-      ...prev,
-      min: min,
-    }));
+    setPriceFilter((prev) => [min, prev[1]]);
+    setSliderValue([min, priceFilter[1]]);
 
-    setSliderValue([min, priceFilter.max]);
+    // debouncedSetFilters(min, priceFilter.max);
   };
 
-  const validateAndSetMax = () => {
+const validateAndSetMax = () => {
     let max =
-      priceFilter.max === ""
+      priceFilter[1] === ""
         ? filters?.basics?.price?.max
-        : Number(priceFilter.max);
+        : Number(priceFilter[1]);
     max = Math.min(max, filters?.basics?.price?.max);
 
-    if (max < priceFilter.min) {
-      max = priceFilter.min; // Ensure max is not less than min
+    if (max < priceFilter[0]) {
+      max = priceFilter[0]; // Ensure max is not less than min
     }
 
-    setPriceFilter((prev) => ({
-      ...prev,
-      max: max,
-    }));
+    setPriceFilter((prev) => [prev[0], max]);
+    setSliderValue([priceFilter[0], max]);
 
-    setSliderValue([priceFilter.min, max]);
+    // debouncedSetFilters(priceFilter.min, max);
   };
 
   const handleSliderChange = (event, newValue) => {
-    setPriceFilter({ min: newValue[0], max: newValue[1] });
-    setSliderValue([newValue[0], newValue[1]]);
+    setPriceFilter(newValue);
+    setSliderValue(newValue);
+    // debouncedSetFilters(newValue[0], newValue[1]);
   };
 
-//Логика отправки/изменения стейта
+  //Логика отправки/изменения стейта
 
+  // // Custom debounce function
+  // const debounce = (func, wait) => {
+  //   let timeout;
+  //   return function (...args) {
+  //     const context = this;
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(() => func.apply(context, args), wait);
+  //   };
+  // };
+
+  // // Debounced function to update the state
+  // const debouncedSetFilters = useRef(
+  //   debounce((min, max) => {
+
+  //     const currentState = JSON.parse(JSON.stringify(filters));
+
+  //     currentState.basics.price.current_values = {
+  //       min: min,
+  //       max: max,
+  //     };
+
+  //     currentState.lastChanged = {
+  //       type: "basics",
+  //       filter: "price",
+  //     };
+  //     previousValues.current = [priceFilter.min, priceFilter.max];
+  //     setFilters(currentState);
+  //   }, 1000)
+  // ).current;
+
+  //При изменении фильтров устанваливает текущее значение фильтра цен
   useEffect(() => {
-
-    if ((previousValues.current[0] !== filters?.basics?.price?.current_values?.min) || (previousValues.current[1] !== filters?.basics?.price?.current_values?.max) ) {
-  console.log("previousValues.current 3")
-  console.log(previousValues.current, filters, priceFilter)
-
-    setPriceFilter({
-      min: filters?.basics?.price?.current_values?.min || 0,
-      max: filters?.basics?.price?.current_values?.max || 0,
-    });
-    setSliderValue([filters?.basics?.price?.current_values?.min, filters?.basics?.price?.current_values?.max]);
-
+    if (
+      previousValues.current[0] !== filters?.basics?.price?.current_values?.min ||
+      previousValues.current[1] !== filters?.basics?.price?.current_values?.max
+    ) {
+      setPriceFilter([
+        filters?.basics?.price?.current_values?.min || 0,
+        filters?.basics?.price?.current_values?.max || 0,
+      ]);
+      setSliderValue([
+        filters?.basics?.price?.current_values?.min,
+        filters?.basics?.price?.current_values?.max,
+      ]);
     }
-
   }, [filters]);
 
-
-
   useEffect(() => {
-    //Чтобы установить значения фильтров по максимуму при смене категорий
-    if (trigger === "categoryId" || trigger === "tags"  ) {
-      // console.log("filters", filters, {
-      //   min: filters?.basics?.price?.min || 0,
-      //   max: filters?.basics?.price?.max || 0,
-      // })
-      setPriceFilter({
-        min: filters?.basics?.price?.current_values?.min || 0,
-        max: filters?.basics?.price?.current_values?.max || 0,
-      });
-      setSliderValue([filters?.basics?.price?.current_values?.min, filters?.basics?.price?.current_values?.max]);
-      // setPriceFilter({
-      //   min: filters?.basics?.price?.min || 0,
-      //   max: filters?.basics?.price?.max || 0,
-      // });
-      // setSliderValue([filters?.basics?.price?.min, filters?.basics?.price?.max]);
+    // Чтобы установить значения фильтров по максимуму при смене категорий
+    if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
+      setPriceFilter([
+        filters?.basics?.price?.current_values?.min || 0,
+        filters?.basics?.price?.current_values?.max || 0,
+      ]);
 
-      //Чтобы не было отправления после первого изменения чекбоксов(после первичной загрузки)
-      previousValues.current = [filters?.basics?.price?.min, filters?.basics?.price?.max];
-      
-  console.log("previousValues.current 1")
-  console.log(previousValues.current, filters, priceFilter)
+      setSliderValue([
+        filters?.basics?.price?.current_values?.min,
+        filters?.basics?.price?.current_values?.max,
+      ]);
+
+      // Чтобы не было отправления после первого изменения чекбоксов(после первичной загрузки)
+      previousValues.current = [
+        filters?.basics?.price?.min,
+        filters?.basics?.price?.max,
+      ];
     }
- 
   }, [trigger]);
 
-  useDebounce(
+ useDebounce(
     () => {
-      //Чтобы не было отправления при первичной инициализации и после смены категории(особенно при переключении с категории без цены на категорию с ценой - это как перчиная инициалзация)
-      if (trigger === "categoryId") {
+      // Чтобы не было отправления при первичной инициализации и после смены категории(особенно при переключении с категории без цены на категорию с ценой - это как перчиная инициалзация)
+      if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
         setTrigger("");
-        return
+        return;
+      }
 
-      console.log("not categoryId")
-
-      };
-      console.log("previousValues.current 2")
-      console.log(previousValues.current, filters, priceFilter)
-
-      //Чтобы не было отправления после первого изменеия чекбоксов
-      if ((Number(previousValues.current[0]) === Number(priceFilter.min)) && (Number(previousValues.current[1]) === Number(priceFilter.max)) ) {
-        return
+      // Чтобы не было отправления после первого изменения чекбоксов
+      if (
+        Number(previousValues.current[0]) === Number(priceFilter[0]) &&
+        Number(previousValues.current[1]) === Number(priceFilter[1])
+      ) {
+        return;
       }
 
       const currentState = JSON.parse(JSON.stringify(filters));
 
       currentState.basics.price.current_values = {
-        min: priceFilter.min,
-        max: priceFilter.max,
+        min: priceFilter[0],
+        max: priceFilter[1],
       };
 
       currentState.lastChanged = {
         type: "basics",
         filter: "price",
       };
-      previousValues.current = [priceFilter.min, priceFilter.max];
+      previousValues.current = priceFilter;
       setFilters(currentState);
     },
     1000,
@@ -189,7 +202,7 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
       disableGutters
     >
       <AccordionSummary
-        sx={{ padding: 0, flexDirection: 'row-reverse', gap: "8px" }}
+        sx={{ padding: 0, flexDirection: "row-reverse", gap: "8px" }}
         style={{ minHeight: 0 }}
         expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
       >
@@ -212,7 +225,7 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
               label={`от ${filters?.basics?.price?.min}`}
               name="min_price"
               type="number"
-              value={priceFilter?.min}
+              value={priceFilter[0]}
               onChange={handleChangeMin}
               onBlur={validateAndSetMin}
             />
@@ -220,7 +233,7 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
               label={`до ${filters?.basics?.price?.max}`}
               name="max_price"
               type="number"
-              value={priceFilter?.max}
+              value={priceFilter[1]}
               onChange={handleChangeMax}
               onBlur={validateAndSetMax}
             />

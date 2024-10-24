@@ -1,13 +1,12 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { brands } from '../../constants/data';
-import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import { useGetBasicFiltersQuery } from '../../redux/api/productEndpoints';
+import { NavLink } from 'react-router-dom';
 
-// const Brands = ({ data }) => { 
 const Brands = () => { 
 
-  const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
-
+  // const { data , isLoading, isSuccess } = useGetBasicFiltersQuery()
+  const { data , isSuccess } = useGetBasicFiltersQuery()
 
   return (
     <div className='pt-10 slider brands'>
@@ -37,13 +36,17 @@ const Brands = () => {
       >
         {isSuccess && data?.brands?.map((el) => (
           <SwiperSlide key={el?.id}>
+            <NavLink
+            to={`/catalog/brands?brands=${el?.id}`}
+            >
             <div className='h-[130px] rounded-lg border border-[#EBEBEB] overflow-hidden p-3'>
               <img
                 className='w-full h-full object-contain'
-                src={el?.image[0]?.medium}
+                src={el?.image?.medium}
                 alt='*'
               />
             </div>
+            </NavLink>
           </SwiperSlide>
         ))}
       </Swiper>

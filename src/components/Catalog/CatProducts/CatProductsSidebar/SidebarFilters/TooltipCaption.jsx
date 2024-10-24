@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 function TooltipCaption ({ text, tooltipText }) {
     const [isVisible, setIsVisible] = useState(false);
@@ -6,7 +6,6 @@ function TooltipCaption ({ text, tooltipText }) {
 
   return (
     <div className="relative inline-block">
-      {/* Main text */}
       <span
         className="text-sm font-medium text-colBlack line-clamp-1 break-all ml-1"
         onMouseEnter={() => setIsVisible(true)}
@@ -14,8 +13,6 @@ function TooltipCaption ({ text, tooltipText }) {
       >
         {text}
       </span>
-
-      {/* Tooltip */}
       {isVisible && (
         <div className="absolute left-0 bottom-[-2rem] bg-black text-white text-sm rounded-lg p-2 w-max max-w-xs">
           <span>{tooltipText}</span>

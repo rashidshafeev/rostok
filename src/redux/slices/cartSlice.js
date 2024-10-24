@@ -3,15 +3,18 @@ import { getTokenFromCookies, saveToSessionStorage } from '../../helpers/cookies
 
 const initialState = {
   cart: [],
+  itemsCount: 0,
   itemsQuantity: 0,
   itemsSum: 0,
   selectedQuantity: 0,
+  currency: {}
 };
 
 const updateQuantities = (state) => {
-  state.itemsQuantity = state.cart.reduce((acc, item) => acc + item.quantity, 0);
-  state.selectedQuantity = state.cart.reduce((acc, item) => (item.selected ? acc + item.quantity : acc), 0);
-  state.itemsSum = state.cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  state.itemsCount = state.cart.length;
+  state.itemsQuantity = state.cart.reduce((acc, item) => acc + Number(item.quantity), 0);
+  state.selectedQuantity = state.cart.reduce((acc, item) => (item.selected ? acc + Number(item.quantity) : acc), 0);
+  state.itemsSum = state.cart.filter(item => item.price).reduce((acc, item) => acc + Number(item.price.total_price), 0);
 };
 
 export const cartSlice = createSlice({
@@ -33,7 +36,10 @@ export const cartSlice = createSlice({
         state.itemsQuantity = action.payload.itemsQuantity;
         state.itemsSum = action.payload.itemsSum;
         state.selectedQuantity = action.payload.selectedQuantity;
+        state.currency = action.payload.currency;
       }
+
+      updateQuantities(state)
     },
     addToCart: (state, action) => {
       const token = getTokenFromCookies()
@@ -74,7 +80,7 @@ export const cartSlice = createSlice({
           state.cart = state.cart.filter((product) => product.id !== action.payload.product.id);
         } else {
           product.quantity = action.payload.quantity;
-          product.server_price = action.payload.server_price;
+          product.price = action.payload.price;
         }
         updateQuantities(state);
         if (!token) {

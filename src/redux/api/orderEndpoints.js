@@ -32,6 +32,13 @@ export const orderEndpoints = (builder) => ({
           : [{ type: 'Order', id: 'FILTERS' }],
       refetchOnMountOrArgChange: true,
     }),
+    sendFeedback: builder.mutation({
+      query: (feedback) => ({
+        url: '/api/Feedback/send',
+        method: 'POST',
+        body: feedback,
+      })
+    })
   });
   
   // Export hooks for order endpoints
@@ -40,4 +47,5 @@ export const orderEndpoints = (builder) => ({
     useSendOrderMutation,
     useGetUserOrdersQuery,
     useGetOrdersFiltersQuery,
+    useSendFeedbackMutation
   } = api.injectEndpoints({ endpoints: orderEndpoints });

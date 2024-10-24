@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-// import AuthModal from '../../helpers/CModal/AuthModal';
 import PreHeader from "./PreHeader";
 import CatalogFastAccess from "./CatalogFastAccess";
 import SearchBar from "./SearchBar";
@@ -10,59 +9,57 @@ import CatalogModal from "../../helpers/CModal/CatalogModal";
 import CatalogModalMobile from "../../helpers/CModal/CatalogModalMobile";
 import { useDispatch } from "react-redux";
 
-import {
-  fetchComparison,
-  setComparison,
-} from "../../redux/slices/comparisonSlice";
-import { fetchFavorite, setFavorite } from "../../redux/slices/favoriteSlice";
-import { fetchCart, setCart } from "../../redux/slices/cartSlice";
-import { setToken } from "../../redux/slices/userSlice";
-import {
-  fetchRecentItems,
-  setRecentItems,
-} from "../../redux/slices/recentItemsSlice";
+import { setComparison } from "../../redux/slices/comparisonSlice";
+import { setFavorite } from "../../redux/slices/favoriteSlice";
+import { setCart } from "../../redux/slices/cartSlice";
+import { setRecentItems } from "../../redux/slices/recentItemsSlice";
 
-import Cookies from "js-cookie";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
 import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
 import { useGetComparisonQuery } from "../../redux/api/comparisonEndpoints";
 import { useGetFavoritesQuery } from "../../redux/api/favoritesEndpoints";
 import { useGetRecentItemsQuery } from "../../redux/api/userEndpoints";
+import { useModal } from "../../context/ModalContext";
 
 const Header = ({ showCatalog, setShowCatalog }) => {
-  const loaded = useRef(false);
+  const dispatch = useDispatch();
+const { showModal } = useModal()
+  const firstLoad = useRef(true);
 
   const token = getTokenFromCookies();
+
   const {
     data: serverComparison,
-    isLoading: isLoadingComparison,
+    // isLoading: isLoadingComparison,
     isSuccess: isSuccessComparison,
-    error: errorComparison,
-    refetch: refetchComparison,
-  } = useGetComparisonQuery(undefined, { skip: !token || loaded.current });
+    // error: errorComparison,
+    // refetch: refetchComparison,
+  } = useGetComparisonQuery(undefined, { skip: !token || !firstLoad.current });
+
   const {
     data: serverFavorite,
-    isLoading: isLoadingFavorite,
+    // isLoading: isLoadingFavorite,
     isSuccess: isSuccessFavorite,
-    error: errorFavorite,
-    refetch: refetchFavorite,
-  } = useGetFavoritesQuery(undefined, { skip: !token || loaded.current });
+    // error: errorFavorite,
+    // refetch: refetchFavorite,
+  } = useGetFavoritesQuery(undefined, { skip: !token || !firstLoad.current });
+
   const {
     data: serverCart,
-    isLoading: isLoadingCart,
+    // isLoading: isLoadingCart,
     isSuccess: isSuccessCart,
-    error: errorCart,
-    refetch: refetchServerCart,
-  } = useGetUserCartQuery(undefined, { skip: !token || loaded.current });
+    // error: errorCart,
+    // refetch: refetchServerCart,
+  } = useGetUserCartQuery(undefined, { skip: !token || !firstLoad.current });
+
   const {
     data: serverRecentItems,
-    isLoading: isLoadingRecentItems,
+    // isLoading: isLoadingRecentItems,
     isSuccess: isSuccessRecentItems,
-    error: errorRecentItems,
-    refetch: refetchRecentItems,
-  } = useGetRecentItemsQuery(undefined, { skip: !token || loaded.current });
+    // error: errorRecentItems,
+    // refetch: refetchRecentItems,
+  } = useGetRecentItemsQuery(undefined, { skip: !token || !firstLoad.current });
 
-  const dispatch = useDispatch();
   const isSuccess =
     isSuccessComparison &&
     isSuccessFavorite &&
@@ -70,18 +67,24 @@ const Header = ({ showCatalog, setShowCatalog }) => {
     isSuccessRecentItems;
 
   useEffect(() => {
-    if (!loaded.current) {
-      const comparison = token
-        ? serverComparison?.data
-        : JSON.parse(sessionStorage.getItem("comparison"));
+    console.log(
+      "useEffect",
+      serverCart,
+      serverComparison,
+      serverFavorite,
+      serverRecentItems
+    );
+
+    if (!token && firstLoad.current) {
+      const comparison = JSON.parse(sessionStorage.getItem("comparison"));
       dispatch(setComparison(comparison ? comparison : []));
 
-      const favorite = token
-        ? serverFavorite?.data
-        : JSON.parse(sessionStorage.getItem("favorite"));
+      const favorite = JSON.parse(sessionStorage.getItem("favorite"));
       dispatch(setFavorite(favorite ? favorite : []));
 
-      console.log('serverCart', serverCart);
+      const recentItems = JSON.parse(sessionStorage.getItem("recentItems"));
+      dispatch(setRecentItems(recentItems ? recentItems : []));
+
       const cart = JSON.parse(sessionStorage.getItem("cart"));
       dispatch(
         setCart(
@@ -95,27 +98,43 @@ const Header = ({ showCatalog, setShowCatalog }) => {
               }
         )
       );
+
       if (!token || (token && isSuccess)) {
-        loaded.current = true;
+        firstLoad.current = false;
+      }
+    } else if (token && isSuccess && firstLoad.current) {
+      const comparison = serverComparison?.data;
+      dispatch(setComparison(comparison ? comparison : []));
+
+      const favorite = serverFavorite?.data;
+      dispatch(setFavorite(favorite ? favorite : []));
+
+      const recentItems = serverRecentItems?.data;
+      dispatch(setRecentItems(recentItems ? recentItems : []));
+
+      const cart = serverCart;
+      dispatch(
+        setCart(
+          cart
+            ? {
+                cart: cart.data,
+                // itemsQuantity: cart.count,
+                itemsSum: cart.total_amount,
+                currency: cart.current_currency,
+              }
+            : {
+                cart: [],
+                itemsQuantity: 0,
+                itemsSum: 0,
+              }
+        )
+      );
+
+      if (!token || (token && isSuccess)) {
+        firstLoad.current = false;
       }
     }
   }, [dispatch, token, isSuccess]);
-
-  // useEffect(() => {
-  //   dispatch(fetchComparison());
-  //   dispatch(fetchFavorite());
-  //   dispatch(fetchCart());
-  //   dispatch(fetchRecentItems());
-  // }, [dispatch]);
-
-  // useEffect(() => {
-  //     if (token) {
-  //       refetchComparison();
-  //      refetchFavorite();
-  //      refetchRecentItems();
-  //      refetchServerCart();
-  //     }
-  //   }, [token]);
 
   return (
     <>
