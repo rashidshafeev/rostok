@@ -18,13 +18,14 @@ const Profile = () => {
 
   const { pathname } = useLocation();
   const secondUrl = pathname.split('/')[2];
+  
   useEffect(() => {
     scrollToTop();
   }, []);
 
   return (
     <div className='content min-h-[520px]'>
-      {/* <CustomBCrumbs
+      <CustomBCrumbs
         breadCrumps={
           secondUrl === 'orders'
             ? myOrders
@@ -36,7 +37,7 @@ const Profile = () => {
             ? changePassword
             : pathname === '/profile' && profile
         }
-      /> */}
+      />
       <h1
         className={`${
           pathname === '/profile' ? 'block' : 'hidden mm:block'
