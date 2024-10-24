@@ -18,6 +18,7 @@ const Profile = () => {
 
   const { pathname } = useLocation();
   const secondUrl = pathname.split('/')[2];
+  
   useEffect(() => {
     scrollToTop();
   }, []);

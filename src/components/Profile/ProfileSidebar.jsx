@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logOutFetch } from '../../api/user';
 import { logOut } from '../../redux/slices/userSlice';
 import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
+import { useModal } from '../../context/ModalContext';
 
 const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
   // const { user } = useSelector((state) => state?.user);
@@ -21,6 +22,8 @@ const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
   //     navigate('/');
   //   }
   // };
+
+  const { hideModal, showModal } = useModal();
 
   return (
     <div className='max-w-[220px] w-full hidden mm:block'>
@@ -63,9 +66,7 @@ const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
         </li>
       </ul>
       <button
-        onClick={() => {
-          setOpen(true);
-        }}
+        onClick={() => showModal({ type: 'logout' })}
         className='text-colDarkGray font-semibold mt-8 mb-2'
       >
         Выйти из профиля
@@ -73,10 +74,7 @@ const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
       <button className='text-colDarkGray font-semibold'>
         Удалить профиль
       </button>
-      <LogoutModal
-        open={open}
-        setOpen={setOpen}
-      />
+      <LogoutModal open={open} setOpen={setOpen} />
     </div>
   );
 };

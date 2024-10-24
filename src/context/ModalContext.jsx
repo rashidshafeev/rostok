@@ -27,7 +27,9 @@ export const ModalProvider = ({ children }) => {
   };
 
   return (
-    <ModalContext.Provider value={{ showModal, hideModal, modalContent, isModalVisible }}>
+    <ModalContext.Provider
+      value={{ showModal, hideModal, modalContent, isModalVisible }}
+    >
       {children}
     </ModalContext.Provider>
   );
