@@ -21,14 +21,14 @@ export const userEndpoints = (builder) => ({
       url: '/api/User/phone/sendVerificationCode',
       method: 'POST',
       body: data,
-    }),
+    })
   }),
   confirmVerificationCode: builder.mutation({
     query: (data) => ({
       url: '/api/User/phone/confirmVerificationCode',
       method: 'POST',
       body: data,
-    }),
+    })
   }),
   authWithEmail: builder.mutation({
     query: (data) => ({
@@ -56,20 +56,10 @@ export const userEndpoints = (builder) => ({
       url: '/api/UserData/get',
       method: 'GET',
     }),
-    providesTags: [{ type: 'User', id: 'DATA' }],
+    // providesTags: [{ type: 'User', id: 'DATA' }],
     keepUnusedDataFor: 0,
     refetchOnFocus: true,
   }),
-
-  changeUserData: builder.mutation({
-    query: (data) => ({
-      url: '/api/Profile/saveInfo',
-      method: 'POST',
-      body: data,
-    }),
-    invalidatesTags: [{ type: 'User', id: 'DATA' }],
-  }),
-
   getRecentItems: builder.query({
     query: () => ({
       url: '/api/Products/recentlyViewed',
@@ -91,6 +81,5 @@ export const {
   useResetPasswordMutation,
   useChangePasswordMutation,
   useGetUserDataQuery,
-  useChangeUserDataMutation,
   useGetRecentItemsQuery,
 } = api.injectEndpoints({ endpoints: userEndpoints });
