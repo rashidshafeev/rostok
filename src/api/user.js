@@ -1,10 +1,10 @@
-// import { api } from '../redux/api/api';
-// import {
-//   loginFailure,
-//   loginStart,
-//   loginSuccess,
-//   setToken,
-// } from '../redux/slices/userSlice';
+import { api } from '../redux/api/api';
+import {
+  loginFailure,
+  loginStart,
+  loginSuccess,
+  setToken,
+} from '../redux/slices/userSlice';
 import { request } from './axios';
 // Check Login:
 // export const postAuthCheck = async (dispatch, data) => {
@@ -120,5 +120,19 @@ export const logOutFetch = async (phone) => {
     return { success: res?.data?.success };
   } catch (error) {
     return { success: false };
+  }
+};
+
+export const updateProfile = async (sendData, token) => {
+  try {
+    const res = await request.post('/api/Profile/saveInfo', sendData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    alert('Ошибка! Данная функция в процессе разработки.');
+    return res.data;
+  } catch (err) {
+    console.error(err);
   }
 };
