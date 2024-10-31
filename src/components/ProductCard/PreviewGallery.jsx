@@ -8,6 +8,31 @@ import { ComparisonIcon, FavoriteIcon } from "../../helpers/Icons";
 const PreviewGallery = ({ product }) => {
   const [hoveredIndex, setHoveredIndex] = useState(0);
 
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const minSwipeDistance = 50; // Adjust this value as needed
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && hoveredIndex < product?.files?.length - 1) {
+      setHoveredIndex(hoveredIndex + 1);
+    } else if (isRightSwipe && hoveredIndex > 0) {
+      setHoveredIndex(hoveredIndex - 1);
+    }
+  };
+
   const handleMouseMove = (e) => {
     if (product?.files?.length > 1) {
       const { width, left } = e.currentTarget.getBoundingClientRect();
@@ -22,7 +47,11 @@ const PreviewGallery = ({ product }) => {
   const displayedImage = product?.files?.length > 0 ? product?.files[hoveredIndex]?.medium : noImg;
   return (
     <>
-    <div className="group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200 flex justify-center items-center">
+    <div className="group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200 flex justify-center items-center"
+    
+    onTouchStart={onTouchStart}
+    onTouchMove={onTouchMove}
+    onTouchEnd={onTouchEnd}>
           {/* {product?.files?.length > 0 && (
             <div className="flex flex-col items-center justify-center">
             <img

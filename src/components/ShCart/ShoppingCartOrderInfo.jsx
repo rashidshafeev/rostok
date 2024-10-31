@@ -36,13 +36,13 @@ console.log(cart)
             <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
             <span className='font-bold whitespace-nowrap'>{token ? cart?.data?.reduce((acc, item) => (item.selected ? acc + Number(item.quantity) : acc), 0) : cart?.selectedQuantity} шт</span>
           </div>
-          {/* <div className='flex justify-between items-center pt-2'>
+          <div className='flex justify-between items-center pt-2'>
             <span className='text-colBlack text-sm'>Вес</span>
             <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
             <span className='font-bold whitespace-nowrap'>19.5 кг</span>
-          </div> */}
+          </div>
           <br />
-          <div className='flex justify-between items-center'>
+          {/* <div className='flex justify-between items-center'>
             <span className='text-colBlack text-sm'>Сумма</span>
             <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
             <span className='font-bold whitespace-nowrap'>{token ? cart?.total_discount + cart?.total_amount : cart?.itemsSum  } {token ? cart?.current_currency.symbol : cart?.currency.symbol }</span>
@@ -57,7 +57,7 @@ console.log(cart)
             <span className='text-lg font-semibold text-colBlack'>
               {token ? cart?.total_amount : cart?.itemsSum  } {token ? cart?.current_currency.symbol : cart?.currency.symbol }
             </span>
-          </div>
+          </div> */}
 
         </>
       )

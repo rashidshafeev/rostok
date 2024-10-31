@@ -58,8 +58,8 @@ function ProductPage() {
       <div className='content lining-nums proportional-nums'>
         <Breadcrumbs breadCrumps={group?.category_chain} />
         <div className='lg:block hidden'>
-          <div className=' text-xl font-semibold mb-[10px]'>{group.name} {currentProduct.name}</div>
-          <TopControls product={currentProduct} reviews={group.reviews} />
+          <div className=' text-xl font-semibold mb-[10px]'>{currentProduct.fullName}</div>
+          <TopControls product={currentProduct} reviews={group?.reviews} />
         </div>
         <div className='lg:hidden'>
           <MobileTopBar product={currentProduct} />
@@ -68,7 +68,7 @@ function ProductPage() {
           <div className='lg:basis-[calc(42%-40px/3)] basis-full'>
             <ProductGallery files={currentProduct.files} tags={currentProduct.tags} />
           </div>
-          <MobileInfo name={`${group.name} ${currentProduct.name}`} reviews={group.reviews} sku={currentProduct.sku} />
+          <MobileInfo name={`${group.name} ${currentProduct.name}`} reviews={group?.reviews} sku={currentProduct.sku} />
 
           <div className='lg:basis-[calc(33%-40px/3)] flex flex-col gap-[10px] basis-full'>
 

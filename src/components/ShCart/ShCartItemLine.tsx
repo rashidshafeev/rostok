@@ -9,13 +9,11 @@ import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
 import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormCartButton';
 import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
+import PriceDisplay from '../ProductCard/PriceDisplay';
 // import { toggleFavorite } from '../../redux/slices/favoriteSlice';
-
 const ShCartItemLine = ({ cart }) => {
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  
 
   return (
     <>
@@ -65,35 +63,27 @@ const ShCartItemLine = ({ cart }) => {
               </span>
               <div className='space-y-1 pt-1'>
                 <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                  <span>Артикул:</span>
+                  <span>Код товара:</span>
                   <span>{product?.sku}</span>
                 </p>
               </div>
             </div>
           </div>
           <div className='flex items-center justify-between space-x-5 pt-3'>
-            <div>
-              <div className='text-colBlack'>
-              {product?.price
-                    ? `${product?.price?.discount
-                      ? product?.price?.discount?.price
-                      : product?.price?.default
-                    }  ${product?.price?.currency} / ${product?.price?.unit}`
-                    : 'Не указано'}
-              </div>
-              <p className='text-colGray text-xs line-through'>
-              {product?.price?.discount && (
-                    <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
-                  )}
-              </p>
-            </div>
+          <PriceDisplay price={product?.price}/>
             <div className='flex items-center justify-between'>
               
               <ChangeQuantityGroup product={product}/>
             </div>
             <div className='flex items-center text-colBlack font-bold'>
-            <span>{product?.price?.default ? product?.price?.default * product?.quantity : 'Цена не указана'}</span>
-            <span className='pl-1'>{product?.price?.currency ? product?.price?.currency : '₽'}</span>
+            <span>
+                  {product?.price?.base
+                    ? product?.price?.base * product?.quantity
+                    : "Цена не указана"}
+                </span>
+                <span className="pl-1">
+                  {product?.price?.base ? product?.price?.currency?.symbol : ""}
+                </span>
             </div>
             <div className='flex space-x-2'>
             <FavoriteButton product={product}>
@@ -105,7 +95,7 @@ const ShCartItemLine = ({ cart }) => {
                   className='transition-all duration-300 hover:scale-110 cursor-pointer'/>
               )}
             </FavoriteButton>
-                  <RemoveFromCartButton product={product}>
+                  <RemoveFromCartButton product={product} withConfirmation={true}>
                     {({ handleRemoveFromCartClick }) => (
                       <DeleteIcon
                         className='transition-all duration-300 hover:scale-110  cursor-pointer'

@@ -24,9 +24,9 @@ function MobileNameBar({ name, reviews, sku}) {
             </div>
 
             <div className='flex items-end leading-none shrink ml-1 text-colDarkGray text-xs'>
-            Артикул: {sku}
+            Код товара: {sku}
                         <img onClick={() => {navigator.clipboard.writeText(sku)
-                            toast('Артикул скопирован')
+                            toast('Код товара скопирован')
                         }} src={copyicon} alt="" className='w-3 h-3 rounded-full cursor-pointer hover:opacity-80' />
                     </div>
     </div>

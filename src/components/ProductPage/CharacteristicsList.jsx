@@ -11,12 +11,12 @@ function CharacteristicsList({ current, product, setTabIndex }) {
         <>
             <div className='flex flex-col gap-[10px]'>
                 <div className='flex items-end'>
-                    <div className='shrink leading-none text-colDarkGray mr-1'>Артикул</div>
+                    <div className='shrink leading-none text-colDarkGray mr-1'>Код товара</div>
                     <div className='grow border-b-2 border-dotted'></div>
                     <div className='flex items-end leading-none shrink ml-1'>
                         {current?.sku}
                         <img onClick={() => {navigator.clipboard.writeText(current?.sku)
-                            toast('Артикул скопирован')
+                            toast('Код товара скопирован')
                         }} src={copyicon} alt="" className='w-4 h-4 rounded-full cursor-pointer hover:opacity-80' />
                     </div>
                 </div>

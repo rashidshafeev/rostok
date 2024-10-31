@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { ProfileSidebar } from '../../components';
@@ -11,10 +11,11 @@ import {
   personalData,
   profile,
 } from '../../constants/breadCrumps';
+import { useModal } from '../../context/ModalContext';
 
 const Profile = () => {
-  const [content, setContent] = useState('');
-  const [open, setOpen] = useState(false);
+
+  const { showModal } = useModal()
 
   const { pathname } = useLocation();
   const secondUrl = pathname.split('/')[2];
@@ -47,10 +48,6 @@ const Profile = () => {
       </h1>
       <div className='flex pt-2 mm:pt-5'>
         <ProfileSidebar
-          content={content}
-          setContent={setContent}
-          open={open}
-          setOpen={setOpen}
         />
         <Outlet />
       </div>
@@ -124,8 +121,9 @@ const Profile = () => {
         <div className='flex flex-col items-start'>
           <button
             onClick={() => {
-              setContent('logout');
-              setOpen(true);
+              // setContent('logout');
+              // setOpen(true);
+              showModal({ type: 'logout' });
             }}
             className='text-colDarkGray font-semibold mt-8 mb-2'
           >

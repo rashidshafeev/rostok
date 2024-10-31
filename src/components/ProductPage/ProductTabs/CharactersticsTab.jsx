@@ -13,7 +13,7 @@ function CharactersticsTab({ current, group, setTabIndex }) {
 
             <div className='flex flex-wrap flex-row gap-[20px]'>
                 <div className='flex items-end basis-[calc(100%/2-10px)]'>
-                    <div className='shrink leading-none text-colDarkGray mr-1'>Артикул</div>
+                    <div className='shrink leading-none text-colDarkGray mr-1'>Код товара</div>
                     <div className='grow border-b-2 border-dotted'></div>
                     <div className='flex items-end leading-none shrink ml-1'>
                         {current?.sku}

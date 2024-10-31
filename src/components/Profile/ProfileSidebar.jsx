@@ -1,8 +1,6 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import LogoutModal from '../../helpers/CModal/LogoutModal';
-import { useDispatch, useSelector } from 'react-redux';
 import { logOutFetch } from '../../api/user';
-import { logOut } from '../../redux/slices/userSlice';
 import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
 import { useModal } from '../../context/ModalContext';
 
@@ -11,19 +9,8 @@ const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
 
   const { data, isLoading, isFetching, isError } = useGetUserDataQuery();
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
-  // const logOutFromAccount = async () => {
-  //   const { success } = await logOutFetch(dispatch, user?.phone);
-  //   if (success) {
-  //     dispatch(logOut());
-  //     localStorage.removeItem('rosstokToken');
-  //     navigate('/');
-  //   }
-  // };
-
-  const { hideModal, showModal } = useModal();
+  const { showModal } = useModal();
 
   return (
     <div className='max-w-[220px] w-full hidden mm:block'>
@@ -74,7 +61,6 @@ const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
       <button className='text-colDarkGray font-semibold'>
         Удалить профиль
       </button>
-      <LogoutModal open={open} setOpen={setOpen} />
     </div>
   );
 };

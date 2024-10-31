@@ -8,7 +8,8 @@ import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } f
 const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue = false }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();
   const phone = watch('phone');
-
+console.log("defaultValue");
+console.log(defaultValue);
   const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [retryDisabled, setRetryDisabled] = useState(false);
@@ -90,7 +91,7 @@ const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue =
         <Controller
           name='phone'
           control={control}
-          defaultValue=''
+          defaultValue={defaultValue || ''}
           rules={{
             required: 'Поле обязательно к заполнению!',
             pattern: {

@@ -1,0 +1,1 @@
+{"root":["./src/declaration.d.ts","./src/types/product/attribute.ts","./src/types/product/catalogitem.ts","./src/types/product/category.ts","./src/types/product/file.ts","./src/types/product/price.ts","./src/types/product/tag.ts","./src/components/productcard/cardline.tsx","./src/components/productcard/pricedisplay.tsx"],"errors":true,"version":"5.6.3"}

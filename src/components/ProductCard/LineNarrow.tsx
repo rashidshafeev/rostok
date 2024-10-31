@@ -4,6 +4,7 @@ import noImg from "../../assets/images/no-image.png";
 import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
+import PriceDisplay from './PriceDisplay';
 // import { toggleComparison } from '../../../redux/slices/comparisonSlice';
 // import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
 
@@ -47,7 +48,7 @@ const LineNarrow = ({ product }) => {
             className='min-w-[80px] w-20 h-20 bg-gray-100 rounded-lg overflow-hidden'
           >
             <img
-              src={product?.files[0]?.large || noImg}
+              src={product?.files[0]?.medium || noImg}
               className='w-full h-full object-contain'
               onError={(e) => {
                 e.target.onError = null;
@@ -71,7 +72,7 @@ const LineNarrow = ({ product }) => {
               </div>
               <div className='flex gap-3'>
               <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                <span>Артикул:</span>
+                <span>Код товара:</span>
                 <span>{product?.sku || 'Не указано'}</span>
               </p>
               {product.attributes &&
@@ -110,31 +111,7 @@ const LineNarrow = ({ product }) => {
       </div>
       <div className='mm:max-w-xs w-full'>
         <div className='flex justify-between items-center'>
-          <div
-            className={`${
-              product?.tags?.length > 0 ? 'top-[28px]' : 'top-0'
-            } flex items-center py-1 mm:static absolute right-0`}
-          >
-            <span className='text-colBlack text-xs lg:text-base font-semibold lg:font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
-              {product?.price
-                ? `${
-                    product?.price?.discount
-                      ? product?.price?.discount?.price
-                      : product?.price?.default
-                  }  ${product?.price?.currency}`
-                : 'Цена не указана'}
-            </span>
-            {product?.price && (
-              <span className='text-xs line-through mr-2'>
-                {product?.price?.discount && product?.price?.default}
-              </span>
-            )}
-            {product?.price?.discount && (
-              <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
-                {`${product?.price?.discount?.percent} %`}
-              </span>
-            )}
-          </div>
+        <PriceDisplay price={product?.price} />
           <div className='flex justify-end items-center space-x-2'>
             <FavoriteIcon
               className='transition-all duration-500 hover:scale-110 cursor-pointer'

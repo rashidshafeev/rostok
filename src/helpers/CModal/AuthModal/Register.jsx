@@ -20,6 +20,7 @@ import {
   VisibilityOff,
 } from "@mui/icons-material";
 import { LoadingSmall } from "../../Loader/Loader";
+import { toast } from "sonner";
 
 const Register = ({ hideModal, login: enteredLogin }) => {
   const methods = useForm({ mode: "onSubmit" });
@@ -61,10 +62,10 @@ const Register = ({ hideModal, login: enteredLogin }) => {
     useEffect(() => {
       if (enteredLogin) {
         console.log("enteredLogin");
-        console.log(enteredLogin);
+        console.log(enteredLogin, enteredLogin.login.slice(-10));
         reset({
           email: enteredLogin.type === "email" ? enteredLogin.login : '',
-          phone: enteredLogin.type === "phone" ? enteredLogin.login : ''
+          phone: enteredLogin.type === "phone" ? enteredLogin.login.slice(-10) : ''
         });
       }
     }, [enteredLogin, reset]);
@@ -110,12 +111,16 @@ const Register = ({ hideModal, login: enteredLogin }) => {
 
     try {
       const auth = await userRegister(sendData);
-      if (auth.data.success) {
-        dispatch(setToken(auth.data.token));
+      if (auth?.data?.success) {
+        dispatch(setToken(auth?.data?.token));
         await sendAndClearData();
         hideModal();
         navigate("/profile/orders");
+        toast(`Регистрация прошла успешно`)
+
         return;
+      } else if (!auth?.data?.success) {
+        toast(`Не удалось зарегистрироваться. ${auth?.data?.err}`);
       }
     } catch (error) {
       console.error("Registration failed:", error);
@@ -153,7 +158,7 @@ const Register = ({ hideModal, login: enteredLogin }) => {
               )}
             </div>
             <div>
-              <PhoneVerificationField />
+              <PhoneVerificationField defaultValue={enteredLogin?.login.slice(-10)}/>
             </div>
             {/* <div>
               <Controller

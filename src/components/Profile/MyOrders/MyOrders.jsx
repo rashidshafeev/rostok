@@ -278,7 +278,7 @@ const MyOrders = () => {
 
                           <div className='flex space-x-2 py-1'>
                             <span className='text-xs text-colDarkGray'>
-                              Артикуль:
+                              Код товара:
                             </span>
                             <span className='text-xs text-colDarkGray'>
                               {item?.sku}

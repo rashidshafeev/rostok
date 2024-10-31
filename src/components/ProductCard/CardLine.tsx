@@ -1,13 +1,20 @@
+import React from 'react';
+
 import { NavLink, useNavigate } from 'react-router-dom';
-import { addToCart } from '../../redux/slices/cartSlice';
+import { addToCart } from '@store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
+
 import noImg from "../../assets/images/no-image.png";
+import { CatalogItem } from '@types/Product/CatalogItem';
+import PriceDisplay from './PriceDisplay';
 
-// import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
-// import { toggleComparison } from '../../../redux/slices/comparisonSlice';
+type CardLineProps = {
+  product: CatalogItem;
+}
 
-const CardLine = ({ product }) => {
+const CardLine: React.FC<CardLineProps> = ({ product }) => {
+
   const cart = useSelector((state) => state?.cart);
   const favorite = useSelector((state) => state?.favorite);
   const comparison = useSelector((state) => state?.comparison);
@@ -23,17 +30,17 @@ const CardLine = ({ product }) => {
     (el) => el?.id === product?.id
   );
 
-  const handleToggleFavorite = (event) => {
+  const handleToggleFavorite = (event: React.MouseEvent<SVGElement>) => {
     event.preventDefault();
     dispatch(toggleFavorite(product));
   };
 
-  const handleToggleComparison = (event) => {
+  const handleToggleComparison = (event: React.MouseEvent<SVGElement>) => {
     event.preventDefault();
     dispatch(toggleComparison(product));
   };
 
-  const handleToggleAddToCart = (event) => {
+  const handleToggleAddToCart = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     dispatch(addToCart(product));
   };
@@ -42,13 +49,14 @@ const CardLine = ({ product }) => {
     <div className='lg:flex justify-between'>
       <div className='mm:flex lg:pr-4 lg:max-w-[800px] w-full'>
         <NavLink to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
-          <div className='mm:max-w-[280px] min-w-[280px] w-full h-[260px] mm:h-[180px] overflow-hidden rounded-xl relative bg-gray-100'>
+          <div className='mm:max-w-[180px] min-w-[180px] w-full h-[180px] mm:h-[180px] overflow-hidden rounded-xl relative bg-gray-100'>
             <img
-              src={product?.files[0]?.large || noImg}
+              src={product?.files[0]?.medium || noImg}
               className='w-full h-full object-contain'
               onError={(e) => {
-                e.target.onError = null;
-                e.target.src = noImg;
+                const target = e.target as HTMLImageElement;
+        target.onerror = null; // prevents looping
+        target.src = noImg;;
               }}
               alt='*'
             />
@@ -78,7 +86,7 @@ const CardLine = ({ product }) => {
               </p>
             </div>
             <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-              <span>Артикул:</span>
+              <span>Код товара:</span>
               <span>{product?.sku || 'Не указано'}</span>
             </p>
             {product.attributes &&
@@ -106,25 +114,7 @@ const CardLine = ({ product }) => {
       <div className='lg:max-w-xs w-full'>
         <div className='flex justify-between items-center'>
           <div className='flex items-center py-1 mt-1 lg:mt-0'>
-            <span className='text-colBlack text-xs lg:text-base font-semibold lg:font-bold mr-1 line-clamp-1 break-all whitespace-nowrap'>
-              {product?.price
-                ? `${
-                    product?.price?.discount
-                      ? product?.price?.discount?.price
-                      : product?.price?.default
-                  }  ${product?.price?.currency}`
-                : 'Цена не указана'}
-            </span>
-            {product?.price && (
-              <span className='text-xs line-through mr-2'>
-                {product?.price?.discount && product?.price?.default}
-              </span>
-            )}
-            {product?.price?.discount && (
-              <span className='px-2 py-[2px] font-semibold rounded-3xl text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap'>
-                {`${product?.price?.discount?.percent} %`}
-              </span>
-            )}
+              <PriceDisplay price={product?.price}/>
           </div>
           <div className='flex justify-end items-center space-x-2'>
             <FavoriteIcon

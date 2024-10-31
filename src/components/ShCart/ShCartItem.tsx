@@ -14,6 +14,7 @@ import RemoveFromCartButton from "../../helpers/RemoveFormCartButton/RemoveFormC
 import FavoriteButton from "../../helpers/FavoriteButton/FavoriteButton";
 import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
 import SelectCartItemButton from "../../helpers/SelectCartItemButton/SelectCartItemButton";
+import PriceDisplay from "../ProductCard/PriceDisplay";
 
 const ShCartItem = ({ cart, handleItemChange }) => {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ const ShCartItem = ({ cart, handleItemChange }) => {
 
               <div className="space-y-1 pt-1">
                 <p className="text-xs text-colDarkGray flex items-center space-x-2">
-                  <span>Артикул:</span>
+                  <span>Код товара:</span>
                   <span>{product?.sku}</span>
                 </p>
                 <div className="flex gap-x-2 flex-wrap">
@@ -118,7 +119,7 @@ const ShCartItem = ({ cart, handleItemChange }) => {
                       />
                     )}
                   </FavoriteButton>
-                  <RemoveFromCartButton product={product}>
+                  <RemoveFromCartButton product={product} withConfirmation={true}>
                     {({ isLoading, handleRemoveFromCartClick }) => (
                       <DeleteIcon
                         className={`transition-all duration-300 hover:scale-110 ${
@@ -134,33 +135,18 @@ const ShCartItem = ({ cart, handleItemChange }) => {
           </div>
           <div className="w-2/5 ">
             <div className="flex items-center justify-between space-x-3 pt-[27px]">
-              <div>
-                <div className="text-colBlack">
-                  {product?.price
-                    ? `${
-                        product?.price?.discount
-                          ? product?.price?.discount?.price
-                          : product?.price?.default
-                      }  ${product?.price?.currency} / ${product?.price?.unit}`
-                    : "Не указано"}
-                </div>
-                <p className="text-colGray text-xs line-through">
-                  {product?.price?.discount && (
-                    <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
-                  )}
-                </p>
-              </div>
+            <PriceDisplay price={product?.price}/>
               <div className="flex items-center grow px-5">
                 <ChangeQuantityGroup product={product} />
               </div>
               <div className="flex items-center text-colBlack font-bold basis-1/4">
                 <span>
-                  {product?.price?.default
-                    ? product?.price?.default * product?.quantity
+                  {product?.price?.base
+                    ? product?.price?.base * product?.quantity
                     : "Цена не указана"}
                 </span>
                 <span className="pl-1">
-                  {product?.price?.currency ? product?.price?.currency : "₽"}
+                  {product?.price?.base ? product?.price?.currency?.symbol : ""}
                 </span>
               </div>
             </div>

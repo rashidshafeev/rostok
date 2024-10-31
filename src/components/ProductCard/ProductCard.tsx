@@ -5,6 +5,7 @@ import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
 import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
 import { LoadingSmall } from "../../helpers/Loader/Loader";
 import PreviewGallery from "./PreviewGallery";
+import PriceDisplay from "./PriceDisplay";
 
 const ProductCard = ({ product }) => {
 
@@ -28,34 +29,12 @@ const ProductCard = ({ product }) => {
       <div className="lining-nums proportional-nums mt-2 flex h-[140px] mm:h-[140px] flex-col gap-1">
         <div className="flex flex-col justify-between gap-1 h-full mb-1">
           <p className="text-xs text-colDarkGray line-clamp-2">
-            Артикул: {product.sku}
+            Код товара: {product.sku}
           </p>
           <p className="text-sm text-colText font-medium line-clamp-2">
             {product.fullName}
           </p>
-          <div className="flex items-center">
-            <div className="flex items-center gap-1 mr-1">
-              <p className="text-lg font-bold whitespace-nowrap">
-                {product?.price
-                  ? product?.price?.discount
-                    ? product?.price?.discount?.price +
-                      " " +
-                      product?.price?.currency
-                    : product?.price?.default + " " + product?.price?.currency
-                  : "Цена не указана"}
-              </p>
-            </div>
-            {product?.price && product?.price?.discount && (
-              <div className="flex items-center">
-                <span className="line-through decoration-colDarkGray text-[8px] sm:text-[12px] text-colDarkGray whitespace-nowrap">
-                  {`${product?.price?.default}  ${product?.price?.currency}`}
-                </span>
-                <span className="ml-2 bg-[#F04438] text-[10px] mm:text-xs font-medium text-white whitespace-nowrap px-[6px] py-[2px] rounded-xl">
-                  {product?.price?.discount?.percent} %
-                </span>
-              </div>
-            )}
-          </div>
+           <PriceDisplay price={product?.price} />
         </div>
 
         {!productInCart && (
