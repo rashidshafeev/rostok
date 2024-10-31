@@ -114,7 +114,7 @@
       "@components/*": ["./src/components/*"],
       "@utils/*": ["./src/utils/*"],
       "@store/*": ["./src/redux/*"],
-      "@types/*": ["./src/types/*"]
+      "@customTypes/*": ["./src/types/*"]
     }
   },
 
