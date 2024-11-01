@@ -38,7 +38,6 @@ const baseQuery = fetchBaseQuery({
 });
 
 const loggingBaseQuery = async (args, api, extraOptions) => {
-  console.log('Request:', args);
   const result = await baseQuery(args, api, extraOptions);
   if (result.error) {
     console.error('Response Error:', result.error);
@@ -51,6 +50,6 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: loggingBaseQuery,
-  tagTypes: ['Favorite', 'Order', 'Comparison', 'User'],
-  endpoints: () => ({}), // Initially empty, endpoints will be injected later
+  tagTypes: ['Favorite', 'Order', 'Comparison', 'User', 'Organization'],
+  endpoints: () => ({}), 
 });
