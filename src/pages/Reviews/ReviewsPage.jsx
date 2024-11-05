@@ -17,7 +17,7 @@ import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
 import { addToCart, changeQuantity } from "../../redux/slices/cartSlice";
 import RatingStars from "../../helpers/RatingStars";
 import ReviewModal from "../../helpers/CModal/ReviewModal";
-import { useGetProductsQuery } from "../../redux/api/productEndpoints";
+import { useGetProductQuery } from "@api/productEndpoints";
 
 export function ReviewsPage() {
 

@@ -65,7 +65,8 @@ export const router = createBrowserRouter(
           <Route path=':categoryId'>
             <Route index element={<CatProducts />} />
             <Route path=':productId'>
-              <Route index element={<ProductPage />} loader={fetchProduct} />
+              {/* <Route index element={<ProductPage />} loader={fetchProduct} /> */}
+              <Route index element={<ProductPage />}/>
               <Route path='reviews' element={<ReviewsPage />} />
             </Route>
           </Route>

@@ -1,10 +1,11 @@
 // src/components/ChangeQuantityGroup.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { changeQuantity, removeFromCart } from '../../redux/slices/cartSlice';
+import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import { getTokenFromCookies } from '../cookies/cookies';
-import { useGetCartItemPriceMutation, useSendCartMutation } from '../../redux/api/cartEndpoints';
+import { getTokenFromCookies } from '@helpers/cookies/cookies';
+import { useGetCartItemPriceMutation, useSendCartMutation } from '@store/api/cartEndpoints';
+
 const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
   const token = getTokenFromCookies();
   
@@ -26,16 +27,11 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
 
     debounceTimer.current = setTimeout( async () => {
       if (!isFirstRender.current) {
-
         if (token) {
           sendCart({ id: product.id, quantity: newQuantity, selected: product.selected })
         }
-        // token ? sendCart({ id: product.id, quantity: newQuantity, selected: product.selected }) :dispatch(changeQuantity({ id: product.id, quantity: newQuantity }));
         const price = await getItemPrice({ item_id: product.id, quantity: newQuantity })
-    // console.log(addedProduct, price)dfcx
         dispatch(changeQuantity({ id: product.id, quantity: newQuantity, price: price?.data?.data }));
-
-
       }
     }, 500);
   };
@@ -64,7 +60,7 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
     } else if (enableRemove && quantity === 1) {
       clearTimeout(debounceTimer.current);
       if (token) {
-        sendCart({ id: product.id, quantity: 0, selected: product.selected })
+        sendCart({ id: product.id, quantity: 0 })
       }
       dispatch(removeFromCart(product));
     }

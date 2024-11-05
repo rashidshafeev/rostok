@@ -1,15 +1,8 @@
 import { NavLink } from 'react-router-dom';
-import LogoutModal from '../../helpers/CModal/LogoutModal';
-import { logOutFetch } from '../../api/user';
-import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
 import { useModal } from '../../context/ModalContext';
 
-const ProfileSidebar = ({ content, setContent, open, setOpen }) => {
-  // const { user } = useSelector((state) => state?.user);
-
-  const { data, isLoading, isFetching, isError } = useGetUserDataQuery();
-
-
+const ProfileSidebar = () => {
+  
   const { showModal } = useModal();
 
   return (

@@ -108,13 +108,16 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true, /* Skip type checking all .d.ts files. */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
+      "@assets/*": ["./src/assets/*"],
       "@utils/*": ["./src/utils/*"],
       "@store/*": ["./src/redux/*"],
-      "@customTypes/*": ["./src/types/*"]
+      "@api/*": ["./src/redux/api/*"],
+      "@customTypes/*": ["./src/types/*"],
+      "@helpers/*": ["./src/helpers/*"],
     }
   },
 

@@ -1,4 +1,5 @@
 // src/components/ProductCard.js
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
@@ -6,10 +7,16 @@ import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuanti
 import { LoadingSmall } from "../../helpers/Loader/Loader";
 import PreviewGallery from "./PreviewGallery";
 import PriceDisplay from "./PriceDisplay";
+import { RootState } from "@/redux/store";
+import { Product } from "@customTypes/Product/Product";
 
-const ProductCard = ({ product }) => {
+type ProductCardProps = {
+  product: Product
+}
 
-  const { cart } = useSelector((state) => state.cart);
+const ProductCard : React.FC<ProductCardProps> = ({ product }) => {
+
+  const { cart } = useSelector((state : RootState) => state.cart);
 
   const productInCart = cart.find((el) => el.id === product.id);
 

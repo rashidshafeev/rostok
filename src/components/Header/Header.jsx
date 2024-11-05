@@ -19,11 +19,9 @@ import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
 import { useGetComparisonQuery } from "../../redux/api/comparisonEndpoints";
 import { useGetFavoritesQuery } from "../../redux/api/favoritesEndpoints";
 import { useGetRecentItemsQuery } from "../../redux/api/userEndpoints";
-import { useModal } from "../../context/ModalContext";
 
 const Header = ({ showCatalog, setShowCatalog }) => {
   const dispatch = useDispatch();
-const { showModal } = useModal()
   const firstLoad = useRef(true);
 
   const token = getTokenFromCookies();
@@ -67,13 +65,6 @@ const { showModal } = useModal()
     isSuccessRecentItems;
 
   useEffect(() => {
-    console.log(
-      "useEffect",
-      serverCart,
-      serverComparison,
-      serverFavorite,
-      serverRecentItems
-    );
 
     if (!token && firstLoad.current) {
       const comparison = JSON.parse(sessionStorage.getItem("comparison"));
@@ -90,12 +81,7 @@ const { showModal } = useModal()
         setCart(
           cart
             ? cart
-            : {
-                cart: [],
-                itemsQuantity: 0,
-                itemsSum: 0,
-                selectedQuantity: 0,
-              }
+            : null
         )
       );
 
