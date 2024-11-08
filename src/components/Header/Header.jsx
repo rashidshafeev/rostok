@@ -1,4 +1,5 @@
-import { useEffect, useRef } from "react";
+import React from "react";
+
 import { NavLink } from "react-router-dom";
 import PreHeader from "./PreHeader";
 import CatalogFastAccess from "./CatalogFastAccess";
@@ -7,121 +8,12 @@ import HeaderControls from "./HeaderControls";
 import logo from "../../assets/images/logo.svg";
 import CatalogModal from "../../helpers/CModal/CatalogModal";
 import CatalogModalMobile from "../../helpers/CModal/CatalogModalMobile";
-import { useDispatch } from "react-redux";
-
-import { setComparison } from "../../redux/slices/comparisonSlice";
-import { setFavorite } from "../../redux/slices/favoriteSlice";
-import { setCart } from "../../redux/slices/cartSlice";
-import { setRecentItems } from "../../redux/slices/recentItemsSlice";
-
-import { getTokenFromCookies } from "../../helpers/cookies/cookies";
-import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
-import { useGetComparisonQuery } from "../../redux/api/comparisonEndpoints";
-import { useGetFavoritesQuery } from "../../redux/api/favoritesEndpoints";
-import { useGetRecentItemsQuery } from "../../redux/api/userEndpoints";
+import useInitialDataFetch from "@/hooks/useInitialDataFetch";
 
 const Header = ({ showCatalog, setShowCatalog }) => {
-  const dispatch = useDispatch();
-  const firstLoad = useRef(true);
 
-  const token = getTokenFromCookies();
-
-  const {
-    data: serverComparison,
-    // isLoading: isLoadingComparison,
-    isSuccess: isSuccessComparison,
-    // error: errorComparison,
-    // refetch: refetchComparison,
-  } = useGetComparisonQuery(undefined, { skip: !token || !firstLoad.current });
-
-  const {
-    data: serverFavorite,
-    // isLoading: isLoadingFavorite,
-    isSuccess: isSuccessFavorite,
-    // error: errorFavorite,
-    // refetch: refetchFavorite,
-  } = useGetFavoritesQuery(undefined, { skip: !token || !firstLoad.current });
-
-  const {
-    data: serverCart,
-    // isLoading: isLoadingCart,
-    isSuccess: isSuccessCart,
-    // error: errorCart,
-    // refetch: refetchServerCart,
-  } = useGetUserCartQuery(undefined, { skip: !token || !firstLoad.current });
-
-  const {
-    data: serverRecentItems,
-    // isLoading: isLoadingRecentItems,
-    isSuccess: isSuccessRecentItems,
-    // error: errorRecentItems,
-    // refetch: refetchRecentItems,
-  } = useGetRecentItemsQuery(undefined, { skip: !token || !firstLoad.current });
-
-  const isSuccess =
-    isSuccessComparison &&
-    isSuccessFavorite &&
-    isSuccessCart &&
-    isSuccessRecentItems;
-
-  useEffect(() => {
-
-    if (!token && firstLoad.current) {
-      const comparison = JSON.parse(sessionStorage.getItem("comparison"));
-      dispatch(setComparison(comparison ? comparison : []));
-
-      const favorite = JSON.parse(sessionStorage.getItem("favorite"));
-      dispatch(setFavorite(favorite ? favorite : []));
-
-      const recentItems = JSON.parse(sessionStorage.getItem("recentItems"));
-      dispatch(setRecentItems(recentItems ? recentItems : []));
-
-      const cart = JSON.parse(sessionStorage.getItem("cart"));
-      dispatch(
-        setCart(
-          cart
-            ? cart
-            : null
-        )
-      );
-
-      if (!token || (token && isSuccess)) {
-        firstLoad.current = false;
-      }
-    } else if (token && isSuccess && firstLoad.current) {
-      const comparison = serverComparison?.data;
-      dispatch(setComparison(comparison ? comparison : []));
-
-      const favorite = serverFavorite?.data;
-      dispatch(setFavorite(favorite ? favorite : []));
-
-      const recentItems = serverRecentItems?.data;
-      dispatch(setRecentItems(recentItems ? recentItems : []));
-
-      const cart = serverCart;
-      dispatch(
-        setCart(
-          cart
-            ? {
-                cart: cart.data,
-                // itemsQuantity: cart.count,
-                itemsSum: cart.total_amount,
-                currency: cart.current_currency,
-              }
-            : {
-                cart: [],
-                itemsQuantity: 0,
-                itemsSum: 0,
-              }
-        )
-      );
-
-      if (!token || (token && isSuccess)) {
-        firstLoad.current = false;
-      }
-    }
-  }, [dispatch, token, isSuccess]);
-
+  useInitialDataFetch();
+  
   return (
     <>
       <PreHeader />

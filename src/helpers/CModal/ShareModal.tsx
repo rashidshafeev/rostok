@@ -46,10 +46,11 @@ const ShareModal : React.FC = () => {
                             toast('Ссылка скопирована')
                         }} src={copyicon} alt="" className='h-6 rounded-full cursor-pointer hover:opacity-80' /></div>
            
-            <div className='flex pt-5 justify-center'>
-                <OKShareButton url={url || ''}>
+            <div className='flex pt-5 justify-center gap-1'>
+              <OKShareButton url={url || ''}>
                     <OKIcon/>
                 </OKShareButton>
+                
                 <VKShareButton url={url || ''}>
                     <VKIcon/>
                 </VKShareButton>

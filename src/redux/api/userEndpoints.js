@@ -51,7 +51,7 @@ export const userEndpoints = (builder) => ({
       body: params,
     }),
   }),
-  getUserData: builder.query({
+  getUserData: builder.query<GetUserDataResponse, void>({
     query: () => ({
       url: '/api/UserData/get',
       method: 'GET',

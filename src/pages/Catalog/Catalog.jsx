@@ -9,7 +9,7 @@ import {
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { Loading } from '../../helpers/Loader/Loader';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
-import BreadCrumbs from '../../helpers/BreadCrumbs/BreadCrumbs';
+import Breadcrumbs from '../../helpers/Breadcrumbs/Breadcrumbs';
 import { useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
 
 const Catalog = () => {
@@ -21,7 +21,7 @@ const Catalog = () => {
 
   return (
     <div className='content pb-6 lining-nums proportional-nums'>
-      <BreadCrumbs breadCrumps={[]} />
+      <Breadcrumbs breadcrumbs={[]} />
       <h1 className='text-3xl mm:text-4xl md:text-[40px] font-semibold text-colBlack'>
         Каталог
       </h1>

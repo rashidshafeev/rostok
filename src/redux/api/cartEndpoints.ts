@@ -1,7 +1,7 @@
 // cartEndpoints.js
+import { GetUserCartResponse } from '@customTypes/ServerData/GetUserCart';
 import { api } from  './api';
-import { GetUserCartResponse } from '@customTypes/ServerData/ServerResponses';
-import { SendCartRequest } from '@customTypes/ServerData/ServerRequests';
+import { SendCartResponse, SendCartRequest } from '@customTypes/ServerData/SendCart';
 
 
 export const cartEndpoints = api.injectEndpoints({
@@ -18,7 +18,7 @@ endpoints: (builder) => ({
       query: () => '/api/ProductsCart/get',
       providesTags: [{ type: 'Cart', id: 'LIST' }],
     }),
-    sendCart: builder.mutation({
+    sendCart: builder.mutation<SendCartResponse, SendCartRequest>({
       query: (data) => ({
         url: '/api/ProductsCart/set',
         method: 'POST',

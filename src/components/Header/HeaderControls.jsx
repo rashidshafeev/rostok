@@ -64,7 +64,7 @@ function HeaderControls() {
           Сравнение
         </span>
         {getComparisonCount() > 0 && (
-          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1 -z-10'>
+          <span className='absolute -top-2 right-0 bg-colGreen h-5  min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1 -z-10 lining-nums proportional-nums'>
             {getComparisonCount() > 99 ? '99+' : getComparisonCount()}
           </span>
         )}

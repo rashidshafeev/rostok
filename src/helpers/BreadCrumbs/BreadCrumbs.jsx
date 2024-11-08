@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 
-const BreadCrumbs = ({ breadCrumps }) => {
+const Breadcrumbs = ({ breadcrumbs }) => {
   const { categoryId } = useParams();
   const { pathname } = useLocation();
 
@@ -22,7 +22,7 @@ const BreadCrumbs = ({ breadCrumps }) => {
       >
         Каталог
       </NavLink>
-      {breadCrumps?.map((el, index) => (
+      {breadcrumbs?.map((el, index) => (
         <React.Fragment key={index}>
           <span className='min-w-[5px] w-[5px] h-[5px] mr-3 mt-2 rounded-full bg-colGreen'></span>
           <NavLink
@@ -39,4 +39,4 @@ const BreadCrumbs = ({ breadCrumps }) => {
   );
 };
 
-export default BreadCrumbs;
+export default Breadcrumbs;

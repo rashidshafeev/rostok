@@ -48,9 +48,9 @@ function CatalogFastAccess() {
           style={{ backgroundColor: `${tag?.background_color}` }}
           className="rounded h-[27px] flex items-center justify-center px-4"
         >
-                   <img src={tag?.light_icon?.medium} className='w-4 h-4' alt="*" />
+                   {tag?.light_icon && <img src={tag?.light_icon?.medium} className='w-4 h-4' alt="*" />}
 
-          <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1">
+          <span style={{ color: tag?.text_color  }} className="text-sm font-semibold text-white pl-1">
             {tag?.tag}
           </span>
         </NavLink>

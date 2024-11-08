@@ -4,36 +4,30 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToComparison, removeFromComparison } from '../../redux/slices/comparisonSlice';
 import { useGetComparisonQuery, useRemoveFromComparisonMutation, useSendComparisonMutation } from '../../redux/api/comparisonEndpoints';
 import { getTokenFromCookies } from '../cookies/cookies';
+import { Product } from '@customTypes/Product/Product';
+import { AppDispatch, RootState } from '@/redux/store';
 
-const ComparisonButton = ({ product, children }) => {
-  const dispatch = useDispatch();
+type ComparisonButtonProps = {
+  product: Product,
+  children: (renderProps: {
+    isLoading: boolean,
+    isInComparison: boolean,
+    handleComparisonClick: (e: React.MouseEvent<HTMLButtonElement>) => void
+  }) => React.ReactNode,
+}
+
+
+const ComparisonButton = ({ product, children } : ComparisonButtonProps) => {
+
+  const dispatch : AppDispatch = useDispatch();
   const token = getTokenFromCookies();
-  const { comparison } = useSelector((state) => state.comparison);
-  
-  // Fetching favorites from the server if the user is logged in
-  // const { data: serverComparison } = useGetComparisonQuery(undefined, { skip: !token });
+  const { comparison } = useSelector((state : RootState) => state.comparison);
 
   const [sendComparisonMutation, {isLoading: sendIsLoading}] = useSendComparisonMutation();
   const [removeFromComparisonMutation, {isLoading: removeIsLoading}] = useRemoveFromComparisonMutation();
   const isLoading = sendIsLoading || removeIsLoading;
 
   const isInComparison = comparison.some((el) => el.id === product.id);
-  // const isInComparison = token
-  //   ? serverComparison?.data?.some((el) => el.id === product.id)
-  //   : comparison.some((el) => el.id === product.id);
-
-  // const handleComparisonClick = (e) => {
-  //   e.preventDefault();
-  //   e.stopPropagation()
-    
-  //   if (isInComparison) {
-  //     token ?   removeFromComparisonMutation(product) : dispatch(removeFromComparison(product))
-
-  //   } else {
-  //     token ? sendComparisonMutation(product) : dispatch(addToComparison(product))
-  //   }
-  // };
-
   const handleComparisonClick = (e) => {
     e.preventDefault();
     e.stopPropagation();

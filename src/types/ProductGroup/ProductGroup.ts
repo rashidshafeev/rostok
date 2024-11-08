@@ -14,3 +14,4 @@ export interface ProductGroup {
     variants: Product[];
     reviews: Review;
 }
+

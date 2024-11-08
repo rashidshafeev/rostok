@@ -4,8 +4,8 @@ import { ComDetail } from '../../components';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { useSelector } from 'react-redux';
-import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
-import { comparisonBC } from '../../constants/breadCrumps';
+import CustomBreadcrumbs from '../../helpers/Breadcrumbs/CustomBreadcrumbs';
+import { comparisonBC } from '../../constants/breadcrumbs';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
 import { useGetComparisonQuery } from '../../redux/api/comparisonEndpoints';
 import { DndProvider } from 'react-dnd';
@@ -41,7 +41,7 @@ console.log(comparison);
   return (
     <DndProvider backend={HTML5Backend}>
     <div className='pb-6 content'>
-      <CustomBCrumbs breadCrumps={comparisonBC} />
+      <CustomBreadcrumbs breadcrumbs={comparisonBC} />
       <h1 className='block text-2xl md:text-[40px] font-semibold text-colBlack pb-5'>
         Сравнение товаров
       </h1>

@@ -1,5 +1,6 @@
 // productEndpoints.js
-import { GetProductResponse } from '@customTypes/ServerData/ServerResponses';
+
+import { GetProductResponse } from '@customTypes/ServerData/GetProduct';
 import { api } from './api';
 
 export const productEndpoints = api.injectEndpoints({

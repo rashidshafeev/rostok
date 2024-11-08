@@ -4,8 +4,8 @@ import ErrorEmpty from "../../helpers/Errors/ErrorEmpty";
 import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
 import { FavDetail, FavSidebar } from "../../components";
 import chair from "../../assets/temp-images/chair.png";
-import CustomBCrumbs from "../../helpers/BreadCrumbs/CustomBCrumbs";
-import { favoritesBC } from "../../constants/breadCrumps";
+import CustomBreadcrumbs from "../../helpers/Breadcrumbs/CustomBreadcrumbs";
+import { favoritesBC } from "../../constants/breadcrumbs";
 import { useGetFavoritesQuery } from "../../redux/api/favoritesEndpoints";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
 
@@ -53,7 +53,7 @@ console.log("favorite");
 console.log(favorite);
   return (
     <div className="content pb-6">
-      <CustomBCrumbs breadCrumps={favoritesBC} />
+      <CustomBreadcrumbs breadcrumbs={favoritesBC} />
       <h1 className="block text-2xl md:text-[40px] font-semibold text-colBlack pb-5">
         Избранное
       </h1>

@@ -1,16 +1,5 @@
-// src/types/Attribute.ts
+// src/types/ModificationAttribute.ts
 
-export interface Attribute {
-    id: number;
-    name: string;
-    type: string;
-    values: AttributeValue[];
-}
-
-export interface AttributeValue {
-    type: string;
-    text: string;
-}
 
 export interface ModificationAttribute {
     id: number;
