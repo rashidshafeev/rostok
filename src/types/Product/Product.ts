@@ -1,7 +1,7 @@
 // src/types/Product.ts
 
 import { File } from './File';
-import { Category } from './Category';
+import { Category } from '@customTypes/Category/Category';
 import { PriceType } from './PriceType';
 import { ModificationAttribute } from './ModificationAttribute';
 import { Tag } from './Tag';

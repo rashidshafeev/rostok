@@ -7,7 +7,6 @@ import { SendCartResponse, SendCartRequest } from '@customTypes/ServerData/SendC
 export const cartEndpoints = api.injectEndpoints({
 endpoints: (builder) => ({
     getSuggestions: builder.mutation({
-    // getSuggestions: builder.mutation<SendCartResponse, SendCartRequest>({}
       query: (params) => ({
         url: '/api/Products/search/suggestions',
         method: 'POST',

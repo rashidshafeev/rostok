@@ -1,6 +1,6 @@
 import { Product } from '@customTypes/Product/Product';
 import { Attribute } from './Attribute';
-import { Category } from './Category';
+import { Category } from '../Category/Category';
 import { Review } from './Review';
 
 

@@ -1,5 +1,5 @@
 // src/pages/Comparison.js
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ComDetail } from '../../components';
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
@@ -7,22 +7,20 @@ import { useSelector } from 'react-redux';
 import CustomBreadcrumbs from '../../helpers/Breadcrumbs/CustomBreadcrumbs';
 import { comparisonBC } from '../../constants/breadcrumbs';
 import { getTokenFromCookies } from '../../helpers/cookies/cookies';
-import { useGetComparisonQuery } from '../../redux/api/comparisonEndpoints';
+import { useGetComparisonQuery } from '@api/comparisonEndpoints';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { RootState } from '@store/store';
+
 
 const Comparison = () => {
   const token = getTokenFromCookies();
-  const { comparison: localComparison } = useSelector((state) => state.comparison);
 
-  // Fetching comparison data from the server if the user is logged in
-  const { data: serverComparison, isLoading, error } = useGetComparisonQuery(undefined, { skip: !token });
+  const { comparison: localComparison } = useSelector((state : RootState) => state.comparison);
+  
+  const { data: serverComparison, isLoading, isSuccess, error } = useGetComparisonQuery(undefined, { skip: !token });
 
-  useEffect(() => {
-    scrollToTop();
-  }, []);
-
-  const comparison = token ? serverComparison?.data : localComparison;
+  const comparison = token && isSuccess ? serverComparison?.data : localComparison;
 
 
 const [selectedFilter, setSelectedFilter] = useState(null);
@@ -30,14 +28,17 @@ const [selectedFilter, setSelectedFilter] = useState(null);
 useEffect(() => {
   if (token && comparison?.length > 0) {
     setSelectedFilter(serverComparison?.categories[0]?.chain[serverComparison?.categories[0]?.chain?.length - 1]?.id);
-
   }
 }, [comparison])
 
 
 const filteredComparison = comparison?.filter((item) => { return item.category.id === selectedFilter })
-console.log("filteredComparison");
-console.log(comparison);
+
+
+useEffect(() => {
+  scrollToTop();
+}, []);
+
   return (
     <DndProvider backend={HTML5Backend}>
     <div className='pb-6 content'>

@@ -1,23 +1,22 @@
 import { User } from "@customTypes/User/User";
 import { AdditionalServerResponseData } from "./AdditionalServerResponseData";
 
-export interface Cart {
+export interface CartData {
     items_count: number;
     quantity: number;
 }
 
-export interface Favorites {
+export interface FavoritesData {
     items_count: number;
 }
 
-export interface Comparison {
+export interface ComparisonData {
     items_count: number;
 }
-
 
 export interface GetUserDataResponse extends AdditionalServerResponseData {
     user: User;
-    cart: Cart;
-    favorites: Favorites;
-    comparison: Comparison;
+    cart: CartData;
+    favorites: FavoritesData;
+    comparison: ComparisonData;
 }

@@ -1,28 +1,24 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ErrorEmpty from "../../helpers/Errors/ErrorEmpty";
 import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
 import { FavDetail, FavSidebar } from "../../components";
-import chair from "../../assets/temp-images/chair.png";
 import CustomBreadcrumbs from "../../helpers/Breadcrumbs/CustomBreadcrumbs";
 import { favoritesBC } from "../../constants/breadcrumbs";
-import { useGetFavoritesQuery } from "../../redux/api/favoritesEndpoints";
+import { useGetFavoritesQuery } from "@api/favoritesEndpoints";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
+import { RootState } from "@store/store";
 
 const Favorites = () => {
   const token = getTokenFromCookies();
 
+  const { favorite: localFavorite } = useSelector((state : RootState) => state?.favorite);
+  
+  const { data: serverFavorite, isLoading, isSuccess, error } = useGetFavoritesQuery(undefined, { skip: !token });
+
+  const favorite = token && isSuccess ? serverFavorite?.data : localFavorite;
+
   const [isOpen, setIsOpen] = useState(true);
-
-  const localFavorite = useSelector((state) => state?.favorite?.favorite);
-
-  // Fetching cart data from the server if the user is logged in
-  const {
-    data: serverFavorite,
-    isLoading,
-    error,
-  } = useGetFavoritesQuery(undefined, { skip: !token });
-  const favorite = token ? serverFavorite?.data : localFavorite;
 
   useEffect(() => {
     scrollToTop();
