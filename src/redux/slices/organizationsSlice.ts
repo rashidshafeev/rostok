@@ -13,7 +13,6 @@ export const organizationsSlice = createSlice({
             state.organizations.push({ ...action.payload });
         },
         deleteOrganization: (state, action) => {
-            console.log(action.payload)
             const organization = state.organizations.find((org) => org.inn === action.payload.inn)
 
             if (organization) {
@@ -21,7 +20,6 @@ export const organizationsSlice = createSlice({
             }
         },
         updateOrganization: (state, action) => {
-            console.log(action.payload)
             const organization = state.organizations.find((org) => org.inn === action.payload.organization.inn)
             Object.assign(organization, action.payload.data )
         }

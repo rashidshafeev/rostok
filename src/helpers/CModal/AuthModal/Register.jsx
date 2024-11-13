@@ -61,8 +61,6 @@ const Register = ({ hideModal, login: enteredLogin }) => {
 
     useEffect(() => {
       if (enteredLogin) {
-        console.log("enteredLogin");
-        console.log(enteredLogin, enteredLogin.login.slice(-10));
         reset({
           email: enteredLogin.type === "email" ? enteredLogin.login : '',
           phone: enteredLogin.type === "phone" ? enteredLogin.login.slice(-10) : ''

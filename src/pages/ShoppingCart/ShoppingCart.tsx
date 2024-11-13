@@ -18,7 +18,7 @@ import { CartProduct, LocalCartState } from "@customTypes/Store/Cart/CartState";
 import { transformServerCartToLocalCart } from "@utils/transfromData";
 import { RootState } from "@store/store";
 
-const ShoppingCart : React.FC = () => {
+const ShoppingCart = () => {
   const token = getTokenFromCookies();
 
   const localCart : LocalCartState = useSelector((state: RootState) => state.cart);

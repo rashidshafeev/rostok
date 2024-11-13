@@ -1,9 +1,24 @@
-import { AttributesValuesList } from "@/components/ProductPage/Attributes/ProductAttributesList";
-import { ModificationAttribute } from "@/types/Product/ModificationAttribute";
-import { Product } from "@/types/Product/Product";
-import { ProductGroup } from "@/types/ProductGroup/ProductGroup";
+import { ModificationAttribute } from "@customTypes/Product/ModificationAttribute";
+import { Product } from "@customTypes/Product/Product";
+import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+
+export interface ModificationAttributeForDisplay extends ModificationAttribute {
+  current?: boolean;
+  available?: boolean;
+}
+
+interface AttributeType {
+  name: string;
+  id: number;
+  values: ModificationAttributeForDisplay[];
+}
+
+export interface AttributesValuesList {
+  [key: string]: AttributeType;
+}
+
 
 export const useModificationAttributesManager = (group: ProductGroup, setCurrentProduct: (product: Product) => void) => {
 

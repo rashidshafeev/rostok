@@ -13,12 +13,13 @@ const PriceDisplay: React.FC<PriceProps> = ({ price }) => {
             <div className="flex items-center gap-1 mr-1">
               <p className="text-lg font-bold whitespace-nowrap">
               {!price?.base && "Цена не указана"}
-        {price?.base &&
+        {/* {price?.base &&
           price?.discount &&
           `${price?.discount?.price} ${price?.currency?.symbol}`}
         {price?.base &&
           !price?.discount &&
-          `${price?.base} ${price?.currency?.symbol}`}
+          `${price?.base} ${price?.currency?.symbol}`} */}
+          {price?.final !== 0 && `${price?.final} ${price?.currency?.symbol}`}
               </p>
             </div>
             {price?.base !== 0 && price?.discount && (

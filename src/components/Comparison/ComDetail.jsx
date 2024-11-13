@@ -16,7 +16,6 @@ const ComDetail = ({ comparison }) => {
   const scrollLeft = () => {
     setTranslateX((translateX) => translateX + 300); // Adjust the scroll amount as needed
     setCurrentStep((currentStep) => currentStep - 1);
-    console.log(maxStep);
   };
 
   const scrollRight = () => {
@@ -56,12 +55,6 @@ const ComDetail = ({ comparison }) => {
 
   useEffect(() => {
     if (tableHeader.current && item.current) {
-      console.log(
-        (item.current.offsetWidth * comparison.length -
-          tableHeader.current.offsetWidth) /
-          item.current.offsetWidth
-      );
-
       item.current.offsetWidth * comparison.length <
       tableHeader.current.offsetWidth
         ? setMaxStep(1)

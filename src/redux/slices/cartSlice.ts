@@ -42,7 +42,7 @@ const updateTotals = (state: LocalCartState) => {
     const quantity = Number(product.quantity);
     const finalPrice = product.price.final * quantity;
     const discount = product.price.discount
-      ? product.price.discount.price * quantity
+      ? product.price.discount.discount_amount * quantity
       : 0;
 
     totalCount += 1;

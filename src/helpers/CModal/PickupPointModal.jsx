@@ -16,9 +16,7 @@ function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {
 
 
     const handlePointChange = (e) => {
-        console.log(e.currentTarget.getAttribute("data-customvalue"));
         setPickupPoint(points.find((point) => point.id.toString() === e.currentTarget.getAttribute("data-customvalue")))
-        console.log(pickupPoint);
     }
 
     const points = [

@@ -6,7 +6,7 @@ import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 const RoomProducts = () => {
 
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
-console.log(data, isLoading, isSuccess)
+  
   return (
     <div className='pt-5 pb-10 lg:px-4 max-w-[1420px] w-full mx-auto'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4 px-3 mm:px-4 lg:px-0'>

@@ -3,13 +3,12 @@
 import React, { useState, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
-import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints'; 
+import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '@store/api/userEndpoints'; 
 
 const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue = false }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();
   const phone = watch('phone');
-console.log("defaultValue");
-console.log(defaultValue);
+  
   const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [retryDisabled, setRetryDisabled] = useState(false);
@@ -20,9 +19,6 @@ console.log(defaultValue);
 
   const handleSendVerificationCode = async () => {
     const { data } = await sendVerificationCode({ phone });
-
-    console.log("sendverificationcode data");
-    console.log(data);
     if (data?.success === 'ok') {
 
       setVerification({ ...verification, sent: 'ok', notification: data?.data?.text});

@@ -18,7 +18,7 @@ import {
 import CardLineSkeleton from "../ProductCard/CardLineSkeleton";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
 import LineNarrowSkeleton from "../ProductCard/LineNarrowSkeleton";
-import { SendCartPayload, SendCartRequest } from "@customTypes/ServerData/ServerRequests";
+import { SendCartPayload, SendCartRequest } from "@customTypes/ServerData/SendCart";
 import { CartProduct, LocalCartState } from "@customTypes/Store/Cart/CartState";
 import { AppDispatch } from "@store/store";
 

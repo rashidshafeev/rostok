@@ -29,7 +29,6 @@ function ReviewModal({ product, open, handleClose }) {
 
     const onSubmit = async (data) => {
       // Prepare data to send
-      console.log(data)
       const reviewData = {
         id: product.id,
         rating: rating,

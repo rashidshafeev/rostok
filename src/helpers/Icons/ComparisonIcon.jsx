@@ -10,26 +10,8 @@ function ComparisonIcon(props) {
   if ((props.comparison === 'true' ? 'active' : 'inactive') != iconState) {
     setIconState(props.comparison === 'true' ? 'active' : 'inactive');
   }
-  // const handleMouseEnter = () => {
-  //   console.log(iconState === 'inactive')
-  //   if (iconState === 'inactive') {
-  //     console.log(iconState)
-  //     setIconState('hover');
-  //   console.log(iconState)
-  //   }
-
-  // };
-
-  // const handleMouseLeave = () => {
-  //   if (iconState === 'hover') {
-  //     setIconState('inactive');
-  //   }
-  // };
-
   return (
     <div {...props}>
-      {/* // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}> */}
 
       {iconState === 'active' && (
         <img className='w-3 h-3' src={active} alt='icon' />

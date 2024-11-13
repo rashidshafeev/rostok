@@ -1,11 +1,14 @@
-import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain'
 import React from 'react'
+import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain'
+
+import noImg from '@assets/images/no-image.png';
+import categoryIcon from '@assets/icons/category.svg';
 
 type CategoriesButtonsProps = {
     categories: ProductListCategoryChain
 }
 
-const CategoriesButtons = ({ categories }: CategoriesButtonsProps) => {
+const CategoriesButtons = ({ filtersValue, handleCategories, categories  }) => {
   return (
     <>
     {categories?.length > 0 && (

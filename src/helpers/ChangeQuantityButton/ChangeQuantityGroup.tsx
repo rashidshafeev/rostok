@@ -5,33 +5,50 @@ import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { getTokenFromCookies } from '@helpers/cookies/cookies';
 import { useGetCartItemPriceMutation, useSendCartMutation } from '@store/api/cartEndpoints';
+import { CartProduct } from '@customTypes/Store/Cart/CartState';
+import { AppDispatch } from '@store/store';
 
-const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
+type ChangeQuantityGroupProps = {
+  product: CartProduct;
+  enableRemove?: boolean;
+}
+
+const ChangeQuantityGroup = ({ product, enableRemove = false } : ChangeQuantityGroupProps) => {
   const token = getTokenFromCookies();
   
-  const [quantity, setQuantity] = useState(Number(product.quantity) || 1);
-  const isFirstRender = useRef(true);
-  const debounceTimer = useRef(null);
+  const [quantity, setQuantity] = useState<number>(product.quantity || 1);
+  const isFirstRender = useRef<boolean>(true);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const dispatch = useDispatch();
+  const dispatch : AppDispatch = useDispatch();
 
   const [sendCart, { isLoading }] = useSendCartMutation();
   const [getItemPrice, { isLoading: isLoadingItemPrice, isSuccess: isSuccessItemPrice }] = useGetCartItemPriceMutation();
 
-  const updateQuantity = (newQuantity) => {
+  const updateQuantity = async (newQuantity: number) => {
     setQuantity(newQuantity);
 
     if (debounceTimer.current) {
       clearTimeout(debounceTimer.current);
     }
 
-    debounceTimer.current = setTimeout( async () => {
-      if (!isFirstRender.current) {
-        if (token) {
-          sendCart({ id: product.id, quantity: newQuantity, selected: product.selected })
+    debounceTimer.current = setTimeout(async () => {
+      try {
+        if (!isFirstRender.current) {
+          if (token) {
+            await sendCart({ id: product.id, quantity: newQuantity, selected: product.selected });
+          }
+          // Fetch item price safely within a try-catch block
+          const priceResponse = await getItemPrice({ item_id: product.id, quantity: newQuantity });
+          if ('data' in priceResponse) {
+            const { data: price } = priceResponse;
+            dispatch(changeQuantity({ id: product.id, quantity: newQuantity, price: price.data.price }));
+          } else {
+            console.error("Error fetching item price:", priceResponse.error);
+          }
         }
-        const price = await getItemPrice({ item_id: product.id, quantity: newQuantity })
-        dispatch(changeQuantity({ id: product.id, quantity: newQuantity, price: price?.data?.data }));
+      } catch (error) {
+        console.error("An error occurred in updateQuantity:", error);
       }
     }, 500);
   };
@@ -60,7 +77,7 @@ const ChangeQuantityGroup = ({ product, enableRemove = false }) => {
     } else if (enableRemove && quantity === 1) {
       clearTimeout(debounceTimer.current);
       if (token) {
-        sendCart({ id: product.id, quantity: 0 })
+        sendCart({ id: product.id, quantity: 0, selected: product.selected })
       }
       dispatch(removeFromCart(product));
     }

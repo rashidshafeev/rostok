@@ -18,8 +18,6 @@ function ProductGallery({ files, tags }) {
   const [lightBoxIndex, setLightBoxIndex] = useState(-1);
 
   const {width} = useWindowSize();
-console.log("files")
-console.log(files)
   const renderVideo = (item) => {
     return (
       <div
@@ -118,7 +116,6 @@ console.log(files)
         renderItem: renderImage.bind(this),
       });
 
-      console.log("images", images);
   return (
     <>
       <ImageGallery

@@ -308,8 +308,6 @@ const CatProducts = () => {
   const sortPrevious = useRef(sort);
 
   const handlePagination = (e, p) => {
-    console.log("pagination fired");
-    console.log(p);
     setPage(p);
     // if (pagePrevious.current !== page) {
     getProducts({
@@ -356,6 +354,7 @@ const CatProducts = () => {
     }, []);
 
     const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      
       console.log(tag);
       if (tag.is_selected) {
         acc.push(tag.tag);
@@ -394,7 +393,7 @@ const CatProducts = () => {
     }, []);
 
     const tags = filters?.basics?.tags?.reduce((acc, tag) => {
-      console.log(tag);
+      
       if (tag.is_selected) {
         acc.push(tag.tag);
       }
@@ -547,20 +546,6 @@ const CatProducts = () => {
 
     return params.toString();
   };
-
-  // useEffect(() => {
-  //   console.log("buildQueryParams(location.search)");
-  //   const queryParams = parseQueryParams(location.search);
-  //   console.log(queryParams);
-  //   setFilters(queryParams.filtersObject);
-  //   setSort(queryParams.sortObject);
-  //   setPage(queryParams.page);
-  //   // navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
-  // }, []);
-
-  // useEffect(() => {
-  //   navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
-  // }, [filters, sort, page]);
 
 
   return (

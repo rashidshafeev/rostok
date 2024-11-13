@@ -7,8 +7,7 @@ import SRSidebar from './SRSidebar';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
-import noImg from '@assets/images/no-image.png';
-import categoryIcon from '@assets/icons/category.svg';
+
 import CategoriesButtons from './CategoriesButtons';
 
 const SRMain = () => {
@@ -30,7 +29,6 @@ const SRMain = () => {
   const searchQuery = searchParams.get('search');
 
   const handleCategories = (id) => {
-    console.log(id);
     let updatedFilters = { ...filtersValue };
     updatedFilters = {
       ...updatedFilters,
@@ -85,7 +83,7 @@ const SRMain = () => {
         >
           {searchQuery}
         </h3>
-        <CategoriesButtons categories={categories} />
+        <CategoriesButtons filtersValue={filtersValue} handleCategories={handleCategories} categories={categories} />
         
       </div>
       <div className='flex pb-10 min-h-[420px]'>

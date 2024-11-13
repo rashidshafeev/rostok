@@ -14,7 +14,6 @@ import { Navigation } from 'swiper/modules';
 
 function Review({review}) {
 
-  console.log(review)
   const [index, setIndex] = useState(-1);
   const [open, setOpen] = useState(false);
 
@@ -54,10 +53,6 @@ function Review({review}) {
         items: 1
       }
     };
-
-  
-
-  console.log(photos)
 
   return (
     <div className='p-5 border rounded-[10px]  flex flex-col'>

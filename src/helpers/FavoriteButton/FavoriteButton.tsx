@@ -28,7 +28,7 @@ const dispatch: AppDispatch = useDispatch();
   const [removeFromFavoritesMutation, { isLoading: removeIsLoading }] = useRemoveFromFavoritesMutation();
   const isLoading = sendIsLoading || removeIsLoading;
 
-  const isInFavorite = favorite.some((el) => el.id === product.id);
+  const isInFavorite = favorite.some((el) => el.id === product?.id);
 
   const handleFavoriteClick = (e) => {
     e.preventDefault();

@@ -13,7 +13,6 @@ function ReviewsTab({ current, reviews }) {
     const location = useLocation()
 
     const [open, setOpen] = useState(false);
-    console.log(reviews)
 
     const handleOpen = () => {
         setOpen(true);

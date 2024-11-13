@@ -1,48 +1,93 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { useIntersection, useWindowSize } from 'react-use'
+import { CircularProgress } from '@mui/material'
+import ProductPageDesktop from '@components/ProductPage/ProductPageDesktop'
+import ProductPageMobile from '@components/ProductPage/ProductPageMobile'
+import { useGetProductQuery } from '@api/productEndpoints'
+import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop'
 
-import dummylogo from '@assets/images/dummy-logo.png';
-
-import { useDispatch } from 'react-redux';
-
-import ProductAttributesList from '@components/ProductPage/Attributes/ProductAttributesList';
-import ProductTabs from '@components/ProductPage/ProductTabs/ProductTabs';
-import RightBar from '@components/ProductPage/RightBar';
-import CharacteristicsList from '@components/ProductPage/CharacteristicsList';
-import TopControls from '@components/ProductPage/TopControls';
-import ProductGallery from '@components/ProductPage/ProductGallery';
-import Breadcrumbs from '../../helpers/Breadcrumbs/Breadcrumbs';
-import MobileInfo from '@components/ProductPage/Mobile/MobileNameBar';
-import MobileProductInfo from '@components/ProductPage/Mobile/MobileProductInfo/MobileProductInfo';
-import MobileTopBar from '@components/ProductPage/Mobile/MobileTopBar';
-import { useIntersection, useWindowSize } from 'react-use';
-import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import { useGetProductQuery } from '@api/productEndpoints';
-import ProductPageDesktop from '@components/ProductPage/ProductPageDesktop';
-import ProductPageMobile from '@components/ProductPage/ProductPageMobile';
-
-const ProductPage = () =>  {
-
-  const { productId } = useParams();
+const ProductPage = () => {
+  const { productId } = useParams()
+  const { width } = useWindowSize()
+  const dispatch = useDispatch()
+  const prevProductId = useRef(productId)
+  const [isChanging, setIsChanging] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const { data, isLoading, isSuccess } = useGetProductQuery(productId)
-  const group = data?.data;
+  
+  // Keep track of previous data
+  const prevDataRef = useRef(data)
+  useEffect(() => {
+    if (data && isSuccess) {
+      prevDataRef.current = data
+    }
+  }, [data, isSuccess])
 
-  const { width } = useWindowSize();
-
-  const dispatch = useDispatch();
+  // Use previous data during loading
+  const displayData = data || prevDataRef.current
+  const displayGroup = displayData?.data
 
   useEffect(() => {
-    scrollToTop();
-  }, []);
+    scrollToTop()
+  }, [])
 
+  // Handle product changes
+  useEffect(() => {
+    if (productId !== prevProductId.current) {
+      setIsChanging(true)
+      prevProductId.current = productId
+    } else if (isSuccess) {
+      const timer = setTimeout(() => {
+        setIsChanging(false)
+      }, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [productId, isSuccess])
 
-  if (width > 991 && isSuccess) {
-    return <ProductPageDesktop group={group}/>
-    } else if (width <= 991 && isSuccess)  {
-    return <ProductPageMobile group={group}/>
+  // Initial loading (no previous data)
+  if (isLoading && !prevDataRef.current) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <CircularProgress />
+      </div>
+    )
   }
-}
 
+  // Product change loading state (overlay)
+  const renderContent = () => {
+    if (!displayGroup) return null
+
+    const props = {
+      group: displayGroup,
+      isModalOpen,
+      setIsModalOpen,
+      isChanging
+    }
+
+    const content = width > 991 ? (
+      <ProductPageDesktop {...props} />
+    ) : (
+      <ProductPageMobile {...props} />
+    )
+
+    if (isChanging) {
+      return (
+        <div className="relative">
+          {content}
+          <div className="absolute inset-0 bg-white/80 flex items-center justify-center z-50">
+            <CircularProgress />
+          </div>
+        </div>
+      )
+    }
+
+    return content
+  }
+
+  return renderContent()
+}
 
 export default ProductPage

@@ -9,6 +9,7 @@ import ShareModal from '../../helpers/CModal/ShareModal';
 import { Toaster } from 'sonner';
 import QuestionModal from '../../helpers/CModal/QuestionModal';
 import ConfirmationModal from '../../helpers/CModal/ConfirmationModal';
+import ModificationAttributesModal from '@/helpers/CModal/ModificationAttributesModal';
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
@@ -25,6 +26,7 @@ const Layout = () => {
         <ShareModal />
         <QuestionModal/>
         <ConfirmationModal/>
+        <ModificationAttributesModal/>
         <Toaster visibleToasts={1} position='bottom-center'  toastOptions={{ duration: 3000 }} />
       </ModalProvider>
     </>

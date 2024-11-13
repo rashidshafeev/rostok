@@ -1,7 +1,10 @@
-// cartEndpoints.js
-import { GetUserCartResponse } from '@customTypes/ServerData/GetUserCart';
+
 import { api } from  './api';
+import { AdditionalServerResponseData } from '@customTypes/ServerData/AdditionalServerResponseData';
+import { GetUserCartResponse } from '@customTypes/ServerData/GetUserCart';
 import { SendCartResponse, SendCartRequest } from '@customTypes/ServerData/SendCart';
+import { ProductListRequest } from '@customTypes/ServerData/ProductListRequest';
+import { GetCartItemPriceRequest, GetCartItemPriceResponse } from '@customTypes/ServerData/GetCartItemPrice';
 
 
 export const cartEndpoints = api.injectEndpoints({
@@ -25,7 +28,7 @@ endpoints: (builder) => ({
       }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),
-    removeFromCart: builder.mutation({
+    removeFromCart: builder.mutation<AdditionalServerResponseData, ProductListRequest>({
       query: (data) => ({
         url: '/api/ProductsCart/delete',
         method: 'POST',
@@ -33,7 +36,7 @@ endpoints: (builder) => ({
       }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
     }),
-    getCartItemPrice: builder.mutation({
+    getCartItemPrice: builder.mutation<GetCartItemPriceResponse, GetCartItemPriceRequest>({
       query: (data) => ({
         url: '/api/Products/price/get',
         method: 'POST',

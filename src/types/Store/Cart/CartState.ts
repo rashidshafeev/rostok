@@ -1,10 +1,5 @@
-import { Product } from "@customTypes/Product/Product";
 import { Currency } from "@customTypes/Product/Currency";
-
-export interface CartProduct extends Product {
-    quantity: number;
-    selected: boolean;
-}
+import { CartProduct } from "./CartProduct";
 
 type CartTotals = {
     count: number;
