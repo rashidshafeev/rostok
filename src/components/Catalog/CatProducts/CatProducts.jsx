@@ -589,6 +589,7 @@ const CatProducts = () => {
       <Brands />
       <Advantages />
       <AllFiltersModal
+      categoryTree={categoryTree}
       open={filtersModalOpen}
       setOpen={setFiltersModalOpen}
         filters={filters}

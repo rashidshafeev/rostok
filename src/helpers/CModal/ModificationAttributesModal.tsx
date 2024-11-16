@@ -1,7 +1,7 @@
 import ProductAttributeValue from '@components/ProductPage/Attributes/ProductAttributeValue'
-import { useModal } from '@/context/ModalContext'
-import { Box, Modal } from '@mui/material'
-import React from 'react'
+import { useModal } from '@/context/ModalContext';
+import { Box, Modal } from '@mui/material';
+import React from 'react';
 
 // Выносим содержимое в отдельный компонент
 const ModalContent = ({ modalContent, hideModal }) => {
@@ -46,9 +46,13 @@ const ModalContent = ({ modalContent, hideModal }) => {
 };
 
 const ModificationAttributesModal = () => {
-  const { hideModal, modalContent, isModalVisible } = useModal()
+  const { hideModal, modalContent, isModalVisible } = useModal();
 
-  if (!isModalVisible || !modalContent || modalContent.type !== 'modificationAttributes') {
+  if (
+    !isModalVisible ||
+    !modalContent ||
+    modalContent.type !== 'modificationAttributes'
+  ) {
     return null;
   }
 
@@ -59,9 +63,9 @@ const ModificationAttributesModal = () => {
       aria-labelledby='modal-modal-title'
       aria-describedby='modal-modal-description'
     >
-      <ModalContent 
-        key={JSON.stringify(modalContent.attributesList)} 
-        modalContent={modalContent} 
+      <ModalContent
+        key={JSON.stringify(modalContent.attributesList)}
+        modalContent={modalContent}
         hideModal={hideModal}
       />
     </Modal>

@@ -63,7 +63,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
       <div
         className={`${
           scrollPosition > 32 ? 'h-[90%]' : 'h-[85%]'
-        } content overflow-y-auto -webkit-overflow-scrolling-touch`}
+        } content overflow-y-auto`}
       >
         <div className='flex pt-5'>
           <div className='max-w-[220px] w-full'>

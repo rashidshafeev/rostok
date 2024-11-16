@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 import ProductAttributeValue from "./ProductAttributeValue";
 import { useModal } from "@/context/ModalContext";
 import { ModificationAttribute } from "@customTypes/Product/ModificationAttribute";
+import { Product } from "@customTypes/Product/Product";
+
 type ProductAttributesListProps = {
+  current: Product | null;
   attributesList: AttributesValuesList;
-  handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
+  handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void; 
 };
 export interface ModificationAttributeForDisplay extends ModificationAttribute {
   current?: boolean;
@@ -19,7 +22,8 @@ interface AttributeType {
 export interface AttributesValuesList {
   [key: string]: AttributeType;
 }
-const ProductAttributesList = ({
+const ProductAttributesList = ({ 
+  current,
   attributesList,
   handleChangeAttribute
 }: ProductAttributesListProps) => {
@@ -30,7 +34,7 @@ const ProductAttributesList = ({
     if (isModalVisible && modalContent?.type === 'modificationAttributes') {
       showModal({
         type: 'modificationAttributes',
-        title: 'Выберите характеристики',
+        title: current?.fullName,
         attributesList,
         handleChangeAttribute
       });
@@ -40,22 +44,21 @@ const ProductAttributesList = ({
   const handleShowAllValues = () => {
     showModal({
       type: 'modificationAttributes',
-      title: 'Выберите характеристики',
+      title: current?.fullName,
       attributesList: attributesList,
       handleChangeAttribute: (e) => {
         handleChangeAttribute(e);
       }
     });
   };
-  
   return (
     <>
       {attributesList &&
         Object.keys(attributesList).map((attr) => {
           const values = attributesList[attr].values;
           const hasMoreValues = values.length > VISIBLE_VALUES_COUNT;
-          const visibleValues = hasMoreValues 
-            ? values.slice(0, VISIBLE_VALUES_COUNT) 
+          const visibleValues = hasMoreValues
+            ? values.slice(0, VISIBLE_VALUES_COUNT)
             : values;
 
           return (
@@ -76,7 +79,7 @@ const ProductAttributesList = ({
                   />
                 ))}
                 {hasMoreValues && (
-                  <div 
+                  <div
                     onClick={() => handleShowAllValues()}
                     className="flex items-center justify-center px-3 py-1 border border-gray-300 rounded cursor-pointer hover:bg-gray-50"
                   >

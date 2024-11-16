@@ -58,9 +58,9 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
       <div
         className={`${
           scrollPosition > 32
-            ? 'h-[calc(100vh-136px)]'
-            : 'h-[calc(100vh-182px)]'
-        } content overflow-y-scroll scrollable relative`}
+            ? 'h-[calc(100vh-136px)] overflow-y-auto'
+            : 'h-[calc(100vh-182px)] overflow-y-auto'
+        } content scrollable relative`}
       >
         <div className='flex pt-5'>
           <div className='w-full'>
@@ -113,9 +113,9 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
           <div
             className={`${
               scrollPosition > 32
-                ? 'h-[calc(100vh-136px)] top-[64px]'
-                : 'h-[calc(100vh-182px)] top-[105px]'
-            } fixed left-0 bg-white px-3 w-full overflow-y-scroll scrollable`}
+                ? 'h-[calc(100vh-136px)] top-[64px] overflow-y-auto'
+                : 'h-[calc(100vh-182px)] top-[105px] overflow-y-auto'
+            } fixed left-0 bg-white px-3 w-full scrollable`}
           >
             <button
               onClick={() => setActiveItem({})}

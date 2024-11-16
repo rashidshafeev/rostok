@@ -52,7 +52,7 @@ const ProductCard : React.FC<ProductCardProps> = ({ product }) => {
                 onClick={handleAddToCartClick}
                 className={`${
                   isLoading ? "cursor-wait" : "cursor-pointer"
-                } transition-all text-xs flex justify-center min-h-10 xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full`}
+                } transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full`}
               >
                 {isLoading && !isSuccess ? (
                   <LoadingSmall extraStyle={"white"} />

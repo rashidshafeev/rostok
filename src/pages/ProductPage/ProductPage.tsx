@@ -33,12 +33,9 @@ const ProductPage = () =>  {
 
   const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
 
-  
   const { attributesList, handleChangeAttribute } = useModificationAttributesManager(group, setCurrentProduct);
 
   const { width } = useWindowSize();
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     scrollToTop();
@@ -46,7 +43,7 @@ const ProductPage = () =>  {
 
   useAddToRecentItems(currentProduct);
 
-
+ 
   if (width > 991 && isSuccess) {
     return <ProductPageDesktop group={group} currentProduct={currentProduct}  attributesList={attributesList} handleChangeAttribute={handleChangeAttribute}  />
     } else if (width <= 991 && isSuccess)  {

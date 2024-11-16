@@ -12,7 +12,7 @@ import TopControls from "./TopControls";
 import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
 import { Product } from "@customTypes/Product/Product";
 import Breadcrumbs from "@helpers/Breadcrumbs/Breadcrumbs";
-import dummylogo from '@assets/images/dummy-logo.png';
+import dummylogo from "@assets/images/dummy-logo.png";
 import { addToRecentItems } from "@store/slices/recentItemsSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@store/store";
@@ -25,15 +25,22 @@ type ProductPageDesktopProps = {
   attributesList: AttributesValuesList;
   handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
-const ProductPageDesktop = ({ group, currentProduct, attributesList, handleChangeAttribute }: ProductPageDesktopProps) => {
-    const [tabIndex, setTabIndex] = useState<number>(0);
-    const [displayedProduct, setDisplayedProduct] = useState<Product | null>(currentProduct);
+const ProductPageDesktop = ({
+  group,
+  currentProduct,
+  attributesList,
+  handleChangeAttribute,
+}: ProductPageDesktopProps) => {
+  const [tabIndex, setTabIndex] = useState<number>(0);
+  const [displayedProduct, setDisplayedProduct] = useState<Product | null>(
+    currentProduct
+  );
 
-    useEffect(() => {
-        if (currentProduct) {
-            setDisplayedProduct(currentProduct);
-        }
-    }, [currentProduct]);
+  useEffect(() => {
+    if (currentProduct) {
+      setDisplayedProduct(currentProduct);
+    }
+  }, [currentProduct]);
 
   return (
     <>
@@ -53,9 +60,11 @@ const ProductPageDesktop = ({ group, currentProduct, attributesList, handleChang
             />
           </div>
           <div className="lg:basis-[calc(33%-40px/3)] flex flex-col gap-[10px] basis-full">
-              <ProductAttributesList
-              attributesList={attributesList} handleChangeAttribute={handleChangeAttribute}
-              />
+            <ProductAttributesList
+              current={currentProduct}
+              attributesList={attributesList}
+              handleChangeAttribute={handleChangeAttribute}
+            />
             <div className="lg:block hidden">
               <CharacteristicsList
                 current={currentProduct}
@@ -77,7 +86,7 @@ const ProductPageDesktop = ({ group, currentProduct, attributesList, handleChang
           ></ProductTabs>
         </div>
       </div>
-      </>
+    </>
   );
 };
 export default ProductPageDesktop;

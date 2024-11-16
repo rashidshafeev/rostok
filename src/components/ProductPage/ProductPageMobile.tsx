@@ -47,7 +47,7 @@ const ProductPageMobile = ({ group, currentProduct, attributesList, handleChange
       <div className="lg:hidden">
         <MobileTopBar product={currentProduct} />
       </div>
-      <div className=" sticky top-[75px] bg-white w-full z-10">
+      <div className=" sticky top-[75px] pb-1 bg-white w-full z-10">
         <MobileNameBar name={`${group.name} ${currentProduct?.name}`} reviews={group?.reviews} sku={currentProduct?.sku} />
       </div>
 
@@ -61,6 +61,7 @@ const ProductPageMobile = ({ group, currentProduct, attributesList, handleChange
         
         <div className="flex flex-col gap-[10px] basis-full">
         <ProductAttributesList
+              current={currentProduct}
               attributesList={attributesList} handleChangeAttribute={handleChangeAttribute}
               />
 

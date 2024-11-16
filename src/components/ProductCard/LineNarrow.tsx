@@ -11,6 +11,7 @@ import PriceDisplay from './PriceDisplay';
 import noImg from "../../assets/images/no-image.png";
 import { RootState } from '@/redux/store';
 import { Product } from '@customTypes/Product/Product';
+import ProductAttributesDisplay from './ProductAttributesDisplay';
 
 type LineNarrowProps = {
   product: Product;
@@ -53,35 +54,11 @@ const LineNarrow: React.FC<LineNarrowProps> = ({ product }) => {
                   {product?.description || 'Не указано'}
                 </p>
               </div>
-              <div className='flex gap-3'>
-              <p className='text-xs text-colDarkGray flex items-center space-x-2'>
-                <span>Код товара:</span>
-                <span>{product?.sku || 'Не указано'}</span>
-              </p>
-              {product.attributes &&
-                product?.attributes?.map((attribute, index) => (
-                  <p
-                    key={index}
-                    className='text-xs text-colDarkGray flex items-center space-x-1'
-                  >
-                    <span>{attribute?.name}:</span>
-                    <span className='font-semibold'>
-                      {attribute?.color ? (
-                        <div
-                          style={{ backgroundColor: `${attribute?.color}` }}
-                          className={`min-w-[12px] w-3 h-3 rounded-full`}
-                        ></div>
-                      ) : (
-                        attribute?.text
-                      )}
-                    </span>
-                  </p>
-                ))}
-                </div>
+              <ProductAttributesDisplay product={product} />
             </div>
           </div>
         </div>
-        <div className='px-2 min-w-[98px] text-right md:text-center'>
+        {/* <div className='px-2 min-w-[98px] text-right md:text-center'>
           {product?.tags?.length > 0 && (
             <span
               style={{ color: product?.tags[0]?.text_color }}
@@ -90,7 +67,7 @@ const LineNarrow: React.FC<LineNarrowProps> = ({ product }) => {
               {product?.tags[0]?.text}
             </span>
           )}
-        </div>
+        </div> */}
       </div>
       <div className='mm:max-w-xs w-full'>
         <div className='flex justify-between items-center'>
