@@ -1,21 +1,18 @@
 // src/types/Price.ts
-
-type Currency = {
-    code: string;
-    title: string;
-    symbol: string;
-};
+import { Currency } from "./Currency";
 
 type Discount = {
     price: number;
     percent: number;
+    discount_amount: number;
     reason: string | null;
 };
 
 export interface PriceType {
-    base: number;
+    base: number | null;
     final: number;
     discount: Discount | null;
     unit: string;
     currency: Currency | null;
+    total?: number;
 }

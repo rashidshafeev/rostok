@@ -3,9 +3,6 @@ import { toast } from 'sonner';
 
 
 function CharacteristicsList({ current, product, setTabIndex }) {
-
-    console.log(current)
-    console.log(product)
  
     return (
         <>

@@ -1,3 +1,4 @@
+import React from "react";
 import { ExpandMore, AddOutlined, RemoveOutlined } from "@mui/icons-material";
 import CCheckBoxField from "../../helpers/CustomInputs/CCheckBoxField";
 import noImg from "../../assets/images/no-image.png";
@@ -15,8 +16,13 @@ import FavoriteButton from "../../helpers/FavoriteButton/FavoriteButton";
 import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
 import SelectCartItemButton from "../../helpers/SelectCartItemButton/SelectCartItemButton";
 import PriceDisplay from "../ProductCard/PriceDisplay";
+import { CartProduct } from "@/types/Store/Cart/CartProduct";
 
-const ShCartItem = ({ cart, handleItemChange }) => {
+type ShCartItemProps = {
+  cart: CartProduct[];
+}
+
+const ShCartItem = ({ cart } : ShCartItemProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -140,14 +146,15 @@ const ShCartItem = ({ cart, handleItemChange }) => {
                 <ChangeQuantityGroup product={product} />
               </div>
               <div className="flex items-center text-colBlack font-bold basis-1/4">
-                <span>
-                  {product?.price?.base
-                    ? product?.price?.base * product?.quantity
+                
+
+                <div>{product?.price?.total
+                    ? product?.price?.total
                     : "Цена не указана"}
+                    <span className="pl-1">
+                  {product?.price?.total && product?.price?.currency ? product?.price?.currency?.symbol : ''}
                 </span>
-                <span className="pl-1">
-                  {product?.price?.base ? product?.price?.currency?.symbol : ""}
-                </span>
+                    </div>
               </div>
             </div>
           </div>

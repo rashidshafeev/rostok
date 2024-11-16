@@ -41,7 +41,6 @@ function FizlicoNotLoggedForm({ user, organizations}) {
   const handleSendVerificationCode = async () => {
     setMiniLoading(true);
     const { data } = await postSendVerificationCode(phone);
-    console.log(data)
     if (data?.success === 'ok') {
       setIsCode({ ...isCode, sendCode: data });
       setOpenSnack(true);
@@ -56,7 +55,7 @@ function FizlicoNotLoggedForm({ user, organizations}) {
 
   const handleConfirmVerificationCode = async (e) => {
     const inputValue = e.target.value;
-    console.log(inputValue)
+    
     if (/^\d*$/.test(inputValue) && inputValue.length === 4) {
       setMiniLoading(true);
       const { data } = await postConfirmVerificationCode(inputValue, phone);
@@ -67,8 +66,7 @@ function FizlicoNotLoggedForm({ user, organizations}) {
         setOpenSnack2(true);
         setIsCode({ ...isCode, verification: data });
         setMiniLoading(false);
-        console.log('trigger')
-    console.log(isCode)
+        
     trigger('phone')
       }
     }

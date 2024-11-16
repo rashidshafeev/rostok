@@ -23,25 +23,25 @@ function HeaderControls() {
 
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
-  // useEffect(() => {
-  //   if (token) {
-  //     refetch(); // refetch the user data when token changes
-  //   }
-  // }, [token, refetch]);
+  useEffect(() => {
+    if (token) {
+      refetch(); // refetch the user data when token changes
+    }
+  }, [token, refetch]);
 
   const getFavoritesCount = () => {
-    return (favorite.length || 0);
-    // return user ? user?.favorites?.items_count : (favorite.length || 0);
+    // return (favorite.length || 0);
+    return user ? user?.favorites?.items_count : (favorite?.length || 0);
   };
 
   const getComparisonCount = () => {
-    return (comparison.length || 0);
-    // return user ? user?.comparison?.items_count : (comparison.length || 0);
+    // return (comparison.length || 0);
+    return user ? user?.comparison?.items_count : (comparison?.length || 0);
   };
 
   const getCartQuantity = () => {
-    return (cart.itemsQuantity || 0);
-    // return user ? user?.cart?.quantity : (cart.itemsQuantity || 0);
+    // return (cart.itemsQuantity || 0);
+    return user ? user?.cart?.quantity : (cart.total?.quantity || 0);
   };
 
 
@@ -64,7 +64,7 @@ function HeaderControls() {
           Сравнение
         </span>
         {getComparisonCount() > 0 && (
-          <span className='absolute -top-2 right-0 bg-colGreen h-5 pb-[2px] min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1 -z-10'>
+          <span className='absolute -top-2 right-0 bg-colGreen h-5  min-w-[20px] flex justify-center items-center text-xs text-white rounded-full px-1 -z-10 lining-nums proportional-nums'>
             {getComparisonCount() > 99 ? '99+' : getComparisonCount()}
           </span>
         )}

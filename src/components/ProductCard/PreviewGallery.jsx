@@ -95,7 +95,7 @@ const PreviewGallery = ({ product }) => {
           <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">
             {product?.tags?.length > 0 && (
               <span
-                style={{ color: product.tags[0].text_color }}
+                style={{ color: product.tags[0].text_color, backgroundColor: product.tags[0].background_color }}
                 className={`bg-[${product.tags[0].background_color}] py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold rounded-xl`}
               >
                 {product.tags[0].text}

@@ -49,7 +49,6 @@ const Organizations = () => {
         organizations={organizations}
         setOpenAddOrgModal={setOpenAddOrgModal}
       />
-
       {organizations?.length > 0 ? (
         <div className='grid lg:grid-cols-2 gap-3 xl:gap-5 mt-4 lining-nums proportional-nums'>
           {organizations?.map((el, index) => (

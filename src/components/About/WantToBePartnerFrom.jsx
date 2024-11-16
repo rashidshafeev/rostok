@@ -20,9 +20,6 @@ function WantToBePartnerFrom() {
 
   const onSubmitAuthCheck = async (data) => {
     reset();
-    console.log(data);
-
-    console.log(errors);
   }
 
   const InputProps = {

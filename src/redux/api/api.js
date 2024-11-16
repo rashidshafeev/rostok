@@ -51,5 +51,5 @@ export const api = createApi({
   reducerPath: 'api',
   baseQuery: loggingBaseQuery,
   tagTypes: ['Favorite', 'Order', 'Comparison', 'User', 'Organization'],
-  endpoints: () => ({}), 
+  endpoints: () => ({}),
 });

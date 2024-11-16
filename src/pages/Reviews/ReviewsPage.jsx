@@ -17,7 +17,7 @@ import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
 import { addToCart, changeQuantity } from "../../redux/slices/cartSlice";
 import RatingStars from "../../helpers/RatingStars";
 import ReviewModal from "../../helpers/CModal/ReviewModal";
-import { useGetProductsQuery } from "../../redux/api/productEndpoints";
+import { useGetProductQuery } from "@api/productEndpoints";
 
 export function ReviewsPage() {
 
@@ -32,15 +32,12 @@ export function ReviewsPage() {
 
   const state = useLocation();
   const params = useParams();
-  console.log(params)
-
+  
   const dispatch  = useDispatch();
 
   const { data, error, isLoading } = useGetProductsQuery(params.productId)
   const product = data?.data?.variants?.find((variant) => variant.slug === params.productId);
 
-  console.log(data)
-  console.log(product)
 
   const { cart } = useSelector((state) => state?.cart);
   const { comparison } = useSelector((state) => state?.comparison);

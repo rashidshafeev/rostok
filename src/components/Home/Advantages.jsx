@@ -1,10 +1,9 @@
-import { advantages } from '../../constants/data';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 
 const Advantages = () => {
 
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
-console.log(data);
+  
   return (
     <div className='pt-5 pb-20'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-5'>

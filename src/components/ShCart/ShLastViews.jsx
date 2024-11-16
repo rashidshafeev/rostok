@@ -14,9 +14,6 @@ const ShLastViews = () => {
   // Fetching favorites from the server if the user is logged in
   const { data: serverRecentItems } = useGetRecentItemsQuery(undefined, { skip: !token });
  
-  console.log("serverRecentItems");
-  console.log(localRecentItems);
-
   const recentItems = token ? serverRecentItems?.data : localRecentItems.toReversed().slice(0,20);
 
 

@@ -6,7 +6,7 @@ import CatProdContent from "./CatProdContent/CatProdContent";
 import CatProdSidebar from "./CatProductsSidebar/CatProdSidebar";
 import { useEffect, useRef, useState } from "react";
 import { scrollToTop } from "../../../helpers/scrollToTop/scrollToTop";
-import BreadCrumbs from "../../../helpers/BreadCrumbs/BreadCrumbs";
+import Breadcrumbs from "../../../helpers/Breadcrumbs/Breadcrumbs";
 import {
   useGetCategoryTreeQuery,
   useGetFiltersMutation,
@@ -30,10 +30,10 @@ const CatProducts = () => {
     isError: categoryTreeIsError,
     isLoading: categoryTreeIsLoading,
   } = useGetCategoryTreeQuery(categoryId);
-  const [breadCrumbs, setBreadCrumbs] = useState([]);
+  const [breadCrumbs, setBreadcrumbs] = useState([]);
 
   useEffect(() => {
-    setBreadCrumbs(categoryTree?.category_chain);
+    setBreadcrumbs(categoryTree?.category_chain);
   }, [categoryTree]);
 
   //Filters logic
@@ -72,7 +72,7 @@ const CatProducts = () => {
       dynamics: newDynamics,
     };
 
-    navigate(`?${buildQueryParams(getSendFiltersObject2(newFiltersState), sort, page)}`);
+    navigate(`?${buildQueryParams(getSendFiltersObject2(newFiltersState), sort, page)}`, {replace: true});
 
     previousFilters.current = newFiltersState;
     setFilters(newFiltersState);
@@ -308,8 +308,6 @@ const CatProducts = () => {
   const sortPrevious = useRef(sort);
 
   const handlePagination = (e, p) => {
-    console.log("pagination fired");
-    console.log(p);
     setPage(p);
     // if (pagePrevious.current !== page) {
     getProducts({
@@ -356,6 +354,7 @@ const CatProducts = () => {
     }, []);
 
     const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      
       console.log(tag);
       if (tag.is_selected) {
         acc.push(tag.tag);
@@ -394,7 +393,7 @@ const CatProducts = () => {
     }, []);
 
     const tags = filters?.basics?.tags?.reduce((acc, tag) => {
-      console.log(tag);
+      
       if (tag.is_selected) {
         acc.push(tag.tag);
       }
@@ -548,24 +547,10 @@ const CatProducts = () => {
     return params.toString();
   };
 
-  // useEffect(() => {
-  //   console.log("buildQueryParams(location.search)");
-  //   const queryParams = parseQueryParams(location.search);
-  //   console.log(queryParams);
-  //   setFilters(queryParams.filtersObject);
-  //   setSort(queryParams.sortObject);
-  //   setPage(queryParams.page);
-  //   // navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
-  // }, []);
-
-  // useEffect(() => {
-  //   navigate(`?${buildQueryParams(getSendFiltersObject(), sort, page)}`);
-  // }, [filters, sort, page]);
-
 
   return (
     <div className="content lining-nums proportional-nums">
-      <BreadCrumbs breadCrumps={breadCrumbs} />
+      <Breadcrumbs breadcrumbs={breadCrumbs} />
       <div className="flex gap-3">
       <h3 className="font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5">
         {!categoryTreeIsLoading &&

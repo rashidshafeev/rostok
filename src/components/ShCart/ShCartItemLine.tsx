@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
@@ -12,7 +14,7 @@ import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartI
 import PriceDisplay from '../ProductCard/PriceDisplay';
 // import { toggleFavorite } from '../../redux/slices/favoriteSlice';
 const ShCartItemLine = ({ cart }) => {
-
+  
   const navigate = useNavigate();
 
   return (
@@ -76,14 +78,13 @@ const ShCartItemLine = ({ cart }) => {
               <ChangeQuantityGroup product={product}/>
             </div>
             <div className='flex items-center text-colBlack font-bold'>
-            <span>
-                  {product?.price?.base
-                    ? product?.price?.base * product?.quantity
+            <div>{product?.price?.total
+                    ? product?.price?.total
                     : "Цена не указана"}
+                    <span className="pl-1">
+                  {product?.price?.total && product?.price?.currency ? product?.price?.currency?.symbol : ''}
                 </span>
-                <span className="pl-1">
-                  {product?.price?.base ? product?.price?.currency?.symbol : ""}
-                </span>
+                    </div>
             </div>
             <div className='flex space-x-2'>
             <FavoriteButton product={product}>

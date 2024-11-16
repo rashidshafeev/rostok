@@ -2,11 +2,6 @@ import React from 'react'
 
 function CharactersticsTab({ current, group, setTabIndex }) {
 
-    console.log("current");
-    console.log(current);
-    console.log("group");
-    console.log(group);
-
     return (
         <>
             <h3 className='text-2xl my-5 font-semibold'>Характеристики</h3>

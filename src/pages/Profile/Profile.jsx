@@ -3,14 +3,14 @@ import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { ProfileSidebar } from '../../components';
 import arrowIcon from '../../assets/icons/arrow-icon.svg';
-import CustomBCrumbs from '../../helpers/BreadCrumbs/CustomBCrumbs';
+import CustomBreadcrumbs from '../../helpers/Breadcrumbs/CustomBreadcrumbs';
 import {
   changePassword,
   myOrders,
   myOrganizations,
   personalData,
   profile,
-} from '../../constants/breadCrumps';
+} from '../../constants/breadcrumbs';
 import { useModal } from '../../context/ModalContext';
 
 const Profile = () => {
@@ -26,8 +26,8 @@ const Profile = () => {
 
   return (
     <div className='content min-h-[520px]'>
-      <CustomBCrumbs
-        breadCrumps={
+      <CustomBreadcrumbs
+        breadcrumbs={
           secondUrl === 'orders'
             ? myOrders
             : secondUrl === 'personal-data'

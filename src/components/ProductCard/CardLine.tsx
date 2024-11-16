@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
 
 import noImg from "../../assets/images/no-image.png";
-import { CatalogItem } from '@types/Product/CatalogItem';
+import { CatalogItem } from '@customTypes/Product/CatalogItem';
 import PriceDisplay from './PriceDisplay';
 
 type CardLineProps = {

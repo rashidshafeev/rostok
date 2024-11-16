@@ -21,9 +21,6 @@ const MyOrders = () => {
   const { data: orders, isLoading: ordersIsLoading, isSuccess: ordersIsSuccess, isError: ordersIsError } = useGetUserOrdersQuery();
   const { data: filters, isLoading: filtersIsLoading, isSuccess: filtersIsSuccess, isError: filtersIsError } = useGetOrdersFiltersQuery();
 
-  console.log(orders)
-  console.log(filters)
-
   const statuses = filters?.statuses?.map((el) => ({ id: el.id, option: el.id, label: el.name })) || [];
   
   const options = [

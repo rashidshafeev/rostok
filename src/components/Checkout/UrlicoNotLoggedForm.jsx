@@ -39,7 +39,7 @@ function UrlicoNotLoggedForm({ user, organizations }) {
   const handleSendVerificationCode = async () => {
     setMiniLoading(true);
     const { data } = await postSendVerificationCode(phone);
-    console.log(data)
+    
     if (data?.success === 'ok') {
       setIsCode({ ...isCode, sendCode: data });
       setOpenSnack(true);

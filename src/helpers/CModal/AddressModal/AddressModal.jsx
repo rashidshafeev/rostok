@@ -24,8 +24,6 @@ function AddressModal({ open, handleClose, addressList, setAddressList }) {
             clearTimeout(timerDebounceRef.current);
         }
         timerDebounceRef.current = setTimeout(() => {
-            console.log("throttle", coords)
-
             setCoords(coords)
         }, 1000);
     }
@@ -36,10 +34,7 @@ function AddressModal({ open, handleClose, addressList, setAddressList }) {
         try {
         const suggest = await fetch(`https://suggest-maps.yandex.ru/v1/suggest?apikey=358e06a3-dbaf-4e30-aafa-e7f34291e8ec&text=${text}`)
             const data = await suggest.json()
-            console.log(data)
-
         } catch (error) {
-            console.log(error);
         
         }
     }
@@ -49,12 +44,9 @@ function AddressModal({ open, handleClose, addressList, setAddressList }) {
         try {
         const suggest = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=d624f793-a72c-4bca-8293-119601027ed7&geocode=${text.replace(' ', '+')}&format=json`)
             const data = await suggest.json()
-            console.log(data)
             const c = data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')
             setCoords([c[1],c[0]])
-            console.log(coords)
         } catch (error) {
-            console.log(error);
         
         }
     }
@@ -64,7 +56,6 @@ function AddressModal({ open, handleClose, addressList, setAddressList }) {
             clearTimeout(timerDebounceRef.current);
         }
         timerDebounceRef.current = setTimeout(() => {
-            console.log("handle search", coords)
             fetchSuggest(e.target.value)
             fetchCoords(e.target.value)
         }, 1000);
@@ -79,20 +70,14 @@ function AddressModal({ open, handleClose, addressList, setAddressList }) {
         const address = await fetch(`https://geocode-maps.yandex.ru/1.x/?apikey=d624f793-a72c-4bca-8293-119601027ed7&geocode=${coords[1]},${coords[0]}&format=json`)
             const data = await address.json()
             setNewAddress(data)
-            console.log(data)
 
         } catch (error) {
-            console.log(error);
         
         }
     }
 
 
     useEffect(() => {
-        console.log('useeffect');
-
-        
-
         fetchAddress()
     }, [coords]);
 
@@ -212,7 +197,6 @@ function AddressModal({ open, handleClose, addressList, setAddressList }) {
 
                                               ref.geometry.events.add("change", function(e) {
                                                 const newCoords = e.get("newCoordinates");
-                                                console.log(newCoords);
                                                 // coords.current = newCoords
                                                 handleNewAddress(newCoords)
                                               });
