@@ -1,12 +1,11 @@
 import { Box, Modal } from '@mui/material';
+import { useDeleteOrganizationMutation } from '@/redux/api/organizationEndpoints';
 
-import { useDispatch } from 'react-redux';
-import { deleteOrganization } from '../../redux/slices/organizationsSlice';
 function DeleteOrganizationModal({ open, close, item }) {
-  const dispatch = useDispatch();
+  const [deleteOrganization] = useDeleteOrganizationMutation();
 
   const handleDeleteOrganization = () => {
-    dispatch(deleteOrganization(item));
+    deleteOrganization(item?.id);
     close();
   };
 
