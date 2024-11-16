@@ -1,21 +1,16 @@
 import { useEffect } from 'react';
-import {
-  Advantages,
-  Banner,
-  Brands,
-  FurnitureFittings,
-  News,
-  PopularCategories,
-  Promotions,
-  RoomProducts,
-  SaleBanner,
-  SaleProducts,
-  Suggestions,
-} from '../../components';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
 import HomeSkeleton from './HomeSkeleton';
-
+import Advantages from '@components/Home/Advantages';
+import Brands from '@components/Home/Brands';
+import Banner from '@components/Home/Banner';
+import News from '@components/Home/News';
+import PopularCategories from '@components/Home/PopularCategories';
+import Promotions from '@components/Home/Promotions';
+import SaleBanner from '@components/Home/SaleBanner';
+import SaleProducts from '@components/Home/SaleProducts';
+import RoomProducts from '@components/Home/RoomProducts';
 const Home = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
 
@@ -37,27 +32,6 @@ const Home = () => {
     scrollToTop();
   }, []);
 
-  // return (
-  //   <>
-  //     <div className='content'>
-  //       <Banner />
-  //        <News  />
-  //       <SaleBanner />
-  //       <Suggestions />
-  //      <PopularCategories  />
-  //     </div>
-  //     <Promotions/>
-  //     <div className='content'>
-  //       <SaleProducts  />
-  //     </div>
-  //    <RoomProducts />
-  //     <div className='content'>
-  //       <FurnitureFittings />
-  //      <Brands  />
-  //     <Advantages />
-  //     </div>
-  //   </>
-  // );\
   return (
     <>
       {isSuccess && (

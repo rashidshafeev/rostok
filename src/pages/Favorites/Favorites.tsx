@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ErrorEmpty from "../../helpers/Errors/ErrorEmpty";
 import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
-import { FavDetail, FavSidebar } from "../../components";
 import CustomBreadcrumbs from "../../helpers/Breadcrumbs/CustomBreadcrumbs";
 import { favoritesBC } from "../../constants/breadcrumbs";
 import { useGetFavoritesQuery } from "@api/favoritesEndpoints";
 import { getTokenFromCookies } from "../../helpers/cookies/cookies";
 import { RootState } from "@store/store";
+import FavDetail from "@components/Favorites/FavDetail";
+import FavSidebar from "@components/Favorites/FavSidebar";
 
 const Favorites = () => {
   const token = getTokenFromCookies();

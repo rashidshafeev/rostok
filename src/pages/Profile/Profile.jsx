@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import { ProfileSidebar } from '../../components';
 import arrowIcon from '../../assets/icons/arrow-icon.svg';
 import CustomBreadcrumbs from '../../helpers/Breadcrumbs/CustomBreadcrumbs';
 import {
@@ -12,6 +11,7 @@ import {
   profile,
 } from '../../constants/breadcrumbs';
 import { useModal } from '../../context/ModalContext';
+import ProfileSidebar from "@components/Profile/ProfileSidebar";
 
 const Profile = () => {
 

@@ -1,15 +1,17 @@
 import { Outlet } from 'react-router-dom';
-import { Footer, Header } from '..';
 import { useState } from 'react';
-import MobileNavbar from '../Header/MobileNavbar';
+import MobileNavbar from '@components/Header/MobileNavbar';
 import LogoutModal from '../../helpers/CModal/LogoutModal';
-import { ModalProvider } from '../../context/ModalContext';
+import { ModalProvider } from '@context/ModalContext';
 import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
 import ShareModal from '../../helpers/CModal/ShareModal';
 import { Toaster } from 'sonner';
 import QuestionModal from '../../helpers/CModal/QuestionModal';
 import ConfirmationModal from '../../helpers/CModal/ConfirmationModal';
 import ModificationAttributesModal from '@/helpers/CModal/ModificationAttributesModal';
+
+import Footer from '@components/Footer/Footer';
+import Header from '@components/Header/Header';
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);

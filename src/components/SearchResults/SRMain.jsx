@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Advantages from '../Home/Advantages';
-import Brands from '../Home/Brands';
-import Promotions from '../Home/Promotions';
-import SRContent from './SRContent';
-import SRSidebar from './SRSidebar';
+import Advantages from '@components/Home/Advantages';
+import Brands from '@components/Home/Brands';
+import Promotions from '@components/Home/Promotions';
+// import SRContent from './SRContent';
+// import SRSidebar from './SRSidebar';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
-
 import CategoriesButtons from './CategoriesButtons';
 
 const SRMain = () => {

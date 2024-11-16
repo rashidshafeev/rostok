@@ -111,7 +111,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@pages/*": ["./src/pages/*"],
       "@components/*": ["./src/components/*"],
+      "@context/*": ["./src/context/*"],
       "@assets/*": ["./src/assets/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],

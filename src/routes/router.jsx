@@ -3,52 +3,33 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import {
-  Catalog,
-  Comparison,
-  Favorites,
-  Home,
-  Profile,
-  ShoppingCart,
-  ProductPage,
-  ReviewsPage,
-  SearchResults,
-  CartCheckout,
-  PaymentDelivery,
-  Warranty,
-  Wholesale,
-  Contacts,
-  About,
-  FAQ,
-  PageNotFound
-} from '../pages';
 
-import {
-  CatProducts,
-  ChangePassword,
-  Layout,
-  MyOrders,
-  Organizations,
-  PersonalData,
-} from '../components';
+import Home from '@pages/Home/Home';
+import ShoppingCart from '@pages/ShoppingCart/ShoppingCart';
+import Favorites from '@pages/Favorites/Favorites';
+import Comparison from '@pages/Comparison/Comparison';
+import Profile from '@pages/Profile/Profile';
+import Catalog from '@pages/Catalog/Catalog';
+import ProductPage from '@pages/ProductPage/ProductPage';
+import ReviewsPage from '@pages/Reviews/ReviewsPage';
+import SearchResults from '@pages/SearchResults/SearchResults';
+import CartCheckout from '@pages/Checkout/CartCheckout';
+import PaymentDelivery from '@pages/PaymentDelivery/PaymentDelivery';
+import Warranty from '@pages/Warranty/Warranty';
+import Wholesale from '@pages/Wholesale/Wholesale';
+import Contacts from '@pages/Contacts/Contacts';
+import About from '@pages/About/About';
+import FAQ from '@pages/FAQ/FAQ';
+import PageNotFound from '@pages/PageNotFound/PageNotFound';
 
+import CatProducts from '@components/Catalog/CatProducts/CatProducts';
+import ChangePassword from '@components/Profile/ChangePassword/ChangePassword';
+import Layout from '@components/Layout/Layout';
+import MyOrders from '@components/Profile/MyOrders/MyOrders';
+import Organizations from '@components/Profile/Organizations/Organizations';
+import PersonalData from '@components/Profile/PersonalData/PersonalData';
 import ProtectedRoute from '../components/ProtectedRoute/ProtectedRoute';
-import { getTokenFromCookies } from '../helpers/cookies/cookies';
 
-const fetchProduct = async ({ params }) => {
-  let group = await fetch(
-    `https://rosstok.ru/api/Products/item?id=${params.productId}`,
-    {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getTokenFromCookies()}`
-      },
-    }
-  );
-  
-  return group;
-};
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

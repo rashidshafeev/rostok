@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { Advantages, Brands } from '../../components'
+import React, { useEffect } from 'react' 
 import image11 from '../../assets/images/about-1-1.png'
 import image12 from '../../assets/images/about-1-2.png'
 import image13 from '../../assets/images/about-1-3.png'
@@ -14,6 +13,9 @@ import bag from '../../assets/icons/bag-icon.svg'
 import calendar from '../../assets/icons/calendar-icon.svg'
 import WantToBePartnerFrom from '../../components/About/WantToBePartnerFrom'
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop'
+
+import Advantages from '@components/Home/Advantages';
+import Brands from '@components/Home/Brands';
 
 function About() {
 

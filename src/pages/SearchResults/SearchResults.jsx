@@ -1,5 +1,5 @@
-import { SRMain } from '../../components';
-
+import SRMain from "@components/SearchResults/SRMain";
+ 
 const SearchResults = () => {
   return <SRMain />;
 };

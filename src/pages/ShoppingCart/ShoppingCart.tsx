@@ -1,6 +1,7 @@
 // src/pages/ShoppingCart.js
 import React, { useEffect, useRef, useState } from "react";
-import { ShCartDetail, ShLastViews } from "../../components";
+// import { ShCartDetail, ShLastViews } from "../../components";
+
 import ErrorEmpty from "../../helpers/Errors/ErrorEmpty";
 import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
 import { useSelector } from "react-redux";
@@ -17,6 +18,9 @@ import MobileToCheckoutBar from "../../components/ShCart/MobileToCheckoutBar";
 import { CartProduct, LocalCartState } from "@customTypes/Store/Cart/CartState";
 import { transformServerCartToLocalCart } from "@utils/transfromData";
 import { RootState } from "@store/store";
+import ShCartDetail from "@components/ShCart/ShCartDetail";
+import ShLastViews from "@components/ShCart/ShLastViews";
+
 
 const ShoppingCart = () => {
   const token = getTokenFromCookies();

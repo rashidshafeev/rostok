@@ -1,6 +1,6 @@
 // src/pages/Comparison.js
 import React, { useEffect, useState } from 'react';
-import { ComDetail } from '../../components';
+
 import ErrorEmpty from '../../helpers/Errors/ErrorEmpty';
 import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
 import { useSelector } from 'react-redux';
@@ -11,7 +11,7 @@ import { useGetComparisonQuery } from '@api/comparisonEndpoints';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { RootState } from '@store/store';
-
+import ComDetail from "@components/Comparison/ComDetail";
 
 const Comparison = () => {
   const token = getTokenFromCookies();
