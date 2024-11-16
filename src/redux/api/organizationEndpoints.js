@@ -7,6 +7,10 @@ export const organizationEndpoints = (builder) => ({
       method: 'GET',
     }),
   }),
+  getOrganizations: builder.query({
+    query: () => '/api/Company/list',
+    staleTime: 60000,
+  }),
   addOrganization: builder.mutation({
     query: (data) => ({
       url: '/api/Company/new',
@@ -14,9 +18,19 @@ export const organizationEndpoints = (builder) => ({
       body: data,
     }),
   }),
+  deleteOrganization: builder.mutation({
+    query: (id) => ({
+      url: `/api/Company/data/${id}`,
+      method: 'POST',
+    }),
+  }),
 });
 
-export const { useGetOrgSuggestionsMutation, useAddOrganizationMutation } =
-  api.injectEndpoints({
-    endpoints: organizationEndpoints,
-  });
+export const {
+  useGetOrgSuggestionsMutation,
+  useGetOrganizationsQuery,
+  useAddOrganizationMutation,
+  useDeleteOrganizationMutation,
+} = api.injectEndpoints({
+  endpoints: organizationEndpoints,
+});
