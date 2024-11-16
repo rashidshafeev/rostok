@@ -33,11 +33,11 @@ const ProductCard : React.FC<ProductCardProps> = ({ product }) => {
       <div>
         <PreviewGallery product={product} />
       </div>
-      <div className="lining-nums proportional-nums mt-2 flex h-[140px] mm:h-[140px] flex-col gap-1">
+      <div className="lining-nums proportional-nums mt-2 flex h-[160px] mm:h-[140px] flex-col gap-1">
         <div className="flex flex-col justify-between gap-1 h-full mb-1">
-          <p className="text-xs text-colDarkGray line-clamp-2">
+          {/* <p className="text-xs text-colDarkGray line-clamp-2">
             Код товара: {product.sku}
-          </p>
+          </p> */}
           <p className="text-sm text-colText font-medium line-clamp-2">
             {product.fullName}
           </p>

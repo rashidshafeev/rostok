@@ -1,6 +1,6 @@
 // src/types/Product.ts
 
-import { File } from './File';
+import { ImageSet } from '../Common/ImageSet';
 import { Category } from '@customTypes/Category/Category';
 import { PriceType } from './PriceType';
 import { ModificationAttribute } from './ModificationAttribute';
@@ -17,7 +17,7 @@ export interface Product {
     groupName: string;
     fullName: string;
     description: string;
-    files: File[];
+    files: ImageSet[];
     category: Category;
     price: PriceType;
     tags: Tag[] | false;

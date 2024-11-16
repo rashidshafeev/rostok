@@ -1,43 +1,26 @@
+import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import noImg from "../../assets/images/no-image.png";
-
+import { useSelector } from 'react-redux';
 import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../redux/slices/cartSlice';
+import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
+import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
+import FavoriteButton from "../../helpers/FavoriteButton/FavoriteButton";
+import ComparisonButton from "../../helpers/ComparisonButton/ComparisonButton";
+import { LoadingSmall } from "../../helpers/Loader/Loader";
 import PriceDisplay from './PriceDisplay';
-// import { toggleComparison } from '../../../redux/slices/comparisonSlice';
-// import { toggleFavorite } from '../../../redux/slices/favoriteSlice';
+import noImg from "../../assets/images/no-image.png";
+import { RootState } from '@/redux/store';
+import { Product } from '@customTypes/Product/Product';
 
-const LineNarrow = ({ product }) => {
-  const cart = useSelector((state) => state?.cart);
-  const favorite = useSelector((state) => state?.favorite);
-  const comparison = useSelector((state) => state?.comparison);
+type LineNarrowProps = {
+  product: Product;
+}
 
+const LineNarrow: React.FC<LineNarrowProps> = ({ product }) => {
+  const { cart } = useSelector((state: RootState) => state.cart);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
-  const isProductInCart = cart?.cart?.some((el) => el?.id === product?.id);
-  const isProductInFavorite = favorite?.favorite?.some(
-    (el) => el?.id === product?.id
-  );
-  const isProductInComparison = comparison?.comparison?.some(
-    (el) => el?.id === product?.id
-  );
-
-  const handleToggleFavorite = (event) => {
-    event.preventDefault();
-    dispatch(toggleFavorite(product));
-  };
-
-  const handleToggleComparison = (event) => {
-    event.preventDefault();
-    dispatch(toggleComparison(product));
-  };
-
-  const handleToggleAddToCart = (event) => {
-    event.preventDefault();
-    dispatch(addToCart(product));
-  };
+  const productInCart = cart.find((el) => el.id === product.id);
 
   return (
     <div className='mm:flex justify-between relative'>
@@ -111,35 +94,54 @@ const LineNarrow = ({ product }) => {
       </div>
       <div className='mm:max-w-xs w-full'>
         <div className='flex justify-between items-center'>
-        <PriceDisplay price={product?.price} />
+          <PriceDisplay price={product?.price} />
           <div className='flex justify-end items-center space-x-2'>
-            <FavoriteIcon
-              className='transition-all duration-500 hover:scale-110 cursor-pointer'
-              favorite={isProductInFavorite ? 'true' : 'false'}
-              onClick={handleToggleFavorite}
-            />
-            <ComparisonIcon
-              className='cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110'
-              comparison={isProductInComparison.toString()}
-              onClick={handleToggleComparison}
-            />
+            <FavoriteButton product={product}>
+              {({ isLoading, isInFavorite, handleFavoriteClick }) => (
+                <FavoriteIcon
+                  onClick={isLoading ? null : handleFavoriteClick}
+                  className={`${isLoading ? "cursor-wait" : "cursor-pointer"} 
+                    transition-all duration-500 hover:scale-110`}
+                  favorite={isInFavorite ? "true" : "false"}
+                />
+              )}
+            </FavoriteButton>
+            <ComparisonButton product={product}>
+              {({ isLoading, isInComparison, handleComparisonClick }) => (
+                <ComparisonIcon
+                  onClick={isLoading ? null : handleComparisonClick}
+                  className={`${isLoading ? "cursor-wait" : "cursor-pointer"} 
+                    w-6 h-6 rounded-full bg-colSuperLight flex items-center 
+                    justify-center transition-all duration-200 hover:scale-110`}
+                  comparison={isInComparison ? "true" : "false"}
+                />
+              )}
+            </ComparisonButton>
           </div>
         </div>
+        
         <div className='flex justify-between space-x-3 pt-2 mm:pt-5'>
-          {isProductInCart ? (
-            <button
-              onClick={() => navigate('/shopping-cart')}
-              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 font-semibold sm:max-w-[180px] ml-auto w-full text-sm mm:text-xs md:text-sm'
-            >
-              Перейти в корзину
-            </button>
+          {!productInCart ? (
+            <AddToCartButton product={product}>
+              {({ handleAddToCartClick, isLoading, isSuccess }) => (
+                <button
+                  disabled={isLoading}
+                  onClick={handleAddToCartClick}
+                  className={`${isLoading ? "cursor-wait" : "cursor-pointer"}
+                    bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 
+                    font-semibold sm:max-w-[164px] ml-auto w-full 
+                    text-sm mm:text-xs md:text-sm`}
+                >
+                  {isLoading && !isSuccess ? (
+                    <LoadingSmall extraStyle={"white"} />
+                  ) : (
+                    "В корзину"
+                  )}
+                </button>
+              )}
+            </AddToCartButton>
           ) : (
-            <button
-              onClick={handleToggleAddToCart}
-              className='bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 font-semibold sm:max-w-[164px] ml-auto w-full text-sm mm:text-xs md:text-sm'
-            >
-              В корзину
-            </button>
+            <ChangeQuantityGroup product={productInCart} enableRemove={true} />
           )}
         </div>
       </div>

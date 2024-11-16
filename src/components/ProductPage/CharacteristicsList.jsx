@@ -21,13 +21,13 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     current?.attributes?.slice(0,6).map((attribute) => {
                         {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
-                        if (current.attributes.some( modAttr => modAttr.id === attribute.id)) {
+                        if (current?.attributes?.some( modAttr => modAttr.id === attribute.id)) {
                             return(
                                 <div key={attribute.id} className='flex items-end'>
                                     <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                     <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                     <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
-                                        {current.attributes.find( modAttr => modAttr.id === attribute.id).text}
+                                        {current?.attributes?.find( modAttr => modAttr.id === attribute?.id).text}
                                     </div>
                                 </div>
                             ) 
@@ -49,13 +49,13 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     product?.attributes?.slice(0,6).map((attribute) => {
                         {/* Если атрибут модификационный выводит значение актуальное для выбранной на данный момент модификации, если нет, то общее значение атрибута */}
 
-                        if (current.attributes.some( modAttr => modAttr.id === attribute.id)) {
+                        if (current?.attributes?.some( modAttr => modAttr.id === attribute.id)) {
                             return(
                                 <div key={attribute.id} className='flex items-end'>
                                     <div className='shrink self-start leading-none text-colDarkGray mr-1'>{attribute.name}</div>
                                     <div className='grow self-start h-4 border-b-2 border-dotted'></div>
                                     <div className='flex text-end leading-none shrink ml-1 max-w-[50%] break-all'>
-                                        {current.attributes.find( modAttr => modAttr.id === attribute.id).text}
+                                        {current?.attributes?.find( modAttr => modAttr.id === attribute.id).text}
                                     </div>
                                 </div>
                             ) 

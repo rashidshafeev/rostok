@@ -33,7 +33,7 @@ const ShCartItem = ({ cart } : ShCartItemProps) => {
           key={index}
           className="flex border-t border-b border-[#EBEBEB] pt-2 pb-4"
         >
-          <div className="w-3/5 flex space-x-4">
+          <div className="w-1/2 flex space-x-4">
             <div className="flex items-start">
               <SelectCartItemButton product={product}>
                 {({ isLoading, isSelected, handleSelectClick }) => (
@@ -139,22 +139,17 @@ const ShCartItem = ({ cart } : ShCartItemProps) => {
               </div>
             </div>
           </div>
-          <div className="w-2/5 ">
-            <div className="flex items-center justify-between space-x-3 pt-[27px]">
-            <PriceDisplay price={product?.price}/>
-              <div className="flex items-center grow px-5">
+          <div className="w-1/2">
+            <div className="grid grid-cols-3 items-center gap-4 pt-[27px]">
+             
+                <PriceDisplay price={product?.price} alignment="center"/>
+              <div className="text-center">
                 <ChangeQuantityGroup product={product} />
               </div>
-              <div className="flex items-center text-colBlack font-bold basis-1/4">
-                
-
-                <div>{product?.price?.total
-                    ? product?.price?.total
-                    : "Цена не указана"}
-                    <span className="pl-1">
-                  {product?.price?.total && product?.price?.currency ? product?.price?.currency?.symbol : ''}
-                </span>
-                    </div>
+              <div className="text-center font-bold text-colBlack">
+                {product?.price?.total
+                  ? `${product?.price?.total}${product?.price?.currency?.symbol || ''}`
+                  : "Цена не указана"}
               </div>
             </div>
           </div>

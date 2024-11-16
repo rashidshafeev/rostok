@@ -6,7 +6,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useAuthWithEmailMutation } from "../../../redux/api/userEndpoints";
@@ -67,9 +67,23 @@ const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
       dispatch(
         setCart({
           cart: [],
-          selected: [],
-          itemsQuantity: 0,
-          selectedQuantity: 0,
+          selected: {
+            amount: 0,
+            count: 0,
+            quantity: 0,
+            discount: 0,
+          },
+          total: {
+            amount: 0,
+            count: 0,
+            quantity: 0,
+            discount: 0,
+          },
+          currency: {
+            code: 'RUB',
+            symbol: '₽',
+            title: 'Рубль',
+          },
         })
       );
       dispatch(setComparison([]));

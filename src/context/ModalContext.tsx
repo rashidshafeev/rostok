@@ -1,21 +1,46 @@
-import React, { createContext, useContext, useState } from 'react';
+// src/context/ModalContext.js
 
-// Define the shape of the modal content
-type ModalContent = {
-  type: string;
-  attributesList?: any;
-  handleChangeAttribute?: (event: React.MouseEvent<HTMLDivElement>) => void;
-  title?: string;
-} | null;
+import { createContext, useContext, useState, ReactNode } from 'react';
 
-type ModalContextType = {
-  showModal: (content: ModalContent) => void;
-  hideModal: () => void;
-  modalContent: ModalContent;
-  isModalVisible: boolean;
+// Определяем типы для разных модальных окон
+type ModalTypes = {
+  auth: {
+    content?: string;
+  };
+  logout: {};
+  share: {
+    url?: string;
+  };
+  confirmation: {
+    title: string;
+    text: string;
+    action: (product?: any) => void;
+    product?: any;
+  };
+  question: {
+    data?: any;
+  };
+  modificationAttributes: {
+    title: string;
+    attributesList: Record<string, any>;
+    handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
+  };
 };
 
-// Define the context with default values
+// Тип для содержимого модального окна
+type ModalContent = {
+  [K in keyof ModalTypes]: {
+    type: K;
+  } & ModalTypes[K];
+}[keyof ModalTypes];
+
+interface ModalContextType {
+  showModal: (content: ModalContent) => void;
+  hideModal: () => void;
+  modalContent: ModalContent | null;
+  isModalVisible: boolean;
+}
+
 const ModalContext = createContext<ModalContextType>({
   showModal: () => {},
   hideModal: () => {},
@@ -23,47 +48,25 @@ const ModalContext = createContext<ModalContextType>({
   isModalVisible: false,
 });
 
-// Create a provider component
-export const ModalProvider = ({ children }) => {
-  const [modalContent, setModalContent] = useState<ModalContent>(null);
+export const ModalProvider = ({ children }: { children: ReactNode }) => {
+  const [modalContent, setModalContent] = useState<ModalContent | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const showModal = (content: ModalContent) => {
-    // Create a new object reference for the content
-    const newContent = {
-      ...content,
-      attributesList: content.attributesList ? { ...content.attributesList } : null,
-    };
-    
-    // Force a new render by setting state in the next tick
-    setTimeout(() => {
-      setModalContent(newContent);
-      setIsModalVisible(true);
-    }, 0);
+    setModalContent(content);
+    setIsModalVisible(true);
   };
 
   const hideModal = () => {
+    setModalContent(null);
     setIsModalVisible(false);
-    setTimeout(() => {
-      setModalContent(null);
-    }, 300); // Wait for modal close animation
   };
 
   return (
-    <ModalContext.Provider
-      value={{ 
-        showModal, 
-        hideModal, 
-        modalContent, 
-        isModalVisible 
-      }}
-    >
+    <ModalContext.Provider value={{ showModal, hideModal, modalContent, isModalVisible }}>
       {children}
     </ModalContext.Provider>
   );
 };
 
-// Custom hook for using the modal context
 export const useModal = () => useContext(ModalContext);
-
-export type { ModalContent };

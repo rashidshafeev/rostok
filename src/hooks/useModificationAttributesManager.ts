@@ -23,6 +23,7 @@ export interface AttributesValuesList {
 export const useModificationAttributesManager = (group: ProductGroup, setCurrentProduct: (product: Product) => void) => {
 
   const [attributesList, setAttributesList] = useState<AttributesValuesList | null>(null);
+  const [isUpdating, setIsUpdating] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
 
@@ -109,21 +110,22 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
   };
 
   const handleChangeAttribute = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (isUpdating) return;
+    setIsUpdating(true);
+
     const id = Number(event.currentTarget.getAttribute("data-id"));
     const value = Number(event.currentTarget.getAttribute("data-value"));
     const text = event.currentTarget.getAttribute("data-text");
 
-    const newAttributes : ModificationAttribute[] = JSON.parse(JSON.stringify(extractCurrentValues(attributesList)));
+    const newAttributes = JSON.parse(JSON.stringify(extractCurrentValues(attributesList)));
     newAttributes.find((attr) => Number(attr.id) === Number(id)).value = value;
     newAttributes.find((attr) => Number(attr.id) === Number(id)).text = text;
 
-    if (!getProductByAttributes(newAttributes, group.variants)) {
-      const newAttributes = findAvailableProductByValue(id, value, group.variants).attributes;
-      const newProduct = getProductByAttributes(newAttributes, group.variants);
-      navigate(`../${newProduct.slug}`, { replace: true });
-    } else {
-      const newProduct = getProductByAttributes(newAttributes, group.variants);
-      navigate(`../${newProduct.slug}`, { replace: true });
+    const targetProduct = getProductByAttributes(newAttributes, group.variants) || 
+                         findAvailableProductByValue(id, value, group.variants);
+
+    if (targetProduct) {
+      navigate(`../${targetProduct.slug}`, { replace: true });
     }
   };
 
@@ -154,13 +156,15 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
   };
 
   useEffect(() => {
+    if (!group || !params.productId) return;
+
     const fullList = getAttributesListAndValuesListFromProductsList(group.variants);
     const currentAttributes = group.variants?.find((variant) => variant.slug === params.productId)?.attributes;
     const currentProduct = getProductByAttributes(currentAttributes, group.variants);
 
     if (currentAttributes?.length === 0 || group.variants.length === 1) {
       setCurrentProduct(group.variants[0]);
-    } else {
+    } else if (currentProduct) {
       setCurrentProduct(currentProduct);
     }
 
@@ -169,6 +173,7 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
 
     const readyAttributesList = setAvailableProperty(setCurrentProperty(fullList, currentProduct.attributes), availableValuesList);
     setAttributesList(readyAttributesList);
+    setIsUpdating(false);
   }, [params, group, setCurrentProduct]);
 
   return { attributesList, handleChangeAttribute };

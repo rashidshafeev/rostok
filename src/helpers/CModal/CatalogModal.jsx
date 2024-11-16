@@ -58,12 +58,12 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
     <div
       className={`fixed left-0 w-full h-full z-[999] hidden md:block ${
         scrollPosition > 32 ? 'top-[65px]' : 'top-[100px]'
-      } bg-white duration-300`}
+      } bg-white duration-300 overflow-hidden`}
     > 
       <div
         className={`${
           scrollPosition > 32 ? 'h-[90%]' : 'h-[85%]'
-        } content overflow-y-scroll scrollable`}
+        } content overflow-y-auto -webkit-overflow-scrolling-touch`}
       >
         <div className='flex pt-5'>
           <div className='max-w-[220px] w-full'>

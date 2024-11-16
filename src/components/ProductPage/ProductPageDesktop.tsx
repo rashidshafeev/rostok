@@ -1,4 +1,3 @@
-// ProductPageDesktop.tsx
 import React, { useEffect, useState } from "react";
 import ProductAttributesList from "./Attributes/ProductAttributesList";
 import CharacteristicsList from "./CharacteristicsList";
@@ -14,73 +13,71 @@ import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
 import { Product } from "@customTypes/Product/Product";
 import Breadcrumbs from "@helpers/Breadcrumbs/Breadcrumbs";
 import dummylogo from '@assets/images/dummy-logo.png';
+import { addToRecentItems } from "@store/slices/recentItemsSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@store/store";
 import useAddToRecentItems from "@hooks/useAddToRecentItems";
-import { useModificationAttributesManager } from "@hooks/useModificationAttributesManager";
+import { AttributesValuesList } from "@hooks/useModificationAttributesManager";
 
 type ProductPageDesktopProps = {
   group: ProductGroup;
+  currentProduct: Product | null;
+  attributesList: AttributesValuesList;
+  handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
+const ProductPageDesktop = ({ group, currentProduct, attributesList, handleChangeAttribute }: ProductPageDesktopProps) => {
+    const [tabIndex, setTabIndex] = useState<number>(0);
+    const [displayedProduct, setDisplayedProduct] = useState<Product | null>(currentProduct);
 
-const ProductPageDesktop = ({ 
-  group, 
-  isModalOpen, 
-  setIsModalOpen,
-  isChanging 
-}: ProductPageDesktopProps) => {
-  const [tabIndex, setTabIndex] = useState<number>(0);
-  const [currentProduct, setCurrentProduct] = useState<Product | null>(null);
-  
-  const { attributesList, handleChangeAttribute } = useModificationAttributesManager(group, setCurrentProduct);
-
-  useAddToRecentItems(currentProduct);
+    useEffect(() => {
+        if (currentProduct) {
+            setDisplayedProduct(currentProduct);
+        }
+    }, [currentProduct]);
 
   return (
     <>
       <div className="content lining-nums proportional-nums">
         <Breadcrumbs breadcrumbs={group?.category_chain} />
-
         <div className="lg:block hidden">
-          <div className="text-xl font-semibold mb-[10px]">
-            {currentProduct?.fullName}
+          <div className=" text-xl font-semibold mb-[10px]">
+            {displayedProduct?.fullName}
           </div>
-          <TopControls product={currentProduct} reviews={group?.reviews} />
+          <TopControls product={displayedProduct} reviews={group?.reviews} />
         </div>
-        <div className="flex flex-wrap pb-5 min-h-[420px] gap-5">
+        <div className="flex  flex-wrap pb-5 min-h-[420px] gap-5">
           <div className="lg:basis-[calc(42%-40px/3)] basis-full">
             <ProductGallery
-              files={currentProduct?.files}
-              tags={currentProduct?.tags}
+              files={displayedProduct?.files}
+              tags={displayedProduct?.tags}
             />
           </div>
           <div className="lg:basis-[calc(33%-40px/3)] flex flex-col gap-[10px] basis-full">
-            <div>
-              <img className="h-6" src={dummylogo} alt="*" />
+              <ProductAttributesList
+              attributesList={attributesList} handleChangeAttribute={handleChangeAttribute}
+              />
+            <div className="lg:block hidden">
+              <CharacteristicsList
+                current={currentProduct}
+                product={group}
+                setTabIndex={setTabIndex}
+              />
             </div>
-            <ProductAttributesList
-            attributesList={attributesList}
-            handleChangeAttribute={handleChangeAttribute}
-            isModalOpen={isModalOpen}
-            setIsModalOpen={setIsModalOpen}
-            isChanging={isChanging}
-          />
           </div>
-
           <div className="lg:basis-[calc(25%-40px/3)] basis-full">
-            <RightBar product={currentProduct} />
+            <RightBar product={displayedProduct} />
           </div>
         </div>
-
         <div className="lg:block hidden pb-5 min-h-[420px] gap-5">
           <ProductTabs
-            current={currentProduct}
+            current={displayedProduct}
             group={group}
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
-          />
+          ></ProductTabs>
         </div>
       </div>
-    </>
+      </>
   );
 };
-
 export default ProductPageDesktop;

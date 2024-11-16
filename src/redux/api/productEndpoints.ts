@@ -1,18 +1,21 @@
 // productEndpoints.js
 
-import { GetProductResponse } from '@customTypes/ServerData/GetProduct';
 import { api } from './api';
+import { GetFiltersResponse, GetFiltersRequest } from '@customTypes/ServerData/GetFilters';
+import { GetVariantsRequest, GetVariantsResponse } from '@customTypes/ServerData/GetVariants';
+import { GetProductResponse } from '@customTypes/ServerData/GetProduct';
+
 
 export const productEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({
-  getVariants: builder.mutation({
+  getVariants: builder.mutation<GetVariantsResponse, GetVariantsRequest>({
     query: (params) => ({
       url: '/api/Products/variants',
       method: 'POST',
       body: params,
     }),
   }),
-  getFilters: builder.mutation({
+  getFilters: builder.mutation<GetFiltersResponse, GetFiltersRequest>({
     query: (params) => ({
       url: '/api/Products/filters',
       method: 'POST',
@@ -37,18 +40,11 @@ export const productEndpoints = api.injectEndpoints({
 })
 })
 
-// Inject endpoints into the api
-// const injectedEndpoints = api.injectEndpoints({ endpoints: productEndpoints });
-
-// Export hooks for product endpoints
 export const {
   useGetVariantsMutation,
   useGetFiltersMutation,
   useGetProductQuery,
-  // useLazyGetProductQuery,
   useGetCategoryTreeQuery,
   useGetBasicFiltersQuery,
-  // useGetProductsByCategoryQuery,
-  // useGetFiltersOfProductsQuery,
   useGetMainPageDataQuery,
 } = productEndpoints
