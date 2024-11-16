@@ -1,40 +1,27 @@
 import { Box, Modal } from '@mui/material';
-import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { updateOrganization } from '../../redux/slices/organizationsSlice';
-import { useDispatch } from 'react-redux';
 import CTextField from '../CustomInputs/CTextField';
-import { YoutubeSearchedFor } from '@mui/icons-material';
 
 function UpdateOrganizationModal({ open, close, item }) {
-  const {
-    control,
-    handleSubmit,
-    reset,
-    register,
-    watch,
-    formState: { errors, isValid },
-  } = useForm({
+  const { control, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
       inn: item?.inn,
       kpp: item?.kpp,
       name: item?.name,
-      yurAddress: item?.u_address,
-      faqAddress: item?.f_address,
+      u_address: item?.u_address,
+      f_address: item?.f_address,
       ogrn: item?.ogrn,
-      rasSchet: item?.rasSchet,
-      bikBanka: item?.bank_bik,
+      bank_account: item?.bank_account,
+      bank_bik: item?.bank_bik,
       korrSchet: item?.korrSchet,
-      bankName: item?.bank_name,
+      bank_name: item?.bank_name,
     },
   });
-  console.log(item);
-  const dispatch = useDispatch();
 
   const handleUpdateOrganization = (data) => {
-    dispatch(updateOrganization({ organization: item, data }));
-    close();
+    console.log(data);
+    // close();
   };
 
   return (
@@ -68,7 +55,6 @@ function UpdateOrganizationModal({ open, close, item }) {
                   <CTextField
                     {...field}
                     label='ИНН'
-                    //   defaultValue={content.item.inn}
                     type='number'
                     borderColor='#222'
                     focusedBorderColor='#15765B'
@@ -85,7 +71,6 @@ function UpdateOrganizationModal({ open, close, item }) {
                   <CTextField
                     {...field}
                     label='КПП'
-                    //   defaultValue={content.item.kpp}
                     type='number'
                     borderColor='#222'
                     focusedBorderColor='#15765B'
@@ -103,7 +88,6 @@ function UpdateOrganizationModal({ open, close, item }) {
                 <CTextField
                   {...field}
                   label='Название организации'
-                  // defaultValue={content.item.name}
                   type='text'
                   required={true}
                 />
@@ -111,14 +95,13 @@ function UpdateOrganizationModal({ open, close, item }) {
             />
 
             <Controller
-              name='yurAddress'
+              name='u_address'
               control={control}
               rules={{}}
               render={({ field }) => (
                 <CTextField
                   {...field}
                   label='Юридический адрес'
-                  // defaultValue={content.item.yurAddress}
                   type='text'
                   required={true}
                 />
@@ -126,21 +109,18 @@ function UpdateOrganizationModal({ open, close, item }) {
             />
 
             <Controller
-              name='faqAddress'
+              name='f_address'
               control={control}
               rules={{}}
               render={({ field }) => (
                 <CTextField
                   {...field}
                   label='Фактический адрес'
-                  // defaultValue={content.item.faqAddress}
-
                   type='text'
                   required={true}
                 />
               )}
             />
-
             <Controller
               name='ogrn'
               control={control}
@@ -149,8 +129,6 @@ function UpdateOrganizationModal({ open, close, item }) {
                 <CTextField
                   {...field}
                   label='ОГРН'
-                  // defaultValue={org.ogrn}
-                  // onChange={(e) => {setOrg({...org, ogrn: e.target.value})}}
                   type='number'
                   required={true}
                 />
@@ -159,38 +137,33 @@ function UpdateOrganizationModal({ open, close, item }) {
 
             <div className='grid grid-cols-2 gap-3'>
               <Controller
-                name='rasSchet'
+                name='bank_account'
                 control={control}
                 rules={{}}
                 render={({ field }) => (
                   <CTextField
                     {...field}
                     label='Расчётный счёт'
-                    //   defaultValue={content.item.rasShet}
-
                     type='number'
                     borderColor='#222'
                     focusedBorderColor='#15765B'
                     labelColor='#15765B'
-                    required={true}
                   />
                 )}
               />
 
               <Controller
-                name='bikBanka'
+                name='bank_bik'
                 control={control}
                 rules={{}}
                 render={({ field }) => (
                   <CTextField
                     {...field}
                     label='БИК Банка'
-                    //   defaultValue={content.item.bikBanka}
                     type='number'
                     borderColor='#222'
                     focusedBorderColor='#15765B'
                     labelColor='#15765B'
-                    required={true}
                   />
                 )}
               />
@@ -203,36 +176,32 @@ function UpdateOrganizationModal({ open, close, item }) {
                   <CTextField
                     {...field}
                     label='Корр. счёт'
-                    //   defaultValue={content.item.korrSchet}
                     type='number'
                     borderColor='#222'
                     focusedBorderColor='#15765B'
                     labelColor='#15765B'
-                    required={true}
                   />
                 )}
               />
 
               <Controller
-                name='bankName'
+                name='bank_name'
                 control={control}
                 rules={{}}
                 render={({ field }) => (
                   <CTextField
                     {...field}
                     label='Наименование банка'
-                    //   defaultValue={content.item.bankName}
                     type='number'
                     borderColor='#222'
                     focusedBorderColor='#15765B'
                     labelColor='#15765B'
-                    required={true}
                   />
                 )}
               />
             </div>
           </div>
-          <button className='w-full h-[38px] px-6 bg-colGray rounded mt-5 text-white font-semibold'>
+          <button className='w-full h-[38px] px-6 bg-colGreen rounded mt-5 text-white font-semibold'>
             Сохранить
           </button>
         </form>
