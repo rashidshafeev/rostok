@@ -3,7 +3,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UpdateOrganizationModal from '../../../helpers/CModal/UpdateOrganizationModal';
 import DeleteOrganizationModal from '../../../helpers/CModal/DeleteOrganizationModal';
 
-export const OrgCard = ({ el, index }) => {
+export const OrgCard = ({
+  el,
+  index,
+  handleDeleteOrganization,
+  deleteLoading,
+}) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [openDeleteOrgModal, setOpenDeleteOrgModal] = useState(false);
   const [openUpdateOrgModal, setOpenUpdateOrgModal] = useState(false);
@@ -83,6 +88,8 @@ export const OrgCard = ({ el, index }) => {
               open={openDeleteOrgModal}
               close={handleCloseDeleteOrgModal}
               item={el}
+              handleDeleteOrganization={handleDeleteOrganization}
+              deleteLoading={deleteLoading}
             />
           </div>
         </div>

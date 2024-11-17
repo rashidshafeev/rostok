@@ -19,10 +19,13 @@ export const organizationEndpoints = (builder) => ({
     }),
   }),
   deleteOrganization: builder.mutation({
-    query: (id) => ({
-      url: `/api/Company/data/${id}`,
-      method: 'POST',
-    }),
+    query: (id) => {
+      return {
+        url: '/Company/delete',
+        method: 'POST',
+        body: { id: id },
+      };
+    },
   }),
 });
 

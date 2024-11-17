@@ -23,8 +23,6 @@ const ModalSnackbar = ({ message, open, onClose }) => {
         autoHideDuration={6000}
         onClose={onClose}
         message={message}
-        vertical={`top`}
-        horizontal={`right`}
         action={action}
         style={{ maxWidth: '400px' }}
       />
