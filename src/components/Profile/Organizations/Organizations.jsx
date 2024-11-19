@@ -1,6 +1,5 @@
 // import { organizations } from '../../../constants/data';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import AddOrganizationModal from '../../../helpers/CModal/AddOrganizationModal';
 import ErrorEmpty from '../../../helpers/Errors/ErrorEmpty';
 import { NavLink } from 'react-router-dom';
@@ -8,6 +7,7 @@ import arrowIcon from '../../../assets/icons/arrow-icon.svg';
 import { OrgCard } from './OrgCard';
 import {
   useDeleteOrganizationMutation,
+  useEditOrganizationMutation,
   useGetOrganizationsQuery,
 } from '../../../redux/api/organizationEndpoints';
 import { Loading } from '@/helpers/Loader/Loader';
@@ -26,14 +26,17 @@ const Organizations = () => {
     setOpenAddOrgModal(false);
   };
 
-  const { organizations } = useSelector((state) => state?.organizations);
-
   const { data, isLoading, isSuccess } = useGetOrganizationsQuery();
 
   const [
     deleteOrganization,
     { isLoading: deleteLoading, isSuccess: delOrgSuccess },
   ] = useDeleteOrganizationMutation();
+
+  const [
+    editOrganization,
+    { isLoading: editLoading, isSuccess: editOrgSuccess },
+  ] = useEditOrganizationMutation();
 
   const handleDeleteOrganization = (id) => {
     if (!id) {
@@ -42,6 +45,20 @@ const Organizations = () => {
     }
     try {
       deleteOrganization(id).unwrap();
+      close();
+    } catch (error) {
+      console.error('Error deleting organization:', error);
+    }
+    setOpenSnack(true);
+  };
+
+  const handleEditOrganization = (id, data) => {
+    if (!id) {
+      alert('Не передан id компаний!');
+      return;
+    }
+    try {
+      editOrganization(id, data).unwrap();
       close();
     } catch (error) {
       console.error('Error deleting organization:', error);
@@ -79,7 +96,7 @@ const Organizations = () => {
           <AddOrganizationModal
             open={openAddOrgModal}
             close={handleCloseAddOrgModal}
-            organizations={organizations}
+            organizations={data?.data}
             setOpenAddOrgModal={setOpenAddOrgModal}
           />
           {data?.data?.length > 0 ? (
@@ -91,6 +108,8 @@ const Organizations = () => {
                   index={index}
                   handleDeleteOrganization={handleDeleteOrganization}
                   deleteLoading={deleteLoading}
+                  handleEditOrganization={handleEditOrganization}
+                  editLoading={editLoading}
                 />
               ))}
             </div>
@@ -108,6 +127,8 @@ const Organizations = () => {
         message={
           delOrgSuccess
             ? 'Ваша организация успешно удалена!'
+            : editOrgSuccess
+            ? 'Ваша организация успешно изменена!'
             : 'Произошла ошибка!'
         }
         open={openSnack}

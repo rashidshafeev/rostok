@@ -27,6 +27,16 @@ export const organizationEndpoints = (builder) => ({
       };
     },
   }),
+  editOrganization: builder.mutation({
+    query: (data) => {
+      console.log('data', data);
+      return {
+        url: '/Company/update',
+        method: 'POST',
+        body: data,
+      };
+    },
+  }),
 });
 
 export const {
@@ -34,6 +44,7 @@ export const {
   useGetOrganizationsQuery,
   useAddOrganizationMutation,
   useDeleteOrganizationMutation,
+  useEditOrganizationMutation,
 } = api.injectEndpoints({
   endpoints: organizationEndpoints,
 });

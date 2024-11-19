@@ -14,7 +14,7 @@ const Footer = () => {
     info: false,
   });
 
-  const {data: basicFilters} = useGetBasicFiltersQuery();
+  const { data: basicFilters } = useGetBasicFiltersQuery();
 
   return (
     <footer className='pt-10 pb-24 lg:pb-4 md:pt-14 bg-colSuperLight'>
@@ -50,7 +50,7 @@ const Footer = () => {
                   alt='*'
                 />
               </div>
-              {menus.about && (
+              {menus?.about && (
                 <ul className='pl-5 py-1 border-b border-colGray'>
                   <li>
                     <NavLink
@@ -105,7 +105,7 @@ const Footer = () => {
                   alt='*'
                 />
               </div>
-              {menus.buyer && (
+              {menus?.buyer && (
                 <ul className='pl-5 py-1 border-b border-colGray'>
                   <li>
                     <NavLink
@@ -160,7 +160,7 @@ const Footer = () => {
                   alt='*'
                 />
               </div>
-              {menus.info && (
+              {menus?.info && (
                 <ul className='pl-5 py-1 border-b border-colGray'>
                   <li>
                     <NavLink
@@ -342,23 +342,21 @@ const Footer = () => {
                       Каталог
                     </NavLink>
                   </li>
-                  {basicFilters?.tags?.map((tag) => (
-                    <li>
-<NavLink
-          to={`/catalog/tags?tags=${tag?.tag}`}
-          key={tag?.id}
-          // style={{ backgroundColor: `${tag?.background_color}` }}
-          className="lowercase"
-        >
-          {/* <img src={el?.icon2} alt="*" /> */}
-          {/* <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1"> */}
-          <span className='text-colBlack font-semibold text-sm hover:text-colGreen capitalize '>
-            {tag?.tag}
-          </span>
-        </NavLink>
+                  {basicFilters?.tags?.map((tag, index) => (
+                    <li key={index}>
+                      <NavLink
+                        to={`/catalog/tags?tags=${tag?.tag}`}
+                        // style={{ backgroundColor: `${tag?.background_color}` }}
+                        className='lowercase'
+                      >
+                        {/* <img src={el?.icon2} alt="*" /> */}
+                        {/* <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1"> */}
+                        <span className='text-colBlack font-semibold text-sm hover:text-colGreen capitalize '>
+                          {tag?.tag}
+                        </span>
+                      </NavLink>
                     </li>
-        
-      ))}
+                  ))}
                 </ul>
               </div>
               <div>
@@ -407,7 +405,10 @@ const Footer = () => {
             >
               Политика конфиденциальности
             </NavLink>
-            <NavLink className='text-colGray text-xs font-semibold' to='/oferta'>
+            <NavLink
+              className='text-colGray text-xs font-semibold'
+              to='/oferta'
+            >
               Оферта
             </NavLink>
           </div>

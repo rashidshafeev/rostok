@@ -8,6 +8,8 @@ export const OrgCard = ({
   index,
   handleDeleteOrganization,
   deleteLoading,
+  handleEditOrganization,
+  editLoading,
 }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [openDeleteOrgModal, setOpenDeleteOrgModal] = useState(false);
@@ -77,6 +79,8 @@ export const OrgCard = ({
               open={openUpdateOrgModal}
               close={handleCloseUpdateOrgModal}
               item={el}
+              handleEditOrganization={handleEditOrganization}
+              editLoading={editLoading}
             />
             <span
               onClick={handleOpenDeleteOrgModal}
@@ -109,37 +113,39 @@ export const OrgCard = ({
               <span className='text-colDarkGray mr-2 leading-5'>
                 Юридический адрес:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.yurAddress}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.u_address}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Фактический адрес:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.faqAddress}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.f_address}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Расчетный счет:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.rasShet}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.bank_account}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 БИК Банка:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.bikBanka}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.bank_bik}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Корр. счет:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.korrSchet}</h5>
+              <h5 className='text-colBlack leading-5'>
+                {el?.correspondent_account}
+              </h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Наименование банка:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.bankName}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.bank_name}</h5>
             </div>
           </div>
         )}
