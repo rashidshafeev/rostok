@@ -9,6 +9,7 @@ function UpdateOrganizationModal({
   item,
   handleEditOrganization,
   editLoading,
+  editOrgSuccess,
 }) {
   const { control, handleSubmit } = useForm({
     mode: 'onChange',
@@ -29,6 +30,9 @@ function UpdateOrganizationModal({
   const handleUpdateOrganization = (data) => {
     data.id = item?.id;
     handleEditOrganization(data);
+    if (editOrgSuccess) {
+      close();
+    }
   };
 
   return (

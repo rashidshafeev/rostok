@@ -10,6 +10,13 @@ export const organizationEndpoints = (builder) => ({
   getOrganizations: builder.query({
     query: () => '/api/Company/list',
     staleTime: 60000,
+    providesTags: (result) =>
+      result
+        ? [
+            { type: 'Organization', id: 'LIST' },
+            ...result.data.map(({ id }) => ({ type: 'Organization', id })),
+          ]
+        : [{ type: 'Organization', id: 'LIST' }],
   }),
   addOrganization: builder.mutation({
     query: (data) => ({
@@ -17,25 +24,29 @@ export const organizationEndpoints = (builder) => ({
       method: 'POST',
       body: data,
     }),
+    invalidatesTags: [{ type: 'Organization', id: 'LIST' }],
   }),
   deleteOrganization: builder.mutation({
-    query: (id) => {
-      return {
-        url: '/Company/delete',
-        method: 'POST',
-        body: { id: id },
-      };
-    },
+    query: (id) => ({
+      url: '/api/Company/delete',
+      method: 'POST',
+      body: { id },
+    }),
+    invalidatesTags: (result, error, { id }) => [
+      { type: 'Organization', id: 'LIST' },
+      { type: 'Organization', id },
+    ],
   }),
   editOrganization: builder.mutation({
-    query: (data) => {
-      console.log('data', data);
-      return {
-        url: '/Company/update',
-        method: 'POST',
-        body: data,
-      };
-    },
+    query: (data) => ({
+      url: '/api/Company/update',
+      method: 'POST',
+      body: data,
+    }),
+    invalidatesTags: (result, error, { id }) => [
+      { type: 'Organization', id: 'LIST' },
+      { type: 'Organization', id },
+    ],
   }),
 });
 

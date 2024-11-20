@@ -7,7 +7,15 @@ function DeleteOrganizationModal({
   item,
   handleDeleteOrganization,
   deleteLoading,
+  delOrgSuccess,
 }) {
+  const handleDelete = () => {
+    handleDeleteOrganization(item?.id);
+    if (delOrgSuccess) {
+      close();
+    }
+  };
+
   return (
     <Modal
       open={open}
@@ -46,7 +54,7 @@ function DeleteOrganizationModal({
                 Отменить
               </button>
               <button
-                onClick={() => handleDeleteOrganization(item?.id)}
+                onClick={handleDelete}
                 className='w-1/2 h-[38px] px-6 bg-colGreen rounded text-white font-semibold'
               >
                 Удалить

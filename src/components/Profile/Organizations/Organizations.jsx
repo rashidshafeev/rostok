@@ -110,6 +110,8 @@ const Organizations = () => {
                   deleteLoading={deleteLoading}
                   handleEditOrganization={handleEditOrganization}
                   editLoading={editLoading}
+                  editOrgSuccess={editOrgSuccess}
+                  delOrgSuccess={delOrgSuccess}
                 />
               ))}
             </div>

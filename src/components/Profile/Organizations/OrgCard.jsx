@@ -8,8 +8,10 @@ export const OrgCard = ({
   index,
   handleDeleteOrganization,
   deleteLoading,
+  delOrgSuccess,
   handleEditOrganization,
   editLoading,
+  editOrgSuccess,
 }) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [openDeleteOrgModal, setOpenDeleteOrgModal] = useState(false);
@@ -81,6 +83,7 @@ export const OrgCard = ({
               item={el}
               handleEditOrganization={handleEditOrganization}
               editLoading={editLoading}
+              editOrgSuccess={editOrgSuccess}
             />
             <span
               onClick={handleOpenDeleteOrgModal}
@@ -94,6 +97,7 @@ export const OrgCard = ({
               item={el}
               handleDeleteOrganization={handleDeleteOrganization}
               deleteLoading={deleteLoading}
+              delOrgSuccess={delOrgSuccess}
             />
           </div>
         </div>

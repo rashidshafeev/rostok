@@ -28,6 +28,6 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
 export const api = createApi({
   reducerPath: 'api',
   baseQuery: loggingBaseQuery,
-  tagTypes: ['Favorite', 'Order', 'Comparison', 'User', 'Cart'],
+  tagTypes: ['Favorite', 'Order', 'Comparison', 'User', 'Cart', 'Organization'],
   endpoints: () => ({}), // Initially empty, endpoints will be injected later
 });
