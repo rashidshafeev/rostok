@@ -48,7 +48,7 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
 
   const getProductByAttributes = (attributes: ModificationAttribute[], productList: Product[]): Product => {
     const product = productList.filter((product) => {
-      return attributes.every((attribute) => {
+      return attributes?.every((attribute) => {
         return product.attributes.some((prodAttribute) => {
           return prodAttribute.id === attribute.id && prodAttribute.value === attribute.value;
         });

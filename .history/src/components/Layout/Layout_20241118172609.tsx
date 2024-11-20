@@ -12,7 +12,7 @@ import ModificationAttributesModal from '@/helpers/CModal/ModificationAttributes
 
 import Footer from '@components/Footer/Footer';
 import Header from '@components/Header/Header';
-
+import ShareCartModal from '@/helpers/CModal/ShareCartModal';
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
 
@@ -29,6 +29,7 @@ const Layout = () => {
         <QuestionModal/>
         <ConfirmationModal/>
         <ModificationAttributesModal/>
+        <ShareCartModal/>
         <Toaster visibleToasts={1} position='bottom-center'  toastOptions={{ duration: 3000 }} />
       </ModalProvider>
     </>

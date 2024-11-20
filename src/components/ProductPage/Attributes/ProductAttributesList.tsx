@@ -34,7 +34,7 @@ const ProductAttributesList = ({
     if (isModalVisible && modalContent?.type === 'modificationAttributes') {
       showModal({
         type: 'modificationAttributes',
-        title: current?.fullName,
+        product: current,
         attributesList,
         handleChangeAttribute
       });
@@ -44,7 +44,7 @@ const ProductAttributesList = ({
   const handleShowAllValues = () => {
     showModal({
       type: 'modificationAttributes',
-      title: current?.fullName,
+      product: current,
       attributesList: attributesList,
       handleChangeAttribute: (e) => {
         handleChangeAttribute(e);

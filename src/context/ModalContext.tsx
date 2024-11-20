@@ -26,7 +26,7 @@ type ModalTypes = {
     handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
   };
 };
-
+ 
 // Тип для содержимого модального окна
 type ModalContent = {
   [K in keyof ModalTypes]: {

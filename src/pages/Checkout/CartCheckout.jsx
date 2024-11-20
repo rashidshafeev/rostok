@@ -151,8 +151,10 @@ function CartCheckout() {
       quantity: 0,
       selected: 0
     }))
-
-    token ? sendCart({items: payload}) : selected.forEach((item) => dispatch(removeFromCart(item)));
+    selected.forEach((item) => dispatch(removeFromCart(item)))
+    if (token) {
+      sendCart({items: payload})
+    }
   }
 
   const onError = (errors, e) => {

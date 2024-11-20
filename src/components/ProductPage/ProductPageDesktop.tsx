@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductAttributesList from "./Attributes/ProductAttributesList";
 import CharacteristicsList from "./CharacteristicsList";
-import MobileAddToCartBar from "./Mobile/MobileAddToCartBar";
-import MobileInfo from "./Mobile/MobileProductInfo/MobileInfo";
-import MobileProductInfo from "./Mobile/MobileProductInfo/MobileProductInfo";
-import MobileTopBar from "./Mobile/MobileTopBar";
 import ProductGallery from "./ProductGallery";
 import ProductTabs from "./ProductTabs/ProductTabs";
 import RightBar from "./RightBar";
@@ -12,11 +8,6 @@ import TopControls from "./TopControls";
 import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
 import { Product } from "@customTypes/Product/Product";
 import Breadcrumbs from "@helpers/Breadcrumbs/Breadcrumbs";
-import dummylogo from "@assets/images/dummy-logo.png";
-import { addToRecentItems } from "@store/slices/recentItemsSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@store/store";
-import useAddToRecentItems from "@hooks/useAddToRecentItems";
 import { AttributesValuesList } from "@hooks/useModificationAttributesManager";
 
 type ProductPageDesktopProps = {
@@ -52,14 +43,21 @@ const ProductPageDesktop = ({
           </div>
           <TopControls product={displayedProduct} reviews={group?.reviews} />
         </div>
-        <div className="flex  flex-wrap pb-5 min-h-[420px] gap-5">
-          <div className="lg:basis-[calc(42%-40px/3)] basis-full">
+        <div className="flex flex-wrap pb-5 min-h-[420px] gap-5">
+          <div className="lg:basis-[calc(42%-40px/3)] basis-full max-w-[100vw] lg:max-w-[calc(42%-40px/3)]">
             <ProductGallery
               files={displayedProduct?.files}
               tags={displayedProduct?.tags}
             />
           </div>
           <div className="lg:basis-[calc(33%-40px/3)] flex flex-col gap-[10px] basis-full">
+            {currentProduct?.brand && (
+              <img
+                src={currentProduct.brand.files[0]?.small}
+                className="w-20"
+                alt=""
+              />
+            )}
             <ProductAttributesList
               current={currentProduct}
               attributesList={attributesList}
@@ -83,7 +81,7 @@ const ProductPageDesktop = ({
             group={group}
             tabIndex={tabIndex}
             setTabIndex={setTabIndex}
-          ></ProductTabs>
+          />
         </div>
       </div>
     </>

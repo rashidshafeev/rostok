@@ -49,15 +49,15 @@ const ShoppingCartOrderInfo : React.FC<ShoppingCartOrderInfoProps> = ({ cart, se
             <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
             <span className='font-bold whitespace-nowrap'>{cart?.selected?.amount} {cart?.currency.symbol }</span>
           </div>
-          <div className='flex justify-between items-center pt-2'>
+          {cart?.selected?.discount > 0 && <div className='flex justify-between items-center pt-2'>
             <span className='text-colBlack text-sm'>Скидка</span>
             <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
             <span className='font-bold whitespace-nowrap'>-{cart?.selected?.discount} {cart?.currency?.symbol }</span>
-          </div>
+          </div>}
           <div className='flex justify-between items-center pt-3 pb-5'>
             <span className='text-lg font-semibold text-colBlack'>Итого</span>
             <span className='text-lg font-semibold text-colBlack'>
-              {cart?.selected?.amount} {cart?.currency?.symbol }
+              {cart?.selected?.amount - cart?.selected?.discount} {cart?.currency?.symbol }
             </span>
           </div>
 
