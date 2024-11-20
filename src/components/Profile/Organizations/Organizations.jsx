@@ -1,17 +1,22 @@
 // import { organizations } from '../../../constants/data';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import AddOrganizationModal from '../../../helpers/CModal/AddOrganizationModal';
 import ErrorEmpty from '../../../helpers/Errors/ErrorEmpty';
 import { NavLink } from 'react-router-dom';
 import arrowIcon from '../../../assets/icons/arrow-icon.svg';
 import { OrgCard } from './OrgCard';
-import { useGetOrganizationsQuery } from '../../../redux/api/organizationEndpoints';
+import {
+  useDeleteOrganizationMutation,
+  useEditOrganizationMutation,
+  useGetOrganizationsQuery,
+} from '../../../redux/api/organizationEndpoints';
 import { Loading } from '@/helpers/Loader/Loader';
 import ErrorServer from '@/helpers/Errors/ErrorServer';
+import ModalSnackbar from '@/helpers/CModal/ModalSnackbar';
 
 const Organizations = () => {
   const [openAddOrgModal, setOpenAddOrgModal] = useState(false);
+  const [openSnack, setOpenSnack] = useState(false);
 
   const handleOpenAddOrgModal = () => {
     setOpenAddOrgModal(true);
@@ -21,9 +26,45 @@ const Organizations = () => {
     setOpenAddOrgModal(false);
   };
 
-  const { organizations } = useSelector((state) => state?.organizations);
-
   const { data, isLoading, isSuccess } = useGetOrganizationsQuery();
+
+  const [
+    deleteOrganization,
+    { isLoading: deleteLoading, isSuccess: delOrgSuccess },
+  ] = useDeleteOrganizationMutation();
+
+  const [
+    editOrganization,
+    { isLoading: editLoading, isSuccess: editOrgSuccess },
+  ] = useEditOrganizationMutation();
+
+  const handleDeleteOrganization = (id) => {
+    if (!id) {
+      alert('Не передан id компаний!');
+      return;
+    }
+    try {
+      deleteOrganization(id).unwrap();
+      close();
+    } catch (error) {
+      console.error('Error deleting organization:', error);
+    }
+    setOpenSnack(true);
+  };
+
+  const handleEditOrganization = (id, data) => {
+    if (!id) {
+      alert('Не передан id компаний!');
+      return;
+    }
+    try {
+      editOrganization(id, data).unwrap();
+      close();
+    } catch (error) {
+      console.error('Error deleting organization:', error);
+    }
+    setOpenSnack(true);
+  };
 
   return (
     <div className='w-full pb-10'>
@@ -55,13 +96,23 @@ const Organizations = () => {
           <AddOrganizationModal
             open={openAddOrgModal}
             close={handleCloseAddOrgModal}
-            organizations={organizations}
+            organizations={data?.data}
             setOpenAddOrgModal={setOpenAddOrgModal}
           />
           {data?.data?.length > 0 ? (
             <div className='grid lg:grid-cols-2 gap-3 xl:gap-5 mt-4 lining-nums proportional-nums'>
               {data?.data?.map((el, index) => (
-                <OrgCard key={index} el={el} index={index} />
+                <OrgCard
+                  key={index}
+                  el={el}
+                  index={index}
+                  handleDeleteOrganization={handleDeleteOrganization}
+                  deleteLoading={deleteLoading}
+                  handleEditOrganization={handleEditOrganization}
+                  editLoading={editLoading}
+                  editOrgSuccess={editOrgSuccess}
+                  delOrgSuccess={delOrgSuccess}
+                />
               ))}
             </div>
           ) : (
@@ -74,6 +125,17 @@ const Organizations = () => {
       ) : (
         <ErrorServer />
       )}
+      <ModalSnackbar
+        message={
+          delOrgSuccess
+            ? 'Ваша организация успешно удалена!'
+            : editOrgSuccess
+            ? 'Ваша организация успешно изменена!'
+            : 'Произошла ошибка!'
+        }
+        open={openSnack}
+        onClose={() => setOpenSnack(false)}
+      />
     </div>
   );
 };

@@ -10,6 +10,13 @@ export const organizationEndpoints = (builder) => ({
   getOrganizations: builder.query({
     query: () => '/api/Company/list',
     staleTime: 60000,
+    providesTags: (result) =>
+      result
+        ? [
+            { type: 'Organization', id: 'LIST' },
+            ...result.data.map(({ id }) => ({ type: 'Organization', id })),
+          ]
+        : [{ type: 'Organization', id: 'LIST' }],
   }),
   addOrganization: builder.mutation({
     query: (data) => ({
@@ -17,12 +24,29 @@ export const organizationEndpoints = (builder) => ({
       method: 'POST',
       body: data,
     }),
+    invalidatesTags: [{ type: 'Organization', id: 'LIST' }],
   }),
   deleteOrganization: builder.mutation({
     query: (id) => ({
-      url: `/api/Company/data/${id}`,
+      url: '/api/Company/delete',
       method: 'POST',
+      body: { id },
     }),
+    invalidatesTags: (result, error, { id }) => [
+      { type: 'Organization', id: 'LIST' },
+      { type: 'Organization', id },
+    ],
+  }),
+  editOrganization: builder.mutation({
+    query: (data) => ({
+      url: '/api/Company/update',
+      method: 'POST',
+      body: data,
+    }),
+    invalidatesTags: (result, error, { id }) => [
+      { type: 'Organization', id: 'LIST' },
+      { type: 'Organization', id },
+    ],
   }),
 });
 
@@ -31,6 +55,7 @@ export const {
   useGetOrganizationsQuery,
   useAddOrganizationMutation,
   useDeleteOrganizationMutation,
+  useEditOrganizationMutation,
 } = api.injectEndpoints({
   endpoints: organizationEndpoints,
 });

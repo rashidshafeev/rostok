@@ -3,7 +3,16 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import UpdateOrganizationModal from '../../../helpers/CModal/UpdateOrganizationModal';
 import DeleteOrganizationModal from '../../../helpers/CModal/DeleteOrganizationModal';
 
-export const OrgCard = ({ el, index }) => {
+export const OrgCard = ({
+  el,
+  index,
+  handleDeleteOrganization,
+  deleteLoading,
+  delOrgSuccess,
+  handleEditOrganization,
+  editLoading,
+  editOrgSuccess,
+}) => {
   const [expandedIndex, setExpandedIndex] = useState(null);
   const [openDeleteOrgModal, setOpenDeleteOrgModal] = useState(false);
   const [openUpdateOrgModal, setOpenUpdateOrgModal] = useState(false);
@@ -72,6 +81,9 @@ export const OrgCard = ({ el, index }) => {
               open={openUpdateOrgModal}
               close={handleCloseUpdateOrgModal}
               item={el}
+              handleEditOrganization={handleEditOrganization}
+              editLoading={editLoading}
+              editOrgSuccess={editOrgSuccess}
             />
             <span
               onClick={handleOpenDeleteOrgModal}
@@ -83,6 +95,9 @@ export const OrgCard = ({ el, index }) => {
               open={openDeleteOrgModal}
               close={handleCloseDeleteOrgModal}
               item={el}
+              handleDeleteOrganization={handleDeleteOrganization}
+              deleteLoading={deleteLoading}
+              delOrgSuccess={delOrgSuccess}
             />
           </div>
         </div>
@@ -102,37 +117,39 @@ export const OrgCard = ({ el, index }) => {
               <span className='text-colDarkGray mr-2 leading-5'>
                 Юридический адрес:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.yurAddress}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.u_address}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Фактический адрес:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.faqAddress}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.f_address}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Расчетный счет:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.rasShet}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.bank_account}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 БИК Банка:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.bikBanka}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.bank_bik}</h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Корр. счет:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.korrSchet}</h5>
+              <h5 className='text-colBlack leading-5'>
+                {el?.correspondent_account}
+              </h5>
             </div>
             <div className='flex'>
               <span className='text-colDarkGray mr-2 leading-5'>
                 Наименование банка:
               </span>
-              <h5 className='text-colBlack leading-5'>{el?.bankName}</h5>
+              <h5 className='text-colBlack leading-5'>{el?.bank_name}</h5>
             </div>
           </div>
         )}
