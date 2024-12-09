@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import WantToBePartnerFrom from '../../components/About/WantToBePartnerFrom'
-import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import WantToBePartnerFrom from '@components/About/WantToBePartnerFrom'
+import { scrollToTop } from '@utils/scrollToTop';
 
 function Wholesale() {
 

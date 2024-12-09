@@ -1,7 +1,7 @@
 // src/AuthModal/AuthWithEmail.tsx
 
 import { Controller, useForm } from "react-hook-form";
-import CTextField from "../../CustomInputs/CTextField";
+import CTextField from "@helpers/CustomInputs/CTextField";
 import {
   Visibility,
   VisibilityOff,
@@ -9,15 +9,15 @@ import {
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useAuthWithEmailMutation } from "../../../redux/api/userEndpoints";
-import { useSendCartMutation } from "../../../redux/api/cartEndpoints";
-import { useSendFavoritesMutation } from "../../../redux/api/favoritesEndpoints";
-import { useSendComparisonMutation } from "../../../redux/api/comparisonEndpoints";
-import { setComparison } from "../../../redux/slices/comparisonSlice";
-import { setFavorite } from "../../../redux/slices/favoriteSlice";
-import { setCart } from "../../../redux/slices/cartSlice";
-import { setToken } from "../../../redux/slices/userSlice";
-import { LoadingSmall } from "../../Loader/Loader";
+import { useAuthWithEmailMutation } from "@api/userEndpoints";
+import { useSendCartMutation } from "@api/cartEndpoints";
+import { useSendFavoritesMutation } from "@api/favoritesEndpoints";
+import { useSendComparisonMutation } from "@api/comparisonEndpoints";
+import { setComparison } from "@store/slices/comparisonSlice";
+import { setFavorite } from "@store/slices/favoriteSlice";
+import { setCart } from "@store/slices/cartSlice";
+import { setToken } from "@store/slices/userSlice";
+import { LoadingSmall } from "@helpers/Loader/Loader";
 import { toast } from "sonner";
 
 const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {

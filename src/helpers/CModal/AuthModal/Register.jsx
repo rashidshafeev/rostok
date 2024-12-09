@@ -1,25 +1,25 @@
 // src/AuthModal/Register.tsx
 
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import CTextField from "../../CustomInputs/CTextField";
+import CTextField from "@/helpers/CustomInputs/CTextField"; 
 import { Checkbox, FormControlLabel } from "@mui/material"; 
-import { useSendCartMutation } from "../../../redux/api/cartEndpoints";
-import { useSendFavoritesMutation } from "../../../redux/api/favoritesEndpoints";
-import { useSendComparisonMutation } from "../../../redux/api/comparisonEndpoints";
-import { setComparison } from "../../../redux/slices/comparisonSlice";
-import { setFavorite } from "../../../redux/slices/favoriteSlice";
-import { setCart } from "../../../redux/slices/cartSlice";
-import { setToken } from "../../../redux/slices/userSlice";
+import { useSendCartMutation } from "@api/cartEndpoints";
+import { useSendFavoritesMutation } from "@api/favoritesEndpoints";
+import { useSendComparisonMutation } from "@api/comparisonEndpoints";
+import { setComparison } from "@store/slices/comparisonSlice";
+import { setFavorite } from "@store/slices/favoriteSlice";
+import { setCart } from "@store/slices/cartSlice";
+import { setToken } from "@store/slices/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useUserRegisterMutation } from "../../../redux/api/userEndpoints";
+import { useUserRegisterMutation } from "@api/userEndpoints";
 import { useEffect, useState } from "react";
-import PhoneVerificationField from "../../PhoneVerificationField/PhoneVerificationField";
+import PhoneVerificationField from "@helpers/PhoneVerificationField/PhoneVerificationField";
 import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
-import { LoadingSmall } from "../../Loader/Loader";
+import { LoadingSmall } from "@helpers/Loader/Loader";
 import { toast } from "sonner";
 
 const Register = ({ hideModal, login: enteredLogin }) => {

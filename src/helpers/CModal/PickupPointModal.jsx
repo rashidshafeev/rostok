@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 import CSearchField from '../CustomInputs/CSearchField';
-import CustomRadioButton from '../../pages/Checkout/CustomRadioButton';
+import CustomRadioButton from '@pages/Checkout/CustomRadioButton';
 import SubwayIcon from '../Icons/SubwayIcon';
 
 function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {

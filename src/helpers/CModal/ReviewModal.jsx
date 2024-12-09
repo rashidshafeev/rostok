@@ -5,7 +5,7 @@ import RatingStars from '../RatingStars';
 import { NavLink } from 'react-router-dom';
 import CTextField from '../CustomInputs/CTextField';
 import { useSelector } from 'react-redux';
-import { useSubmitReviewMutation } from '../../redux/api/reviewEndpoints';
+import { useSubmitReviewMutation } from '@api/reviewEndpoints';
 
 function ReviewModal({ product, open, handleClose }) {
   const [rating, setRating] = useState(5);

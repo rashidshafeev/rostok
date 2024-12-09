@@ -1,16 +1,16 @@
 import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material'
 import React, { useState } from 'react'
-import CPhoneField from '../../helpers/CustomInputs/CPhoneField'
+import CPhoneField from '@helpers/CustomInputs/CPhoneField'
 import { CancelRounded, CheckCircleRounded } from '@mui/icons-material'
 import { Controller, useFormContext } from 'react-hook-form'
-import { LoadingSmall } from '../../helpers/Loader/Loader'
+import { LoadingSmall } from '@helpers/Loader/Loader'
 
-import fizlico from '../../assets/icons/fizlico-inactive.svg';
-import urlico from '../../assets/icons/urlico-inactive.svg';
-import CSelectField from '../../helpers/CustomInputs/CSelectField'
-import CTextField from '../../helpers/CustomInputs/CTextField'
-// import { postConfirmVerificationCode, postSendVerificationCode } from '../../api/user'
-import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '../../redux/api/userEndpoints'
+import fizlico from '@assets/icons/fizlico-inactive.svg';
+import urlico from '@assets/icons/urlico-inactive.svg';
+import CSelectField from '@helpers/CustomInputs/CSelectField'
+import CTextField from '@helpers/CustomInputs/CTextField'
+// import { postConfirmVerificationCode, postSendVerificationCode } from '@api/user'
+import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '@api/userEndpoints'
 
 
 function FizlicoNotLoggedForm({ user, organizations}) {

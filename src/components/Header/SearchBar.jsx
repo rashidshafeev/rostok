@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import search from "../../assets/icons/search.svg";
+import search from "@assets/icons/search.svg";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
-import { useGetSuggestionsMutation } from "../../redux/api/cartEndpoints";
+import { useGetSuggestionsMutation } from "@api/cartEndpoints";
 
-import noImg from '../../assets/images/no-image.png';
+import noImg from '@assets/images/no-image.png';
 function SearchBar({ setShowCatalog }) {
   const [getSuggestions, { data, error, isLoading }] =
     useGetSuggestionsMutation();

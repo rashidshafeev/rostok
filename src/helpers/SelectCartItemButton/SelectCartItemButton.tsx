@@ -2,12 +2,12 @@
 
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectItem, unselectItem } from "../../redux/slices/cartSlice";
+import { selectItem, unselectItem } from "@store/slices/cartSlice";
 import { getTokenFromCookies } from "../cookies/cookies";
 import {
   useGetUserCartQuery,
   useSendCartMutation,
-} from "../../redux/api/cartEndpoints";
+} from "@api/cartEndpoints";
 
 import { CartProduct, LocalCartState } from "@/types/Store/Cart/CartState";
 import { AppDispatch, RootState } from "@/redux/store";

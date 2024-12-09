@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import CTextField from '../../../helpers/CustomInputs/CTextField';
-import ModalSnackbar from '../../../helpers/CModal/ModalSnackbar';
-import arrowIcon from '../../../assets/icons/arrow-icon.svg';
-import { Loading } from '../../../helpers/Loader/Loader';
-import { useChangePasswordMutation } from '../../../redux/api/userEndpoints';
+import CTextField from '@helpers/CustomInputs/CTextField';
+import ModalSnackbar from '@helpers/CModal/ModalSnackbar';
+import arrowIcon from '@assets/icons/arrow-icon.svg';
+import { Loading } from '@helpers/Loader/Loader';
+import { useChangePasswordMutation } from '@api/userEndpoints';
 
 const ChangePassword = () => {
   const [openSnack, setOpenSnack] = useState(false);

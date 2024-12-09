@@ -1,50 +1,31 @@
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import order from '../../assets/icons/order.svg';
-import favoriteIcon from '../../assets/icons/favorite.svg';
-import comparisonIcon from '../../assets/icons/comparison.svg';
+import order from '@assets/icons/order.svg';
+import favoriteIcon from '@assets/icons/favorite.svg';
+import comparisonIcon from '@assets/icons/comparison.svg';
 
 
 import { useEffect, useState } from 'react';
 import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 import CartButton from './HeaderControls/CartButton';
-import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
-import { useGetFavoritesQuery } from '../../redux/api/favoritesEndpoints';
+import { useGetUserDataQuery } from '@api/userEndpoints';
+import { useQuantities } from '@hooks/useQuantities';
 
 
 function HeaderControls() {
   const token = useSelector((state) => state.user.token);
   
-  const favorite = useSelector((state) => state?.favorite?.favorite);
-  const comparison = useSelector((state) => state?.comparison?.comparison);
-  const cart = useSelector((state) => state?.cart);
-
-  const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
+  const { data: user, isLoading, refetch } = useGetUserDataQuery(undefined, { skip: !token });
+  
+  const { getFavoritesCount, getComparisonCount, getCartQuantity } = useQuantities(token);
 
   useEffect(() => {
     if (token) {
-      refetch(); // refetch the user data when token changes
+      refetch();
     }
   }, [token, refetch]);
-
-  const getFavoritesCount = () => {
-    // return (favorite.length || 0);
-    return user ? user?.favorites?.items_count : (favorite?.length || 0);
-  };
-
-  const getComparisonCount = () => {
-    // return (comparison.length || 0);
-    return user ? user?.comparison?.items_count : (comparison?.length || 0);
-  };
-
-  const getCartQuantity = () => {
-    // return (cart.itemsQuantity || 0);
-    return user ? user?.cart?.quantity : (cart.total?.quantity || 0);
-  };
-
-
 
   return (
     <div className='hidden lg:flex justify-between space-x-4'>

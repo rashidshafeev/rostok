@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import image from '../../assets/images/404.svg'
+import image from '@assets/images/404.svg'
 import { NavLink } from 'react-router-dom'
-import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
+import { scrollToTop } from '@utils/scrollToTop';
 
 function PageNotFound() {
 

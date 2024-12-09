@@ -9,4 +9,7 @@ export interface ImageSet {
     large: string;
     type: string;
     date: string;
+    stretch_image: boolean;
+    width: number;
+    height: number;
   }

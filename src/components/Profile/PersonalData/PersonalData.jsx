@@ -1,18 +1,18 @@
 /* eslint-disable no-useless-escape */
 import { NavLink } from 'react-router-dom';
 // import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import CTextField from '../../../helpers/CustomInputs/CTextField';
-// import CDatePicker from '../../../helpers/CustomInputs/CDatePicker';
+import CTextField from '@helpers/CustomInputs/CTextField';
+// import CDatePicker from '@helpers/CustomInputs/CDatePicker';
 import { Controller, useForm } from 'react-hook-form';
-import CPhoneField from '../../../helpers/CustomInputs/CPhoneField';
-import arrowIcon from '../../../assets/icons/arrow-icon.svg';
+import CPhoneField from '@helpers/CustomInputs/CPhoneField';
+import arrowIcon from '@assets/icons/arrow-icon.svg';
 import {
   useChangeUserDataMutation,
   useGetUserDataQuery,
-} from '../../../redux/api/userEndpoints';
+} from '@api/userEndpoints';
 import { useEffect } from 'react';
-import { Loading } from '../../../helpers/Loader/Loader';
-import ErrorServer from '../../../helpers/Errors/ErrorServer';
+import { Loading } from '@helpers/Loader/Loader';
+import ErrorServer from '@helpers/Errors/ErrorServer';
 
 const PersonalData = () => {
   const { data, isLoading, isFetching, isError } = useGetUserDataQuery();

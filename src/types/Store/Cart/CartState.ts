@@ -2,10 +2,11 @@ import { Currency } from "@customTypes/Product/Currency";
 import { CartProduct } from "./CartProduct";
 
 type CartTotals = {
-    count: number;
-    amount: number;
+    items_count: number;
     quantity: number;
+    price_before_discount: number;
     discount: number;
+    price_after_discount: number;
   };
 
 export interface LocalCartState  {

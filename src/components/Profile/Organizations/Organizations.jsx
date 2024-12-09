@@ -1,15 +1,15 @@
-// import { organizations } from '../../../constants/data';
+// import { organizations } from '@../constants/data';
 import { useState } from 'react';
-import AddOrganizationModal from '../../../helpers/CModal/AddOrganizationModal';
-import ErrorEmpty from '../../../helpers/Errors/ErrorEmpty';
+import AddOrganizationModal from '@helpers/CModal/AddOrganizationModal';
+import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 import { NavLink } from 'react-router-dom';
-import arrowIcon from '../../../assets/icons/arrow-icon.svg';
+import arrowIcon from '@assets/icons/arrow-icon.svg';
 import { OrgCard } from './OrgCard';
 import {
   useDeleteOrganizationMutation,
   useEditOrganizationMutation,
   useGetOrganizationsQuery,
-} from '../../../redux/api/organizationEndpoints';
+} from '@api/organizationEndpoints';
 import { Loading } from '@/helpers/Loader/Loader';
 import ErrorServer from '@/helpers/Errors/ErrorServer';
 import ModalSnackbar from '@/helpers/CModal/ModalSnackbar';

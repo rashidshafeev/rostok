@@ -1,6 +1,6 @@
 import React from 'react'
-import RatingStars from '../../../../helpers/RatingStars';
-import Review from '../../../Reviews/Review';
+import RatingStars from '@helpers/RatingStars';
+import Review from '@components/Reviews/Review';
 import { NavLink } from 'react-router-dom';
 
 

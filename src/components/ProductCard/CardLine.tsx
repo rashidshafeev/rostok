@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
-import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
-import FavoriteButton from "../../helpers/FavoriteButton/FavoriteButton";
-import ComparisonButton from "../../helpers/ComparisonButton/ComparisonButton";
-import { LoadingSmall } from "../../helpers/Loader/Loader";
-import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
+import AddToCartButton from "@helpers/AddToCartButton/AddToCartButton";
+import ChangeQuantityGroup from "@helpers/ChangeQuantityButton/ChangeQuantityGroup";
+import FavoriteButton from "@helpers/FavoriteButton/FavoriteButton";
+import ComparisonButton from "@helpers/ComparisonButton/ComparisonButton";
+import { LoadingSmall } from "@helpers/Loader/Loader";
+import { ComparisonIcon, FavoriteIcon } from '@helpers/Icons';
 import PriceDisplay from './PriceDisplay';
-import noImg from "../../assets/images/no-image.png";
+import noImg from "@assets/images/no-image.png";
 import { RootState } from '@/redux/store';
 import { Product } from '@customTypes/Product/Product';
 

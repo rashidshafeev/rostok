@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import ProductCard from '../ProductCard/ProductCard';
-import { products } from '../../constants/data';
+import { products } from '@constants/data';
 
 const Suggestions = () => {
   return (

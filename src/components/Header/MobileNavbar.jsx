@@ -1,26 +1,24 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
-import homeIcon from '../../assets/icons/mobile-navbar/home.svg';
-import catalogIcon from '../../assets/icons/mobile-navbar/catalog.svg';
-import favoriteIcon from '../../assets/icons/mobile-navbar/favorite.svg';
-import profileIcon from '../../assets/icons/mobile-navbar/profile.svg';
-import cartIcon from '../../assets/icons/mobile-navbar/cart.svg';
-import activeHomeIcon from '../../assets/icons/mobile-navbar/active-home.svg';
-import activeCatalogIcon from '../../assets/icons/mobile-navbar/active-catalog.svg';
-import activeFavoriteIcon from '../../assets/icons/mobile-navbar/active-favorite.svg';
-import activeProfileIcon from '../../assets/icons/mobile-navbar/active-profile.svg';
-import activeCartIcon from '../../assets/icons/mobile-navbar/active-cart.svg';
+import homeIcon from '@assets/icons/mobile-navbar/home.svg';
+import catalogIcon from '@assets/icons/mobile-navbar/catalog.svg';
+import favoriteIcon from '@assets/icons/mobile-navbar/favorite.svg';
+import profileIcon from '@assets/icons/mobile-navbar/profile.svg';
+import cartIcon from '@assets/icons/mobile-navbar/cart.svg';
+import activeHomeIcon from '@assets/icons/mobile-navbar/active-home.svg';
+import activeCatalogIcon from '@assets/icons/mobile-navbar/active-catalog.svg';
+import activeFavoriteIcon from '@assets/icons/mobile-navbar/active-favorite.svg';
+import activeProfileIcon from '@assets/icons/mobile-navbar/active-profile.svg';
+import activeCartIcon from '@assets/icons/mobile-navbar/active-cart.svg';
 
-import AuthModal from '../../helpers/CModal/AuthModal/AuthModal';
-import { useGetUserDataQuery } from '../../redux/api/userEndpoints';
-import { useModal } from '../../context/ModalContext';
+import AuthModal from '@helpers/CModal/AuthModal/AuthModal';
+import { useGetUserDataQuery } from '@api/userEndpoints';
+import { useModal } from '@context/ModalContext';
+import { useQuantities } from '@/hooks/useQuantities';
 
 const MobileNavbar = () => {
   const token = useSelector((state) => state.user.token);
-
-  const favorite = useSelector((state) => state?.favorite?.favorite);
-  const cart = useSelector((state) => state?.cart);
 
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
@@ -29,15 +27,9 @@ const MobileNavbar = () => {
       refetch(); // refetch the user data when token changes
     }
   }, [token, refetch]);
+  const { getFavoritesCount, getComparisonCount, getCartQuantity } = useQuantities(token);
 
-  const getFavoritesCount = () => {
-    return user ? user?.favorites?.items_count : (favorite.length || 0);
-  };
-
-  const getCartQuantity = () => {
-    return user ? user?.cart?.quantity : (cart.itemsQuantity || 0);
-  };
-
+  
 
   const { showModal } = useModal();
 

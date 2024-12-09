@@ -2,8 +2,10 @@ import React, { useRef } from 'react'
 import { useIntersection } from 'react-use';
 import plural from 'plural-ru'
 import { NavLink } from 'react-router-dom';
-import { getTokenFromCookies } from '../../helpers/cookies/cookies';
-import { CartProduct, LocalCartState } from '@/types/Store/Cart/CartState';
+import { getTokenFromCookies } from '@helpers/cookies/cookies';
+import { LocalCartState } from '@/types/Store/Cart/CartState';
+import { CartProduct } from '@/types/Store/Cart/CartProduct';
+
 
 type ShoppingCartOrderInfoProps = {
   cart: LocalCartState,
@@ -28,7 +30,7 @@ const ShoppingCartOrderInfo : React.FC<ShoppingCartOrderInfoProps> = ({ cart, se
               Итого
             </span>
             <span className='text-xl font-semibold text-colBlack'>
-            {cart?.selected?.count} {plural(selected?.length, 'товар', 'товара', 'товаров')}
+            {cart?.selected?.items_count} {plural(selected?.length, 'товар', 'товара', 'товаров')}
             </span>
           </div>
           <div className='flex justify-between items-center'>
@@ -47,7 +49,7 @@ const ShoppingCartOrderInfo : React.FC<ShoppingCartOrderInfoProps> = ({ cart, se
           <div className='flex justify-between items-center'>
             <span className='text-colBlack text-sm'>Сумма</span>
             <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-            <span className='font-bold whitespace-nowrap'>{cart?.selected?.amount} {cart?.currency.symbol }</span>
+            <span className='font-bold whitespace-nowrap'>{cart?.selected?.price_before_discount} {cart?.currency.symbol }</span>
           </div>
           {cart?.selected?.discount > 0 && <div className='flex justify-between items-center pt-2'>
             <span className='text-colBlack text-sm'>Скидка</span>
@@ -57,7 +59,7 @@ const ShoppingCartOrderInfo : React.FC<ShoppingCartOrderInfoProps> = ({ cart, se
           <div className='flex justify-between items-center pt-3 pb-5'>
             <span className='text-lg font-semibold text-colBlack'>Итого</span>
             <span className='text-lg font-semibold text-colBlack'>
-              {cart?.selected?.amount - cart?.selected?.discount} {cart?.currency?.symbol }
+              {cart?.selected?.price_after_discount} {cart?.currency?.symbol }
             </span>
           </div>
 

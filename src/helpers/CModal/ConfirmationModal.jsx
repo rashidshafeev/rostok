@@ -1,7 +1,7 @@
 // src/components/ConfirmationModal.js
 
 import { Box, Modal } from '@mui/material';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '@context/ModalContext';
 
 
 const ConfirmationModal = () => {

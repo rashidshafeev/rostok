@@ -133,7 +133,7 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
     let availableProducts: Product[] = [];
     productList.forEach((product) => {
       let checks = 0;
-      product.attributes.forEach((attr) => {
+      product?.attributes?.forEach((attr) => {
         if (attributes.some((attribute) => Number(attribute.id) === Number(attr.id) && Number(attribute.value) === Number(attr.value))) {
           checks++;
         }

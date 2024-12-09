@@ -1,6 +1,6 @@
 import { Box, Modal } from "@mui/material";
 import QuestionForm from "../QuestionForm";
-import { useModal } from "../../context/ModalContext";
+import { useModal } from "@context/ModalContext";
 
 function QuestionModal() {
   const { hideModal, modalContent, isModalVisible } = useModal();

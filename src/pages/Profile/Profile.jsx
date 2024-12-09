@@ -1,16 +1,9 @@
 import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import arrowIcon from '../../assets/icons/arrow-icon.svg';
-import CustomBreadcrumbs from '../../helpers/Breadcrumbs/CustomBreadcrumbs';
-import {
-  changePassword,
-  myOrders,
-  myOrganizations,
-  personalData,
-  profile,
-} from '../../constants/breadcrumbs';
-import { useModal } from '../../context/ModalContext';
+import { scrollToTop } from '@utils/scrollToTop';
+import arrowIcon from '@assets/icons/arrow-icon.svg';
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import { useModal } from '@context/ModalContext';
 import ProfileSidebar from "@components/Profile/ProfileSidebar";
 
 const Profile = () => {
@@ -26,19 +19,7 @@ const Profile = () => {
 
   return (
     <div className='content min-h-[520px]'>
-      <CustomBreadcrumbs
-        breadcrumbs={
-          secondUrl === 'orders'
-            ? myOrders
-            : secondUrl === 'personal-data'
-            ? personalData
-            : secondUrl === 'organizations'
-            ? myOrganizations
-            : secondUrl === 'change-password'
-            ? changePassword
-            : pathname === '/profile' && profile
-        }
-      />
+      <Breadcrumbs/>
       <h1
         className={`${
           pathname === '/profile' ? 'block' : 'hidden mm:block'

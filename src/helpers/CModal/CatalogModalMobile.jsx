@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { ArrowIcon } from '../Icons';
-import noImg from '../../assets/images/no-image.png';
-import arrowBack from '../../assets/icons/arrow-black.svg';
-import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
+import noImg from '@assets/images/no-image.png';
+import arrowBack from '@assets/icons/arrow-black.svg';
+import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '@api/productEndpoints';
 
 const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
   const categoryTree = data?.children;
   const { pathname } = useLocation();
 
-  const {data: basicFilters} = useGetBasicFiltersQuery();
+  const {data: basicFilters} = useGetBasicFiltersQuery()
 
 
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -51,15 +51,15 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
 
   return (
     <div
-      className={`fixed left-0 w-full h-full z-[999] md:hidden ${
+      className={`fixed left-0 w-full h-full z-[50] md:hidden ${
         scrollPosition > 32 ? 'top-[64px]' : 'top-[105px]'
-      } bg-white duration-300 pb-[72px]`}
+      } bg-white duration-300 `}
     >
       <div
         className={`${
           scrollPosition > 32
-            ? 'h-[calc(100vh-136px)] overflow-y-auto'
-            : 'h-[calc(100vh-182px)] overflow-y-auto'
+            ? 'h-[calc(100dvh-136px)] overflow-y-auto'
+            : 'h-[calc(100dvh-182px)] overflow-y-auto'
         } content scrollable relative`}
       >
         <div className='flex pt-5'>
@@ -69,8 +69,7 @@ const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {
         <NavLink
           to={`/catalog/tags?tags=${tag?.tag}`}
           onClick={() => setShowCatalog(false)}
-
-          key={tag?.id}
+          key={tag?.tag}
           className="rounded h-[27px] flex items-end p-1"
         >
           <img src={tag?.dark_icon?.medium} className='w-7 h-7' alt="*" />

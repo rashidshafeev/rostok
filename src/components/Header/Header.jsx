@@ -5,9 +5,9 @@ import PreHeader from "./PreHeader";
 import CatalogFastAccess from "./CatalogFastAccess";
 import SearchBar from "./SearchBar";
 import HeaderControls from "./HeaderControls";
-import logo from "../../assets/images/logo.svg";
-import CatalogModal from "../../helpers/CModal/CatalogModal";
-import CatalogModalMobile from "../../helpers/CModal/CatalogModalMobile";
+import logo from "@assets/images/logo.svg";
+import CatalogModal from "@helpers/CModal/CatalogModal";
+import CatalogModalMobile from "@helpers/CModal/CatalogModalMobile";
 import useInitialDataFetch from "@/hooks/useInitialDataFetch";
 
 const Header = ({ showCatalog, setShowCatalog }) => {

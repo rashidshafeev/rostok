@@ -1,27 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
-import CCheckBoxField from "../../helpers/CustomInputs/CCheckBoxField";
+import CCheckBoxField from "@helpers/CustomInputs/CCheckBoxField";
 import ShCartItem from "./ShCartItem";
 import MobileShCartItem from "./MobileShCartItem";
 import ShCartItemLine from "./ShCartItemLine";
-import shareIcon from "../../assets/icons/share.svg";
-import docIcon from "../../assets/icons/download-pdf.svg";
+import shareIcon from "@assets/icons/share.svg";
+import docIcon from "@assets/icons/download-pdf.svg";
 import { useDispatch } from "react-redux";
 import {
   removeFromCart,
   selectItem,
   unselectItem,
-} from "../../redux/slices/cartSlice";
+} from "@store/slices/cartSlice";
 import { useWindowSize } from "react-use";
 import {
   useSendCartMutation,
-} from "../../redux/api/cartEndpoints";
+} from "@api/cartEndpoints";
 import CardLineSkeleton from "../ProductCard/CardLineSkeleton";
-import { getTokenFromCookies } from "../../helpers/cookies/cookies";
+import { getTokenFromCookies } from "@helpers/cookies/cookies";
 import LineNarrowSkeleton from "../ProductCard/LineNarrowSkeleton";
 import { SendCartPayload, SendCartRequest } from "@customTypes/ServerData/SendCart";
 import { CartProduct, LocalCartState } from "@customTypes/Store/Cart/CartState";
 import { AppDispatch } from "@store/store";
 import { useModal } from "@/context/ModalContext";
+import { toast } from "sonner";
 
 
 type ShCartDetailProps = {
@@ -78,9 +79,10 @@ const ShCartDetail : React.FC<ShCartDetailProps> = ({ cart, isLoading, filteredC
       selected: 0,
     }));
 
-    token
-      ? sendCart({ items: payload })
-      : selected.forEach((item) => dispatch(removeFromCart(item)));
+    if (token) {
+      sendCart({ items: payload})
+    } 
+   selected.forEach((item) => dispatch(removeFromCart(item)));
   };
 
   const [containerHeight, setContainerHeight] = useState("auto");
@@ -133,7 +135,12 @@ const ShCartDetail : React.FC<ShCartDetailProps> = ({ cart, isLoading, filteredC
           )}
         </div>
         <div className="block lg:hidden">
-          <img className="w-6 h-6" src={shareIcon} alt="" onClick={() => showModal({ type: 'shareCart', showLink: true })} />
+          <img className="w-6 h-6" src={shareIcon} alt="" onClick={() => {
+                if (selected.length === 0) {
+                  toast('Выберите товары, которыми хотите поделиться')
+                  return;
+                }
+                showModal({ type: 'shareCart', showLink: true })}} />
         </div>
         <div className="hidden lg:flex justify-end items-center space-x-2 ">
           <svg

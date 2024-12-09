@@ -4,19 +4,19 @@ import { SelectableItem } from "./SelectableItem";
 export interface PriceFilter {
     min: number;
     max: number;
-    current_values: {
+    current_values?: {
       min: number;
       max: number;
     };
   }
   
-  interface Tag extends SelectableItem {
+  export interface TagFilter extends SelectableItem {
       tag: string;
       text_color: string;
       background_color: string;
   }
   
-  interface Brand extends SelectableItem {
+  export interface BrandFilter extends SelectableItem {
       id: number;
       name: string;
       image: ImageSet;

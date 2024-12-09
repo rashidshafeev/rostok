@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import Review from '../../Reviews/Review'
+import Review from '@components/Reviews/Review'
 
-import star from '../../../assets/icons/adv1.svg';
-import starhalf from '../../../assets/icons/adv1half.svg';
-import starfill from '../../../assets/icons/adv1fill.svg';
-import { NavLink, useLocation, useParams } from 'react-router-dom';
-import RatingStars from '../../../helpers/RatingStars';
-import ReviewModal from '../../../helpers/CModal/ReviewModal';
+
+import { NavLink, useLocation  } from 'react-router-dom';
+import RatingStars from '@helpers/RatingStars';
+import ReviewModal from '@helpers/CModal/ReviewModal';
 
 function ReviewsTab({ current, reviews }) {
 

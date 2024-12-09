@@ -2,9 +2,9 @@
 
 import { useState } from "react"; 
 import { Modal, Box } from "@mui/material"; 
-import { useModal } from "../../../context/ModalContext";
+import { useModal } from "@context/ModalContext";
 
-import modalLogo from "../../../assets/images/modal-logo.svg";
+import modalLogo from "@assets/images/modal-logo.svg";
 
 import CheckAuth from "./CheckAuth";
 import AuthWithEmail from "./AuthWithEmail";

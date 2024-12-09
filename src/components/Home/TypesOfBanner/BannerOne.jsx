@@ -1,8 +1,8 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay, EffectFade, Pagination } from 'swiper/modules';
 import 'swiper/swiper-bundle.css';
-import bgImg from '../../../assets/temp-images/pattern.png';
-import { useGetMainPageDataQuery } from '../../../redux/api/productEndpoints';
+import bgImg from '@assets/temp-images/pattern.png';
+import { useGetMainPageDataQuery } from '@api/contentEndpoints';
 import { NavLink } from 'react-router-dom';
 
 const BannerOne = () => {

@@ -3,9 +3,9 @@ import React, { createRef, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
-import CSearchField from '../../CustomInputs/CSearchField';
-import CustomRadioButton from '../../../pages/Checkout/CustomRadioButton';
-import SubwayIcon from '../../Icons/SubwayIcon';
+import CSearchField from '@CustomInputs/CSearchField';
+import CustomRadioButton from '@../pages/Checkout/CustomRadioButton';
+import SubwayIcon from '@Icons/SubwayIcon';
 import { useRef } from 'react';
 
 

@@ -5,5 +5,5 @@ import { AdditionalServerResponseData } from '../AdditionalServerResponseData';
 export interface GetComparisonResponse extends AdditionalServerResponseData {
     data: Product[];
     count: number;
-    categories: ProductListCategoryChain[]
+    category_chain: ProductListCategoryChain[]
 }

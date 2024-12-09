@@ -4,7 +4,7 @@ import CTextField from '../CustomInputs/CTextField';
 import {
   useAddOrganizationMutation,
   useGetOrgSuggestionsMutation,
-} from '../../redux/api/organizationEndpoints';
+} from '@api/organizationEndpoints';
 import { Loading } from '../Loader/Loader';
 import { useEffect, useState } from 'react';
 import ModalSnackbar from './ModalSnackbar';

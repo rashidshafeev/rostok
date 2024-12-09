@@ -1,6 +1,6 @@
-import copyicon from '../../assets/icons/copy-icon.svg';
+import copyicon from '@assets/icons/copy-icon.svg';
 import { toast } from 'sonner';
-
+import CopyButton from '../common/CopyButton';
 
 function CharacteristicsList({ current, product, setTabIndex }) {
  
@@ -12,9 +12,11 @@ function CharacteristicsList({ current, product, setTabIndex }) {
                     <div className='grow border-b-2 border-dotted'></div>
                     <div className='flex items-end leading-none shrink ml-1'>
                         {current?.sku}
-                        <img onClick={() => {navigator.clipboard.writeText(current?.sku)
-                            toast('Код товара скопирован')
-                        }} src={copyicon} alt="" className='w-4 h-4 rounded-full cursor-pointer hover:opacity-80' />
+                        <CopyButton 
+                            textToCopy={current?.sku} 
+                            toastMessage="Код товара скопирован"
+                            containerClassName="ml-1"
+                        />
                     </div>
                 </div>
                 {

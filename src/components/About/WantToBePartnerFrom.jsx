@@ -1,9 +1,8 @@
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import image from '../../assets/images/want-to-be-partner.png'
-import CTextField from '../../helpers/CustomInputs/CTextField';
-import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
-
+import image from '@assets/images/want-to-be-partner.png'
+import CTextField from '@helpers/CustomInputs/CTextField';
+import CPhoneField from '@helpers/CustomInputs/CPhoneField';
 
 function WantToBePartnerFrom() {
   const {
@@ -16,7 +15,6 @@ function WantToBePartnerFrom() {
   } = useForm({
     mode: 'onChange',
   });
-
 
   const onSubmitAuthCheck = async (data) => {
     reset();
@@ -61,11 +59,10 @@ function WantToBePartnerFrom() {
   }
 
   return (
-
-    <div className='flex gap-5 my-[70px]'>
-      <div className='basis-[calc(30%-20px/2)] rounded-2xl bg-colGreen p-7'>
-        <div className=' text-white text-4xl font-semibold mb-3'> Хотите стать поставщиком?</div>
-        <div className=' text-white mb-3'> Оставьте заявку и менеджер свяжется с вами в ближайшее время, чтобы обсудить все условия</div>
+    <div className='flex flex-col md:flex-row gap-5 my-10 md:my-[70px] px-4 md:px-0'>
+      <div className='w-full md:basis-[calc(30%-20px/2)] rounded-2xl bg-colGreen p-5 md:p-7'>
+        <div className='text-white text-2xl md:text-4xl font-semibold mb-2 md:mb-3'>Хотите стать поставщиком?</div>
+        <div className='text-white text-sm md:text-base mb-3'>Оставьте заявку и менеджер свяжется с вами в ближайшее время, чтобы обсудить все условия</div>
         <form onSubmit={handleSubmit(onSubmitAuthCheck)} className='flex flex-col gap-3'>
           <Controller
             name='name'
@@ -78,10 +75,9 @@ function WantToBePartnerFrom() {
                 required={true}
                 onChange={field.onChange}
                 value={field.value}
-
-                InputProps = {InputProps}
-                InputLabelProps = {InputLabelProps}
-               
+                InputProps={InputProps}
+                InputLabelProps={InputLabelProps}
+                size="small"
               />
             )}
           />
@@ -101,13 +97,12 @@ function WantToBePartnerFrom() {
               <CTextField
                 label='Электронная почта'
                 type='email'
-
                 required={true}
                 {...field}      
 
-                InputProps = {InputProps}
-                InputLabelProps = {InputLabelProps}
-
+                InputProps={InputProps}
+                InputLabelProps={InputLabelProps}
+                size="small"
               />
             )}
           />
@@ -127,9 +122,9 @@ function WantToBePartnerFrom() {
               <CPhoneField
               label='Телефон' {...field}
 
-              InputProps = {InputProps}
-                InputLabelProps = {InputLabelProps}
-
+              InputProps={InputProps}
+                InputLabelProps={InputLabelProps}
+                size="small"
                />
             )} />
           <Controller
@@ -146,17 +141,20 @@ function WantToBePartnerFrom() {
                 onChange={field.onChange}
                 value={field.value}
 
-                InputProps = {InputProps}
-                InputLabelProps = {InputLabelProps}
+                InputProps={InputProps}
+                InputLabelProps={InputLabelProps}
+                size="small"
           
               />
             )}
           />
-          <button className=' bg-white rounded p-3 text-colGreen font-semibold'>Оставить заявку</button>
+          <button className='bg-white rounded p-3 text-colGreen font-semibold text-sm md:text-base hover:bg-opacity-90 transition-all'>
+            Оставить заявку
+          </button>
         </form>
       </div>
-      <div className='basis-[calc(70%-20px/2)]'>
-        <img src={image} alt="" />
+      <div className='hidden md:block md:basis-[calc(70%-20px/2)] rounded-2xl overflow-hidden'>
+        <img src={image} alt="Стать поставщиком Росток" className='w-full h-full object-cover' />
       </div>
     </div>
   )

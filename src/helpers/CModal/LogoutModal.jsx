@@ -1,8 +1,8 @@
 import { Box, Modal } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setToken } from '../../redux/slices/userSlice';
+import { setToken } from '@store/slices/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '@context/ModalContext';
 
 const LogoutModal = () => {
   const dispatch = useDispatch();

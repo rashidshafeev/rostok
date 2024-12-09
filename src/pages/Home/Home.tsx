@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { scrollToTop } from '../../helpers/scrollToTop/scrollToTop';
-import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import { scrollToTop } from '@utils/scrollToTop';
+import { useGetMainPageDataQuery } from '@api/contentEndpoints';
 import HomeSkeleton from './HomeSkeleton';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';

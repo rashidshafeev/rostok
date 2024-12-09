@@ -1,6 +1,6 @@
 
-import CatalogCard from '../Catalog/CatalogCard';
-import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import CatalogCard from '../Catalog/CategoryCard';
+import { useGetMainPageDataQuery } from '@api/contentEndpoints';
 
 // const PopularCategories = ({ data }) => {
 const PopularCategories = () => {

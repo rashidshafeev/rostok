@@ -1,9 +1,9 @@
 // src/components/SimpleCheckoutForm.tsx
 import React, { useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import CTextField from '../../helpers/CustomInputs/CTextField';
-import PhoneVerificationField from '../../helpers/PhoneVerificationField/PhoneVerificationField';
-import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
+import CTextField from '@helpers/CustomInputs/CTextField';
+import PhoneVerificationField from '@helpers/PhoneVerificationField/PhoneVerificationField';
+import CPhoneField from '@helpers/CustomInputs/CPhoneField';
 // import PhoneVerificationField from './PhoneVerificationField';
 
 function SimpleCheckoutForm({ user }) {

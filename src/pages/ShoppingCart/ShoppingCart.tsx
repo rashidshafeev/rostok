@@ -1,27 +1,28 @@
 // src/pages/ShoppingCart.js
 import React, { useEffect, useRef, useState } from "react";
-// import { ShCartDetail, ShLastViews } from "../../components";
+// import { ShCartDetail, ShLastViews } from "@components";
 
-import ErrorEmpty from "../../helpers/Errors/ErrorEmpty";
-import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
+import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
+import { scrollToTop } from "@utils/scrollToTop";
 import { useSelector } from "react-redux";
-import CustomBreadcrumbs from "../../helpers/Breadcrumbs/CustomBreadcrumbs";
-import { shoppingCart } from "../../constants/breadcrumbs";
-import { getTokenFromCookies } from "../../helpers/cookies/cookies";
-import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
-import ShoppingCartOrderInfo from "../../components/ShCart/ShoppingCartOrderInfo";
-import shareIcon from "../../assets/icons/share.svg";
-import docIcon from "../../assets/icons/download-pdf.svg";
-import CSearchField from "../../helpers/CustomInputs/CSearchField";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import { getTokenFromCookies } from "@helpers/cookies/cookies";
+import { useGetUserCartQuery } from "@api/cartEndpoints";
+import ShoppingCartOrderInfo from "@components/ShCart/ShoppingCartOrderInfo";
+import shareIcon from "@assets/icons/share.svg";
+import docIcon from "@assets/icons/download-pdf.svg";
+import CSearchField from "@helpers/CustomInputs/CSearchField";
 import { useIntersection } from "react-use";
-import MobileToCheckoutBar from "../../components/ShCart/MobileToCheckoutBar";
-import { CartProduct, LocalCartState } from "@customTypes/Store/Cart/CartState";
+import MobileToCheckoutBar from "@components/ShCart/MobileToCheckoutBar";
+import { LocalCartState } from "@customTypes/Store/Cart/CartState";
+import { CartProduct } from "@customTypes/Store/Cart/CartProduct";
 import { transformServerCartToLocalCart } from "@utils/transfromData";
 import { RootState } from "@store/store";
 import ShCartDetail from "@components/ShCart/ShCartDetail";
 import ShLastViews from "@components/ShCart/ShLastViews";
 import { useModal } from "@/context/ModalContext";
 import { useLocation } from 'react-router-dom';
+import { toast } from "sonner";
 
 
 const ShoppingCart = () => {
@@ -88,7 +89,7 @@ const { showModal } = useModal();
 
   return (
     <div className="content pb-6 lining-nums proportional-nums">
-      <CustomBreadcrumbs breadcrumbs={shoppingCart} />
+      <Breadcrumbs/>
       <h1 className="block text-2xl md:text-[40px] font-semibold text-colBlack">
         Корзина
       </h1>
@@ -105,7 +106,12 @@ const { showModal } = useModal();
               />
             </div>
             <div className="flex justify-end items-center space-x-4 ">
-              <div className="flex cursor-pointer"  onClick={() => showModal({ type: 'shareCart', showLink: true })}>
+              <div className="flex cursor-pointer"  onClick={() => {
+                if (selected.length === 0) {
+                  toast('Выберите товары, которыми хотите поделиться')
+                  return;
+                }
+                showModal({ type: 'shareCart', showLink: true })}}>
                 <img src={shareIcon} alt="*" />
                 <span className="text-xs font-medium text-colBlack pl-2">
                   Поделиться

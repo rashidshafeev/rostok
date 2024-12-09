@@ -1,7 +1,7 @@
 import React from 'react'
 
-import downloaddoc from '../../../assets/icons/doc-download.svg';
-import pdficon from '../../../assets/icons/pdf-file-icon.png'
+import downloaddoc from '@assets/icons/doc-download.svg';
+import pdficon from '@assets/icons/pdf-file-icon.png'
 import File from './File';
 
 

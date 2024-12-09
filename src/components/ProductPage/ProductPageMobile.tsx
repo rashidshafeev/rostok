@@ -10,7 +10,7 @@ import MobileAddToCartBar from "./Mobile/MobileAddToCartBar";
 import MobileInfo from "./Mobile/MobileProductInfo/MobileInfo";
 import MobileProductInfo from "./Mobile/MobileProductInfo/MobileProductInfo";
 import MobileTopBar from "./Mobile/MobileTopBar";
-import Breadcrumbs from "@helpers/Breadcrumbs/Breadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { ProductGroup } from "@/types/ProductGroup/ProductGroup";
 import { Product } from "@/types/Product/Product";
 import MobileCharacteristics from "./Mobile/MobileProductInfo/MobileCharacteristics";
@@ -52,7 +52,7 @@ const ProductPageMobile = ({ group, currentProduct, attributesList, handleChange
       </div>
 
       <div className="flex  flex-wrap pb-5 min-h-[420px] gap-5">
-        <div className="lg:basis-[calc(42%-40px/3)] basis-full">
+        <div className="w-[100vw]">
           <ProductGallery
             files={currentProduct?.files}
             tags={currentProduct?.tags}

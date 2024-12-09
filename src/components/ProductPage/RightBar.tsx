@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 
-import checkicon from "../../assets/icons/check-icon.svg";
-import stallicon from "../../assets/icons/stall-icon.svg";
-import truckicon from "../../assets/icons/truck-icon.svg";
-import boxicon from "../../assets/icons/box-icon.svg";
+import checkicon from "@assets/icons/check-icon.svg";
+import stallicon from "@assets/icons/stall-icon.svg";
+import truckicon from "@assets/icons/truck-icon.svg";
+import boxicon from "@assets/icons/box-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
-import { addToCart, changeQuantity } from "../../redux/slices/cartSlice";
+import { addToCart, changeQuantity } from "@store/slices/cartSlice";
 import { NavLink } from "react-router-dom";
-import FastOrderModal from "../../helpers/CModal/FastOrderModal";
-import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
-import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
-import { LoadingSmall } from "../../helpers/Loader/Loader";
-import { getTokenFromCookies } from "../../helpers/cookies/cookies";
-import { useGetUserCartQuery } from "../../redux/api/cartEndpoints";
+import FastOrderModal from "@helpers/CModal/FastOrderModal";
+import AddToCartButton from "@helpers/AddToCartButton/AddToCartButton";
+import ChangeQuantityGroup from "@helpers/ChangeQuantityButton/ChangeQuantityGroup";
+import { LoadingSmall } from "@helpers/Loader/Loader";
+import { getTokenFromCookies } from "@helpers/cookies/cookies";
+import { useGetUserCartQuery } from "@api/cartEndpoints";
 import { Product } from "@customTypes/Product/Product";
 import PriceDisplay from "../ProductCard/PriceDisplay";
 import { LocalCartState } from "@customTypes/Store/Cart/CartState";
@@ -52,10 +52,15 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
       <div className="shadow-[1px_1px_34px_0_rgba(0,0,0,0.1)] p-5 rounded-xl flex flex-col gap-8 mb-5">
         <div className="flex gap-2 justify-between grow">
             <div>
-              <PriceDisplay price={product?.price} />
+            
+            <p className="text-xl font-bold whitespace-nowrap break-words">
+            {productInCart?.price?.total && `${productInCart?.price?.total} ${productInCart?.price?.currency?.symbol}`}
+          </p>
             </div>
+            {product?.price?.base && !productInCart && <PriceDisplay price={product?.price} />}
+            {productInCart?.price?.base && <PriceDisplay price={productInCart?.price} />}
 
-            {productInCart?.price?.base && <div className=" font-bold text-xl">{productInCart?.price?.total_price} {productInCart?.price?.currency?.symbol}</div>}
+            
         </div>
         {!productInCart && (
           <div className="flex flex-col gap-3">

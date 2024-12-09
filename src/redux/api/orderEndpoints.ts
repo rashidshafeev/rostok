@@ -1,6 +1,8 @@
+import { GetUserOrdersResponse } from '@/types/ServerData/GetUserOrders';
 import { api } from  './api';
 
-export const orderEndpoints = (builder) => ({
+export const orderEndpoints = api.injectEndpoints({
+   endpoints: (builder) => ({
     getCitiesAndRegions: builder.query({
       query: () => '/api/Location/full',
       staleTime: 60000,
@@ -16,7 +18,7 @@ export const orderEndpoints = (builder) => ({
         { type: 'Order', id: 'FILTERS' },
       ],
     }),
-    getUserOrders: builder.query({
+    getUserOrders: builder.query<GetUserOrdersResponse, void>({
       query: () => '/api/Products/orders/get',
       providesTags: (result) =>
         result
@@ -39,6 +41,7 @@ export const orderEndpoints = (builder) => ({
         body: feedback,
       })
     })
+   }),
   });
   
   // Export hooks for order endpoints
@@ -48,4 +51,5 @@ export const orderEndpoints = (builder) => ({
     useGetUserOrdersQuery,
     useGetOrdersFiltersQuery,
     useSendFeedbackMutation
-  } = api.injectEndpoints({ endpoints: orderEndpoints });
+  } =  orderEndpoints
+

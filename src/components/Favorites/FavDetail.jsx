@@ -1,5 +1,5 @@
 import ProductCard from '../ProductCard/ProductCard';
-import filterIcon from '../../assets/icons/filter.svg';
+import filterIcon from '@assets/icons/filter.svg';
 
 const FavDetail = ({ favorite, user }) => {
   

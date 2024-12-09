@@ -1,6 +1,8 @@
-import star from '../../../assets/icons/adv1fill.svg';
-import copyicon from '../../../assets/icons/copy-icon.svg';
+import star from '@assets/icons/adv1fill.svg';
+import copyicon from '@assets/icons/copy-icon.svg';
 import { toast } from 'sonner';
+import CopyButton from '../../common/CopyButton';
+
 
 
 
@@ -24,11 +26,16 @@ function MobileNameBar({ name, reviews, sku}) {
             </div>
 
             <div className='flex items-end leading-none shrink ml-1 text-colDarkGray text-xs'>
-            Код товара: {sku}
-                        <img onClick={() => {navigator.clipboard.writeText(sku)
-                            toast('Код товара скопирован')
-                        }} src={copyicon} alt="" className='w-3 h-3 rounded-full cursor-pointer hover:opacity-80' />
-                    </div>
+            Код товара: 
+            <div className='flex items-center gap-1'>
+                <span>{sku}</span>
+                <CopyButton 
+                    textToCopy={sku} 
+                    toastMessage="Код товара скопирован"
+                    iconClassName="w-3 h-3 rounded-full cursor-pointer hover:opacity-80"
+                />
+            </div>
+            </div>
     </div>
 
     

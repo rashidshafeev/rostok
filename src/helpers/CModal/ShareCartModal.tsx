@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '@context/ModalContext';
 import { OKIcon, OKShareButton, TelegramIcon, TelegramShareButton, VKIcon, VKShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 import CTextField from '../CustomInputs/CTextField';
-import copyicon from "@assets/icons/copy-icon.svg"
+import CopyButton from '../../components/common/CopyButton';
 import { toast } from 'sonner';
 import { useGetCartShareCodeMutation,
   //  useGetCartShareCodeQuery,
@@ -73,15 +73,15 @@ const ShareCartModal : React.FC = () => {
 
               }
             </div>
-            <div className='flex gap-1 items-center'>
-              
-            <CTextField
-                value={url || ''}
-                onChange={(e) => setUrl(e.target.value)}
-            />
-              <img onClick={() => {navigator.clipboard.writeText(url || '')
-                            toast('Ссылка скопирована')
-                        }} src={copyicon} alt="" className='h-6 rounded-full cursor-pointer hover:opacity-80' /></div>
+            <div className="flex items-center gap-2">
+              <input type="text" className="w-full p-2 border rounded" value={url || ''} readOnly />
+              <CopyButton 
+                textToCopy={url || ''} 
+                toastMessage="Ссылка скопирована"
+                iconClassName="w-6 h-6 rounded-full cursor-pointer hover:opacity-80"
+                containerClassName="flex-shrink-0"
+              />
+            </div>
            
             <div className='flex pt-5 justify-center gap-1'>
               <OKShareButton url={url || ''}>

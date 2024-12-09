@@ -1,14 +1,14 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ComparisonIcon, FavoriteIcon } from '../../helpers/Icons';
-import AddToCartButton from "../../helpers/AddToCartButton/AddToCartButton";
-import ChangeQuantityGroup from "../../helpers/ChangeQuantityButton/ChangeQuantityGroup";
-import FavoriteButton from "../../helpers/FavoriteButton/FavoriteButton";
-import ComparisonButton from "../../helpers/ComparisonButton/ComparisonButton";
-import { LoadingSmall } from "../../helpers/Loader/Loader";
+import { ComparisonIcon, FavoriteIcon } from '@helpers/Icons';
+import AddToCartButton from "@helpers/AddToCartButton/AddToCartButton";
+import ChangeQuantityGroup from "@helpers/ChangeQuantityButton/ChangeQuantityGroup";
+import FavoriteButton from "@helpers/FavoriteButton/FavoriteButton";
+import ComparisonButton from "@helpers/ComparisonButton/ComparisonButton";
+import { LoadingSmall } from "@helpers/Loader/Loader";
 import PriceDisplay from './PriceDisplay';
-import noImg from "../../assets/images/no-image.png";
+import noImg from "@assets/images/no-image.png";
 import { RootState } from '@/redux/store';
 import { Product } from '@customTypes/Product/Product';
 import ProductAttributesDisplay from './ProductAttributesDisplay';
@@ -75,7 +75,7 @@ const LineNarrow: React.FC<LineNarrowProps> = ({ product, showChangeQuantity = t
       <div className=' basis-1/2 grow'>
         <div className='flex justify-around items-center basis-1/2'>
         <div className='basis-1/4'>
-        <PriceDisplay price={product?.price} />
+        <PriceDisplay price={product?.price} alignment='center' />
 
         </div>
         <div className='  font-bold text-colBlack basis-1/4'>

@@ -1,6 +1,6 @@
 import React from 'react'
-import formcheck from '../../assets/icons/form-check-input.svg';
-import formcheckactive from '../../assets/icons/form-check-input-active.svg';
+import formcheck from '@assets/icons/form-check-input.svg';
+import formcheckactive from '@assets/icons/form-check-input-active.svg';
 
 
 function CustomRadioButton({ value, checked, handleChange, children, className }) {

@@ -1,15 +1,16 @@
 import { ExpandMore, AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import CCheckBoxField from '../../helpers/CustomInputs/CCheckBoxField';
-import noImg from '../../assets/images/no-image.png';
+import CCheckBoxField from '@helpers/CustomInputs/CCheckBoxField';
+import noImg from '@assets/images/no-image.png';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
-import { DeleteIcon, FavoriteIcon } from '../../helpers/Icons';
+import { DeleteIcon, FavoriteIcon } from '@helpers/Icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, changeQuantity, removeFromCart, selectItem } from '../../redux/slices/cartSlice';
-import ChangeQuantityGroup from '../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
-import SelectCartItemButton from '../../helpers/SelectCartItemButton/SelectCartItemButton';
-import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
-import RemoveFromCartButton from '../../helpers/RemoveFormCartButton/RemoveFormCartButton';
-// import { toggleFavorite } from '../../redux/slices/favoriteSlice';
+import { addToCart, changeQuantity, removeFromCart, selectItem } from '@store/slices/cartSlice';
+import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import SelectCartItemButton from '@helpers/SelectCartItemButton/SelectCartItemButton';
+import FavoriteButton from '@helpers/FavoriteButton/FavoriteButton';
+import RemoveFromCartButton from '@helpers/RemoveFormCartButton/RemoveFormCartButton';
+import PriceDisplay from '../ProductCard/PriceDisplay';
+// import { toggleFavorite } from '@store/slices/favoriteSlice';
 
 
 const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
@@ -135,29 +136,8 @@ const MobileShCartItem = ({ cart, selectedItems, handleItemChange }) => {
                     )}
                   </RemoveFromCartButton>
                 </div>
-            {/* <div>
-              <div className='text-colBlack'>
-                {product?.price
-                  ? `${
-                      product?.price?.discount
-                        ? product?.price?.discount?.price
-                        : product?.price?.default
-                    }  ${product?.price?.currency} / ${product?.price?.unit}`
-                  : 'Не указано'}
-              </div>
-              <p className='text-colGray text-xs line-through'>
-                {product?.price?.discount && (
-                  <span>{`${product?.price?.default} ${product?.price?.currency} / ${product?.price?.unit}`}</span>
-                )}
-              </p>
-            </div> */}
             <div className='flex items-center text-colBlack font-bold'>
-              <span>
-                {!product?.price && "Не указано"}
-                {product?.price?.discount && <div>{`${product?.price?.discount?.price * product?.quantity} ${product?.price?.currency}`}</div>}
-                {product?.price && !product?.price?.discount && <div>{`${product?.price?.default * product?.quantity} ${product?.price?.currency}`}</div>}
-                
-                </span>
+                <PriceDisplay price={product?.price} />
             </div>
             <div className='flex items-center space-x-3'>
             <ChangeQuantityGroup product={product} />

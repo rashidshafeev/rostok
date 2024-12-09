@@ -1,6 +1,6 @@
 import { Skeleton } from '@mui/material'
 import React from 'react'
-import BlockWithProductsSkeleton from '../../components/Home/BlockWithProductsSkeleton'
+import BlockWithProductsSkeleton from '@components/Home/BlockWithProductsSkeleton'
 function HomeSkeleton() {
   return (
     <div className='content flex flex-col gap-10 '>

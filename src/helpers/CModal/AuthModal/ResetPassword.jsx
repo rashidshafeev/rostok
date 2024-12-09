@@ -1,12 +1,12 @@
 // src/AuthModal/ResetPassword.tsx
 
 import { Controller, useForm } from 'react-hook-form';
-import CTextField from '../../CustomInputs/CTextField';
+import CTextField from '@helpers/CustomInputs/CTextField';
 import { KeyboardArrowLeft } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { useState } from 'react';
-import { useResetPasswordMutation } from '../../../redux/api/userEndpoints';
-import { Loading,LoadingSmall } from '../../Loader/Loader'; 
+import { useResetPasswordMutation } from '@api/userEndpoints';
+import { Loading, LoadingSmall } from '@helpers/Loader/Loader'; 
 
 const ResetPassword = ({ setContent }) => {
  

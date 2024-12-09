@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import CPhoneField from '../../helpers/CustomInputs/CPhoneField';
-import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '@store/api/userEndpoints'; 
+import CPhoneField from '@helpers/CustomInputs/CPhoneField';
+import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '@api/userEndpoints'; 
 
 const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue = false }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();

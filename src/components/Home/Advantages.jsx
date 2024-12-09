@@ -1,4 +1,4 @@
-import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import { useGetMainPageDataQuery } from '@api/contentEndpoints';
 
 const Advantages = () => {
 

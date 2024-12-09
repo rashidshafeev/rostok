@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { ArrowIcon } from '../Icons';
 import { NavLink } from 'react-router-dom';
-import noImg from '../../assets/images/no-image.png';
-import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '../../redux/api/productEndpoints';
-// import { useModal } from '../../context/ModalContext';
+import noImg from '@assets/images/no-image.png';
+import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from '@api/productEndpoints';
+// import { useModal } from '@context/ModalContext';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {
   const { data } = useGetCategoryTreeQuery();
@@ -72,8 +72,7 @@ const CatalogModal = ({ showCatalog, setShowCatalog }) => {
         <NavLink
           to={`/catalog/tags?tags=${tag?.tag}`}
           onClick={() => setShowCatalog(false)}
-
-          key={tag?.id}
+          key={tag?.tag}
           className="rounded h-[27px] flex items-end p-1"
         >
           <img src={tag?.dark_icon?.medium} className='w-7 h-7' alt="*" />

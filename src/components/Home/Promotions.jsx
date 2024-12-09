@@ -1,6 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { promotions } from '../../constants/data';
-import { useGetMainPageDataQuery } from '../../redux/api/productEndpoints';
+import { useGetMainPageDataQuery } from '@api/contentEndpoints';
 
 // const Promotions = ({ data }) => {
 const Promotions = () => {

@@ -15,12 +15,12 @@ import {
 } from "@floating-ui/react";
 import { NavLink } from 'react-router-dom';
 
-import profile from '../../../assets/icons/profile.svg';
+import profile from '@assets/icons/profile.svg';
 import { useSelector } from 'react-redux';
 
-import fizlico from '../../../assets/icons/fizlico-inactive.svg';
-import urlico from '../../../assets/icons/urlico-inactive.svg';
-import { useModal } from '../../../context/ModalContext';
+import fizlico from '@assets/icons/fizlico-inactive.svg';
+import urlico from '@assets/icons/urlico-inactive.svg';
+import { useModal } from '@context/ModalContext';
 
 
 function ProfileButton({ name }) {

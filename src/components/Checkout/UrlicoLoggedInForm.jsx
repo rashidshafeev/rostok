@@ -1,17 +1,17 @@
 import { FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material'
 import React, { useState } from 'react'
-import CPhoneField from '../../helpers/CustomInputs/CPhoneField'
+import CPhoneField from '@helpers/CustomInputs/CPhoneField'
 import { CancelRounded, CheckCircleRounded } from '@mui/icons-material'
 import { Controller, useFormContext } from 'react-hook-form'
-import { LoadingSmall } from '../../helpers/Loader/Loader'
+import { LoadingSmall } from '@helpers/Loader/Loader'
 
-import fizlico from '../../assets/icons/fizlico-inactive.svg';
-import urlico from '../../assets/icons/urlico-inactive.svg';
+import fizlico from '@assets/icons/fizlico-inactive.svg';
+import urlico from '@assets/icons/urlico-inactive.svg';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import CSelectField from '../../helpers/CustomInputs/CSelectField'
+import CSelectField from '@helpers/CustomInputs/CSelectField'
 
-import AddOrganizationModal from '../../helpers/CModal/AddOrganizationModal'
-import CTextField from '../../helpers/CustomInputs/CTextField'
+import AddOrganizationModal from '@helpers/CModal/AddOrganizationModal'
+import CTextField from '@helpers/CustomInputs/CTextField'
 
 
 function UrlicoLoggedInForm({ user, organizations, isCode, handleSendVerificationCode, handleConfirmVerificationCode, miniLoading }) {

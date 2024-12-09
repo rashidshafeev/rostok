@@ -1,9 +1,9 @@
 // src/components/AddToCartButton.js
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '../../redux/slices/cartSlice';
+import { addToCart } from '@store/slices/cartSlice';
 import { getFromSessionStorage, getTokenFromCookies, saveToSessionStorage } from '../cookies/cookies';
-import { useGetCartItemPriceMutation, useGetUserCartQuery, useSendCartMutation } from '../../redux/api/cartEndpoints';
+import { useGetCartItemPriceMutation, useGetUserCartQuery, useSendCartMutation } from '@api/cartEndpoints';
 import { toast } from 'sonner';
 
 const AddToCartButton = ({ product, children }) => {

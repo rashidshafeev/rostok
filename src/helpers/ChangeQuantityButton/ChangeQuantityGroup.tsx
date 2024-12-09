@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { getTokenFromCookies } from '@helpers/cookies/cookies';
-import { useGetCartItemPriceMutation, useSendCartMutation } from '@store/api/cartEndpoints';
+import { useGetCartItemPriceMutation, useSendCartMutation } from '@api/cartEndpoints';
 import { CartProduct } from '@customTypes/Store/Cart/CartState';
 import { AppDispatch } from '@store/store';
 
@@ -38,17 +38,22 @@ const ChangeQuantityGroup = ({ product, enableRemove = false } : ChangeQuantityG
           if (token) {
             await sendCart({ id: product.id, quantity: newQuantity, selected: product.selected });
           }
-          // Fetch item price safely within a try-catch block
+          
           const priceResponse = await getItemPrice({ item_id: product.id, quantity: newQuantity });
-          if ('data' in priceResponse) {
-            const { data: price } = priceResponse;
-            dispatch(changeQuantity({ id: product.id, quantity: newQuantity, price: price.data.price }));
-          } else {
-            console.error("Error fetching item price:", priceResponse.error);
-          }
+          
+          dispatch(
+            changeQuantity({
+              id: product.id,
+              quantity: newQuantity,
+              price: ('data' in priceResponse && priceResponse.data?.data?.price) 
+                ? priceResponse.data.data.price 
+                : product.price
+            })
+          );
         }
       } catch (error) {
         console.error("An error occurred in updateQuantity:", error);
+        setQuantity(product.quantity);
       }
     }, 500);
   };

@@ -3,20 +3,20 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 import React, { useState } from 'react';
-import arrow from '../../assets/icons/arrow-icon.svg';
-import noImg from '../../assets/images/no-image.png';
+import arrow from '@assets/icons/arrow-icon.svg';
+import noImg from '@assets/images/no-image.png';
 
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { Loading } from "../../helpers/Loader/Loader";
-import { scrollToTop } from "../../helpers/scrollToTop/scrollToTop";
-import Review from "../../components/Reviews/Review";
-import { ComparisonIcon, FavoriteIcon } from "../../helpers/Icons";
+import { Loading } from "@helpers/Loader/Loader";
+import { scrollToTop } from "@utils/scrollToTop";
+import Review from "@components/Reviews/Review";
+import { ComparisonIcon, FavoriteIcon } from "@helpers/Icons";
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
-import { addToCart, changeQuantity } from "../../redux/slices/cartSlice";
-import RatingStars from "../../helpers/RatingStars";
-import ReviewModal from "../../helpers/CModal/ReviewModal";
+import { addToCart, changeQuantity } from "@store/slices/cartSlice";
+import RatingStars from "@helpers/RatingStars";
+import ReviewModal from "@helpers/CModal/ReviewModal";
 import { useGetProductQuery } from "@api/productEndpoints";
 
 export function ReviewsPage() {

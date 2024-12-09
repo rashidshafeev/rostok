@@ -1,9 +1,9 @@
 import { Box, Modal } from '@mui/material';
 import { Loading } from '../Loader/Loader';
-import search from '../../assets/icons/search.svg';
+import search from '@assets/icons/search.svg';
 import { useEffect, useState } from 'react';
 import ErrorEmpty from '../Errors/ErrorEmpty';
-import { useGetCitiesAndRegionsQuery } from '../../redux/api/orderEndpoints';
+import { useGetCitiesAndRegionsQuery } from '@api/orderEndpoints';
 
 const CitiesModal = ({ open, setOpen, city, setCity }) => {
   const { isLoading, isError, data: locations } = useGetCitiesAndRegionsQuery();

@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import inactive from '../../assets/icons/comparison-card-inactive.svg';
-import active from '../../assets/icons/comparison-card-active.svg';
-import hover from '../../assets/icons/comparison-green.svg';
+import inactive from '@assets/icons/comparison-card-inactive.svg';
+import active from '@assets/icons/comparison-card-active.svg';
+import hover from '@assets/icons/comparison-green.svg';
 
 function ComparisonIcon(props) {
   const [iconState, setIconState] = useState(

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
-import star from '../../assets/icons/adv1.svg';
-import starhalf from '../../assets/icons/adv1half.svg';
-import starfill from '../../assets/icons/adv1fill.svg';
+import star from '@assets/icons/adv1.svg';
+import starhalf from '@assets/icons/adv1half.svg';
+import starfill from '@assets/icons/adv1fill.svg';
 
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css"
 
-import RatingStars from '../../helpers/RatingStars';
+import RatingStars from '@helpers/RatingStars';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';

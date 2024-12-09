@@ -3,9 +3,8 @@
 import { Controller, useForm } from "react-hook-form";
 import CTextField from "../../CustomInputs/CTextField";
 import { KeyboardArrowRight } from "@mui/icons-material";
-import { Box } from "@mui/material";
-import { useRegistrationCheckMutation } from "../../../redux/api/userEndpoints";
-import { LoadingSmall } from "../../Loader/Loader";
+import { useRegistrationCheckMutation } from "@api/userEndpoints";
+import { LoadingSmall } from "@/helpers/Loader/Loader"; 
 
 const CheckAuth = ({ setContent, setLogin }) => {
   const {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import cartIcon from '../../../assets/icons/cart.svg';
-import noImg from '../../../assets/images/no-image.png';
+import cartIcon from '@assets/icons/cart.svg';
+import noImg from '@assets/images/no-image.png';
 
 import {
     useFloating,
@@ -18,10 +18,10 @@ import {
     FloatingPortal,
     safePolygon
   } from "@floating-ui/react";
-import { getTokenFromCookies } from '../../../helpers/cookies/cookies';
-import ChangeQuantityGroup from '../../../helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import { getTokenFromCookies } from '@helpers/cookies/cookies';
+import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import { LocalCartState } from '@customTypes/Store/Cart/CartState';
-import { useGetUserCartQuery } from '@store/api/cartEndpoints';
+import { useGetUserCartQuery } from '@api/cartEndpoints';
 import { transformServerCartToLocalCart } from '@utils/transfromData';
 import { RootState } from '@store/store';
 import PriceDisplay from '@/components/ProductCard/PriceDisplay';

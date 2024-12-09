@@ -125,24 +125,26 @@ export const cartSlice = createSlice({
       action: PayloadAction<{ id: number; quantity: number; price: PriceType }>
     ) => {
       const token = getTokenFromCookies();
-
       const product = state.cart.find((item) => item.id === action.payload.id);
-      // if (product.quantity + action.payload.quantity <= 0) {
-      //   state.cart = state.cart.filter(
-      //     (product) => product.id !== action.payload.id
-      //   );
-      // } else {
-      //   product.quantity = action.payload.quantity;
-      //   product.price = action.payload.price;
-      // }
+      console.log('action.payload.quantity', action.payload.quantity);
+      
+      if (product) {
+        if (action.payload.quantity <= 0) {
+          // Remove product if quantity is 0 or negative
+          state.cart = state.cart.filter(
+            (item) => item.id !== action.payload.id
+          );
+        } else {
+          // Update quantity and price
+          product.quantity = action.payload.quantity;
+          product.price = action.payload.price;
+        }
+        
+        updateTotals(state);
 
-      product.quantity = action.payload.quantity;
-      product.price = action.payload.price;
-
-      updateTotals(state);
-
-      if (!token) {
-        saveToSessionStorage("cart", state);
+        if (!token) {
+          saveToSessionStorage("cart", state);
+        }
       }
     },
     selectItem: (state, action: PayloadAction<Product>) => {

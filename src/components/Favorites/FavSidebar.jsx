@@ -1,5 +1,5 @@
 import { useState } from "react";
-import CTextField from "../../helpers/CustomInputs/CTextField";
+import CTextField from "@helpers/CustomInputs/CTextField";
 import {
   Accordion,
   AccordionDetails,
@@ -11,8 +11,8 @@ import {
   RadioGroup,
   Slider,
 } from "@mui/material";
-import { IOSSwitch } from "./styledComponents/IOSSwitch";
-import { ArrowIcon } from "../../helpers/Icons/ArrowIcon";
+import { IOSSwitch } from "@components/common/styledComponents/IOSSwitch";
+import { ArrowIcon } from "@helpers/Icons/ArrowIcon";
 
 const FavSidebar = ({ favorite, selectedFilter, setSelectedFilter }) => {
   // const [value, setValue] = useState([20, 37]);

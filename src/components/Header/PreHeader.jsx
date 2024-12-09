@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import CitiesModal from '../../helpers/CModal/CitiesModal';
+import CitiesModal from '@helpers/CModal/CitiesModal';
 import { NavLink } from 'react-router-dom';
-import address from '../../assets/icons/address.svg';
-import arrow from '../../assets/icons/arrow-black.svg';
-import logo from '../../assets/images/logo.svg';
-import { useModal } from '../../context/ModalContext';
+import address from '@assets/icons/address.svg';
+import arrow from '@assets/icons/arrow-black.svg';
+import logo from '@assets/images/logo.svg';
+import { useModal } from '@context/ModalContext';
 
 
 

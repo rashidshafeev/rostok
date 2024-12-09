@@ -7,7 +7,7 @@ import RightBar from "./RightBar";
 import TopControls from "./TopControls";
 import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
 import { Product } from "@customTypes/Product/Product";
-import Breadcrumbs from "@helpers/Breadcrumbs/Breadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { AttributesValuesList } from "@hooks/useModificationAttributesManager";
 
 type ProductPageDesktopProps = {

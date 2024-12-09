@@ -1,9 +1,10 @@
 // productEndpoints.js
 
 import { api } from './api';
-import { GetFiltersResponse, GetFiltersRequest } from '@customTypes/ServerData/GetFilters';
-import { GetVariantsRequest, GetVariantsResponse } from '@customTypes/ServerData/GetVariants';
+import { GetFiltersResponse, GetFiltersRequest } from '@customTypes/ServerData/Catalog/GetFilters';
+import { GetVariantsRequest, GetVariantsResponse } from '@customTypes/ServerData/Catalog/GetVariants';
 import { GetProductResponse } from '@customTypes/ServerData/GetProduct';
+import { GetCategoryTreeResponse } from '@customTypes/ServerData/GetCategoryTree';
 
 
 export const productEndpoints = api.injectEndpoints({
@@ -24,18 +25,15 @@ export const productEndpoints = api.injectEndpoints({
   }),
   getProduct: builder.query<GetProductResponse, string>({
     query: (id) => `api/Products/item?id=${id}`,
-    staleTime: 60000,
+    keepUnusedDataFor: 60, // Keep cache for 60 seconds
   }),
-  getCategoryTree: builder.query({
+  getCategoryTree: builder.query< GetCategoryTreeResponse, string | null>({
     query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,
-    staleTime: 60000,
+    keepUnusedDataFor: 60, // Keep cache for 60 seconds
   }),
   getBasicFilters: builder.query({
     query: () => `/api/Products/filters/basic`,
-    staleTime: 60000,
-  }),
-  getMainPageData: builder.query({
-    query: () => `api/PageContent/get?target=landing`,
+    keepUnusedDataFor: 60, // Keep cache for 60 seconds
   }),
 })
 })
@@ -46,5 +44,4 @@ export const {
   useGetProductQuery,
   useGetCategoryTreeQuery,
   useGetBasicFiltersQuery,
-  useGetMainPageDataQuery,
 } = productEndpoints

@@ -1,14 +1,14 @@
-import favoriteiconactive from '../../assets/icons/favorite-green-full.svg';
-import favoriteicon from '../../assets/icons/favorite-green.svg';
-import comparisoniconactive from '../../assets/icons/comparison-card-active.svg';
-import comparisonicon from '../../assets/icons/comparison-green.svg';
-import star from '../../assets/icons/adv1fill.svg';
-import share from '../../assets/icons/share.svg';
-import downloadpdf from '../../assets/icons/download-pdf.svg';
-import print from '../../assets/icons/print.svg';
-import { useModal } from '../../context/ModalContext';
-import ComparisonButton from '../../helpers/ComparisonButton/ComparisonButton';
-import FavoriteButton from '../../helpers/FavoriteButton/FavoriteButton';
+import favoriteiconactive from '@assets/icons/favorite-green-full.svg';
+import favoriteicon from '@assets/icons/favorite-green.svg';
+import comparisoniconactive from '@assets/icons/comparison-card-active.svg';
+import comparisonicon from '@assets/icons/comparison-green.svg';
+import star from '@assets/icons/adv1fill.svg';
+import share from '@assets/icons/share.svg';
+import downloadpdf from '@assets/icons/download-pdf.svg';
+import print from '@assets/icons/print.svg';
+import { useModal } from '@context/ModalContext';
+import ComparisonButton from '@helpers/ComparisonButton/ComparisonButton';
+import FavoriteButton from '@helpers/FavoriteButton/FavoriteButton';
 
 function TopControls({product, reviews}) {
 

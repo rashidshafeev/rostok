@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '@context/ModalContext';
 import { OKIcon, OKShareButton, TelegramIcon, TelegramShareButton, VKIcon, VKShareButton, WhatsappIcon, WhatsappShareButton } from 'react-share';
 import CTextField from '../CustomInputs/CTextField';
 import copyicon from "@assets/icons/copy-icon.svg"
@@ -53,7 +53,7 @@ const ShareCartModal : React.FC = () => {
               &times;
             </span>
             <h1 className='pt-1 text-2xl mm:text-3xl text-colBlack font-semibold mb-5'>
-              Поделиться корзиной
+              Корзина
             </h1> 
             <div className='flex flex-col w-full max-h-[60vh] overflow-y-auto overflow-x-hidden'>
               { sharedCart?.length > 0 &&
