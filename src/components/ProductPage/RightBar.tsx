@@ -19,17 +19,15 @@ import PriceDisplay from "../ProductCard/PriceDisplay";
 import { LocalCartState } from "@customTypes/Store/Cart/CartState";
 import { transformServerCartToLocalCart } from "@utils/transfromData";
 import { RootState } from "@store/store";
+import { DeliveryInfo } from "./DeliveryInfo";
+import { useModal } from "@context/ModalContext";
 
 type RightBarProps = {
   product: Product;
 }
 
 const RightBar: React.FC<RightBarProps> = ({ product }) => {
-  const [fastOrderModal, setFastOrderModal] = useState(false);
-
-  const handleCloseFastOrderModal = () => {
-    setFastOrderModal(false);
-  };
+  const { showModal, hideModal, modalContent, isModalVisible } = useModal();
 
   const token = getTokenFromCookies();
 
@@ -52,26 +50,23 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
       <div className="shadow-[1px_1px_34px_0_rgba(0,0,0,0.1)] p-5 rounded-xl flex flex-col gap-8 mb-5">
         <div className="flex gap-2 justify-between grow">
             <div>
-            
             <p className="text-xl font-bold whitespace-nowrap break-words">
             {productInCart?.price?.total && `${productInCart?.price?.total} ${productInCart?.price?.currency?.symbol}`}
           </p>
             </div>
             {product?.price?.base && !productInCart && <PriceDisplay price={product?.price} />}
             {productInCart?.price?.base && <PriceDisplay price={productInCart?.price} />}
-
-            
         </div>
         {!productInCart && (
           <div className="flex flex-col gap-3">
             <AddToCartButton product={product}>
-              {({ handleAddToCartClick, isLoading, isSuccess }) => (
+              {({ handleAddToCartClick, isLoading, isSuccess, disabled }) => (
                 <button
-                  disabled={isLoading}
-                  className={`${
-                    isLoading ? "cursor-wait" : "cursor-pointer"
-                  } py-3 flex justify-center text-white font-semibold bg-colGreen w-full rounded cursor-pointer`}
+                  disabled={disabled || isLoading}
                   onClick={handleAddToCartClick}
+                  className={`py-3 flex justify-center text-white font-semibold w-full rounded transition-all duration-200 ${
+                    disabled ? "bg-colGray" : "bg-colGreen cursor-pointer"
+                  } ${isLoading && !disabled ? "cursor-wait" : ""} lining-nums proportional-nums`}
                 >
                   {isLoading && !isSuccess ? (
                     <LoadingSmall extraStyle={"white"} />
@@ -83,16 +78,18 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
             </AddToCartButton>
 
             <button
-              onClick={() => setFastOrderModal(true)}
+              onClick={() => showModal({ type: 'fastOrder', product })}
               className="py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer"
             >
               Купить в 1 клик
             </button>
-            <FastOrderModal
-              open={fastOrderModal}
-              handleClose={handleCloseFastOrderModal}
-              product={product}
-            />
+            {modalContent?.type === 'fastOrder' && (
+              <FastOrderModal
+                open={isModalVisible}
+                handleClose={hideModal}
+                product={modalContent.product}
+              />
+            )}
           </div>
         )}
 
@@ -117,35 +114,9 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
           Узнать цену для юрлиц
         </div>
       </div>
+      <DeliveryInfo product={product} />
 
-      <div className="flex flex-col gap-4 px-5">
-        <div className="flex">
-          <img className="w-5 mr-2 " src={checkicon} alt="*" />
-          <div className="text-sm">В вашем городе 20 шт.</div>
-        </div>
-
-        <div className="flex">
-          <img className="w-5 mr-2" src={stallicon} alt="*" />
-          <div className="text-colGreen font-semibold underline underline-offset-8 cursor-pointer mr-2 text-sm">
-            Самовывоз:
-          </div>
-          <div className="text-sm"> сегодня, из 1 магазина</div>
-        </div>
-        <div className="flex">
-          <img className="w-5 mr-2" src={truckicon} alt="*" />
-          <div className="text-colGreen font-semibold underline underline-offset-8 cursor-pointer mr-2 text-sm">
-            Доставка:
-          </div>
-          <div className="text-sm">25 октября</div>
-        </div>
-        <div className="flex">
-          <img className="w-5 mr-2" src={boxicon} alt="*" />
-          <div className="text-colGreen font-semibold underline underline-offset-8 cursor-pointer mr-2 text-sm">
-            Транспортная компания:
-          </div>
-          <div className="text-sm">25 октября</div>
-        </div>
-      </div>
+      
     </>
   );
 }

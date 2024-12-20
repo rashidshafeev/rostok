@@ -44,6 +44,14 @@ const ProfileSidebar = () => {
             Все заказы
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            className='text-colBlack text-sm px-2 py-[2px] rounded-md aria-[current=page]:bg-[#EBEBEB]'
+            to='/profile/wallet'
+          >
+            Кошелёк
+          </NavLink>
+        </li>
       </ul>
       <button
         onClick={() => showModal({ type: 'logout' })}

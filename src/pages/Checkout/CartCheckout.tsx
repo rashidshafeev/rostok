@@ -57,6 +57,7 @@ function CartCheckout() {
   const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
 
 
+
   const navigate = useNavigate();
   const dispatch  = useDispatch();
 
@@ -139,6 +140,7 @@ function CartCheckout() {
         quantity: item.quantity
       })
     })
+
 
     const order = {
       // type,
@@ -453,8 +455,12 @@ function CartCheckout() {
             
 
 
-            <CheckoutTotals cart={cart} selected={selected}/>
-
+            <CheckoutTotals 
+              cart={cart} 
+              selected={selected}
+              onSubmit={methods.handleSubmit(onOrderSubmit)}
+              isLoading={isLoading}
+            />
     
         </div>
 

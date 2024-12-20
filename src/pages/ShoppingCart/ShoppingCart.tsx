@@ -19,7 +19,7 @@ import { CartProduct } from "@customTypes/Store/Cart/CartProduct";
 import { transformServerCartToLocalCart } from "@utils/transfromData";
 import { RootState } from "@store/store";
 import ShCartDetail from "@components/ShCart/ShCartDetail";
-import ShLastViews from "@components/ShCart/ShLastViews";
+import ShLastViews from "@/components/ShCart/RecentlyVisited";
 import { useModal } from "@/context/ModalContext";
 import { useLocation } from 'react-router-dom';
 import { toast } from "sonner";

@@ -6,6 +6,7 @@ import { PriceType } from './PriceType';
 import { ModificationAttribute } from './ModificationAttribute';
 import { Tag } from './Tag';
 import { Brand } from './Brand';
+import { AvailabilityState } from './AvailabilityState';
 
 export interface Product {
     id: number;
@@ -16,6 +17,7 @@ export interface Product {
     name: string;
     groupName: string;
     fullName: string;
+    availability: AvailabilityState;
     description: string;
     files: ImageSet[];
     category: Category;

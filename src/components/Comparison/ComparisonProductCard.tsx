@@ -11,6 +11,7 @@ import { getTokenFromCookies } from '@helpers/cookies/cookies';
 import AddToCartButton from '@helpers/AddToCartButton/AddToCartButton';
 import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import { useDrag, useDrop } from 'react-dnd';
+import { LoadingSmall } from '@/helpers/Loader/Loader';
 
 function ComparisonProductCard({ product, index, moveProduct  }) {
   const token = getTokenFromCookies();
@@ -157,13 +158,21 @@ function ComparisonProductCard({ product, index, moveProduct  }) {
             
             {!productInCart && (
           <AddToCartButton product={product}>
-          {({ handleAddToCartClick }) => (
+          {({ handleAddToCartClick, isLoading, isSuccess, buttonText, disabled }) => (
             <button
-            onClick={handleAddToCartClick}
-            className='transition-all text-xs xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 mt-1 font-semibold w-full'
-
+              disabled={disabled || isLoading}
+              onClick={handleAddToCartClick}
+              className={` transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 ${
+                disabled  ? "bg-colGray " : "bg-colGreen cursor-pointer"
+              }  text-white rounded-md p-2 font-semibold w-full ${
+                isLoading && !disabled  ? "cursor-wait" : ""
+              }`}
             >
-              В корзину
+              {isLoading && !isSuccess ? (
+                <LoadingSmall extraStyle={"white"} />
+              ) : (
+                buttonText
+              )}
             </button>
           )}
         </AddToCartButton>

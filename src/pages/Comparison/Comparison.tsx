@@ -8,9 +8,8 @@ import { useGetComparisonQuery } from '@api/comparisonEndpoints';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { RootState } from '@store/store';
-import ComDetail from '@/components/Comparison/ComDetail';
+import ComDetail from '@/components/Comparison/ComparisonDetail';
 import CategorySwitcher from '@components/common/CategorySwitcher';
-import { ProductListCategoryChain } from '@types/Category/ProductListCategoryChain';
 
 interface ErrorEmptyProps {
   title: string;

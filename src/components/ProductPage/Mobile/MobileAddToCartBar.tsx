@@ -42,7 +42,7 @@ function MobileAddToCartBar({ product }) {
             <p className="text-xl font-bold whitespace-nowrap break-words">
             {productInCart?.price?.base && `${productInCart?.price?.total} ${productInCart?.price?.currency?.symbol}`}
           </p>
-            </div>
+                </div>
             {product?.price?.base && !productInCart && <PriceDisplay price={product?.price} />}
             {productInCart?.price?.base && <PriceDisplay price={productInCart?.price} />}
 
@@ -50,25 +50,24 @@ function MobileAddToCartBar({ product }) {
         </div>
                     </div>
                     <AddToCartButton product={product}>
-              {({ handleAddToCartClick, isLoading, isSuccess }) => (
-                <button
-                  disabled={isLoading}
-                  className={`${
-                    isLoading ? "cursor-wait" : "cursor-pointer"
-                  } py-3 flex justify-center text-white font-semibold bg-colGreen w-full rounded cursor-pointer`}
-                  onClick={handleAddToCartClick}
-                >
-                  {isLoading && !isSuccess ? (
-                    <LoadingSmall extraStyle={"white"} />
-                  ) : (
-                    "Добавить в корзину"
-                  )}
-                </button>
-              )}
-            </AddToCartButton>
-
-                  
-
+                        {({ handleAddToCartClick, isLoading, isSuccess, buttonText, disabled }) => (
+                            <button
+                                disabled={disabled || isLoading}
+                                onClick={handleAddToCartClick}
+                                className={`transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 ${
+                                    disabled ? "bg-colGray" : "bg-colGreen cursor-pointer"
+                                } text-white rounded-md p-2 font-semibold w-full ${
+                                    isLoading && !disabled ? "cursor-wait" : ""
+                                } lining-nums proportional-nums`}
+                            >
+                                {isLoading && !isSuccess ? (
+                                    <LoadingSmall extraStyle={"white"} />
+                                ) : (
+                                    buttonText
+                                )}
+                            </button>
+                        )}
+                    </AddToCartButton>
                 </div>}
 
               

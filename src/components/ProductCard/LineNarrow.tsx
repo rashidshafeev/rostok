@@ -108,23 +108,24 @@ const LineNarrow: React.FC<LineNarrowProps> = ({ product, showChangeQuantity = t
         
         <div className='flex justify-between space-x-3 pt-2 mm:pt-5'>
           {!productInCart && <AddToCartButton product={product}>
-              {({ handleAddToCartClick, isLoading, isSuccess }) => (
-                <button
-                  disabled={isLoading}
-                  onClick={handleAddToCartClick}
-                  className={`${isLoading ? "cursor-wait" : "cursor-pointer"}
-                    bg-colGreen text-white rounded-md p-2 mm:p-1.5 md:p-2 
-                    font-semibold sm:max-w-[164px] ml-auto w-full 
-                    text-sm mm:text-xs md:text-sm`}
-                >
-                  {isLoading && !isSuccess ? (
-                    <LoadingSmall extraStyle={"white"} />
-                  ) : (
-                    "В корзину"
-                  )}
-                </button>
-              )}
-            </AddToCartButton>}
+            {({ handleAddToCartClick, isLoading, isSuccess, buttonText, disabled }) => (
+              <button
+                disabled={disabled || isLoading}
+                onClick={handleAddToCartClick}
+                className={` transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 ${
+                  disabled  ? "bg-colGray " : "bg-colGreen cursor-pointer"
+                }  text-white rounded-md p-2 font-semibold w-full ${
+                  isLoading && !disabled  ? "cursor-wait" : ""
+                } lining-nums proportional-nums`}
+              >
+                {isLoading && !isSuccess ? (
+                  <LoadingSmall extraStyle={"white"} />
+                ) : (
+                  buttonText
+                )}
+              </button>
+            )}
+          </AddToCartButton>}
           
             {productInCart && showChangeQuantity && <ChangeQuantityGroup product={productInCart} enableRemove={true} /> }
         </div>

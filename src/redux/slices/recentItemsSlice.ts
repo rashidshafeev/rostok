@@ -18,7 +18,16 @@ export const recentItems = createSlice({
     addToRecentItems: (state, action: PayloadAction<Product>) => {
       const token = getTokenFromCookies();
       if (!token) {
-        state.recentItems.push({ ...action.payload, visitTime: new Date() });
+        // Remove the item if it already exists
+        state.recentItems = state.recentItems.filter(item => item.id !== action.payload.id);
+        
+        // Add the item to the beginning of the array with current visit time
+        state.recentItems.unshift({ ...action.payload, visitTime: new Date() });
+        
+        // Keep only the last 20 items
+        if (state.recentItems.length > 20) {
+          state.recentItems = state.recentItems.slice(0, 20);
+        }
         
         saveToSessionStorage('recentItems', state.recentItems);
       }
@@ -27,7 +36,6 @@ export const recentItems = createSlice({
       const token = getTokenFromCookies();
       if (!token) {
         state.recentItems = state.recentItems.filter((item) => item.id !== action.payload.id);
-
         saveToSessionStorage('recentItems', state.recentItems);
       }
     },
@@ -40,4 +48,3 @@ export const {
   removeFromRecentItems,
 } = recentItems.actions;
 export default recentItems.reducer;
-

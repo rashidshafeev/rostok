@@ -15,7 +15,8 @@ const Header = ({ showCatalog, setShowCatalog }) => {
   useInitialDataFetch();
   
   return (
-    <>
+    <div>
+    
       <PreHeader />
       <div className="mx-auto sticky top-0  py-3 lg:space-x-5 bg-white z-[40]">
         <div className="content flex justify-between items-center">
@@ -86,7 +87,7 @@ const Header = ({ showCatalog, setShowCatalog }) => {
           setShowCatalog={setShowCatalog}
         />
       </div>
-    </>
+    </div>
   );
 };
 

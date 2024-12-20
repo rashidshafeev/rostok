@@ -10,16 +10,18 @@ import { PriceType } from "@customTypes/Product/PriceType";
 const initialState: LocalCartState = {
   cart: [],
   total: {
-    count: 0,
-    amount: 0,
+    items_count: 0,
     quantity: 0,
+    price_before_discount: 0,
     discount: 0,
+    price_after_discount: 0,
   },
   selected: {
-    count: 0,
-    amount: 0,
+    items_count: 0,
     quantity: 0,
+    price_before_discount: 0,
     discount: 0,
+    price_after_discount: 0,
   },
   currency: {
     code: "RUB",
@@ -29,47 +31,49 @@ const initialState: LocalCartState = {
 };
 
 const updateTotals = (state: LocalCartState) => {
-  let totalCount = 0;
-  let totalAmount = 0;
+  let totalItemsCount = 0;
   let totalQuantity = 0;
+  let totalPriceBeforeDiscount = 0;
   let totalDiscount = 0;
-  let selectedCount = 0;
-  let selectedAmount = 0;
+  let selectedItemsCount = 0;
   let selectedQuantity = 0;
+  let selectedPriceBeforeDiscount = 0;
   let selectedDiscount = 0;
 
   state?.cart?.forEach((product) => {
     const quantity = Number(product.quantity);
-    const finalPrice = product.price.final * quantity;
+    const priceBeforeDiscount = product.price.base * quantity;
     const discount = product.price.discount
       ? product.price.discount.discount_amount * quantity
       : 0;
 
-    totalCount += 1;
-    totalAmount += finalPrice;
+    totalItemsCount += 1;
     totalQuantity += quantity;
+    totalPriceBeforeDiscount += priceBeforeDiscount;
     totalDiscount += discount;
 
     if (product.selected) {
-      selectedCount += 1;
-      selectedAmount += finalPrice;
+      selectedItemsCount += 1;
       selectedQuantity += quantity;
+      selectedPriceBeforeDiscount += priceBeforeDiscount;
       selectedDiscount += discount;
     }
   });
 
   state.total = {
-    count: totalCount,
-    amount: totalAmount,
+    items_count: totalItemsCount,
     quantity: totalQuantity,
+    price_before_discount: totalPriceBeforeDiscount,
     discount: totalDiscount,
+    price_after_discount: totalPriceBeforeDiscount - totalDiscount,
   };
 
   state.selected = {
-    count: selectedCount,
-    amount: selectedAmount,
+    items_count: selectedItemsCount,
     quantity: selectedQuantity,
+    price_before_discount: selectedPriceBeforeDiscount,
     discount: selectedDiscount,
+    price_after_discount: selectedPriceBeforeDiscount - selectedDiscount,
   };
 };
 

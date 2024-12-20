@@ -9,6 +9,10 @@ import PreviewGallery from "./PreviewGallery";
 import PriceDisplay from "./PriceDisplay";
 import { RootState } from "@/redux/store";
 import { Product } from "@customTypes/Product/Product";
+import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
+import { LocalCartState } from "@/types/Store/Cart/CartState";
+import { transformServerCartToLocalCart } from "@/utils/transfromData";
+import { getTokenFromCookies } from "@/utils/cookiesManagment";
 
 type ProductCardProps = {
   product: Product
@@ -16,9 +20,20 @@ type ProductCardProps = {
 
 const ProductCard : React.FC<ProductCardProps> = ({ product }) => {
 
-  const { cart } = useSelector((state : RootState) => state.cart);
+  const token = getTokenFromCookies();
+  const localCart : LocalCartState = useSelector((state: RootState) => state.cart);
 
-  const productInCart = cart?.find((el) => el.id === product.id);
+  // Fetching cart data from the server if the user is logged in
+  const {
+    data: serverCart,
+    isLoading,
+    isSuccess,
+    error,
+  } = useGetUserCartQuery(undefined, { skip: !token });
+
+  const cart : LocalCartState = token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
+
+  const productInCart = cart?.cart?.find((el) => el.id === product.id);
 
   return (
     <NavLink
@@ -41,23 +56,25 @@ const ProductCard : React.FC<ProductCardProps> = ({ product }) => {
           <p className="text-sm text-colText font-medium line-clamp-2">
             {product.fullName}
           </p>
-           <PriceDisplay price={product?.price} />
+          {productInCart ? <PriceDisplay price={productInCart?.price} /> : <PriceDisplay price={product?.price} />}
         </div>
 
         {!productInCart && (
           <AddToCartButton product={product}>
-            {({ handleAddToCartClick, isLoading, isSuccess }) => (
+            {({ handleAddToCartClick, isLoading, isSuccess, buttonText, disabled }) => (
               <button
-                disabled={isLoading}
+                disabled={disabled || isLoading}
                 onClick={handleAddToCartClick}
-                className={`${
-                  isLoading ? "cursor-wait" : "cursor-pointer"
-                } transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full`}
+                className={` transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 ${
+                  disabled  ? "bg-colGray " : "bg-colGreen cursor-pointer"
+                }  text-white rounded-md p-2 font-semibold w-full ${
+                  isLoading && !disabled  ? "cursor-wait" : ""
+                } lining-nums proportional-nums`}
               >
                 {isLoading && !isSuccess ? (
                   <LoadingSmall extraStyle={"white"} />
                 ) : (
-                  "В корзину"
+                  buttonText
                 )}
               </button>
             )}

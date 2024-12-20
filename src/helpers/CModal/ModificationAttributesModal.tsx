@@ -56,18 +56,20 @@ const ModalContent = ({ modalContent, hideModal }) => {
         <div className='mx-auto lg:mx-3 self-end w-[300px]   my-3'>
         {!productInCart && (
           <AddToCartButton product={product}>
-            {({ handleAddToCartClick, isLoading, isSuccess }) => (
+            {({ handleAddToCartClick, isLoading, isSuccess, buttonText, disabled }) => (
               <button
-                disabled={isLoading}
+                disabled={disabled || isLoading}
                 onClick={handleAddToCartClick}
-                className={`${
-                  isLoading ? "cursor-wait" : "cursor-pointer"
-                } transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 bg-colGreen text-white rounded-md p-2 font-semibold w-full`}
+                className={`transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 ${
+                  disabled  ? "bg-colGray " : "bg-colGreen cursor-pointer"
+                }  text-white rounded-md p-2 font-semibold w-full ${
+                  isLoading && !disabled  ? "cursor-wait" : ""
+                } lining-nums proportional-nums`}
               >
                 {isLoading && !isSuccess ? (
                   <LoadingSmall extraStyle={"white"} />
                 ) : (
-                  "В корзину"
+                  buttonText
                 )}
               </button>
             )}

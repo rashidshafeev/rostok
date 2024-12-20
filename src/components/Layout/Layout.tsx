@@ -15,6 +15,12 @@ import Header from "@components/Header/Header";
 import ShareCartModal from "@/helpers/CModal/ShareCartModal";
 import ShowSharedCartModal from "@/helpers/CModal/ShowSharedCartModal";
 import { ErrorBoundaryWrapper } from "@components/ErrorBoundary/ErrorBoundaryWrapper";
+import {
+  CheckCircleOutlineRounded,
+  ErrorOutlineRounded,
+  InfoRounded,
+  WarningAmberRounded,
+} from "@mui/icons-material";
 
 const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
@@ -50,14 +56,19 @@ const Layout = () => {
 
   return (
     <ModalProvider>
-      <Header showCatalog={showCatalog} setShowCatalog={setShowCatalog} />
-      <ErrorBoundaryWrapper 
-      fallback={ErrorFallback} 
-      showToast={true}>
-        <Outlet />
-      </ErrorBoundaryWrapper>
-      <MobileNavbar />
-      <Footer />
+      <div className="flex flex-col min-h-screen">
+        <Header showCatalog={showCatalog} setShowCatalog={setShowCatalog} />
+        <main className="flex-grow">
+          <ErrorBoundaryWrapper 
+            fallback={ErrorFallback} 
+            showToast={true}>
+            <Outlet />
+          </ErrorBoundaryWrapper>
+        </main>
+        <MobileNavbar />
+        <Footer />
+      </div>
+      
       <LogoutModal />
       <AuthModal />
       <ShareModal />
@@ -70,6 +81,12 @@ const Layout = () => {
         visibleToasts={1}
         position="bottom-center"
         toastOptions={{ duration: 3000 }}
+        icons={{
+          success: <CheckCircleOutlineRounded sx={{ color: "green", fontSize: "3rem", paddingRight: "4px" }} />,
+          error: <ErrorOutlineRounded sx={{ color: "red", fontSize: "3rem", paddingRight: "4px" }} />,
+          warning: <WarningAmberRounded sx={{ color: "orange", fontSize: "3rem", paddingRight: "4px" }} />,
+          info: <InfoRounded sx={{ color: "blue", fontSize: "3rem", paddingRight: "4px" }} />,
+        }}
       />
     </ModalProvider>
   );

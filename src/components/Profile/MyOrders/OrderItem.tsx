@@ -63,7 +63,7 @@ export const OrderItem = ({ order }: OrderItemProps) => {
               >
                 <img
                   className='w-full h-full object-contain'
-                  src={item.files[0].small}
+                  src={item.files[0]?.small}
                   alt={item.fullName}
                 />
               </div>

@@ -1,4 +1,4 @@
-// src/context/ModalContext.js
+// src/context/ModalContext.tsx
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 
@@ -25,8 +25,11 @@ type ModalTypes = {
     attributesList: Record<string, any>;
     handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
   };
+  fastOrder: {
+    product: any;
+  };
 };
- 
+
 // Тип для содержимого модального окна
 type ModalContent = {
   [K in keyof ModalTypes]: {

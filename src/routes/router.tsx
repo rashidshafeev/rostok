@@ -33,6 +33,7 @@ import MyOrders from '@components/Profile/MyOrders/MyOrders';
 import Organizations from '@components/Profile/Organizations/Organizations';
 import PersonalData from '@components/Profile/PersonalData/PersonalData';
 import ProtectedRoute from '@components/ProtectedRoute/ProtectedRoute';
+import Wallet from '@pages/Profile/Wallet';
 
 
 export const router = createBrowserRouter(
@@ -60,6 +61,7 @@ export const router = createBrowserRouter(
           <Route path='organizations' element={<Organizations />} />
           <Route path='change-password' element={<ChangePassword />} />
           <Route path='orders' element={<MyOrders />} />
+          <Route path='wallet' element={<Wallet />} />
         </Route>
         <Route path='payment-delivery' element={<PaymentDelivery />} />
         <Route path='warranty' element={<Warranty />} />

@@ -41,7 +41,7 @@ export const OrderDetails = ({ order }: OrderDetailsProps) => {
               <div className='w-[50px] min-w-[50px] h-[50px] rounded-md overflow-hidden bg-colSuperLight p-1'>
                 <img
                   className='w-full h-full object-contain'
-                  src={item.files[0].small}
+                  src={item.files[0]?.small}
                   alt={item.fullName}
                 />
               </div>
