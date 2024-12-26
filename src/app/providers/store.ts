@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { api } from './api/api';
-import userReducer from './slices/userSlice';
-import cartReducer from './slices/cartSlice';
-import favoriteReducer from './slices/favoriteSlice';
-import comparisonReducer from './slices/comparisonSlice';
-import organizationsReducer from './slices/organizationsSlice';
-import recentItemsReducer from './slices/recentItemsSlice';
+import { api } from '@/redux/api/api';
+import userReducer from '@/redux/slices/userSlice';
+import cartReducer from '@/redux/slices/cartSlice';
+import favoriteReducer from '@/redux/slices/favoriteSlice';
+import comparisonReducer from '@/redux/slices/comparisonSlice';
+import organizationsReducer from '@/redux/slices/organizationsSlice';
+import recentItemsReducer from '@/redux/slices/recentItemsSlice';
 import { useDispatch } from 'react-redux';
 
 const rootReducer = combineReducers({
