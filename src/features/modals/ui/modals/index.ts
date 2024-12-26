@@ -1,14 +1,12 @@
 export { default as AddOrganizationModal } from './AddOrganizationModal';
 export { default as AddressModal } from './AddressModal/AddressModal';
 export { default as AllFiltersModal } from './AllFiltersModal/AllFiltersModal';
-export { default as AuthModal } from './AuthModal/AuthModal';
 export { default as CatalogModal } from './CatalogModal';
 export { default as CatalogModalMobile } from './CatalogModalMobile';
 export { default as CitiesModal } from './CitiesModal';
 export { default as ConfirmationModal } from './ConfirmationModal';
 export { default as DeleteOrganizationModal } from './DeleteOrganizationModal';
 export { default as FastOrderModal } from './FastOrderModal';
-export { default as LogoutModal } from './LogoutModal';
 export { default as ModalSnackbar } from './ModalSnackbar';
 export { default as ModificationAttributesModal } from './ModificationAttributesModal';
 export { default as PickupPointModal } from './PickupPointModal';

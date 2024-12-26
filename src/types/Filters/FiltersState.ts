@@ -1,4 +1,4 @@
-import { Category } from "@customTypes/Category/Category";
+import { Category } from "@/types/Category/Category";
 import { BrandFilter } from "./BasicFilters";
 import { TagFilter } from "./BasicFilters";
 import { DynamicFilter } from "./DynamicFilter";

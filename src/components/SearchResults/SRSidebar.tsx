@@ -16,7 +16,7 @@ import { fetchSearchFilters } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
 import SearchFiltersModal from '@/features/modals/ui/modals/SearchFiltersModal';
 import { SetStateAction, Dispatch } from 'react';
-import { ProductListCategoryChain } from '@customTypes/Category/ProductListCategoryChain';
+import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
 
 interface Filters {
   basics?: {

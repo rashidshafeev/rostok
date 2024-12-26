@@ -1,5 +1,5 @@
 {
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/declaration.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/declaration.d.ts", "src/features/modals/ui/modals/AuthModal/CheckAuth.jsx"],
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
@@ -118,7 +118,6 @@
       "@hooks/*": ["./src/hooks/*"],
       "@store/*": ["./src/redux/*"],
       "@api/*": ["./src/redux/api/*"],
-      "@customTypes/*": ["./src/types/*"],
       "@helpers/*": ["./src/helpers/*"],
     }
   },

@@ -1,7 +1,5 @@
 import React from 'react';
 import {
-  LogoutModal,
-  AuthModal,
   ShareModal,
   QuestionModal,
   ConfirmationModal,
@@ -9,6 +7,7 @@ import {
   ShareCartModal,
   ShowSharedCartModal
 } from './modals';
+import { AuthModal, LogoutModal } from '@/features/auth/ui/modals';
 
 export const ModalManager: React.FC = () => {
   return (

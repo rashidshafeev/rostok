@@ -10,7 +10,7 @@ import { LoadingSmall } from '@/shared/ui/Loader';
 import PriceDisplay from './PriceDisplay';
 import noImg from "@/assets/images/no-image.png";
 import { RootState } from '@/redux/store';
-import { Product } from '@customTypes/Product/Product';
+import { Product } from '@/types/Product/Product';
 import ProductAttributesDisplay from './ProductAttributesDisplay';
 
 type LineNarrowProps = {

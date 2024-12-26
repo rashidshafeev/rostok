@@ -1,5 +1,5 @@
 // src/redux/api/contentEndpoints.ts
-import { api } from './api';
+import { api } from '@/shared/api/api';
 import { ContactsResponse } from '@/types/ServerData/PageContent/GetContactsResponse';
 import { GuaranteeResponse } from '@/types/ServerData/PageContent/GetGuaranteeResponse';
 import { FaqResponse } from '@/types/ServerData/PageContent/GetFaqResponse';

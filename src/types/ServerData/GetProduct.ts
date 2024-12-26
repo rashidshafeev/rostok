@@ -1,5 +1,5 @@
 import { ProductGroup } from "../ProductGroup/ProductGroup";
-import { AdditionalServerResponseData } from "./AdditionalServerResponseData";
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface GetProductResponse extends AdditionalServerResponseData {
     data: ProductGroup

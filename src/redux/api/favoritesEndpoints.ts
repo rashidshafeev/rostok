@@ -1,8 +1,8 @@
 // src/redux/api/favoritesEndpoints.js
-import { GetFavoriteResponse } from '@customTypes/ServerData/Favorite/GetFavorite';
-import { api } from './api';
-import { AdditionalServerResponseData } from '@customTypes/ServerData/AdditionalServerResponseData';
-import { ProductListRequest } from '@customTypes/ServerData/ProductListRequest';
+import { GetFavoriteResponse } from '@/types/ServerData/Favorite/GetFavorite';
+import { api } from '@/shared/api/api';
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import { ProductListRequest } from '@/types/ServerData/ProductListRequest';
 
 export const favoritesEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({

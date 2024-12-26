@@ -1,5 +1,5 @@
 import { GetUserOrdersResponse } from '@/types/ServerData/GetUserOrders';
-import { api } from  './api';
+import { api } from '@/shared/api/api';
 
 export const orderEndpoints = api.injectEndpoints({
    endpoints: (builder) => ({

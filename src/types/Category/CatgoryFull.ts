@@ -1,4 +1,4 @@
-import { ImageSet } from "@customTypes/Common/ImageSet";
+import { ImageSet } from "@/types/Common/ImageSet";
 import { Category } from "./Category";
 
 export interface CategoryFull extends Category {

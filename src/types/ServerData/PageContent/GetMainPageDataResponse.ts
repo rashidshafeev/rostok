@@ -1,4 +1,4 @@
-import { AdditionalServerResponseData } from '../AdditionalServerResponseData';
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 import { Product } from '@/types/Product/Product';
 import { ImageSet } from '@/types/Common/ImageSet';
 

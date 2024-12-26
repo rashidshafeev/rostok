@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToComparison, removeFromComparison } from '@store/slices/comparisonSlice';
 import { useGetComparisonQuery, useRemoveFromComparisonMutation, useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
 import { getTokenFromCookies } from '@/features/auth/lib';
-import { Product } from '@customTypes/Product/Product';
+import { Product } from '@/types/Product/Product';
 import { AppDispatch, RootState } from '@store/store';
 
 type ComparisonButtonProps = {

@@ -29,7 +29,7 @@ import { removeFromCart } from '@store/slices/cartSlice';
 import { useSendOrderMutation } from '@/redux/api/orderEndpoints';
 import { getTokenFromCookies } from '@/features/auth/lib';;
 import { useGetUserCartQuery, useSendCartMutation } from '@/redux/api/cartEndpoints';
-import { useGetUserDataQuery } from '@/redux/api/userEndpoints';
+import { useGetUserDataQuery } from '@/features/auth';
 import CheckoutTotals from './CheckoutTotals';
 import { LocalCartState } from '@/types/Store/Cart/CartState';
 import { RootState } from '@/redux/store';

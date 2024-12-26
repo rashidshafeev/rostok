@@ -5,7 +5,7 @@ import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { getTokenFromCookies } from '@/features/auth/lib';;
 import { useGetCartItemPriceMutation, useSendCartMutation } from '@/redux/api/cartEndpoints';
-import { CartProduct } from '@customTypes/Store/Cart/CartState';
+import { CartProduct } from '@/types/Store/Cart/CartState';
 import { AppDispatch } from '@store/store';
 
 type ChangeQuantityGroupProps = {

@@ -1,26 +1,26 @@
 // src/AuthModal/AuthWithEmail.tsx
 
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm } from 'react-hook-form';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import {
   Visibility,
   VisibilityOff,
-} from "@mui/icons-material";
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { useAuthWithEmailMutation } from "@/redux/api/userEndpoints";
-import { useSendCartMutation } from "@/redux/api/cartEndpoints";
-import { useSendFavoritesMutation } from "@/redux/api/favoritesEndpoints";
-import { useSendComparisonMutation } from "@/redux/api/comparisonEndpoints";
-import { setComparison } from "@store/slices/comparisonSlice";
-import { setFavorite } from "@store/slices/favoriteSlice";
-import { setCart } from "@store/slices/cartSlice";
-import { setToken } from "@store/slices/userSlice";
+} from '@mui/icons-material';
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useAuthWithEmailMutation } from '@/features/auth/api/authenticationEndpoints';
+import { useSendCartMutation } from '@/redux/api/cartEndpoints';
+import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
+import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
+import { setComparison } from '@/redux/slices/comparisonSlice';
+import { setFavorite } from '@/redux/slices/favoriteSlice';
+import { setCart } from '@/redux/slices/cartSlice';
+import { setToken } from '@/features/auth/model/userSlice';
 import { LoadingSmall } from '@/shared/ui/Loader';
-import { toast } from "sonner";
+import { toast } from 'sonner';
 
-const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
+export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
   const {
     control,
     handleSubmit,
@@ -170,5 +170,3 @@ const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
     // </Box>
   );
 };
-
-export default AuthWithEmail;

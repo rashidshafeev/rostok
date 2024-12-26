@@ -5,7 +5,7 @@ import { addToFavorite, removeFromFavorite } from '@store/slices/favoriteSlice';
 import { useRemoveFromFavoritesMutation, useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
 import { getTokenFromCookies } from '@/features/auth/lib';
 import { AppDispatch, RootState } from '@store/store';
-import { Product } from '@customTypes/Product/Product';
+import { Product } from '@/types/Product/Product';
 
 type FavoriteButtonProps = {
   product: Product,

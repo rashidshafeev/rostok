@@ -1,8 +1,8 @@
 // src/redux/api/comparisonEndpoints.js
-import { GetComparisonResponse } from '@customTypes/ServerData/Comparison/GetComparison';
-import { api } from './api';
-import { AdditionalServerResponseData } from '@customTypes/ServerData/AdditionalServerResponseData';
-import { ProductListRequest } from '@customTypes/ServerData/ProductListRequest';
+import { GetComparisonResponse } from '@/types/ServerData/Comparison/GetComparison';
+import { api } from '@/shared/api/api';
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import { ProductListRequest } from '@/types/ServerData/ProductListRequest';
 
 export const comparisonEndpoints = api.injectEndpoints({ 
  endpoints: (builder) => ({

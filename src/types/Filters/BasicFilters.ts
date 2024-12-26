@@ -1,4 +1,4 @@
-import { ImageSet } from "@customTypes/Common/ImageSet";
+import { ImageSet } from "@/types/Common/ImageSet";
 import { SelectableItem } from "./SelectableItem";
 
 export interface PriceFilter {

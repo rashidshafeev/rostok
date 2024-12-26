@@ -1,4 +1,4 @@
-import { Product } from '@customTypes/Product/Product';
+import { Product } from '@/types/Product/Product';
 import { Attribute } from './Attribute';
 import { Category } from '../Category/Category';
 import { Review } from './Review';

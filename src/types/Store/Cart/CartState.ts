@@ -1,4 +1,4 @@
-import { Currency } from "@customTypes/Product/Currency";
+import { Currency } from "@/types/Product/Currency";
 import { CartProduct } from "./CartProduct";
 
 type CartTotals = {

@@ -12,13 +12,12 @@ import activeFavoriteIcon from '@/shared/assets/icons/active-favorite.svg';
 import activeProfileIcon from '@/shared/assets/icons/active-profile.svg';
 import activeCartIcon from '@/shared/assets/icons/active-cart.svg';
 
-import AuthModal from '@/features/modals/ui/modals/AuthModal/AuthModal';
-import { useGetUserDataQuery } from '@/redux/api/userEndpoints';
+import { useGetUserDataQuery } from '@/features/auth';
 import { useModal } from '@/features/modals/model/context';
 import { useQuantities } from '@/hooks/useQuantities';
 
 const MobileNavbar = () => {
-  const token = useSelector((state) => state.user.token);
+  const token = useSelector((state) => state?.user?.token);
 
   const { data: user, isLoading, isFetching, isError, refetch } = useGetUserDataQuery(undefined, { skip: !token });
 
@@ -27,15 +26,10 @@ const MobileNavbar = () => {
       refetch(); // refetch the user data when token changes
     }
   }, [token, refetch]);
+  
   const { getFavoritesCount, getComparisonCount, getCartQuantity } = useQuantities(token);
 
-  
-
   const { showModal } = useModal();
-
-
-  const [content, setContent] = useState('');
-  const [open, setOpen] = useState(false);
 
   const { pathname } = useLocation();
   const firstPart = pathname.split('/')[1];
@@ -84,9 +78,6 @@ const MobileNavbar = () => {
               )}
         </NavLink>
         {token && <NavLink
-            // to={`${
-            //   window.innerWidth < 576 ? '/profile' : '/profile/personal-data'
-            // }`}
             to={'/profile'}
             className='flex flex-col justify-center items-center cursor-pointer'
           >
@@ -124,12 +115,6 @@ const MobileNavbar = () => {
           )}
         </NavLink>
       </div>
-      <AuthModal
-        open={open}
-        setOpen={setOpen}
-        content={content}
-        setContent={setContent}
-      />
     </>
   );
 };

@@ -5,8 +5,8 @@ import ProductGallery from "./ProductGallery";
 import ProductTabs from "./ProductTabs/ProductTabs";
 import RightBar from "./RightBar";
 import TopControls from "./TopControls";
-import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
-import { Product } from "@customTypes/Product/Product";
+import { ProductGroup } from "@/types/ProductGroup/ProductGroup";
+import { Product } from "@/types/Product/Product";
 import { Breadcrumbs } from '@/widgets/Breadcrumbs';;
 import { AttributesValuesList } from "@hooks/useModificationAttributesManager";
 

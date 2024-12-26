@@ -1,10 +1,11 @@
 import { Box, Modal } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setToken } from '@store/slices/userSlice';
+import { setToken } from '@/features/auth/model/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { useModal } from '@/features/modals/model/context';
+import React from 'react';
 
-const LogoutModal = () => {
+export const LogoutModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -57,4 +58,3 @@ const LogoutModal = () => {
   );
 };
 
-export default LogoutModal;

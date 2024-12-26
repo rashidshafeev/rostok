@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Product, ModificationAttribute } from '@customTypes/Product/Product';
+import { Product, ModificationAttribute } from '@/types/Product/Product';
 
 export const useProductAttributes = (
   variants: Product[],

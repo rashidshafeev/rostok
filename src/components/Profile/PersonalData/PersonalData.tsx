@@ -9,7 +9,7 @@ import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import {
   useChangeUserDataMutation,
   useGetUserDataQuery,
-} from '@/redux/api/userEndpoints';
+} from '@/features/auth';
 import { useEffect } from 'react';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorServer from '@helpers/Errors/ErrorServer';

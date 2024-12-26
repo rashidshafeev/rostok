@@ -20,7 +20,7 @@ import {
   } from "@floating-ui/react";
 import { getTokenFromCookies } from '@/features/auth/lib';;
 import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGroup';
-import { LocalCartState } from '@customTypes/Store/Cart/CartState';
+import { LocalCartState } from '@/types/Store/Cart/CartState';
 import { useGetUserCartQuery } from '@/redux/api/cartEndpoints';
 import { transformServerCartToLocalCart } from '@/features/cart/lib';
 import { RootState } from '@store/store';

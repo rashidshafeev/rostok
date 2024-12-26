@@ -5,7 +5,7 @@ import CTextField from '@/shared/ui/inputs/CTextField';
 import ModalSnackbar from '@/features/modals/ui/modals/ModalSnackbar';
 import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import { Loading } from '@/shared/ui/Loader';
-import { useChangePasswordMutation } from '@/redux/api/userEndpoints';
+import { useChangePasswordMutation } from '@/features/auth';
 
 const ChangePassword = () => {
   const [openSnack, setOpenSnack] = useState(false);

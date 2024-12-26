@@ -1,6 +1,6 @@
-import { ProductListCategoryChain } from '@customTypes/Category/ProductListCategoryChain';
-import { Product } from '@customTypes/Product/Product';
-import { AdditionalServerResponseData } from '../AdditionalServerResponseData';
+import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
+import { Product } from '@/types/Product/Product';
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface GetComparisonResponse extends AdditionalServerResponseData {
     data: Product[];

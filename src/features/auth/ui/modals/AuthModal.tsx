@@ -1,18 +1,18 @@
 // src/AuthModal/AuthModal.tsx
-
-import { useState } from "react"; 
+import React, { useState } from "react"; 
 import { Modal, Box } from "@mui/material"; 
 import { useModal } from '@/features/modals/model/context';
 
 import modalLogo from "@assets/images/modal-logo.svg";
 
-import CheckAuth from "./CheckAuth";
-import AuthWithEmail from "./AuthWithEmail";
-import ResetPassword from "./ResetPassword";
-import Register from "./Register";
+import { CheckAuth } from "./CheckAuth";
+import { AuthWithEmail } from "./AuthWithEmail";
+import { ResetPassword } from "./ResetPassword";
+import { Register } from "./Register";
+
 import { KeyboardArrowLeft } from "@mui/icons-material";
 
-const AuthModal = () => {
+export const AuthModal = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
   const [content, setContent] = useState(modalContent?.content || "checkAuth");
   const [login, setLogin] = useState('');
@@ -60,4 +60,3 @@ const AuthModal = () => {
   );
 };
 
-export default AuthModal;

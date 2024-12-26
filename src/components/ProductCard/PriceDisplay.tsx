@@ -1,5 +1,5 @@
 import React from "react";
-import { PriceType } from "@customTypes/Product/PriceType";
+import { PriceType } from "@/types/Product/PriceType";
 
 type PriceProps = {
   price: PriceType;

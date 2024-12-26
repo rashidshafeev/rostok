@@ -8,7 +8,7 @@ import { LoadingSmall } from '@/shared/ui/Loader';
 import PreviewGallery from "./PreviewGallery";
 import PriceDisplay from "./PriceDisplay";
 import { RootState } from "@/redux/store";
-import { Product } from "@customTypes/Product/Product";
+import { Product } from "@/types/Product/Product";
 import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
 import { LocalCartState } from "@/types/Store/Cart/CartState";
 import { transformServerCartToLocalCart } from '@/features/cart/lib';

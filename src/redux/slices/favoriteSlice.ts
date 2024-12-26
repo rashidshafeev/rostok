@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { getTokenFromCookies } from '@/features/auth/lib';
 import { saveToSessionStorage } from '@/features/storage/lib';
-import { Product } from '@customTypes/Product/Product';
+import { Product } from '@/types/Product/Product';
 import { FavoriteState } from '@/types/Store/Favorite/FavoriteState';
 import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
 

@@ -8,7 +8,7 @@ import CategorySwitcher from '@components/common/CategorySwitcher';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
-import { ProductListCategoryChain } from '@customTypes/Category/ProductListCategoryChain';
+import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
 
 const SRMain = () => {
   const [products, setProducts] = useState([]);

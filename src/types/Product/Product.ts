@@ -1,7 +1,7 @@
 // src/types/Product.ts
 
 import { ImageSet } from '../Common/ImageSet';
-import { Category } from '@customTypes/Category/Category';
+import { Category } from '@/types/Category/Category';
 import { PriceType } from './PriceType';
 import { ModificationAttribute } from './ModificationAttribute';
 import { Tag } from './Tag';

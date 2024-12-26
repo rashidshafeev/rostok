@@ -1,9 +1,9 @@
-import { api } from  './api';
-import { AdditionalServerResponseData } from '@customTypes/ServerData/AdditionalServerResponseData';
-import { GetUserCartResponse } from '@customTypes/ServerData/GetUserCart';
-import { SendCartResponse, SendCartRequest } from '@customTypes/ServerData/SendCart';
-import { ProductListRequest } from '@customTypes/ServerData/ProductListRequest';
-import { GetCartItemPriceRequest, GetCartItemPriceResponse } from '@customTypes/ServerData/GetCartItemPrice';
+import { api } from '@/shared/api/api';
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import { GetUserCartResponse } from '@/types/ServerData/GetUserCart';
+import { SendCartResponse, SendCartRequest } from '@/types/ServerData/SendCart';
+import { ProductListRequest } from '@/types/ServerData/ProductListRequest';
+import { GetCartItemPriceRequest, GetCartItemPriceResponse } from '@/types/ServerData/GetCartItemPrice';
 
 export const cartEndpoints = api.injectEndpoints({
   endpoints: (builder) => ({

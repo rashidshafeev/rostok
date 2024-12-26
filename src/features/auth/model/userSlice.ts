@@ -1,4 +1,4 @@
-import { UserState } from '@/types/Store/User/UserState';
+import { UserState } from '@/features/auth/types';
 import { getTokenFromCookies, saveTokenToCookies } from '@/features/auth/lib';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 

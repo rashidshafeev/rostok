@@ -1,6 +1,6 @@
-import { ModificationAttribute } from "@customTypes/Product/ModificationAttribute";
-import { Product } from "@customTypes/Product/Product";
-import { ProductGroup } from "@customTypes/ProductGroup/ProductGroup";
+import { ModificationAttribute } from "@/types/Product/ModificationAttribute";
+import { Product } from "@/types/Product/Product";
+import { ProductGroup } from "@/types/ProductGroup/ProductGroup";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 

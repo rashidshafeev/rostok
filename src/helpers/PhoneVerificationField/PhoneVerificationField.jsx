@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import CPhoneField from '@/shared/ui/inputs/CPhoneField';
-import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '@/redux/api/userEndpoints'; 
+import { useConfirmVerificationCodeMutation, useSendVerificationCodeMutation } from '@/features/auth'; 
 
 const PhoneVerificationField = ({ user, stretchOnSuccess = false, defaultValue = false }) => {
   const { control, watch, trigger, formState: { errors } } = useFormContext();

@@ -8,7 +8,7 @@ import { getTokenFromCookies } from '@/features/auth/lib';;
 import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
 import { useGetComparisonQuery } from "@/redux/api/comparisonEndpoints";
 import { useGetFavoritesQuery } from "@/redux/api/favoritesEndpoints";
-import { useGetRecentItemsQuery } from "@/redux/api/userEndpoints";
+import { useGetRecentItemsQuery } from "@/features/auth";
 import { AppDispatch } from "@store/store";
 
 const useInitialDataFetch = () => {

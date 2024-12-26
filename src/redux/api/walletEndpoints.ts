@@ -1,4 +1,4 @@
-import { api } from './api';
+import { api } from '@/shared/api/api';
 import { GetTransactionListResponse } from '@/types/ServerData/GetTransactionList';
 import { GetWalletInfoResponse } from '@/types/ServerData/GetWalletInfo';
 

@@ -1,4 +1,4 @@
-import { Organization } from '@customTypes/Organization/Organization';
+import { Organization } from '@/types/Organization/Organization';
 
 export interface OrganizationsState {
     organizations: Organization[];

@@ -1,10 +1,10 @@
 // productEndpoints.js
 
-import { api } from './api';
-import { GetFiltersResponse, GetFiltersRequest } from '@customTypes/ServerData/Catalog/GetFilters';
-import { GetVariantsRequest, GetVariantsResponse } from '@customTypes/ServerData/Catalog/GetVariants';
-import { GetProductResponse } from '@customTypes/ServerData/GetProduct';
-import { GetCategoryTreeResponse } from '@customTypes/ServerData/GetCategoryTree';
+import { api } from '@/shared/api/api';
+import { GetFiltersResponse, GetFiltersRequest } from '@/types/ServerData/Catalog/GetFilters';
+import { GetVariantsRequest, GetVariantsResponse } from '@/types/ServerData/Catalog/GetVariants';
+import { GetProductResponse } from '@/types/ServerData/GetProduct';
+import { GetCategoryTreeResponse } from '@/types/ServerData/GetCategoryTree';
 
 
 export const productEndpoints = api.injectEndpoints({

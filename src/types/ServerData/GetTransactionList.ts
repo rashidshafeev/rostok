@@ -1,4 +1,4 @@
-import { AdditionalServerResponseData } from "./AdditionalServerResponseData";
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 interface TransactionSender {
     address: string;

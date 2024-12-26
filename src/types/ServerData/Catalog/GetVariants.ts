@@ -1,4 +1,4 @@
-import { Product } from "@customTypes/Product/Product";
+import { Product } from "@/types/Product/Product";
 import { AdditionalServerResponseData } from "../AdditionalServerResponseData";
 import { BaseFilterParams } from "./common/BaseFilterParams";
 import { PaginationParams } from "./common/PaginationParams";

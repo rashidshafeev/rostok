@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToRecentItems } from "@store/slices/recentItemsSlice";
-import { Product } from "@customTypes/Product/Product";
+import { Product } from "@/types/Product/Product";
 import { getTokenFromCookies } from '@/features/auth/lib';;
 import { AppDispatch } from "@store/store";
 

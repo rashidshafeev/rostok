@@ -1,4 +1,4 @@
-import { Product } from "@customTypes/Product/Product";
+import { Product } from "@/types/Product/Product";
 
 export interface CartProduct extends Product {
     quantity: number;

@@ -1,5 +1,5 @@
-import { User } from "@customTypes/User/User";
-import { AdditionalServerResponseData } from "./AdditionalServerResponseData";
+import { User } from "@/types/User/User";
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface CartData {
     items_count: number;

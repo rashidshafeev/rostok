@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 import CartButton from './HeaderControls/CartButton';
-import { useGetUserDataQuery } from '@/redux/api/userEndpoints';
+import { useGetUserDataQuery } from '@/features/auth';
 import { useQuantities } from '@hooks/useQuantities';
 
 

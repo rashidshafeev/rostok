@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { api } from '@/redux/api/api';
-import userReducer from '@/redux/slices/userSlice';
+import { api } from '@/shared/api/api';
+import userReducer from '@/features/auth/model/userSlice';
 import cartReducer from '@/redux/slices/cartSlice';
 import favoriteReducer from '@/redux/slices/favoriteSlice';
 import comparisonReducer from '@/redux/slices/comparisonSlice';

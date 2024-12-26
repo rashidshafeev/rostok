@@ -1,6 +1,6 @@
 import { CategoryWithImage } from "@/types/Category/ProductListCategoryChain";
-import { CategoryFull } from "@customTypes/Category/CatgoryFull";
-import { AdditionalServerResponseData } from "./AdditionalServerResponseData";
+import { CategoryFull } from "@/types/Category/CatgoryFull";
+import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface GetCategoryTreeResponse extends AdditionalServerResponseData {
   category: CategoryWithImage;

@@ -5,10 +5,10 @@ import CTextField from '@/shared/ui/inputs/CTextField';
 import { KeyboardArrowLeft } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import { useState } from 'react';
-import { useResetPasswordMutation } from '@/redux/api/userEndpoints';
+import { useResetPasswordMutation } from '@/features/auth';
 import { Loading, LoadingSmall } from '@/shared/ui/Loader'; 
 
-const ResetPassword = ({ setContent }) => {
+export const ResetPassword = ({ setContent }) => {
  
     const {
         control,
@@ -79,4 +79,3 @@ const ResetPassword = ({ setContent }) => {
     );
 };
 
-export default ResetPassword;

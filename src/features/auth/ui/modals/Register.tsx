@@ -3,18 +3,18 @@
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import CTextField from '@/shared/ui/inputs/CTextField'; 
 import { Checkbox, FormControlLabel } from "@mui/material"; 
-import { useSendCartMutation } from "@/redux/api/cartEndpoints";
-import { useSendFavoritesMutation } from "@/redux/api/favoritesEndpoints";
-import { useSendComparisonMutation } from "@/redux/api/comparisonEndpoints";
-import { setComparison } from "@/redux/slices/comparisonSlice";
-import { setFavorite } from "@/redux/slices/favoriteSlice";
-import { setCart } from "@/redux/slices/cartSlice";
-import { setToken } from "@/redux/slices/userSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { NavLink, useNavigate } from "react-router-dom";
-import { useUserRegisterMutation } from "@/redux/api/userEndpoints";
-import { useEffect, useState } from "react";
-import PhoneVerificationField from "@helpers/PhoneVerificationField/PhoneVerificationField";
+import { useSendCartMutation } from '@/redux/api/cartEndpoints';
+import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
+import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
+import { setComparison } from '@/redux/slices/comparisonSlice';
+import { setFavorite } from '@/redux/slices/favoriteSlice';
+import { setCart } from '@/redux/slices/cartSlice';
+import { setToken } from '@/features/auth/model/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useUserRegisterMutation } from '@/features/auth';
+import { useEffect, useState } from 'react';
+import PhoneVerificationField from '@/helpers/PhoneVerificationField/PhoneVerificationField';
 import {
   Visibility,
   VisibilityOff,
@@ -22,7 +22,7 @@ import {
 import { LoadingSmall } from '@/shared/ui/Loader';
 import { toast } from "sonner";
 
-const Register = ({ hideModal, login: enteredLogin }) => {
+export const Register = ({ hideModal, login: enteredLogin }) => {
   const methods = useForm({ mode: "onSubmit" });
   const {
     control,
@@ -355,5 +355,3 @@ const Register = ({ hideModal, login: enteredLogin }) => {
     // </Box>
   );
 };
-
-export default Register;

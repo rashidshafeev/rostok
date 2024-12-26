@@ -3,7 +3,7 @@ import { Navigation } from 'swiper/modules';
 import ProductCard from '../ProductCard/ProductCard';
 import { getTokenFromCookies } from '@/features/auth/lib';;
 import { useSelector } from 'react-redux';
-import { useGetRecentItemsQuery } from '@/redux/api/userEndpoints';
+import { useGetRecentItemsQuery } from '@/features/auth';
 
 const ShLastViews = () => {
 

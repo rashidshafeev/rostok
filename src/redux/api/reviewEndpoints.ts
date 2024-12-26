@@ -1,5 +1,5 @@
 // reviewEndpoints.js
-import { api } from  './api';
+import { api } from '@/shared/api/api';
 
 export const reviewEndpoints = (builder) => ({
     submitReview: builder.mutation({

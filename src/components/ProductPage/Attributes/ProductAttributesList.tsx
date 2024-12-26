@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import ProductAttributeValue from "./ProductAttributeValue";
 import { useModal } from '@/features/modals/model/context';
-import { ModificationAttribute } from "@customTypes/Product/ModificationAttribute";
-import { Product } from "@customTypes/Product/Product";
+import { ModificationAttribute } from "@/types/Product/ModificationAttribute";
+import { Product } from "@/types/Product/Product";
 
 type ProductAttributesListProps = {
   current: Product | null;

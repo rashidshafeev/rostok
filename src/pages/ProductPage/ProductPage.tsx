@@ -6,7 +6,7 @@ import { useGetProductQuery } from '@/redux/api/productEndpoints';
 import ProductPageDesktop from '@components/ProductPage/ProductPageDesktop';
 import ProductPageMobile from '@components/ProductPage/ProductPageMobile';
 import { useModificationAttributesManager } from '@hooks/useModificationAttributesManager';
-import { Product } from '@customTypes/Product/Product';
+import { Product } from '@/types/Product/Product';
 import useAddToRecentItems from '@/hooks/useAddToRecentItems';
 
 const ProductPage = () =>  {
