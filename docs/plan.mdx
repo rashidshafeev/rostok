@@ -1,0 +1,61 @@
+# Cart Feature Migration to FSD
+
+## Current Structure
+```
+src/
+  redux/
+    api/cartEndpoints.ts
+    slices/cartSlice.ts
+  pages/ShoppingCart/
+    ShoppingCart.tsx
+  components/ShCart/
+    (various cart components)
+```
+
+## Proposed FSD Structure
+```
+src/
+  features/
+    cart/
+      api/
+        cartEndpoints.ts
+      model/
+        cartSlice.ts
+        types.ts
+      ui/
+        CartPage/
+          CartPage.tsx
+        components/
+          CartItem/
+            CartItem.tsx
+          CartOrderInfo/
+            CartOrderInfo.tsx
+          (other cart components)
+  pages/
+    ShoppingCart/
+      ShoppingCart.tsx (thin wrapper around CartPage)
+  shared/
+    api/
+      api.ts (base API instance)
+    types/
+      (shared types)
+```
+
+## Migration Steps
+
+1. Create new FSD structure for cart feature
+2. Move cartEndpoints.ts to features/cart/api
+3. Move cartSlice.ts to features/cart/model
+4. Create types.ts in features/cart/model
+5. Move ShoppingCart.tsx to features/cart/ui/CartPage
+6. Move ShCart components to features/cart/ui/components
+7. Update imports to use new paths
+8. Create thin wrapper page in pages/ShoppingCart
+9. Update any references to old paths
+10. Test all cart functionality
+
+## Rollback Plan
+If issues arise:
+1. Revert to previous commit
+2. Restore original file structure
+3. Verify all functionality works
