@@ -1,4 +1,4 @@
-// src/components/Catalog/CatalogSidebar/SidebarFilters/PriceFilter.tsx
+// src/components/PriceFilter.jsx
 
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -9,94 +9,180 @@ import {
   Slider,
 } from "@mui/material";
 
-import { ArrowIcon } from "@helpers/Icons";
-import CTextField from "@helpers/CustomInputs/CTextField";
+import { ArrowIcon } from "@/shared/ui/icons";
+import CTextField from "@/shared/ui/inputs/CTextField";
+
 import { useDebounce } from "react-use";
 
+function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
+  const previousValues = useRef({});
 
-function PriceFilter({ filters, setFilters }) {
-  const [priceFilter, setPriceFilter] = useState([0, 0]);
-  const [sliderValue, setSliderValue] = useState([0, 0]);
-  const [debouncedValue, setDebouncedValue] = useState([0, 0]);
-  const isInternalUpdate = useRef(false);
+  const [priceFilter, setPriceFilter] = useState([
+    filters?.basics?.price?.min || 0,
+    filters?.basics?.price?.max || 0,
+  ]);
+  
+  const [sliderValue, setSliderValue] = useState([
+    priceFilter.min || filters?.basics?.price?.min,
+    priceFilter.max || filters?.basics?.price?.max,
+  ]);
 
-  // Update local state when filters change
-  useEffect(() => {
-    if (!isInternalUpdate.current && filters?.basics?.price) {
-      const min = filters.basics.price.current_values?.min || filters.basics.price.min || 0;
-      const max = filters.basics.price.current_values?.max || filters.basics.price.max || 0;
-      
-      setPriceFilter([min, max]);
-      setSliderValue([min, max]);
-      setDebouncedValue([min, max]);
-    }
-    isInternalUpdate.current = false;
-  }, [filters?.basics?.price]);
-
-  const updateFilters = (min: number, max: number) => {
-    isInternalUpdate.current = true;
-    const currentState = JSON.parse(JSON.stringify(filters));
-    currentState.basics.price.current_values = { min, max };
-    setFilters(currentState);
-  };
+  // Синхронизация и правильная работа отобржаения и установления значений
 
   const handleChangeMin = (event) => {
-    const newMin = Number(event.target.value);
+    const newMin = event.target.value;
     setPriceFilter((prev) => [newMin, prev[1]]);
   };
 
+
   const handleChangeMax = (event) => {
-    const newMax = Number(event.target.value);
+    const newMax = event.target.value;
     setPriceFilter((prev) => [prev[0], newMax]);
   };
 
   const validateAndSetMin = () => {
-    let min = priceFilter[0] === "" ? filters?.basics?.price?.min : Number(priceFilter[0]);
+    let min =
+      priceFilter[0] === ""
+        ? filters?.basics?.price?.min
+        : Number(priceFilter[0]);
     min = Math.max(min, filters?.basics?.price?.min);
-    min = Math.min(min, priceFilter[1]);
+
+    if (min > priceFilter[1]) {
+      min = priceFilter[1]; // Ensure min is not greater than max
+    }
 
     setPriceFilter((prev) => [min, prev[1]]);
     setSliderValue([min, priceFilter[1]]);
-    updateFilters(min, priceFilter[1]);
+
+    // debouncedSetFilters(min, priceFilter.max);
   };
 
-  const validateAndSetMax = () => {
-    let max = priceFilter[1] === "" ? filters?.basics?.price?.max : Number(priceFilter[1]);
+const validateAndSetMax = () => {
+    let max =
+      priceFilter[1] === ""
+        ? filters?.basics?.price?.max
+        : Number(priceFilter[1]);
     max = Math.min(max, filters?.basics?.price?.max);
-    max = Math.max(max, priceFilter[0]);
+
+    if (max < priceFilter[0]) {
+      max = priceFilter[0]; // Ensure max is not less than min
+    }
 
     setPriceFilter((prev) => [prev[0], max]);
     setSliderValue([priceFilter[0], max]);
-    updateFilters(priceFilter[0], max);
+
+    // debouncedSetFilters(priceFilter.min, max);
   };
 
   const handleSliderChange = (event, newValue) => {
     setPriceFilter(newValue);
     setSliderValue(newValue);
-    setDebouncedValue(newValue);
+    // debouncedSetFilters(newValue[0], newValue[1]);
   };
 
-  const handleKeyDown = (event, validateFn) => {
-    if (event.key === 'Enter') {
-      validateFn();
+  //Логика отправки/изменения стейта
+
+  // // Custom debounce function
+  // const debounce = (func, wait) => {
+  //   let timeout;
+  //   return function (...args) {
+  //     const context = this;
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(() => func.apply(context, args), wait);
+  //   };
+  // };
+
+  // // Debounced function to update the state
+  // const debouncedSetFilters = useRef(
+  //   debounce((min, max) => {
+
+  //     const currentState = JSON.parse(JSON.stringify(filters));
+
+  //     currentState.basics.price.current_values = {
+  //       min: min,
+  //       max: max,
+  //     };
+
+  //     currentState.lastChanged = {
+  //       type: "basics",
+  //       filter: "price",
+  //     };
+  //     previousValues.current = [priceFilter.min, priceFilter.max];
+  //     setFilters(currentState);
+  //   }, 1000)
+  // ).current;
+
+  //При изменении фильтров устанваливает текущее значение фильтра цен
+  useEffect(() => {
+    if (
+      previousValues.current[0] !== filters?.basics?.price?.current_values?.min ||
+      previousValues.current[1] !== filters?.basics?.price?.current_values?.max
+    ) {
+      setPriceFilter([
+        filters?.basics?.price?.current_values?.min || 0,
+        filters?.basics?.price?.current_values?.max || 0,
+      ]);
+      setSliderValue([
+        filters?.basics?.price?.current_values?.min,
+        filters?.basics?.price?.current_values?.max,
+      ]);
     }
-  };
+  }, [filters]);
 
-  // Debounce slider updates
-  useDebounce(
+  useEffect(() => {
+    // Чтобы установить значения фильтров по максимуму при смене категорий
+    if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
+      setPriceFilter([
+        filters?.basics?.price?.current_values?.min || 0,
+        filters?.basics?.price?.current_values?.max || 0,
+      ]);
+
+      setSliderValue([
+        filters?.basics?.price?.current_values?.min,
+        filters?.basics?.price?.current_values?.max,
+      ]);
+
+      // Чтобы не было отправления после первого изменения чекбоксов(после первичной загрузки)
+      previousValues.current = [
+        filters?.basics?.price?.min,
+        filters?.basics?.price?.max,
+      ];
+    }
+  }, [trigger]);
+
+ useDebounce(
     () => {
-      if (debouncedValue[0] !== filters?.basics?.price?.current_values?.min || 
-          debouncedValue[1] !== filters?.basics?.price?.current_values?.max) {
-        updateFilters(debouncedValue[0], debouncedValue[1]);
+      // Чтобы не было отправления при первичной инициализации и после смены категории(особенно при переключении с категории без цены на категорию с ценой - это как перчиная инициалзация)
+      if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
+        setTrigger("");
+        return;
       }
-    },
-    500,
-    [debouncedValue]
-  );
 
-  if (!filters?.basics?.price) {
-    return null;
-  }
+      // Чтобы не было отправления после первого изменения чекбоксов
+      if (
+        Number(previousValues.current[0]) === Number(priceFilter[0]) &&
+        Number(previousValues.current[1]) === Number(priceFilter[1])
+      ) {
+        return;
+      }
+
+      const currentState = JSON.parse(JSON.stringify(filters));
+
+      currentState.basics.price.current_values = {
+        min: priceFilter[0],
+        max: priceFilter[1],
+      };
+
+      currentState.lastChanged = {
+        type: "basics",
+        filter: "price",
+      };
+      previousValues.current = priceFilter;
+      setFilters(currentState);
+    },
+    1000,
+    [priceFilter]
+  );
 
   return (
     <Accordion
@@ -122,7 +208,6 @@ function PriceFilter({ filters, setFilters }) {
       >
         <span className="font-semibold text-colBlack">Цена, ₽</span>
       </AccordionSummary>
-
       <AccordionDetails sx={{ padding: 0 }}>
         <Slider
           sx={{ color: "#15765B" }}
@@ -143,7 +228,6 @@ function PriceFilter({ filters, setFilters }) {
               value={priceFilter[0]}
               onChange={handleChangeMin}
               onBlur={validateAndSetMin}
-              onKeyDown={(e) => handleKeyDown(e, validateAndSetMin)}
             />
             <CTextField
               label={`до ${filters?.basics?.price?.max}`}
@@ -152,7 +236,6 @@ function PriceFilter({ filters, setFilters }) {
               value={priceFilter[1]}
               onChange={handleChangeMax}
               onBlur={validateAndSetMax}
-              onKeyDown={(e) => handleKeyDown(e, validateAndSetMax)}
             />
           </div>
         </Box>

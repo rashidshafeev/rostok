@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { scrollToTop } from '@utils/scrollToTop';
-import { Loading } from '@helpers/Loader/Loader';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { Loading } from '@/shared/ui/Loader';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
-import Breadcrumbs from '@/components/common/Breadcrumbs';
-import { useGetCategoryTreeQuery } from '@api/productEndpoints';
+import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { useGetCategoryTreeQuery } from '@/redux/api/productEndpoints';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
 import Promotions from '@components/Home/Promotions';

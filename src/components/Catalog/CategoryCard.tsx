@@ -1,18 +1,18 @@
 import { NavLink } from 'react-router-dom';
-import noImg from '../../assets/images/no-image.png';
+import noImg from '@assets/images/no-image.png';
 
 function CatalogCard({ category }) {
   return (
     <NavLink
       to={`/catalog/${category?.slug}`}
       state={{ category: category }}
-      className='relative bg-colSuperLight rounded-lg lg:rounded-[20px] h-[200px] lg:h-[240px] flex justify-between flex-col md:flex-row overflow-hidden shadow-[0_2px_8px_rgba(0,0,0,0.2)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] transition-shadow duration-200'
+      className='relative bg-colSuperLight rounded-lg lg:rounded-[20px] min-h-[120px] max-h-[150px] lg:min-h-[240px] lg:max-h-[260px] flex overflow-hidden'
     >
-      <div className='flex flex-col justify-between z-10 relative pb-3 md:pb-0 basis-auto md:basis-1/2 lg:basis-[45%] p-3'>
-        <h3 className='lg:text-xl font-semibold text-colBlack text-center md:text-left'>
+      <div className='flex flex-col justify-between md:h-full z-10 relative pb-3 md:pb-0 basis-1/2  p-3'>
+        <h3 className='lg:text-xl font-semibold text-colBlack text-center md:text-left min-h-[38px] mm:min-h-[auto]'>
           {category?.name || 'Не указано'}
         </h3>
-        {category?.children?.length > 0 && (
+        {category?.children?.length && (
           <div className='hidden md:flex flex-col text-colDarkGray text-[10px] lg:text-xs font-semibold'>
             {category?.children?.slice(0, 4)?.map((item) => (
               <NavLink
@@ -27,9 +27,10 @@ function CatalogCard({ category }) {
           </div>
         )}
       </div>
-      <div className='z-0 flex-1 max-h-[128px] md:max-h-none md:h-full overflow-hidden md:basis-1/2 lg:basis-[55%] bg-colLightGray'>
+      <div className='z-0 md:w-full h-full overflow-hidden basis-1/2 bg-colLightGray'>
+      {/* <div className='md:absolute md:right-5 md:top-1/2 md:-translate-y-1/2 z-0 w-4/5 md:w-full md:max-w-[160px] mx-auto overflow-hidden'> */}
         <img
-          className='w-full h-full object-cover'
+          className='w-full h-full object-contain'
           src={category?.image?.large || noImg}
           onError={(e) => {
             e.target.onError = null;

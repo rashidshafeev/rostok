@@ -2,7 +2,7 @@ import React from 'react';
 import { ProductListCategoryChain } from 'src/types/Category/ProductListCategoryChain';
 import { Category } from 'src/types/Category/Category';
 import noImg from '@assets/images/no-image.png';
-import categoryIcon from '@assets/icons/category.svg';
+import categoryIcon from '@/shared/assets/icons/category.svg';
 
 interface CategorySwitcherProps {
   categories: ProductListCategoryChain[];

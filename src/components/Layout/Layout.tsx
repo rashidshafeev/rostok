@@ -1,19 +1,11 @@
 import { Outlet, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import MobileNavbar from "@components/Header/MobileNavbar";
-import LogoutModal from "@helpers/CModal/LogoutModal";
-import { ModalProvider } from "@context/ModalContext";
-import AuthModal from "@helpers/CModal/AuthModal/AuthModal";
-import ShareModal from "@helpers/CModal/ShareModal";
+import { ModalProvider } from "@/features/modals/model/context";
+import { ModalManager } from "@/features/modals/ui/ModalManager";
 import { Toaster } from "sonner";
-import QuestionModal from "@helpers/CModal/QuestionModal";
-import ConfirmationModal from "@helpers/CModal/ConfirmationModal";
-import ModificationAttributesModal from "@/helpers/CModal/ModificationAttributesModal";
-
 import Footer from "@components/Footer/Footer";
 import Header from "@components/Header/Header";
-import ShareCartModal from "@/helpers/CModal/ShareCartModal";
-import ShowSharedCartModal from "@/helpers/CModal/ShowSharedCartModal";
 import { ErrorBoundaryWrapper } from "@components/ErrorBoundary/ErrorBoundaryWrapper";
 import {
   CheckCircleOutlineRounded,
@@ -56,7 +48,7 @@ const Layout = () => {
 
   return (
     <ModalProvider>
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen relative">
         <Header showCatalog={showCatalog} setShowCatalog={setShowCatalog} />
         <main className="flex-grow">
           <ErrorBoundaryWrapper 
@@ -69,23 +61,25 @@ const Layout = () => {
         <Footer />
       </div>
       
-      <LogoutModal />
-      <AuthModal />
-      <ShareModal />
-      <QuestionModal />
-      <ConfirmationModal />
-      <ModificationAttributesModal />
-      <ShareCartModal />
-      <ShowSharedCartModal />
+      <ModalManager />
       <Toaster
         visibleToasts={1}
         position="bottom-center"
-        toastOptions={{ duration: 3000 }}
+        toastOptions={{
+          duration: 3000,
+          classNames: {
+            toast: "p-2 flex items-center",
+            title: "text-sm font-semibold text-black",
+            description: "text-sm text-colDarkGray",
+            closeButton: "text-sm text-colDarkGray",
+            icon: "w-8"
+          }
+        }}
         icons={{
-          success: <CheckCircleOutlineRounded sx={{ color: "green", fontSize: "3rem", paddingRight: "4px" }} />,
-          error: <ErrorOutlineRounded sx={{ color: "red", fontSize: "3rem", paddingRight: "4px" }} />,
-          warning: <WarningAmberRounded sx={{ color: "orange", fontSize: "3rem", paddingRight: "4px" }} />,
-          info: <InfoRounded sx={{ color: "blue", fontSize: "3rem", paddingRight: "4px" }} />,
+          success: <CheckCircleOutlineRounded sx={{ color: "green", fontSize: "2rem", paddingRight: "2px" }} />,
+          error: <ErrorOutlineRounded sx={{ color: "red", fontSize: "2rem", paddingRight: "2px" }} />,
+          warning: <WarningAmberRounded sx={{ color: "orange", fontSize: "2rem", paddingRight: "2px" }} />,
+          info: <InfoRounded sx={{ color: "blue", fontSize: "2rem", paddingRight: "2px" }} />,
         }}
       />
     </ModalProvider>

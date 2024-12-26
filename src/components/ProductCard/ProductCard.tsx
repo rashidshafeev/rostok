@@ -4,15 +4,15 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import AddToCartButton from "@helpers/AddToCartButton/AddToCartButton";
 import ChangeQuantityGroup from "@helpers/ChangeQuantityButton/ChangeQuantityGroup";
-import { LoadingSmall } from "@helpers/Loader/Loader";
+import { LoadingSmall } from '@/shared/ui/Loader';
 import PreviewGallery from "./PreviewGallery";
 import PriceDisplay from "./PriceDisplay";
 import { RootState } from "@/redux/store";
 import { Product } from "@customTypes/Product/Product";
 import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
 import { LocalCartState } from "@/types/Store/Cart/CartState";
-import { transformServerCartToLocalCart } from "@/utils/transfromData";
-import { getTokenFromCookies } from "@/utils/cookiesManagment";
+import { transformServerCartToLocalCart } from '@/features/cart/lib';
+import { getTokenFromCookies } from '@/features/auth/lib';
 
 type ProductCardProps = {
   product: Product

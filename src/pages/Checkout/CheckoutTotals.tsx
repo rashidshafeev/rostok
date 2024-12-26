@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useIntersection } from 'react-use';
 import plural from 'plural-ru'
 import { NavLink } from 'react-router-dom';
-import { getTokenFromCookies } from '@helpers/cookies/cookies';
+import { getTokenFromCookies } from '@/features/auth/lib';;
 import { LocalCartState } from '@/types/Store/Cart/CartState';
 import { CartProduct } from '@/types/Store/Cart/CartProduct';
 

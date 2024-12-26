@@ -10,7 +10,7 @@ import MobileAddToCartBar from "./Mobile/MobileAddToCartBar";
 import MobileInfo from "./Mobile/MobileProductInfo/MobileInfo";
 import MobileProductInfo from "./Mobile/MobileProductInfo/MobileProductInfo";
 import MobileTopBar from "./Mobile/MobileTopBar";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
+import { Breadcrumbs } from '@/widgets/Breadcrumbs';;
 import { ProductGroup } from "@/types/ProductGroup/ProductGroup";
 import { Product } from "@/types/Product/Product";
 import MobileCharacteristics from "./Mobile/MobileProductInfo/MobileCharacteristics";

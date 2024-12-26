@@ -1,14 +1,14 @@
 import { ExpandMore, AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import CCheckBoxField from '@helpers/CustomInputs/CCheckBoxField';
+import CCheckBoxField from '@/shared/ui/inputs/CCheckBoxField';
 import noImg from '@assets/images/no-image.png';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
-import { DeleteIcon, FavoriteIcon } from '@helpers/Icons';
+import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart, changeQuantity, removeFromCart, selectItem } from '@store/slices/cartSlice';
-import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGroup';
-import SelectCartItemButton from '@helpers/SelectCartItemButton/SelectCartItemButton';
-import FavoriteButton from '@helpers/FavoriteButton/FavoriteButton';
-import RemoveFromCartButton from '@helpers/RemoveFormCartButton/RemoveFormCartButton';
+import { addToCart, changeQuantity, removeFromCart, selectItem } from '@/redux/slices/cartSlice';
+import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import SelectCartItemButton from '@/helpers/SelectCartItemButton/SelectCartItemButton';
+import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
+import RemoveFromCartButton from '@/helpers/RemoveFormCartButton/RemoveFormCartButton';
 import PriceDisplay from '../ProductCard/PriceDisplay';
 // import { toggleFavorite } from '@store/slices/favoriteSlice';
 

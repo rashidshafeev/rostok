@@ -116,7 +116,6 @@
       "@context/*": ["./src/context/*"],
       "@assets/*": ["./src/assets/*"],
       "@hooks/*": ["./src/hooks/*"],
-      "@utils/*": ["./src/utils/*"],
       "@store/*": ["./src/redux/*"],
       "@api/*": ["./src/redux/api/*"],
       "@customTypes/*": ["./src/types/*"],

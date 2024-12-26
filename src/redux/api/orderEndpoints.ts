@@ -13,9 +13,22 @@ export const orderEndpoints = api.injectEndpoints({
         method: 'POST',
         body: order,
       }),
-      invalidatesTags: (result, error, arg) => [
+      invalidatesTags: (result, error, order) => [
         { type: 'Order', id: 'LIST' },
         { type: 'Order', id: 'FILTERS' },
+        { type: 'Cart', id: 'LIST' },
+        ...order.products.map(product => ({ type: 'Product', id: product.id }))
+      ],
+    }),
+    cancelOrder: builder.mutation<{ success: string }, { order_number: string; reason: string }>({
+      query: (data) => ({
+        url: '/api/ProductOrders/cancel/order',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [
+        { type: 'Order', id: 'LIST' },
+        { type: 'Order', id: 'FILTERS' }
       ],
     }),
     getUserOrders: builder.query<GetUserOrdersResponse, void>({
@@ -36,20 +49,45 @@ export const orderEndpoints = api.injectEndpoints({
     }),
     sendFeedback: builder.mutation({
       query: (feedback) => ({
-        url: '/api/Feedback/send',
+        url: '/api/Products/feedback',
         method: 'POST',
         body: feedback,
-      })
-    })
-   }),
-  });
-  
-  // Export hooks for order endpoints
-  export const {
-    useGetCitiesAndRegionsQuery,
-    useSendOrderMutation,
-    useGetUserOrdersQuery,
-    useGetOrdersFiltersQuery,
-    useSendFeedbackMutation
-  } =  orderEndpoints
+      }),
+    }),
+    repeatOrder: builder.mutation<{ success: string; new_order_number: string }, { order_number: string }>({
+      query: (data) => ({
+        url: '/api/ProductOrders/repeat/order',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [
+        { type: 'Order', id: 'LIST' },
+        { type: 'Order', id: 'FILTERS' },
+        { type: 'Cart', id: 'LIST' }
+      ],
+    }),
+    createPDFOrder: builder.mutation<{ success: string; file: Blob }, { order_number: string }>({
+      query: (data) => ({
+        url: '/api/ProductOrders/create/pdf/order',
+        method: 'POST',
+        body: data,
+        responseHandler: async (response) => {
+          const blob = await response.blob();
+          return { success: 'ok', file: blob };
+        },
+      }),
+    }),
+  }),
+});
 
+// Export hooks for order endpoints
+export const {
+  useGetCitiesAndRegionsQuery,
+  useSendOrderMutation,
+  useCancelOrderMutation,
+  useGetUserOrdersQuery,
+  useGetOrdersFiltersQuery,
+  useSendFeedbackMutation,
+  useRepeatOrderMutation,
+  useCreatePDFOrderMutation,
+} = orderEndpoints;

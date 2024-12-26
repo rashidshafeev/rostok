@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ProductAttributeValue from "./ProductAttributeValue";
-import { useModal } from "@/context/ModalContext";
+import { useModal } from '@/features/modals/model/context';
 import { ModificationAttribute } from "@customTypes/Product/ModificationAttribute";
 import { Product } from "@customTypes/Product/Product";
 

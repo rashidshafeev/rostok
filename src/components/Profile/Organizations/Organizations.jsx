@@ -1,18 +1,18 @@
 // import { organizations } from '@../constants/data';
 import { useState } from 'react';
-import AddOrganizationModal from '@helpers/CModal/AddOrganizationModal';
+import AddOrganizationModal from '@/features/modals/ui/modals/AddOrganizationModal';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 import { NavLink } from 'react-router-dom';
-import arrowIcon from '@assets/icons/arrow-icon.svg';
+import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import { OrgCard } from './OrgCard';
 import {
   useDeleteOrganizationMutation,
   useEditOrganizationMutation,
   useGetOrganizationsQuery,
-} from '@api/organizationEndpoints';
-import { Loading } from '@/helpers/Loader/Loader';
+} from '@/redux/api/organizationEndpoints';
+import { Loading } from '@/shared/ui/Loader';
 import ErrorServer from '@/helpers/Errors/ErrorServer';
-import ModalSnackbar from '@/helpers/CModal/ModalSnackbar';
+import ModalSnackbar from '@/features/modals/ui/modals/ModalSnackbar';
 
 const Organizations = () => {
   const [openAddOrgModal, setOpenAddOrgModal] = useState(false);

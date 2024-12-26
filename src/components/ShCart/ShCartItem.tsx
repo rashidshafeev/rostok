@@ -1,20 +1,20 @@
 import React from "react";
 import { ExpandMore, AddOutlined, RemoveOutlined } from "@mui/icons-material";
-import CCheckBoxField from "@helpers/CustomInputs/CCheckBoxField";
-import noImg from "@assets/images/no-image.png";
+import CCheckBoxField from "@/shared/ui/inputs/CCheckBoxField";
+import noImg from "@/assets/images/no-image.png";
 import { NavLink, useNavigate, useOutletContext } from "react-router-dom";
-import { DeleteIcon, FavoriteIcon } from "@helpers/Icons";
+import { DeleteIcon, FavoriteIcon } from "@/shared/ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addToCart,
   changeQuantity,
   removeFromCart,
   selectItem,
-} from "@store/slices/cartSlice";
-import RemoveFromCartButton from "@helpers/RemoveFormCartButton/RemoveFormCartButton";
-import FavoriteButton from "@helpers/FavoriteButton/FavoriteButton";
-import ChangeQuantityGroup from "@helpers/ChangeQuantityButton/ChangeQuantityGroup";
-import SelectCartItemButton from "@helpers/SelectCartItemButton/SelectCartItemButton";
+} from "@/redux/slices/cartSlice";
+import RemoveFromCartButton from "@/helpers/RemoveFormCartButton/RemoveFormCartButton";
+import FavoriteButton from "@/helpers/FavoriteButton/FavoriteButton";
+import ChangeQuantityGroup from "@/helpers/ChangeQuantityButton/ChangeQuantityGroup";
+import SelectCartItemButton from "@/helpers/SelectCartItemButton/SelectCartItemButton";
 import PriceDisplay from "../ProductCard/PriceDisplay";
 import { CartProduct } from "@/types/Store/Cart/CartProduct";
 

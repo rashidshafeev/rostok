@@ -4,8 +4,8 @@ import logo from '@assets/images/logo.svg';
 import vk from '@assets/images/vk.svg';
 import telegram from '@assets/images/telegram.svg';
 import whatsapp from '@assets/images/whatsapp.svg';
-import arrowDown from '@assets/icons/arrow-black.svg';
-import { useGetBasicFiltersQuery } from '@api/productEndpoints';
+import arrowDown from '@/shared/assets/icons/arrow-black.svg';
+import { useGetBasicFiltersQuery } from '@/redux/api/productEndpoints';
 const Footer = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
   const [menus, setMenus] = useState({

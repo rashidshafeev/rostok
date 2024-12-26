@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import arrow from '@assets/icons/arrow-icon.svg';
-import fizlicoactive from '@assets/icons/fizlico-active.svg';
-import fizlico from '@assets/icons/fizlico-inactive.svg';
-import urlicoactive from '@assets/icons/urlico-active.svg';
-import urlico from '@assets/icons/urlico-inactive.svg';
+import arrow from '@/shared/assets/icons/arrow-icon.svg';
+import fizlicoactive from '@/shared/assets/icons/fizlico-active.svg';
+import fizlico from '@/shared/assets/icons/fizlico-inactive.svg';
+import urlicoactive from '@/shared/assets/icons/urlico-active.svg';
+import urlico from '@/shared/assets/icons/urlico-inactive.svg';
 
-import stallicon from '@assets/icons/stall-icon.svg';
-import truckicon from '@assets/icons/truck-icon.svg';
-import boxicon from '@assets/icons/box-icon.svg';
+import stallicon from '@/shared/assets/icons/stall-icon.svg';
+import truckicon from '@/shared/assets/icons/truck-icon.svg';
+import boxicon from '@/shared/assets/icons/box-icon.svg';
  
 import { NavLink, useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
@@ -17,7 +17,7 @@ import PickupPointModal from '@helpers/CModal/PickupPointModal';
 
 import { FormProvider, useForm } from 'react-hook-form';
 
-import CTextField from '@helpers/CustomInputs/CTextField';
+import CTextField from '@/shared/ui/inputs/CTextField';
 import {  MenuItem, Select } from '@mui/material';
 import FizlicoLoggedInForm from '@components/Checkout/FizlicoLoggedInForm';
 import UrlicoLoggedInForm from '@components/Checkout/UrlicoLoggedInForm';
@@ -26,14 +26,14 @@ import UrlicoNotLoggedForm from '@components/Checkout/UrlicoNotLoggedForm';
 import { useDispatch, useSelector } from 'react-redux';
 import SimpleCheckoutFrom from '@components/Checkout/SimpleCheckoutFrom';
 import { removeFromCart } from '@store/slices/cartSlice';
-import { useSendOrderMutation } from '@api/orderEndpoints';
-import { getTokenFromCookies } from '@helpers/cookies/cookies';
-import { useGetUserCartQuery, useSendCartMutation } from '@api/cartEndpoints';
-import { useGetUserDataQuery } from '@api/userEndpoints';
+import { useSendOrderMutation } from '@/redux/api/orderEndpoints';
+import { getTokenFromCookies } from '@/features/auth/lib';;
+import { useGetUserCartQuery, useSendCartMutation } from '@/redux/api/cartEndpoints';
+import { useGetUserDataQuery } from '@/redux/api/userEndpoints';
 import CheckoutTotals from './CheckoutTotals';
 import { LocalCartState } from '@/types/Store/Cart/CartState';
 import { RootState } from '@/redux/store';
-import { transformServerCartToLocalCart } from '@/utils/transfromData';
+import { transformServerCartToLocalCart } from '@/features/cart/lib';
 import { CartProduct } from '@/types/Store/Cart/CartProduct';
 
 function CartCheckout() {
@@ -164,15 +164,15 @@ function CartCheckout() {
 
   const removeSelected = () => {
     
-    const payload = selected.map((item) => ({
-      id: item.id,
-      quantity: 0,
-      selected: 0,
-    }));
+    // const payload = selected.map((item) => ({
+    //   id: item.id,
+    //   quantity: 0,
+    //   selected: 0,
+    // }));
 
-    if (token) {
-      sendCart({ items: payload})
-    } 
+    // if (token) {
+    //   sendCart({ items: payload})
+    // } 
    selected.forEach((item) => dispatch(removeFromCart(item)));
   }
 

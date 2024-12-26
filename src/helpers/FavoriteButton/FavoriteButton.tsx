@@ -2,8 +2,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToFavorite, removeFromFavorite } from '@store/slices/favoriteSlice';
-import { useRemoveFromFavoritesMutation, useSendFavoritesMutation } from '@api/favoritesEndpoints';
-import { getTokenFromCookies } from '../cookies/cookies';
+import { useRemoveFromFavoritesMutation, useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
+import { getTokenFromCookies } from '@/features/auth/lib';
 import { AppDispatch, RootState } from '@store/store';
 import { Product } from '@customTypes/Product/Product';
 

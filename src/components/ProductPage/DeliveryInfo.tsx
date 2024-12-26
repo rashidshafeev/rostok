@@ -1,8 +1,8 @@
 import { Product } from "@/types/Product/Product";
-import checkicon from "@/assets/icons/check-icon.svg";
-import stallicon from "@/assets/icons/stall-icon.svg";
-import truckicon from "@/assets/icons/truck-icon.svg";
-import boxicon from "@/assets/icons/box-icon.svg";
+import checkicon from "@/shared/assets/icons/check-icon.svg";
+import stallicon from "@/shared/assets/icons/stall-icon.svg";
+import truckicon from "@/shared/assets/icons/truck-icon.svg";
+import boxicon from "@/shared/assets/icons/box-icon.svg";
 
 interface DeliveryInfoProps {
   product: Product | null;

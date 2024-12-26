@@ -1,12 +1,10 @@
 // src/features/comparison/comparisonSlice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  getTokenFromCookies,
-  saveToSessionStorage,
-} from "@helpers/cookies/cookies";
-import { Product } from "@customTypes/Product/Product";
-import { ComparisonState } from "@/types/Store/Comparison/ComparisonState";
-import { ProductListCategoryChain } from "@/types/Category/ProductListCategoryChain";
+import { getTokenFromCookies } from '@/features/auth/lib';
+import { saveToSessionStorage } from '@/features/storage/lib';
+import { Product } from '@/types/Product/Product';
+import { ComparisonState } from '@/types/Store/Comparison/ComparisonState';
+import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
 
 const parseCategories = (products: Product[]): ProductListCategoryChain[] => {
   if (!products?.length) return [];

@@ -1,5 +1,5 @@
 import banner from '@assets/temp-images/banner.png';
-import { useGetMainPageDataQuery } from '@api/contentEndpoints';
+import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 
 
 const SaleBanner = () => {

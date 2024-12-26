@@ -2,7 +2,7 @@
 import ComparisonProductCard from "./ComparisonProductCard";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useIntersection } from "react-use";
-import arrow from "@assets/icons/arrow-black.svg";
+import arrow from "@/shared/assets/icons/arrow-black.svg";
 import { current } from "@reduxjs/toolkit";
 import { Product } from "@/types/Product/Product";
 

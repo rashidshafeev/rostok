@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useLoaderData, useParams } from 'react-router-dom'
 import { useIntersection, useWindowSize } from 'react-use';
-import { scrollToTop } from '@utils/scrollToTop';
-import { useGetProductQuery } from '@api/productEndpoints';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { useGetProductQuery } from '@/redux/api/productEndpoints';
 import ProductPageDesktop from '@components/ProductPage/ProductPageDesktop';
 import ProductPageMobile from '@components/ProductPage/ProductPageMobile';
 import { useModificationAttributesManager } from '@hooks/useModificationAttributesManager';

@@ -1,9 +1,9 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import ProductCard from '../ProductCard/ProductCard';
-import { getTokenFromCookies } from '@helpers/cookies/cookies';
+import { getTokenFromCookies } from '@/features/auth/lib';;
 import { useSelector } from 'react-redux';
-import { useGetRecentItemsQuery } from '@api/userEndpoints';
+import { useGetRecentItemsQuery } from '@/redux/api/userEndpoints';
 
 const ShLastViews = () => {
 

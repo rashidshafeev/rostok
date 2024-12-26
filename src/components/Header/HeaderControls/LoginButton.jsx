@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import profile from '@assets/icons/profile.svg'; 
+import profile from '@/shared/assets/icons/profile-black.svg'; 
 
 import {
     useFloating,
@@ -17,7 +17,7 @@ import {
     FloatingArrow,
     safePolygon
   } from "@floating-ui/react";
-import { useModal } from '@context/ModalContext';
+import { useModal } from '@/features/modals/model/context';
 import { useLocation } from 'react-router-dom';
 
 function LoginButton() {

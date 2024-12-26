@@ -3,8 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import { getTokenFromCookies } from '@helpers/cookies/cookies';
-import { useGetCartItemPriceMutation, useSendCartMutation } from '@api/cartEndpoints';
+import { getTokenFromCookies } from '@/features/auth/lib';;
+import { useGetCartItemPriceMutation, useSendCartMutation } from '@/redux/api/cartEndpoints';
 import { CartProduct } from '@customTypes/Store/Cart/CartState';
 import { AppDispatch } from '@store/store';
 

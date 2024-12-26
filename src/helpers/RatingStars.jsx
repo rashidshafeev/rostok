@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-import star from '@assets/icons/adv1grey.svg';
-import starhalf from '@assets/icons/adv1half.svg';
-import starfill from '@assets/icons/adv1fill.svg';
+import star from '@/shared/assets/icons/adv1grey.svg';
+import starhalf from '@/shared/assets/icons/adv1half.svg';
+import starfill from '@/shared/assets/icons/adv1fill.svg';
 
 function RatingStars({ totalStars, initialRating, isActive = false, handleSetRating }) {
   const [rating, setRating] = useState(initialRating || 0);

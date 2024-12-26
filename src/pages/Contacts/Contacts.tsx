@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom'
 import vk from '@assets/images/vk.svg';
 import telegram from '@assets/images/telegram.svg';
 import whatsapp from '@assets/images/whatsapp.svg';
-import { scrollToTop } from '@utils/scrollToTop';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { useGetContactsQuery } from '@/redux/api/contentEndpoints';
-import { Loading } from '@/helpers/Loader/Loader';
+import { Loading } from '@/shared/ui/Loader';
 import { BranchCard } from '@/components/Contacts/BranchCard';
 import { RequisitesTable } from '@/components/Contacts/RequisitesTable';
 

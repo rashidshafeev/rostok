@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useGetUserDataQuery } from '@api/userEndpoints';
+import { useGetUserDataQuery } from '@/redux/api/userEndpoints';
 import { RootState } from '@store/store';
 
 export const useQuantities = (token: string | null) => {

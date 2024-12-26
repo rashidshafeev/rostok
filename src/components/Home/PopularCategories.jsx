@@ -1,12 +1,14 @@
 
 import CatalogCard from '../Catalog/CategoryCard';
-import { useGetMainPageDataQuery } from '@api/contentEndpoints';
-
+import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
+import { useWindowSize } from 'react-use';
 // const PopularCategories = ({ data }) => {
 const PopularCategories = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
+
+  const { width } = useWindowSize();
   
-  return (
+  if (width > 1024) return (
     <div className='pt-5 pb-10'>
       <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4'>
         Популярные категории

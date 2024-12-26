@@ -4,11 +4,11 @@ import { setComparison } from "@store/slices/comparisonSlice";
 import { setFavorite } from "@store/slices/favoriteSlice";
 import { setCart } from "@store/slices/cartSlice";
 import { setRecentItems } from "@store/slices/recentItemsSlice";
-import { getTokenFromCookies } from "@helpers/cookies/cookies";
-import { useGetUserCartQuery } from "@api/cartEndpoints";
-import { useGetComparisonQuery } from "@api/comparisonEndpoints";
-import { useGetFavoritesQuery } from "@api/favoritesEndpoints";
-import { useGetRecentItemsQuery } from "@api/userEndpoints";
+import { getTokenFromCookies } from '@/features/auth/lib';;
+import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
+import { useGetComparisonQuery } from "@/redux/api/comparisonEndpoints";
+import { useGetFavoritesQuery } from "@/redux/api/favoritesEndpoints";
+import { useGetRecentItemsQuery } from "@/redux/api/userEndpoints";
 import { AppDispatch } from "@store/store";
 
 const useInitialDataFetch = () => {

@@ -1,9 +1,9 @@
-import favoriteiconactive from "@assets/icons/favorite-green-full.svg";
-import favoriteicon from "@assets/icons/favorite-gray.svg";
-import comparisoniconactive from "@assets/icons/comparison-card-active.svg";
-import comparisonicon from "@assets/icons/comparison-card-inactive.svg";
-import share from "@assets/icons/share-gray.svg";
-import { useModal } from "@context/ModalContext";
+import favoriteiconactive from "@/shared/assets/icons/favorite-green-full.svg";
+import favoriteicon from "@/shared/assets/icons/favorite-gray.svg";
+import comparisoniconactive from "@/shared/assets/icons/comparison-card-active.svg";
+import comparisonicon from "@/shared/assets/icons/comparison-card-inactive.svg";
+import share from "@/shared/assets/icons/share-gray.svg";
+import { useModal } from '@/features/modals/model/context';
 import ComparisonButton from "@helpers/ComparisonButton/ComparisonButton";
 import FavoriteButton from "@helpers/FavoriteButton/FavoriteButton";
 

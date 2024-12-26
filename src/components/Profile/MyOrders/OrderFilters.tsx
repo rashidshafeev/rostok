@@ -1,6 +1,6 @@
-import CSearchField from '@helpers/CustomInputs/CSearchField';
-import CSelectField from '@helpers/CustomInputs/CSelectField';
-import { useGetOrdersFiltersQuery } from '@api/orderEndpoints';
+import CSearchField from '@/shared/ui/inputs/CSearchField';
+import CSelectField from '@/shared/ui/inputs/CSelectField';
+import { useGetOrdersFiltersQuery } from '@/redux/api/orderEndpoints';
 
 export const OrderFilters = () => {
   const { data: filters, isLoading: filtersIsLoading, isSuccess: filtersIsSuccess } = useGetOrdersFiltersQuery();

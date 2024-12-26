@@ -4,7 +4,7 @@ import Review from '@components/Reviews/Review'
 
 import { NavLink, useLocation  } from 'react-router-dom';
 import RatingStars from '@helpers/RatingStars';
-import ReviewModal from '@helpers/CModal/ReviewModal';
+import ReviewModal from '@/features/modals/ui/modals/ReviewModal';
 
 function ReviewsTab({ current, reviews }) {
 

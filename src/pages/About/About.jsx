@@ -7,12 +7,12 @@ import image15 from '@assets/images/about-1-5.png'
 import image16 from '@assets/images/about-1-6.png'
 import image21 from '@assets/images/about-2-1.png'
 
-import stall from '@assets/icons/stall-icon.svg'
-import cart from '@assets/icons/cart-icon.svg'
-import bag from '@assets/icons/bag-icon.svg'
-import calendar from '@assets/icons/calendar-icon.svg'
+import stall from '@/shared/assets/icons/stall-icon.svg'
+import cart from '@/shared/assets/icons/cart-icon.svg'
+import bag from '@/shared/assets/icons/bag-icon.svg'
+import calendar from '@/shared/assets/icons/calendar-icon.svg'
 import WantToBePartnerFrom from '@components/About/WantToBePartnerFrom'
-import { scrollToTop } from '@utils/scrollToTop'
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';

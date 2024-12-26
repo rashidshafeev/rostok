@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
 import ProductCard from "@components/ProductCard/ProductCard";
 import CardLine from "@components/ProductCard/CardLine";
 import LineNarrow from "@components/ProductCard/LineNarrow";
 import { CustomPagination } from "@helpers/Pagination/CustomPagination";
-import filterIcon from "@assets/icons/filter.svg";
+import filterIcon from "@/shared/assets/icons/filter.svg";
 import ProductCardSkeleton from "@components/ProductCard/ProductCardSkeleton";
 import CardLineSkeleton from "@components/ProductCard/CardLineSkeleton";
 import LineNarrowSkeleton from "@components/ProductCard/LineNarrowSkeleton";
@@ -12,30 +12,18 @@ import CardTypeControls from "./CardTypeControls";
 import SortControls from "./SortControls";
 import MobileSortControls from "./MobileSortControls";
 import { useParams } from "react-router-dom";
-import { FiltersState } from "@/types/Filters/FiltersState";
-import { SortingParams, PaginationParams } from "@/types/ServerData/Catalog";
-
-interface CatProdContentProps {
-  filters: FiltersState & {
-    page: PaginationParams['page'];
-    sort: SortingParams;
-  };
-  setFiltersModalOpen: (open: boolean) => void;
-  products: any[];
-  getVariantsIsLoading: boolean;
-  handlePagination: (e: React.MouseEvent<unknown>, page: number) => void;
-  handleSort: (sort: SortingParams) => void;
-}
-
-const CatProdContent: React.FC<CatProdContentProps> = ({
-  filters,
+const CatProdContent = ({
+  // filters,
   setFiltersModalOpen,
   products,
   getVariantsIsLoading,
+  page,
   handlePagination,
-  handleSort,
+  sort,
+  setSort,
 }) => {
   const cardView = localStorage.getItem("cardView");
+
   const [cardType, setTypeCard] = useState(cardView ? cardView : "tile");
 
   const [activeSort, setActiveSort] = useState(
@@ -49,10 +37,10 @@ const CatProdContent: React.FC<CatProdContentProps> = ({
   return (
     <div className="w-full">
       <div className="sticky ll:static top-[76px] ll:top-auto flex justify-between items-center pb-3 xl:pb-0 bg-white z-10">
-        <SortControls sort={filters?.sort} setSort={(sort) => handleSort(sort)} />
+        <SortControls sort={sort} setSort={setSort} />
         <CardTypeControls cardType={cardType} setTypeCard={setTypeCard} />
 
-        <MobileSortControls sort={filters?.sort} setSort={(sort) => handleSort(sort)} />
+        <MobileSortControls sort={sort} setSort={setSort} />
         <button
           onClick={() => setFiltersModalOpen(true)}
           className="flex md:hidden items-center outline-none bg-transparent"
@@ -99,7 +87,7 @@ const CatProdContent: React.FC<CatProdContentProps> = ({
             ))}
         </div>
       )}
-      {!getVariantsIsLoading && (products?.data?.length === 0) && (
+      {!getVariantsIsLoading && !(products?.data?.length === 0) && (
         <ErrorEmpty
           title="Список пуст!"
           desc="К сожалению, по вашему запросу ничего не нашли."
@@ -108,7 +96,7 @@ const CatProdContent: React.FC<CatProdContentProps> = ({
       )}
       {products?.count > 20 && (
         <CustomPagination
-          page={filters.page}
+          page={page}
           count={products?.count}
           handlePagination={handlePagination}
         />

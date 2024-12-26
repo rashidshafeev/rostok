@@ -6,7 +6,7 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-import { ArrowIcon } from "@helpers/Icons";
+import { ArrowIcon } from "@/shared/ui/icons";
 import React from "react";
 
 function BrandsFilter({ filters, setFilters }) {
@@ -19,6 +19,10 @@ function BrandsFilter({ filters, setFilters }) {
     );
     brand.is_selected = !brand.is_selected;
 
+    currentState.lastChanged = {
+      type: "basics",
+      filter: "brands",
+    };
     setFilters(currentState);
   };
 
@@ -42,18 +46,14 @@ function BrandsFilter({ filters, setFilters }) {
         <span className="font-semibold text-colBlack">Бренд</span>
       </AccordionSummary>
       <AccordionDetails sx={{ padding: 0 }}>
-      <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2 flex flex-col gap-1">
-
         {filters?.basics?.brands?.map((el) => (
           <div className={!el?.is_active && "opacity-40"} key={el?.id}>
             <FormControlLabel
-            sx={{ margin: "0", display: "flex", alignItems: "start" }}
               control={
                 <Checkbox
                   style={{
                     color: "#15765B",
-                    padding: "0",
-
+                    padding: "5px",
                   }}
                   name="brands"
                   // checked={filters.basics?.brands.includes(el?.id)}
@@ -74,7 +74,6 @@ function BrandsFilter({ filters, setFilters }) {
             />
           </div>
         ))}
-        </div>
       </AccordionDetails>
     </Accordion>
   );

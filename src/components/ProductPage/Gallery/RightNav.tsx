@@ -1,6 +1,6 @@
 import React from 'react'
 
-import arrow from '@assets/icons/next-icon.svg';
+import arrow from '@/shared/assets/icons/next-icon.svg';
 
 
 function RightNav({onClick, disabled}) {

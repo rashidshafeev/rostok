@@ -1,4 +1,4 @@
-import copyicon from '@assets/icons/copy-icon.svg';
+import copyicon from '@/shared/assets/icons/copy-icon.svg';
 import { toast } from 'sonner';
 import CopyButton from '../common/CopyButton';
 

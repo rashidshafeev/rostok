@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useModal } from '@context/ModalContext';
+import { useModal } from '@/features/modals/model/context';
 
 const ProfileSidebar = () => {
   

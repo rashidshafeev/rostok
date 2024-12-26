@@ -1,8 +1,9 @@
 // src/features/favorite/recentItems.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTokenFromCookies, saveToSessionStorage } from '@helpers/cookies/cookies';
-import { RecentItemsProduct, RecentItemsState } from '@customTypes/Store/RecentItems/RecentItemsState';
-import { Product } from '@customTypes/Product/Product';
+import { getTokenFromCookies } from '@/features/auth/lib';
+import { saveToSessionStorage } from '@/features/storage/lib';
+import { RecentItemsProduct, RecentItemsState } from '@/types/Store/RecentItems/RecentItemsState';
+import { Product } from '@/types/Product/Product';
 
 const initialState: RecentItemsState = {
   recentItems: [],

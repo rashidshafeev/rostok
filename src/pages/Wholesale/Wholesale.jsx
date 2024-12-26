@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import WantToBePartnerFrom from '@components/About/WantToBePartnerFrom'
-import { scrollToTop } from '@utils/scrollToTop';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 
 function Wholesale() {
 

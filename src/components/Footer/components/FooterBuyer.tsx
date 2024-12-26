@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import arrowDown from '@assets/icons/arrow-black.svg';
+import arrowDown from '@/shared/assets/icons/arrow-black.svg';
 
 interface FooterBuyerProps {
   isOpen: boolean;

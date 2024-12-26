@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { CatalogQueryParamsUtil } from '@/utils/queryParams/CatalogQueryParams';
+import { CatalogQueryParamsUtil } from '@/features/filters/lib/queryParams';
 import { useEffect } from 'react';
 import { 
   useGetFiltersMutation, 

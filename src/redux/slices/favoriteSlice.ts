@@ -1,6 +1,7 @@
 // src/features/favorite/favoriteSlice.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { getTokenFromCookies, saveToSessionStorage } from '@helpers/cookies/cookies';
+import { getTokenFromCookies } from '@/features/auth/lib';
+import { saveToSessionStorage } from '@/features/storage/lib';
 import { Product } from '@customTypes/Product/Product';
 import { FavoriteState } from '@/types/Store/Favorite/FavoriteState';
 import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { StyledAccordion, StyledAccordionDetails, StyledAccordionSummary } from '@helpers/FAQStyledAccordion';
-import { scrollToTop } from '@utils/scrollToTop';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { useGetFaqQuery } from '@/redux/api/contentEndpoints';
-import { Loading } from '@/helpers/Loader/Loader';
+import { Loading } from '@/shared/ui/Loader';
 
 interface TextBlock {
   id: string;

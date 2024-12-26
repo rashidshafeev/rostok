@@ -5,7 +5,7 @@ import Promotions from '@components/Home/Promotions';
 import SRSidebar from './SRSidebar';
 import SRContent from './SRContent';
 import CategorySwitcher from '@components/common/CategorySwitcher';
-import { scrollToTop } from '@utils/scrollToTop';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { fetchSearchResults } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
 import { ProductListCategoryChain } from '@customTypes/Category/ProductListCategoryChain';

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import CCheckBoxField from "@helpers/CustomInputs/CCheckBoxField";
+import CCheckBoxField from '@/shared/ui/inputs/CCheckBoxField';
 import ShCartItem from "./ShCartItem";
 import MobileShCartItem from "./MobileShCartItem";
 import ShCartItemLine from "./ShCartItemLine";
-import shareIcon from "@assets/icons/share.svg";
-import docIcon from "@assets/icons/download-pdf.svg";
+import shareIcon from "@/shared/assets/icons/share.svg";
+import docIcon from "@/shared/assets/icons/download-pdf.svg";
 import { useDispatch } from "react-redux";
 import {
   removeFromCart,
@@ -14,15 +14,15 @@ import {
 import { useWindowSize } from "react-use";
 import {
   useSendCartMutation,
-} from "@api/cartEndpoints";
+} from "@/redux/api/cartEndpoints";
 import CardLineSkeleton from "../ProductCard/CardLineSkeleton";
-import { getTokenFromCookies } from "@helpers/cookies/cookies";
+import { getTokenFromCookies } from '@/features/auth/lib';
 import LineNarrowSkeleton from "../ProductCard/LineNarrowSkeleton";
-import { SendCartPayload, SendCartRequest } from "@customTypes/ServerData/SendCart";
-import {  LocalCartState } from "@customTypes/Store/Cart/CartState";
-import { CartProduct } from "@customTypes/Store/Cart/CartProduct";
-import { AppDispatch } from "@store/store";
-import { useModal } from "@/context/ModalContext";
+import { SendCartPayload, SendCartRequest } from "@/types/ServerData/SendCart";
+import {  LocalCartState } from "@/types/Store/Cart/CartState";
+import { CartProduct } from "@/types/Store/Cart/CartProduct";
+import { AppDispatch } from "@/redux/store";
+import { useModal } from '@/features/modals/model/context';
 import { toast } from "sonner";
 
 

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import UpdateOrganizationModal from '@helpers/CModal/UpdateOrganizationModal';
-import DeleteOrganizationModal from '@helpers/CModal/DeleteOrganizationModal';
+import UpdateOrganizationModal from '@/features/modals/ui/modals/UpdateOrganizationModal';
+import DeleteOrganizationModal from '@/features/modals/ui/modals/DeleteOrganizationModal';
 
 export const OrgCard = ({
   el,

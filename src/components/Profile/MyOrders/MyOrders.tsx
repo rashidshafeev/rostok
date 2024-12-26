@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
-import { useGetUserOrdersQuery } from '@api/orderEndpoints';
-import { Loading } from '@helpers/Loader/Loader';
-import arrowIcon from '@assets/icons/arrow-icon.svg';
+import { useGetUserOrdersQuery } from '@/redux/api/orderEndpoints';
+import { Loading } from '@/shared/ui/Loader';
+import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import { OrderItem } from './OrderItem';
 import { OrderFilters } from './OrderFilters';
 import React from 'react';

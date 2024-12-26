@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useGetBasicFiltersQuery } from '@api/productEndpoints';
+import { useGetBasicFiltersQuery } from '@/redux/api/productEndpoints';
 
 const FooterDesktopMenu = () => {
   const { data: basicFilters } = useGetBasicFiltersQuery();

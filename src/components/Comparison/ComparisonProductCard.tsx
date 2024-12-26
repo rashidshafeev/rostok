@@ -1,17 +1,17 @@
 import React, { useRef } from 'react'
-import { addToCart, changeQuantity } from '@store/slices/cartSlice';
+import { addToCart, changeQuantity } from '@/redux/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@helpers/Icons';
+import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import ComparisonButton from '@helpers/ComparisonButton/ComparisonButton';
-import FavoriteButton from '@helpers/FavoriteButton/FavoriteButton';
-import { useGetUserCartQuery } from '@api/cartEndpoints';
-import { getTokenFromCookies } from '@helpers/cookies/cookies';
-import AddToCartButton from '@helpers/AddToCartButton/AddToCartButton';
-import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import ComparisonButton from '@/helpers/ComparisonButton/ComparisonButton';
+import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
+import { useGetUserCartQuery } from '@/redux/api/cartEndpoints';
+import { getTokenFromCookies } from '@/features/auth/lib';
+import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
+import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import { useDrag, useDrop } from 'react-dnd';
-import { LoadingSmall } from '@/helpers/Loader/Loader';
+import { LoadingSmall } from '@/shared/ui/Loader';
 
 function ComparisonProductCard({ product, index, moveProduct  }) {
   const token = getTokenFromCookies();

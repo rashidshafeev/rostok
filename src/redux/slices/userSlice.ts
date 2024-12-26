@@ -1,5 +1,5 @@
-import { UserState } from '@customTypes/Store/User/UserState';
-import { getTokenFromCookies, saveTokenToCookies } from '@helpers/cookies/cookies';
+import { UserState } from '@/types/Store/User/UserState';
+import { getTokenFromCookies, saveTokenToCookies } from '@/features/auth/lib';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState : UserState = {

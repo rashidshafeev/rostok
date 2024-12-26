@@ -1,11 +1,9 @@
-import { LocalCartState } from "@customTypes/Store/Cart/CartState";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import {
-  getTokenFromCookies,
-  saveToSessionStorage,
-} from "@helpers/cookies/cookies";
-import { Product } from "@customTypes/Product/Product";
-import { PriceType } from "@customTypes/Product/PriceType";
+import { LocalCartState } from '@/types/Store/Cart/CartState';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { getTokenFromCookies } from '@/features/auth/lib';
+import { saveToSessionStorage } from '@/features/storage/lib';
+import { Product } from '@/types/Product/Product';
+import { PriceType } from '@/types/Product/PriceType';
 
 const initialState: LocalCartState = {
   cart: [],

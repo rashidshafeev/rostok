@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form';
-import CTextField from './CustomInputs/CTextField';
-import CPhoneField from './CustomInputs/CPhoneField';
+import CTextField from '@/shared/ui/inputs/CTextField';
+import CPhoneField from '@/shared/ui/inputs/CPhoneField';
 import { NavLink } from 'react-router-dom';
-import { useSendFeedbackMutation } from '@api/orderEndpoints';
+import { useSendFeedbackMutation } from '@/redux/api/orderEndpoints';
 import { toast } from 'sonner';
-
 
 function QuestionForm({ data, hideModal }) {
 

@@ -9,8 +9,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 
-import { ArrowIcon } from "@helpers/Icons";
-import { checkCloseToWhite } from "@utils/checkCloseToWhite";
+import { ArrowIcon } from "@/shared/ui/icons";
+import { checkCloseToWhite } from '@/shared/lib';
 function CheckboxFilter({ filter, filters, setFilters }) {
   const handleCheckboxChange = (filterId, valueId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
@@ -21,6 +21,10 @@ function CheckboxFilter({ filter, filters, setFilters }) {
     const value = filter.values.find((value) => value.id === valueId);
     value.is_selected = !value.is_selected;
 
+    currentState.lastChanged = {
+      type: "dynamics",
+      filter: filterId,
+    };
     setFilters(currentState);
   };
 
@@ -43,7 +47,7 @@ function CheckboxFilter({ filter, filters, setFilters }) {
             {filter?.name}
           </p>
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: 0 }}>
+        <AccordionDetails sx={{ padding: 0, marginLeft: "-8px" }}>
           <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2 flex flex-col gap-1">
             {filter?.values?.map((val) => {
               return (
@@ -54,7 +58,7 @@ function CheckboxFilter({ filter, filters, setFilters }) {
                       <Checkbox
                         style={{
                           color: "#15765B",
-                          padding: "0",
+                          padding: "0 5px",
                         }}
                         name={filter?.name}
                         checked={

@@ -1,4 +1,3 @@
-
 import { api } from  './api';
 import { AdditionalServerResponseData } from '@customTypes/ServerData/AdditionalServerResponseData';
 import { GetUserCartResponse } from '@customTypes/ServerData/GetUserCart';
@@ -6,9 +5,8 @@ import { SendCartResponse, SendCartRequest } from '@customTypes/ServerData/SendC
 import { ProductListRequest } from '@customTypes/ServerData/ProductListRequest';
 import { GetCartItemPriceRequest, GetCartItemPriceResponse } from '@customTypes/ServerData/GetCartItemPrice';
 
-
 export const cartEndpoints = api.injectEndpoints({
-endpoints: (builder) => ({
+  endpoints: (builder) => ({
     getSuggestions: builder.mutation({
       query: (params) => ({
         url: '/api/Products/search/suggestions',
@@ -26,7 +24,10 @@ endpoints: (builder) => ({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+      invalidatesTags: (result, error, { products }) => [
+        { type: 'Cart', id: 'LIST' },
+        { type: 'User', id: 'DATA' },
+      ],
     }),
     removeFromCart: builder.mutation<AdditionalServerResponseData, ProductListRequest>({
       query: (data) => ({
@@ -34,7 +35,10 @@ endpoints: (builder) => ({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
+      invalidatesTags: (result, error, { products }) => [
+        { type: 'Cart', id: 'LIST' },
+        { type: 'User', id: 'DATA' },
+      ],
     }),
     getCartItemPrice: builder.mutation<GetCartItemPriceResponse, GetCartItemPriceRequest>({
       query: (data) => ({
@@ -50,12 +54,6 @@ endpoints: (builder) => ({
         method: 'POST',
       }),
     }),
-    // getCartShareCode: builder.query({
-    //   query: () => ({
-    //     url: '/api/ProductsCart/share/create',
-    //     method: 'POST',
-    //   }),
-    // }),
     getCartShareItemsByCode: builder.mutation({
       query: (data) => ({
         url: '/api/ProductsCart/share/get',
@@ -70,21 +68,18 @@ endpoints: (builder) => ({
         body: data,
       }),
       invalidatesTags: [{ type: 'Cart', id: 'LIST' }, { type: 'User', id: 'DATA' }],
-
     })
   })
 })
-  
-  // Export hooks for cart endpoints
-  export const {
-    useSendCartMutation,
-    useGetSuggestionsMutation,
-    useGetUserCartQuery,
-    useRemoveFromCartMutation,
-    useGetCartItemPriceMutation,
-    // useGetCartShareCodeQuery,
-    useGetCartShareCodeMutation,
-    useGetCartShareItemsByCodeMutation,
-    useAddSharedCartMutation,
-  } = cartEndpoints
 
+// Export hooks for cart endpoints
+export const {
+  useSendCartMutation,
+  useGetSuggestionsMutation,
+  useGetUserCartQuery,
+  useRemoveFromCartMutation,
+  useGetCartItemPriceMutation,
+  useGetCartShareCodeMutation,
+  useGetCartShareItemsByCodeMutation,
+  useAddSharedCartMutation,
+} = cartEndpoints

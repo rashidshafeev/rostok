@@ -1,73 +1,80 @@
-import React from 'react';
-import { OrderBy, SortOrder, SortingParams } from '@/types/ServerData/Catalog';
+import React from 'react'
 
-interface SortControlsProps {
-  sort: SortingParams;
-  setSort: (sort: SortingParams) => void;
-}
+function SortControls({ sort, setSort }) {
 
-function SortControls({ sort, setSort }: SortControlsProps) {
-  const handleSetSort = (orderBy: OrderBy, sortOrder: SortOrder) => {
-    setSort({
-      orderBy,
-      sortOrder,
-    });
-  };
+   
+  const handleSetSort = (sortBy, sortOrder) => {
+      setSort({
+        sortBy: sortBy,
+        sortOrder: sortOrder
+      });
+  }
+
 
   return (
-    <div className="hidden ll:flex space-x-3 xl:pb-5">
-      <span
-        onClick={() => handleSetSort(OrderBy.popularity, SortOrder.desc)}
-        className={`text-sm font-medium cursor-pointer ${
-          sort?.orderBy === OrderBy.popularity &&
-          sort?.sortOrder === SortOrder.desc &&
-          'text-colGreen'
-        }`}
-      >
-        По популярности
-      </span>
-      <span
-        onClick={() => handleSetSort(OrderBy.price, SortOrder.asc)}
-        className={`text-sm font-medium cursor-pointer ${
-          sort?.orderBy === OrderBy.price &&
-          sort?.sortOrder === SortOrder.asc &&
-          'text-colGreen'
-        }`}
-      >
-        Сначала дешёвые
-      </span>
-      <span
-        onClick={() => handleSetSort(OrderBy.price, SortOrder.desc)}
-        className={`text-sm font-medium cursor-pointer ${
-          sort?.orderBy === OrderBy.price &&
-          sort?.sortOrder === SortOrder.desc &&
-          'text-colGreen'
-        }`}
-      >
-        Сначала дорогие
-      </span>
-      <span
-        onClick={() => handleSetSort(OrderBy.discount, SortOrder.desc)}
-        className={`text-sm font-medium cursor-pointer ${
-          sort?.orderBy === OrderBy.discount &&
-          sort?.sortOrder === SortOrder.desc &&
-          'text-colGreen'
-        }`}
-      >
-        По размеру скидки
-      </span>
-      <span
-        onClick={() => handleSetSort(OrderBy.rating, SortOrder.desc)}
-        className={`text-sm font-medium cursor-pointer ${
-          sort?.orderBy === OrderBy.rating &&
-          sort?.sortOrder === SortOrder.desc &&
-          'text-colGreen'
-        }`}
-      >
-        По рейтингу
-      </span>
-    </div>
-  );
+    <div className='hidden ll:flex space-x-3 xl:pb-5'>
+          <span
+            onClick={() => {
+              handleSetSort('popularity', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              sort?.sortBy === 'popularity' &&
+              sort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
+            По популярности
+          </span>
+          <span
+            onClick={() => {
+              handleSetSort('price', 'asc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              sort?.sortBy === 'price' &&
+              sort?.sortOrder === 'asc' &&
+              'text-colGreen'
+            }`}
+          >
+            Сначала дешёвые
+          </span>
+          <span
+            onClick={() => {
+              handleSetSort('price', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              sort?.sortBy === 'price' &&
+              sort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
+            Сначала дорогие
+          </span>
+          <span
+            onClick={() => {
+              handleSetSort('rating', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              sort?.sortBy === 'rating' &&
+              sort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
+            Высокий рейтинг
+          </span>
+          <span
+            onClick={() => {
+              handleSetSort('discount', 'desc');
+            }}
+            className={`text-sm font-medium cursor-pointer ${
+              sort?.sortBy === 'discount' &&
+              sort?.sortOrder === 'desc' &&
+              'text-colGreen'
+            }`}
+          >
+            По размеру скидки
+          </span>
+        </div>
+  )
 }
 
-export default SortControls;
+export default SortControls

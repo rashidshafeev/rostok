@@ -1,26 +1,26 @@
 import React, { useState } from "react";
 
-import checkicon from "@assets/icons/check-icon.svg";
-import stallicon from "@assets/icons/stall-icon.svg";
-import truckicon from "@assets/icons/truck-icon.svg";
-import boxicon from "@assets/icons/box-icon.svg";
+import checkicon from "@/shared/assets/icons/check-icon.svg";
+import stallicon from "@/shared/assets/icons/stall-icon.svg";
+import truckicon from "@/shared/assets/icons/truck-icon.svg";
+import boxicon from "@/shared/assets/icons/box-icon.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
 import { addToCart, changeQuantity } from "@store/slices/cartSlice";
 import { NavLink } from "react-router-dom";
-import FastOrderModal from "@helpers/CModal/FastOrderModal";
-import AddToCartButton from "@helpers/AddToCartButton/AddToCartButton";
-import ChangeQuantityGroup from "@helpers/ChangeQuantityButton/ChangeQuantityGroup";
-import { LoadingSmall } from "@helpers/Loader/Loader";
-import { getTokenFromCookies } from "@helpers/cookies/cookies";
-import { useGetUserCartQuery } from "@api/cartEndpoints";
-import { Product } from "@customTypes/Product/Product";
+import FastOrderModal from "@/features/modals/ui/modals/FastOrderModal";
+import AddToCartButton from "@/helpers/AddToCartButton/AddToCartButton";
+import ChangeQuantityGroup from "@/helpers/ChangeQuantityButton/ChangeQuantityGroup";
+import { LoadingSmall } from '@/shared/ui/Loader';
+import { getTokenFromCookies } from '@/features/auth/lib';
+import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
+import { Product } from "@/types/Product/Product";
 import PriceDisplay from "../ProductCard/PriceDisplay";
-import { LocalCartState } from "@customTypes/Store/Cart/CartState";
-import { transformServerCartToLocalCart } from "@utils/transfromData";
-import { RootState } from "@store/store";
+import { LocalCartState } from "@/types/Store/Cart/CartState";
+import { transformServerCartToLocalCart } from '@/features/cart/lib';
+import { RootState } from "@/redux/store";
 import { DeliveryInfo } from "./DeliveryInfo";
-import { useModal } from "@context/ModalContext";
+import { useModal } from '@/features/modals/model/context';
 
 type RightBarProps = {
   product: Product;

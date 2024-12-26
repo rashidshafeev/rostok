@@ -8,7 +8,7 @@ import {
     FormControlLabel,
   } from "@mui/material";
 
-import { ArrowIcon } from "@helpers/Icons";
+import { ArrowIcon } from "@/shared/ui/icons";
 function TagsFilters({ filters, setFilters }) {
 
   const handleCheckboxChange = (tagSelected) => {
@@ -19,6 +19,10 @@ function TagsFilters({ filters, setFilters }) {
     );
     tag.is_selected = !tag.is_selected;
 
+    currentState.lastChanged = {
+      type: "basics",
+      filter: "tags",
+    };
     setFilters(currentState);
   };
 
@@ -43,16 +47,14 @@ function TagsFilters({ filters, setFilters }) {
                 <span className="font-semibold text-colBlack">Статус</span>
               </AccordionSummary>
               <AccordionDetails sx={{ padding: 0 }}>
-              <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2 flex flex-col gap-1">
                 {filters?.basics?.tags?.map((el, index) => (
                   <div className={!el?.is_active && "opacity-40"} key={index}>
                     <FormControlLabel
-                    sx={{ margin: "0", display: "flex", alignItems: "start" }}
                       control={
                         <Checkbox
                           style={{
                             color: "#15765B",
-                            padding: "0",
+                            padding: "5px",
                           }}
                           checked={filters?.basics?.tags?.find(tag => tag?.tag === el?.tag).is_selected}
                           disabled={!el?.is_active}
@@ -73,7 +75,6 @@ function TagsFilters({ filters, setFilters }) {
                     />
                   </div>
                 ))}
-                </div>
               </AccordionDetails>
             </Accordion>
   )

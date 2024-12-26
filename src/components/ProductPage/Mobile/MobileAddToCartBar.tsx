@@ -5,7 +5,7 @@ import { addToCart, changeQuantity } from '@store/slices/cartSlice';
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import PriceDisplay from '@/components/ProductCard/PriceDisplay';
 import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
-import { LoadingSmall } from '@/helpers/Loader/Loader';
+import { LoadingSmall } from '@/shared/ui/Loader';
 import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
 
 function MobileAddToCartBar({ product }) {

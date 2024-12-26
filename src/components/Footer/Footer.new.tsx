@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetBasicFiltersQuery } from '@api/productEndpoints';
+import { useGetBasicFiltersQuery } from '@/redux/api/productEndpoints';
 import FooterAbout from './components/FooterAbout';
 import FooterBuyer from './components/FooterBuyer';
 import FooterContacts from './components/FooterContacts';

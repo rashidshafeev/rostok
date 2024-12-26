@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { useGetMainPageDataQuery } from '@api/contentEndpoints';
+import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 
 // const RoomProducts = ({ data }) => {
 const RoomProducts = () => {

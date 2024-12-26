@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '@store/slices/cartSlice';
-import { getTokenFromCookies } from '../cookies/cookies';
-import { useGetCartItemPriceMutation, useSendCartMutation } from '@api/cartEndpoints';
+import { getTokenFromCookies } from '@/features/auth/lib';
+import { useGetCartItemPriceMutation, useSendCartMutation } from '@/redux/api/cartEndpoints';
 import { toast } from 'sonner';
 
 const AddToCartButton = ({ product, children }) => {

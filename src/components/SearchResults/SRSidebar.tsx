@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CTextField from '@helpers/CustomInputs/CTextField';
+import CTextField from '@/shared/ui/inputs/CTextField';
 import {
   Accordion,
   AccordionDetails,
@@ -9,12 +9,12 @@ import {
   FormControlLabel,
   Slider,
 } from '@mui/material';
-import { Loading } from '@helpers/Loader/Loader';
+import { Loading } from '@/shared/ui/Loader';
 import { IOSSwitch } from '@components/common/styledComponents/IOSSwitch';
-import { ArrowIcon } from '@helpers/Icons';
+import { ArrowIcon } from '@/shared/ui/icons';
 import { fetchSearchFilters } from '../../api/searchProducts';
 import { useLocation } from 'react-router-dom';
-import SearchFiltersModal from '@helpers/CModal/SearchFiltersModal';
+import SearchFiltersModal from '@/features/modals/ui/modals/SearchFiltersModal';
 import { SetStateAction, Dispatch } from 'react';
 import { ProductListCategoryChain } from '@customTypes/Category/ProductListCategoryChain';
 

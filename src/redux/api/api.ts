@@ -55,14 +55,7 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
       if (response.success === false) {
         toast.error(response.err || 'Произошла ошибка', {
           description: response.err_code ? `Код ошибки: ${response.err_code}` : undefined,
-          duration: 5000,
-          classNames: {
-            toast: "p-2 flex items-center",
-            title: "text-sm font-semibold text-black",
-            description: "text-sm text-colDarkGray",
-            closeButton: "text-sm text-colDarkGray",
-            icon: "w-12"
-          }
+          duration: 5000
         });
 
         return {
@@ -78,14 +71,7 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
     if (result.error) {
       toast.error('Произошла ошибка', {
         description: result.error.data?.message || 'Что-то пошло не так',
-        duration: 5000,
-        classNames: {
-          toast: "p-2 flex items-center",
-          title: "text-sm font-semibold text-black",
-          description: "text-sm text-colDarkGray",
-          closeButton: "text-sm text-colDarkGray",
-          icon: "w-12"
-        }
+        duration: 5000
       });
 
       if (process.env.NODE_ENV === 'development') {
@@ -97,14 +83,7 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
   } catch (error) {
     toast.error('Произошла неожиданная ошибка', {
       description: error.message || 'Что-то пошло не так',
-      duration: 5000,
-      classNames: {
-        toast: "p-2 flex items-center",
-        title: "text-sm font-semibold text-black",
-        description: "text-sm text-colDarkGray",
-        closeButton: "text-sm text-colDarkGray",
-        icon: "w-12"
-      }
+      duration: 5000
     });
 
     return {

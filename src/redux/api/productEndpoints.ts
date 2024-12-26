@@ -26,6 +26,7 @@ export const productEndpoints = api.injectEndpoints({
   getProduct: builder.query<GetProductResponse, string>({
     query: (id) => `api/Products/item?id=${id}`,
     keepUnusedDataFor: 60, // Keep cache for 60 seconds
+    providesTags: (result, error, id) => [{ type: 'Product', id }],
   }),
   getCategoryTree: builder.query< GetCategoryTreeResponse, string | null>({
     query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,

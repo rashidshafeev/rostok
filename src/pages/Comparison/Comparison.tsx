@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
-import { scrollToTop } from '@utils/scrollToTop';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { useSelector } from 'react-redux';
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import { getTokenFromCookies } from '@helpers/cookies/cookies';
-import { useGetComparisonQuery } from '@api/comparisonEndpoints';
+import { Breadcrumbs } from '@/widgets/Breadcrumbs';;
+import { getTokenFromCookies } from '@/features/auth/lib';;
+import { useGetComparisonQuery } from '@/redux/api/comparisonEndpoints';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { RootState } from '@store/store';

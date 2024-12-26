@@ -3,15 +3,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectItem, unselectItem } from "@store/slices/cartSlice";
-import { getTokenFromCookies } from "../cookies/cookies";
+import { getTokenFromCookies } from '@/features/auth/lib';
 import {
   useGetUserCartQuery,
   useSendCartMutation,
-} from "@api/cartEndpoints";
+} from "@/redux/api/cartEndpoints";
 
 import { CartProduct, LocalCartState } from "@/types/Store/Cart/CartState";
 import { AppDispatch, RootState } from "@/redux/store";
-import { transformServerCartToLocalCart } from "@/utils/transfromData";
+import { transformServerCartToLocalCart } from '@/features/cart/lib';
 
 
 interface SelectCartItemButtonProps {

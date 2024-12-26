@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToRecentItems } from "@store/slices/recentItemsSlice";
 import { Product } from "@customTypes/Product/Product";
-import { getTokenFromCookies } from "@helpers/cookies/cookies";
+import { getTokenFromCookies } from '@/features/auth/lib';;
 import { AppDispatch } from "@store/store";
 
 const useAddToRecentItems = (product: Product | null) => {

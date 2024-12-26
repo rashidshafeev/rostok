@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import fizlico from '@assets/icons/fizlico-inactive.svg';
-import urlico from '@assets/icons/urlico-inactive.svg';
-import { scrollToTop } from '@utils/scrollToTop';
-import { useModal } from '@context/ModalContext';
+import fizlico from '@/shared/assets/icons/fizlico-inactive.svg';
+import urlico from '@/shared/assets/icons/urlico-inactive.svg';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { useModal } from '@/features/modals/model/context';
 import { useGetGuaranteeQuery } from '@/redux/api/contentEndpoints';
-import { Loading } from '@/helpers/Loader/Loader';
+import { Loading } from '@/shared/ui/Loader';
 
 function Warranty() {
     const [type, setType] = useState<'individual' | 'legal'>('legal');

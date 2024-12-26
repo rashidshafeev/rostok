@@ -2,8 +2,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToComparison, removeFromComparison } from '@store/slices/comparisonSlice';
-import { useGetComparisonQuery, useRemoveFromComparisonMutation, useSendComparisonMutation } from '@api/comparisonEndpoints';
-import { getTokenFromCookies } from '../cookies/cookies';
+import { useGetComparisonQuery, useRemoveFromComparisonMutation, useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
+import { getTokenFromCookies } from '@/features/auth/lib';
 import { Product } from '@customTypes/Product/Product';
 import { AppDispatch, RootState } from '@store/store';
 

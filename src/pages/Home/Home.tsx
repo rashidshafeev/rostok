@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { scrollToTop } from '@utils/scrollToTop';
-import { useGetMainPageDataQuery } from '@api/contentEndpoints';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 import HomeSkeleton from './HomeSkeleton';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
@@ -11,6 +11,7 @@ import Promotions from '@components/Home/Promotions';
 import SaleBanner from '@components/Home/SaleBanner';
 import SaleProducts from '@components/Home/SaleProducts';
 import RoomProducts from '@components/Home/RoomProducts';
+import PopularCategoriesMobile from '@/components/Home/PopularCategoriesMobile';
 const Home = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
 
@@ -34,8 +35,10 @@ const Home = () => {
 
   return (
     <>
+      
       {isSuccess && (
         <>
+        <PopularCategoriesMobile />
           {Object.keys(data).map((key) => {
             const Component = componentMap[key];
             if (Component) {

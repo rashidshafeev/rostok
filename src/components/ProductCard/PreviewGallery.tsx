@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 // import './PreviewGallery.css';
-import noImg from "@assets/images/no-image.png";
-import FavoriteButton from "@helpers/FavoriteButton/FavoriteButton";
-import ComparisonButton from "@helpers/ComparisonButton/ComparisonButton";
-import { ComparisonIcon, FavoriteIcon } from "@helpers/Icons";
+import noImg from "@/assets/images/no-image.png";
+import FavoriteButton from "@/helpers/FavoriteButton/FavoriteButton";
+import ComparisonButton from "@/helpers/ComparisonButton/ComparisonButton";
+import { ComparisonIcon, FavoriteIcon } from "@/shared/ui/icons";
 import { Product } from "@/types/Product/Product";
 
 interface PreviewGalleryProps {

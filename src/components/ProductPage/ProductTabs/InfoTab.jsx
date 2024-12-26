@@ -1,8 +1,8 @@
 import React from 'react'
 
-import stallicon from '@assets/icons/stall-icon.svg';
-import truckicon from '@assets/icons/truck-icon.svg';
-import boxicon from '@assets/icons/box-icon.svg';
+import stallicon from '@/shared/assets/icons/stall-icon.svg';
+import truckicon from '@/shared/assets/icons/truck-icon.svg';
+import boxicon from '@/shared/assets/icons/box-icon.svg';
 
 function InfoTab() {
     return (

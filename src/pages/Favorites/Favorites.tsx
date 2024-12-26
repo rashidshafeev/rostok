@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
-import { scrollToTop } from "@utils/scrollToTop";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
-import { useGetFavoritesQuery } from "@api/favoritesEndpoints";
-import { getTokenFromCookies } from "@helpers/cookies/cookies";
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { Breadcrumbs } from '@/widgets/Breadcrumbs';;
+import { useGetFavoritesQuery } from "@/redux/api/favoritesEndpoints";
+import { getTokenFromCookies } from '@/features/auth/lib';;
 import { RootState } from "@store/store";
 import FavDetail from "@components/Favorites/FavDetail";
 import FavSidebar from "@components/Favorites/FavSidebar";

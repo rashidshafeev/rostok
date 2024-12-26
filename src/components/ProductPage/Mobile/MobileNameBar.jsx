@@ -1,5 +1,5 @@
-import star from '@assets/icons/adv1fill.svg';
-import copyicon from '@assets/icons/copy-icon.svg';
+import star from '@/shared/assets/icons/adv1fill.svg';
+import copyicon from '@/shared/assets/icons/copy-icon.svg';
 import { toast } from 'sonner';
 import CopyButton from '../../common/CopyButton';
 

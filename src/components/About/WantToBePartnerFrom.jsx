@@ -1,8 +1,8 @@
 import React from 'react'
 import { Controller, useForm } from 'react-hook-form';
 import image from '@assets/images/want-to-be-partner.png'
-import CTextField from '@helpers/CustomInputs/CTextField';
-import CPhoneField from '@helpers/CustomInputs/CPhoneField';
+import CTextField from '@/shared/ui/inputs/CTextField';
+import CPhoneField from '@/shared/ui/inputs/CPhoneField';
 
 function WantToBePartnerFrom() {
   const {
