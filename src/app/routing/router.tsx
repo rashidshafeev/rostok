@@ -4,7 +4,7 @@ import {
   Route,
 } from 'react-router-dom';
 
-import Layout from '@components/Layout/Layout';
+import { Layout } from '@/app/layouts/Layout';
 
 import Home from '@pages/Home/Home';
 

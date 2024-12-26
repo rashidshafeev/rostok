@@ -14,7 +14,7 @@ import {
   WarningAmberRounded,
 } from "@mui/icons-material";
 
-const Layout = () => {
+export const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
   const navigate = useNavigate();
 
@@ -85,5 +85,3 @@ const Layout = () => {
     </ModalProvider>
   );
 };
-
-export default Layout;
