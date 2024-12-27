@@ -1,21 +1,26 @@
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { CatalogQueryParamsUtil } from '@/features/filters/lib/queryParams';
 import { useEffect } from 'react';
-import { 
-  useGetFiltersMutation, 
-  useGetVariantsMutation 
-} from '@/redux/api/productEndpoints';
-import { 
-  selectCatalogState, 
+
+import { useNavigate, useLocation } from 'react-router-dom';
+
+import { CatalogQueryParamsUtil } from '@/features/filters/lib/queryParams';
+import {
+  useGetFiltersMutation,
+  useGetVariantsMutation,
+} from '@/entities/product/api/productApi';
+
+import { setSorting, setFilters, setPage, setCategoryId } from './catalogSlice';
+import {
+  selectCatalogState,
   selectCurrentCategoryId,
   selectFilters,
   selectSorting,
-  selectPagination
+  selectPagination,
 } from './selectors';
-import { setSorting, setFilters, setPage, setCategoryId } from './catalogSlice';
-import { SortingParams } from '@/types/ServerData/Catalog';
-import { FiltersState } from '@/types/Filters/FiltersState';
+
+import type { FiltersState } from '@/entities/filter/Filters/FiltersState';
+import type { SortingParams } from '@/types/ServerData/Catalog';
+
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 
 export const useCatalogOperations = () => {
   const dispatch = useAppDispatch();
@@ -36,7 +41,7 @@ export const useCatalogOperations = () => {
       ...newState.filters,
       ...newState.sorting,
       ...newState.pagination,
-      category_id: newState.categoryId
+      category_id: newState.categoryId,
     });
     navigate(`?${queryParams}`, { replace: true });
   };
@@ -46,16 +51,13 @@ export const useCatalogOperations = () => {
     ...currentFilters,
     ...currentSorting,
     ...currentPagination,
-    category_id: currentCategoryId
+    category_id: currentCategoryId,
   });
 
   // Fetch data
   const fetchData = async () => {
     const params = createRequestParams();
-    await Promise.all([
-      getFilters(params),
-      getVariants(params)
-    ]);
+    await Promise.all([getFilters(params), getVariants(params)]);
   };
 
   // Operations
@@ -85,24 +87,31 @@ export const useCatalogOperations = () => {
 
   // Sync URL params on mount and URL changes
   useEffect(() => {
-    const queryParams = CatalogQueryParamsUtil.parseQueryParams(location.search);
+    const queryParams = CatalogQueryParamsUtil.parseQueryParams(
+      location.search
+    );
     if (queryParams) {
-      dispatch(setFilters({
-        basics: {
-          price: queryParams.min_price !== null || queryParams.max_price !== null,
-          tags: queryParams.tags,
-          brands: queryParams.brands,
-          rating: []
-        },
-        dynamics: [],
-        more: []
-      }));
-      dispatch(setSorting({
-        orderBy: queryParams.orderBy,
-        sortOrder: queryParams.sortOrder
-      }));
+      dispatch(
+        setFilters({
+          basics: {
+            price:
+              queryParams.min_price !== null || queryParams.max_price !== null,
+            tags: queryParams.tags,
+            brands: queryParams.brands,
+            rating: [],
+          },
+          dynamics: [],
+          more: [],
+        })
+      );
+      dispatch(
+        setSorting({
+          orderBy: queryParams.orderBy,
+          sortOrder: queryParams.sortOrder,
+        })
+      );
       dispatch(setPage(queryParams.page));
-      
+
       if (queryParams.category_id !== currentCategoryId) {
         dispatch(setCategoryId(queryParams.category_id));
       }
@@ -114,6 +123,6 @@ export const useCatalogOperations = () => {
     updateFilters,
     updatePage,
     updateCategory,
-    fetchData
+    fetchData,
   };
 };

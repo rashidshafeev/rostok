@@ -1,9 +1,9 @@
-import { Product } from "@/types/Product/Product";
+import type { Product } from '@/entities/product/Product';
 
 export interface RecentItemsProduct extends Product {
-    visitTime: Date;
+  visitTime: Date;
 }
 
 export interface RecentItemsState {
-    recentItems: RecentItemsProduct[]
+  recentItems: RecentItemsProduct[];
 }

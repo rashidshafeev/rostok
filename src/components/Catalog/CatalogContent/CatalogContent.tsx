@@ -1,17 +1,21 @@
-import React, { useState, useRef, useEffect } from "react";
-import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
+import React, { useState, useRef, useEffect } from 'react';
+
+import CardLine from '@components/ProductCard/CardLine';
 import ProductCard from "@components/ProductCard/ProductCard";
-import CardLine from "@components/ProductCard/CardLine";
-import LineNarrow from "@components/ProductCard/LineNarrow";
-import { CustomPagination } from "@helpers/Pagination/CustomPagination";
-import filterIcon from "@/shared/assets/icons/filter.svg";
-import ProductCardSkeleton from "@components/ProductCard/ProductCardSkeleton";
-import CardLineSkeleton from "@components/ProductCard/CardLineSkeleton";
-import LineNarrowSkeleton from "@components/ProductCard/LineNarrowSkeleton";
-import CardTypeControls from "./CardTypeControls";
-import SortControls from "./SortControls";
-import MobileSortControls from "./MobileSortControls";
-import { useParams } from "react-router-dom";
+import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
+import LineNarrow from '@components/ProductCard/LineNarrow';
+import { CustomPagination } from '@helpers/Pagination/CustomPagination';
+import filterIcon from '@/shared/assets/icons/filter.svg';
+import ProductCardSkeleton from '@components/ProductCard/ProductCardSkeleton';
+import CardLineSkeleton from '@components/ProductCard/CardLineSkeleton';
+import LineNarrowSkeleton from '@components/ProductCard/LineNarrowSkeleton';
+
+import CardTypeControls from './CardTypeControls';
+import MobileSortControls from './MobileSortControls';
+import SortControls from './SortControls';
+
+import { useParams } from 'react-router-dom';
+
 const CatProdContent = ({
   // filters,
   setFiltersModalOpen,
@@ -22,14 +26,14 @@ const CatProdContent = ({
   sort,
   setSort,
 }) => {
-  const cardView = localStorage.getItem("cardView");
+  const cardView = localStorage.getItem('cardView');
 
-  const [cardType, setTypeCard] = useState(cardView ? cardView : "tile");
+  const [cardType, setTypeCard] = useState(cardView ? cardView : 'tile');
 
   const [activeSort, setActiveSort] = useState(
     window.innerWidth > 1024
       ? null
-      : { orderBy: "popularity", sortOrder: "desc", name: "По популярности" }
+      : { orderBy: 'popularity', sortOrder: 'desc', name: 'По популярности' }
   );
 
   const { categoryId } = useParams();
@@ -50,57 +54,48 @@ const CatProdContent = ({
         </button>
       </div>
 
-      {cardType === "tile" && (
-        <div className="grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 gap-y-6 xl:grid-cols-5">
-          {getVariantsIsLoading &&
-            Array.from({ length: 40 }).map((_, index) => (
+      {cardType === 'tile' ? <div className='grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 gap-y-6 xl:grid-cols-5'>
+          {getVariantsIsLoading ? Array.from({ length: 40 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
-            ))}
+            )) : null}
           {!getVariantsIsLoading &&
-            products?.data &&
-            products?.data?.map((el) => (
+            products?.data ? products?.data?.map((el) => (
               <ProductCard key={el?.id} product={el} />
-            ))}
+            )) : null}
         </div>
-      )}
-      {cardType === "line" && (
-        <div className="space-y-4">
-          {getVariantsIsLoading &&
-            Array.from({ length: 20 }).map((_, index) => (
+      ) : null}
+      {cardType === 'line' ? <div className='space-y-4'>
+          {getVariantsIsLoading ? Array.from({ length: 20 }).map((_, index) => (
               <CardLineSkeleton key={index} />
-            ))}
+            )) : null}
           {!getVariantsIsLoading &&
-            products?.data &&
-            products?.data?.map((el) => <CardLine key={el?.id} product={el} />)}
+            products?.data ? products?.data?.map((el) => <CardLine key={el?.id} product={el} />) : null}
         </div>
-      )}
-      {cardType === "lineNarrow" && (
-        <div className="space-y-4">
-          {getVariantsIsLoading &&
-            Array.from({ length: 20 }).map((_, index) => (
+      ) : null}
+      {cardType === 'lineNarrow' ? <div className='space-y-4'>
+          {getVariantsIsLoading ? Array.from({ length: 20 }).map((_, index) => (
               <LineNarrowSkeleton key={index} />
-            ))}
+            )) : null}
           {!getVariantsIsLoading &&
-            products?.data &&
-            products?.data?.map((el) => (
+            products?.data ? products?.data?.map((el) => (
               <LineNarrow key={el?.id} product={el} />
-            ))}
+            )) : null}
         </div>
-      )}
-      {!getVariantsIsLoading && !(products?.data?.length === 0) && (
+      ) : null}
+      {!getVariantsIsLoading && !(products?.data?.length === 0) ? (
         <ErrorEmpty
-          title="Список пуст!"
-          desc="К сожалению, по вашему запросу ничего не нашли."
-          height="420px"
+          title='Список пуст!'
+          desc='К сожалению, по вашему запросу ничего не нашли.'
+          height='420px'
         />
-      )}
-      {products?.count > 20 && (
+      ) : null}
+      {products?.count > 20 ? (
         <CustomPagination
           page={page}
           count={products?.count}
           handlePagination={handlePagination}
         />
-      )}
+      ) : null}
     </div>
   );
 };

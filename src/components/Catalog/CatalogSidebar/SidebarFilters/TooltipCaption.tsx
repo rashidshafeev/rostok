@@ -1,8 +1,7 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-function TooltipCaption ({ text, tooltipText }) {
-    const [isVisible, setIsVisible] = useState(false);
-
+function TooltipCaption({ text, tooltipText }) {
+  const [isVisible, setIsVisible] = useState(false);
 
   return (
     <div className="relative inline-block">
@@ -13,14 +12,14 @@ function TooltipCaption ({ text, tooltipText }) {
       >
         {text}
       </span>
-      {isVisible && (
+      {isVisible ? (
         <div className="absolute left-0 bottom-[-2rem] bg-black text-white text-sm rounded-lg p-2 w-max max-w-xs">
           <span>{tooltipText}</span>
           <div className="absolute top-full left-4 border-8 border-transparent border-t-black"></div>
         </div>
-      )}
+      ) : null}
     </div>
-  )
+  );
 }
 
-export default TooltipCaption
+export default TooltipCaption;

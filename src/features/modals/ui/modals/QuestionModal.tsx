@@ -1,14 +1,14 @@
-import { Box, Modal } from "@mui/material";
-import QuestionForm from "@/helpers/QuestionForm";
-import { useModal } from "@/features/modals/model/context";
+import { Box, Modal } from '@mui/material';
+
+import { useModal } from '@/features/modals/model/context';
+import QuestionForm from '@/helpers/QuestionForm';
 
 function QuestionModal() {
   const { hideModal, modalContent, isModalVisible } = useModal();
 
-
   return (
     <Modal
-      open={isModalVisible && modalContent?.type === "question"}
+      open={isModalVisible ? modalContent?.type === 'question' : null}
       onClose={hideModal}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"

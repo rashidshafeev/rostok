@@ -1,5 +1,5 @@
-import { Organization } from '@/types/Organization/Organization';
+import type { Organization } from '@/types/Organization/Organization';
 
 export interface OrganizationsState {
-    organizations: Organization[];
+  organizations: Organization[];
 }

@@ -1,4 +1,4 @@
-import { PriceType } from "../Product/PriceType";
+import { PriceType } from '@/shared/types/PriceType';
 import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface GetCartItemPriceResponse extends AdditionalServerResponseData {

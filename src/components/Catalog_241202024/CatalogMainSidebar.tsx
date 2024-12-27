@@ -1,5 +1,7 @@
-import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
+
+import { NavLink } from 'react-router-dom';
+
 import { ArrowIcon } from '../../helpers/Icons';
 
 const CatalogSidebar = ({ categoryTree }) => {
@@ -17,31 +19,31 @@ const CatalogSidebar = ({ categoryTree }) => {
   };
 
   return (
-    <div className='max-w-[220px] min-w-[220px] w-full hidden md:block'>
-      <ul className='space-y-2'>
+    <div className="max-w-[220px] min-w-[220px] w-full hidden md:block">
+      <ul className="space-y-2">
         {categoryTree?.map((el) => (
           <li key={el?.id}>
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <NavLink
                 to={el?.slug}
                 state={{ category: el }}
-                className='text-colBlack leading-5 font-semibold'
+                className="text-colBlack leading-5 font-semibold"
               >
-                <p className='relative max-w-[170px]'>
+                <p className="relative max-w-[170px]">
                   {el?.name}
-                  <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                  <span className="absolute text-colGray font-[400] text-xs pl-2">
                     {el?.product_count}
                   </span>
                 </p>
               </NavLink>
-              {el?.children?.length && (
+              {el?.children?.length ? (
                 <ArrowIcon
                   onClick={() => toggleAccordion('parent', el?.id)}
                   className={`${
                     accordion.parent !== el?.id && 'rotate-[180deg]'
                   } cursor-pointer !w-4 !h-4`}
                 />
-              )}
+              ) : null}
             </div>
             <div
               className={`${
@@ -50,27 +52,27 @@ const CatalogSidebar = ({ categoryTree }) => {
             >
               {el?.children?.map((child) => (
                 <div key={child?.id}>
-                  <div className='flex justify-between items-center'>
+                  <div className="flex justify-between items-center">
                     <NavLink
                       to={child.slug}
                       state={{ category: child }}
-                      className='text-colBlack text-[15px] leading-4 font-medium'
+                      className="text-colBlack text-[15px] leading-4 font-medium"
                     >
-                      <p className='relative max-w-[140px] w-full'>
+                      <p className="relative max-w-[140px] w-full">
                         {child?.name}
-                        <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                        <span className="absolute text-colGray font-[400] text-xs pl-2">
                           {child?.product_count}
                         </span>
                       </p>
                     </NavLink>
-                    {child?.children?.length && (
+                    {child?.children?.length ? (
                       <ArrowIcon
                         onClick={() => toggleAccordion('child', child?.id)}
                         className={`${
                           accordion.child !== child?.id && 'rotate-[180deg]'
                         } cursor-pointer !w-4 !h-4`}
                       />
-                    )}
+                    ) : null}
                   </div>
                   <div
                     className={`${
@@ -79,20 +81,20 @@ const CatalogSidebar = ({ categoryTree }) => {
                   >
                     {child?.children?.map((item) => (
                       <div key={item?.id}>
-                        <div className='flex justify-between'>
+                        <div className="flex justify-between">
                           <NavLink
                             to={item.slug}
                             state={{ category: child }}
-                            className='text-colBlack leading-5 text-sm relative flex'
+                            className="text-colBlack leading-5 text-sm relative flex"
                           >
-                            <p className='relative max-w-[140px] w-full leading-4'>
+                            <p className="relative max-w-[140px] w-full leading-4">
                               {item?.name}
-                              <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                              <span className="absolute text-colGray font-[400] text-xs pl-2">
                                 {item?.product_count}
                               </span>
                             </p>
                           </NavLink>
-                          {item?.children?.length && (
+                          {item?.children?.length ? (
                             <ArrowIcon
                               onClick={() =>
                                 toggleAccordion('childLast', item?.id)
@@ -102,7 +104,7 @@ const CatalogSidebar = ({ categoryTree }) => {
                                 'rotate-[180deg]'
                               } cursor-pointer !w-4 !h-4`}
                             />
-                          )}
+                          ) : null}
                         </div>
                         <div
                           className={`${
@@ -113,14 +115,14 @@ const CatalogSidebar = ({ categoryTree }) => {
                         >
                           {item?.children?.map((itemChild) => (
                             <NavLink
-                              to='categories/products'
+                              to="categories/products"
                               state={{ category: itemChild }}
                               key={itemChild?.id}
-                              className='text-colBlack leading-5 text-sm relative flex'
+                              className="text-colBlack leading-5 text-sm relative flex"
                             >
-                              <p className='relative max-w-[140px] w-full'>
+                              <p className="relative max-w-[140px] w-full">
                                 {itemChild?.name}
-                                <span className='absolute text-colGray font-[400] text-xs pl-2'>
+                                <span className="absolute text-colGray font-[400] text-xs pl-2">
                                   {itemChild?.product_count}
                                 </span>
                               </p>

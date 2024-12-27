@@ -1,12 +1,13 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { api } from '@/shared/api/api';
+import { useDispatch } from 'react-redux';
+
 import userReducer from '@/features/auth/model/userSlice';
-import cartReducer from '@/redux/slices/cartSlice';
-import favoriteReducer from '@/redux/slices/favoriteSlice';
+import cartReducer from '@/features/cart/model/cartSlice';
 import comparisonReducer from '@/redux/slices/comparisonSlice';
+import favoriteReducer from '@/redux/slices/favoriteSlice';
 import organizationsReducer from '@/redux/slices/organizationsSlice';
 import recentItemsReducer from '@/redux/slices/recentItemsSlice';
-import { useDispatch } from 'react-redux';
+import { api } from '@/shared/api/api';
 
 const rootReducer = combineReducers({
   user: userReducer,
@@ -23,12 +24,11 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    })
-      .concat(api.middleware),
+    }).concat(api.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>()
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
 
 export default store;

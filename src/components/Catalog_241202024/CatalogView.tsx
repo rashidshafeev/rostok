@@ -1,11 +1,15 @@
 import React from 'react';
-import { CatalogViewProps } from '@/features/catalog/types';
+
+import AllFiltersModal from '@helpers/CModal/AllFiltersModal/AllFiltersModal';
+
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+
+import CatalogCategoryName from './CatalogCategoryName';
 import CatalogContent from './CatalogContent/CatalogContent';
 import CatalogSidebar from './CatalogSidebar/CatalogSidebar';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
-import AllFiltersModal from '@helpers/CModal/AllFiltersModal/AllFiltersModal';
-import CatalogCategoryName from './CatalogCategoryName';
-import { scrollToTop } from '@/shared/lib/scrollToTop';
+
+import type { CatalogViewProps } from '@/features/catalog/types';
 
 const CatalogView: React.FC<CatalogViewProps> = ({
   filters,
@@ -17,7 +21,7 @@ const CatalogView: React.FC<CatalogViewProps> = ({
   onSortingChange,
   onFiltersChange,
   onPageChange,
-  onCategoryChange
+  onCategoryChange,
 }) => {
   const [filtersModalOpen, setFiltersModalOpen] = React.useState(false);
 

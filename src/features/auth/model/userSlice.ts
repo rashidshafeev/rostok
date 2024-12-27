@@ -1,10 +1,13 @@
-import { UserState } from '@/features/auth/types';
-import { getTokenFromCookies, saveTokenToCookies } from '@/features/auth/lib';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState : UserState = {
+import { getTokenFromCookies, saveTokenToCookies } from '@/shared/lib';
+
+import type { UserState } from '@/features/auth/types';
+import type { PayloadAction } from '@reduxjs/toolkit';
+
+const initialState: UserState = {
   token: getTokenFromCookies(),
-}
+};
 
 export const userSlice = createSlice({
   name: 'user',
@@ -17,7 +20,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const {
-  setToken
-} = userSlice.actions;
+export const { setToken } = userSlice.actions;
 export default userSlice.reducer;

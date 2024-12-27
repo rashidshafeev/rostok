@@ -1,8 +1,10 @@
-import { ModificationAttribute } from "@/types/Product/ModificationAttribute";
-import { Product } from "@/types/Product/Product";
-import { ProductGroup } from "@/types/ProductGroup/ProductGroup";
-import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from 'react';
+
+import { useParams, useNavigate } from 'react-router-dom';
+
+import type { ModificationAttribute } from '@/entities/product/ModificationAttribute';
+import type { Product } from '@/entities/product/Product';
+import type { ProductGroup } from '@/entities/product/ProductGroup/ProductGroup';
 
 export interface ModificationAttributeForDisplay extends ModificationAttribute {
   current?: boolean;
@@ -19,16 +21,20 @@ export interface AttributesValuesList {
   [key: string]: AttributeType;
 }
 
-
-export const useModificationAttributesManager = (group: ProductGroup, setCurrentProduct: (product: Product) => void) => {
-
-  const [attributesList, setAttributesList] = useState<AttributesValuesList | null>(null);
+export const useModificationAttributesManager = (
+  group: ProductGroup,
+  setCurrentProduct: (product: Product) => void
+) => {
+  const [attributesList, setAttributesList] =
+    useState<AttributesValuesList | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const params = useParams();
   const navigate = useNavigate();
 
-  const getAttributesListAndValuesListFromProductsList = (list: Product[]): AttributesValuesList => {
-    let attributeTypes: AttributesValuesList = {};
+  const getAttributesListAndValuesListFromProductsList = (
+    list: Product[]
+  ): AttributesValuesList => {
+    const attributeTypes: AttributesValuesList = {};
     list.forEach((product) => {
       product.attributes.forEach((attribute) => {
         if (!attributeTypes[attribute.name]) {
@@ -38,7 +44,12 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
             values: [],
           };
         }
-        if (!attributeTypes[attribute.name].values.some((val) => val.text === attribute.text && val.value === attribute.value)) {
+        if (
+          !attributeTypes[attribute.name].values.some(
+            (val) =>
+              val.text === attribute.text && val.value === attribute.value
+          )
+        ) {
           attributeTypes[attribute.name].values.push({ ...attribute });
         }
       });
@@ -46,23 +57,32 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
     return attributeTypes;
   };
 
-  const getProductByAttributes = (attributes: ModificationAttribute[], productList: Product[]): Product => {
+  const getProductByAttributes = (
+    attributes: ModificationAttribute[],
+    productList: Product[]
+  ): Product => {
     const product = productList.filter((product) => {
       return attributes?.every((attribute) => {
         return product.attributes.some((prodAttribute) => {
-          return prodAttribute.id === attribute.id && prodAttribute.value === attribute.value;
+          return (
+            prodAttribute.id === attribute.id &&
+            prodAttribute.value === attribute.value
+          );
         });
       });
     });
     return product[0];
   };
 
-  const setAvailableProperty = (fullList: AttributesValuesList, availableList: AttributesValuesList): AttributesValuesList => {
+  const setAvailableProperty = (
+    fullList: AttributesValuesList,
+    availableList: AttributesValuesList
+  ): AttributesValuesList => {
     const newList = { ...fullList };
-    for (let key in newList) {
+    for (const key in newList) {
       if (newList.hasOwnProperty(key) && availableList.hasOwnProperty(key)) {
-        let values1 = newList[key].values;
-        let values2 = availableList[key].values;
+        const values1 = newList[key].values;
+        const values2 = availableList[key].values;
         values1.forEach((value) => {
           value.available = false;
         });
@@ -79,15 +99,21 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
     return newList;
   };
 
-  const setCurrentProperty = (fullList: AttributesValuesList, attributesArray: ModificationAttribute[]): AttributesValuesList => {
+  const setCurrentProperty = (
+    fullList: AttributesValuesList,
+    attributesArray: ModificationAttribute[]
+  ): AttributesValuesList => {
     const newList = { ...fullList };
     const selectedValuesMap = attributesArray.reduce((acc, curr) => {
       acc[curr.id] = curr.value;
       return acc;
     }, {});
-    for (let key in newList) {
-      if (newList.hasOwnProperty(key) && selectedValuesMap.hasOwnProperty(newList[key].id)) {
-        let selectedValue = selectedValuesMap[newList[key].id];
+    for (const key in newList) {
+      if (
+        newList.hasOwnProperty(key) &&
+        selectedValuesMap.hasOwnProperty(newList[key].id)
+      ) {
+        const selectedValue = selectedValuesMap[newList[key].id];
         newList[key].values.forEach((value) => {
           value.current = value.value === selectedValue;
         });
@@ -96,11 +122,15 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
     return newList;
   };
 
-  const extractCurrentValues = (obj: AttributesValuesList): ModificationAttribute[] => {
-    let current: ModificationAttribute[] = [];
-    for (let key in obj) {
+  const extractCurrentValues = (
+    obj: AttributesValuesList
+  ): ModificationAttribute[] => {
+    const current: ModificationAttribute[] = [];
+    for (const key in obj) {
       if (obj.hasOwnProperty(key)) {
-        let currentValue = obj[key].values.find((value) => value.current === true);
+        const currentValue = obj[key].values.find(
+          (value) => value.current === true
+        );
         if (currentValue) {
           current.push({ ...currentValue });
         }
@@ -113,28 +143,40 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
     if (isUpdating) return;
     setIsUpdating(true);
 
-    const id = Number(event.currentTarget.getAttribute("data-id"));
-    const value = Number(event.currentTarget.getAttribute("data-value"));
-    const text = event.currentTarget.getAttribute("data-text");
+    const id = Number(event.currentTarget.getAttribute('data-id'));
+    const value = Number(event.currentTarget.getAttribute('data-value'));
+    const text = event.currentTarget.getAttribute('data-text');
 
-    const newAttributes = JSON.parse(JSON.stringify(extractCurrentValues(attributesList)));
+    const newAttributes = JSON.parse(
+      JSON.stringify(extractCurrentValues(attributesList))
+    );
     newAttributes.find((attr) => Number(attr.id) === Number(id)).value = value;
     newAttributes.find((attr) => Number(attr.id) === Number(id)).text = text;
 
-    const targetProduct = getProductByAttributes(newAttributes, group.variants) || 
-                         findAvailableProductByValue(id, value, group.variants);
+    const targetProduct =
+      getProductByAttributes(newAttributes, group.variants) ||
+      findAvailableProductByValue(id, value, group.variants);
 
     if (targetProduct) {
       navigate(`../${targetProduct.slug}`, { replace: true });
     }
   };
 
-  const getAvailableProductsByAttributeValues = (attributes: ModificationAttribute[], productList: Product[]): Product[] => {
-    let availableProducts: Product[] = [];
+  const getAvailableProductsByAttributeValues = (
+    attributes: ModificationAttribute[],
+    productList: Product[]
+  ): Product[] => {
+    const availableProducts: Product[] = [];
     productList.forEach((product) => {
       let checks = 0;
       product?.attributes?.forEach((attr) => {
-        if (attributes.some((attribute) => Number(attribute.id) === Number(attr.id) && Number(attribute.value) === Number(attr.value))) {
+        if (
+          attributes.some(
+            (attribute) =>
+              Number(attribute.id) === Number(attr.id) &&
+              Number(attribute.value) === Number(attr.value)
+          )
+        ) {
           checks++;
         }
       });
@@ -145,10 +187,18 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
     return availableProducts;
   };
 
-  const findAvailableProductByValue = (id: number, value: number, productList: Product[]): Product => {
-    let available: Product[] = [];
+  const findAvailableProductByValue = (
+    id: number,
+    value: number,
+    productList: Product[]
+  ): Product => {
+    const available: Product[] = [];
     productList.forEach((product) => {
-      if (product.attributes?.find((attr) => attr.id === id && attr.value === value)) {
+      if (
+        product.attributes?.find(
+          (attr) => attr.id === id && attr.value === value
+        )
+      ) {
         available.push(product);
       }
     });
@@ -158,9 +208,16 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
   useEffect(() => {
     if (!group || !params.productId) return;
 
-    const fullList = getAttributesListAndValuesListFromProductsList(group.variants);
-    const currentAttributes = group.variants?.find((variant) => variant.slug === params.productId)?.attributes;
-    const currentProduct = getProductByAttributes(currentAttributes, group.variants);
+    const fullList = getAttributesListAndValuesListFromProductsList(
+      group.variants
+    );
+    const currentAttributes = group.variants?.find(
+      (variant) => variant.slug === params.productId
+    )?.attributes;
+    const currentProduct = getProductByAttributes(
+      currentAttributes,
+      group.variants
+    );
 
     if (currentAttributes?.length === 0 || group.variants.length === 1) {
       setCurrentProduct(group.variants[0]);
@@ -168,10 +225,18 @@ export const useModificationAttributesManager = (group: ProductGroup, setCurrent
       setCurrentProduct(currentProduct);
     }
 
-    const availableProductsList = getAvailableProductsByAttributeValues(currentAttributes, group.variants);
-    const availableValuesList = getAttributesListAndValuesListFromProductsList(availableProductsList);
+    const availableProductsList = getAvailableProductsByAttributeValues(
+      currentAttributes,
+      group.variants
+    );
+    const availableValuesList = getAttributesListAndValuesListFromProductsList(
+      availableProductsList
+    );
 
-    const readyAttributesList = setAvailableProperty(setCurrentProperty(fullList, currentProduct.attributes), availableValuesList);
+    const readyAttributesList = setAvailableProperty(
+      setCurrentProperty(fullList, currentProduct.attributes),
+      availableValuesList
+    );
     setAttributesList(readyAttributesList);
     setIsUpdating(false);
   }, [params, group, setCurrentProduct]);

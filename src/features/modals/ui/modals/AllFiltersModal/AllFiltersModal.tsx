@@ -1,11 +1,14 @@
-import { Box, Checkbox, FormControlLabel, Modal, Slider } from "@mui/material";
-import { IOSSwitch } from "@components/common/styledComponents/IOSSwitch";
-import PriceFilter from "@components/Catalog/CatalogSidebar/SidebarFilters/PriceFilter";
-import BrandsFilter from "@components/Catalog/CatalogSidebar/SidebarFilters/BrandsFilter";
-import TagsFilters from "@components/Catalog/CatalogSidebar/SidebarFilters/TagsFilters";
-import DynamicFilters from "@components/Catalog/CatalogSidebar/SidebarFilters/DynamicFilters";
-import SidebarFiltersSkeleton from "@components/Catalog/CatalogSidebar/SidebarFiltersSkeleton";
-import React from "react";
+import React from 'react';
+
+import { Box, Checkbox, FormControlLabel, Modal, Slider } from '@mui/material';
+
+import BrandsFilter from '@components/Catalog/CatalogSidebar/SidebarFilters/BrandsFilter';
+import DynamicFilters from '@components/Catalog/CatalogSidebar/SidebarFilters/DynamicFilters';
+import PriceFilter from '@components/Catalog/CatalogSidebar/SidebarFilters/PriceFilter';
+import TagsFilters from '@components/Catalog/CatalogSidebar/SidebarFilters/TagsFilters';
+import SidebarFiltersSkeleton from '@components/Catalog/CatalogSidebar/SidebarFiltersSkeleton';
+import { IOSSwitch } from '@components/common/styledComponents/IOSSwitch';
+
 const AllFiltersModal = ({
   categoryTree,
   open,
@@ -43,16 +46,16 @@ const AllFiltersModal = ({
                 &times;
               </span>
             </div>
-            {filtersIsLoading && <SidebarFiltersSkeleton />}
+            {filtersIsLoading ? <SidebarFiltersSkeleton /> : null}
             <div
               className={`${
-                filtersIsLoading ? "hidden" : ""
+                filtersIsLoading ? 'hidden' : ''
               }  border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2 relative flex flex-wrap gap-5`}
             >
-              {filtersBlock && (
+              {filtersBlock ? (
                 <div className=" cursor-wait absolute top-0 left-0 w-full h-full bg-white opacity-30 z-10"></div>
-              )}
-              {filters?.basics?.price && (
+              ) : null}
+              {filters?.basics?.price ? (
                 <div className=" sm:basis-[calc(33%-(20px*2/3))] md:basis-[calc(25%-(20px*3/4))]">
                   <PriceFilter
                     filters={filters}
@@ -61,33 +64,33 @@ const AllFiltersModal = ({
                     setTrigger={setTrigger}
                   />
                 </div>
-              )}
+              ) : null}
 
-              {filters?.basics?.brands?.length > 0 && (
+              {filters?.basics?.brands?.length > 0 ? (
                 <div className="sm:basis-[calc(33%-(20px*2/3))] md:basis-[calc(25%-(20px*3/4))]">
                   <BrandsFilter filters={filters} setFilters={setFilters} />
                 </div>
-              )}
-              {filters?.basics?.tags?.length > 0 && (
+              ) : null}
+              {filters?.basics?.tags?.length > 0 ? (
                 <div className="sm:basis-[calc(33%-(20px*2/3))] md:basis-[calc(25%-(20px*3/4))]">
                   <TagsFilters filters={filters} setFilters={setFilters} />
                 </div>
-              )}
-              {filters?.dynamics?.length > 0 && (
+              ) : null}
+              {filters?.dynamics?.length > 0 ? (
                 <DynamicFilters
                   filters={filters}
                   setFilters={setFilters}
                   hideAdditional={false}
                 />
-              )}
+              ) : null}
               <FormControlLabel
-                sx={{ margin: "10px 0" }}
+                sx={{ margin: '10px 0' }}
                 control={
                   <IOSSwitch
                     sx={{ m: 1 }}
                     defaultChecked
                     onChange={(e) =>
-                      handleChange("highRating", e.target.checked)
+                      handleChange('highRating', e.target.checked)
                     }
                   />
                 }
@@ -98,14 +101,14 @@ const AllFiltersModal = ({
                   </p>
                 }
               />
-              {filters?.more?.length > 0 && (
+              {filters?.more?.length > 0 ? (
                 <button
                   onClick={() => setOpen(true)}
                   className="bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none"
                 >
                   Все фильтры
                 </button>
-              )}
+              ) : null}
               <span
                 onClick={resetFilters}
                 className="text-colDarkGray font-semibold flex justify-center cursor-pointer"

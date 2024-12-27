@@ -1,6 +1,8 @@
 // src/components/ErrorBoundary/ErrorBoundaryWrapper.tsx
-import React from 'react';
+import type React from 'react';
+
 import { useLocation } from 'react-router-dom';
+
 import ErrorBoundary from './ErrorBoundary';
 
 interface WrapperProps {
@@ -9,11 +11,15 @@ interface WrapperProps {
   showToast?: boolean;
 }
 
-export const ErrorBoundaryWrapper: React.FC<WrapperProps> = ({ children, fallback, showToast }) => {
+export const ErrorBoundaryWrapper: React.FC<WrapperProps> = ({
+  children,
+  fallback,
+  showToast,
+}) => {
   const location = useLocation();
-  
+
   return (
-    <ErrorBoundary 
+    <ErrorBoundary
       fallback={fallback}
       showToast={showToast}
       resetCondition={location.pathname}

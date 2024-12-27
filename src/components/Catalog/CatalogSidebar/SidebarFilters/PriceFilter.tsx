@@ -1,18 +1,18 @@
 // src/components/PriceFilter.jsx
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Slider,
-} from "@mui/material";
+} from '@mui/material';
+import { useDebounce } from 'react-use';
 
-import { ArrowIcon } from "@/shared/ui/icons";
-import CTextField from "@/shared/ui/inputs/CTextField";
-
-import { useDebounce } from "react-use";
+import { ArrowIcon } from '@/shared/ui/icons';
+import CTextField from '@/shared/ui/inputs/CTextField';
 
 function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
   const previousValues = useRef({});
@@ -21,7 +21,7 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
     filters?.basics?.price?.min || 0,
     filters?.basics?.price?.max || 0,
   ]);
-  
+
   const [sliderValue, setSliderValue] = useState([
     priceFilter.min || filters?.basics?.price?.min,
     priceFilter.max || filters?.basics?.price?.max,
@@ -34,7 +34,6 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
     setPriceFilter((prev) => [newMin, prev[1]]);
   };
 
-
   const handleChangeMax = (event) => {
     const newMax = event.target.value;
     setPriceFilter((prev) => [prev[0], newMax]);
@@ -42,7 +41,7 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
 
   const validateAndSetMin = () => {
     let min =
-      priceFilter[0] === ""
+      priceFilter[0] === ''
         ? filters?.basics?.price?.min
         : Number(priceFilter[0]);
     min = Math.max(min, filters?.basics?.price?.min);
@@ -57,9 +56,9 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
     // debouncedSetFilters(min, priceFilter.max);
   };
 
-const validateAndSetMax = () => {
+  const validateAndSetMax = () => {
     let max =
-      priceFilter[1] === ""
+      priceFilter[1] === ''
         ? filters?.basics?.price?.max
         : Number(priceFilter[1]);
     max = Math.min(max, filters?.basics?.price?.max);
@@ -115,7 +114,8 @@ const validateAndSetMax = () => {
   //При изменении фильтров устанваливает текущее значение фильтра цен
   useEffect(() => {
     if (
-      previousValues.current[0] !== filters?.basics?.price?.current_values?.min ||
+      previousValues.current[0] !==
+        filters?.basics?.price?.current_values?.min ||
       previousValues.current[1] !== filters?.basics?.price?.current_values?.max
     ) {
       setPriceFilter([
@@ -131,7 +131,11 @@ const validateAndSetMax = () => {
 
   useEffect(() => {
     // Чтобы установить значения фильтров по максимуму при смене категорий
-    if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
+    if (
+      trigger === 'categoryId' ||
+      trigger === 'tags' ||
+      trigger === 'brands'
+    ) {
       setPriceFilter([
         filters?.basics?.price?.current_values?.min || 0,
         filters?.basics?.price?.current_values?.max || 0,
@@ -150,11 +154,15 @@ const validateAndSetMax = () => {
     }
   }, [trigger]);
 
- useDebounce(
+  useDebounce(
     () => {
       // Чтобы не было отправления при первичной инициализации и после смены категории(особенно при переключении с категории без цены на категорию с ценой - это как перчиная инициалзация)
-      if (trigger === "categoryId" || trigger === "tags" || trigger === "brands") {
-        setTrigger("");
+      if (
+        trigger === 'categoryId' ||
+        trigger === 'tags' ||
+        trigger === 'brands'
+      ) {
+        setTrigger('');
         return;
       }
 
@@ -174,8 +182,8 @@ const validateAndSetMax = () => {
       };
 
       currentState.lastChanged = {
-        type: "basics",
-        filter: "price",
+        type: 'basics',
+        filter: 'price',
       };
       previousValues.current = priceFilter;
       setFilters(currentState);
@@ -187,14 +195,14 @@ const validateAndSetMax = () => {
   return (
     <Accordion
       sx={{
-        boxShadow: "none",
+        boxShadow: 'none',
         padding: 0,
         margin: 0,
-        border: "none",
-        "&:before": {
-          display: "none",
+        border: 'none',
+        '&:before': {
+          display: 'none',
         },
-        "&.Mui-expanded": {
+        '&.Mui-expanded': {
           margin: 0,
         },
       }}
@@ -202,7 +210,7 @@ const validateAndSetMax = () => {
       disableGutters
     >
       <AccordionSummary
-        sx={{ padding: 0, flexDirection: "row-reverse", gap: "8px" }}
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
         style={{ minHeight: 0 }}
         expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
       >
@@ -210,9 +218,9 @@ const validateAndSetMax = () => {
       </AccordionSummary>
       <AccordionDetails sx={{ padding: 0 }}>
         <Slider
-          sx={{ color: "#15765B" }}
+          sx={{ color: '#15765B' }}
           size="small"
-          getAriaLabel={() => "Price range"}
+          getAriaLabel={() => 'Price range'}
           value={sliderValue}
           min={filters?.basics?.price?.min}
           max={filters?.basics?.price?.max}

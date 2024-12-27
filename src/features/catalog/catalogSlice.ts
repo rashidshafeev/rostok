@@ -1,8 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { productEndpoints } from '@/redux/api/productEndpoints';
-import { CatalogState } from './types';
-import { FiltersState } from '@/types/Filters/FiltersState';
-import { OrderBy, SortOrder, SortingParams } from '@/types/ServerData/Catalog';
+import { createSlice } from '@reduxjs/toolkit';
+
+import { productEndpoints } from '@/entities/product/api/productApi';
+import { OrderBy, SortOrder } from '@/types/ServerData/Catalog';
+
+import type { CatalogState } from './types';
+import type { FiltersState } from '@/entities/filter/Filters/FiltersState';
+import type { SortingParams } from '@/types/ServerData/Catalog';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: CatalogState = {
   filters: {
@@ -10,24 +14,24 @@ const initialState: CatalogState = {
       price: false,
       tags: [],
       brands: [],
-      rating: []
+      rating: [],
     },
     dynamics: [],
-    more: []
+    more: [],
   },
   sorting: {
     orderBy: OrderBy.popularity,
-    sortOrder: SortOrder.desc
+    sortOrder: SortOrder.desc,
   },
   pagination: {
     page: 1,
-    limit: 20
+    limit: 20,
   },
   categoryId: null,
   isFiltersLoading: false,
   isProductsLoading: false,
   products: null,
-  availableFilters: null
+  availableFilters: null,
 };
 
 export const catalogSlice = createSlice({
@@ -53,7 +57,7 @@ export const catalogSlice = createSlice({
     },
     resetState: (state) => {
       return { ...initialState, sorting: state.sorting }; // Preserve sorting on reset
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -97,9 +101,10 @@ export const catalogSlice = createSlice({
           state.isProductsLoading = false;
         }
       );
-  }
+  },
 });
 
-export const { setSorting, setFilters, setPage, setCategoryId, resetState } = catalogSlice.actions;
+export const { setSorting, setFilters, setPage, setCategoryId, resetState } =
+  catalogSlice.actions;
 
 export default catalogSlice.reducer;

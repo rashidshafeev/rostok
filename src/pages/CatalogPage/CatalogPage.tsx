@@ -1,21 +1,24 @@
-import React, { useEffect } from 'react';
+import type React from 'react';
+import { useEffect } from 'react';
+
 import { useLocation } from 'react-router-dom';
+
+import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
-import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 import { Breadcrumbs } from '@/widgets/Breadcrumbs';
-import { useGetCategoryTreeQuery } from '@/redux/api/productEndpoints';
+import Catalog from '@components/Catalog/Catalog';
+import CatalogMainContent from '@components/Catalog/CatalogMainContent';
+import CatalogMainSidebar from '@components/Catalog/CatalogMainSidebar';
+import CatalogSidebar from '@components/Catalog/CatalogSidebar/CatalogSidebar';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
 import Promotions from '@components/Home/Promotions';
 
 // Main catalog components
-import CatalogMainContent from '@components/Catalog/CatalogMainContent';
-import CatalogMainSidebar from '@components/Catalog/CatalogMainSidebar';
 
 // Category catalog components
-import Catalog from '@components/Catalog/Catalog';
-import CatalogSidebar from '@components/Catalog/CatalogSidebar/CatalogSidebar';
+import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 
 const CatalogPage: React.FC = () => {
   const { pathname } = useLocation();
@@ -28,32 +31,32 @@ const CatalogPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className='content pb-6'>
-        <Loading extraStyle='520px' />
+      <div className="content pb-6">
+        <Loading extraStyle="520px" />
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className='content pb-6'>
+      <div className="content pb-6">
         <ErrorEmpty
-          title='Что-то пошло не так!'
-          desc='Произошла ошибка! Пожалуйста, повторите попытку еще раз.'
-          height='420px'
+          title="Что-то пошло не так!"
+          desc="Произошла ошибка! Пожалуйста, повторите попытку еще раз."
+          height="420px"
         />
       </div>
     );
   }
 
   return (
-    <div className='content pb-6 lining-nums proportional-nums'>
+    <div className="content pb-6 lining-nums proportional-nums">
       <Breadcrumbs breadcrumbs={[]} />
-      <h1 className='text-3xl mm:text-4xl md:text-[40px] font-semibold text-colBlack'>
+      <h1 className="text-3xl mm:text-4xl md:text-[40px] font-semibold text-colBlack">
         Каталог
       </h1>
 
-      <div className='flex pb-10 pt-3 min-h-[520px]'>
+      <div className="flex pb-10 pt-3 min-h-[520px]">
         {isMainCatalog ? (
           <>
             <CatalogMainSidebar categoryTree={data?.children} />

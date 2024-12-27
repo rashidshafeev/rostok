@@ -1,23 +1,28 @@
-import TextField from '@mui/material/TextField';
-import React, { forwardRef, useState } from 'react';
-import IconButton from '@mui/material/IconButton';
-import InputAdornment from '@mui/material/InputAdornment';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import type React from 'react';
+import { forwardRef, useState } from 'react';
+
 import { type } from 'os';
 
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+
 // eslint-disable-next-line react/display-name
- 
+
 type CTextFieldProps = {
   icon?: boolean;
   type?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-}
+};
 
-
-const CTextField : React.FC<CTextFieldProps> = forwardRef<HTMLInputElement, CTextFieldProps>(({ icon, type, ...props }, ref) => {
+const CTextField: React.FC<CTextFieldProps> = forwardRef<
+  HTMLInputElement,
+  CTextFieldProps
+>(({ icon, type, ...props }, ref) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -26,14 +31,14 @@ const CTextField : React.FC<CTextFieldProps> = forwardRef<HTMLInputElement, CTex
 
   return (
     <TextField
-      size='small'
+      size="small"
       fullWidth
-      variant='outlined'
+      variant="outlined"
       type={showPassword ? 'text' : type}
       InputProps={{
         endAdornment: icon && (
-          <InputAdornment position='end'>
-            <IconButton onClick={togglePasswordVisibility} edge='end'>
+          <InputAdornment position="end">
+            <IconButton onClick={togglePasswordVisibility} edge="end">
               {showPassword ? <VisibilityOff /> : <Visibility />}
             </IconButton>
           </InputAdornment>

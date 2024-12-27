@@ -1,16 +1,18 @@
 /* eslint-disable no-useless-escape */
-import { NavLink } from 'react-router-dom';
-// import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
-import CTextField from '@/shared/ui/inputs/CTextField';
-// import CDatePicker from '@/shared/ui/inputs/CDatePicker';
+import { useEffect } from 'react';
+
 import { Controller, useForm } from 'react-hook-form';
-import CPhoneField from '@/shared/ui/inputs/CPhoneField';
-import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
+import { NavLink } from 'react-router-dom';
+
+// import { FormControlLabel, Radio, RadioGroup } from '@mui/material';
 import {
   useChangeUserDataMutation,
   useGetUserDataQuery,
 } from '@/features/auth';
-import { useEffect } from 'react';
+import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
+import CPhoneField from '@/shared/ui/inputs/CPhoneField';
+import CTextField from '@/shared/ui/inputs/CTextField';
+// import CDatePicker from '@/shared/ui/inputs/CDatePicker';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorServer from '@helpers/Errors/ErrorServer';
 
@@ -46,43 +48,43 @@ const PersonalData = () => {
   };
 
   return (
-    <div className='w-full'>
+    <div className="w-full">
       <NavLink
-        className='flex mm:hidden items-center space-x-1 mb-2'
-        to='/profile'
+        className="flex mm:hidden items-center space-x-1 mb-2"
+        to="/profile"
       >
-        <img src={arrowIcon} alt='*' />
-        <span className='text-sm font-semibold'>Вернуться к профилю</span>
+        <img src={arrowIcon} alt="*" />
+        <span className="text-sm font-semibold">Вернуться к профилю</span>
       </NavLink>
-      <h3 className='text-lg mm:text-xl font-semibold text-colBlack pb-4'>
+      <h3 className="text-lg mm:text-xl font-semibold text-colBlack pb-4">
         Личные данные
       </h3>
       {isLoading || isFetching || editLoading ? (
         <Loading />
       ) : isError ? (
-        <ErrorServer errorMessage='Прозошла ошибка! Повторите попытку еще раз.' />
+        <ErrorServer errorMessage="Прозошла ошибка! Повторите попытку еще раз." />
       ) : (
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className='grid md:grid-cols-2 lg:grid-cols-3 gap-3 xl:gap-5 max-w-[1060px]'
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 xl:gap-5 max-w-[1060px]"
         >
-          <div className='w-full space-y-5'>
+          <div className="w-full space-y-5">
             <Controller
-              name='name'
+              name="name"
               control={control}
               rules={{ required: 'Поле обязательно к заполнению!' }}
               render={({ field }) => (
-                <CTextField label='Имя' type='text' {...field} />
+                <CTextField label="Имя" type="text" {...field} />
               )}
             />
             <Controller
-              name='email'
+              name="email"
               control={control}
               rules={{
                 required: false,
               }}
               render={({ field }) => (
-                <CTextField label='Эл. почта' type='email' {...field} />
+                <CTextField label="Эл. почта" type="email" {...field} />
               )}
             />
             {/* <div className='!mt-3 md:!mt-5'>
@@ -115,7 +117,7 @@ const PersonalData = () => {
             />
           </div> */}
           </div>
-          <div className='w-full space-y-5'>
+          <div className="w-full space-y-5">
             {/* <Controller
             name='last_name'
             control={control}
@@ -128,7 +130,7 @@ const PersonalData = () => {
             )}
           /> */}
             <Controller
-              name='phone'
+              name="phone"
               control={control}
               rules={{
                 required: false,
@@ -138,9 +140,7 @@ const PersonalData = () => {
                   message: 'Введите корректный номер телефона',
                 },
               }}
-              render={({ field }) => (
-                <CPhoneField label={`Телефон`} {...field} />
-              )}
+              render={({ field }) => <CPhoneField label="Телефон" {...field} />}
             />
             {/* <div className='lg:pt-6'>
             <Controller
@@ -157,13 +157,13 @@ const PersonalData = () => {
             />
           </div> */}
           </div>
-          <div className='flex items-center h-max pt-3 mm:pt-0'>
-            <button className='h-[38px] px-6 bg-colGreen rounded text-white'>
+          <div className="flex items-center h-max pt-3 mm:pt-0">
+            <button className="h-[38px] px-6 bg-colGreen rounded text-white">
               Сохранить
             </button>
             <button
               onClick={(e) => e.preventDefault()}
-              className='ml-3 text-colGreen border-b border-colGreen font-semibold'
+              className="ml-3 text-colGreen border-b border-colGreen font-semibold"
             >
               Отменить
             </button>

@@ -1,8 +1,9 @@
-import { GetUserOrdersResponse } from '@/types/ServerData/GetUserOrders';
 import { api } from '@/shared/api/api';
 
+import type { GetUserOrdersResponse } from '@/types/ServerData/GetUserOrders';
+
 export const orderEndpoints = api.injectEndpoints({
-   endpoints: (builder) => ({
+  endpoints: (builder) => ({
     getCitiesAndRegions: builder.query({
       query: () => '/api/Location/full',
       staleTime: 60000,
@@ -17,10 +18,16 @@ export const orderEndpoints = api.injectEndpoints({
         { type: 'Order', id: 'LIST' },
         { type: 'Order', id: 'FILTERS' },
         { type: 'Cart', id: 'LIST' },
-        ...order.products.map(product => ({ type: 'Product', id: product.id }))
+        ...order.products.map((product) => ({
+          type: 'Product',
+          id: product.id,
+        })),
       ],
     }),
-    cancelOrder: builder.mutation<{ success: string }, { order_number: string; reason: string }>({
+    cancelOrder: builder.mutation<
+      { success: string },
+      { order_number: string; reason: string }
+    >({
       query: (data) => ({
         url: '/api/ProductOrders/cancel/order',
         method: 'POST',
@@ -28,7 +35,7 @@ export const orderEndpoints = api.injectEndpoints({
       }),
       invalidatesTags: [
         { type: 'Order', id: 'LIST' },
-        { type: 'Order', id: 'FILTERS' }
+        { type: 'Order', id: 'FILTERS' },
       ],
     }),
     getUserOrders: builder.query<GetUserOrdersResponse, void>({
@@ -54,7 +61,10 @@ export const orderEndpoints = api.injectEndpoints({
         body: feedback,
       }),
     }),
-    repeatOrder: builder.mutation<{ success: string; new_order_number: string }, { order_number: string }>({
+    repeatOrder: builder.mutation<
+      { success: string; new_order_number: string },
+      { order_number: string }
+    >({
       query: (data) => ({
         url: '/api/ProductOrders/repeat/order',
         method: 'POST',
@@ -63,10 +73,13 @@ export const orderEndpoints = api.injectEndpoints({
       invalidatesTags: [
         { type: 'Order', id: 'LIST' },
         { type: 'Order', id: 'FILTERS' },
-        { type: 'Cart', id: 'LIST' }
+        { type: 'Cart', id: 'LIST' },
       ],
     }),
-    createPDFOrder: builder.mutation<{ success: string; file: Blob }, { order_number: string }>({
+    createPDFOrder: builder.mutation<
+      { success: string; file: Blob },
+      { order_number: string }
+    >({
       query: (data) => ({
         url: '/api/ProductOrders/create/pdf/order',
         method: 'POST',

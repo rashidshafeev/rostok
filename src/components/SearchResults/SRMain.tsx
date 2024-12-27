@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from 'react';
+
+import { useLocation } from 'react-router-dom';
+
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import CategorySwitcher from '@components/common/CategorySwitcher';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
 import Promotions from '@components/Home/Promotions';
-import SRSidebar from './SRSidebar';
-import SRContent from './SRContent';
-import CategorySwitcher from '@components/common/CategorySwitcher';
-import { scrollToTop } from '@/shared/lib/scrollToTop';
+
 import { fetchSearchResults } from '../../api/searchProducts';
-import { useLocation } from 'react-router-dom';
-import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
+
+import SRContent from './SRContent';
+import SRSidebar from './SRSidebar';
+
+import type { ProductListCategoryChain } from '@/entities/category/ProductListCategoryChain';
 
 const SRMain = () => {
   const [products, setProducts] = useState([]);
@@ -39,15 +44,14 @@ const SRMain = () => {
       filtersValue,
       p
     );
-    
+
     if (success) {
       setProducts(data);
-  
     } else {
       setProducts(data);
     }
   };
-  
+
   useEffect(() => {
     const handleSearchResults = async () => {
       setIsLoading(true);
@@ -56,7 +60,7 @@ const SRMain = () => {
         filtersValue
       );
       if (success) {
-        console.log("data");
+        console.log('data');
         console.log(data);
         setProducts(data);
         setIsLoading(false);
@@ -73,9 +77,11 @@ const SRMain = () => {
   }, []);
 
   return (
-    <div className='content lining-nums proportional-nums'>
-      <div className='bg-gray-100 rounded-lg p-3 mm:p-4 mb-8 mt-4'>
-        <h3 className={`font-semibold text-2xl mm:text-4xl text-colBlack ${categories.length > 0 ? 'pb-2' : 'pb-5'}`}>
+    <div className="content lining-nums proportional-nums">
+      <div className="bg-gray-100 rounded-lg p-3 mm:p-4 mb-8 mt-4">
+        <h3
+          className={`font-semibold text-2xl mm:text-4xl text-colBlack ${categories.length > 0 ? 'pb-2' : 'pb-5'}`}
+        >
           {searchQuery}
         </h3>
         <CategorySwitcher
@@ -84,7 +90,7 @@ const SRMain = () => {
           onCategoryChange={handleCategories}
         />
       </div>
-      <div className='flex pb-10 min-h-[420px]'>
+      <div className="flex pb-10 min-h-[420px]">
         <SRSidebar
           filtersValue={filtersValue}
           setFiltersValue={setFiltersValue}

@@ -2,10 +2,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCart } from '@store/slices/cartSlice';
-import { useSendCartMutation } from '@/redux/api/cartEndpoints';
-import { getTokenFromCookies } from '@/features/auth/lib';
+import { useSendCartMutation } from '@/features/cart/api/cartApi';
+import { getTokenFromCookies } from '@/shared/lib';
 import { useModal } from '@/features/modals/model/context';
-
 
 const RemoveFromCartButton = ({ product, withConfirmation = false, children }) => {
 

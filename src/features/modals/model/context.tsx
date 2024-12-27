@@ -1,4 +1,6 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { createContext, useContext, useState } from 'react';
+
 import type { ModalTypes } from './types';
 
 type ModalContent = {
@@ -47,14 +49,16 @@ export const ModalProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <ModalContext.Provider value={{ 
-      showModal, 
-      hideModal, 
-      modalContent, 
-      isModalVisible,
-      isLoading,
-      setModalLoading
-    }}>
+    <ModalContext.Provider
+      value={{
+        showModal,
+        hideModal,
+        modalContent,
+        isModalVisible,
+        isLoading,
+        setModalLoading,
+      }}
+    >
       {children}
     </ModalContext.Provider>
   );

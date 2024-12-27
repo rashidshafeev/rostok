@@ -1,22 +1,24 @@
 import React from 'react';
-import { NavLink, useLocation, useParams } from 'react-router-dom';
+
 import clsx from 'clsx';
-import { useGetCategoryTreeQuery } from '@/redux/api/productEndpoints';
-import { Skeleton } from '@/components/ui/skeleton';
+import { NavLink, useLocation, useParams } from 'react-router-dom';
+
+import { Skeleton } from '@/shared/ui/skeleton';
+import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
 
 interface BreadcrumbsProps {
   className?: string;
 }
 
 const routeNameMap = {
-  'profile': 'Мой профиль',
-  'orders': 'Мои заказы',
+  profile: 'Мой профиль',
+  orders: 'Мои заказы',
   'personal-data': 'Личные данные',
-  'organizations': 'Мои организации',
+  organizations: 'Мои организации',
   'change-password': 'Изменить пароль',
-  'favorites': 'Избранное',
+  favorites: 'Избранное',
   'shopping-cart': 'Корзина',
-  'comparison': 'Сравнение'
+  comparison: 'Сравнение',
 };
 
 export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className = '' }) => {
@@ -24,9 +26,12 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className = '' }) => {
   const params = useParams();
   const { categoryId } = useParams();
 
-  const { data: categoryTree, isLoading } = useGetCategoryTreeQuery(categoryId, {
-    skip: !categoryId || !pathname.startsWith('/catalog/')
-  });
+  const { data: categoryTree, isLoading } = useGetCategoryTreeQuery(
+    categoryId,
+    {
+      skip: !categoryId || !pathname.startsWith('/catalog/'),
+    }
+  );
 
   const generateBreadcrumbs = () => {
     const defaultHome = { name: 'Главная', slug: '/' };
@@ -36,28 +41,22 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className = '' }) => {
       return [
         defaultHome,
         { name: 'Каталог', slug: '/catalog' },
-        ...categoryTree.category_chain.map(category => ({
+        ...categoryTree.category_chain.map((category) => ({
           name: category.name,
-          slug: `/catalog/${category.slug}`
-        }))
+          slug: `/catalog/${category.slug}`,
+        })),
       ];
     }
 
     // If we're in catalog without category
     if (pathname.startsWith('/catalog')) {
-      return [
-        defaultHome,
-        { name: 'Каталог', slug: '/catalog' }
-      ];
+      return [defaultHome, { name: 'Каталог', slug: '/catalog' }];
     }
 
     // For other pages (favorites, cart, etc)
     const pageName = routeNameMap[pathname.split('/')[1]];
     if (pageName) {
-      return [
-        defaultHome,
-        { name: pageName, slug: pathname }
-      ];
+      return [defaultHome, { name: pageName, slug: pathname }];
     }
 
     // Fallback to just home
@@ -65,10 +64,10 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className = '' }) => {
   };
 
   const breadcrumbs = generateBreadcrumbs();
-  
+
   if (isLoading) {
     return (
-      <nav 
+      <nav
         aria-label="Breadcrumbs"
         className={clsx('flex items-center flex-wrap py-3', className)}
       >
@@ -82,15 +81,15 @@ export const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ className = '' }) => {
   }
 
   return (
-    <nav 
+    <nav
       aria-label="Breadcrumbs"
       className={clsx('flex items-center flex-wrap py-3', className)}
     >
       {breadcrumbs.map((item, index) => (
         <React.Fragment key={item.slug}>
-          {index > 0 && (
+          {index > 0 ? (
             <span className="min-w-[5px] w-[5px] h-[5px] mr-3 mt-2 rounded-full bg-colGreen" />
-          )}
+          ) : null}
           <NavLink
             to={item.slug}
             className={clsx(

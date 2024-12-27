@@ -1,40 +1,41 @@
 import { NavLink } from 'react-router-dom';
+
 import telegram from '@assets/images/telegram.svg';
-import whatsapp from '@assets/images/whatsapp.svg';
 import vk from '@assets/images/vk.svg';
+import whatsapp from '@assets/images/whatsapp.svg';
 
 const FooterContacts = () => {
   return (
-    <div className='grid md:grid-cols-3 gap-4'>
+    <div className="grid md:grid-cols-3 gap-4">
       <div>
-        <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
+        <p className="text-colDarkGray leading-[120%] font-medium pb-1">
           Горячая линия
         </p>
-        <h4 className='text-colBlack text-xl font-semibold lining-nums proportional-nums'>
+        <h4 className="text-colBlack text-xl font-semibold lining-nums proportional-nums">
           8 800 302-14-84
         </h4>
       </div>
       <div>
-        <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
+        <p className="text-colDarkGray leading-[120%] font-medium pb-1">
           Электронная почта
         </p>
-        <h4 className='text-colBlack text-xl font-semibold break-all'>
+        <h4 className="text-colBlack text-xl font-semibold break-all">
           rostok@rostok.ru
         </h4>
       </div>
       <div>
-        <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
+        <p className="text-colDarkGray leading-[120%] font-medium pb-1">
           Соцсети и мессенджеры
         </p>
-        <div className='flex justify-center md:justify-start pt-2 md:pt-0 items-center space-x-3'>
-          <NavLink to='#'>
-            <img src={telegram} alt='*' />
+        <div className="flex justify-center md:justify-start pt-2 md:pt-0 items-center space-x-3">
+          <NavLink to="#">
+            <img src={telegram} alt="*" />
           </NavLink>
-          <NavLink to='#'>
-            <img src={whatsapp} alt='*' />
+          <NavLink to="#">
+            <img src={whatsapp} alt="*" />
           </NavLink>
-          <NavLink to='#'>
-            <img src={vk} alt='*' />
+          <NavLink to="#">
+            <img src={vk} alt="*" />
           </NavLink>
         </div>
       </div>

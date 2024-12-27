@@ -1,10 +1,13 @@
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import ComparisonProductCard from "./ComparisonProductCard";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useIntersection } from "react-use";
-import arrow from "@/shared/assets/icons/arrow-black.svg";
-import { current } from "@reduxjs/toolkit";
-import { Product } from "@/types/Product/Product";
+import { current } from '@reduxjs/toolkit';
+import { useIntersection } from 'react-use';
+
+import arrow from '@/shared/assets/icons/arrow-black.svg';
+
+import ComparisonProductCard from './ComparisonProductCard';
+
+import type { Product } from '@/entities/product/Product';
 
 interface ComDetailProps {
   comparison: Product[];
@@ -32,14 +35,14 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
   const tableHeaderPlaceholder = useRef(null);
   const tableHeaderVisible = useIntersection(tableHeader, {
     root: null,
-    rootMargin: "-82px 0px 0px 0px",
+    rootMargin: '-82px 0px 0px 0px',
     threshold: 1,
   });
   const tableHeaderPlaceholderVisible = useIntersection(
     tableHeaderPlaceholder,
     {
       root: null,
-      rootMargin: "-82px 0px 0px 0px",
+      rootMargin: '-82px 0px 0px 0px',
       threshold: 1,
     }
   );
@@ -99,27 +102,28 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
 
   const [items, setItems] = useState<Product[]>(comparison);
 
-  const moveProduct = useCallback((fromIndex, toIndex) => {
-    const updatedItems = [...items];
-    const [movedItem] = updatedItems.splice(fromIndex, 1);
-    updatedItems.splice(toIndex, 0, movedItem);
-    setItems(updatedItems);
-  }, [items]);
+  const moveProduct = useCallback(
+    (fromIndex, toIndex) => {
+      const updatedItems = [...items];
+      const [movedItem] = updatedItems.splice(fromIndex, 1);
+      updatedItems.splice(toIndex, 0, movedItem);
+      setItems(updatedItems);
+    },
+    [items]
+  );
 
   useEffect(() => {
-    console.log("items comdetail")
-    console.log(comparison)
+    console.log('items comdetail');
+    console.log(comparison);
     setItems(comparison);
-  }, [comparison])
-
-
+  }, [comparison]);
 
   return (
     <>
       <div
         ref={tableHeader}
         className={`w-full  h-[130px] transition-all duration-1000 ${
-          isSticky ? "fixed top-[82px] z-50 " : "relative"
+          isSticky ? 'fixed top-[82px] z-50 ' : 'relative'
         }`}
       >
         <div ref={buttonContainer} className="relative">
@@ -127,7 +131,7 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
             onClick={scrollLeft}
             className={`absolute opacity-50 hover:opacity-100 transition-all
               duration-500 left-5 top-1/2 z-20 bg-white text-white p-4 rounded-full
-              ${maxStep === 1 ? "hidden" : currentStep === 1 ? "hidden" : ""}`}
+              ${maxStep === 1 ? 'hidden' : currentStep === 1 ? 'hidden' : ''}`}
           >
             {/* <button onClick={scrollLeft} className="fixed opacity-50 hover:opacity-100 transition-all duration-500 left-5 top-[100px] z-20 bg-white text-white p-4 rounded-full"> */}
             <img src={arrow} className="w-4 h-4 rotate-[90deg]" alt="" />
@@ -138,10 +142,10 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
               duration-500 right-5 top-1/2 z-20 bg-white text-white p-4 rounded-full
               ${
                 maxStep === 1
-                  ? "hidden"
+                  ? 'hidden'
                   : currentStep === maxStep
-                  ? "hidden"
-                  : ""
+                    ? 'hidden'
+                    : ''
               }`}
           >
             <img src={arrow} className="w-4 h-4 rotate-[-90deg]" alt="" />
@@ -157,7 +161,12 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
           {/* {comparison.map((product) => ( */}
           {items.map((product, index) => (
             <div className="min-w-[300px] max-w-[300px]" ref={item}>
-              <ComparisonProductCard key={product.id} product={product} index={index} moveProduct={moveProduct} />
+              <ComparisonProductCard
+                key={product.id}
+                product={product}
+                index={index}
+                moveProduct={moveProduct}
+              />
             </div>
           ))}
         </div>
@@ -165,7 +174,7 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
 
       <div
         ref={tableHeaderPlaceholder}
-        className={`w-full h-[130px] ${isSticky ? "" : "hidden"}`}
+        className={`w-full h-[130px] ${isSticky ? '' : 'hidden'}`}
         style={{ height: tableHeaderPlaceholder.current?.offsetHeight }}
       ></div>
 
@@ -174,14 +183,14 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
           <div
             key={attribute}
             className={`w-full relative ${
-              i % 2 === 0 ? "bg-gray-200" : "bg-white"
+              i % 2 === 0 ? 'bg-gray-200' : 'bg-white'
             }`}
           >
             <div className="absolute left-2 top-1 box-border min-w-[300px] z-10 uppercase text-xs text-colGreen font-semibold">
               {attribute}
             </div>
             <div
-              className={`flex transition-transform duration-300 `}
+              className="flex transition-transform duration-300 "
               style={{ transform: `translateX(${translateX}px)` }}
             >
               {/* {comparison.map((product) => ( */}
@@ -193,8 +202,8 @@ const ComDetail = ({ comparison }: ComDetailProps) => {
                   {product.attributes
                     ? Object.values(product.attributes).find(
                         (attr) => attr.name === attribute
-                      )?.text || "N/A"
-                    : "N/A"}
+                      )?.text || 'N/A'
+                    : 'N/A'}
                 </div>
               ))}
             </div>

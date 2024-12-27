@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 
-import { NavLink } from "react-router-dom";
-import PreHeader from "./PreHeader";
-import CatalogFastAccess from "./CatalogFastAccess";
-import SearchBar from "./SearchBar";
-import HeaderControls from "./HeaderControls";
-import logo from "@assets/images/logo.svg";
-import CatalogModal from "@/features/modals/ui/modals/CatalogModal";
-import CatalogModalMobile from "@/features/modals/ui/modals/CatalogModalMobile";
-import useInitialDataFetch from "@/hooks/useInitialDataFetch";
+import { NavLink } from 'react-router-dom';
+
+import CatalogModal from '@/features/modals/ui/modals/CatalogModal';
+import CatalogModalMobile from '@/features/modals/ui/modals/CatalogModalMobile';
+import useInitialDataFetch from '@/hooks/useInitialDataFetch';
+import logo from '@assets/images/logo.svg';
+
+import CatalogFastAccess from './CatalogFastAccess';
+import HeaderControls from './HeaderControls';
+import PreHeader from './PreHeader';
+import SearchBar from './SearchBar';
 
 const Header = ({ showCatalog, setShowCatalog }) => {
-
   useInitialDataFetch();
-  
+
   return (
     <>
-    
       <PreHeader />
       <div className="mx-auto sticky top-0  py-3 lg:space-x-5 bg-white z-[40] w-full ">
         <div className="content flex justify-between items-center">
@@ -75,7 +75,7 @@ const Header = ({ showCatalog, setShowCatalog }) => {
       <CatalogFastAccess />
       <div
         className={`${
-          showCatalog ? "visible opacity-100" : "invisible opacity-0"
+          showCatalog ? 'visible opacity-100' : 'invisible opacity-0'
         }`}
       >
         <CatalogModal
@@ -87,7 +87,7 @@ const Header = ({ showCatalog, setShowCatalog }) => {
           setShowCatalog={setShowCatalog}
         />
       </div>
-      </>
+    </>
   );
 };
 

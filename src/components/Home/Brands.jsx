@@ -1,6 +1,6 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
-import { useGetBasicFiltersQuery } from '@/redux/api/productEndpoints';
+import { useGetBasicFiltersQuery } from '@/entities/product/api/productApi';
 import { NavLink } from 'react-router-dom';
 
 const Brands = () => { 

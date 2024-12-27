@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+
 import arrowDown from '@/shared/assets/icons/arrow-black.svg';
 
 interface FooterBuyerProps {
@@ -11,53 +12,55 @@ const FooterBuyer = ({ isOpen, onToggle }: FooterBuyerProps) => {
     <>
       <div
         onClick={onToggle}
-        className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+        className="flex justify-between items-center pb-1 border-b border-colGray cursor-pointer"
       >
-        <p className={`${isOpen ? 'text-colBlack' : 'text-colDarkGray'} font-medium pt-2`}>
+        <p
+          className={`${isOpen ? 'text-colBlack' : 'text-colDarkGray'} font-medium pt-2`}
+        >
           Покупателю
         </p>
         <img
           className={`${isOpen ? 'rotate-[180deg]' : 'rotate-[0deg]'}`}
           src={arrowDown}
-          alt='*'
+          alt="*"
         />
       </div>
-      {isOpen && (
-        <ul className='pl-5 py-1 border-b border-colGray'>
+      {isOpen ? (
+        <ul className="pl-5 py-1 border-b border-colGray">
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='@'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="@"
             >
               Каталог
             </NavLink>
           </li>
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='#'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="#"
             >
               Акции
             </NavLink>
           </li>
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='#'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="#"
             >
               Товары со скидкой
             </NavLink>
           </li>
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='#'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="#"
             >
               Новинки
             </NavLink>
           </li>
         </ul>
-      )}
+      ) : null}
     </>
   );
 };

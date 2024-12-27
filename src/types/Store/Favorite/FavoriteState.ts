@@ -1,7 +1,7 @@
-import { Product } from "@/types/Product/Product";
-import { ProductListCategoryChain } from "@/types/Category/ProductListCategoryChain";
+import type { ProductListCategoryChain } from '@/entities/category/ProductListCategoryChain';
+import type { Product } from '@/entities/product/Product';
 
 export interface FavoriteState {
-    favorite: Product[];
-    categories: ProductListCategoryChain[];
+  favorite: Product[];
+  categories: ProductListCategoryChain[];
 }

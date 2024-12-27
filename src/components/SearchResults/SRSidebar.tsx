@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import type React from 'react';
+import type { SetStateAction, Dispatch } from 'react';
+import { useState, useEffect } from 'react';
+
 import {
   Accordion,
   AccordionDetails,
@@ -9,14 +11,17 @@ import {
   FormControlLabel,
   Slider,
 } from '@mui/material';
+import { useLocation } from 'react-router-dom';
+
+import SearchFiltersModal from '@/features/modals/ui/modals/SearchFiltersModal';
+import { ArrowIcon } from '@/shared/ui/icons';
+import CTextField from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 import { IOSSwitch } from '@components/common/styledComponents/IOSSwitch';
-import { ArrowIcon } from '@/shared/ui/icons';
+
 import { fetchSearchFilters } from '../../api/searchProducts';
-import { useLocation } from 'react-router-dom';
-import SearchFiltersModal from '@/features/modals/ui/modals/SearchFiltersModal';
-import { SetStateAction, Dispatch } from 'react';
-import { ProductListCategoryChain } from '@/types/Category/ProductListCategoryChain';
+
+import type { ProductListCategoryChain } from '@/entities/category/ProductListCategoryChain';
 
 interface Filters {
   basics?: {
@@ -24,7 +29,12 @@ interface Filters {
     brands?: { id: number; name: string }[];
     tags?: { tag: string; text_color: string; background_color: string }[];
   };
-  dynamics?: { id: string; name: string; type: string; values: { id: number; text: string; color?: string }[] }[];
+  dynamics?: {
+    id: string;
+    name: string;
+    type: string;
+    values: { id: number; text: string; color?: string }[];
+  }[];
   more?: any[];
 }
 
@@ -37,14 +47,16 @@ interface SRSidebarProps {
     max_price: number;
     category_id: string;
   };
-  setFiltersValue: Dispatch<SetStateAction<{
-    highRating: boolean;
-    brands: number[];
-    tags: string[];
-    min_price: number;
-    max_price: number;
-    category_id: string;
-  }>>;
+  setFiltersValue: Dispatch<
+    SetStateAction<{
+      highRating: boolean;
+      brands: number[];
+      tags: string[];
+      min_price: number;
+      max_price: number;
+      category_id: string;
+    }>
+  >;
   setCategories: Dispatch<SetStateAction<ProductListCategoryChain[]>>;
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
@@ -138,170 +150,162 @@ const SRSidebar: React.FC<SRSidebarProps> = ({
   }, [searchQuery, setCategories, setFiltersValue]);
 
   return (
-    <div className='max-w-[220px] min-w-[220px] w-full mr-5 hidden md:block'>
+    <div className="max-w-[220px] min-w-[220px] w-full mr-5 hidden md:block">
       {isLoading ? (
-        <Loading extraStyle='240px' />
+        <Loading extraStyle="240px" />
       ) : (
-        <>
-          <div className='sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2'>
-            {filters?.basics?.price && (
-              <Accordion
-                sx={{
-                  boxShadow: 'none',
-                  padding: 0,
+        <div className="sticky top-[70px] border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2">
+          {filters?.basics?.price ? (
+            <Accordion
+              sx={{
+                boxShadow: 'none',
+                padding: 0,
+                margin: 0,
+                border: 'none',
+                '&:before': {
+                  display: 'none',
+                },
+                '&.Mui-expanded': {
                   margin: 0,
-                  border: 'none',
-                  '&:before': {
-                    display: 'none',
-                  },
-                  '&.Mui-expanded': {
-                    margin: 0,
-                  },
-                }}
-                defaultExpanded
+                },
+              }}
+              defaultExpanded
+            >
+              <AccordionSummary
+                sx={{ padding: 0, minHeight: 0 }}
+                expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
               >
-                <AccordionSummary
-                  sx={{ padding: 0, minHeight: 0 }}
-                  expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
-                >
-                  <span className='font-semibold text-colBlack'>Цена, ₽</span>
-                </AccordionSummary>
-                <AccordionDetails sx={{ padding: 0 }}>
-                  <div className='grid grid-cols-2 gap-3 pb-3'>
-                    <CTextField
-                      label={`от ${filters?.basics?.price?.min}`}
-                      name='min_price'
-                      type='number'
-                      value={filtersValue.min_price}
-                      onChange={(e) => handleChange('min_price', e.target.value)}
-                    />
-                    <CTextField
-                      label={`до ${filters?.basics?.price?.max}`}
-                      name='max_price'
-                      type='number'
-                      value={filtersValue.max_price}
-                      onChange={(e) => handleChange('max_price', e.target.value)}
+                <span className="font-semibold text-colBlack">Цена, ₽</span>
+              </AccordionSummary>
+              <AccordionDetails sx={{ padding: 0 }}>
+                <div className="grid grid-cols-2 gap-3 pb-3">
+                  <CTextField
+                    label={`от ${filters?.basics?.price?.min}`}
+                    name="min_price"
+                    type="number"
+                    value={filtersValue.min_price}
+                    onChange={(e) => handleChange('min_price', e.target.value)}
+                  />
+                  <CTextField
+                    label={`до ${filters?.basics?.price?.max}`}
+                    name="max_price"
+                    type="number"
+                    value={filtersValue.max_price}
+                    onChange={(e) => handleChange('max_price', e.target.value)}
+                  />
+                </div>
+                <Box>
+                  <Slider
+                    sx={{ color: '#15765B' }}
+                    size="small"
+                    getAriaLabel={() => 'Price range'}
+                    value={[filtersValue.min_price, filtersValue.max_price]}
+                    min={Number(filters?.basics?.price?.min)}
+                    max={Number(filters?.basics?.price?.max)}
+                    onChange={handleSliderChangeCommitted}
+                    valueLabelDisplay="auto"
+                  />
+                </Box>
+              </AccordionDetails>
+            </Accordion>
+          ) : null}
+          {filters?.basics?.brands?.length > 0 ? (
+            <Accordion
+              sx={{
+                boxShadow: 'none',
+                '&:before': {
+                  display: 'none',
+                },
+              }}
+              defaultExpanded
+            >
+              <AccordionSummary
+                sx={{
+                  padding: 0,
+                }}
+                style={{ minHeight: 0 }}
+                expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
+              >
+                <span className="font-semibold text-colBlack">
+                  Производитель
+                </span>
+              </AccordionSummary>
+              <AccordionDetails sx={{ padding: 0 }}>
+                {filters?.basics?.brands?.map((el) => (
+                  <div key={el?.id}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          style={{
+                            color: '#15765B',
+                            padding: '5px',
+                          }}
+                          name="brands"
+                          checked={filtersValue.brands.includes(Number(el?.id))}
+                          onChange={() =>
+                            handleCheckboxChange('brands', Number(el?.id) || 0)
+                          }
+                        />
+                      }
+                      label={
+                        <p className="text-sm font-medium text-colBlack">
+                          {el?.name}
+                        </p>
+                      }
                     />
                   </div>
-                  <Box>
-                    <Slider
-                      sx={{ color: '#15765B' }}
-                      size='small'
-                      getAriaLabel={() => 'Price range'}
-                      value={[filtersValue.min_price, filtersValue.max_price]}
-                      min={Number(filters?.basics?.price?.min)}
-                      max={Number(filters?.basics?.price?.max)}
-                      onChange={handleSliderChangeCommitted}
-                      valueLabelDisplay='auto'
+                ))}
+              </AccordionDetails>
+            </Accordion>
+          ) : null}
+          {filters?.basics?.tags?.length > 0 ? (
+            <Accordion
+              sx={{
+                boxShadow: 'none',
+                padding: 0,
+              }}
+              defaultExpanded
+            >
+              <AccordionSummary
+                sx={{ padding: 0 }}
+                style={{ minHeight: 0 }}
+                expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
+              >
+                <span className="font-semibold text-colBlack">Статус</span>
+              </AccordionSummary>
+              <AccordionDetails sx={{ padding: 0 }}>
+                {filters?.basics?.tags?.map((el, index) => (
+                  <div key={index}>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          style={{
+                            color: '#15765B',
+                            padding: '5px',
+                          }}
+                          checked={filtersValue.tags.includes(el?.tag)}
+                          onChange={() => handleCheckboxChange('tags', el?.tag)}
+                        />
+                      }
+                      label={
+                        <span
+                          style={{
+                            color: el?.text_color,
+                            backgroundColor: el?.background_color,
+                          }}
+                          className="py-1 px-2 uppercase text-xs font-bold rounded-xl"
+                        >
+                          {el?.tag}
+                        </span>
+                      }
                     />
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            )}
-            {filters?.basics?.brands?.length > 0 && (
-              <Accordion
-                sx={{
-                  boxShadow: 'none',
-                  '&:before': {
-                    display: 'none',
-                  },
-                }}
-                defaultExpanded
-              >
-                <AccordionSummary
-                  sx={{
-                    padding: 0,
-                  }}
-                  style={{ minHeight: 0 }}
-                  expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
-                >
-                  <span className='font-semibold text-colBlack'>
-                    Производитель
-                  </span>
-                </AccordionSummary>
-                <AccordionDetails sx={{ padding: 0 }}>
-                  {filters?.basics?.brands?.map((el) => (
-                    <div key={el?.id}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            style={{
-                              color: '#15765B',
-                              padding: '5px',
-                            }}
-                            name='brands'
-                            checked={filtersValue.brands.includes(
-                              Number(el?.id)
-                            )}
-                            onChange={() =>
-                              handleCheckboxChange(
-                                'brands',
-                                Number(el?.id) || 0
-                              )
-                            }
-                          />
-                        }
-                        label={
-                          <p className='text-sm font-medium text-colBlack'>
-                            {el?.name}
-                          </p>
-                        }
-                      />
-                    </div>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            )}
-            {filters?.basics?.tags?.length > 0 && (
-              <Accordion
-                sx={{
-                  boxShadow: 'none',
-                  padding: 0,
-                }}
-                defaultExpanded
-              >
-                <AccordionSummary
-                  sx={{ padding: 0 }}
-                  style={{ minHeight: 0 }}
-                  expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
-                >
-                  <span className='font-semibold text-colBlack'>Статус</span>
-                </AccordionSummary>
-                <AccordionDetails sx={{ padding: 0 }}>
-                  {filters?.basics?.tags?.map((el, index) => (
-                    <div key={index}>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            style={{
-                              color: '#15765B',
-                              padding: '5px',
-                            }}
-                            checked={filtersValue.tags.includes(el?.tag)}
-                            onChange={() =>
-                              handleCheckboxChange('tags', el?.tag)
-                            }
-                          />
-                        }
-                        label={
-                          <span
-                            style={{
-                              color: el?.text_color,
-                              backgroundColor: el?.background_color,
-                            }}
-                            className='py-1 px-2 uppercase text-xs font-bold rounded-xl'
-                          >
-                            {el?.tag}
-                          </span>
-                        }
-                      />
-                    </div>
-                  ))}
-                </AccordionDetails>
-              </Accordion>
-            )}
-            {filters?.dynamics?.length > 0 &&
-              filters?.dynamics?.map((el, index) => (
+                  </div>
+                ))}
+              </AccordionDetails>
+            </Accordion>
+          ) : null}
+          {filters?.dynamics?.length > 0
+            ? filters?.dynamics?.map((el, index) => (
                 <div key={index}>
                   <Accordion
                     sx={{
@@ -313,14 +317,16 @@ const SRSidebar: React.FC<SRSidebarProps> = ({
                     <AccordionSummary
                       sx={{ padding: 0 }}
                       style={{ minHeight: 0 }}
-                      expandIcon={<ArrowIcon className='!w-4 !h-4 rotate-[180deg]' />}
+                      expandIcon={
+                        <ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />
+                      }
                     >
-                      <p className='font-semibold text-colBlack line-clamp-2 break-all leading-[120%]'>
+                      <p className="font-semibold text-colBlack line-clamp-2 break-all leading-[120%]">
                         {el?.name}
                       </p>
                     </AccordionSummary>
                     <AccordionDetails sx={{ padding: 0 }}>
-                      <div className='max-h-40 overflow-hidden overflow-y-scroll scrollable2'>
+                      <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2">
                         {el?.values?.map((val) => (
                           <div key={val?.id}>
                             <FormControlLabel
@@ -338,16 +344,16 @@ const SRSidebar: React.FC<SRSidebarProps> = ({
                                 />
                               }
                               label={
-                                <div className='flex space-x-2 items-center'>
-                                  {el?.type === 'color' && (
+                                <div className="flex space-x-2 items-center">
+                                  {el?.type === 'color' ? (
                                     <span
                                       style={{
                                         backgroundColor: val?.color,
                                       }}
-                                      className='w-5 h-5 min-w-[20px] rounded-full border border-colGray'
+                                      className="w-5 h-5 min-w-[20px] rounded-full border border-colGray"
                                     ></span>
-                                  )}
-                                  <p className='text-sm font-medium text-colBlack line-clamp-1 break-all'>
+                                  ) : null}
+                                  <p className="text-sm font-medium text-colBlack line-clamp-1 break-all">
                                     {val?.text}
                                   </p>
                                 </div>
@@ -359,39 +365,39 @@ const SRSidebar: React.FC<SRSidebarProps> = ({
                     </AccordionDetails>
                   </Accordion>
                 </div>
-              ))}
-            <FormControlLabel
-              sx={{ margin: '10px 0' }}
-              control={
-                <IOSSwitch
-                  sx={{ m: 1 }}
-                  defaultChecked
-                  onChange={(e) => handleChange('highRating', e.target.checked)}
-                />
-              }
-              labelPlacement='start'
-              label={
-                <p className='text-sm font-semibold text-colBlack'>
-                  Высокий рейтинг
-                </p>
-              }
-            />
-            {filters?.more?.length > 0 && (
-              <button
-                onClick={() => setOpen(true)}
-                className='bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none'
-              >
-                Все фильтры
-              </button>
-            )}
-            <span
-              onClick={handleClearFilters}
-              className='text-colDarkGray font-semibold flex justify-center cursor-pointer'
+              ))
+            : null}
+          <FormControlLabel
+            sx={{ margin: '10px 0' }}
+            control={
+              <IOSSwitch
+                sx={{ m: 1 }}
+                defaultChecked
+                onChange={(e) => handleChange('highRating', e.target.checked)}
+              />
+            }
+            labelPlacement="start"
+            label={
+              <p className="text-sm font-semibold text-colBlack">
+                Высокий рейтинг
+              </p>
+            }
+          />
+          {filters?.more?.length > 0 ? (
+            <button
+              onClick={() => setOpen(true)}
+              className="bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none"
             >
-              Очистить фильтр
-            </span>
-          </div>
-        </>
+              Все фильтры
+            </button>
+          ) : null}
+          <span
+            onClick={handleClearFilters}
+            className="text-colDarkGray font-semibold flex justify-center cursor-pointer"
+          >
+            Очистить фильтр
+          </span>
+        </div>
       )}
       <SearchFiltersModal
         open={open}

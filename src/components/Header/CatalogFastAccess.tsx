@@ -1,12 +1,17 @@
-import { NavLink } from "react-router-dom";
-import { useGetBasicFiltersQuery, useGetCategoryTreeQuery } from "@/redux/api/productEndpoints";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from 'react';
+
+import { NavLink } from 'react-router-dom';
+
+import {
+  useGetBasicFiltersQuery,
+  useGetCategoryTreeQuery,
+} from '@/entities/product/api/productApi';
 
 function CatalogFastAccess() {
   const { data } = useGetCategoryTreeQuery();
-  const {data: basicFilters} = useGetBasicFiltersQuery();
+  const { data: basicFilters } = useGetBasicFiltersQuery();
 
-  console.log("basicFilters");
+  console.log('basicFilters');
   console.log(basicFilters);
   const scrollableDivRef = useRef(null);
 
@@ -23,12 +28,12 @@ function CatalogFastAccess() {
 
     const div = scrollableDivRef.current;
     if (div) {
-      div.addEventListener("wheel", handleWheel);
+      div.addEventListener('wheel', handleWheel);
     }
 
     return () => {
       if (div) {
-        div.removeEventListener("wheel", handleWheel);
+        div.removeEventListener('wheel', handleWheel);
       }
     };
   }, []);
@@ -47,9 +52,14 @@ function CatalogFastAccess() {
           style={{ backgroundColor: `${tag?.background_color}` }}
           className="rounded h-[27px] flex items-center justify-center px-4"
         >
-          {tag?.light_icon && <img src={tag?.light_icon?.medium} className='w-4 h-4' alt="*" />}
+          {tag?.light_icon ? (
+            <img src={tag?.light_icon?.medium} className="w-4 h-4" alt="*" />
+          ) : null}
 
-          <span style={{ color: tag?.text_color  }} className="text-sm font-semibold text-white pl-1">
+          <span
+            style={{ color: tag?.text_color }}
+            className="text-sm font-semibold text-white pl-1"
+          >
             {tag?.tag}
           </span>
         </NavLink>

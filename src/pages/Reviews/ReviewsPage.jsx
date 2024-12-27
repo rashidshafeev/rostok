@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import React, { useState } from 'react';
 import arrow from '@/shared/assets/icons/arrow-icon.svg';
-import noImg from '@assets/images/no-image.png';
+import noImg from '@/assets/images/no-image.png';
 
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
@@ -14,10 +14,10 @@ import { scrollToTop } from '@/shared/lib/scrollToTop';
 import Review from "@/components/Reviews/Review";
 import { ComparisonIcon, FavoriteIcon } from "@/shared/ui/icons";
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
-import { addToCart, changeQuantity } from "@/redux/slices/cartSlice";
+import { addToCart, changeQuantity } from "@/features/cart/model/cartSlice";
 import RatingStars from "@/helpers/RatingStars";
 import ReviewModal from "@/features/modals/ui/modals/ReviewModal";
-import { useGetProductQuery } from "@/redux/api/productEndpoints";
+import { useGetProductQuery } from "@/entities/product/api/productApi";
 
 export function ReviewsPage() {
 

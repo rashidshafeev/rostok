@@ -1,25 +1,26 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState } from 'react';
 
-import ImageGallery from "react-image-gallery";
+import ImageGallery from 'react-image-gallery';
+
 // import stylesheet if you're not already using CSS @import
-import "react-image-gallery/styles/css/image-gallery.css";
-import noImg from "@assets/images/no-image.png";
-import "./ProductGallery.css";
+import 'react-image-gallery/styles/css/image-gallery.css';
+import noImg from '@assets/images/no-image.png';
+import './ProductGallery.css';
 
-import Lightbox from "yet-another-react-lightbox";
-import Video from "yet-another-react-lightbox/plugins/video";
-import "yet-another-react-lightbox/styles.css";
-import { useWindowSize } from "react-use";
-import LeftNav from "./Gallery/LeftNav";
-import RightNav from "./Gallery/RightNav";
+import Lightbox from 'yet-another-react-lightbox';
+import Video from 'yet-another-react-lightbox/plugins/video';
+import 'yet-another-react-lightbox/styles.css';
+import { useWindowSize } from 'react-use';
+
+import LeftNav from './Gallery/LeftNav';
+import RightNav from './Gallery/RightNav';
 
 function ProductGallery({ files, tags }) {
-  
   const imageGalleryRef = useRef(null);
   const sliderIndex = useRef(0);
   const [lightBoxIndex, setLightBoxIndex] = useState(-1);
 
-  const {width} = useWindowSize();
+  const { width } = useWindowSize();
   const renderVideo = (item) => {
     return (
       <div
@@ -46,23 +47,21 @@ function ProductGallery({ files, tags }) {
   const renderImage = (item) => {
     return (
       <div className="flex flex-col  justify-center">
-       
-       {tags?.length > 0 && <div className="absolute top-5 left-5 flex gap-2">
-        {tags?.map((tag) => {
-          return (
-            <div
-            key={tag.id}
-              style={{ color: tag.text_color }}
-              className={`bg-[${tag.background_color}] pb-[10px] pt-3 lg:py-1 px-1.5 lg:px-2 uppercase lg:text-xs font-medium lg:font-bold rounded-xl`}
-            >
-              <span>
-              {tag.text}
-
-              </span>
-            </div>
-          );
-        })}
-      </div>}
+        {tags?.length > 0 ? (
+          <div className="absolute top-5 left-5 flex gap-2">
+            {tags?.map((tag) => {
+              return (
+                <div
+                  key={tag.id}
+                  style={{ color: tag.text_color }}
+                  className={`bg-[${tag.background_color}] pb-[10px] pt-3 lg:py-1 px-1.5 lg:px-2 uppercase lg:text-xs font-medium lg:font-bold rounded-xl`}
+                >
+                  <span>{tag.text}</span>
+                </div>
+              );
+            })}
+          </div>
+        ) : null}
 
         <img
           onClick={() => {
@@ -81,7 +80,7 @@ function ProductGallery({ files, tags }) {
 
   files?.length
     ? files?.forEach((file, index) => {
-        if (file.type === "img") {
+        if (file.type === 'img') {
           images.push({
             //for lightbox
             index: index,
@@ -91,24 +90,24 @@ function ProductGallery({ files, tags }) {
             thumbnail: file.small,
             renderItem: renderImage.bind(this),
           });
-        } else if (file.type === "video") {
+        } else if (file.type === 'video') {
           images.push({
             //for lightbox
             index: index,
-            type: "video",
+            type: 'video',
             width: 1280,
             height: 720,
             sources: [
               {
                 src: file.url,
-                type: "video/mp4",
+                type: 'video/mp4',
               },
             ],
             //for react-image-gallery
             embedUrl: file.url,
-            thumbnail: "video/mp4",
+            thumbnail: 'video/mp4',
             renderItem: renderVideo.bind(this),
-            originalHeight: "480px",
+            originalHeight: '480px',
           });
         }
       })
@@ -120,27 +119,28 @@ function ProductGallery({ files, tags }) {
 
   return (
     <>
-        <ImageGallery
-          renderLeftNav={(onClick, disabled) => (
-            <LeftNav onClick={onClick} disabled={disabled} />
-          )}
-          renderRightNav={(onClick, disabled) => (
-            <RightNav onClick={onClick} disabled={disabled} />
-          )} 
-
-          items={images}
-          showThumbnails={images.length > 1}
-          showVideo={true}
-          showFullscreenButton={false}
-          showPlayButton={false}
-          // thumbnailPosition={'left'}
-          thumbnailPosition={width > 768 ? 'left' : 'bottom'}
-          disableThumbnailScroll={false}
-          useBrowserFullscreen={false}
-          startIndex={sliderIndex.current}
-          ref={imageGalleryRef}
-          additionalClass="product-gallery"
-        > </ImageGallery>
+      <ImageGallery
+        renderLeftNav={(onClick, disabled) => (
+          <LeftNav onClick={onClick} disabled={disabled} />
+        )}
+        renderRightNav={(onClick, disabled) => (
+          <RightNav onClick={onClick} disabled={disabled} />
+        )}
+        items={images}
+        showThumbnails={images.length > 1}
+        showVideo={true}
+        showFullscreenButton={false}
+        showPlayButton={false}
+        // thumbnailPosition={'left'}
+        thumbnailPosition={width > 768 ? 'left' : 'bottom'}
+        disableThumbnailScroll={false}
+        useBrowserFullscreen={false}
+        startIndex={sliderIndex.current}
+        ref={imageGalleryRef}
+        additionalClass="product-gallery"
+      >
+        {' '}
+      </ImageGallery>
       <Lightbox
         plugins={[Video]}
         index={lightBoxIndex}
@@ -152,7 +152,6 @@ function ProductGallery({ files, tags }) {
         }}
       />
     </>
-
   );
 }
 

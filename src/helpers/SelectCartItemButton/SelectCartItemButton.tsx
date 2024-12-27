@@ -1,18 +1,20 @@
 // src/helpers/SelectCartItemButton/SelectCartItemButton.jsx
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectItem, unselectItem } from "@store/slices/cartSlice";
-import { getTokenFromCookies } from '@/features/auth/lib';
+import type React from 'react';
+
+import { selectItem, unselectItem } from '@store/slices/cartSlice';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { transformServerCartToLocalCart } from '@/features/cart/lib';
+import { getTokenFromCookies } from '@/shared/lib';
+
+import type { AppDispatch, RootState } from '@/app/providers/store';
+import type { CartProduct, LocalCartState } from '@/features/cart/model/types';
+
 import {
   useGetUserCartQuery,
   useSendCartMutation,
-} from "@/redux/api/cartEndpoints";
-
-import { CartProduct, LocalCartState } from "@/types/Store/Cart/CartState";
-import { AppDispatch, RootState } from "@/redux/store";
-import { transformServerCartToLocalCart } from '@/features/cart/lib';
-
+} from '@/features/cart/api/cartApi';
 
 interface SelectCartItemButtonProps {
   product: CartProduct;
@@ -23,11 +25,16 @@ interface SelectCartItemButtonProps {
   }) => React.ReactNode;
 }
 
-const SelectCartItemButton : React.FC<SelectCartItemButtonProps> = ({ product, children }) => {
+const SelectCartItemButton: React.FC<SelectCartItemButtonProps> = ({
+  product,
+  children,
+}) => {
   const dispatch: AppDispatch = useDispatch();
   const token = getTokenFromCookies();
 
-  const localCart : LocalCartState = useSelector((state: RootState) => state.cart);
+  const localCart: LocalCartState = useSelector(
+    (state: RootState) => state.cart
+  );
 
   // Fetching cart data from the server if the user is logged in
   const {
@@ -37,11 +44,16 @@ const SelectCartItemButton : React.FC<SelectCartItemButtonProps> = ({ product, c
     error,
   } = useGetUserCartQuery(undefined, { skip: !token });
 
-  const cart : LocalCartState = token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
+  const cart: LocalCartState =
+    token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
 
   const [sendCart, { isLoading }] = useSendCartMutation();
 
-  const isSelected: boolean = cart?.cart?.some((item) => item.id === product.id && (item.selected.toString() === "1" || item.selected === true));
+  const isSelected: boolean = cart?.cart?.some(
+    (item) =>
+      item.id === product.id &&
+      (item.selected.toString() === '1' || item.selected === true)
+  );
 
   const handleSelectClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();

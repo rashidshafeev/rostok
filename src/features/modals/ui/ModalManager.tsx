@@ -1,13 +1,15 @@
-import React from 'react';
+import type React from 'react';
+
+import { AuthModal, LogoutModal } from '@/features/auth/ui/modals';
+
 import {
   ShareModal,
   QuestionModal,
   ConfirmationModal,
   ModificationAttributesModal,
   ShareCartModal,
-  ShowSharedCartModal
+  ShowSharedCartModal,
 } from './modals';
-import { AuthModal, LogoutModal } from '@/features/auth/ui/modals';
 
 export const ModalManager: React.FC = () => {
   return (

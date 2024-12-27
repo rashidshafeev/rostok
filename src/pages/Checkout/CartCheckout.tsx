@@ -13,28 +13,27 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
 import CustomRadioButton from './CustomRadioButton';
-import PickupPointModal from '@helpers/CModal/PickupPointModal';
+import PickupPointModal from '@/features/modals/ui/modals/PickupPointModal';
 
 import { FormProvider, useForm } from 'react-hook-form';
 
 import CTextField from '@/shared/ui/inputs/CTextField';
 import {  MenuItem, Select } from '@mui/material';
-import FizlicoLoggedInForm from '@components/Checkout/FizlicoLoggedInForm';
-import UrlicoLoggedInForm from '@components/Checkout/UrlicoLoggedInForm';
-import FizlicoNotLoggedForm from '@components/Checkout/FizlicoNotLoggedForm';
-import UrlicoNotLoggedForm from '@components/Checkout/UrlicoNotLoggedForm';
+import FizlicoLoggedInForm from '@/components/Checkout/FizlicoLoggedInForm';
+import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
+import FizlicoNotLoggedForm from '@/components/Checkout/FizlicoNotLoggedForm';
+import UrlicoNotLoggedForm from '@/components/Checkout/UrlicoNotLoggedForm';
 import { useDispatch, useSelector } from 'react-redux';
-import SimpleCheckoutFrom from '@components/Checkout/SimpleCheckoutFrom';
-import { removeFromCart } from '@store/slices/cartSlice';
+import SimpleCheckoutFrom from '@/components/Checkout/SimpleCheckoutFrom';
+import { removeFromCart } from '@/features/cart/model/cartSlice';
 import { useSendOrderMutation } from '@/redux/api/orderEndpoints';
-import { getTokenFromCookies } from '@/features/auth/lib';;
-import { useGetUserCartQuery, useSendCartMutation } from '@/redux/api/cartEndpoints';
+import { getTokenFromCookies } from '@/shared/lib';;
+import { useGetUserCartQuery, useSendCartMutation } from '@/features/cart/api/cartApi';
 import { useGetUserDataQuery } from '@/features/auth';
 import CheckoutTotals from './CheckoutTotals';
-import { LocalCartState } from '@/types/Store/Cart/CartState';
-import { RootState } from '@/redux/store';
+import { RootState } from '@/app/providers/store';
 import { transformServerCartToLocalCart } from '@/features/cart/lib';
-import { CartProduct } from '@/types/Store/Cart/CartProduct';
+import { CartProduct, LocalCartState  } from '@/features/cart/model/types';
 
 function CartCheckout() {
 

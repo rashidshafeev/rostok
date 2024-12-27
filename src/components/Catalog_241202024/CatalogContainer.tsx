@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { useGetCategoryTreeQuery } from '@/redux/api/productEndpoints';
+import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';

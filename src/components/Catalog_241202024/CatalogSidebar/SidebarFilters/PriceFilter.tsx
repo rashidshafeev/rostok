@@ -1,18 +1,18 @@
 // src/components/Catalog/CatalogSidebar/SidebarFilters/PriceFilter.tsx
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from 'react';
+
+import { ArrowIcon } from '@helpers/Icons';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Box,
   Slider,
-} from "@mui/material";
+} from '@mui/material';
+import { useDebounce } from 'react-use';
 
-import { ArrowIcon } from "@helpers/Icons";
 import CTextField from '@/shared/ui/inputs/CTextField';
-import { useDebounce } from "react-use";
-
 
 function PriceFilter({ filters, setFilters }) {
   const [priceFilter, setPriceFilter] = useState([0, 0]);
@@ -23,9 +23,15 @@ function PriceFilter({ filters, setFilters }) {
   // Update local state when filters change
   useEffect(() => {
     if (!isInternalUpdate.current && filters?.basics?.price) {
-      const min = filters.basics.price.current_values?.min || filters.basics.price.min || 0;
-      const max = filters.basics.price.current_values?.max || filters.basics.price.max || 0;
-      
+      const min =
+        filters.basics.price.current_values?.min ||
+        filters.basics.price.min ||
+        0;
+      const max =
+        filters.basics.price.current_values?.max ||
+        filters.basics.price.max ||
+        0;
+
       setPriceFilter([min, max]);
       setSliderValue([min, max]);
       setDebouncedValue([min, max]);
@@ -51,7 +57,10 @@ function PriceFilter({ filters, setFilters }) {
   };
 
   const validateAndSetMin = () => {
-    let min = priceFilter[0] === "" ? filters?.basics?.price?.min : Number(priceFilter[0]);
+    let min =
+      priceFilter[0] === ''
+        ? filters?.basics?.price?.min
+        : Number(priceFilter[0]);
     min = Math.max(min, filters?.basics?.price?.min);
     min = Math.min(min, priceFilter[1]);
 
@@ -61,7 +70,10 @@ function PriceFilter({ filters, setFilters }) {
   };
 
   const validateAndSetMax = () => {
-    let max = priceFilter[1] === "" ? filters?.basics?.price?.max : Number(priceFilter[1]);
+    let max =
+      priceFilter[1] === ''
+        ? filters?.basics?.price?.max
+        : Number(priceFilter[1]);
     max = Math.min(max, filters?.basics?.price?.max);
     max = Math.max(max, priceFilter[0]);
 
@@ -85,8 +97,10 @@ function PriceFilter({ filters, setFilters }) {
   // Debounce slider updates
   useDebounce(
     () => {
-      if (debouncedValue[0] !== filters?.basics?.price?.current_values?.min || 
-          debouncedValue[1] !== filters?.basics?.price?.current_values?.max) {
+      if (
+        debouncedValue[0] !== filters?.basics?.price?.current_values?.min ||
+        debouncedValue[1] !== filters?.basics?.price?.current_values?.max
+      ) {
         updateFilters(debouncedValue[0], debouncedValue[1]);
       }
     },
@@ -101,14 +115,14 @@ function PriceFilter({ filters, setFilters }) {
   return (
     <Accordion
       sx={{
-        boxShadow: "none",
+        boxShadow: 'none',
         padding: 0,
         margin: 0,
-        border: "none",
-        "&:before": {
-          display: "none",
+        border: 'none',
+        '&:before': {
+          display: 'none',
         },
-        "&.Mui-expanded": {
+        '&.Mui-expanded': {
           margin: 0,
         },
       }}
@@ -116,7 +130,7 @@ function PriceFilter({ filters, setFilters }) {
       disableGutters
     >
       <AccordionSummary
-        sx={{ padding: 0, flexDirection: "row-reverse", gap: "8px" }}
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
         style={{ minHeight: 0 }}
         expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
       >
@@ -125,9 +139,9 @@ function PriceFilter({ filters, setFilters }) {
 
       <AccordionDetails sx={{ padding: 0 }}>
         <Slider
-          sx={{ color: "#15765B" }}
+          sx={{ color: '#15765B' }}
           size="small"
-          getAriaLabel={() => "Price range"}
+          getAriaLabel={() => 'Price range'}
           value={sliderValue}
           min={filters?.basics?.price?.min}
           max={filters?.basics?.price?.max}

@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import SidebarCategoryTreeSkeleton from "./SidebarCategoryTreeSkeleton";
-import { useGetCategoryTreeQuery } from "@store/api/productEndpoints";
-import { NavLink, useParams } from "react-router-dom";
-import { ArrowIcon } from "@helpers/Icons";
+import React, { useState } from 'react';
 
+import { ArrowIcon } from '@helpers/Icons';
+import { NavLink, useParams } from 'react-router-dom';
+
+import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
+
+import SidebarCategoryTreeSkeleton from './SidebarCategoryTreeSkeleton';
 
 function SidebarCategoryTree() {
   const { categoryId } = useParams();
@@ -29,8 +31,8 @@ function SidebarCategoryTree() {
 
   return (
     <>
-      {categoryTreeIsLoading && <SidebarCategoryTreeSkeleton />}
-      {!categoryTreeIsLoading && categoryTreeIsSuccess && (
+      {categoryTreeIsLoading ? <SidebarCategoryTreeSkeleton /> : null}
+      {!categoryTreeIsLoading && categoryTreeIsSuccess ? (
         <ul className="space-y-2">
           {categories?.children?.map((el) => (
             <li key={el?.id} className="pl-3">
@@ -46,18 +48,18 @@ function SidebarCategoryTree() {
                     </span>
                   </p>
                 </NavLink>
-                {el?.children?.length && (
+                {el?.children?.length ? (
                   <ArrowIcon
-                    onClick={() => toggleAccordion("parent", el?.id)}
+                    onClick={() => toggleAccordion('parent', el?.id)}
                     className={`${
-                      accordion.parent !== el?.id && "rotate-[180deg]"
+                      accordion.parent !== el?.id && 'rotate-[180deg]'
                     } cursor-pointer !m-0 !w-4 !h-4`}
                   />
-                )}
+                ) : null}
               </div>
               <div
                 className={`${
-                  accordion.parent === el?.id ? "block" : "hidden"
+                  accordion.parent === el?.id ? 'block' : 'hidden'
                 } pl-5 pt-1 space-y-1`}
               >
                 {el?.children?.map((child) => (
@@ -74,18 +76,18 @@ function SidebarCategoryTree() {
                           </span>
                         </p>
                       </NavLink>
-                      {child?.children?.length && (
+                      {child?.children?.length ? (
                         <ArrowIcon
-                          onClick={() => toggleAccordion("child", child?.id)}
+                          onClick={() => toggleAccordion('child', child?.id)}
                           className={`${
-                            accordion.child !== child?.id && "rotate-[180deg]"
+                            accordion.child !== child?.id && 'rotate-[180deg]'
                           } cursor-pointer !m-0 !w-4 !h-4`}
                         />
-                      )}
+                      ) : null}
                     </div>
                     <div
                       className={`${
-                        accordion.child === child?.id ? "block" : "hidden"
+                        accordion.child === child?.id ? 'block' : 'hidden'
                       } pl-5 pb-2 space-y-1`}
                     >
                       {child?.children?.map((item) => (
@@ -102,23 +104,23 @@ function SidebarCategoryTree() {
                                 </span>
                               </p>
                             </NavLink>
-                            {item?.children?.length && (
+                            {item?.children?.length ? (
                               <ArrowIcon
                                 onClick={() =>
-                                  toggleAccordion("childLast", item?.id)
+                                  toggleAccordion('childLast', item?.id)
                                 }
                                 className={`${
                                   accordion.childLast !== item?.id &&
-                                  "rotate-[180deg]"
+                                  'rotate-[180deg]'
                                 } cursor-pointer !m-0 !w-4 !h-4`}
                               />
-                            )}
+                            ) : null}
                           </div>
                           <div
                             className={`${
                               accordion.childLast === item?.id
-                                ? "block"
-                                : "hidden"
+                                ? 'block'
+                                : 'hidden'
                             } pl-2 pb-2 pt-1`}
                           >
                             {item?.children?.map((itemChild) => (
@@ -145,7 +147,7 @@ function SidebarCategoryTree() {
             </li>
           ))}
         </ul>
-      )}
+      ) : null}
     </>
   );
 }

@@ -1,29 +1,29 @@
 // src/AuthModal/Register.tsx
 
-import { Controller, FormProvider, useForm } from "react-hook-form";
-import CTextField from '@/shared/ui/inputs/CTextField'; 
-import { Checkbox, FormControlLabel } from "@mui/material"; 
-import { useSendCartMutation } from '@/redux/api/cartEndpoints';
-import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
-import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
-import { setComparison } from '@/redux/slices/comparisonSlice';
-import { setFavorite } from '@/redux/slices/favoriteSlice';
-import { setCart } from '@/redux/slices/cartSlice';
-import { setToken } from '@/features/auth/model/userSlice';
+import { useEffect, useState } from 'react';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Checkbox, FormControlLabel } from '@mui/material';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+
 import { useUserRegisterMutation } from '@/features/auth';
-import { useEffect, useState } from 'react';
+import { setToken } from '@/features/auth/model/userSlice';
+import { setCart } from '@/features/cart/model/cartSlice';
 import PhoneVerificationField from '@/helpers/PhoneVerificationField/PhoneVerificationField';
-import {
-  Visibility,
-  VisibilityOff,
-} from "@mui/icons-material";
+import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
+import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
+import { setComparison } from '@/redux/slices/comparisonSlice';
+import { setFavorite } from '@/redux/slices/favoriteSlice';
+import CTextField from '@/shared/ui/inputs/CTextField';
 import { LoadingSmall } from '@/shared/ui/Loader';
-import { toast } from "sonner";
+
+import { useSendCartMutation } from '@/features/cart/api/cartApi';
 
 export const Register = ({ hideModal, login: enteredLogin }) => {
-  const methods = useForm({ mode: "onSubmit" });
+  const methods = useForm({ mode: 'onSubmit' });
   const {
     control,
     handleSubmit,
@@ -33,7 +33,7 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
     trigger,
     formState: { errors, isValid },
   } = methods;
-  const password = watch("password");
+  const password = watch('password');
   const [resError, setResError] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
@@ -59,14 +59,15 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
     sendComparisonIsloading ||
     sendFavoritesIsloading;
 
-    useEffect(() => {
-      if (enteredLogin) {
-        reset({
-          email: enteredLogin.type === "email" ? enteredLogin.login : '',
-          phone: enteredLogin.type === "phone" ? enteredLogin.login.slice(-10) : ''
-        });
-      }
-    }, [enteredLogin, reset]);
+  useEffect(() => {
+    if (enteredLogin) {
+      reset({
+        email: enteredLogin.type === 'email' ? enteredLogin.login : '',
+        phone:
+          enteredLogin.type === 'phone' ? enteredLogin.login.slice(-10) : '',
+      });
+    }
+  }, [enteredLogin, reset]);
 
   const sendAndClearData = async () => {
     try {
@@ -79,9 +80,9 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
       });
       await sendComparison(comparison.map((item) => item.id));
       await sendFavorites(favorite.map((item) => item.id));
-      sessionStorage.removeItem("cart");
-      sessionStorage.removeItem("comparison");
-      sessionStorage.removeItem("favorite");
+      sessionStorage.removeItem('cart');
+      sessionStorage.removeItem('comparison');
+      sessionStorage.removeItem('favorite');
       dispatch(
         setCart({
           cart: [],
@@ -93,7 +94,7 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
       dispatch(setComparison([]));
       dispatch(setFavorite([]));
     } catch (error) {
-      console.error("Error sending data to server:", error);
+      console.error('Error sending data to server:', error);
     }
   };
 
@@ -113,20 +114,20 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
         dispatch(setToken(auth?.data?.token));
         await sendAndClearData();
         hideModal();
-        navigate("/profile/orders");
-        toast(`Регистрация прошла успешно`)
+        navigate('/profile/orders');
+        toast('Регистрация прошла успешно');
 
         return;
       } else if (!auth?.data?.success) {
         toast(`Не удалось зарегистрироваться. ${auth?.data?.err}`);
       }
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error('Registration failed:', error);
     }
 
     hideModal();
-        navigate("/");
-        return;
+    navigate('/');
+    return;
   };
 
   return (
@@ -143,20 +144,22 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
                 control={control}
                 defaultValue=""
                 rules={{
-                  required: "Поле обязательно к заполнению!",
+                  required: 'Поле обязательно к заполнению!',
                 }}
                 render={({ field }) => (
                   <CTextField label="Имя" type="text" {...field} />
                 )}
               />
-              {errors?.name && (
+              {errors?.name ? (
                 <p className="text-red-500 mt-1 text-xs font-medium">
-                  {errors?.name?.message || "Error!"}
+                  {errors?.name?.message || 'Error!'}
                 </p>
-              )}
+              ) : null}
             </div>
             <div>
-              <PhoneVerificationField defaultValue={enteredLogin?.login.slice(-10)}/>
+              <PhoneVerificationField
+                defaultValue={enteredLogin?.login.slice(-10)}
+              />
             </div>
             {/* <div>
               <Controller
@@ -215,7 +218,7 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
                   render={({ field }) => (
                     <CTextField
                       label="Пароль"
-                      type={`${showPassword ? "text" : "password"}`}
+                      type={`${showPassword ? 'text' : 'password'}`}
                       {...field}
                     />
                   )}
@@ -232,11 +235,11 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
                   />
                 )}
               </div>
-              {errors?.password && (
+              {errors?.password ? (
                 <p className="text-red-500 mt-1 text-xs font-medium">
-                  {errors?.password.message || "Error!"}
+                  {errors?.password.message || 'Error!'}
                 </p>
-              )}
+              ) : null}
             </div>
             <div>
               <div className="flex relative mt-5">
@@ -247,7 +250,7 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
                   rules={{
                     validate: (value) => {
                       if (value !== password) {
-                        return "Пароли не совпадают!";
+                        return 'Пароли не совпадают!';
                       }
                       return true;
                     },
@@ -255,11 +258,11 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
                   render={({ field }) => (
                     <CTextField
                       label="Подтвердите пароль"
-                      type={`${showPasswordConfirm ? "text" : "password"}`}
+                      type={`${showPasswordConfirm ? 'text' : 'password'}`}
                       {...field}
                       onChange={(e) => {
                         field.onChange(e);
-                        trigger("confirmPassword"); // trigger validation
+                        trigger('confirmPassword'); // trigger validation
                       }}
                     />
                   )}
@@ -276,21 +279,21 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
                   />
                 )}
               </div>
-              {errors?.confirmPassword && (
+              {errors?.confirmPassword ? (
                 <p className="text-red-500 mt-1 text-xs font-medium">
-                  {errors?.confirmPassword?.message || "Error!"}
+                  {errors?.confirmPassword?.message || 'Error!'}
                 </p>
-              )}
+              ) : null}
             </div>
           </div>
           <FormControlLabel
             control={
               <Checkbox
-                {...register("legalRepresentative")}
+                {...register('legalRepresentative')}
                 sx={{
-                  color: "#15765B",
-                  "&.Mui-checked": {
-                    color: "#15765B",
+                  color: '#15765B',
+                  '&.Mui-checked': {
+                    color: '#15765B',
                   },
                 }}
               />
@@ -301,35 +304,34 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
               </span>
             }
           />
-          {resError && (
+          {resError ? (
             <p className="text-red-500 mt-1 text-sm font-medium">{resError}</p>
-          )}
+          ) : null}
           <button
-          type="submit"
+            type="submit"
             disabled={!isValid}
             className={`${
-              isValid ? "bg-colGreen" : "bg-colGray"
+              isValid ? 'bg-colGreen' : 'bg-colGray'
             } w-full h-10 px-6 rounded my-2 text-white font-semibold flex justify-center items-center`}
           >
-            {!registerIsLoading && <>Зарегистрироваться</>}
-            {registerIsLoading && <LoadingSmall extraStyle={"white"} />}
+            {!registerIsLoading ? <>Зарегистрироваться</> : null}
+            {registerIsLoading ? <LoadingSmall extraStyle="white" /> : null}
           </button>
           <FormControlLabel
             sx={{
-              display: "flex",
-              alignItems: "flex-start",
+              display: 'flex',
+              alignItems: 'flex-start',
             }}
             control={
               <Checkbox
-                {...register("privacyPolicy")}
+                {...register('privacyPolicy')}
                 defaultChecked
                 required
-                
                 sx={{
-                  color: "#15765B",
-                  padding: "0 9px",
-                  "&.Mui-checked": {
-                    color: "#15765B",
+                  color: '#15765B',
+                  padding: '0 9px',
+                  '&.Mui-checked': {
+                    color: '#15765B',
                   },
                 }}
               />
@@ -337,15 +339,14 @@ export const Register = ({ hideModal, login: enteredLogin }) => {
             label={
               <p className="text-xs leading-[14px] text-colDarkGray">
                 Я даю согласие на обработку моих персональных данных и принимаю
-                условия{" "}
+                условия{' '}
                 <NavLink className="text-colGreen" to="#">
                   Пользовательского соглашения
-                </NavLink>{" "}
-                и{" "}
+                </NavLink>{' '}
+                и{' '}
                 <NavLink className="text-colGreen" to="#">
                   Политики обработки персональных данных
                 </NavLink>
-                
               </p>
             }
           />

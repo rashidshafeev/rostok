@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { setComparison } from "@store/slices/comparisonSlice";
-import { setFavorite } from "@store/slices/favoriteSlice";
-import { setCart } from "@store/slices/cartSlice";
-import { setRecentItems } from "@store/slices/recentItemsSlice";
-import { getTokenFromCookies } from '@/features/auth/lib';;
-import { useGetUserCartQuery } from "@/redux/api/cartEndpoints";
-import { useGetComparisonQuery } from "@/redux/api/comparisonEndpoints";
-import { useGetFavoritesQuery } from "@/redux/api/favoritesEndpoints";
-import { useGetRecentItemsQuery } from "@/features/auth";
-import { AppDispatch } from "@store/store";
+import { useEffect } from 'react';
+
+import { setCart } from '@/features/cart/model/cartSlice';
+import { useDispatch } from 'react-redux';
+
+import { useGetRecentItemsQuery } from '@/features/auth';
+import { useGetComparisonQuery } from '@/redux/api/comparisonEndpoints';
+import { useGetFavoritesQuery } from '@/redux/api/favoritesEndpoints';
+import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
+import { getTokenFromCookies } from '@/shared/lib';
+import { setComparison } from '@/redux/slices/comparisonSlice';
+import { setFavorite } from '@/redux/slices/favoriteSlice';
+import { setRecentItems } from '@/redux/slices/recentItemsSlice';
+
+import type { AppDispatch } from '@/app/providers/store';
 
 const useInitialDataFetch = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -37,16 +40,16 @@ const useInitialDataFetch = () => {
 
   useEffect(() => {
     if (!token) {
-      const comparison = JSON.parse(sessionStorage.getItem("comparison"));
+      const comparison = JSON.parse(sessionStorage.getItem('comparison'));
       dispatch(setComparison(comparison ? comparison : []));
 
-      const favorite = JSON.parse(sessionStorage.getItem("favorite"));
+      const favorite = JSON.parse(sessionStorage.getItem('favorite'));
       dispatch(setFavorite(favorite ? favorite : []));
 
-      const recentItems = JSON.parse(sessionStorage.getItem("recentItems"));
+      const recentItems = JSON.parse(sessionStorage.getItem('recentItems'));
       dispatch(setRecentItems(recentItems ? recentItems : []));
 
-      const cart = JSON.parse(sessionStorage.getItem("cart"));
+      const cart = JSON.parse(sessionStorage.getItem('cart'));
       dispatch(setCart(cart ? cart : null));
     } else if (token && isSuccess) {
       const comparison = serverComparison?.data;
@@ -84,9 +87,9 @@ const useInitialDataFetch = () => {
                   discount: 0,
                 },
                 currency: {
-                  code: "RUB",
-                  title: "Рубль",
-                  symbol: "₽",
+                  code: 'RUB',
+                  title: 'Рубль',
+                  symbol: '₽',
                 },
               }
         )

@@ -1,6 +1,6 @@
-import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
-import { Product } from '@/types/Product/Product';
-import { ImageSet } from '@/types/Common/ImageSet';
+import type { Product } from '@/entities/product/Product';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import type { ImageSet } from '@/shared/types/ImageSet';
 
 export interface SliderItem {
   id: number;

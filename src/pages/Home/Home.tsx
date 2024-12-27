@@ -1,17 +1,20 @@
 import { useEffect } from 'react';
-import { scrollToTop } from '@/shared/lib/scrollToTop';
+
+import PopularCategoriesMobile from '@/components/Home/PopularCategoriesMobile';
 import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
-import HomeSkeleton from './HomeSkeleton';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 import Advantages from '@components/Home/Advantages';
-import Brands from '@components/Home/Brands';
 import Banner from '@components/Home/Banner';
+import Brands from '@components/Home/Brands';
 import News from '@components/Home/News';
 import PopularCategories from '@components/Home/PopularCategories';
 import Promotions from '@components/Home/Promotions';
+import RoomProducts from '@components/Home/RoomProducts';
 import SaleBanner from '@components/Home/SaleBanner';
 import SaleProducts from '@components/Home/SaleProducts';
-import RoomProducts from '@components/Home/RoomProducts';
-import PopularCategoriesMobile from '@/components/Home/PopularCategoriesMobile';
+
+import HomeSkeleton from './HomeSkeleton';
+
 const Home = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
 
@@ -35,15 +38,14 @@ const Home = () => {
 
   return (
     <>
-      
-      {isSuccess && (
+      {isSuccess ? (
         <>
-        <PopularCategoriesMobile />
+          <PopularCategoriesMobile />
           {Object.keys(data).map((key) => {
             const Component = componentMap[key];
             if (Component) {
               return (
-                <div key={key} className='content'>
+                <div key={key} className="content">
                   <Component />
                 </div>
               );
@@ -51,8 +53,8 @@ const Home = () => {
             return null;
           })}
         </>
-      )}
-      {isLoading && <HomeSkeleton/>}
+      ) : null}
+      {isLoading ? <HomeSkeleton /> : null}
     </>
   );
 };

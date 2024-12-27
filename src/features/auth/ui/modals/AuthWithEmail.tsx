@@ -1,26 +1,30 @@
 // src/AuthModal/AuthWithEmail.tsx
 
-import { Controller, useForm } from 'react-hook-form';
-import CTextField from '@/shared/ui/inputs/CTextField';
-import {
-  Visibility,
-  VisibilityOff,
-} from '@mui/icons-material';
 import React, { useState } from 'react';
+
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useAuthWithEmailMutation } from '@/features/auth/api/authenticationEndpoints';
-import { useSendCartMutation } from '@/redux/api/cartEndpoints';
-import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
-import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
-import { setComparison } from '@/redux/slices/comparisonSlice';
-import { setFavorite } from '@/redux/slices/favoriteSlice';
-import { setCart } from '@/redux/slices/cartSlice';
-import { setToken } from '@/features/auth/model/userSlice';
-import { LoadingSmall } from '@/shared/ui/Loader';
 import { toast } from 'sonner';
 
-export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) => {
+import { useAuthWithEmailMutation } from '@/features/auth/api/authenticationEndpoints';
+import { setToken } from '@/features/auth/model/userSlice';
+import { setCart } from '@/features/cart/model/cartSlice';
+import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
+import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
+import { setComparison } from '@/redux/slices/comparisonSlice';
+import { setFavorite } from '@/redux/slices/favoriteSlice';
+import CTextField from '@/shared/ui/inputs/CTextField';
+import { LoadingSmall } from '@/shared/ui/Loader';
+
+import { useSendCartMutation } from '@/features/cart/api/cartApi';
+
+export const AuthWithEmail = ({
+  hideModal,
+  setContent,
+  login: enteredLogin,
+}) => {
   const {
     control,
     handleSubmit,
@@ -28,7 +32,7 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
     register,
     watch,
     formState: { errors, isValid },
-  } = useForm({ mode: "onChange" });
+  } = useForm({ mode: 'onChange' });
 
   const [isShow, setIsShow] = useState(false);
   const [responseError, setResponseError] = useState(null);
@@ -48,7 +52,11 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
   const [sendComparison, { isLoading: sendComparisonIsloading }] =
     useSendComparisonMutation();
 
-    const isLoading = authIsLoading || sendCartIsloading || sendComparisonIsloading || sendFavoritesIsloading
+  const isLoading =
+    authIsLoading ||
+    sendCartIsloading ||
+    sendComparisonIsloading ||
+    sendFavoritesIsloading;
 
   const sendAndClearData = async () => {
     try {
@@ -61,9 +69,9 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
       });
       await sendComparison(comparison.map((item) => item.id));
       await sendFavorites(favorite.map((item) => item.id));
-      sessionStorage.removeItem("cart");
-      sessionStorage.removeItem("comparison");
-      sessionStorage.removeItem("favorite");
+      sessionStorage.removeItem('cart');
+      sessionStorage.removeItem('comparison');
+      sessionStorage.removeItem('favorite');
       dispatch(
         setCart({
           cart: [],
@@ -89,7 +97,7 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
       dispatch(setComparison([]));
       dispatch(setFavorite([]));
     } catch (error) {
-      console.error("Error sending data to server:", error);
+      console.error('Error sending data to server:', error);
     }
   };
 
@@ -100,13 +108,13 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
         dispatch(setToken(auth.data.token));
         await sendAndClearData();
         hideModal();
-        navigate("/");
+        navigate('/');
         return;
       } else if (!auth.data.success) {
         setResponseError(auth.data.err);
       }
     } catch (error) {
-      console.error("Authorization failed:", error);
+      console.error('Authorization failed:', error);
     }
   };
 
@@ -134,7 +142,7 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
           render={({ field }) => (
             <CTextField
               label="Пароль"
-              type={isShow ? "text" : "password"}
+              type={isShow ? 'text' : 'password'}
               required={true}
               {...field}
             />
@@ -152,16 +160,14 @@ export const AuthWithEmail = ({ hideModal, setContent, login: enteredLogin }) =>
           />
         )}
       </div>
-      {responseError && (
-        <p className="text-xs mt-1">{responseError}</p>
-      )}
+      {responseError ? <p className="text-xs mt-1">{responseError}</p> : null}
 
       <button className="w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold flex justify-center items-center">
-        {!isLoading && <>Войти</>}
-        {isLoading && <LoadingSmall extraStyle={"white"} />}
+        {!isLoading ? <>Войти</> : null}
+        {isLoading ? <LoadingSmall extraStyle="white" /> : null}
       </button>
       <p
-        onClick={() => setContent("resetPassword")}
+        onClick={() => setContent('resetPassword')}
         className="text-center mt-4 text-colGray2 font-medium cursor-pointer"
       >
         Забыли пароль?

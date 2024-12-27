@@ -1,18 +1,25 @@
-import SidebarCategoryTree from "./SidebarCategoryTree";
-import SidebarFilters from "./SidebarFilters/SidebarFilters";
-import React from 'react';
-import { FiltersState } from "@/types/Filters/FiltersState";
-import { SortingParams, PaginationParams } from "@/types/ServerData/Catalog";
+import type React from 'react';
+
+import SidebarCategoryTree from './SidebarCategoryTree';
+import SidebarFilters from './SidebarFilters/SidebarFilters';
+
+import type { FiltersState } from '@/entities/filter/Filters/FiltersState';
+import type {
+  SortingParams,
+  PaginationParams,
+} from '@/types/ServerData/Catalog';
 
 interface CatProdSidebarProps {
   filters: FiltersState & {
     page: PaginationParams['page'];
     sort: SortingParams;
   };
-  setFilters: (filters: FiltersState & {
-    page: PaginationParams['page'];
-    sort: SortingParams;
-  }) => void;
+  setFilters: (
+    filters: FiltersState & {
+      page: PaginationParams['page'];
+      sort: SortingParams;
+    }
+  ) => void;
   setFiltersModalOpen: (open: boolean) => void;
   filtersIsLoading: boolean;
   resetFilters: () => void;
@@ -25,7 +32,7 @@ const CatProdSidebar: React.FC<CatProdSidebarProps> = ({
   setFiltersModalOpen,
   filtersIsLoading,
   resetFilters,
-  filtersBlock
+  filtersBlock,
 }) => {
   return (
     <>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getTokenFromCookies } from '@/features/auth/lib';
+import { getTokenFromCookies } from '@/shared/lib';
 
 export const baseURL = 'https://rosstok.ru';
 

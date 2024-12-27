@@ -1,10 +1,12 @@
 // src/components/Catalog/MobileCategoryCard.tsx
 import { NavLink } from 'react-router-dom';
+
 import noImg from '@assets/images/no-image.png';
-import { Category } from '@/types/Category/Category';
+
+import type { CategoryBase } from '@/entities/category';
 
 interface MobileCategoryCardProps {
-  category: Category;
+  category: CategoryBase;
 }
 
 const generateRandomWidth = () => {
@@ -18,21 +20,21 @@ const MobileCategoryCard = ({ category }: MobileCategoryCardProps) => {
     <NavLink
       to={`/catalog/${category?.slug}`}
       state={{ category }}
-      className={`block relative rounded-lg overflow-hidden  h-[70px] bg-colLightGray   `}
+      className="block relative rounded-lg overflow-hidden  h-[70px] bg-colLightGray   "
       style={{ width: `${generateRandomWidth()}px` }}
     >
-        <img
-          src={category?.image?.large || noImg}
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = noImg;
-          }}    
-          alt={category?.name}
-          className="absolute -bottom-1 right-3 w-8 h-8 object-cover"
-        />
-        <h3 className="absolute top-1 left-2   text-colBlack text-sm font-semibold line-clamp-2">
-          {category?.name || 'Не указано'}
-        </h3>
+      <img
+        src={category?.image?.large || noImg}
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src = noImg;
+        }}
+        alt={category?.name}
+        className="absolute -bottom-1 right-3 w-8 h-8 object-cover"
+      />
+      <h3 className="absolute top-1 left-2   text-colBlack text-sm font-semibold line-clamp-2">
+        {category?.name || 'Не указано'}
+      </h3>
     </NavLink>
   );
 };

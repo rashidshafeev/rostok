@@ -1,10 +1,16 @@
-import React, { useEffect, useState, useMemo } from 'react'
-import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material'
+import React, { useEffect, useState, useMemo } from 'react';
+
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { StyledAccordion, StyledAccordionDetails, StyledAccordionSummary } from '@helpers/FAQStyledAccordion';
-import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { Accordion, AccordionDetails, AccordionSummary } from '@mui/material';
+
 import { useGetFaqQuery } from '@/redux/api/contentEndpoints';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
+import {
+  StyledAccordion,
+  StyledAccordionDetails,
+  StyledAccordionSummary,
+} from '@helpers/FAQStyledAccordion';
 
 interface TextBlock {
   id: string;
@@ -25,7 +31,8 @@ interface FaqItem {
 const renderTextBlock = (block: TextBlock) => {
   switch (block.type) {
     case 'header':
-      const HeaderTag = `h${block.data.level || 3}` as keyof JSX.IntrinsicElements;
+      const HeaderTag =
+        `h${block.data.level || 3}` as keyof JSX.IntrinsicElements;
       return (
         <HeaderTag key={block.id} className="font-semibold my-2">
           {block.data.text}
@@ -33,7 +40,11 @@ const renderTextBlock = (block: TextBlock) => {
       );
     case 'paragraph':
       return (
-        <p key={block.id} className="mb-2" dangerouslySetInnerHTML={{ __html: block.data.text }} />
+        <p
+          key={block.id}
+          className="mb-2"
+          dangerouslySetInnerHTML={{ __html: block.data.text }}
+        />
       );
     case 'list':
       return (
@@ -54,11 +65,11 @@ function FAQ() {
 
   const groupedQuestions = useMemo(() => {
     if (!faqData?.data) return [];
-    
-    const groups = new Set(faqData.data.map(item => item.group));
-    return Array.from(groups).map(groupName => ({
+
+    const groups = new Set(faqData.data.map((item) => item.group));
+    return Array.from(groups).map((groupName) => ({
       group: groupName,
-      questions: faqData.data.filter(item => item.group === groupName)
+      questions: faqData.data.filter((item) => item.group === groupName),
     }));
   }, [faqData]);
 
@@ -73,18 +84,19 @@ function FAQ() {
     return <Loading />;
   }
 
-  const currentQuestions = groupedQuestions.find(g => g.group === currentGroup)?.questions || [];
+  const currentQuestions =
+    groupedQuestions.find((g) => g.group === currentGroup)?.questions || [];
 
   return (
-    <div className='pb-6 content'>
-      <h1 className='text-[40px] font-semibold text-colBlack py-5'>
+    <div className="pb-6 content">
+      <h1 className="text-[40px] font-semibold text-colBlack py-5">
         Часто задаваемые вопросы
       </h1>
       {groupedQuestions.length > 0 ? (
-        <div className='flex gap-[20px]'>
-          <div className='basis-[calc(20%-20px/2)] gap-2'>
+        <div className="flex gap-[20px]">
+          <div className="basis-[calc(20%-20px/2)] gap-2">
             {groupedQuestions.map((group) => (
-              <div 
+              <div
                 key={group.group}
                 className={`p-2 rounded font-semibold cursor-pointer ${group.group === currentGroup ? 'bg-colLightGray' : ''}`}
                 onClick={() => setCurrentGroup(group.group)}
@@ -93,18 +105,16 @@ function FAQ() {
               </div>
             ))}
           </div>
-          <div className='basis-[calc(80%-20px/2)]'>
-            <div className='text-2xl font-semibold pb-5'>
-              {currentGroup}
-            </div>
-            <div className='flex flex-wrap gap-5'>
+          <div className="basis-[calc(80%-20px/2)]">
+            <div className="text-2xl font-semibold pb-5">{currentGroup}</div>
+            <div className="flex flex-wrap gap-5">
               {currentQuestions.map((question, index) => (
-                <StyledAccordion 
+                <StyledAccordion
                   key={index}
-                  className='basis-[calc(50%-20px/2)] p-5 rounded-xl shadow h-full mt-0'
+                  className="basis-[calc(50%-20px/2)] p-5 rounded-xl shadow h-full mt-0"
                 >
                   <StyledAccordionSummary
-                    className='font-semibold'
+                    className="font-semibold"
                     expandIcon={<KeyboardArrowDownIcon />}
                     aria-controls={`panel${index}-content`}
                     id={`panel${index}-header`}
@@ -120,12 +130,10 @@ function FAQ() {
           </div>
         </div>
       ) : (
-        <div className="text-center py-8">
-          Нет доступных вопросов
-        </div>
+        <div className="text-center py-8">Нет доступных вопросов</div>
       )}
     </div>
-  )
+  );
 }
 
-export default FAQ
+export default FAQ;

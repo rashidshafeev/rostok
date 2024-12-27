@@ -35,104 +35,104 @@ const development: AppConfig = {
   api: {
     baseUrl: 'http://localhost:3000',
     timeout: 10000,
-    retryAttempts: 3
+    retryAttempts: 3,
   },
   features: {
     enableCart: true,
     enableComparison: true,
     enableFavorites: true,
-    enableRecentItems: true
+    enableRecentItems: true,
   },
   storage: {
     tokenKey: 'dev_rostok_token',
     cartKey: 'dev_rostok_cart',
     favoritesKey: 'dev_rostok_favorites',
     comparisonKey: 'dev_rostok_comparison',
-    recentItemsKey: 'dev_rostok_recent'
+    recentItemsKey: 'dev_rostok_recent',
   },
   pagination: {
     defaultPageSize: 20,
-    maxPageSize: 100
+    maxPageSize: 100,
   },
   cache: {
     ttl: 300000, // 5 minutes
-    maxSize: 100
+    maxSize: 100,
   },
   analytics: {
-    enabled: false
-  }
+    enabled: false,
+  },
 };
 
 const staging: AppConfig = {
   api: {
     baseUrl: 'https://staging.rosstok.ru',
     timeout: 10000,
-    retryAttempts: 3
+    retryAttempts: 3,
   },
   features: {
     enableCart: true,
     enableComparison: true,
     enableFavorites: true,
-    enableRecentItems: true
+    enableRecentItems: true,
   },
   storage: {
     tokenKey: 'staging_rostok_token',
     cartKey: 'staging_rostok_cart',
     favoritesKey: 'staging_rostok_favorites',
     comparisonKey: 'staging_rostok_comparison',
-    recentItemsKey: 'staging_rostok_recent'
+    recentItemsKey: 'staging_rostok_recent',
   },
   pagination: {
     defaultPageSize: 20,
-    maxPageSize: 100
+    maxPageSize: 100,
   },
   cache: {
     ttl: 300000,
-    maxSize: 100
+    maxSize: 100,
   },
   analytics: {
     enabled: true,
-    trackingId: 'STAGING-ID'
-  }
+    trackingId: 'STAGING-ID',
+  },
 };
 
 const production: AppConfig = {
   api: {
     baseUrl: 'https://rosstok.ru',
     timeout: 5000,
-    retryAttempts: 3
+    retryAttempts: 3,
   },
   features: {
     enableCart: true,
     enableComparison: true,
     enableFavorites: true,
-    enableRecentItems: true
+    enableRecentItems: true,
   },
   storage: {
     tokenKey: 'rostok_token',
     cartKey: 'rostok_cart',
     favoritesKey: 'rostok_favorites',
     comparisonKey: 'rostok_comparison',
-    recentItemsKey: 'rostok_recent'
+    recentItemsKey: 'rostok_recent',
   },
   pagination: {
     defaultPageSize: 20,
-    maxPageSize: 100
+    maxPageSize: 100,
   },
   cache: {
     ttl: 600000, // 10 minutes
-    maxSize: 200
+    maxSize: 200,
   },
   analytics: {
     enabled: true,
-    trackingId: 'PROD-ID'
-  }
+    trackingId: 'PROD-ID',
+  },
 };
 
 const configs = {
   development,
-  staging, 
-  production
+  staging,
+  production,
 };
 
 export const config = configs[import.meta.env.VITE_APP_ENV || 'development'];

@@ -1,5 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
-import { RootState } from '@/redux/store';
+
+import type { RootState } from '@/redux/store';
 
 export const selectCatalogState = (state: RootState) => state.catalog;
 
@@ -32,7 +33,7 @@ export const selectLoadingStates = createSelector(
   selectCatalogState,
   (catalog) => ({
     isFiltersLoading: catalog.isFiltersLoading,
-    isProductsLoading: catalog.isProductsLoading
+    isProductsLoading: catalog.isProductsLoading,
   })
 );
 
@@ -45,6 +46,6 @@ export const selectCurrentCategoryId = createSelector(
 export const selectTotalPages = createSelector(
   selectProducts,
   selectPagination,
-  (products, pagination) => 
+  (products, pagination) =>
     products ? Math.ceil(products.count / pagination.limit) : 0
 );

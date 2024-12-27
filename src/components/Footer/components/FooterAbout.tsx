@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+
 import arrowDown from '@/shared/assets/icons/arrow-black.svg';
 
 interface FooterAboutProps {
@@ -11,53 +12,55 @@ const FooterAbout = ({ isOpen, onToggle }: FooterAboutProps) => {
     <>
       <div
         onClick={onToggle}
-        className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+        className="flex justify-between items-center pb-1 border-b border-colGray cursor-pointer"
       >
-        <p className={`${isOpen ? 'text-colBlack' : 'text-colDarkGray'} font-medium`}>
+        <p
+          className={`${isOpen ? 'text-colBlack' : 'text-colDarkGray'} font-medium`}
+        >
           О компании
         </p>
         <img
           className={`${isOpen ? 'rotate-[180deg]' : 'rotate-[0deg]'}`}
           src={arrowDown}
-          alt='*'
+          alt="*"
         />
       </div>
-      {isOpen && (
-        <ul className='pl-5 py-1 border-b border-colGray'>
+      {isOpen ? (
+        <ul className="pl-5 py-1 border-b border-colGray">
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='/about'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="/about"
             >
               О компании
             </NavLink>
           </li>
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='/contacts'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="/contacts"
             >
               Контакты
             </NavLink>
           </li>
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='/contacts'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="/contacts"
             >
               Реквизиты
             </NavLink>
           </li>
           <li>
             <NavLink
-              className='text-colBlack font-semibold text-sm hover:text-colGreen'
-              to='/contacts'
+              className="text-colBlack font-semibold text-sm hover:text-colGreen"
+              to="/contacts"
             >
               Для партнёров
             </NavLink>
           </li>
         </ul>
-      )}
+      ) : null}
     </>
   );
 };

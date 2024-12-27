@@ -1,7 +1,8 @@
 // src/redux/api/api.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { RootState } from '@store/store';
 import { toast } from 'sonner';
+
+import type { RootState } from '@store/store';
 
 interface ErrorLogData {
   message: string;
@@ -38,10 +39,10 @@ const baseQuery = fetchBaseQuery({
 
 const loggingBaseQuery = async (args, api, extraOptions) => {
   const startTime = Date.now();
-  
+
   try {
     const result = await baseQuery(args, api, extraOptions);
-    
+
     if (process.env.NODE_ENV === 'development') {
       console.log('Request:', args);
       console.log('Response:', result);
@@ -50,18 +51,20 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
     // Check if response exists and has data
     if (result?.data) {
       const response = result.data as ApiResponse;
-      
+
       // Check for API-level error (success: false)
       if (response.success === false) {
         toast.error(response.err || 'Произошла ошибка', {
-          description: response.err_code ? `Код ошибки: ${response.err_code}` : undefined,
-          duration: 5000
+          description: response.err_code
+            ? `Код ошибки: ${response.err_code}`
+            : undefined,
+          duration: 5000,
         });
 
         return {
           error: {
             status: 200,
-            data: response
+            data: response,
           },
         };
       }
@@ -71,7 +74,7 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
     if (result.error) {
       toast.error('Произошла ошибка', {
         description: result.error.data?.message || 'Что-то пошло не так',
-        duration: 5000
+        duration: 5000,
       });
 
       if (process.env.NODE_ENV === 'development') {
@@ -83,7 +86,7 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
   } catch (error) {
     toast.error('Произошла неожиданная ошибка', {
       description: error.message || 'Что-то пошло не так',
-      duration: 5000
+      duration: 5000,
     });
 
     return {

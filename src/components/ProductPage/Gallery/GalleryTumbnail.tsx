@@ -1,9 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 function GalleryTumbnail() {
-  return (
-    <div>GalleryTumbnail</div>
-  )
+  return <div>GalleryTumbnail</div>;
 }
 
-export default GalleryTumbnail
+export default GalleryTumbnail;

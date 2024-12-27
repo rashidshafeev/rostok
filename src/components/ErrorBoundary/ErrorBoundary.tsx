@@ -1,10 +1,13 @@
 // src/components/ErrorBoundary/ErrorBoundary.tsx
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
+import type React from 'react';
+import { Component } from 'react';
+
+import axios from 'axios';
 import { toast } from 'sonner';
 // import { errorService } from '@/services/errorService';
 
 // src/services/errorService.ts
-import axios from 'axios';
 
 interface ErrorLogData {
   message: string;
@@ -18,11 +21,15 @@ interface ErrorLogData {
 
 const instance = axios.create({
   baseURL: 'https://rosstok.ru',
-  timeout: 5000
+  timeout: 5000,
 });
 
 export const errorService = {
-  async logError(error: Error, errorInfo?: React.ErrorInfo, additionalInfo?: Record<string, any>): Promise<void> {
+  async logError(
+    error: Error,
+    errorInfo?: React.ErrorInfo,
+    additionalInfo?: Record<string, any>
+  ): Promise<void> {
     try {
       const errorData: ErrorLogData = {
         message: error.message,
@@ -31,7 +38,7 @@ export const errorService = {
         url: window.location.href,
         timestamp: new Date().toISOString(),
         userAgent: window.navigator.userAgent,
-        additionalInfo
+        additionalInfo,
       };
 
       await instance.post('/api/log-error', errorData);
@@ -43,10 +50,13 @@ export const errorService = {
     }
   },
 
-  async logCustomError(message: string, additionalInfo?: Record<string, any>): Promise<void> {
+  async logCustomError(
+    message: string,
+    additionalInfo?: Record<string, any>
+  ): Promise<void> {
     const error = new Error(message);
     await this.logError(error, undefined, additionalInfo);
-  }
+  },
 };
 
 interface Props {
@@ -71,7 +81,7 @@ class ErrorBoundary extends Component<Props, State> {
     this.state = {
       hasError: false,
       error: null,
-      errorInfo: null
+      errorInfo: null,
     };
   }
 
@@ -82,7 +92,7 @@ class ErrorBoundary extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({
       error,
-      errorInfo
+      errorInfo,
     });
 
     // Only log errors that are not API errors (those are already handled by the API layer)
@@ -133,7 +143,7 @@ class ErrorBoundary extends Component<Props, State> {
     this.setState({
       hasError: false,
       error: null,
-      errorInfo: null
+      errorInfo: null,
     });
   };
 
@@ -159,7 +169,7 @@ class ErrorBoundary extends Component<Props, State> {
           <div className="text-sm text-colDarkGray mb-4">
             {this.getErrorMessage(error)}
           </div>
-          {process.env.NODE_ENV === 'development' && (
+          {process.env.NODE_ENV === 'development' ? (
             <div className="mt-4">
               <details className="whitespace-pre-wrap font-mono text-xs text-colDarkGray">
                 <summary>Детали ошибки</summary>
@@ -170,7 +180,7 @@ class ErrorBoundary extends Component<Props, State> {
                 </div>
               </details>
             </div>
-          )}
+          ) : null}
           <button
             onClick={this.reset}
             className="mt-4 px-4 py-2 bg-colGreen text-white rounded hover:opacity-90 transition-opacity"

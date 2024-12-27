@@ -1,6 +1,6 @@
-import { Product } from "@/types/Product/Product";
+import type { Product } from '@/entities/product/Product';
 
 export interface CartProduct extends Product {
-    quantity: number;
-    selected: boolean;
+  quantity: number;
+  selected: boolean;
 }

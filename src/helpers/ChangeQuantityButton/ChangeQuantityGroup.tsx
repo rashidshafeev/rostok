@@ -1,29 +1,42 @@
 // src/components/ChangeQuantityGroup.js
 import React, { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
+
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import { getTokenFromCookies } from '@/features/auth/lib';;
-import { useGetCartItemPriceMutation, useSendCartMutation } from '@/redux/api/cartEndpoints';
-import { CartProduct } from '@/types/Store/Cart/CartState';
-import { AppDispatch } from '@store/store';
+import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+
+import { getTokenFromCookies } from '@/shared/lib';
+
+import type { CartProduct } from '@/features/cart/model/types';
+import type { AppDispatch } from '@/app/providers/store';
+
+import {
+  useGetCartItemPriceMutation,
+  useSendCartMutation,
+} from '@/features/cart/api/cartApi';
 
 type ChangeQuantityGroupProps = {
   product: CartProduct;
   enableRemove?: boolean;
-}
+};
 
-const ChangeQuantityGroup = ({ product, enableRemove = false } : ChangeQuantityGroupProps) => {
+const ChangeQuantityGroup = ({
+  product,
+  enableRemove = false,
+}: ChangeQuantityGroupProps) => {
   const token = getTokenFromCookies();
-  
+
   const [quantity, setQuantity] = useState<number>(product.quantity || 1);
   const isFirstRender = useRef<boolean>(true);
   const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const dispatch : AppDispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const [sendCart, { isLoading }] = useSendCartMutation();
-  const [getItemPrice, { isLoading: isLoadingItemPrice, isSuccess: isSuccessItemPrice }] = useGetCartItemPriceMutation();
+  const [
+    getItemPrice,
+    { isLoading: isLoadingItemPrice, isSuccess: isSuccessItemPrice },
+  ] = useGetCartItemPriceMutation();
 
   const updateQuantity = async (newQuantity: number) => {
     setQuantity(newQuantity);
@@ -36,23 +49,31 @@ const ChangeQuantityGroup = ({ product, enableRemove = false } : ChangeQuantityG
       try {
         if (!isFirstRender.current) {
           if (token) {
-            await sendCart({ id: product.id, quantity: newQuantity, selected: product.selected });
+            await sendCart({
+              id: product.id,
+              quantity: newQuantity,
+              selected: product.selected,
+            });
           }
-          
-          const priceResponse = await getItemPrice({ item_id: product.id, quantity: newQuantity });
-          
+
+          const priceResponse = await getItemPrice({
+            item_id: product.id,
+            quantity: newQuantity,
+          });
+
           dispatch(
             changeQuantity({
               id: product.id,
               quantity: newQuantity,
-              price: ('data' in priceResponse && priceResponse.data?.data?.price) 
-                ? priceResponse.data.data.price 
-                : product.price
+              price:
+                'data' in priceResponse && priceResponse.data?.data?.price
+                  ? priceResponse.data.data.price
+                  : product.price,
             })
           );
         }
       } catch (error) {
-        console.error("An error occurred in updateQuantity:", error);
+        console.error('An error occurred in updateQuantity:', error);
         setQuantity(product.quantity);
       }
     }, 500);
@@ -82,7 +103,7 @@ const ChangeQuantityGroup = ({ product, enableRemove = false } : ChangeQuantityG
     } else if (enableRemove && quantity === 1) {
       clearTimeout(debounceTimer.current);
       if (token) {
-        sendCart({ id: product.id, quantity: 0, selected: product.selected })
+        sendCart({ id: product.id, quantity: 0, selected: product.selected });
       }
       dispatch(removeFromCart(product));
     }
@@ -95,20 +116,22 @@ const ChangeQuantityGroup = ({ product, enableRemove = false } : ChangeQuantityG
   return (
     <div className="flex justify-between items-center grow">
       <button
-        className={`${ isLoading ? 'cursor-wait' : 'cursor-pointer'} w-10 h-10 bg-colLightGray rounded-full flex items-center justify-center`}
+        className={`${isLoading ? 'cursor-wait' : 'cursor-pointer'} w-10 h-10 bg-colLightGray rounded-full flex items-center justify-center`}
         onClick={decreaseQuantity}
-        disabled={!enableRemove && quantity === 1}
+        disabled={!enableRemove ? quantity === 1 : null}
       >
-        <RemoveOutlined className={`${!enableRemove && quantity === 1 ? 'text-colGray' : 'text-colGreen'}`} />
+        <RemoveOutlined
+          className={`${!enableRemove && quantity === 1 ? 'text-colGray' : 'text-colGreen'}`}
+        />
       </button>
-      <span className='text-colGreen font-semibold px-5'>{quantity}</span>
+      <span className="text-colGreen font-semibold px-5">{quantity}</span>
       <button
-        className={` ${ isLoading ? 'cursor-wait' : 'cursor-pointer'} w-10 h-10 bg-colLightGray rounded-full flex items-center justify-center`}
+        className={` ${isLoading ? 'cursor-wait' : 'cursor-pointer'} w-10 h-10 bg-colLightGray rounded-full flex items-center justify-center`}
         onClick={increaseQuantity}
       >
-        <AddOutlined className='text-colGreen' />
+        <AddOutlined className="text-colGreen" />
       </button>
-    </div >
+    </div>
   );
 };
 

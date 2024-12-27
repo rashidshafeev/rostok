@@ -1,10 +1,10 @@
-import { FiltersState } from "@/types/Filters/FiltersState";
-import { 
-  SortingParams, 
+import type { FiltersState } from '@/entities/filter/Filters/FiltersState';
+import type {
+  SortingParams,
   PaginationParams,
   GetVariantsResponse,
-  GetFiltersResponse 
-} from "@/types/ServerData/Catalog";
+  GetFiltersResponse,
+} from '@/types/ServerData/Catalog';
 
 export interface CatalogState {
   filters: FiltersState;

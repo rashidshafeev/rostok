@@ -1,6 +1,5 @@
 export interface OrderStatus {
-    name: string;
-    background_color: string;
-    text_color: string;
-  }
-  
+  name: string;
+  background_color: string;
+  text_color: string;
+}

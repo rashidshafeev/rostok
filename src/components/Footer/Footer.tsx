@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+
 import { NavLink } from 'react-router-dom';
-import logo from '@assets/images/logo.svg';
-import vk from '@assets/images/vk.svg';
-import telegram from '@assets/images/telegram.svg';
-import whatsapp from '@assets/images/whatsapp.svg';
+
+import { useGetBasicFiltersQuery } from '@/entities/product/api/productApi';
 import arrowDown from '@/shared/assets/icons/arrow-black.svg';
-import { useGetBasicFiltersQuery } from '@/redux/api/productEndpoints';
+import logo from '@assets/images/logo.svg';
+import telegram from '@assets/images/telegram.svg';
+import vk from '@assets/images/vk.svg';
+import whatsapp from '@assets/images/whatsapp.svg';
+
 const Footer = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
   const [menus, setMenus] = useState({
@@ -16,23 +19,23 @@ const Footer = () => {
   const { data: basicFilters } = useGetBasicFiltersQuery();
 
   return (
-    <footer className='pt-10 pb-24 lg:pb-4 md:pt-14 bg-colSuperLight'>
-      <div className='content'>
-        <div className='lg:flex justify-between lg:space-x-5 border-b border-colGray pb-10 md:pb-20'>
-          <div className='lg:max-w-[380px] xl:max-w-[580px] w-full'>
-            <div className='mm:max-w-[220px] w-full'>
-              <NavLink to='/'>
-                <img className='w-[220px] mm:w-full' src={logo} alt='*' />
+    <footer className="pt-10 pb-24 lg:pb-4 md:pt-14 bg-colSuperLight">
+      <div className="content">
+        <div className="lg:flex justify-between lg:space-x-5 border-b border-colGray pb-10 md:pb-20">
+          <div className="lg:max-w-[380px] xl:max-w-[580px] w-full">
+            <div className="mm:max-w-[220px] w-full">
+              <NavLink to="/">
+                <img className="w-[220px] mm:w-full" src={logo} alt="*" />
               </NavLink>
-              <p className='text-colDarkGray text-xs pt-2'>
+              <p className="text-colDarkGray text-xs pt-2">
                 Интернет-магазин мебельной фурнитуры, столешниц и плитных
                 материалов
               </p>
             </div>
-            <div className='md:hidden pt-5'>
+            <div className="md:hidden pt-5">
               <div
                 onClick={(prev) => setMenus({ ...prev, about: !menus.about })}
-                className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+                className="flex justify-between items-center pb-1 border-b border-colGray cursor-pointer"
               >
                 <p
                   className={`${
@@ -46,48 +49,48 @@ const Footer = () => {
                     menus.about ? 'rotate-[180deg]' : 'rotate-[0deg]'
                   }`}
                   src={arrowDown}
-                  alt='*'
+                  alt="*"
                 />
               </div>
-              {menus?.about && (
-                <ul className='pl-5 py-1 border-b border-colGray'>
+              {menus?.about ? (
+                <ul className="pl-5 py-1 border-b border-colGray">
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/about'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/about"
                     >
                       О компании
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/contacts'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/contacts"
                     >
                       Контакты
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/contacts'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/contacts"
                     >
                       Реквизиты
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/contacts'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/contacts"
                     >
                       Для партнёров
                     </NavLink>
                   </li>
                 </ul>
-              )}
+              ) : null}
               <div
                 onClick={(prev) => setMenus({ ...prev, buyer: !menus.buyer })}
-                className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+                className="flex justify-between items-center pb-1 border-b border-colGray cursor-pointer"
               >
                 <p
                   className={`
@@ -101,48 +104,48 @@ const Footer = () => {
                     menus.buyer ? 'rotate-[180deg]' : 'rotate-[0deg]'
                   }`}
                   src={arrowDown}
-                  alt='*'
+                  alt="*"
                 />
               </div>
-              {menus?.buyer && (
-                <ul className='pl-5 py-1 border-b border-colGray'>
+              {menus?.buyer ? (
+                <ul className="pl-5 py-1 border-b border-colGray">
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='@'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="@"
                     >
                       Каталог
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="#"
                     >
                       Акции
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="#"
                     >
                       Товары со скидкой
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="#"
                     >
                       Новинки
                     </NavLink>
                   </li>
                 </ul>
-              )}
+              ) : null}
               <div
                 onClick={(prev) => setMenus({ ...prev, info: !menus.info })}
-                className='flex justify-between items-center pb-1 border-b border-colGray cursor-pointer'
+                className="flex justify-between items-center pb-1 border-b border-colGray cursor-pointer"
               >
                 <p
                   className={`${
@@ -156,37 +159,37 @@ const Footer = () => {
                     menus.info ? 'rotate-[180deg]' : 'rotate-[0deg]'
                   }`}
                   src={arrowDown}
-                  alt='*'
+                  alt="*"
                 />
               </div>
-              {menus?.info && (
-                <ul className='pl-5 py-1 border-b border-colGray'>
+              {menus?.info ? (
+                <ul className="pl-5 py-1 border-b border-colGray">
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="#"
                     >
                       Вопрос-ответ
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="#"
                     >
                       Оплата и доставка
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='#'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="#"
                     >
                       Гарантия и обмен
                     </NavLink>
                   </li>
                 </ul>
-              )}
+              ) : null}
             </div>
             {/* <form className='pt-7 md:pt-10'>
               <h2 className='text-colBlack text-xl sm:text-2xl font-semibold pb-3'>
@@ -253,75 +256,75 @@ const Footer = () => {
               </label>
             </form> */}
           </div>
-          <div className='pt-8 lg:pt-0 text-center md:text-left'>
-            <div className='grid md:grid-cols-3 gap-4'>
+          <div className="pt-8 lg:pt-0 text-center md:text-left">
+            <div className="grid md:grid-cols-3 gap-4">
               <div>
-                <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
+                <p className="text-colDarkGray leading-[120%] font-medium pb-1">
                   Горячая линия
                 </p>
-                <h4 className='text-colBlack text-xl font-semibold lining-nums proportional-nums'>
+                <h4 className="text-colBlack text-xl font-semibold lining-nums proportional-nums">
                   8 800 302-14-84
                 </h4>
               </div>
               <div>
-                <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
+                <p className="text-colDarkGray leading-[120%] font-medium pb-1">
                   Электронная почта
                 </p>
-                <h4 className='text-colBlack text-xl font-semibold break-all'>
+                <h4 className="text-colBlack text-xl font-semibold break-all">
                   rostok@rostok.ru
                 </h4>
               </div>
               <div>
-                <p className='text-colDarkGray leading-[120%] font-medium pb-1'>
+                <p className="text-colDarkGray leading-[120%] font-medium pb-1">
                   Соцсети и мессенджеры
                 </p>
-                <div className='flex justify-center md:justify-start pt-2 md:pt-0 items-center space-x-3'>
-                  <NavLink to='#'>
-                    <img src={telegram} alt='*' />
+                <div className="flex justify-center md:justify-start pt-2 md:pt-0 items-center space-x-3">
+                  <NavLink to="#">
+                    <img src={telegram} alt="*" />
                   </NavLink>
-                  <NavLink to='#'>
-                    <img src={whatsapp} alt='*' />
+                  <NavLink to="#">
+                    <img src={whatsapp} alt="*" />
                   </NavLink>
-                  <NavLink to='#'>
-                    <img src={vk} alt='*' />
+                  <NavLink to="#">
+                    <img src={vk} alt="*" />
                   </NavLink>
                 </div>
               </div>
             </div>
-            <div className='hidden md:grid md:grid-cols-3 gap-4 pt-10'>
+            <div className="hidden md:grid md:grid-cols-3 gap-4 pt-10">
               <div>
-                <p className='text-colDarkGray font-medium md:pb-2'>
+                <p className="text-colDarkGray font-medium md:pb-2">
                   О компании
                 </p>
                 <ul>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/about'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/about"
                     >
                       О компании
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/contacts'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/contacts"
                     >
                       Контакты
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/contacts'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/contacts"
                     >
                       Реквизиты
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/wholesale'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/wholesale"
                     >
                       Для партнёров
                     </NavLink>
@@ -329,14 +332,14 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <p className='text-colDarkGray font-medium md:pb-2'>
+                <p className="text-colDarkGray font-medium md:pb-2">
                   Покупателю
                 </p>
                 <ul>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/catalog'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/catalog"
                     >
                       Каталог
                     </NavLink>
@@ -346,11 +349,11 @@ const Footer = () => {
                       <NavLink
                         to={`/catalog/tags?tags=${tag?.tag}`}
                         // style={{ backgroundColor: `${tag?.background_color}` }}
-                        className='lowercase'
+                        className="lowercase"
                       >
                         {/* <img src={el?.icon2} alt="*" /> */}
                         {/* <span style={{ color: tag?.text_color }} className="text-sm font-semibold text-white pl-1"> */}
-                        <span className='text-colBlack font-semibold text-sm hover:text-colGreen capitalize '>
+                        <span className="text-colBlack font-semibold text-sm hover:text-colGreen capitalize ">
                           {tag?.tag}
                         </span>
                       </NavLink>
@@ -359,30 +362,30 @@ const Footer = () => {
                 </ul>
               </div>
               <div>
-                <p className='text-colDarkGray font-medium md:pb-2'>
+                <p className="text-colDarkGray font-medium md:pb-2">
                   Информация
                 </p>
                 <ul>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/faq'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/faq"
                     >
                       Вопрос-ответ
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/payment-delivery'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/payment-delivery"
                     >
                       Оплата и доставка
                     </NavLink>
                   </li>
                   <li>
                     <NavLink
-                      className='text-colBlack font-semibold text-sm hover:text-colGreen'
-                      to='/warranty'
+                      className="text-colBlack font-semibold text-sm hover:text-colGreen"
+                      to="/warranty"
                     >
                       Гарантия и обмен
                     </NavLink>
@@ -392,21 +395,21 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div className='flex justify-between flex-col md:flex-row items-center md:items-start xl:items-center pt-10'>
-          <p className='text-sm text-colDarkGray pr-5 text-center md:text-left pb-5 md:pb-0'>
+        <div className="flex justify-between flex-col md:flex-row items-center md:items-start xl:items-center pt-10">
+          <p className="text-sm text-colDarkGray pr-5 text-center md:text-left pb-5 md:pb-0">
             2023 © ООО «Росток» — Копирование материалов с сайта без разрешения
             правообладателя строго запрещено
           </p>
-          <div className='flex space-x-5'>
+          <div className="flex space-x-5">
             <NavLink
-              className='text-colGray text-xs font-semibold text-nowrap'
-              to='/policy'
+              className="text-colGray text-xs font-semibold text-nowrap"
+              to="/policy"
             >
               Политика конфиденциальности
             </NavLink>
             <NavLink
-              className='text-colGray text-xs font-semibold'
-              to='/oferta'
+              className="text-colGray text-xs font-semibold"
+              to="/oferta"
             >
               Оферта
             </NavLink>

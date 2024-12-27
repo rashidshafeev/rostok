@@ -1,9 +1,12 @@
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { addToRecentItems } from "@store/slices/recentItemsSlice";
-import { Product } from "@/types/Product/Product";
-import { getTokenFromCookies } from '@/features/auth/lib';;
-import { AppDispatch } from "@store/store";
+import { useEffect } from 'react';
+
+import { useDispatch } from 'react-redux';
+
+import { getTokenFromCookies } from '@/shared/lib';
+import { addToRecentItems } from '@store/slices/recentItemsSlice';
+
+import type { Product } from '@/entities/product/Product';
+import type { AppDispatch } from '@store/store';
 
 const useAddToRecentItems = (product: Product | null) => {
   const dispatch: AppDispatch = useDispatch();

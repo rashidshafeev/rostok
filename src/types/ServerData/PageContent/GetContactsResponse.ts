@@ -1,4 +1,4 @@
-import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface ContactsFile {
   url: string;

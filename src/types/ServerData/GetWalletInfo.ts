@@ -1,24 +1,24 @@
-import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
-import { Currency } from "../Product/Currency";
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import type { Currency } from '@/shared/types/Currency';
 
 interface Balance {
-    sum: number;
-    currency: Currency;
-    currency2: string;
-    sum_format: string;
-    rate: number;
-    rate_format: string;
-    convertedAmount: string;
+  sum: number;
+  currency: Currency;
+  currency2: string;
+  sum_format: string;
+  rate: number;
+  rate_format: string;
+  convertedAmount: string;
 }
 
 interface Wallet {
-    name: string;
-    isPrimary: number;
+  name: string;
+  isPrimary: number;
 }
 
 export interface GetWalletInfoResponse extends AdditionalServerResponseData {
-    balances: Balance[];
-    total: string;
-    currentCurrency: Currency;
-    wallet: Wallet;
+  balances: Balance[];
+  total: string;
+  currentCurrency: Currency;
+  wallet: Wallet;
 }
