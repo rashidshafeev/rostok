@@ -1,9 +1,10 @@
 // src/entities/product/api/productApi.ts
 import { api } from '@/shared/api/api';
+
 import type { GetProductResponse } from '@/entities/product/GetProduct';
-import type { 
+import type {
   GetVariantsResponse,
-  GetVariantsRequest 
+  GetVariantsRequest,
 } from '@/entities/product/GetVariants';
 
 export const productApi = api.injectEndpoints({
@@ -23,9 +24,4 @@ export const productApi = api.injectEndpoints({
   }),
 });
 
-export const {
-  useGetProductQuery,
-  useGetVariantsMutation,
-} = productApi;
-
-
+export const { useGetProductQuery, useGetVariantsMutation } = productApi;

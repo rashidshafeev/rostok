@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import image from '@assets/images/404.svg'
+import image from '@/shared/assets/images/404.svg'
 import { NavLink } from 'react-router-dom'
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 

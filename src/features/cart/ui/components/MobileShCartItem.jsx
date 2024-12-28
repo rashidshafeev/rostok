@@ -1,6 +1,6 @@
 import { ExpandMore, AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import CCheckBoxField from '@/shared/ui/inputs/CCheckBoxField';
-import noImg from '@assets/images/no-image.png';
+import noImg from '@/shared/assets/images/no-image.png';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { useDispatch, useSelector } from 'react-redux';

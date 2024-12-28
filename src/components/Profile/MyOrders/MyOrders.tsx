@@ -2,7 +2,7 @@ import React from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { useGetUserOrdersQuery } from '@/redux/api/orderEndpoints';
+import { useGetUserOrdersQuery } from '@/entities/order/api/orderEndpoints';
 import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import { Loading } from '@/shared/ui/Loader';
 

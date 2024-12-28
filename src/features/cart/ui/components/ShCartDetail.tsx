@@ -12,6 +12,8 @@ import { toast } from 'sonner';
 
 import CardLineSkeleton from '@/components/ProductCard/CardLineSkeleton';
 import LineNarrowSkeleton from '@/components/ProductCard/LineNarrowSkeleton';
+import { useSendCartMutation } from '@/features/cart/api/cartApi';
+import { SendCartRequest } from '@/features/cart/api/types';
 import { useModal } from '@/features/modals/model/context';
 import docIcon from '@/shared/assets/icons/download-pdf.svg';
 import shareIcon from '@/shared/assets/icons/share.svg';
@@ -26,9 +28,6 @@ import type { AppDispatch } from '@/app/providers/store';
 import type { SendCartPayload } from '@/features/cart/api/types';
 import type { CartProduct } from '@/types/Store/Cart/CartProduct';
 import type { LocalCartState } from '@/types/Store/Cart/CartState';
-
-import { useSendCartMutation } from '@/features/cart/api/cartApi';
-import { SendCartRequest } from '@/features/cart/api/types';
 
 type ShCartDetailProps = {
   cart: LocalCartState;

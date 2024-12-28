@@ -1,11 +1,11 @@
-import { OrderBy, SortOrder } from '@/types/ServerData/Catalog';
-
 import type {
   BaseFilterParams,
   GetVariantsRequest,
   PaginationParams,
   SortingParams,
 } from '@/types/ServerData/Catalog';
+
+import { OrderBy, SortOrder } from '@/types/ServerData/Catalog';
 
 export interface CatalogQueryParams
   extends BaseFilterParams,

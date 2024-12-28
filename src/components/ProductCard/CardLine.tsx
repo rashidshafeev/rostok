@@ -3,11 +3,11 @@ import type React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import noImg from '@/assets/images/no-image.png';
 import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
 import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import ComparisonButton from '@/helpers/ComparisonButton/ComparisonButton';
 import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
+import noImg from '@/shared/assets/images/no-image.png';
 import { ComparisonIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { LoadingSmall } from '@/shared/ui/Loader';
 

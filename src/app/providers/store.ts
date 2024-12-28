@@ -6,7 +6,7 @@ import cartReducer from '@/features/cart/model/cartSlice';
 import comparisonReducer from '@/redux/slices/comparisonSlice';
 import favoriteReducer from '@/redux/slices/favoriteSlice';
 import organizationsReducer from '@/redux/slices/organizationsSlice';
-import recentItemsReducer from '@/redux/slices/recentItemsSlice';
+import recentItemsReducer from '@/features/recent-items/model/recentItemsSlice';
 import { api } from '@/shared/api/api';
 
 const rootReducer = combineReducers({

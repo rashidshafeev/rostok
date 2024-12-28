@@ -19,16 +19,15 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
 import PriceDisplay from '@/components/ProductCard/PriceDisplay';
-import { transformServerCartToLocalCart } from '@/features/cart/lib';
-import cartIcon from '@/shared/assets/icons/cart-black.svg';
-import { getTokenFromCookies } from '@/shared/lib';
-import noImg from '@/assets/images/no-image.png';
-import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
-
-import type { LocalCartState } from '@/types/Store/Cart/CartState';
-import type { RootState } from '@/app/providers/store';
-
 import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
+import { transformServerCartToLocalCart } from '@/features/cart/lib';
+import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import cartIcon from '@/shared/assets/icons/cart-black.svg';
+import noImg from '@/shared/assets/images/no-image.png';
+import { getTokenFromCookies } from '@/shared/lib';
+
+import type { RootState } from '@/app/providers/store';
+import type { LocalCartState } from '@/types/Store/Cart/CartState';
 
 type CartButtonProps = {
   getCartQuantity: () => number;

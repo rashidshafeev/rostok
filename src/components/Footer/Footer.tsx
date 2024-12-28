@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 
 import { useGetBasicFiltersQuery } from '@/entities/product/api/productApi';
 import arrowDown from '@/shared/assets/icons/arrow-black.svg';
-import logo from '@assets/images/logo.svg';
-import telegram from '@assets/images/telegram.svg';
-import vk from '@assets/images/vk.svg';
-import whatsapp from '@assets/images/whatsapp.svg';
+import logo from '@/shared/assets/images/logo.svg';
+import telegram from '@/shared/assets/images/telegram.svg';
+import vk from '@/shared/assets/images/vk.svg';
+import whatsapp from '@/shared/assets/images/whatsapp.svg';
 
 const Footer = () => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);

@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { OrderBy, SortOrder } from '@/types/ServerData/Catalog';
-
 import type { SortingParams } from '@/types/ServerData/Catalog';
+
+import { OrderBy, SortOrder } from '@/types/ServerData/Catalog';
 
 interface SortControlsProps {
   sort: SortingParams;

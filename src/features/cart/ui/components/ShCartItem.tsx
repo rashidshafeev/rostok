@@ -4,7 +4,6 @@ import { ExpandMore, AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
-import noImg from '@/assets/images/no-image.png';
 import {
   addToCart,
   changeQuantity,
@@ -15,6 +14,7 @@ import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGr
 import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
 import RemoveFromCartButton from '@/helpers/RemoveFormCartButton/RemoveFormCartButton';
 import SelectCartItemButton from '@/helpers/SelectCartItemButton/SelectCartItemButton';
+import noImg from '@/shared/assets/images/no-image.png';
 import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import CCheckBoxField from '@/shared/ui/inputs/CCheckBoxField';
 

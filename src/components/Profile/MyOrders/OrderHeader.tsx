@@ -2,7 +2,7 @@ import React from 'react';
 
 import CopyButton from '@/components/common/CopyButton';
 
-import type { Order } from '@/types/Orders/Order';
+import type { Order } from '@/entities/order/Orders/Order';
 
 interface OrderHeaderProps {
   order: Order;

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import search from '@/shared/assets/icons/search.svg';
-import noImg from '@assets/images/no-image.png';
 
 import { useGetSuggestionsMutation } from '@/features/cart/api/cartApi';
+import search from '@/shared/assets/icons/search.svg';
+import noImg from '@/shared/assets/images/no-image.png';
 
 function SearchBar({ setShowCatalog }) {
   const [getSuggestions, { data, error, isLoading }] =

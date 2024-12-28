@@ -1,5 +1,5 @@
+import type { Currency } from '@/entities/price/Currency';
 import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
-import type { Currency } from '@/shared/types/Currency';
 
 interface Balance {
   sum: number;

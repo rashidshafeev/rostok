@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 import React, { useState } from 'react';
 import arrow from '@/shared/assets/icons/arrow-icon.svg';
-import noImg from '@/assets/images/no-image.png';
+import noImg from '@/shared/assets/images/no-image.png';
 
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";

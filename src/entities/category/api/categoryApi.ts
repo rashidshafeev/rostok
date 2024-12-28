@@ -1,5 +1,6 @@
 // src/entities/category/api/categoryApi.ts
 import { api } from '@/shared/api/api';
+
 import type { GetCategoryTreeResponse } from './types';
 
 export const categoryApi = api.injectEndpoints({
@@ -11,6 +12,4 @@ export const categoryApi = api.injectEndpoints({
   }),
 });
 
-export const {
-  useGetCategoryTreeQuery,
-} = categoryApi;
+export const { useGetCategoryTreeQuery } = categoryApi;

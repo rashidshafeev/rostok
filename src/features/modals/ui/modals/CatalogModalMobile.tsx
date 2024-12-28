@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { NavLink, useLocation } from 'react-router-dom';
 
-import noImg from '@/assets/images/no-image.png';
 import {
   useGetBasicFiltersQuery,
   useGetCategoryTreeQuery,
 } from '@/entities/product/api/productApi';
 import arrowBack from '@/shared/assets/icons/arrow-black.svg';
+import noImg from '@/shared/assets/images/no-image.png';
 import { ArrowIcon } from '@/shared/ui/icons';
 
 const CatalogModalMobile = ({ showCatalog, setShowCatalog }) => {

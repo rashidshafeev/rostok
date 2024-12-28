@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { useGetUserDataQuery } from '@/features/auth';
 
-import type { RootState } from '@store/store';
+import type { RootState } from '@/app/providers/store';
 
 export const useQuantities = (token: string | null) => {
   const favorite = useSelector((state: RootState) => state.favorite.favorite);

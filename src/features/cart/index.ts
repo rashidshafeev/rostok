@@ -1,2 +1,3 @@
 export { Cart } from './ui/Cart';
-export type { CartProduct, LocalCartState } from './model/types';
+export * from './api/cartApi';
+export * from './model';

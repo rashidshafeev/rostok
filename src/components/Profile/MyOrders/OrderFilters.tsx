@@ -1,4 +1,4 @@
-import { useGetOrdersFiltersQuery } from '@/redux/api/orderEndpoints';
+import { useGetOrdersFiltersQuery } from '@/entities/order/api/orderEndpoints';
 import CSearchField from '@/shared/ui/inputs/CSearchField';
 import CSelectField from '@/shared/ui/inputs/CSelectField';
 

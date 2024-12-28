@@ -117,7 +117,7 @@
       "@pages/*": ["./src/pages/*"],
       "@components/*": ["./src/components/*"],
       "@context/*": ["./src/context/*"],
-      "@assets/*": ["./src/assets/*"],
+      "@/assets/*": ["./src/assets/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@store/*": ["./src/redux/*"],
       "@api/*": ["./src/redux/api/*"],

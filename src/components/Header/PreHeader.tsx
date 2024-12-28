@@ -6,7 +6,7 @@ import { useModal } from '@/features/modals/model/context';
 import CitiesModal from '@/features/modals/ui/modals/CitiesModal';
 import address from '@/shared/assets/icons/address.svg';
 import arrow from '@/shared/assets/icons/arrow-black.svg';
-import logo from '@/assets/images/logo.svg';
+import logo from '@/shared/assets/images/logo.svg';
 
 function PreHeader() {
   const [open, setOpen] = useState(false);

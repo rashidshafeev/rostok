@@ -4,8 +4,6 @@ import type {
   GetUserCartResponse,
   SendCartResponse,
   SendCartRequest,
-  GetCartItemPriceRequest,
-  GetCartItemPriceResponse,
 } from './types';
 import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 import type { ProductListRequest } from '@/shared/types/ProductListRequest';
@@ -48,17 +46,6 @@ export const cartEndpoints = api.injectEndpoints({
         { type: 'User', id: 'DATA' },
       ],
     }),
-    getCartItemPrice: builder.mutation<GetCartItemPriceResponse,GetCartItemPriceRequest>({
-      query: (data) => ({
-        url: '/api/Products/price/get',
-        method: 'POST',
-        body: data,
-      }),
-      invalidatesTags: [
-        { type: 'Cart', id: 'LIST' },
-        { type: 'User', id: 'DATA' },
-      ],
-    }),
     getCartShareCode: builder.mutation({
       query: () => ({
         url: '/api/ProductsCart/share/create',
@@ -92,7 +79,6 @@ export const {
   useGetSuggestionsMutation,
   useGetUserCartQuery,
   useRemoveFromCartMutation,
-  useGetCartItemPriceMutation,
   useGetCartShareCodeMutation,
   useGetCartShareItemsByCodeMutation,
   useAddSharedCartMutation,

@@ -1,4 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
+
+import { MenuItem, Select } from '@mui/material';
+import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+
+import FizlicoLoggedInForm from '@/components/Checkout/FizlicoLoggedInForm';
+import FizlicoNotLoggedForm from '@/components/Checkout/FizlicoNotLoggedForm';
+import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
+import PickupPointModal from '@/features/modals/ui/modals/PickupPointModal';
 import arrow from '@/shared/assets/icons/arrow-icon.svg';
 import fizlicoactive from '@/shared/assets/icons/fizlico-active.svg';
 import fizlico from '@/shared/assets/icons/fizlico-inactive.svg';
@@ -9,36 +20,36 @@ import stallicon from '@/shared/assets/icons/stall-icon.svg';
 import truckicon from '@/shared/assets/icons/truck-icon.svg';
 import boxicon from '@/shared/assets/icons/box-icon.svg';
  
-import { NavLink, useNavigate } from 'react-router-dom';
-import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
-import CustomRadioButton from './CustomRadioButton';
-import PickupPointModal from '@/features/modals/ui/modals/PickupPointModal';
-
-import { FormProvider, useForm } from 'react-hook-form';
-
+import { getTokenFromCookies } from '@/shared/lib';
 import CTextField from '@/shared/ui/inputs/CTextField';
-import {  MenuItem, Select } from '@mui/material';
-import FizlicoLoggedInForm from '@/components/Checkout/FizlicoLoggedInForm';
-import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
-import FizlicoNotLoggedForm from '@/components/Checkout/FizlicoNotLoggedForm';
+import CustomRadioButton from './CustomRadioButton';
+
+
+
 import UrlicoNotLoggedForm from '@/components/Checkout/UrlicoNotLoggedForm';
-import { useDispatch, useSelector } from 'react-redux';
 import SimpleCheckoutFrom from '@/components/Checkout/SimpleCheckoutFrom';
 import { removeFromCart } from '@/features/cart/model/cartSlice';
-import { useSendOrderMutation } from '@/redux/api/orderEndpoints';
-import { getTokenFromCookies } from '@/shared/lib';;
-import { useGetUserCartQuery, useSendCartMutation } from '@/features/cart/api/cartApi';
+import { useSendOrderMutation } from '@/entities/order/api/orderEndpoints';
+import {
+  useGetUserCartQuery,
+  useSendCartMutation,
+} from '@/features/cart/api/cartApi';
 import { useGetUserDataQuery } from '@/features/auth';
+
 import CheckoutTotals from './CheckoutTotals';
-import { RootState } from '@/app/providers/store';
+
+import type { RootState } from '@/app/providers/store';
+
 import { transformServerCartToLocalCart } from '@/features/cart/lib';
-import { CartProduct, LocalCartState  } from '@/features/cart/model/types';
+
+import type { CartProduct, LocalCartState } from '@/features/cart/model/types';
 
 function CartCheckout() {
-
   const token = getTokenFromCookies();
-  const localCart : LocalCartState = useSelector((state: RootState) => state.cart);
+  const localCart: LocalCartState = useSelector(
+    (state: RootState) => state.cart
+  );
   // Fetching cart data from the server if the user is logged in
   const {
     data: serverCart,
@@ -47,32 +58,31 @@ function CartCheckout() {
     error,
   } = useGetUserCartQuery(undefined, { skip: !token });
 
-  const cart : LocalCartState = token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
-  const selected : CartProduct[] = cart?.cart?.filter(
-    (item) => item.selected === true || item.selected.toString() === "1"
+  const cart: LocalCartState =
+    token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
+  const selected: CartProduct[] = cart?.cart?.filter(
+    (item) => item.selected === true || item.selected.toString() === '1'
   );
 
-  const { data: user } = useGetUserDataQuery()
+  const { data: user } = useGetUserDataQuery();
   const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
 
-
-
   const navigate = useNavigate();
-  const dispatch  = useDispatch();
+  const dispatch = useDispatch();
 
-  const [type, setType] = useState('fizlico')
-  const [deliveryType, setDeliveryType] = useState('pickup')
-  const [deliveryDate, setDeliveryDate] = useState('')
-  const [paymentMethod, setPaymentMethod] = useState('onDelivery')
-  const [formErrors, setFormErrors] = useState({})
+  const [type, setType] = useState('fizlico');
+  const [deliveryType, setDeliveryType] = useState('pickup');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [paymentMethod, setPaymentMethod] = useState('onDelivery');
+  const [formErrors, setFormErrors] = useState({});
 
   const [pickupPoint, setPickupPoint] = useState({
     id: 1,
     address: 'г. Москва, Волгоградский проспект, д. 120',
-    coord: [55.684758, 37.738521]
+    coord: [55.684758, 37.738521],
   });
 
-  const [pickupPointModal, setPickupPointModal] = useState(false)
+  const [pickupPointModal, setPickupPointModal] = useState(false);
 
   const handlePickupPointModalOpen = () => {
     setPickupPointModal(true);
@@ -81,7 +91,7 @@ function CartCheckout() {
     setPickupPointModal(false);
   };
 
-  const [addressModal, setAddressModal] = useState(false)
+  const [addressModal, setAddressModal] = useState(false);
 
   const handleAddressModalOpen = () => {
     setAddressModal(true);
@@ -90,13 +100,12 @@ function CartCheckout() {
     setAddressModal(false);
   };
 
-
   const handleDeliveryDateChange = (e) => {
-    setDeliveryDate(e.currentTarget.getAttribute("data-customvalue"))
-  }
+    setDeliveryDate(e.currentTarget.getAttribute('data-customvalue'));
+  };
   const handlePaymentMethodChange = (e) => {
-    setPaymentMethod(e.currentTarget.getAttribute("data-customvalue"))
-  }
+    setPaymentMethod(e.currentTarget.getAttribute('data-customvalue'));
+  };
 
   // const user = useSelector((state) => state?.user);
   // const cart = useSelector((state) => state?.cart);
@@ -104,42 +113,35 @@ function CartCheckout() {
 
   // const { organizations } = useSelector((state) => state?.organizations);
 
-
-
   const methods = useForm({
-    mode: 'onSubmit'
-  })
+    mode: 'onSubmit',
+  });
 
-  const [sendOrder, result] = useSendOrderMutation()
-
+  const [sendOrder, result] = useSendOrderMutation();
 
   const dates = [
-    { date: "19.01.2024" },
-    { date: "20.01.2024" },
-    { date: "21.01.2024" },
-    { date: "22.01.2024" },
-  ]
+    { date: '19.01.2024' },
+    { date: '20.01.2024' },
+    { date: '21.01.2024' },
+    { date: '22.01.2024' },
+  ];
 
   const [miniLoading, setMiniLoading] = useState(false);
   const [openSnack, setOpenSnack] = useState(false);
   const [openSnack2, setOpenSnack2] = useState(false);
   const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
 
-
- 
-
   const onOrderSubmit = (data) => {
-    console.log(data)
+    console.log(data);
 
-    const items = []
+    const items = [];
 
     selected.map((item) => {
       items.push({
         id: item.id,
-        quantity: item.quantity
-      })
-    })
-
+        quantity: item.quantity,
+      });
+    });
 
     const order = {
       // type,
@@ -149,20 +151,17 @@ function CartCheckout() {
       // deliveryDate,
       // paymentMethod,
       order: items,
-    }
-    sendOrder(order)
-    
-    
-    removeSelected()
+    };
+    sendOrder(order);
+
+    removeSelected();
 
     if (user) {
-    navigate('/profile/orders');
+      navigate('/profile/orders');
     }
-    
-  } 
+  };
 
   const removeSelected = () => {
-    
     // const payload = selected.map((item) => ({
     //   id: item.id,
     //   quantity: 0,
@@ -171,18 +170,14 @@ function CartCheckout() {
 
     // if (token) {
     //   sendCart({ items: payload})
-    // } 
-   selected.forEach((item) => dispatch(removeFromCart(item)));
-  }
+    // }
+    selected.forEach((item) => dispatch(removeFromCart(item)));
+  };
 
   const onError = (errors, e) => {
     setFormErrors(errors);
     console.log(errors);
-  }
-
-
- 
-
+  };
 
   const [addressList, setAddressList] = useState([
     'ул Пушкина дом Колотушкина',
@@ -202,29 +197,26 @@ function CartCheckout() {
   };
 
   return (
-    <div className='content pb-6 lining-nums proportional-nums overflow-auto'>
-      <FormProvider { ...methods}>
-            <form  onSubmit={methods.handleSubmit(onOrderSubmit)}>
-
-
-      <NavLink to='/shopping-cart'>
-        <div className='flex mb-[10px]'>
-          <img src={arrow} alt="" />
-          <div className='font-semibold'>Вернуться к корзине</div>
-        </div>
-      </NavLink>
-      <div className=' font-semibold text-[40px]'>Оформление заказа</div>
-      <div className='flex flex-wrap  py-5'>
-        <div className='lg:basis-[70%] basis-full'>
-
-          <div className='flex flex-col gap-5'>
-            <div className='font-semibold text-2xl my-5'>
-              Укажите данные контактного лицо
+    <div className="content pb-6 lining-nums proportional-nums overflow-auto">
+      <FormProvider {...methods}>
+        <form onSubmit={methods.handleSubmit(onOrderSubmit)}>
+          <NavLink to="/shopping-cart">
+            <div className="flex mb-[10px]">
+              <img src={arrow} alt="" />
+              <div className="font-semibold">Вернуться к корзине</div>
             </div>
-            {/* <div className='font-semibold text-2xl my-5'>
+          </NavLink>
+          <div className=" font-semibold text-[40px]">Оформление заказа</div>
+          <div className="flex flex-wrap  py-5">
+            <div className="lg:basis-[70%] basis-full">
+              <div className="flex flex-col gap-5">
+                <div className="font-semibold text-2xl my-5">
+                  Укажите данные контактного лицо
+                </div>
+                {/* <div className='font-semibold text-2xl my-5'>
               1. Укажите данные получателя
             </div> */}
-            {/* <div className='flex flex-wrap gap-2'>
+                {/* <div className='flex flex-wrap gap-2'>
               <button onClick={() => setType('fizlico')} className={`p-3 border ${type === 'fizlico' ? 'bg-colGreen text-white' : 'bg-colWhite text-colGreen'} md:basis-auto sm:basis-[calc(50%-8px/2)] basis-full rounded font-semibold  flex gap-1 items-center`}>
                 <img src={type === 'fizlico' ? fizlicoactive : fizlico} width={20} height={20} alt="" srcset="" />
                 Покупаю как физлицо
@@ -234,7 +226,7 @@ function CartCheckout() {
                 Покупаю как юрлицо
               </button>
             </div> */}
-              {/* <div className='flex flex-col gap-3'>
+                {/* <div className='flex flex-col gap-3'>
 
                   {(user?.user && type === 'fizlico') &&
 
@@ -259,26 +251,44 @@ function CartCheckout() {
 
 
               </div> */}
-            <SimpleCheckoutFrom
-            user={user}/>
-          </div>
+                <SimpleCheckoutFrom user={user} />
+              </div>
 
-          <div className='flex flex-col gap-5'>
-            <div className='font-semibold text-2xl my-5'>
-              Оплата и доставка
-            </div>
-            <div className=' mb-4'>Оплата наличными при получении товара возможна в филиалах компании «РОСТОК»</div>
+              <div className="flex flex-col gap-5">
+                <div className="font-semibold text-2xl my-5">
+                  Оплата и доставка
+                </div>
+                <div className=" mb-4">
+                  Оплата наличными при получении товара возможна в филиалах
+                  компании «РОСТОК»
+                </div>
 
-            <div className=' mb-4'>
-                        <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> Доставка заказа до магазина и пункта самовывоза бесплатная</div>
-                        <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> Если товары в заказе суммарно весят больше 70 кг или в нем содержится больше 30 позиций товаров, получить такой заказ можно самовывозом со склада, доставкой курьером или транспортной компанией</div>
-                        <div className='flex gap-2 items-start mb-1'><div className='min-w-2 min-h-2 rounded-full bg-colGreen mt-2'></div> Цены в розничных магазинах могут отличаться от цен на нашем сайте. Для уточнения цены товара в вашем городе нужно обратиться к менеджеру</div>
+                <div className=" mb-4">
+                  <div className="flex gap-2 items-start mb-1">
+                    <div className="min-w-2 min-h-2 rounded-full bg-colGreen mt-2"></div>{' '}
+                    Доставка заказа до магазина и пункта самовывоза бесплатная
+                  </div>
+                  <div className="flex gap-2 items-start mb-1">
+                    <div className="min-w-2 min-h-2 rounded-full bg-colGreen mt-2"></div>{' '}
+                    Если товары в заказе суммарно весят больше 70 кг или в нем
+                    содержится больше 30 позиций товаров, получить такой заказ
+                    можно самовывозом со склада, доставкой курьером или
+                    транспортной компанией
+                  </div>
+                  <div className="flex gap-2 items-start mb-1">
+                    <div className="min-w-2 min-h-2 rounded-full bg-colGreen mt-2"></div>{' '}
+                    Цены в розничных магазинах могут отличаться от цен на нашем
+                    сайте. Для уточнения цены товара в вашем городе нужно
+                    обратиться к менеджеру
+                  </div>
+                </div>
+                <div className=" mb-4">
+                  Уточните заранее наличие товара в нужном филиале и
+                  предварительно его зарезервируйте.
+                </div>
+              </div>
 
-                    </div>
-                    <div className=' mb-4'>Уточните заранее наличие товара в нужном филиале и предварительно его зарезервируйте.</div>
-          </div>
-
-          {/* <div className='flex flex-col gap-5 w-full'>
+              {/* <div className='flex flex-col gap-5 w-full'>
             <div className='font-semibold text-2xl my-5 mt-12'>
               2. Где и как вы хотите получить заказ
             </div>
@@ -409,7 +419,7 @@ function CartCheckout() {
 
           </div> */}
 
-          {/* <div className='flex flex-col gap-5'>
+              {/* <div className='flex flex-col gap-5'>
             <div className='font-semibold text-2xl my-5 mt-12 '>
               3. Когда вам будет удобно забрать заказ?
             </div>
@@ -426,7 +436,7 @@ function CartCheckout() {
 
           </div> */}
 
-          {/* <div className='flex flex-col gap-5 mb-12'>
+              {/* <div className='flex flex-col gap-5 mb-12'>
             <div className='font-semibold text-2xl my-5 mt-12 '>
               4. Как вам будет удобнее оплатить заказ?
             </div>
@@ -447,29 +457,20 @@ function CartCheckout() {
 
 
           </div> */}
-
-
-        </div>
-        <div className='lg:basis-[30%] basis-full'>
-            
-
-
-            <CheckoutTotals 
-              cart={cart} 
-              selected={selected}
-              onSubmit={methods.handleSubmit(onOrderSubmit)}
-              isLoading={isLoading}
-            />
-    
-        </div>
-
-      </div>
-
-
-      </form>
+            </div>
+            <div className="lg:basis-[30%] basis-full">
+              <CheckoutTotals
+                cart={cart}
+                selected={selected}
+                onSubmit={methods.handleSubmit(onOrderSubmit)}
+                isLoading={isLoading}
+              />
+            </div>
+          </div>
+        </form>
       </FormProvider>
     </div>
-  )
+  );
 }
 
-export default CartCheckout
+export default CartCheckout;

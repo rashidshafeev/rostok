@@ -1,16 +1,16 @@
 import { useEffect } from 'react';
 
-import { setCart } from '@/features/cart/model/cartSlice';
 import { useDispatch } from 'react-redux';
 
 import { useGetRecentItemsQuery } from '@/features/auth';
+import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
+import { setCart } from '@/features/cart/model/cartSlice';
 import { useGetComparisonQuery } from '@/redux/api/comparisonEndpoints';
 import { useGetFavoritesQuery } from '@/redux/api/favoritesEndpoints';
-import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
-import { getTokenFromCookies } from '@/shared/lib';
 import { setComparison } from '@/redux/slices/comparisonSlice';
 import { setFavorite } from '@/redux/slices/favoriteSlice';
-import { setRecentItems } from '@/redux/slices/recentItemsSlice';
+import { setRecentItems } from '@/features/recent-items/model/recentItemsSlice';
+import { getTokenFromCookies } from '@/shared/lib';
 
 import type { AppDispatch } from '@/app/providers/store';
 

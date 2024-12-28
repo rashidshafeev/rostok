@@ -5,15 +5,14 @@ import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { changeQuantity, removeFromCart } from '@store/slices/cartSlice';
 import { useDispatch } from 'react-redux';
 
-import { getTokenFromCookies } from '@/shared/lib';
-
-import type { CartProduct } from '@/features/cart/model/types';
-import type { AppDispatch } from '@/app/providers/store';
-
 import {
   useGetCartItemPriceMutation,
   useSendCartMutation,
 } from '@/features/cart/api/cartApi';
+import { getTokenFromCookies } from '@/shared/lib';
+
+import type { AppDispatch } from '@/app/providers/store';
+import type { CartProduct } from '@/features/cart/model/types';
 
 type ChangeQuantityGroupProps = {
   product: CartProduct;

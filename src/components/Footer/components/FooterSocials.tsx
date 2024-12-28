@@ -1,6 +1,6 @@
-import telegram from '@assets/images/telegram.svg';
-import vk from '@assets/images/vk.svg';
-import whatsapp from '@assets/images/whatsapp.svg';
+import telegram from '@/shared/assets/images/telegram.svg';
+import vk from '@/shared/assets/images/vk.svg';
+import whatsapp from '@/shared/assets/images/whatsapp.svg';
 
 const FooterSocials = () => {
   return (

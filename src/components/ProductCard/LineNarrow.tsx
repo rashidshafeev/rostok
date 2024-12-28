@@ -11,7 +11,7 @@ import { LoadingSmall } from '@/shared/ui/Loader';
 
 import PriceDisplay from './PriceDisplay';
 
-import noImg from '@/assets/images/no-image.png';
+import noImg from '@/shared/assets/images/no-image.png';
 
 import ProductAttributesDisplay from './ProductAttributesDisplay';
 import { RootState } from '@/redux/store';

@@ -1,5 +1,14 @@
+import type { Currency } from '@/entities/price';
 import type { Product } from '@/entities/product';
-import type { Currency } from '@/shared/types/Currency';
+
+
+export interface ServerCartState {
+  data: CartProduct[];
+  total: CartTotals;
+  selected: CartTotals;
+  current_currency: Currency;
+}
+
 
 export interface LocalCartState {
   cart: CartProduct[];
@@ -22,3 +31,4 @@ export interface CartTotals {
 }
 
 export type CartModalType = 'showSharedCart' | 'shareCart';
+

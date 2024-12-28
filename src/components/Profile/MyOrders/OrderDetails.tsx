@@ -10,9 +10,9 @@ import {
   useCancelOrderMutation,
   useRepeatOrderMutation,
   useCreatePDFOrderMutation,
-} from '@/redux/api/orderEndpoints';
+} from '@/entities/order/api/orderEndpoints';
 
-import type { Order } from '@/types/Orders/Order';
+import type { Order } from '@/entities/order/Orders/Order';
 
 interface OrderDetailsProps {
   order: Order;

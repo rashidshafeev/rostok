@@ -4,6 +4,7 @@ import type React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 import { transformServerCartToLocalCart } from '@/features/cart/lib';
 import { getTokenFromCookies } from '@/shared/lib';
 import { LoadingSmall } from '@/shared/ui/Loader';
@@ -13,11 +14,9 @@ import ChangeQuantityGroup from '@helpers/ChangeQuantityButton/ChangeQuantityGro
 import PreviewGallery from './PreviewGallery';
 import PriceDisplay from './PriceDisplay';
 
-import type { Product } from '@/entities/product/Product';
 import type { RootState } from '@/app/providers/store';
+import type { Product } from '@/entities/product/Product';
 import type { LocalCartState } from '@/types/Store/Cart/CartState';
-
-import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 
 type ProductCardProps = {
   product: Product;

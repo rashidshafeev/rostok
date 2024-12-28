@@ -11,6 +11,7 @@ import { toast } from 'sonner';
 
 import { useUserRegisterMutation } from '@/features/auth';
 import { setToken } from '@/features/auth/model/userSlice';
+import { useSendCartMutation } from '@/features/cart/api/cartApi';
 import { setCart } from '@/features/cart/model/cartSlice';
 import PhoneVerificationField from '@/helpers/PhoneVerificationField/PhoneVerificationField';
 import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
@@ -19,8 +20,6 @@ import { setComparison } from '@/redux/slices/comparisonSlice';
 import { setFavorite } from '@/redux/slices/favoriteSlice';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import { LoadingSmall } from '@/shared/ui/Loader';
-
-import { useSendCartMutation } from '@/features/cart/api/cartApi';
 
 export const Register = ({ hideModal, login: enteredLogin }) => {
   const methods = useForm({ mode: 'onSubmit' });

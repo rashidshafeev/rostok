@@ -4,7 +4,6 @@ import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
-import noImg from '@/assets/images/no-image.png';
 import PriceDisplay from '@/components/ProductCard/PriceDisplay';
 import {
   addToCart,
@@ -16,6 +15,7 @@ import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGr
 import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
 import RemoveFromCartButton from '@/helpers/RemoveFormCartButton/RemoveFormCartButton';
 import SelectCartItemButton from '@/helpers/SelectCartItemButton/SelectCartItemButton';
+import noImg from '@/shared/assets/images/no-image.png';
 import { FavoriteIcon, DeleteIcon } from '@/shared/ui/icons';
 import CCheckBoxField from '@/shared/ui/inputs/CCheckBoxField';
 // import { toggleFavorite } from '@store/slices/favoriteSlice';

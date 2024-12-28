@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Box, Modal } from '@mui/material';
 
 import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
-import { useGetCitiesAndRegionsQuery } from '@/redux/api/orderEndpoints';
+import { useGetCitiesAndRegionsQuery } from '@/entities/order/api/orderEndpoints';
 import search from '@/shared/assets/icons/search.svg';
 import { Loading } from '@/shared/ui/Loader';
 

@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 
 import { useAuthWithEmailMutation } from '@/features/auth/api/authenticationEndpoints';
 import { setToken } from '@/features/auth/model/userSlice';
+import { useSendCartMutation } from '@/features/cart/api/cartApi';
 import { setCart } from '@/features/cart/model/cartSlice';
 import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
 import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
@@ -17,8 +18,6 @@ import { setComparison } from '@/redux/slices/comparisonSlice';
 import { setFavorite } from '@/redux/slices/favoriteSlice';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import { LoadingSmall } from '@/shared/ui/Loader';
-
-import { useSendCartMutation } from '@/features/cart/api/cartApi';
 
 export const AuthWithEmail = ({
   hideModal,

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 // import './PreviewGallery.css';
-import noImg from '@/assets/images/no-image.png';
 import ComparisonButton from '@/helpers/ComparisonButton/ComparisonButton';
 import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
+import noImg from '@/shared/assets/images/no-image.png';
 import { ComparisonIcon, FavoriteIcon } from '@/shared/ui/icons';
 
 import type { Product } from '@/entities/product/Product';

@@ -1,7 +1,7 @@
 import type React from 'react';
 
-import noImg from '@/assets/images/no-image.png';
 import categoryIcon from '@/shared/assets/icons/category.svg';
+import noImg from '@/shared/assets/images/no-image.png';
 
 import type { ProductListCategoryChain } from '@/entities/category';
 

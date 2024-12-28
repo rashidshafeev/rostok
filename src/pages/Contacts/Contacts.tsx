@@ -5,11 +5,11 @@ import { NavLink } from 'react-router-dom';
 import { BranchCard } from '@/components/Contacts/BranchCard';
 import { RequisitesTable } from '@/components/Contacts/RequisitesTable';
 import { useGetContactsQuery } from '@/redux/api/contentEndpoints';
+import telegram from '@/shared/assets/images/telegram.svg';
+import vk from '@/shared/assets/images/vk.svg';
+import whatsapp from '@/shared/assets/images/whatsapp.svg';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
-import telegram from '@assets/images/telegram.svg';
-import vk from '@assets/images/vk.svg';
-import whatsapp from '@assets/images/whatsapp.svg';
 import QuestionForm from '@helpers/QuestionForm';
 
 function Contacts() {

@@ -6,6 +6,7 @@ import { addToCart, changeQuantity } from '@store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 import { transformServerCartToLocalCart } from '@/features/cart/lib';
 import { useModal } from '@/features/modals/model/context';
 import FastOrderModal from '@/features/modals/ui/modals/FastOrderModal';
@@ -22,11 +23,9 @@ import PriceDisplay from '../ProductCard/PriceDisplay';
 
 import { DeliveryInfo } from './DeliveryInfo';
 
-import type { Product } from '@/entities/product/Product';
 import type { RootState } from '@/app/providers/store';
+import type { Product } from '@/entities/product/Product';
 import type { LocalCartState } from '@/types/Store/Cart/CartState';
-
-import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 
 type RightBarProps = {
   product: Product;

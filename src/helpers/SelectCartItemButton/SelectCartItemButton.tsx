@@ -5,16 +5,15 @@ import type React from 'react';
 import { selectItem, unselectItem } from '@store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
+import {
+  useGetUserCartQuery,
+  useSendCartMutation,
+} from '@/features/cart/api/cartApi';
 import { transformServerCartToLocalCart } from '@/features/cart/lib';
 import { getTokenFromCookies } from '@/shared/lib';
 
 import type { AppDispatch, RootState } from '@/app/providers/store';
 import type { CartProduct, LocalCartState } from '@/features/cart/model/types';
-
-import {
-  useGetUserCartQuery,
-  useSendCartMutation,
-} from '@/features/cart/api/cartApi';
 
 interface SelectCartItemButtonProps {
   product: CartProduct;

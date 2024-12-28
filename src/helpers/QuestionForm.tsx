@@ -4,7 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import { useSendFeedbackMutation } from '@/redux/api/orderEndpoints';
+import { useSendFeedbackMutation } from '@/entities/order/api/orderEndpoints';
 import CPhoneField from '@/shared/ui/inputs/CPhoneField';
 import CTextField from '@/shared/ui/inputs/CTextField';
 

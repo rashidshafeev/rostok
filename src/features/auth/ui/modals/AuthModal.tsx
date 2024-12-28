@@ -5,7 +5,7 @@ import { KeyboardArrowLeft } from '@mui/icons-material';
 import { Modal, Box } from '@mui/material';
  
 import { useModal } from '@/features/modals/model/context';
-import modalLogo from '@assets/images/modal-logo.svg';
+import modalLogo from '@/shared/assets/images/modal-logo.svg';
 
 import { AuthWithEmail } from "./AuthWithEmail";
 import { CheckAuth } from "./CheckAuth";

@@ -5,6 +5,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
+import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 import { addToCart, changeQuantity } from '@/features/cart/model/cartSlice';
 import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
 import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
@@ -13,8 +14,6 @@ import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
 import { getTokenFromCookies } from '@/shared/lib';
 import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { LoadingSmall } from '@/shared/ui/Loader';
-
-import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 
 function ComparisonProductCard({ product, index, moveProduct }) {
   const token = getTokenFromCookies();

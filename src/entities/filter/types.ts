@@ -1,10 +1,10 @@
-export interface SelectableItem {
-    is_active: boolean;
-    is_selected: boolean;
-  }
-  
 import type { BaseFilterParams } from '../ServerData/Catalog';
+import type { ImageSet } from '@/shared/types/ImageSet';
 
+export interface SelectableItem {
+  is_active: boolean;
+  is_selected: boolean;
+}
 
 interface DynamicFilterValue extends SelectableItem {
   id: number;
@@ -25,8 +25,6 @@ export interface DynamicFilter {
   type: FilterType;
   values: DynamicFilterValue[];
 }
-
-import type { ImageSet } from '@/shared/types/ImageSet';
 
 export interface PriceFilter {
   min: number;
@@ -50,18 +48,14 @@ export interface BrandFilter extends SelectableItem {
   code: string;
 }
 
-
 export interface FiltersState {
-    page(arg0: BaseFilterParams, page: any): unknown;
-    basics: {
-      price: PriceFilter | false;
-      tags: TagFilter[];
-      brands: BrandFilter[];
-      rating: number[];
-    };
-    dynamics: DynamicFilter[];
-    more: DynamicFilter[];
-  }
-  
-
- 
+  page(arg0: BaseFilterParams, page: any): unknown;
+  basics: {
+    price: PriceFilter | false;
+    tags: TagFilter[];
+    brands: BrandFilter[];
+    rating: number[];
+  };
+  dynamics: DynamicFilter[];
+  more: DynamicFilter[];
+}

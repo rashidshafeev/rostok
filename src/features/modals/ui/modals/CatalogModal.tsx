@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import noImg from '@/assets/images/no-image.png';
 import {
   useGetBasicFiltersQuery,
   useGetCategoryTreeQuery,
 } from '@/entities/product/api/productApi';
+import noImg from '@/shared/assets/images/no-image.png';
 import { ArrowIcon } from '@/shared/ui/icons';
 
 const CatalogModal = ({ showCatalog, setShowCatalog }) => {

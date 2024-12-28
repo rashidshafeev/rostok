@@ -1,7 +1,7 @@
 // src/components/Catalog/MobileCategoryCard.tsx
 import { NavLink } from 'react-router-dom';
 
-import noImg from '@assets/images/no-image.png';
+import noImg from '@/shared/assets/images/no-image.png';
 
 import type { CategoryBase } from '@/entities/category';
 

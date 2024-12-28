@@ -11,7 +11,7 @@ import { OrderDetails } from './OrderDetails';
 import { OrderHeader } from './OrderHeader';
 import { OrderOptions } from './OrderOptions';
 
-import type { Order } from '@/types/Orders/Order';
+import type { Order } from '@/entities/order/Orders/Order';
 
 interface OrderItemProps {
   order: Order;

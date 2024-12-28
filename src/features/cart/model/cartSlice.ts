@@ -3,9 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 import { saveToSessionStorage } from '@/features/storage/lib';
 import { getTokenFromCookies } from '@/shared/lib';
 
-import type { Product } from '@/entities/product/Product';
+import type { LocalCartState } from './types';
+import type { Product } from '@/entities/product';
 import type { PriceType } from '@/shared/types';
-import type { LocalCartState } from '@/types/Store/Cart/CartState';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: LocalCartState = {

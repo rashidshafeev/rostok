@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 
-import noImg from '@assets/images/no-image.png';
+import noImg from '@/shared/assets/images/no-image.png';
 
 function CatalogCard({ category }) {
   return (

@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 import CatalogModal from '@/features/modals/ui/modals/CatalogModal';
 import CatalogModalMobile from '@/features/modals/ui/modals/CatalogModalMobile';
 import useInitialDataFetch from '@/hooks/useInitialDataFetch';
-import logo from '@assets/images/logo.svg';
+import logo from '@/shared/assets/images/logo.svg';
 
 import CatalogFastAccess from './CatalogFastAccess';
 import HeaderControls from './HeaderControls';

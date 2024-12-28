@@ -1,5 +1,5 @@
-import { CategoryWithImage, CategoryFull  } from "@/entities/category";
-import { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+import type { CategoryWithImage, CategoryFull } from '@/entities/category';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 export interface GetCategoryTreeResponse extends AdditionalServerResponseData {
   category: CategoryWithImage;

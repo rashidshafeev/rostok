@@ -19,14 +19,13 @@ import { toast } from 'sonner';
 import CopyButton from '@/components/common/CopyButton';
 import CardLine from '@/components/ProductCard/CardLine';
 import LineNarrow from '@/components/ProductCard/LineNarrow';
-import { useModal } from '@/features/modals/model/context';
-import CTextField from '@/shared/ui/inputs/CTextField';
-
 import {
   useGetCartShareCodeMutation,
   //  useGetCartShareCodeQuery,
   useGetCartShareItemsByCodeMutation,
 } from '@/features/cart/api/cartApi';
+import { useModal } from '@/features/modals/model/context';
+import CTextField from '@/shared/ui/inputs/CTextField';
 
 const ShareCartModal: React.FC = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();

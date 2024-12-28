@@ -6,15 +6,15 @@ export interface ProductListCategoryChain {
 }
 
 export interface CategoryBase {
-    id: number;
-    name: string;
-    slug: string;
-  }
+  id: number;
+  name: string;
+  slug: string;
+}
 
-export  interface CategoryWithImage extends CategoryBase {
-    image: ImageSet | false;
-  }
-  
+export interface CategoryWithImage extends CategoryBase {
+  image: ImageSet | false;
+}
+
 export interface CategoryFull extends CategoryBase {
   image: ImageSet | false;
   product_count: number;

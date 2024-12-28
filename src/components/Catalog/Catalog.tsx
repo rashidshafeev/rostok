@@ -5,12 +5,12 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Advantages from '@/components/Home/Advantages';
 import Brands from '@/components/Home/Brands';
 import Promotions from '@/components/Home/Promotions';
-import AllFiltersModal from '@/features/modals/ui/modals/AllFiltersModal/AllFiltersModal';
 import {
   useGetCategoryTreeQuery,
   useGetFiltersMutation,
   useGetVariantsMutation,
 } from '@/entities/product/api/productApi';
+import AllFiltersModal from '@/features/modals/ui/modals/AllFiltersModal/AllFiltersModal';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/Breadcrumbs';
 

@@ -4,18 +4,13 @@ import { useEffect, useRef, useState } from 'react';
 import AllFiltersModal from '@helpers/CModal/AllFiltersModal/AllFiltersModal';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import { CatalogQueryParamsUtil } from '@/features/filters/lib';
 import {
   useGetCategoryTreeQuery,
   useGetFiltersMutation,
   useGetVariantsMutation,
 } from '@/entities/product/api/productApi';
+import { CatalogQueryParamsUtil } from '@/features/filters/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import {
-  OrderBy,
-  SortOrder,
-  PaginationParams,
-} from '@/types/ServerData/Catalog';
 import { Breadcrumbs } from '@/widgets/Breadcrumbs';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
@@ -25,13 +20,19 @@ import CatalogCategoryName from './CatalogCategoryName';
 import CatalogContent from './CatalogContent/CatalogContent';
 import CatalogSidebar from './CatalogSidebar/CatalogSidebar';
 
-import type { Product } from '@/entities/product/Product';
 import type { FiltersState } from '@/entities/filter/Filters/FiltersState';
+import type { Product } from '@/entities/product/Product';
 import type {
   GetVariantsRequest,
   GetFiltersRequest,
   SortingParams,
   BaseFilterParams,
+} from '@/types/ServerData/Catalog';
+
+import {
+  OrderBy,
+  SortOrder,
+  PaginationParams,
 } from '@/types/ServerData/Catalog';
 
 const CatProducts = () => {
