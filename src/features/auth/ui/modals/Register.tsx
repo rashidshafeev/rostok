@@ -13,11 +13,11 @@ import { useUserRegisterMutation } from '@/features/auth';
 import { setToken } from '@/features/auth/model/userSlice';
 import { useSendCartMutation } from '@/features/cart/api/cartApi';
 import { setCart } from '@/features/cart/model/cartSlice';
+import { useSendComparisonMutation } from '@/features/comparison/api/comparisonApi';
+import { setComparison } from '@/features/comparison/model/comparisonSlice';
+import { useSendFavoritesMutation } from '@/features/favorite/api/favoritesEndpoints';
+import { setFavorite } from '@/features/favorite/model/favoriteSlice';
 import PhoneVerificationField from '@/helpers/PhoneVerificationField/PhoneVerificationField';
-import { useSendComparisonMutation } from '@/redux/api/comparisonEndpoints';
-import { useSendFavoritesMutation } from '@/redux/api/favoritesEndpoints';
-import { setComparison } from '@/redux/slices/comparisonSlice';
-import { setFavorite } from '@/redux/slices/favoriteSlice';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import { LoadingSmall } from '@/shared/ui/Loader';
 

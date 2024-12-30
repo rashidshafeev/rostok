@@ -6,7 +6,7 @@ import { useGetSuggestionsMutation } from '@/features/cart/api/cartApi';
 import search from '@/shared/assets/icons/search.svg';
 import noImg from '@/shared/assets/images/no-image.png';
 
-function SearchBar({ setShowCatalog }) {
+const SearchBar = ({ setShowCatalog }) => {
   const [getSuggestions, { data, error, isLoading }] =
     useGetSuggestionsMutation();
 
@@ -186,6 +186,6 @@ function SearchBar({ setShowCatalog }) {
       </div>
     </div>
   );
-}
+};
 
 export default SearchBar;

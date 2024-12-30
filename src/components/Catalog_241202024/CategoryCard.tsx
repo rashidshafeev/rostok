@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom';
 
 import noImg from '../../assets/images/no-image.png';
 
-function CatalogCard({ category }) {
+const CatalogCard = ({ category }) => {
   return (
     <NavLink
       to={`/catalog/${category?.slug}`}
@@ -41,6 +41,6 @@ function CatalogCard({ category }) {
       </div>
     </NavLink>
   );
-}
+};
 
 export default CatalogCard;

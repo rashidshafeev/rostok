@@ -6,7 +6,7 @@ import ProfileSidebar from '@/components/Profile/ProfileSidebar';
 import { useModal } from '@/features/modals/model/context';
 import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 const Profile = () => {
   const { showModal } = useModal();

@@ -1,3 +1,5 @@
+import { NavLink } from 'react-router-dom';
+
 interface BreadcrumbsItemProps {
   name: string;
   slug: string;
@@ -5,7 +7,12 @@ interface BreadcrumbsItemProps {
   isLast: boolean;
 }
 
-export const BreadcrumbsItem = ({ name, slug, isActive, isLast }: BreadcrumbsItemProps) => (
+export const BreadcrumbsItem = ({
+  name,
+  slug,
+  isActive,
+  isLast,
+}: BreadcrumbsItemProps) => (
   <>
     <NavLink
       to={slug}
@@ -16,8 +23,8 @@ export const BreadcrumbsItem = ({ name, slug, isActive, isLast }: BreadcrumbsIte
     >
       {name}
     </NavLink>
-    {!isLast && (
+    {!isLast ? (
       <span className="min-w-[5px] w-[5px] h-[5px] mr-3 mt-2 rounded-full bg-colGreen" />
-    )}
+    ) : null}
   </>
 );

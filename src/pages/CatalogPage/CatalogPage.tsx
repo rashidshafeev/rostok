@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 import Catalog from '@components/Catalog/Catalog';
 import CatalogMainContent from '@components/Catalog/CatalogMainContent';
 import CatalogMainSidebar from '@components/Catalog/CatalogMainSidebar';

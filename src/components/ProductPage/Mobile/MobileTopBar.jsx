@@ -4,8 +4,8 @@ import comparisoniconactive from "@/shared/assets/icons/comparison-card-active.s
 import comparisonicon from "@/shared/assets/icons/comparison-card-inactive.svg";
 import share from "@/shared/assets/icons/share-gray.svg";
 import { useModal } from '@/features/modals/model/context';
-import ComparisonButton from "@helpers/ComparisonButton/ComparisonButton";
-import FavoriteButton from "@helpers/FavoriteButton/FavoriteButton";
+import ComparisonButton from "@/features/comparison/ui/controls/ComparisonButton";
+import FavoriteButton from "@/features/favorite/ui/controls/FavoriteButton";
 
 function MobileTopBar({ product }) {
   const { showModal } = useModal();

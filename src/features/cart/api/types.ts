@@ -1,18 +1,15 @@
+import type { ServerCartState } from '../';
 import type { AdditionalServerResponseData, PriceType } from '@/shared/types';
-import { ServerCartState } from '../model/types';
 
 export interface GetUserCartResponse
   extends AdditionalServerResponseData,
-    ServerCartState {
-      
-    }
+    ServerCartState {}
 
 export interface SendCartPayload {
   id: number;
   quantity: number;
   selected: boolean;
 }
-
 
 export type SendCartRequest = SendCartPayload | { items: SendCartPayload[] };
 

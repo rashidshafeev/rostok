@@ -14,7 +14,7 @@ import { useDebounce } from 'react-use';
 import { ArrowIcon } from '@/shared/ui/icons';
 import CTextField from '@/shared/ui/inputs/CTextField';
 
-function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
+const PriceFilter = ({ filters, setFilters, trigger, setTrigger }) => {
   const previousValues = useRef({});
 
   const [priceFilter, setPriceFilter] = useState([
@@ -250,6 +250,6 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger }) {
       </AccordionDetails>
     </Accordion>
   );
-}
+};
 
 export default PriceFilter;

@@ -8,7 +8,7 @@ import address from '@/shared/assets/icons/address.svg';
 import arrow from '@/shared/assets/icons/arrow-black.svg';
 import logo from '@/shared/assets/images/logo.svg';
 
-function PreHeader() {
+const PreHeader = () => {
   const [open, setOpen] = useState(false);
   const [city, setCity] = useState(null);
 
@@ -98,6 +98,6 @@ function PreHeader() {
       />
     </div>
   );
-}
+};
 
 export default PreHeader;

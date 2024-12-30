@@ -3,7 +3,7 @@ import { Box, Modal } from '@mui/material';
 import { useModal } from '@/features/modals/model/context';
 import QuestionForm from '@/helpers/QuestionForm';
 
-function QuestionModal() {
+const QuestionModal = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
 
   return (
@@ -29,6 +29,6 @@ function QuestionModal() {
       </Box>
     </Modal>
   );
-}
+};
 
 export default QuestionModal;

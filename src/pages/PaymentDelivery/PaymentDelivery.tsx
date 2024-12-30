@@ -6,7 +6,7 @@ import stallicon from '@/shared/assets/icons/stall-icon.svg';
 import truckicon from '@/shared/assets/icons/truck-icon.svg';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 
-function PaymentDelivery() {
+const PaymentDelivery = () => {
   const [delivery, setDelivery] = useState('pickup');
   const [payment, setPayment] = useState('cash');
 
@@ -323,6 +323,6 @@ function PaymentDelivery() {
       </div>
     </div>
   );
-}
+};
 
 export default PaymentDelivery;

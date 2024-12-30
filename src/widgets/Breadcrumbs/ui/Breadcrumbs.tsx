@@ -1,9 +1,12 @@
 import { useLocation, useParams } from 'react-router-dom';
-import { useGetCategoryTreeQuery } from 'entities/category';
+
+import { useGetCategoryTreeQuery } from '@/entities/category';
+
+import { ROUTE_NAMES } from '../lib/constants';
 import { mapCategoryChainToBreadcrumbs } from '../lib/mappers/category';
-import { BreadcrumbsSkeleton } from './BreadcrumbsSkeleton';
+
 import { BreadcrumbsItem } from './BreadcrumbsItem';
-import { ROUTE_NAMES } from '../config/routes';
+import { BreadcrumbsSkeleton } from './BreadcrumbsSkeleton';
 
 interface BreadcrumbsProps {
   className?: string;

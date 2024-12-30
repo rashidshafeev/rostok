@@ -5,11 +5,11 @@ import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
+import { useSubmitReviewMutation } from '@/entities/review/api/reviewEndpoints';
 import RatingStars from '@/helpers/RatingStars';
-import { useSubmitReviewMutation } from '@/redux/api/reviewEndpoints';
 import CTextField from '@/shared/ui/inputs/CTextField';
 
-function ReviewModal({ product, open, handleClose }) {
+const ReviewModal = ({ product, open, handleClose }) => {
   const [rating, setRating] = useState(5);
 
   const { user } = useSelector((state) => state.user);
@@ -244,6 +244,6 @@ function ReviewModal({ product, open, handleClose }) {
       </Box>
     </Modal>
   );
-}
+};
 
 export default ReviewModal;

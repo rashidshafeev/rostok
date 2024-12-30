@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useIntersection } from 'react-use';
 
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import ProductAttributesList from './Attributes/ProductAttributesList';
 import CharacteristicsList from './CharacteristicsList';

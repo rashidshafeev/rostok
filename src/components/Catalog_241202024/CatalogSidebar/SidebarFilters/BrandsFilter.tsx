@@ -9,7 +9,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 
-function BrandsFilter({ filters, setFilters }) {
+const BrandsFilter = ({ filters, setFilters }) => {
   const handleCheckboxChange = (brandId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
 
@@ -75,6 +75,6 @@ function BrandsFilter({ filters, setFilters }) {
       </AccordionDetails>
     </Accordion>
   );
-}
+};
 
 export default BrandsFilter;

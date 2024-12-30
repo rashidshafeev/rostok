@@ -4,7 +4,7 @@ import { useLoaderData, useParams } from 'react-router-dom';
 import { useIntersection, useWindowSize } from 'react-use';
 
 import { useGetProductQuery } from '@/entities/product/api/productApi';
-import useAddToRecentItems from '@/hooks/useAddToRecentItems';
+import useAddToRecentItems from '@/features/recent-items/lib/hooks/useAddToRecentItems';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import ProductPageDesktop from '@components/ProductPage/ProductPageDesktop';
 import ProductPageMobile from '@components/ProductPage/ProductPageMobile';

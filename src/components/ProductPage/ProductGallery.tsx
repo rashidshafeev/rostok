@@ -15,7 +15,7 @@ import { useWindowSize } from 'react-use';
 import LeftNav from './Gallery/LeftNav';
 import RightNav from './Gallery/RightNav';
 
-function ProductGallery({ files, tags }) {
+const ProductGallery = ({ files, tags }) => {
   const imageGalleryRef = useRef(null);
   const sliderIndex = useRef(0);
   const [lightBoxIndex, setLightBoxIndex] = useState(-1);
@@ -153,6 +153,6 @@ function ProductGallery({ files, tags }) {
       />
     </>
   );
-}
+};
 
 export default ProductGallery;

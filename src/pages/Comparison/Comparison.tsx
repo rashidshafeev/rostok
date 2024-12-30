@@ -5,11 +5,11 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
 
 import ComDetail from '@/components/Comparison/ComparisonDetail';
-import { useGetComparisonQuery } from '@/redux/api/comparisonEndpoints';
+import { useGetComparisonQuery } from '@/features/comparison/api/comparisonApi';
 import { getTokenFromCookies } from '@/shared/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
-import CategorySwitcher from '@components/common/CategorySwitcher';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
+import CategorySwitcher from '@/widgets/category-switcher/ui/CategorySwitcher';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 
 import type { RootState } from '@store/store';

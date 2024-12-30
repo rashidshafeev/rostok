@@ -4,7 +4,7 @@ import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs/ui/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs/ui/Breadcrumbs';
 
 // Main catalog components
 import CatalogMainContent from './CatalogMainContent';

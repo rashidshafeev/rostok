@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';;
+import { Breadcrumbs } from '@/widgets/breadcrumbs';;
 import { useModal } from '@/features/modals/model/context';
 import ProfileSidebar from "@components/Profile/ProfileSidebar";
 

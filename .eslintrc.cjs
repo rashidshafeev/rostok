@@ -128,7 +128,41 @@ module.exports = {
   arrowParens: 'always'
 }],
 'quotes': ['error', 'single'],
-'jsx-quotes': ['error', 'prefer-double']  // Changed to match Prettier
+'jsx-quotes': ['error', 'prefer-double'],  // Changed to match Prettier
+'@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'interface',
+        format: ['PascalCase'],
+        custom: {
+          regex: '^Props$|[A-Z][a-zA-Z]*Props$',
+          match: true,
+        },
+      }
+    ],
+    
+    // Enforce named exports for components
+    'import/no-default-export': 'error',
+    
+    // Enforce arrow function components
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      }
+    ],
+    
+    // Enforce explicit type annotations for props
+    '@typescript-eslint/explicit-function-return-type': [
+      'error',
+      {
+        allowExpressions: true,
+        allowTypedFunctionExpressions: true,
+        allowHigherOrderFunctions: true,
+        allowDirectConstAssertionInArrowFunctions: true,
+      }
+    ],
   },
   overrides: [
     // Test files
@@ -139,6 +173,24 @@ module.exports = {
         '@typescript-eslint/unbound-method': 'off',
         'jest/unbound-method': 'error'
       }
-    }
+    },
+    {
+      // Apply to all TypeScript React files
+      files: ['*.tsx'],
+      rules: {
+        'import/no-default-export': 'error',
+        '@typescript-eslint/explicit-function-return-type': ['error', {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+        }],
+      },
+    },
+    {
+      // Exception for pages directory - allow default exports
+      files: ['src/pages/**/*.tsx'],
+      rules: {
+        'import/no-default-export': 'off',
+      },
+    },
   ]
 }

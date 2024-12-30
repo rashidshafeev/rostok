@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { Box, Modal } from '@mui/material';
 
-import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 import { useGetCitiesAndRegionsQuery } from '@/entities/order/api/orderEndpoints';
+import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 import search from '@/shared/assets/icons/search.svg';
 import { Loading } from '@/shared/ui/Loader';
 

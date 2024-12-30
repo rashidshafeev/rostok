@@ -51,7 +51,7 @@ export const AuthModal = () => {
             // handleSubmit={handleSubmit}
             setContent={setContent}
           />
-        ) : null}
+         : null}
         {content === 'register' ? <Register hideModal={hideModal} setContent={setContent} login={login}/> : null}
       </Box>
     </Modal>

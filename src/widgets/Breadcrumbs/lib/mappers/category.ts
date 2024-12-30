@@ -1,4 +1,4 @@
-import type { Breadcrumb } from '../types/breadcrumb';
+import type { Breadcrumb } from '../breadcrumb';
 import type { CategoryBase } from '@/entities/category';
 
 export const mapCategoryChainToBreadcrumbs = (

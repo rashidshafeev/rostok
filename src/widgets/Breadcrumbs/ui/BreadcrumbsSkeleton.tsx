@@ -1,4 +1,4 @@
-import { Skeleton } from 'shared/ui/skeleton';
+import { Skeleton } from '@/shared/ui/skeleton';
 
 export const BreadcrumbsSkeleton = () => (
   <nav className="flex items-center flex-wrap py-3">

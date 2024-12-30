@@ -1,4 +1,7 @@
-import type { ServerCartState, LocalCartState } from '@/features/cart/model/types';
+import type {
+  ServerCartState,
+  LocalCartState,
+} from '@/features/cart/model/types';
 
 export const transformServerCartToLocalCart = (
   serverCart: ServerCartState

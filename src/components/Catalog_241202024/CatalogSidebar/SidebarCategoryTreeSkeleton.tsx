@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Skeleton } from '@mui/material';
 
-function SidebarCategoryTreeSkeleton() {
+const SidebarCategoryTreeSkeleton = () => {
   return (
     <div className="flex flex-col">
       <Skeleton variant="text" width={120} sx={{ fontSize: '1.5rem' }} />
@@ -11,6 +11,6 @@ function SidebarCategoryTreeSkeleton() {
       <Skeleton variant="text" width={120} sx={{ fontSize: '1.5rem' }} />
     </div>
   );
-}
+};
 
 export default SidebarCategoryTreeSkeleton;

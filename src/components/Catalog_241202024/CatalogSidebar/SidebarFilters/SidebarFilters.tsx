@@ -8,14 +8,14 @@ import { HighRatingFilter } from './HighRatingFilter';
 import PriceFilter from './PriceFilter';
 import TagsFilters from './TagsFilters';
 
-function SidebarFilters({
+const SidebarFilters = ({
   setFiltersModalOpen,
   filters,
   setFilters,
   resetFilters,
   isLoading,
   filtersBlock,
-}) {
+}) => {
   // const handleChange = (key: string, value: any) => {
   //   setFilters((prev: any) => ({
   //     ...prev,
@@ -68,6 +68,6 @@ function SidebarFilters({
       </div>
     </>
   );
-}
+};
 
 export default SidebarFilters;

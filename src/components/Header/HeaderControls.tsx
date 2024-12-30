@@ -13,7 +13,7 @@ import CartButton from './HeaderControls/CartButton';
 import LoginButton from './HeaderControls/LoginButton';
 import ProfileButton from './HeaderControls/ProfileButton';
 
-function HeaderControls() {
+const HeaderControls = () => {
   const token = useSelector((state) => state.user.token);
 
   const {
@@ -76,6 +76,6 @@ function HeaderControls() {
       )}
     </div>
   );
-}
+};
 
 export default HeaderControls;

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-function TooltipCaption({ text, tooltipText }) {
+const TooltipCaption = ({ text, tooltipText }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
@@ -20,6 +20,6 @@ function TooltipCaption({ text, tooltipText }) {
       ) : null}
     </div>
   );
-}
+};
 
 export default TooltipCaption;

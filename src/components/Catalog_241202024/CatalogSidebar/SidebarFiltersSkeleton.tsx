@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Skeleton } from '@mui/material';
 
-function SidebarFiltersSkeleton() {
+const SidebarFiltersSkeleton = () => {
   return (
     <div className="flex flex-col gap-2 mt-5">
       <Skeleton variant="text" sx={{ fontSize: '1.5rem' }} width={90} />
@@ -51,6 +51,6 @@ function SidebarFiltersSkeleton() {
       </div>
     </div>
   );
-}
+};
 
 export default SidebarFiltersSkeleton;

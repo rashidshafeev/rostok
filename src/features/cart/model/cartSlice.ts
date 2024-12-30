@@ -4,8 +4,8 @@ import { saveToSessionStorage } from '@/features/storage/lib';
 import { getTokenFromCookies } from '@/shared/lib';
 
 import type { LocalCartState } from './types';
+import type { PriceType } from '@/entities/price';
 import type { Product } from '@/entities/product';
-import type { PriceType } from '@/shared/types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 
 const initialState: LocalCartState = {

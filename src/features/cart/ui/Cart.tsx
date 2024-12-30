@@ -5,25 +5,27 @@ import { useLocation } from 'react-router-dom';
 import { useIntersection } from 'react-use';
 import { toast } from 'sonner';
 
+import {
+  CartDetail,
+  CartOrderInfo,
+  MobileToCheckoutBar,
+  transformServerCartToLocalCart,
+  RecentlyVisitedSection,
+} from '@/features/cart';
 import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
-import { transformServerCartToLocalCart } from '@/features/cart/lib';
-import MobileToCheckoutBar from '@/features/cart/ui/components/MobileToCheckoutBar';
-import ShCartDetail from '@/features/cart/ui/components/ShCartDetail';
-import ShLastViews from '@/features/cart/ui/components/ShLastViews';
-import ShoppingCartOrderInfo from '@/features/cart/ui/components/ShoppingCartOrderInfo';
 import { useModal } from '@/features/modals/model/context';
 import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 import docIcon from '@/shared/assets/icons/download-pdf.svg';
 import shareIcon from '@/shared/assets/icons/share.svg';
 import { getTokenFromCookies } from '@/shared/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import CSearchField from '@/shared/ui/inputs/CSearchField';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { CSearchField } from '@/shared/ui/inputs/CSearchField';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import type { RootState } from '@/app/providers/store';
-import type { LocalCartState, CartProduct } from '@/features/cart/model/types';
+import type { LocalCartState, CartProduct } from '@/features/cart';
 
-export const Cart = () => {
+export const Cart = (): JSX.Element => {
   const token = getTokenFromCookies();
 
   const localCart: LocalCartState = useSelector(
@@ -128,7 +130,7 @@ export const Cart = () => {
           </div>
           <div className="flex flex-wrap gap-10 py-5">
             <div className="lg:basis-[calc(70%-20px)] basis-full">
-              <ShCartDetail
+              <CartDetail
                 cart={cart}
                 isLoading={isLoading}
                 filteredCart={filteredCart}
@@ -140,7 +142,7 @@ export const Cart = () => {
               ref={orderInfo}
               className="lg:basis-[calc(30%-20px)] basis-full"
             >
-              <ShoppingCartOrderInfo cart={cart} selected={selected} />
+              <CartOrderInfo cart={cart} selected={selected} />
             </div>
           </div>
 
@@ -160,7 +162,7 @@ export const Cart = () => {
           hideBtn={true}
         />
       ) : null}
-      <ShLastViews />
+      <RecentlyVisitedSection />
     </div>
   );
 };

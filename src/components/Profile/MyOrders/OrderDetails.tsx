@@ -4,13 +4,13 @@ import { Close, Cached, DescriptionOutlined } from '@mui/icons-material';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-import PriceDisplay from '@/components/ProductCard/PriceDisplay';
-import { useModal } from '@/features/modals/model/context';
 import {
   useCancelOrderMutation,
   useRepeatOrderMutation,
   useCreatePDFOrderMutation,
 } from '@/entities/order/api/orderEndpoints';
+import { useModal } from '@/features/modals/model/context';
+import PriceDisplay from '@/widgets/product-card/ui/PriceDisplay';
 
 import type { Order } from '@/entities/order/Orders/Order';
 

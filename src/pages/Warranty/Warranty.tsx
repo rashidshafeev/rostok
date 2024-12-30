@@ -7,7 +7,7 @@ import urlico from '@/shared/assets/icons/urlico-inactive.svg';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
 
-function Warranty() {
+const Warranty = () => {
   const [type, setType] = useState<'individual' | 'legal'>('legal');
   const { data: guarantee, isLoading } = useGetGuaranteeQuery();
 
@@ -103,6 +103,6 @@ function Warranty() {
       </div>
     </div>
   );
-}
+};
 
 export default Warranty;

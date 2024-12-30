@@ -4,12 +4,11 @@ import { Box, Modal } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import ProductAttributeValue from '@/components/ProductPage/Attributes/ProductAttributeValue';
+import { AddToCartButton, QuantityControl } from '@/features/cart';
 import { useModal } from '@/features/modals/model/context';
-import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
-import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import { LoadingSmall } from '@/shared/ui/Loader';
 
-import type { RootState } from '@/redux/store';
+import type { RootState } from '@/app/providers/store';
 
 // Выносим содержимое в отдельный компонент
 const ModalContent = ({ modalContent, hideModal }) => {
@@ -90,7 +89,7 @@ const ModalContent = ({ modalContent, hideModal }) => {
         ) : null}
         {productInCart ? (
           <div className="flex justify-between gap-2">
-            <ChangeQuantityGroup product={productInCart} enableRemove={true} />
+            <QuantityControl product={productInCart} enableRemove={true} />
           </div>
         ) : null}
       </div>

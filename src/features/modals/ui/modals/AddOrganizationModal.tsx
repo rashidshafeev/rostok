@@ -6,18 +6,18 @@ import { Controller, useForm } from 'react-hook-form';
 import {
   useAddOrganizationMutation,
   useGetOrgSuggestionsMutation,
-} from '@/redux/api/organizationEndpoints';
+} from '@/entities/organization/api/organizationEndpoints';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 
 import ModalSnackbar from './ModalSnackbar';
 
-function AddOrganizationModal({
+const AddOrganizationModal = ({
   open,
   close,
   organizations,
   setOpenAddOrgModal,
-}) {
+}) => {
   const {
     control,
     handleSubmit,
@@ -160,6 +160,6 @@ function AddOrganizationModal({
       />
     </>
   );
-}
+};
 
 export default AddOrganizationModal;

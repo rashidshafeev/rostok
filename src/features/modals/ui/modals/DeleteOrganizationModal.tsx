@@ -2,14 +2,14 @@ import { Box, Modal } from '@mui/material';
 
 import { Loading } from '@/shared/ui/Loader';
 
-function DeleteOrganizationModal({
+const DeleteOrganizationModal = ({
   open,
   close,
   item,
   handleDeleteOrganization,
   deleteLoading,
   delOrgSuccess,
-}) {
+}) => {
   const handleDelete = () => {
     handleDeleteOrganization(item?.id);
     if (delOrgSuccess) {
@@ -66,6 +66,6 @@ function DeleteOrganizationModal({
       </Box>
     </Modal>
   );
-}
+};
 
 export default DeleteOrganizationModal;

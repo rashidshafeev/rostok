@@ -3,7 +3,7 @@ import React from 'react';
 import AllFiltersModal from '@helpers/CModal/AllFiltersModal/AllFiltersModal';
 
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import CatalogCategoryName from './CatalogCategoryName';
 import CatalogContent from './CatalogContent/CatalogContent';

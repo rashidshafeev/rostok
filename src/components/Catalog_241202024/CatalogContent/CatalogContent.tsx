@@ -1,15 +1,15 @@
 import type React from 'react';
 import { useState } from 'react';
 
-import CardLine from '@components/ProductCard/CardLine';
-import ProductCard from "@components/ProductCard/ProductCard";
+import { ProductCardLine } from '@/widgets/product-card/ui/ProductCardLine';
+import {ProductCard} from "@/widgets/product-card/ui/ProductCard";
 import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
-import LineNarrow from '@components/ProductCard/LineNarrow';
+import {ProductCardLineSmall} from '@/widgets/product-card/ui/ProductCardLineSmall';
 import { CustomPagination } from '@helpers/Pagination/CustomPagination';
 import filterIcon from '@/shared/assets/icons/filter.svg';
-import ProductCardSkeleton from '@components/ProductCard/ProductCardSkeleton';
-import CardLineSkeleton from '@components/ProductCard/CardLineSkeleton';
-import LineNarrowSkeleton from '@components/ProductCard/LineNarrowSkeleton';
+import {ProductCardSkeleton} from '@components/ProductCard/ProductCardSkeleton';
+import {ProductCardLineSkeleton} from '@components/ProductCard/CardLineSkeleton';
+import {ProductCardLineSmallSkeleton} from '@components/ProductCard/ProductCardLineSmallSkeleton';
 
 import CardTypeControls from './CardTypeControls';
 import MobileSortControls from './MobileSortControls';
@@ -88,19 +88,19 @@ const CatProdContent: React.FC<CatProdContentProps> = ({
       ) : null}
       {cardType === 'line' ? <div className='space-y-4'>
           {getVariantsIsLoading ? Array.from({ length: 20 }).map((_, index) => (
-              <CardLineSkeleton key={index} />
+              <ProductCardLineSkeleton key={index} />
             )) : null}
           {!getVariantsIsLoading &&
-            products?.data ? products?.data?.map((el) => <CardLine key={el?.id} product={el} />) : null}
+            products?.data ? products?.data?.map((el) => <ProductCardLine key={el?.id} product={el} />) : null}
         </div>
       ) : null}
       {cardType === 'lineNarrow' ? <div className='space-y-4'>
           {getVariantsIsLoading ? Array.from({ length: 20 }).map((_, index) => (
-              <LineNarrowSkeleton key={index} />
+              <ProductCardLineSmallSkeleton key={index} />
             )) : null}
           {!getVariantsIsLoading &&
             products?.data ? products?.data?.map((el) => (
-              <LineNarrow key={el?.id} product={el} />
+              <ProductCardLineSmall key={el?.id} product={el} />
             )) : null}
         </div>
       ) : null}

@@ -7,7 +7,12 @@ import { SubwayIcon } from '@/shared/ui/icons';
 import CSearchField from '@/shared/ui/inputs/CSearchField';
 import CustomRadioButton from '@pages/Checkout/CustomRadioButton';
 
-function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {
+const PickupPointModal = ({
+  open,
+  handleClose,
+  pickupPoint,
+  setPickupPoint,
+}) => {
   const [filter, setFilter] = useState('');
 
   const handleFilter = (e) => {
@@ -127,6 +132,6 @@ function PickupPointModal({ open, handleClose, pickupPoint, setPickupPoint }) {
       </Box>
     </Modal>
   );
-}
+};
 
 export default PickupPointModal;

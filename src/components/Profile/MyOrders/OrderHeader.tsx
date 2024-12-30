@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CopyButton from '@/components/common/CopyButton';
+import CopyButton from '@/shared/ui/copy-button/CopyButton';
 
 import type { Order } from '@/entities/order/Orders/Order';
 

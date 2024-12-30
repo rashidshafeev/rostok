@@ -5,17 +5,20 @@ import { useDrag, useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
-import { addToCart, changeQuantity } from '@/features/cart/model/cartSlice';
-import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
-import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
-import ComparisonButton from '@/helpers/ComparisonButton/ComparisonButton';
-import FavoriteButton from '@/helpers/FavoriteButton/FavoriteButton';
+import {
+  useGetUserCartQuery,
+  addToCart,
+  changeQuantity,
+  QuantityControl,
+  AddToCartButton,
+} from '@/features/cart';
+import { ComparisonButton } from '@/features/comparison/ui/controls/ComparisonButton';
+import { FavoriteButton } from '@/features/favorite/ui/controls/FavoriteButton';
 import { getTokenFromCookies } from '@/shared/lib';
 import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { LoadingSmall } from '@/shared/ui/Loader';
 
-function ComparisonProductCard({ product, index, moveProduct }) {
+const ComparisonProductCard = ({ product, index, moveProduct }) => {
   const token = getTokenFromCookies();
 
   const { cart } = useSelector((state) => state.cart);
@@ -184,12 +187,12 @@ function ComparisonProductCard({ product, index, moveProduct }) {
             </AddToCartButton>
           ) : null}
           {productInCart ? (
-            <ChangeQuantityGroup product={productInCart} />
+            <QuantityControl product={productInCart} />
           ) : null}
         </div>
       </div>
     </NavLink>
   );
-}
+};
 
 export default ComparisonProductCard;

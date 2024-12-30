@@ -14,10 +14,10 @@ import {
 import { useLocation } from 'react-router-dom';
 
 import SearchFiltersModal from '@/features/modals/ui/modals/SearchFiltersModal';
+import { IOSSwitch } from '@/shared/ui';
 import { ArrowIcon } from '@/shared/ui/icons';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
-import { IOSSwitch } from '@components/common/styledComponents/IOSSwitch';
 
 import { fetchSearchFilters } from '../../api/searchProducts';
 
@@ -62,7 +62,7 @@ interface SRSidebarProps {
   setOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const SRSidebar: React.FC<SRSidebarProps> = ({
+export const SRSidebar: React.FC<SRSidebarProps> = ({
   filtersValue,
   setFiltersValue,
   setCategories,
@@ -409,5 +409,3 @@ const SRSidebar: React.FC<SRSidebarProps> = ({
     </div>
   );
 };
-
-export default SRSidebar;

@@ -15,8 +15,8 @@ import {
 } from 'react-share';
 import { toast } from 'sonner';
 
-import CopyButton from '@/components/common/CopyButton';
 import { useModal } from '@/features/modals/model/context';
+import CopyButton from '@/shared/ui/copy-button/CopyButton';
 import CTextField from '@/shared/ui/inputs/CTextField';
 
 const ShareModal: React.FC = () => {

@@ -5,10 +5,10 @@ import { useDispatch } from 'react-redux';
 import { useGetRecentItemsQuery } from '@/features/auth';
 import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 import { setCart } from '@/features/cart/model/cartSlice';
-import { useGetComparisonQuery } from '@/redux/api/comparisonEndpoints';
-import { useGetFavoritesQuery } from '@/redux/api/favoritesEndpoints';
-import { setComparison } from '@/redux/slices/comparisonSlice';
-import { setFavorite } from '@/redux/slices/favoriteSlice';
+import { useGetComparisonQuery } from '@/features/comparison/api/comparisonApi';
+import { setComparison } from '@/features/comparison/model/comparisonSlice';
+import { useGetFavoritesQuery } from '@/features/favorite/api/favoritesEndpoints';
+import { setFavorite } from '@/features/favorite/model/favoriteSlice';
 import { setRecentItems } from '@/features/recent-items/model/recentItemsSlice';
 import { getTokenFromCookies } from '@/shared/lib';
 

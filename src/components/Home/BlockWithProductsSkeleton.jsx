@@ -1,6 +1,6 @@
 import { Skeleton } from '@mui/material'
 import React from 'react'
-import ProductCardSkeleton from '../ProductCard/ProductCardSkeleton'
+import ProductCardSkeleton from '../../widgets/product-card/ui/ProductCardSkeleton'
 
 function BlockWithProductsSkeleton() {
 

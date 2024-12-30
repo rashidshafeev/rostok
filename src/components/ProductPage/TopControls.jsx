@@ -7,8 +7,8 @@ import share from '@/shared/assets/icons/share.svg';
 import downloadpdf from '@/shared/assets/icons/download-pdf.svg';
 import print from '@/shared/assets/icons/print.svg';
 import { useModal } from '@/features/modals/model/context';
-import ComparisonButton from '@helpers/ComparisonButton/ComparisonButton';
-import FavoriteButton from '@helpers/FavoriteButton/FavoriteButton';
+import ComparisonButton from '@/features/comparison/ui/controls/ComparisonButton';
+import FavoriteButton from '@/features/favorite/ui/controls/FavoriteButton';
 
 function TopControls({product, reviews}) {
 

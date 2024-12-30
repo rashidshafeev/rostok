@@ -2,7 +2,7 @@ import React from 'react';
 
 import { FormControlLabel } from '@mui/material';
 
-import { IOSSwitch } from '@components/common/styledComponents/IOSSwitch';
+import { IOSSwitch } from '@/shared/ui';
 
 import SidebarFiltersSkeleton from '../SidebarFiltersSkeleton';
 
@@ -11,7 +11,7 @@ import DynamicFilters from './DynamicFilters';
 import PriceFilter from './PriceFilter';
 import TagsFilters from './TagsFilters';
 
-function SidebarFilters({
+const SidebarFilters = ({
   setFiltersModalOpen,
   filters,
   setFilters,
@@ -20,7 +20,7 @@ function SidebarFilters({
   trigger,
   setTrigger,
   filtersBlock,
-}) {
+}) => {
   return (
     <>
       {isLoading ? <SidebarFiltersSkeleton /> : null}
@@ -83,6 +83,6 @@ function SidebarFilters({
       </div>
     </>
   );
-}
+};
 
 export default SidebarFilters;

@@ -9,7 +9,7 @@ import {
   FormControlLabel,
 } from '@mui/material';
 
-function TagsFilters({ filters, setFilters }) {
+const TagsFilters = ({ filters, setFilters }) => {
   const handleCheckboxChange = (tagSelected) => {
     const currentState = JSON.parse(JSON.stringify(filters));
 
@@ -76,6 +76,6 @@ function TagsFilters({ filters, setFilters }) {
       </AccordionDetails>
     </Accordion>
   );
-}
+};
 
 export default TagsFilters;

@@ -11,7 +11,7 @@ import {
 } from '@/entities/product/api/productApi';
 import { CatalogQueryParamsUtil } from '@/features/filters/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
 import Promotions from '@components/Home/Promotions';

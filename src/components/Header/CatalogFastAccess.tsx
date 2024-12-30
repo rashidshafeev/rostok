@@ -7,7 +7,7 @@ import {
   useGetCategoryTreeQuery,
 } from '@/entities/product/api/productApi';
 
-function CatalogFastAccess() {
+const CatalogFastAccess = () => {
   const { data } = useGetCategoryTreeQuery();
   const { data: basicFilters } = useGetBasicFiltersQuery();
 
@@ -82,6 +82,6 @@ function CatalogFastAccess() {
       </NavLink>
     </div>
   );
-}
+};
 
 export default CatalogFastAccess;

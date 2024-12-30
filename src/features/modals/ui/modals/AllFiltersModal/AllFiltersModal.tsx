@@ -2,12 +2,12 @@ import React from 'react';
 
 import { Box, Checkbox, FormControlLabel, Modal, Slider } from '@mui/material';
 
+import { IOSSwitch } from '@/shared/ui';
 import BrandsFilter from '@components/Catalog/CatalogSidebar/SidebarFilters/BrandsFilter';
 import DynamicFilters from '@components/Catalog/CatalogSidebar/SidebarFilters/DynamicFilters';
 import PriceFilter from '@components/Catalog/CatalogSidebar/SidebarFilters/PriceFilter';
 import TagsFilters from '@components/Catalog/CatalogSidebar/SidebarFilters/TagsFilters';
 import SidebarFiltersSkeleton from '@components/Catalog/CatalogSidebar/SidebarFiltersSkeleton';
-import { IOSSwitch } from '@components/common/styledComponents/IOSSwitch';
 
 const AllFiltersModal = ({
   categoryTree,

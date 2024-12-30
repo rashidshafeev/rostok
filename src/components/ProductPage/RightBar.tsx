@@ -2,30 +2,32 @@ import type React from 'react';
 import { useState } from 'react';
 
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import { addToCart, changeQuantity } from '@store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
-import { transformServerCartToLocalCart } from '@/features/cart/lib';
+import {
+  addToCart,
+  changeQuantity,
+  transformServerCartToLocalCart,
+  AddToCartButton,
+  QuantityControl,
+  useGetUserCartQuery,
+} from '@/features/cart';
 import { useModal } from '@/features/modals/model/context';
 import FastOrderModal from '@/features/modals/ui/modals/FastOrderModal';
-import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
-import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import boxicon from '@/shared/assets/icons/box-icon.svg';
 import checkicon from '@/shared/assets/icons/check-icon.svg';
 import stallicon from '@/shared/assets/icons/stall-icon.svg';
 import truckicon from '@/shared/assets/icons/truck-icon.svg';
 import { getTokenFromCookies } from '@/shared/lib';
 import { LoadingSmall } from '@/shared/ui/Loader';
-
-import PriceDisplay from '../ProductCard/PriceDisplay';
+import { PriceDisplay } from '@/widgets/product-card';
 
 import { DeliveryInfo } from './DeliveryInfo';
 
 import type { RootState } from '@/app/providers/store';
-import type { Product } from '@/entities/product/Product';
-import type { LocalCartState } from '@/types/Store/Cart/CartState';
+import type { Product } from '@/entities/product';
+import type { LocalCartState } from '@/features/cart';
 
 type RightBarProps = {
   product: Product;
@@ -110,10 +112,7 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
         {productInCart ? (
           <div className="flex flex-col gap-3">
             <div className="h-[48px] flex  justify-between items-center grow">
-              <ChangeQuantityGroup
-                product={productInCart}
-                enableRemove={true}
-              />
+              <QuantityControl product={productInCart} enableRemove={true} />
             </div>
             <NavLink to="/shopping-cart">
               <button className="py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer">

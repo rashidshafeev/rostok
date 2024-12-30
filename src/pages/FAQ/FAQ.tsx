@@ -59,7 +59,7 @@ const renderTextBlock = (block: TextBlock) => {
   }
 };
 
-function FAQ() {
+const FAQ = () => {
   const { data: faqData, isLoading } = useGetFaqQuery();
   const [currentGroup, setCurrentGroup] = useState<string>('');
 
@@ -134,6 +134,6 @@ function FAQ() {
       )}
     </div>
   );
-}
+};
 
 export default FAQ;

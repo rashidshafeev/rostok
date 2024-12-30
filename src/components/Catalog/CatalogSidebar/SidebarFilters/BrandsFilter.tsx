@@ -10,7 +10,7 @@ import {
 
 import { ArrowIcon } from '@/shared/ui/icons';
 
-function BrandsFilter({ filters, setFilters }) {
+const BrandsFilter = ({ filters, setFilters }) => {
   const handleCheckboxChange = (brandId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
 
@@ -75,6 +75,6 @@ function BrandsFilter({ filters, setFilters }) {
       </AccordionDetails>
     </Accordion>
   );
-}
+};
 
 export default BrandsFilter;

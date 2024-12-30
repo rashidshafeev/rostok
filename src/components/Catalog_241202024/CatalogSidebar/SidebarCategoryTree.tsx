@@ -7,7 +7,7 @@ import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
 
 import SidebarCategoryTreeSkeleton from './SidebarCategoryTreeSkeleton';
 
-function SidebarCategoryTree() {
+const SidebarCategoryTree = () => {
   const { categoryId } = useParams();
 
   const {
@@ -150,6 +150,6 @@ function SidebarCategoryTree() {
       ) : null}
     </>
   );
-}
+};
 
 export default SidebarCategoryTree;

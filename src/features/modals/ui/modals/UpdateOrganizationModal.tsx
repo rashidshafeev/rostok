@@ -4,14 +4,14 @@ import { Controller, useForm } from 'react-hook-form';
 import CTextField from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 
-function UpdateOrganizationModal({
+const UpdateOrganizationModal = ({
   open,
   close,
   item,
   handleEditOrganization,
   editLoading,
   editOrgSuccess,
-}) {
+}) => {
   const { control, handleSubmit } = useForm({
     mode: 'onChange',
     defaultValues: {
@@ -228,6 +228,6 @@ function UpdateOrganizationModal({
       </Box>
     </Modal>
   );
-}
+};
 
 export default UpdateOrganizationModal;

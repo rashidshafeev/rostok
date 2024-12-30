@@ -12,7 +12,7 @@ import {
 } from '@/entities/product/api/productApi';
 import AllFiltersModal from '@/features/modals/ui/modals/AllFiltersModal/AllFiltersModal';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import CatalogContent from './CatalogContent/CatalogContent';
 import CatalogSidebar from './CatalogSidebar/CatalogSidebar';

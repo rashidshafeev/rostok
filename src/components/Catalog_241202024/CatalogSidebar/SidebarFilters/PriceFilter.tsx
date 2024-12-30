@@ -14,7 +14,7 @@ import { useDebounce } from 'react-use';
 
 import CTextField from '@/shared/ui/inputs/CTextField';
 
-function PriceFilter({ filters, setFilters }) {
+const PriceFilter = ({ filters, setFilters }) => {
   const [priceFilter, setPriceFilter] = useState([0, 0]);
   const [sliderValue, setSliderValue] = useState([0, 0]);
   const [debouncedValue, setDebouncedValue] = useState([0, 0]);
@@ -173,6 +173,6 @@ function PriceFilter({ filters, setFilters }) {
       </AccordionDetails>
     </Accordion>
   );
-}
+};
 
 export default PriceFilter;

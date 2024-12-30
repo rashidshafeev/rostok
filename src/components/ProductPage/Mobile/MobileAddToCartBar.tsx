@@ -1,16 +1,19 @@
 import React from 'react';
 
 import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
-import { addToCart, changeQuantity } from '@store/slices/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
 
-import PriceDisplay from '@/components/ProductCard/PriceDisplay';
-import AddToCartButton from '@/helpers/AddToCartButton/AddToCartButton';
-import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
+import {
+  addToCart,
+  changeQuantity,
+  QuantityControl,
+  AddToCartButton,
+} from '@/features/cart';
 import { LoadingSmall } from '@/shared/ui/Loader';
+import { PriceDisplay } from '@/widgets/product-card';
 
-function MobileAddToCartBar({ product }) {
+const MobileAddToCartBar = ({ product }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector((state) => state?.cart);
@@ -21,7 +24,7 @@ function MobileAddToCartBar({ product }) {
       <div className="flex justify-between gap-2 px-5 py-3">
         {productInCart ? (
           <div className="flex  gap-2 justify-between w-full">
-            <ChangeQuantityGroup product={productInCart} enableRemove={true} />
+            <QuantityControl product={productInCart} enableRemove={true} />
             <button
               className="py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border rounded cursor-pointer basis-2/3"
               onClick={(e) => {
@@ -83,6 +86,6 @@ function MobileAddToCartBar({ product }) {
       </div>
     </div>
   );
-}
+};
 
 export default MobileAddToCartBar;

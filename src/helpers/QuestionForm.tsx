@@ -8,7 +8,7 @@ import { useSendFeedbackMutation } from '@/entities/order/api/orderEndpoints';
 import CPhoneField from '@/shared/ui/inputs/CPhoneField';
 import CTextField from '@/shared/ui/inputs/CTextField';
 
-function QuestionForm({ data, hideModal }) {
+const QuestionForm = ({ data, hideModal }) => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
 
   const [sendFeedback] = useSendFeedbackMutation();
@@ -144,6 +144,6 @@ function QuestionForm({ data, hideModal }) {
       </label>
     </form>
   );
-}
+};
 
 export default QuestionForm;

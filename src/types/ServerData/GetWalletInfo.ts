@@ -1,4 +1,4 @@
-import type { Currency } from '@/entities/price/Currency';
+import type { Currency } from '@/entities/price';
 import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
 interface Balance {

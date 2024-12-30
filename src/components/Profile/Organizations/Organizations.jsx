@@ -9,7 +9,7 @@ import {
   useDeleteOrganizationMutation,
   useEditOrganizationMutation,
   useGetOrganizationsQuery,
-} from '@/redux/api/organizationEndpoints';
+} from '@/entities/organization/api/organizationEndpoints';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorServer from '@/helpers/Errors/ErrorServer';
 import ModalSnackbar from '@/features/modals/ui/modals/ModalSnackbar';

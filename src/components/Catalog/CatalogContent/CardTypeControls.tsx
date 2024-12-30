@@ -1,6 +1,6 @@
 import React from 'react';
 
-function CardTypeControls({ cardType, setTypeCard }) {
+const CardTypeControls = ({ cardType, setTypeCard }) => {
   return (
     <div className="flex justify-end items-center space-x-2">
       <svg
@@ -62,6 +62,6 @@ function CardTypeControls({ cardType, setTypeCard }) {
       </svg>
     </div>
   );
-}
+};
 
 export default CardTypeControls;

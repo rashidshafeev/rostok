@@ -5,7 +5,7 @@ import { ExpandMore } from '@mui/icons-material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { IconButton, Menu } from '@mui/material';
 
-import PriceDisplay from '@/components/ProductCard/PriceDisplay';
+import PriceDisplay from '@/widgets/product-card/ui/PriceDisplay';
 
 import { OrderDetails } from './OrderDetails';
 import { OrderHeader } from './OrderHeader';

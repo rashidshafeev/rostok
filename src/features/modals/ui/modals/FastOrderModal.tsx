@@ -8,7 +8,7 @@ import { useModal } from '@/features/modals/model/context';
 import CPhoneField from '@/shared/ui/inputs/CPhoneField';
 import CTextField from '@/shared/ui/inputs/CTextField';
 
-function FastOrderModal() {
+const FastOrderModal = () => {
   const { hideModal, isModalVisible, modalContent } = useModal();
 
   const [privacyPolicy, setPrivacyPolicy] = useState(true);
@@ -142,6 +142,6 @@ function FastOrderModal() {
       </Box>
     </Modal>
   );
-}
+};
 
 export default FastOrderModal;

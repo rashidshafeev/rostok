@@ -9,7 +9,7 @@ interface SortControlsProps {
   setSort: (sort: SortingParams) => void;
 }
 
-function SortControls({ sort, setSort }: SortControlsProps) {
+const SortControls = ({ sort, setSort }: SortControlsProps) => {
   const handleSetSort = (orderBy: OrderBy, sortOrder: SortOrder) => {
     setSort({
       orderBy,
@@ -71,6 +71,6 @@ function SortControls({ sort, setSort }: SortControlsProps) {
       </span>
     </div>
   );
-}
+};
 
 export default SortControls;

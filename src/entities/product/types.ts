@@ -1,5 +1,5 @@
 import type { CategoryBase } from '@/entities/category';
-import type { PriceType } from '@/entities/price/PriceType';
+import type { PriceType } from '@/entities/price';
 import type { DateType } from '@/shared/types/DateType';
 import type { ImageSet } from '@/shared/types/ImageSet';
 

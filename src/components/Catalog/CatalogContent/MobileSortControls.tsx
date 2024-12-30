@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import arrow from '@/shared/assets/icons/arrow-black.svg';
 
-function MobileSortControls({ sort, setSort }) {
+const MobileSortControls = ({ sort, setSort }) => {
   const [isOpenSelect, setIsOpenSelect] = useState(false);
 
   const selectRef = useRef(null);
@@ -103,6 +103,6 @@ function MobileSortControls({ sort, setSort }) {
       </ul>
     </div>
   );
-}
+};
 
 export default MobileSortControls;

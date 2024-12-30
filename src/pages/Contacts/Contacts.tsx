@@ -12,7 +12,7 @@ import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
 import QuestionForm from '@helpers/QuestionForm';
 
-function Contacts() {
+const Contacts = () => {
   const { data: contactsData, isLoading } = useGetContactsQuery();
 
   useEffect(() => {
@@ -94,6 +94,6 @@ function Contacts() {
       </div>
     </div>
   );
-}
+};
 
 export default Contacts;

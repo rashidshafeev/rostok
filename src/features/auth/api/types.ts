@@ -22,15 +22,3 @@ export interface GetUserDataResponse extends AdditionalServerResponseData {
   favorites: FavoritesData;
   comparison: ComparisonData;
 }
-
-export interface GetFavoriteResponse extends AdditionalServerResponseData {
-  data: Product[];
-  count: number;
-  category_chain: ProductListCategoryChain[];
-}
-
-export interface GetComparisonResponse extends AdditionalServerResponseData {
-  data: Product[];
-  count: number;
-  category_chain: ProductListCategoryChain[];
-}

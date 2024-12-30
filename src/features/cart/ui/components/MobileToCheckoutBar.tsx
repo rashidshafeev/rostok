@@ -3,7 +3,17 @@ import React from 'react';
 import plural from 'plural-ru';
 import { NavLink } from 'react-router-dom';
 
-function MobileToCheckoutBar({ selected, quantity }) {
+import type { CartProduct } from '@/features/cart';
+
+export type MobileToCheckoutBarProps = {
+  selected: CartProduct[];
+  quantity: number;
+};
+
+export const MobileToCheckoutBar = ({
+  selected,
+  quantity,
+}: MobileToCheckoutBarProps) => {
   return (
     <div className="lg:hidden z-10 fixed bottom-[72px] w-full bg-white">
       <div className="flex justify-between px-5 py-3">
@@ -26,6 +36,6 @@ function MobileToCheckoutBar({ selected, quantity }) {
       </div>
     </div>
   );
-}
+};
 
 export default MobileToCheckoutBar;

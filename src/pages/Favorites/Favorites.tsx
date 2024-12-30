@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { useGetFavoritesQuery } from '@/redux/api/favoritesEndpoints';
+import { useGetFavoritesQuery } from '@/features/favorite/api/favoritesEndpoints';
 import { getTokenFromCookies } from '@/shared/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
-import CategorySwitcher from '@components/common/CategorySwitcher';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
+import CategorySwitcher from '@/widgets/category-switcher/ui/CategorySwitcher';
 import FavDetail from '@components/Favorites/FavDetail';
 import FavSidebar from '@components/Favorites/FavSidebar';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';

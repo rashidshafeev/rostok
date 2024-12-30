@@ -1,4 +1,4 @@
-import ProductCard from '../ProductCard/ProductCard';
+import ProductCard from '../../widgets/product-card/ui/ProductCard';
 import filterIcon from '@/shared/assets/icons/filter.svg';
 
 const FavDetail = ({ favorite, user }) => {

@@ -1,15 +1,11 @@
 import type React from 'react';
 import { forwardRef, useState } from 'react';
 
-import { type } from 'os';
-
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import TextField from '@mui/material/TextField';
-
-// eslint-disable-next-line react/display-name
 
 type CTextFieldProps = {
   icon?: boolean;
@@ -19,7 +15,7 @@ type CTextFieldProps = {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
-const CTextField: React.FC<CTextFieldProps> = forwardRef<
+export const CTextField: React.FC<CTextFieldProps> = forwardRef<
   HTMLInputElement,
   CTextFieldProps
 >(({ icon, type, ...props }, ref) => {

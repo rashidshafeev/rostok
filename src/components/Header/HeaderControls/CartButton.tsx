@@ -18,16 +18,18 @@ import {
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import PriceDisplay from '@/components/ProductCard/PriceDisplay';
+import {
+  QuantityControl,
+  transformServerCartToLocalCart,
+} from '@/features/cart';
 import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
-import { transformServerCartToLocalCart } from '@/features/cart/lib';
-import ChangeQuantityGroup from '@/helpers/ChangeQuantityButton/ChangeQuantityGroup';
 import cartIcon from '@/shared/assets/icons/cart-black.svg';
 import noImg from '@/shared/assets/images/no-image.png';
 import { getTokenFromCookies } from '@/shared/lib';
+import { PriceDisplay } from '@/widgets/product-card';
 
 import type { RootState } from '@/app/providers/store';
-import type { LocalCartState } from '@/types/Store/Cart/CartState';
+import type { LocalCartState } from '@/features/cart';
 
 type CartButtonProps = {
   getCartQuantity: () => number;
@@ -138,7 +140,7 @@ const CartButton: React.FC<CartButtonProps> = ({ getCartQuantity }) => {
                               </div>
                               <div className="flex items-center justify-between">
                                 <div className="basis-1/4">
-                                  <ChangeQuantityGroup
+                                  <QuantityControl
                                     product={product}
                                     enableRemove={true}
                                   />

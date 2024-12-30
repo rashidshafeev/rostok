@@ -11,7 +11,7 @@ import {
 import { checkCloseToWhite } from '@/shared/lib';
 import { ArrowIcon } from '@/shared/ui/icons';
 
-function CheckboxFilter({ filter, filters, setFilters }) {
+const CheckboxFilter = ({ filter, filters, setFilters }) => {
   const handleCheckboxChange = (filterId, valueId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
 
@@ -83,7 +83,8 @@ function CheckboxFilter({ filter, filters, setFilters }) {
                     }
                     label={
                       <div className="flex items-center" data-title={val?.text}>
-                        {filter?.type === 'color' && val?.second_color ? <>
+                        {filter?.type === 'color' && val?.second_color ? (
+                          <>
                             <span
                               style={{
                                 backgroundColor: val?.color,
@@ -106,7 +107,8 @@ function CheckboxFilter({ filter, filters, setFilters }) {
                             ></span>
                           </>
                         ) : null}
-                        {filter?.type === 'color' && !val?.second_color ? <span
+                        {filter?.type === 'color' && !val?.second_color ? (
+                          <span
                             style={{
                               backgroundColor: val?.color,
                             }}
@@ -131,6 +133,6 @@ function CheckboxFilter({ filter, filters, setFilters }) {
       </Accordion>
     </div>
   );
-}
+};
 
 export default CheckboxFilter;

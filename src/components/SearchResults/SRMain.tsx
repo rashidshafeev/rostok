@@ -3,17 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import CategorySwitcher from '@components/common/CategorySwitcher';
+import {CategorySwitcher} from '@/widgets/category-switcher';
 import Advantages from '@components/Home/Advantages';
 import Brands from '@components/Home/Brands';
 import Promotions from '@components/Home/Promotions';
 
 import { fetchSearchResults } from '../../api/searchProducts';
 
-import SRContent from './SRContent';
-import SRSidebar from './SRSidebar';
+import {SRContent} from './SRContent';
+import {SRSidebar} from './SRSidebar';
 
-import type { ProductListCategoryChain } from '@/entities/category/ProductListCategoryChain';
+import type { ProductListCategoryChain } from '@/entities/category';
 
 const SRMain = () => {
   const [products, setProducts] = useState([]);

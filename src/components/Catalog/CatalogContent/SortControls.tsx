@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SortControls({ sort, setSort }) {
+const SortControls = ({ sort, setSort }) => {
   const handleSetSort = (sortBy, sortOrder) => {
     setSort({
       sortBy: sortBy,
@@ -72,6 +72,6 @@ function SortControls({ sort, setSort }) {
       </span>
     </div>
   );
-}
+};
 
 export default SortControls;

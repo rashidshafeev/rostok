@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
-import { Breadcrumbs } from '@/widgets/Breadcrumbs';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import ProductAttributesList from './Attributes/ProductAttributesList';
 import CharacteristicsList from './CharacteristicsList';

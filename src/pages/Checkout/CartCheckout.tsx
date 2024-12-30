@@ -8,44 +8,36 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 import FizlicoLoggedInForm from '@/components/Checkout/FizlicoLoggedInForm';
 import FizlicoNotLoggedForm from '@/components/Checkout/FizlicoNotLoggedForm';
-import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
-import PickupPointModal from '@/features/modals/ui/modals/PickupPointModal';
-import arrow from '@/shared/assets/icons/arrow-icon.svg';
-import fizlicoactive from '@/shared/assets/icons/fizlico-active.svg';
-import fizlico from '@/shared/assets/icons/fizlico-inactive.svg';
-import urlicoactive from '@/shared/assets/icons/urlico-active.svg';
-import urlico from '@/shared/assets/icons/urlico-inactive.svg';
-
-import stallicon from '@/shared/assets/icons/stall-icon.svg';
-import truckicon from '@/shared/assets/icons/truck-icon.svg';
-import boxicon from '@/shared/assets/icons/box-icon.svg';
- 
-
-import { getTokenFromCookies } from '@/shared/lib';
-import CTextField from '@/shared/ui/inputs/CTextField';
-import CustomRadioButton from './CustomRadioButton';
-
-
-
-import UrlicoNotLoggedForm from '@/components/Checkout/UrlicoNotLoggedForm';
 import SimpleCheckoutFrom from '@/components/Checkout/SimpleCheckoutFrom';
-import { removeFromCart } from '@/features/cart/model/cartSlice';
+import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
+import UrlicoNotLoggedForm from '@/components/Checkout/UrlicoNotLoggedForm';
 import { useSendOrderMutation } from '@/entities/order/api/orderEndpoints';
+import { useGetUserDataQuery } from '@/features/auth';
 import {
+  transformServerCartToLocalCart,
+  removeFromCart,
   useGetUserCartQuery,
   useSendCartMutation,
-} from '@/features/cart/api/cartApi';
-import { useGetUserDataQuery } from '@/features/auth';
+} from '@/features/cart';
+import PickupPointModal from '@/features/modals/ui/modals/PickupPointModal';
+import arrow from '@/shared/assets/icons/arrow-icon.svg';
+import boxicon from '@/shared/assets/icons/box-icon.svg';
+import fizlicoactive from '@/shared/assets/icons/fizlico-active.svg';
+import fizlico from '@/shared/assets/icons/fizlico-inactive.svg';
+import stallicon from '@/shared/assets/icons/stall-icon.svg';
+import truckicon from '@/shared/assets/icons/truck-icon.svg';
+import urlicoactive from '@/shared/assets/icons/urlico-active.svg';
+import urlico from '@/shared/assets/icons/urlico-inactive.svg';
+import { getTokenFromCookies } from '@/shared/lib';
+import CTextField from '@/shared/ui/inputs/CTextField';
 
 import CheckoutTotals from './CheckoutTotals';
+import CustomRadioButton from './CustomRadioButton';
 
 import type { RootState } from '@/app/providers/store';
-
-import { transformServerCartToLocalCart } from '@/features/cart/lib';
-
 import type { CartProduct, LocalCartState } from '@/features/cart/model/types';
 
-function CartCheckout() {
+const CartCheckout = () => {
   const token = getTokenFromCookies();
   const localCart: LocalCartState = useSelector(
     (state: RootState) => state.cart
@@ -471,6 +463,6 @@ function CartCheckout() {
       </FormProvider>
     </div>
   );
-}
+};
 
 export default CartCheckout;

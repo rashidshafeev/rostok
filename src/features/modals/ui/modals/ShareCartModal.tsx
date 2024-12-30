@@ -16,16 +16,16 @@ import {
 } from 'react-share';
 import { toast } from 'sonner';
 
-import CopyButton from '@/components/common/CopyButton';
-import CardLine from '@/components/ProductCard/CardLine';
-import LineNarrow from '@/components/ProductCard/LineNarrow';
 import {
   useGetCartShareCodeMutation,
   //  useGetCartShareCodeQuery,
   useGetCartShareItemsByCodeMutation,
 } from '@/features/cart/api/cartApi';
 import { useModal } from '@/features/modals/model/context';
+import CopyButton from '@/shared/ui/copy-button/CopyButton';
 import CTextField from '@/shared/ui/inputs/CTextField';
+import CardLine from '@/widgets/product-card/ui/ProductCardLine';
+import ProductCardLineSmall from '@/widgets/product-card/ui/ProductCardLineSmall';
 
 const ShareCartModal: React.FC = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
@@ -81,7 +81,10 @@ const ShareCartModal: React.FC = () => {
                     key={index}
                     className="flex w-full gap-3 items-center justify-between"
                   >
-                    <LineNarrow product={item} showChangeQuantity={false} />
+                    <ProductCardLineSmall
+                      product={item}
+                      showChangeQuantity={false}
+                    />
                   </div>
                 );
               })

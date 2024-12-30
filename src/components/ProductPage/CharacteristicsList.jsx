@@ -1,6 +1,6 @@
 import copyicon from '@/shared/assets/icons/copy-icon.svg';
 import { toast } from 'sonner';
-import CopyButton from '../common/CopyButton';
+import CopyButton from '../../shared/ui/copy-button/CopyButton';
 
 function CharacteristicsList({ current, product, setTabIndex }) {
  
