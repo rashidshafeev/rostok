@@ -1,6 +1,7 @@
 import React from 'react';
 
-import CopyButton from '../../shared/ui/copy-button/CopyButton';
+import { CopyButton } from '@/shared/ui';
+
 
 import type {
   ContactsDataItem,

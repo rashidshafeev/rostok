@@ -10,13 +10,13 @@ import {
   QuantityControl,
   RemoveFromCartButton,
 } from '@/features/cart';
-import SelectCartItemButton from '@/features/cart/ui/components/SelectCartItemButton';
 import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
 import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { CCheckBoxField } from '@/shared/ui/inputs';
 import { PriceDisplay } from '@/widgets/product-card';
 
+import { SelectCartItemButton } from './SelectCartItemButton';
 
 export const MobileCartItem = ({ cart, selectedItems, handleItemChange }) => {
   // eslint-disable-next-line no-unused-vars

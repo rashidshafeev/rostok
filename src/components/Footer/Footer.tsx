@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import { useGetBasicFiltersQuery } from '@/entities/product/api/productApi';
+import { useGetBasicFiltersQuery } from '@/entities/filter';
 import arrowDown from '@/shared/assets/icons/arrow-black.svg';
 import logo from '@/shared/assets/images/logo.svg';
 import telegram from '@/shared/assets/images/telegram.svg';

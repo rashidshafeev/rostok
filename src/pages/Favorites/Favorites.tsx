@@ -6,9 +6,9 @@ import { useGetFavoritesQuery } from '@/features/favorite/api/favoritesEndpoints
 import { getTokenFromCookies } from '@/shared/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
-import CategorySwitcher from '@/widgets/category-switcher/ui/CategorySwitcher';
-import FavDetail from '@components/Favorites/FavDetail';
-import FavSidebar from '@components/Favorites/FavSidebar';
+import { CategorySwitcher } from '@/widgets/category-switcher';
+import { FavDetail } from '@components/Favorites/FavDetail';
+import { FavSidebar } from '@components/Favorites/FavSidebar';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 
 import type { RootState } from '@store/store';

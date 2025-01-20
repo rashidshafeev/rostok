@@ -10,10 +10,10 @@ import {
   CartOrderInfo,
   MobileToCheckoutBar,
   transformServerCartToLocalCart,
-  RecentlyVisitedSection,
 } from '@/features/cart';
 import { useGetUserCartQuery } from '@/features/cart/api/cartApi';
 import { useModal } from '@/features/modals/model/context';
+import { RecentlyVisitedSection } from '@/features/recent-items';
 import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 import docIcon from '@/shared/assets/icons/download-pdf.svg';
 import shareIcon from '@/shared/assets/icons/share.svg';

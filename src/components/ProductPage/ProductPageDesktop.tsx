@@ -20,7 +20,7 @@ type ProductPageDesktopProps = {
   attributesList: AttributesValuesList;
   handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
-const ProductPageDesktop = ({
+export const ProductPageDesktop = ({
   group,
   currentProduct,
   attributesList,
@@ -89,4 +89,3 @@ const ProductPageDesktop = ({
     </div>
   );
 };
-export default ProductPageDesktop;

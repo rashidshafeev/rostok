@@ -6,29 +6,29 @@ import {
 
 import { Layout } from '@/app/layouts/Layout';
 import { CartPage } from '@/pages/cart/CartPage';
-import Catalog from '@components/Catalog/Catalog';
-import ChangePassword from '@components/Profile/ChangePassword/ChangePassword';
-import MyOrders from '@components/Profile/MyOrders/MyOrders';
-import Organizations from '@components/Profile/Organizations/Organizations';
-import PersonalData from '@components/Profile/PersonalData/PersonalData';
-import ProtectedRoute from '@components/ProtectedRoute/ProtectedRoute';
-import About from '@pages/About/About';
-import CatalogPage from '@pages/CatalogPage/CatalogPage';
-import CartCheckout from '@pages/Checkout/CartCheckout';
-import Comparison from '@pages/Comparison/Comparison';
-import Contacts from '@pages/Contacts/Contacts';
-import FAQ from '@pages/FAQ/FAQ';
-import Favorites from '@pages/Favorites/Favorites';
-import Home from '@pages/Home/Home';
-import PageNotFound from '@pages/PageNotFound/PageNotFound';
-import PaymentDelivery from '@pages/PaymentDelivery/PaymentDelivery';
-import ProductPage from '@pages/ProductPage/ProductPage';
-import Profile from '@pages/Profile/Profile';
-import Wallet from '@pages/Profile/Wallet';
-import ReviewsPage from '@pages/Reviews/ReviewsPage';
-import SearchResults from '@pages/SearchResults/SearchResults';
-import Warranty from '@pages/Warranty/Warranty';
-import Wholesale from '@pages/Wholesale/Wholesale';
+import Catalog from '@/components/Catalog/Catalog';
+import ChangePassword from '@/components/Profile/ChangePassword/ChangePassword';
+import MyOrders from '@/components/Profile/MyOrders/MyOrders';
+import Organizations from '@/components/Profile/Organizations/Organizations';
+import PersonalData from '@/components/Profile/PersonalData/PersonalData';
+import ProtectedRoute from '@/components/ProtectedRoute/ProtectedRoute';
+import About from '@/pages/About/About';
+import CatalogPage from '@/pages/CatalogPage/CatalogPage';
+import CartCheckout from '@/pages/Checkout/CartCheckout';
+import Comparison from '@/pages/Comparison/Comparison';
+import Contacts from '@/pages/Contacts/Contacts';
+import FAQ from '@/pages/FAQ/FAQ';
+import Favorites from '@/pages/Favorites/Favorites';
+import Home from '@/pages/Home/Home';
+import PageNotFound from '@/pages/PageNotFound/PageNotFound';
+import PaymentDelivery from '@/pages/PaymentDelivery/PaymentDelivery';
+import ProductPage from '@/pages/ProductPage/ProductPage';
+import Profile from '@/pages/Profile/Profile';
+import Wallet from '@/pages/Profile/Wallet';
+import ReviewsPage from '@/pages/Reviews/ReviewsPage';
+import SearchResults from '@/pages/SearchResults/SearchResults';
+import Warranty from '@/pages/Warranty/Warranty';
+import Wholesale from '@/pages/Wholesale/Wholesale';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

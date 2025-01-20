@@ -1,17 +1,17 @@
 import { useEffect } from 'react';
 
-import PopularCategoriesMobile from '@/components/Home/PopularCategoriesMobile';
+import { PopularCategoriesMobile } from '@/components/Home/PopularCategoriesMobile';
+import { SaleProducts } from '@/components/Home/SaleProducts';
 import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
-import Advantages from '@components/Home/Advantages';
-import Banner from '@components/Home/Banner';
-import Brands from '@components/Home/Brands';
-import News from '@components/Home/News';
-import PopularCategories from '@components/Home/PopularCategories';
-import Promotions from '@components/Home/Promotions';
-import RoomProducts from '@components/Home/RoomProducts';
-import SaleBanner from '@components/Home/SaleBanner';
-import SaleProducts from '@components/Home/SaleProducts';
+import { Advantages } from '@components/Home/Advantages';
+import { Banner } from '@components/Home/Banner';
+import { Brands } from '@components/Home/Brands';
+import { News } from '@components/Home/News';
+import { PopularCategories } from '@components/Home/PopularCategories';
+import { Promotions } from '@components/Home/Promotions';
+import { RoomProducts } from '@components/Home/RoomProducts';
+import { SaleBanner } from '@components/Home/SaleBanner';
 
 import HomeSkeleton from './HomeSkeleton';
 

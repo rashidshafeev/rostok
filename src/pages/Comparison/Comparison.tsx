@@ -9,10 +9,10 @@ import { useGetComparisonQuery } from '@/features/comparison/api/comparisonApi';
 import { getTokenFromCookies } from '@/shared/lib';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
-import CategorySwitcher from '@/widgets/category-switcher/ui/CategorySwitcher';
+import { CategorySwitcher } from '@/widgets/category-switcher';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 
-import type { RootState } from '@store/store';
+import type { RootState } from '@/app/providers/store';
 
 interface ErrorEmptyProps {
   title: string;

@@ -1,6 +1,6 @@
 export { default as AddOrganizationModal } from './AddOrganizationModal';
-export { default as AddressModal } from './AddressModal/AddressModal';
-export { default as AllFiltersModal } from './AllFiltersModal/AllFiltersModal';
+export { AddressModal } from './AddressModal/AddressModal';
+export { AllFiltersModal } from './AllFiltersModal/AllFiltersModal';
 export { default as CatalogModal } from './CatalogModal';
 export { default as CatalogModalMobile } from './CatalogModalMobile';
 export { default as CitiesModal } from './CitiesModal';
@@ -13,7 +13,7 @@ export { default as PickupPointModal } from './PickupPointModal';
 export { default as QuestionModal } from './QuestionModal';
 export { default as ReviewModal } from './ReviewModal';
 export { default as SearchFiltersModal } from './SearchFiltersModal';
-export { default as ShareCartModal } from './ShareCartModal';
+export { ShareCartModal } from './ShareCartModal';
 export { default as ShareModal } from './ShareModal';
 export { default as ShowSharedCartModal } from './ShowSharedCartModal';
 export { default as UpdateOrganizationModal } from './UpdateOrganizationModal';

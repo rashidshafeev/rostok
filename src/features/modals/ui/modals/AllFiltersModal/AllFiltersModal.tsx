@@ -9,7 +9,7 @@ import PriceFilter from '@components/Catalog/CatalogSidebar/SidebarFilters/Price
 import TagsFilters from '@components/Catalog/CatalogSidebar/SidebarFilters/TagsFilters';
 import SidebarFiltersSkeleton from '@components/Catalog/CatalogSidebar/SidebarFiltersSkeleton';
 
-const AllFiltersModal = ({
+export const AllFiltersModal = ({
   categoryTree,
   open,
   setOpen,
@@ -123,4 +123,3 @@ const AllFiltersModal = ({
   );
 };
 
-export default AllFiltersModal;

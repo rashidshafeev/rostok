@@ -11,7 +11,7 @@ import FizlicoNotLoggedForm from '@/components/Checkout/FizlicoNotLoggedForm';
 import SimpleCheckoutFrom from '@/components/Checkout/SimpleCheckoutFrom';
 import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
 import UrlicoNotLoggedForm from '@/components/Checkout/UrlicoNotLoggedForm';
-import { useSendOrderMutation } from '@/entities/order/api/orderEndpoints';
+import { useSendOrderMutation } from '@/entities/order/api/orderApi';
 import { useGetUserDataQuery } from '@/features/auth';
 import {
   transformServerCartToLocalCart,

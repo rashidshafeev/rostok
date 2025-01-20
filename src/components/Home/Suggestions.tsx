@@ -1,19 +1,19 @@
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
-import ProductCard from '../ProductCard/ProductCard';
 import { products } from '@constants/data';
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-const Suggestions = () => {
+import { ProductCard } from '@/widgets/product-card';
+
+export const Suggestions = () => {
   return (
-    <div className='pt-10 pb-5 slider'>
-      <h1 className='text-colBlack text-2xl mm:text-4xl font-semibold pb-4'>
+    <div className="pt-10 pb-5 slider">
+      <h1 className="text-colBlack text-2xl mm:text-4xl font-semibold pb-4">
         Лучшие предложения
       </h1>
       <Swiper
         modules={[Navigation]}
         navigation={window.innerWidth >= 576}
-      autoHeight={true}
-
+        autoHeight={true}
         spaceBetween={16}
         breakpoints={{
           260: {
@@ -39,5 +39,3 @@ const Suggestions = () => {
     </div>
   );
 };
-
-export default Suggestions;

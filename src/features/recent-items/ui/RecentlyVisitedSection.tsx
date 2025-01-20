@@ -4,8 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { useGetRecentItemsQuery } from '@/features/auth';
 import { getTokenFromCookies } from '@/shared/lib';
-
-import ProductCard from '../ProductCard/ProductCard';
+import { ProductCard } from '@/widgets/product-card';
 
 export const RecentlyVisitedSection = () => {
   const token = getTokenFromCookies();

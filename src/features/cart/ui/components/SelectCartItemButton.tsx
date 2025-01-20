@@ -25,7 +25,7 @@ interface SelectCartItemButtonProps {
   }) => React.ReactNode;
 }
 
-const SelectCartItemButton: React.FC<SelectCartItemButtonProps> = ({
+export const SelectCartItemButton: React.FC<SelectCartItemButtonProps> = ({
   product,
   children,
 }) => {
@@ -74,5 +74,3 @@ const SelectCartItemButton: React.FC<SelectCartItemButtonProps> = ({
 
   return children({ isLoading, isSelected, handleSelectClick });
 };
-
-export default SelectCartItemButton;

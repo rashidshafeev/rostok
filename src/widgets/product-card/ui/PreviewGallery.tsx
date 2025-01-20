@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 // import './PreviewGallery.css';
-import ComparisonButton from '@/features/comparison/ui/controls/ComparisonButton';
-import FavoriteButton from '@/features/favorite/ui/controls/FavoriteButton';
+import { ComparisonButton } from '@/features/comparison';
+import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
 import { ComparisonIcon, FavoriteIcon } from '@/shared/ui/icons';
 

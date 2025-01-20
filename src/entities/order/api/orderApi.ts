@@ -2,7 +2,7 @@ import { api } from '@/shared/api/api';
 
 import type { GetUserOrdersResponse } from './types';
 
-export const orderEndpoints = api.injectEndpoints({
+export const orderApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getCitiesAndRegions: builder.query({
       query: () => '/api/Location/full',
@@ -103,4 +103,4 @@ export const {
   useSendFeedbackMutation,
   useRepeatOrderMutation,
   useCreatePDFOrderMutation,
-} = orderEndpoints;
+} = orderApi;

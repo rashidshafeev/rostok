@@ -3,17 +3,17 @@ import { useEffect } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
+import { useGetCategoryTreeQuery } from '@/entities/category';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Loading } from '@/shared/ui/Loader';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
-import Catalog from '@components/Catalog/Catalog';
-import CatalogMainContent from '@components/Catalog/CatalogMainContent';
-import CatalogMainSidebar from '@components/Catalog/CatalogMainSidebar';
-import CatalogSidebar from '@components/Catalog/CatalogSidebar/CatalogSidebar';
-import Advantages from '@components/Home/Advantages';
-import Brands from '@components/Home/Brands';
-import Promotions from '@components/Home/Promotions';
+import { Catalog } from '@components/Catalog/Catalog';
+import { CatalogMainContent } from '@components/Catalog/CatalogMainContent';
+import { CatalogMainSidebar } from '@components/Catalog/CatalogMainSidebar';
+import { CatalogSidebar } from '@components/Catalog/CatalogSidebar/CatalogSidebar';
+import { Advantages } from '@components/Home/Advantages';
+import { Brands } from '@components/Home/Brands';
+import { Promotions } from '@components/Home/Promotions';
 
 // Main catalog components
 

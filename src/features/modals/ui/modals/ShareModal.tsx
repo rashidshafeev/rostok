@@ -15,9 +15,8 @@ import {
 } from 'react-share';
 import { toast } from 'sonner';
 
-import { useModal } from '@/features/modals/model/context';
-import CopyButton from '@/shared/ui/copy-button/CopyButton';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { useModal } from '@/features/modals';
+import { CopyButton, CTextField } from '@/shared/ui';
 
 const ShareModal: React.FC = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();

@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import SidebarCategoryTree from './SidebarCategoryTree';
 import SidebarFilters from './SidebarFilters/SidebarFilters';
 
-const CatProdSidebar = ({
+export const CatalogSidebar = ({
   filters,
   setFiltersModalOpen,
   setFilters,
@@ -30,4 +30,3 @@ const CatProdSidebar = ({
   );
 };
 
-export default CatProdSidebar;

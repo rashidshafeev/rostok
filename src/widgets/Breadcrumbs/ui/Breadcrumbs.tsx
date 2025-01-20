@@ -1,3 +1,4 @@
+import { clsx } from 'clsx';
 import { useLocation, useParams } from 'react-router-dom';
 
 import { useGetCategoryTreeQuery } from '@/entities/category';

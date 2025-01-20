@@ -2,24 +2,22 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
-import Advantages from '@/components/Home/Advantages';
-import Brands from '@/components/Home/Brands';
-import Promotions from '@/components/Home/Promotions';
-import {
-  useGetCategoryTreeQuery,
-  useGetFiltersMutation,
-  useGetVariantsMutation,
-} from '@/entities/product/api/productApi';
-import AllFiltersModal from '@/features/modals/ui/modals/AllFiltersModal/AllFiltersModal';
+import { Advantages } from '@/components/Home/Advantages';
+import { Brands } from '@/components/Home/Brands';
+import { Promotions } from '@/components/Home/Promotions';
+import { useGetCategoryTreeQuery } from '@/entities/category';
+import { useGetFiltersMutation } from '@/entities/filter';
+import { useGetVariantsMutation } from '@/entities/product';
+import { AllFiltersModal } from '@/features/modals';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import CatalogContent from './CatalogContent/CatalogContent';
-import CatalogSidebar from './CatalogSidebar/CatalogSidebar';
+import { CatalogSidebar } from './CatalogSidebar/CatalogSidebar';
 
-import type { FiltersState } from '@/entities/filter/Filters/FiltersState';
+import type { FiltersState } from '@/entities/filter';
 
-const CatProducts = () => {
+export const Catalog = () => {
   const [filtersModalOpen, setFiltersModalOpen] = useState(false);
 
   const { categoryId } = useParams();
@@ -643,4 +641,4 @@ const CatProducts = () => {
   );
 };
 
-export default CatProducts;
+export default Catalog;

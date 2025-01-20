@@ -2,20 +2,20 @@ import { AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate, useOutletContext } from 'react-router-dom';
 
-import { QuantityControl,RemoveFromCartButton } from '@/features/cart';
+import { QuantityControl, RemoveFromCartButton } from '@/features/cart';
 import {
   addToCart,
   changeQuantity,
   removeFromCart,
   selectItem,
 } from '@/features/cart/model/cartSlice';
-import SelectCartItemButton from '@/features/cart/ui/components/SelectCartItemButton';
 import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
+import { CCheckBoxField } from '@/shared/ui';
 import { FavoriteIcon, DeleteIcon } from '@/shared/ui/icons';
- 
-import CCheckBoxField from '@/shared/ui/inputs/CCheckBoxField';
 import { PriceDisplay } from '@/widgets/product-card';
+
+import { SelectCartItemButton } from './SelectCartItemButton';
 // import { toggleFavorite } from '@store/slices/favoriteSlice';
 
 export const CartItemLine = ({ cart }) => {

@@ -10,7 +10,8 @@ import {
   QuantityControl,
   RemoveFromCartButton
 } from '@/features/cart';
-import SelectCartItemButton from '@/features/cart/ui/components/SelectCartItemButton';
+import { SelectCartItemButton } from './SelectCartItemButton';
+
 import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
 import { CCheckBoxField } from '@/shared/ui/';

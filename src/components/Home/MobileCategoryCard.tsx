@@ -10,12 +10,12 @@ interface MobileCategoryCardProps {
 }
 
 const generateRandomWidth = () => {
-  const min = 70;
-  const max = 150;
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  const widths = [80, 100, 120];
+  const index = Math.floor(Math.random() * widths.length);
+  return widths[index];
 };
 
-const MobileCategoryCard = ({ category }: MobileCategoryCardProps) => {
+export const MobileCategoryCard = ({ category }: MobileCategoryCardProps) => {
   return (
     <NavLink
       to={`/catalog/${category?.slug}`}
@@ -26,7 +26,7 @@ const MobileCategoryCard = ({ category }: MobileCategoryCardProps) => {
       <img
         src={category?.image?.large || noImg}
         onError={(e) => {
-          e.currentTarget.onerror = null;
+          e.currentTarget.onerrorW = null;
           e.currentTarget.src = noImg;
         }}
         alt={category?.name}
@@ -64,4 +64,3 @@ const MobileCategoryCard = ({ category }: MobileCategoryCardProps) => {
 //   );
 // };
 
-export default MobileCategoryCard;

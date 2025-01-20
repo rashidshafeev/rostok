@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { NavLink, useParams } from 'react-router-dom';
 
-import { useGetCategoryTreeQuery } from '@/entities/product/api/productApi';
+import { useGetCategoryTreeQuery } from '@/entities/category';
 import { ArrowIcon } from '@/shared/ui/icons';
 
 import SidebarCategoryTreeSkeleton from './SidebarCategoryTreeSkeleton';

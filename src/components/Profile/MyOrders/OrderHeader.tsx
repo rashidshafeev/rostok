@@ -1,8 +1,8 @@
 import React from 'react';
 
-import CopyButton from '@/shared/ui/copy-button/CopyButton';
+import { CopyButton } from '@/shared/ui';
 
-import type { Order } from '@/entities/order/Orders/Order';
+import type { Order } from '@/entities/order';
 
 interface OrderHeaderProps {
   order: Order;

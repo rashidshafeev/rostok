@@ -8,11 +8,11 @@ import {
   useCancelOrderMutation,
   useRepeatOrderMutation,
   useCreatePDFOrderMutation,
-} from '@/entities/order/api/orderEndpoints';
-import { useModal } from '@/features/modals/model/context';
-import PriceDisplay from '@/widgets/product-card/ui/PriceDisplay';
+} from '@/entities/order';
+import { useModal } from '@/features/modals';
+import { PriceDisplay } from '@/widgets/product-card';
 
-import type { Order } from '@/entities/order/Orders/Order';
+import type { Order } from '@/entities/order';
 
 interface OrderDetailsProps {
   order: Order;

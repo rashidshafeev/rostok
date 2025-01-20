@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const FavSidebar = ({ favorite, selectedFilter, setSelectedFilter }) => {
+export const FavSidebar = ({ favorite, selectedFilter, setSelectedFilter }) => {
   // const [value, setValue] = useState([20, 37]);
 
   // const handleChange = (event, newValue) => {
@@ -337,5 +337,3 @@ const FavSidebar = ({ favorite, selectedFilter, setSelectedFilter }) => {
     </div>
   );
 };
-
-export default FavSidebar;

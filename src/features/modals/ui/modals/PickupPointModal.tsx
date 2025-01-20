@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import { YMaps, Map, Placemark } from '@pbe/react-yandex-maps';
 
+import { CSearchField } from '@/shared/ui';
 import { SubwayIcon } from '@/shared/ui/icons';
-import CSearchField from '@/shared/ui/inputs/CSearchField';
-import CustomRadioButton from '@pages/Checkout/CustomRadioButton';
+import { CustomRadioButton } from '@pages/Checkout/CustomRadioButton';
 
 const PickupPointModal = ({
   open,

@@ -1,4 +1,4 @@
-import CopyButton from '../../shared/ui/copy-button/CopyButton';
+import { CopyButton } from '@/shared/ui';
 
 import type { ProjectBranch } from '@/types/ServerData/PageContent/GetContactsResponse';
 

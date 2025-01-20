@@ -1,0 +1,2374 @@
+Directory Structure:
+├── Catalog.tsx
+├── CatalogContent/
+├── CardTypeControls.tsx
+├── CatalogContent.tsx
+├── MobileSortControls.tsx
+├── SortControls.tsx
+├── CatalogMainContent.tsx
+├── CatalogMainSidebar.tsx
+├── CatalogSidebar/
+├── CatalogSidebar.tsx
+├── SidebarCategoryTree.tsx
+├── SidebarCategoryTreeSkeleton.tsx
+├── SidebarFilters/
+│   ├── BrandsFilter.tsx
+│   ├── CheckboxFilter.tsx
+│   ├── DynamicFilters.tsx
+│   ├── PriceFilter.tsx
+│   ├── SidebarFilters.tsx
+│   ├── TagsFilters.tsx
+│   ├── TooltipCaption.tsx
+├── SidebarFiltersSkeleton.tsx
+├── CategoryCard.tsx
+├── Filters/
+├── Filters.tsx
+
+
+File Contents:
+
+================
+src/components/Catalog/Catalog.tsx
+================
+
+import React, { useEffect, useRef, useState } from 'react';
+
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+
+import { Advantages } from '@/components/Home/Advantages';
+import { Brands } from '@/components/Home/Brands';
+import { Promotions } from '@/components/Home/Promotions';
+import { useGetCategoryTreeQuery } from '@/entities/category';
+import { useGetFiltersMutation } from '@/entities/filter';
+import { useGetVariantsMutation } from '@/entities/product';
+import { AllFiltersModal } from '@/features/modals';
+import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { Breadcrumbs } from '@/widgets/breadcrumbs';
+
+import CatalogContent from './CatalogContent/CatalogContent';
+import { CatalogSidebar } from './CatalogSidebar/CatalogSidebar';
+
+import type { FiltersState } from '@/entities/filter';
+
+export const Catalog = () => {
+  const [filtersModalOpen, setFiltersModalOpen] = useState(false);
+
+  const { categoryId } = useParams();
+
+  const navigate = useNavigate();
+  // const previousCategoryId = useRef(categoryId);
+
+  const {
+    data: categoryTree,
+    isSuccess: categoryTreeIsSuccess,
+    isError: categoryTreeIsError,
+    isLoading: categoryTreeIsLoading,
+  } = useGetCategoryTreeQuery(categoryId);
+
+  //Filters logic
+
+  const [filters, setFilters] = useState<FiltersState>({
+    basics: {
+      price: {
+        min: 0,
+        max: 0,
+      },
+      tags: [],
+      brands: [],
+      rating: [],
+    },
+    dynamics: [],
+    more: [],
+    category_chain: [],
+  });
+  const [filtersLoading, setFiltersLoading] = useState(false);
+  const [filtersBlock, setFiltersBlock] = useState(false);
+  const [trigger, setTrigger] = useState(''); // Нужно в основном для фильтра цен, чтобы он не отсылал запрос при инициализации, и при смене категорий устанавливал правильные значения
+  const previousFilters = useRef({});
+
+  const [
+    getFilters,
+    // { isLoading: filtersIsLoading,
+    //   isSuccess: filtersIsSuccess },
+  ] = useGetFiltersMutation();
+
+  const getNewFiltersList = async (sendObject, trigger) => {
+    if (
+      trigger === 'categoryId' ||
+      trigger === 'tags' ||
+      trigger === 'brands'
+    ) {
+      setFiltersLoading(true);
+    } else if (trigger === 'filters') {
+      setFiltersBlock(true);
+    }
+
+    const newFilters = await getFilters(sendObject);
+
+    // Type guard to check if response has data
+    if ('data' in newFilters) {
+      const more = newFilters.data.more.map((obj) => ({
+        ...obj,
+        additional_filter: true,
+      }));
+
+      const newDynamics = newFilters.data.dynamics.concat(more);
+
+      const newFiltersState = {
+        ...filters,
+        basics: newFilters.data.basics,
+        dynamics: newDynamics,
+      };
+
+      navigate(
+        `?${buildQueryParams(getSendFiltersObject2(newFiltersState), sort, page)}`,
+        { replace: true }
+      );
+
+      previousFilters.current = newFiltersState;
+      setFilters(newFiltersState);
+      setTrigger(trigger);
+
+      // Reset loading states
+      if (
+        trigger === 'categoryId' ||
+        trigger === 'tags' ||
+        trigger === 'brands'
+      ) {
+        setFiltersLoading(false);
+      } else if (trigger === 'filters') {
+        setFiltersBlock(false);
+      }
+    } else {
+      // Handle error case
+      console.error('Failed to fetch filters:', newFilters.error);
+
+      // Reset loading states on error
+      setFiltersLoading(false);
+      setFiltersBlock(false);
+    }
+  };
+
+  const [
+    getVariants,
+    { isLoading: getVariantsIsLoading, isSuccess: getVariantsIsSuccess },
+  ] = useGetVariantsMutation();
+
+  const getProducts = async (sendObject) => {
+    setProductsLoading(true);
+
+    const products = await getVariants(sendObject);
+    if (products.data.success === 'ok') {
+      setProducts(products.data);
+    }
+    setProductsLoading(false);
+  };
+
+  useEffect(() => {
+    if (JSON.stringify(filters) !== JSON.stringify(previousFilters.current)) {
+      getNewFiltersList(
+        {
+          ...getSendFiltersObject(),
+          // min_raiting (float): минимальный рейтинг
+          // max_raiting (float): максимальный рейтинг
+
+          // orderBy (string): Сортировка по полю
+          // sortOrder (string): Направление сортировки
+        },
+        'filters'
+      );
+      getProducts({
+        ...getSendFiltersObject(),
+        page: 1,
+        limit: 20,
+        orderBy: sort.sortBy || 'popularity',
+        sortOrder: sort.sortOrder || 'desc',
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+    }
+    // scrollToTop();
+  }, [filters]);
+
+  useEffect(() => {
+    const queryParams = parseQueryParams(location.search);
+
+    if (categoryId === 'tags' || categoryId === 'brands') return;
+
+    if (isFirstLoad.current && queryParams) {
+      getNewFiltersList(
+        { ...queryParams.filtersObject, category_id: categoryId },
+        'categoryId'
+      );
+      setPage(queryParams.page || 1);
+      getProducts({
+        ...queryParams.filtersObject,
+        // ...queryParams.sortObject,
+        orderBy: queryParams.sortObject.sortBy || 'popularity',
+        sortOrder: queryParams.sortObject.sortOrder || 'desc',
+        page: queryParams.page || 1,
+        limit: 20,
+        category_id: categoryId,
+      });
+      isFirstLoad.current = false; // Mark the first load as completed
+    } else {
+      getNewFiltersList(
+        {
+          category_id: categoryId,
+          min_price: null,
+          max_price: null,
+          brands: [],
+          tags: [],
+          filters: {},
+          last_changed: {},
+          // min_raiting (float): минимальный рейтинг
+          // max_raiting (float): максимальный рейтинг
+
+          // orderBy (string): Сортировка по полю
+          // sortOrder (string): Направление сортировки
+        },
+        'categoryId'
+      );
+
+      getProducts({
+        page: 1,
+        limit: 20,
+        orderBy: sort.sortBy,
+        sortOrder: sort.sortOrder,
+        category_id: categoryId,
+        min_price: null,
+        max_price: null,
+        brands: [],
+        tags: [],
+        filters: {},
+        last_changed: {},
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+
+      setPage(1);
+    }
+
+    scrollToTop();
+  }, [categoryId]);
+
+  useEffect(() => {
+    const queryParams = parseQueryParams(location.search);
+    scrollToTop();
+
+    if (
+      categoryId === 'tags' &&
+      queryParams.filtersObject.tags.length > 0 &&
+      !queryParams.filtersObject.max_price
+    ) {
+      getNewFiltersList(
+        {
+          ...getSendFiltersObject(),
+          tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()],
+        },
+        'tags'
+      );
+
+      getProducts({
+        ...getSendFiltersObject(),
+        tags: [queryParams?.filtersObject?.tags[0]?.toUpperCase()],
+
+        page: 1,
+        limit: 20,
+        orderBy: sort.sortBy || 'popularity',
+        sortOrder: sort.sortOrder || 'desc',
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+      return;
+    }
+
+    if (
+      categoryId === 'brands' &&
+      queryParams.filtersObject.brands.length > 0 &&
+      !queryParams.filtersObject.max_price
+    ) {
+      getNewFiltersList(
+        {
+          ...getSendFiltersObject(),
+          brands: [queryParams?.filtersObject?.brands[0]],
+        },
+        'brands'
+      );
+
+      getProducts({
+        ...getSendFiltersObject(),
+        brands: [queryParams?.filtersObject?.brands[0]],
+
+        page: 1,
+        limit: 20,
+        orderBy: sort.sortBy || 'popularity',
+        sortOrder: sort.sortOrder || 'desc',
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+      return;
+    }
+  }, [location.search]);
+
+  const isFirstLoad = useRef(true);
+
+  // useEffect(() => {
+  //   if (isFirstLoad.current) {
+  //     const queryParams = parseQueryParams(location.search);
+  //     if (queryParams) {
+  //       setFilters(queryParams.filtersObject);
+  //       setSort(queryParams.sortObject);
+  //       setPage(queryParams.page);
+  //     }
+  //     isFirstLoad.current = false; // Mark the first load as completed
+  //   }
+  // }, []); // Only run once on initial load
+
+  const resetFilters = async () => {
+    getNewFiltersList(
+      {
+        category_id:
+          categoryId === 'tags' || categoryId === 'brands' ? null : categoryId,
+
+        min_price: null,
+        max_price: null,
+        brands: [],
+        tags: [],
+        filters: {},
+        last_changed: {},
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+
+        // orderBy (string): Сортировка по полю
+        // sortOrder (string): Направление сортировки
+      },
+      'categoryId'
+    );
+
+    getProducts({
+      page: page,
+      limit: 20,
+      orderBy: sort.sortBy,
+      sortOrder: sort.sortOrder,
+      category_id:
+        categoryId === 'tags' || categoryId === 'brands' ? null : categoryId,
+
+      min_price: null,
+      max_price: null,
+      brands: [],
+      tags: [],
+      filters: {},
+      last_changed: {},
+
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+    });
+    scrollToTop();
+  };
+  // Products logic
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [sort, setSort] = useState({
+    sortBy: 'popularity',
+    sortOrder: 'desc',
+  });
+
+  const sortPrevious = useRef(sort);
+
+  const handlePagination = (e, p) => {
+    setPage(p);
+    // if (pagePrevious.current !== page) {
+    getProducts({
+      ...getSendFiltersObject(),
+      page: p,
+      limit: 20,
+      orderBy: sort.sortBy,
+      sortOrder: sort.sortOrder,
+
+      // min_raiting (float): минимальный рейтинг
+      // max_raiting (float): максимальный рейтинг
+    });
+    // pagePrevious.current = page;
+    // }
+    scrollToTop();
+  };
+
+  useEffect(() => {
+    if (JSON.stringify(sortPrevious.current) !== JSON.stringify(sort)) {
+      getProducts({
+        ...getSendFiltersObject(),
+        page: page,
+        limit: 20,
+        orderBy: sort.sortBy,
+        sortOrder: sort.sortOrder,
+
+        // min_raiting (float): минимальный рейтинг
+        // max_raiting (float): максимальный рейтинг
+      });
+    }
+  }, [sort]);
+
+  // Utility
+
+  const getSendFiltersObject2 = (filters) => {
+    const brands = filters?.basics?.brands?.reduce((acc, brand) => {
+      if (brand.is_selected) {
+        acc.push(brand.id);
+      }
+      return acc;
+    }, []);
+
+    const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      console.log(tag);
+      if (tag.is_selected) {
+        acc.push(tag.tag);
+      }
+      return acc;
+    }, []);
+
+    const dynamicFilters = filters?.dynamics
+      ?.filter((filter) => filter.values.some((value) => value.is_selected))
+      .reduce((acc, filter) => {
+        acc[filter.id] = filter.values
+          .filter((value) => value.is_selected)
+          .map((value) => value.id);
+        return acc;
+      }, {});
+
+    return {
+      category_id:
+        categoryId === 'tags' || categoryId === 'brands' ? null : categoryId,
+
+      min_price: filters?.basics?.price?.current_values?.min || null,
+      max_price: filters?.basics?.price?.current_values?.max || null,
+      brands: brands || [],
+      tags: tags || [],
+      filters: dynamicFilters || {},
+      last_changed: filters?.lastChanged || {},
+    };
+  };
+
+  const getSendFiltersObject = () => {
+    const brands = filters?.basics?.brands?.reduce((acc, brand) => {
+      if (brand.is_selected) {
+        acc.push(brand.id);
+      }
+      return acc;
+    }, []);
+
+    const tags = filters?.basics?.tags?.reduce((acc, tag) => {
+      if (tag.is_selected) {
+        acc.push(tag.tag);
+      }
+      return acc;
+    }, []);
+
+    const dynamicFilters = filters?.dynamics
+      ?.filter((filter) => filter.values.some((value) => value.is_selected))
+      .reduce((acc, filter) => {
+        acc[filter.id] = filter.values
+          .filter((value) => value.is_selected)
+          .map((value) => value.id);
+        return acc;
+      }, {});
+
+    return {
+      category_id:
+        categoryId === 'tags' || categoryId === 'brands' ? null : categoryId,
+      // category_id: categoryId,
+      min_price: filters?.basics?.price?.current_values?.min || null,
+      max_price: filters?.basics?.price?.current_values?.max || null,
+      brands: brands || [],
+      tags: tags || [],
+      filters: dynamicFilters || {},
+      last_changed: filters?.lastChanged || {},
+    };
+  };
+
+  const parseQueryParams = (queryString) => {
+    const params = new URLSearchParams(queryString);
+    const filtersObject = {
+      min_price: null,
+      max_price: null,
+      brands: [],
+      tags: [],
+      filters: {},
+      last_changed: {},
+    };
+    const sortObject = {
+      sortBy: undefined,
+      sortOrder: undefined,
+    };
+    let page = undefined;
+
+    // Parse min_price and max_price
+    if (params.has('min_price')) {
+      filtersObject.min_price =
+        params.get('min_price') === 'null'
+          ? null
+          : parseInt(params.get('min_price'), 10);
+    }
+    if (params.has('max_price')) {
+      filtersObject.max_price =
+        params.get('max_price') === 'null'
+          ? null
+          : parseInt(params.get('max_price'), 10);
+    }
+
+    // Parse brands
+    if (params.has('brands')) {
+      filtersObject.brands = params.get('brands').split(',').map(Number);
+    }
+
+    // Parse tags
+    if (params.has('tags')) {
+      filtersObject.tags = params.get('tags').split(',');
+    }
+
+    // Parse dynamic filters (filter_*)
+    params.forEach((value, key) => {
+      if (key.startsWith('filter_')) {
+        const filterId = key.replace('filter_', '');
+        filtersObject.filters[filterId] = value.split(',').map(Number);
+      }
+    });
+
+    // Parse last_changed
+    if (params.has('last_changed_type')) {
+      filtersObject.last_changed.type = params.get('last_changed_type');
+    }
+    if (params.has('last_changed_filter')) {
+      filtersObject.last_changed.filter = parseInt(
+        params.get('last_changed_filter'),
+        10
+      );
+    }
+
+    // Parse sortBy and sortOrder
+    if (params.has('sort_by')) {
+      sortObject.sortBy = params.get('sort_by');
+    }
+    if (params.has('sort_order')) {
+      sortObject.sortOrder = params.get('sort_order');
+    }
+
+    // Parse page
+    if (params.has('page')) {
+      page = parseInt(params.get('page'), 10);
+    }
+
+    return {
+      filtersObject,
+      sortObject,
+      page,
+    };
+  };
+
+  const buildQueryParams = (filtersObject, sortObject, page) => {
+    const params = new URLSearchParams();
+    // Category ID
+    // if (filtersObject.category_id) params.set('category_id', filtersObject.category_id);
+
+    // Price range
+    if (filtersObject.min_price !== undefined)
+      params.set('min_price', filtersObject.min_price);
+    if (filtersObject.max_price !== undefined)
+      params.set('max_price', filtersObject.max_price);
+
+    // Brands
+    if (filtersObject.brands?.length) {
+      params.set('brands', filtersObject.brands.join(','));
+    }
+
+    // Tags
+    if (filtersObject.tags?.length) {
+      params.set('tags', filtersObject.tags.join(','));
+    }
+
+    // Dynamic Filters
+    if (
+      filtersObject.filters &&
+      Object.keys(filtersObject.filters).length > 0
+    ) {
+      for (const key in filtersObject.filters) {
+        params.set(`filter_${key}`, filtersObject.filters[key].join(','));
+      }
+    }
+
+    // Last Changed
+    if (filtersObject.last_changed.filter !== undefined) {
+      params.set('last_changed_type', filtersObject.last_changed.type);
+      params.set('last_changed_filter', filtersObject.last_changed.filter);
+    }
+
+    if (sortObject.sortBy !== undefined)
+      params.set('sort_by', sortObject.sortBy);
+    if (sortObject.sortOrder !== undefined)
+      params.set('sort_order', sortObject.sortOrder);
+
+    if (page) params.set('page', page);
+
+    return params.toString();
+  };
+
+  return (
+    <div className="content lining-nums proportional-nums">
+      <Breadcrumbs />
+      <div className="flex gap-3">
+        <h3 className="font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5">
+          {!categoryTreeIsLoading && categoryTreeIsSuccess
+            ? categoryTree?.category?.name
+            : null}
+        </h3>
+        <span className="text-colDarkGray">
+          {categoryTree?.category?.product_count}{' '}
+        </span>
+      </div>
+
+      <div className="flex pb-10 min-h-[420px]">
+        {/* <div className="md:block hidden max-w-[220px] min-w-[220px] w-full mr-5"> */}
+        <div className="md:block hidden basis-1/4 mr-5">
+          <CatalogSidebar
+            setFiltersModalOpen={setFiltersModalOpen}
+            filters={filters}
+            setFilters={setFilters}
+            trigger={trigger}
+            setTrigger={setTrigger}
+            resetFilters={resetFilters}
+            filtersIsLoading={filtersLoading}
+            filtersBlock={filtersBlock}
+          />
+        </div>
+        <CatalogContent
+          setFiltersModalOpen={setFiltersModalOpen}
+          products={products}
+          getVariantsIsLoading={productsLoading}
+          page={page}
+          handlePagination={handlePagination}
+          sort={sort}
+          setSort={setSort}
+        />
+      </div>
+      <Promotions />
+      <Brands />
+      <Advantages />
+      <AllFiltersModal
+        categoryTree={categoryTree}
+        open={filtersModalOpen}
+        setOpen={setFiltersModalOpen}
+        filters={filters}
+        setFilters={setFilters}
+        trigger={trigger}
+        setTrigger={setTrigger}
+        resetFilters={resetFilters}
+        filtersIsLoading={filtersLoading}
+        filtersBlock={filtersBlock}
+      />
+    </div>
+  );
+};
+
+export default Catalog;
+
+================
+src/components/Catalog/CatalogContent/CardTypeControls.tsx
+================
+
+import React from 'react';
+
+const CardTypeControls = ({ cardType, setTypeCard }) => {
+  return (
+    <div className="flex justify-end items-center space-x-2">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="cursor-pointer"
+        onClick={() => {
+          setTypeCard('tile');
+          localStorage.setItem('cardView', 'tile');
+        }}
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M3.66797 2.6665C3.11568 2.6665 2.66797 3.11422 2.66797 3.6665V8.43574C2.66797 8.98802 3.11568 9.43574 3.66797 9.43574H8.4372C8.98948 9.43574 9.4372 8.98802 9.4372 8.43573V3.6665C9.4372 3.11422 8.98948 2.6665 8.4372 2.6665H3.66797ZM11.5654 2.6665C11.0131 2.6665 10.5654 3.11422 10.5654 3.6665V8.43574C10.5654 8.98802 11.0131 9.43574 11.5654 9.43574H16.3347C16.8869 9.43574 17.3347 8.98802 17.3347 8.43573V3.6665C17.3347 3.11422 16.8869 2.6665 16.3347 2.6665H11.5654ZM10.5654 11.564C10.5654 11.0117 11.0131 10.564 11.5654 10.564H16.3347C16.8869 10.564 17.3347 11.0117 17.3347 11.564V16.3332C17.3347 16.8855 16.8869 17.3332 16.3347 17.3332H11.5654C11.0131 17.3332 10.5654 16.8855 10.5654 16.3332V11.564ZM3.66797 10.5638C3.11568 10.5638 2.66797 11.0115 2.66797 11.5638V16.333C2.66797 16.8853 3.11568 17.333 3.66797 17.333H8.4372C8.98948 17.333 9.4372 16.8853 9.4372 16.333V11.5638C9.4372 11.0115 8.98948 10.5638 8.4372 10.5638H3.66797Z"
+          fill={`${cardType === 'tile' ? '#15765B' : '#B5B5B5'}`}
+        />
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="cursor-pointer"
+        onClick={() => {
+          setTypeCard('line');
+          localStorage.setItem('cardView', 'line');
+        }}
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M2.33301 2.6665C1.78072 2.6665 1.33301 3.11422 1.33301 3.6665V5.6665C1.33301 6.21879 1.78072 6.6665 2.33301 6.6665H4.33301C4.88529 6.6665 5.33301 6.21879 5.33301 5.6665V3.6665C5.33301 3.11422 4.88529 2.6665 4.33301 2.6665H2.33301ZM2.33301 7.99984C1.78072 7.99984 1.33301 8.44755 1.33301 8.99984V10.9998C1.33301 11.5521 1.78072 11.9998 2.33301 11.9998H4.33301C4.88529 11.9998 5.33301 11.5521 5.33301 10.9998V8.99984C5.33301 8.44755 4.88529 7.99984 4.33301 7.99984H2.33301ZM1.33301 14.3332C1.33301 13.7809 1.78072 13.3332 2.33301 13.3332H4.33301C4.88529 13.3332 5.33301 13.7809 5.33301 14.3332V16.3332C5.33301 16.8855 4.88529 17.3332 4.33301 17.3332H2.33301C1.78072 17.3332 1.33301 16.8855 1.33301 16.3332V14.3332ZM9 2.6665C8.44772 2.6665 8 3.11422 8 3.6665V5.6665C8 6.21879 8.44772 6.6665 9 6.6665H17.6667C18.219 6.6665 18.6667 6.21879 18.6667 5.6665V3.6665C18.6667 3.11422 18.219 2.6665 17.6667 2.6665H9ZM8 9C8 8.44772 8.44772 8 9 8H17.6667C18.219 8 18.6667 8.44772 18.6667 9V11C18.6667 11.5523 18.219 12 17.6667 12H9C8.44772 12 8 11.5523 8 11V9ZM9 13.333C8.44772 13.333 8 13.7807 8 14.333V16.333C8 16.8853 8.44772 17.333 9 17.333H17.6667C18.219 17.333 18.6667 16.8853 18.6667 16.333V14.333C18.6667 13.7807 18.219 13.333 17.6667 13.333H9Z"
+          fill={`${cardType === 'line' ? '#15765B' : '#B5B5B5'}`}
+        />
+      </svg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        className="cursor-pointer"
+        onClick={() => {
+          setTypeCard('lineNarrow');
+          localStorage.setItem('cardView', 'lineNarrow');
+        }}
+      >
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M1.33301 3.6665C1.33301 3.11422 1.78072 2.6665 2.33301 2.6665H17.6663C18.2186 2.6665 18.6663 3.11422 18.6663 3.6665V5.6665C18.6663 6.21879 18.2186 6.6665 17.6663 6.6665H2.33301C1.78072 6.6665 1.33301 6.21879 1.33301 5.6665V3.6665ZM1.33301 8.99984C1.33301 8.44755 1.78072 7.99984 2.33301 7.99984H17.6663C18.2186 7.99984 18.6663 8.44755 18.6663 8.99984V10.9998C18.6663 11.5521 18.2186 11.9998 17.6663 11.9998H2.33301C1.78072 11.9998 1.33301 11.5521 1.33301 10.9998V8.99984ZM2.33301 13.3332C1.78072 13.3332 1.33301 13.7809 1.33301 14.3332V16.3332C1.33301 16.8855 1.78072 17.3332 2.33301 17.3332H17.6663C18.2186 17.3332 18.6663 16.8855 18.6663 16.3332V14.3332C18.6663 13.7809 18.2186 13.3332 17.6663 13.3332H2.33301Z"
+          fill={`${cardType === 'lineNarrow' ? '#15765B' : '#B5B5B5'}`}
+        />
+      </svg>
+    </div>
+  );
+};
+
+export default CardTypeControls;
+
+================
+src/components/Catalog/CatalogContent/CatalogContent.tsx
+================
+
+import { useState, useRef, useEffect } from 'react';
+
+import { useParams } from 'react-router-dom';
+
+import { CustomPagination } from '@/features/catalog/CustomPagination';
+import filterIcon from '@/shared/assets/icons/filter.svg';
+import {
+  CardLineSkeleton,
+  ProductCardLineSmallSkeleton,
+  ProductCardSkeleton,
+  ProductCard,
+  ProductCardLine,
+  ProductCardLineSmall,
+} from '@/widgets/product-card';
+import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
+
+import CardTypeControls from './CardTypeControls';
+import MobileSortControls from './MobileSortControls';
+import SortControls from './SortControls';
+
+const CatProdContent = ({
+  // filters,
+  setFiltersModalOpen,
+  products,
+  getVariantsIsLoading,
+  page,
+  handlePagination,
+  sort,
+  setSort,
+}) => {
+  const cardView = localStorage.getItem('cardView');
+
+  const [cardType, setTypeCard] = useState(cardView ? cardView : 'tile');
+
+  const [activeSort, setActiveSort] = useState(
+    window.innerWidth > 1024
+      ? null
+      : { orderBy: 'popularity', sortOrder: 'desc', name: 'По популярности' }
+  );
+
+  const { categoryId } = useParams();
+
+  return (
+    <div className="w-full">
+      <div className="sticky ll:static top-[76px] ll:top-auto flex justify-between items-center pb-3 xl:pb-0 bg-white z-10">
+        <SortControls sort={sort} setSort={setSort} />
+        <CardTypeControls cardType={cardType} setTypeCard={setTypeCard} />
+
+        <MobileSortControls sort={sort} setSort={setSort} />
+        <button
+          onClick={() => setFiltersModalOpen(true)}
+          className="flex md:hidden items-center outline-none bg-transparent"
+        >
+          <img src={filterIcon} alt="*" />
+          <span className="text-colBlack text-xs font-medium">Фильтры</span>
+        </button>
+      </div>
+
+      {cardType === 'tile' ? (
+        <div className="grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 lg:grid-cols-3 ll:grid-cols-4 gap-3 gap-y-6 xl:grid-cols-5">
+          {getVariantsIsLoading
+            ? Array.from({ length: 40 }).map((_, index) => (
+                <ProductCardSkeleton key={index} />
+              ))
+            : null}
+          {!getVariantsIsLoading && products?.data
+            ? products?.data?.map((el) => (
+                <ProductCard key={el?.id} product={el} />
+              ))
+            : null}
+        </div>
+      ) : null}
+      {cardType === 'line' ? (
+        <div className="space-y-4">
+          {getVariantsIsLoading
+            ? Array.from({ length: 20 }).map((_, index) => (
+                <ProductCardLineSkeleton key={index} />
+              ))
+            : null}
+          {!getVariantsIsLoading && products?.data
+            ? products?.data?.map((el) => (
+                <ProductCardLine key={el?.id} product={el} />
+              ))
+            : null}
+        </div>
+      ) : null}
+      {cardType === 'lineNarrow' ? (
+        <div className="space-y-4">
+          {getVariantsIsLoading
+            ? Array.from({ length: 20 }).map((_, index) => (
+                <ProductCardLineSmallSkeleton key={index} />
+              ))
+            : null}
+          {!getVariantsIsLoading && products?.data
+            ? products?.data?.map((el) => (
+                <ProductCardLineSmall key={el?.id} product={el} />
+              ))
+            : null}
+        </div>
+      ) : null}
+      {!getVariantsIsLoading && !(products?.data?.length === 0) ? (
+        <ErrorEmpty
+          title="Список пуст!"
+          desc="К сожалению, по вашему запросу ничего не нашли."
+          height="420px"
+        />
+      ) : null}
+      {products?.count > 20 ? (
+        <CustomPagination
+          page={page}
+          count={products?.count}
+          handlePagination={handlePagination}
+        />
+      ) : null}
+    </div>
+  );
+};
+
+export default CatProdContent;
+
+================
+src/components/Catalog/CatalogContent/MobileSortControls.tsx
+================
+
+import React, { useEffect, useRef, useState } from 'react';
+
+import arrow from '@/shared/assets/icons/arrow-black.svg';
+
+const MobileSortControls = ({ sort, setSort }) => {
+  const [isOpenSelect, setIsOpenSelect] = useState(false);
+
+  const selectRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setIsOpenSelect(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSetSort = (sortBy, sortOrder) => {
+    setSort({
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    });
+  };
+
+  const listCaption = (sort) => {
+    const captions = {
+      popularity: 'По популярности',
+      price: 'По цене',
+      rating: 'По рейтингу',
+      discount: 'По скидке',
+    };
+
+    return captions[sort?.sortBy] || 'Сортировка';
+  };
+
+  return (
+    <div ref={selectRef} className="relative ll:hidden min-w-[128px]">
+      <div
+        onClick={() => setIsOpenSelect(!isOpenSelect)}
+        className="flex items-center space-x-2"
+      >
+        <span className="whitespace-nowrap text-colBlack font-medium text-xs">
+          {listCaption(sort)}
+        </span>
+        <img src={arrow} alt="*" />
+      </div>
+      <ul
+        className={`${
+          isOpenSelect ? 'block' : 'hidden'
+        } absolute top-full left-0 bg-white shadow-lg p-2 space-y-1 z-[99]`}
+      >
+        <li
+          onClick={() => {
+            handleSetSort('popularity', 'desc', 'По популярности');
+            setIsOpenSelect(false);
+          }}
+          className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b pb-1"
+        >
+          По популярности
+        </li>
+        <li
+          onClick={() => {
+            handleSetSort('price', 'asc', 'Сначала дешёвые');
+            setIsOpenSelect(false);
+          }}
+          className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1"
+        >
+          Сначала дешёвые
+        </li>
+        <li
+          onClick={() => {
+            handleSetSort('price', 'desc', 'Сначала дорогие');
+            setIsOpenSelect(false);
+          }}
+          className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1"
+        >
+          Сначала дорогие
+        </li>
+        <li
+          onClick={() => {
+            handleSetSort('rating', 'desc', 'Высокий рейтинг');
+            setIsOpenSelect(false);
+          }}
+          className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs border-b py-1"
+        >
+          Высокий рейтинг
+        </li>
+        <li
+          onClick={() => {
+            handleSetSort('discount', 'desc', 'По размеру скидки');
+            setIsOpenSelect(false);
+          }}
+          className="whitespace-nowrap text-colBlack font-medium cursor-pointer text-xs"
+        >
+          По размеру скидки
+        </li>
+      </ul>
+    </div>
+  );
+};
+
+export default MobileSortControls;
+
+================
+src/components/Catalog/CatalogContent/SortControls.tsx
+================
+
+import React from 'react';
+
+const SortControls = ({ sort, setSort }) => {
+  const handleSetSort = (sortBy, sortOrder) => {
+    setSort({
+      sortBy: sortBy,
+      sortOrder: sortOrder,
+    });
+  };
+
+  return (
+    <div className="hidden ll:flex space-x-3 xl:pb-5">
+      <span
+        onClick={() => {
+          handleSetSort('popularity', 'desc');
+        }}
+        className={`text-sm font-medium cursor-pointer ${
+          sort?.sortBy === 'popularity' &&
+          sort?.sortOrder === 'desc' &&
+          'text-colGreen'
+        }`}
+      >
+        По популярности
+      </span>
+      <span
+        onClick={() => {
+          handleSetSort('price', 'asc');
+        }}
+        className={`text-sm font-medium cursor-pointer ${
+          sort?.sortBy === 'price' &&
+          sort?.sortOrder === 'asc' &&
+          'text-colGreen'
+        }`}
+      >
+        Сначала дешёвые
+      </span>
+      <span
+        onClick={() => {
+          handleSetSort('price', 'desc');
+        }}
+        className={`text-sm font-medium cursor-pointer ${
+          sort?.sortBy === 'price' &&
+          sort?.sortOrder === 'desc' &&
+          'text-colGreen'
+        }`}
+      >
+        Сначала дорогие
+      </span>
+      <span
+        onClick={() => {
+          handleSetSort('rating', 'desc');
+        }}
+        className={`text-sm font-medium cursor-pointer ${
+          sort?.sortBy === 'rating' &&
+          sort?.sortOrder === 'desc' &&
+          'text-colGreen'
+        }`}
+      >
+        Высокий рейтинг
+      </span>
+      <span
+        onClick={() => {
+          handleSetSort('discount', 'desc');
+        }}
+        className={`text-sm font-medium cursor-pointer ${
+          sort?.sortBy === 'discount' &&
+          sort?.sortOrder === 'desc' &&
+          'text-colGreen'
+        }`}
+      >
+        По размеру скидки
+      </span>
+    </div>
+  );
+};
+
+export default SortControls;
+
+================
+src/components/Catalog/CatalogMainContent.tsx
+================
+
+import { CategoryCard } from './CategoryCard';
+
+export const CatalogMainContent = ({ categoryTree }) => {
+  return (
+    <div className="md:pl-6">
+      <div className="grid grid-cols-2 mm:grid-cols-3 md:grid-cols-2 xl:grid-cols-3 gap-3 md:gap-2">
+        {categoryTree?.map((category) => (
+          <CategoryCard category={category} key={category?.id} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+================
+src/components/Catalog/CatalogMainSidebar.tsx
+================
+
+import { useState } from 'react';
+
+import { NavLink } from 'react-router-dom';
+
+import { ArrowIcon } from '@/shared/ui/icons';
+
+export const CatalogMainSidebar = ({ categoryTree }) => {
+  const [accordion, setAccordion] = useState({
+    parent: null,
+    child: null,
+    childLast: null,
+  });
+
+  const toggleAccordion = (type, id) => {
+    setAccordion((prevState) => ({
+      ...prevState,
+      [type]: prevState[type] === id ? null : id,
+    }));
+  };
+
+  return (
+    <div className="max-w-[220px] min-w-[220px] w-full hidden md:block">
+      <ul className="space-y-2">
+        {categoryTree?.map((el) => (
+          <li key={el?.id}>
+            <div className="flex justify-between">
+              <NavLink
+                to={el?.slug}
+                state={{ category: el }}
+                className="text-colBlack leading-5 font-semibold"
+              >
+                <p className="relative max-w-[170px]">
+                  {el?.name}
+                  <span className="absolute text-colGray font-[400] text-xs pl-2">
+                    {el?.product_count}
+                  </span>
+                </p>
+              </NavLink>
+              {el?.children?.length ? (
+                <ArrowIcon
+                  onClick={() => toggleAccordion('parent', el?.id)}
+                  className={`${
+                    accordion.parent !== el?.id && 'rotate-[180deg]'
+                  } cursor-pointer !w-4 !h-4`}
+                />
+              ) : null}
+            </div>
+            <div
+              className={`${
+                accordion.parent === el?.id ? 'block' : 'hidden'
+              } pl-3 pt-2 space-y-[6px]`}
+            >
+              {el?.children?.map((child) => (
+                <div key={child?.id}>
+                  <div className="flex justify-between items-center">
+                    <NavLink
+                      to={child.slug}
+                      state={{ category: child }}
+                      className="text-colBlack text-[15px] leading-4 font-medium"
+                    >
+                      <p className="relative max-w-[140px] w-full">
+                        {child?.name}
+                        <span className="absolute text-colGray font-[400] text-xs pl-2">
+                          {child?.product_count}
+                        </span>
+                      </p>
+                    </NavLink>
+                    {child?.children?.length ? (
+                      <ArrowIcon
+                        onClick={() => toggleAccordion('child', child?.id)}
+                        className={`${
+                          accordion.child !== child?.id && 'rotate-[180deg]'
+                        } cursor-pointer !w-4 !h-4`}
+                      />
+                    ) : null}
+                  </div>
+                  <div
+                    className={`${
+                      accordion.child === child?.id ? 'block' : 'hidden'
+                    } pl-4 pb-2 pt-2 space-y-[5px]`}
+                  >
+                    {child?.children?.map((item) => (
+                      <div key={item?.id}>
+                        <div className="flex justify-between">
+                          <NavLink
+                            to={item.slug}
+                            state={{ category: child }}
+                            className="text-colBlack leading-5 text-sm relative flex"
+                          >
+                            <p className="relative max-w-[140px] w-full leading-4">
+                              {item?.name}
+                              <span className="absolute text-colGray font-[400] text-xs pl-2">
+                                {item?.product_count}
+                              </span>
+                            </p>
+                          </NavLink>
+                          {item?.children?.length ? (
+                            <ArrowIcon
+                              onClick={() =>
+                                toggleAccordion('childLast', item?.id)
+                              }
+                              className={`${
+                                accordion.childLast !== item?.id &&
+                                'rotate-[180deg]'
+                              } cursor-pointer !w-4 !h-4`}
+                            />
+                          ) : null}
+                        </div>
+                        <div
+                          className={`${
+                            accordion.childLast === item?.id
+                              ? 'block'
+                              : 'hidden'
+                          } pl-2 pb-2 pt-1`}
+                        >
+                          {item?.children?.map((itemChild) => (
+                            <NavLink
+                              to="categories/products"
+                              state={{ category: itemChild }}
+                              key={itemChild?.id}
+                              className="text-colBlack leading-5 text-sm relative flex"
+                            >
+                              <p className="relative max-w-[140px] w-full">
+                                {itemChild?.name}
+                                <span className="absolute text-colGray font-[400] text-xs pl-2">
+                                  {itemChild?.product_count}
+                                </span>
+                              </p>
+                            </NavLink>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+================
+src/components/Catalog/CatalogSidebar/CatalogSidebar.tsx
+================
+
+import React, { useEffect } from 'react';
+
+import SidebarCategoryTree from './SidebarCategoryTree';
+import SidebarFilters from './SidebarFilters/SidebarFilters';
+
+export const CatalogSidebar = ({
+  filters,
+  setFiltersModalOpen,
+  setFilters,
+  filtersIsLoading,
+  resetFilters,
+  trigger,
+  setTrigger,
+  filtersBlock,
+}) => {
+  return (
+    <>
+      <SidebarCategoryTree />
+      <SidebarFilters
+        setFiltersModalOpen={setFiltersModalOpen}
+        isLoading={filtersIsLoading}
+        filters={filters}
+        setFilters={setFilters}
+        trigger={trigger}
+        setTrigger={setTrigger}
+        resetFilters={resetFilters}
+        filtersBlock={filtersBlock}
+      />
+    </>
+  );
+};
+
+
+================
+src/components/Catalog/CatalogSidebar/SidebarCategoryTree.tsx
+================
+
+import React, { useState } from 'react';
+
+import { NavLink, useParams } from 'react-router-dom';
+
+import { useGetCategoryTreeQuery } from '@/entities/category';
+import { ArrowIcon } from '@/shared/ui/icons';
+
+import SidebarCategoryTreeSkeleton from './SidebarCategoryTreeSkeleton';
+
+const SidebarCategoryTree = () => {
+  const { categoryId } = useParams();
+
+  const {
+    data: categories,
+    isLoading: categoryTreeIsLoading,
+    isSuccess: categoryTreeIsSuccess,
+  } = useGetCategoryTreeQuery(categoryId);
+
+  const [accordion, setAccordion] = useState({
+    parent: null,
+    child: null,
+    childLast: null,
+  });
+
+  const toggleAccordion = (type, id) => {
+    setAccordion((prevState) => ({
+      ...prevState,
+      [type]: prevState[type] === id ? null : id,
+    }));
+  };
+
+  return (
+    <>
+      {categoryTreeIsLoading ? <SidebarCategoryTreeSkeleton /> : null}
+      {!categoryTreeIsLoading && categoryTreeIsSuccess ? (
+        <ul className="space-y-2">
+          {categories?.children?.map((el) => (
+            <li key={el?.id} className="pl-3">
+              <div className="flex justify-between">
+                <NavLink
+                  to={`/catalog/${el?.slug}`}
+                  className="text-colBlack leading-5 font-semibold cursor-pointer"
+                >
+                  <p className="relative max-w-[170px]">
+                    {el?.name}
+                    <span className="absolute text-colGray font-[400] text-xs pl-2">
+                      {el?.product_count}
+                    </span>
+                  </p>
+                </NavLink>
+                {el?.children?.length ? (
+                  <ArrowIcon
+                    onClick={() => toggleAccordion('parent', el?.id)}
+                    className={`${
+                      accordion.parent !== el?.id && 'rotate-[180deg]'
+                    } cursor-pointer !m-0 !w-4 !h-4`}
+                  />
+                ) : null}
+              </div>
+              <div
+                className={`${
+                  accordion.parent === el?.id ? 'block' : 'hidden'
+                } pl-5 pt-1 space-y-1`}
+              >
+                {el?.children?.map((child) => (
+                  <div key={child?.id}>
+                    <div className="flex justify-between items-center">
+                      <NavLink
+                        to={`/catalog/${child?.slug}`}
+                        className="text-colBlack text-sm leading-4 font-semibold cursor-pointer"
+                      >
+                        <p className="relative max-w-[140px] w-full">
+                          {child?.name}
+                          <span className="absolute text-colGray font-[400] text-xs pl-2">
+                            {child?.product_count}
+                          </span>
+                        </p>
+                      </NavLink>
+                      {child?.children?.length ? (
+                        <ArrowIcon
+                          onClick={() => toggleAccordion('child', child?.id)}
+                          className={`${
+                            accordion.child !== child?.id && 'rotate-[180deg]'
+                          } cursor-pointer !m-0 !w-4 !h-4`}
+                        />
+                      ) : null}
+                    </div>
+                    <div
+                      className={`${
+                        accordion.child === child?.id ? 'block' : 'hidden'
+                      } pl-5 pb-2 space-y-1`}
+                    >
+                      {child?.children?.map((item) => (
+                        <div key={item?.id}>
+                          <div className="flex justify-between">
+                            <NavLink
+                              to={`/catalog/${item?.slug}`}
+                              className="text-colBlack leading-5 text-sm cursor-pointer relative flex"
+                            >
+                              <p className="relative max-w-[140px] w-full leading-4">
+                                {item?.name}
+                                <span className="absolute text-colGray font-[400] text-xs pl-2">
+                                  {item?.product_count}
+                                </span>
+                              </p>
+                            </NavLink>
+                            {item?.children?.length ? (
+                              <ArrowIcon
+                                onClick={() =>
+                                  toggleAccordion('childLast', item?.id)
+                                }
+                                className={`${
+                                  accordion.childLast !== item?.id &&
+                                  'rotate-[180deg]'
+                                } cursor-pointer !m-0 !w-4 !h-4`}
+                              />
+                            ) : null}
+                          </div>
+                          <div
+                            className={`${
+                              accordion.childLast === item?.id
+                                ? 'block'
+                                : 'hidden'
+                            } pl-2 pb-2 pt-1`}
+                          >
+                            {item?.children?.map((itemChild) => (
+                              <NavLink
+                                to={`/catalog/${itemChild?.slug}`}
+                                key={itemChild?.id}
+                                className="text-colBlack leading-5 text-sm cursor-pointer relative flex"
+                              >
+                                <p className="relative max-w-[140px] w-full">
+                                  {itemChild?.name}
+                                  <span className="absolute text-colGray font-[400] text-xs pl-2">
+                                    {itemChild?.product_count}
+                                  </span>
+                                </p>
+                              </NavLink>
+                            ))}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </>
+  );
+};
+
+export default SidebarCategoryTree;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarCategoryTreeSkeleton.tsx
+================
+
+import React from 'react';
+
+import { Skeleton } from '@mui/material';
+
+const SidebarCategoryTreeSkeleton = () => {
+  return (
+    <div className="flex flex-col">
+      <Skeleton variant="text" width={120} sx={{ fontSize: '1.5rem' }} />
+      <Skeleton variant="text" width={140} sx={{ fontSize: '1.5rem' }} />
+      <Skeleton variant="text" width={110} sx={{ fontSize: '1.5rem' }} />
+      <Skeleton variant="text" width={120} sx={{ fontSize: '1.5rem' }} />
+    </div>
+  );
+};
+
+export default SidebarCategoryTreeSkeleton;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/BrandsFilter.tsx
+================
+
+import React from 'react';
+
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
+
+import { ArrowIcon } from '@/shared/ui/icons';
+
+const BrandsFilter = ({ filters, setFilters }) => {
+  const handleCheckboxChange = (brandId) => {
+    const currentState = JSON.parse(JSON.stringify(filters));
+
+    const brand = currentState.basics.brands.find(
+      (brand) => brand.id === brandId
+    );
+    brand.is_selected = !brand.is_selected;
+
+    currentState.lastChanged = {
+      type: 'basics',
+      filter: 'brands',
+    };
+    setFilters(currentState);
+  };
+
+  return (
+    <Accordion
+      sx={{
+        margin: '0',
+        boxShadow: 'none',
+        '&:before': {
+          display: 'none',
+        },
+      }}
+      defaultExpanded
+      disableGutters
+    >
+      <AccordionSummary
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
+        style={{ minHeight: 0 }}
+        expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
+      >
+        <span className="font-semibold text-colBlack">Бренд</span>
+      </AccordionSummary>
+      <AccordionDetails sx={{ padding: 0 }}>
+        {filters?.basics?.brands?.map((el) => (
+          <div className={!el?.is_active ? 'opacity-40' : null} key={el?.id}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  style={{
+                    color: '#15765B',
+                    padding: '5px',
+                  }}
+                  name="brands"
+                  // checked={filters.basics?.brands.includes(el?.id)}
+                  checked={
+                    filters?.basics?.brands?.find(
+                      (brand) => brand?.id === el?.id
+                    ).is_selected
+                  }
+                  disabled={!el?.is_active}
+                  onChange={() => handleCheckboxChange(el?.id)}
+                />
+              }
+              label={
+                <p className="text-sm font-medium text-colBlack">{el?.name}</p>
+              }
+            />
+          </div>
+        ))}
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+export default BrandsFilter;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/CheckboxFilter.tsx
+================
+
+import React from 'react';
+
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
+
+import { checkCloseToWhite } from '@/shared/lib';
+import { ArrowIcon } from '@/shared/ui/icons';
+
+const CheckboxFilter = ({ filter, filters, setFilters }) => {
+  const handleCheckboxChange = (filterId, valueId) => {
+    const currentState = JSON.parse(JSON.stringify(filters));
+
+    const filter = currentState.dynamics.find(
+      (filter) => filter.id === filterId
+    );
+    const value = filter.values.find((value) => value.id === valueId);
+    value.is_selected = !value.is_selected;
+
+    currentState.lastChanged = {
+      type: 'dynamics',
+      filter: filterId,
+    };
+    setFilters(currentState);
+  };
+
+  return (
+    <div key={filter?.id}>
+      <Accordion
+        sx={{
+          boxShadow: 'none',
+          padding: 0,
+        }}
+        defaultExpanded
+        disableGutters
+      >
+        <AccordionSummary
+          sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
+          style={{ minHeight: 0 }}
+          expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
+        >
+          <p className="font-semibold text-colBlack line-clamp-2  break-words leading-[120%]">
+            {filter?.name}
+          </p>
+        </AccordionSummary>
+        <AccordionDetails sx={{ padding: 0, marginLeft: '-8px' }}>
+          <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2 flex flex-col gap-1">
+            {filter?.values?.map((val) => {
+              return (
+                <div
+                  className={!val?.is_active ? 'opacity-40' : null}
+                  key={val?.id}
+                >
+                  <FormControlLabel
+                    sx={{ margin: '0', display: 'flex', alignItems: 'start' }}
+                    control={
+                      <Checkbox
+                        style={{
+                          color: '#15765B',
+                          padding: '0 5px',
+                        }}
+                        name={filter?.name}
+                        checked={
+                          filters?.dynamics
+                            ?.find((el) => el?.id === filter?.id)
+                            ?.values?.find((el) => el?.id === val?.id)
+                            ?.is_selected || false
+                        }
+                        disabled={
+                          !filters?.dynamics
+                            ?.find((el) => el?.id === filter?.id)
+                            ?.values?.find((el) => el?.id === val?.id)
+                            ?.is_active || false
+                        }
+                        onChange={() =>
+                          handleCheckboxChange(filter?.id, val?.id)
+                        }
+                      />
+                    }
+                    label={
+                      <div className="flex items-center" data-title={val?.text}>
+                        {filter?.type === 'color' && val?.second_color ? (
+                          <>
+                            <span
+                              style={{
+                                backgroundColor: val?.color,
+                              }}
+                              className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${
+                                checkCloseToWhite(val?.color)
+                                  ? ' border-l border-colGray'
+                                  : ''
+                              }`}
+                            ></span>
+                            <span
+                              style={{
+                                backgroundColor: val?.second_color,
+                              }}
+                              className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${
+                                checkCloseToWhite(val?.second_color)
+                                  ? ' border-r border-colGray'
+                                  : ''
+                              }`}
+                            ></span>
+                          </>
+                        ) : null}
+                        {filter?.type === 'color' && !val?.second_color ? (
+                          <span
+                            style={{
+                              backgroundColor: val?.color,
+                            }}
+                            className={`min-w-[20px] min-h-[20px] rounded-full ${
+                              checkCloseToWhite(val?.color)
+                                ? 'border border-colGray'
+                                : ''
+                            }`}
+                          ></span>
+                        ) : null}
+                        <p className="text-sm font-medium text-colBlack line-clamp-2 break-words ml-1">
+                          {val?.text}
+                        </p>
+                      </div>
+                    }
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </AccordionDetails>
+      </Accordion>
+    </div>
+  );
+};
+
+export default CheckboxFilter;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/DynamicFilters.tsx
+================
+
+import CheckboxFilter from './CheckboxFilter';
+
+function DynamicFilters({ filters, setFilters, hideAdditional = true }) {
+  return filters?.dynamics?.map((filter) => {
+    if (filter.additional_filter !== hideAdditional)
+      return (
+        <div
+          key={filter.id}
+          className="sm:basis-[calc(33%-(20px*2/3))] md:basis-[calc(25%-(20px*3/4))] basis-full"
+        >
+          <CheckboxFilter
+            filter={filter}
+            filters={filters}
+            setFilters={setFilters}
+          />
+        </div>
+      );
+  });
+}
+
+export default DynamicFilters;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/PriceFilter.tsx
+================
+
+// src/components/PriceFilter.jsx
+
+import React, { useEffect, useRef, useState } from 'react';
+
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Slider,
+} from '@mui/material';
+import { useDebounce } from 'react-use';
+
+import { ArrowIcon } from '@/shared/ui/icons';
+import CTextField from '@/shared/ui/inputs/CTextField';
+
+const PriceFilter = ({ filters, setFilters, trigger, setTrigger }) => {
+  const previousValues = useRef({});
+
+  const [priceFilter, setPriceFilter] = useState([
+    filters?.basics?.price?.min || 0,
+    filters?.basics?.price?.max || 0,
+  ]);
+
+  const [sliderValue, setSliderValue] = useState([
+    priceFilter.min || filters?.basics?.price?.min,
+    priceFilter.max || filters?.basics?.price?.max,
+  ]);
+
+  // Синхронизация и правильная работа отобржаения и установления значений
+
+  const handleChangeMin = (event) => {
+    const newMin = event.target.value;
+    setPriceFilter((prev) => [newMin, prev[1]]);
+  };
+
+  const handleChangeMax = (event) => {
+    const newMax = event.target.value;
+    setPriceFilter((prev) => [prev[0], newMax]);
+  };
+
+  const validateAndSetMin = () => {
+    let min =
+      priceFilter[0] === ''
+        ? filters?.basics?.price?.min
+        : Number(priceFilter[0]);
+    min = Math.max(min, filters?.basics?.price?.min);
+
+    if (min > priceFilter[1]) {
+      min = priceFilter[1]; // Ensure min is not greater than max
+    }
+
+    setPriceFilter((prev) => [min, prev[1]]);
+    setSliderValue([min, priceFilter[1]]);
+
+    // debouncedSetFilters(min, priceFilter.max);
+  };
+
+  const validateAndSetMax = () => {
+    let max =
+      priceFilter[1] === ''
+        ? filters?.basics?.price?.max
+        : Number(priceFilter[1]);
+    max = Math.min(max, filters?.basics?.price?.max);
+
+    if (max < priceFilter[0]) {
+      max = priceFilter[0]; // Ensure max is not less than min
+    }
+
+    setPriceFilter((prev) => [prev[0], max]);
+    setSliderValue([priceFilter[0], max]);
+
+    // debouncedSetFilters(priceFilter.min, max);
+  };
+
+  const handleSliderChange = (event, newValue) => {
+    setPriceFilter(newValue);
+    setSliderValue(newValue);
+    // debouncedSetFilters(newValue[0], newValue[1]);
+  };
+
+  //Логика отправки/изменения стейта
+
+  // // Custom debounce function
+  // const debounce = (func, wait) => {
+  //   let timeout;
+  //   return function (...args) {
+  //     const context = this;
+  //     clearTimeout(timeout);
+  //     timeout = setTimeout(() => func.apply(context, args), wait);
+  //   };
+  // };
+
+  // // Debounced function to update the state
+  // const debouncedSetFilters = useRef(
+  //   debounce((min, max) => {
+
+  //     const currentState = JSON.parse(JSON.stringify(filters));
+
+  //     currentState.basics.price.current_values = {
+  //       min: min,
+  //       max: max,
+  //     };
+
+  //     currentState.lastChanged = {
+  //       type: "basics",
+  //       filter: "price",
+  //     };
+  //     previousValues.current = [priceFilter.min, priceFilter.max];
+  //     setFilters(currentState);
+  //   }, 1000)
+  // ).current;
+
+  //При изменении фильтров устанваливает текущее значение фильтра цен
+  useEffect(() => {
+    if (
+      previousValues.current[0] !==
+        filters?.basics?.price?.current_values?.min ||
+      previousValues.current[1] !== filters?.basics?.price?.current_values?.max
+    ) {
+      setPriceFilter([
+        filters?.basics?.price?.current_values?.min || 0,
+        filters?.basics?.price?.current_values?.max || 0,
+      ]);
+      setSliderValue([
+        filters?.basics?.price?.current_values?.min,
+        filters?.basics?.price?.current_values?.max,
+      ]);
+    }
+  }, [filters]);
+
+  useEffect(() => {
+    // Чтобы установить значения фильтров по максимуму при смене категорий
+    if (
+      trigger === 'categoryId' ||
+      trigger === 'tags' ||
+      trigger === 'brands'
+    ) {
+      setPriceFilter([
+        filters?.basics?.price?.current_values?.min || 0,
+        filters?.basics?.price?.current_values?.max || 0,
+      ]);
+
+      setSliderValue([
+        filters?.basics?.price?.current_values?.min,
+        filters?.basics?.price?.current_values?.max,
+      ]);
+
+      // Чтобы не было отправления после первого изменения чекбоксов(после первичной загрузки)
+      previousValues.current = [
+        filters?.basics?.price?.min,
+        filters?.basics?.price?.max,
+      ];
+    }
+  }, [trigger]);
+
+  useDebounce(
+    () => {
+      // Чтобы не было отправления при первичной инициализации и после смены категории(особенно при переключении с категории без цены на категорию с ценой - это как перчиная инициалзация)
+      if (
+        trigger === 'categoryId' ||
+        trigger === 'tags' ||
+        trigger === 'brands'
+      ) {
+        setTrigger('');
+        return;
+      }
+
+      // Чтобы не было отправления после первого изменения чекбоксов
+      if (
+        Number(previousValues.current[0]) === Number(priceFilter[0]) &&
+        Number(previousValues.current[1]) === Number(priceFilter[1])
+      ) {
+        return;
+      }
+
+      const currentState = JSON.parse(JSON.stringify(filters));
+
+      currentState.basics.price.current_values = {
+        min: priceFilter[0],
+        max: priceFilter[1],
+      };
+
+      currentState.lastChanged = {
+        type: 'basics',
+        filter: 'price',
+      };
+      previousValues.current = priceFilter;
+      setFilters(currentState);
+    },
+    1000,
+    [priceFilter]
+  );
+
+  return (
+    <Accordion
+      sx={{
+        boxShadow: 'none',
+        padding: 0,
+        margin: 0,
+        border: 'none',
+        '&:before': {
+          display: 'none',
+        },
+        '&.Mui-expanded': {
+          margin: 0,
+        },
+      }}
+      defaultExpanded
+      disableGutters
+    >
+      <AccordionSummary
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
+        style={{ minHeight: 0 }}
+        expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
+      >
+        <span className="font-semibold text-colBlack">Цена, ₽</span>
+      </AccordionSummary>
+      <AccordionDetails sx={{ padding: 0 }}>
+        <Slider
+          sx={{ color: '#15765B' }}
+          size="small"
+          getAriaLabel={() => 'Price range'}
+          value={sliderValue}
+          min={filters?.basics?.price?.min}
+          max={filters?.basics?.price?.max}
+          onChange={handleSliderChange}
+          valueLabelDisplay="auto"
+        />
+        <Box>
+          <div className="grid grid-cols-2 gap-3 pb-3">
+            <CTextField
+              label={`от ${filters?.basics?.price?.min}`}
+              name="min_price"
+              type="number"
+              value={priceFilter[0]}
+              onChange={handleChangeMin}
+              onBlur={validateAndSetMin}
+            />
+            <CTextField
+              label={`до ${filters?.basics?.price?.max}`}
+              name="max_price"
+              type="number"
+              value={priceFilter[1]}
+              onChange={handleChangeMax}
+              onBlur={validateAndSetMax}
+            />
+          </div>
+        </Box>
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+export default PriceFilter;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/SidebarFilters.tsx
+================
+
+import React from 'react';
+
+import { FormControlLabel } from '@mui/material';
+
+import { IOSSwitch } from '@/shared/ui';
+
+import SidebarFiltersSkeleton from '../SidebarFiltersSkeleton';
+
+import BrandsFilter from './BrandsFilter';
+import DynamicFilters from './DynamicFilters';
+import PriceFilter from './PriceFilter';
+import TagsFilters from './TagsFilters';
+
+const SidebarFilters = ({
+  setFiltersModalOpen,
+  filters,
+  setFilters,
+  resetFilters,
+  isLoading,
+  trigger,
+  setTrigger,
+  filtersBlock,
+}) => {
+  return (
+    <>
+      {isLoading ? <SidebarFiltersSkeleton /> : null}
+      <div
+        className={`${
+          isLoading ? 'hidden' : ''
+        }  border border-colSuperLight rounded-2xl px-3 pb-5 shadow-[0px_15px_20px_0px_rgba(0,_0,_0,_0.05)] mt-2 relative`}
+      >
+        {filtersBlock ? (
+          <div className=" cursor-wait absolute top-0 left-0 w-full h-full bg-white opacity-30 z-10"></div>
+        ) : null}
+        {filters?.basics?.price ? (
+          <PriceFilter
+            filters={filters}
+            setFilters={setFilters}
+            trigger={trigger}
+            setTrigger={setTrigger}
+          />
+        ) : null}
+        {filters?.basics?.brands?.length > 0 ? (
+          <BrandsFilter filters={filters} setFilters={setFilters} />
+        ) : null}
+        {filters?.basics?.tags?.length > 0 ? (
+          <TagsFilters filters={filters} setFilters={setFilters} />
+        ) : null}
+        {filters?.dynamics?.length > 0 ? (
+          <DynamicFilters filters={filters} setFilters={setFilters} />
+        ) : null}
+        <FormControlLabel
+          sx={{ margin: '10px 0' }}
+          control={
+            <IOSSwitch
+              sx={{ m: 1 }}
+              defaultChecked
+              onChange={(e) => handleChange('highRating', e.target.checked)}
+            />
+          }
+          labelPlacement="start"
+          label={
+            <p className="text-sm font-semibold text-colBlack">
+              Высокий рейтинг
+            </p>
+          }
+        />
+        {filters?.dynamics?.some((obj) => obj.additional_filter === true) >
+        0 ? (
+          <button
+            onClick={() => setFiltersModalOpen(true)}
+            className="bg-white border border-colGreen w-full rounded-md mb-3 p-2 text-colBlack font-semibold outline-none"
+          >
+            Все фильтры
+          </button>
+        ) : null}
+        <span
+          onClick={resetFilters}
+          className="text-colDarkGray font-semibold flex justify-center cursor-pointer"
+        >
+          Очистить фильтр
+        </span>
+      </div>
+    </>
+  );
+};
+
+export default SidebarFilters;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/TagsFilters.tsx
+================
+
+import React from 'react';
+
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Checkbox,
+  FormControlLabel,
+} from '@mui/material';
+
+import { ArrowIcon } from '@/shared/ui/icons';
+
+const TagsFilters = ({ filters, setFilters }) => {
+  const handleCheckboxChange = (tagSelected) => {
+    const currentState = JSON.parse(JSON.stringify(filters));
+
+    const tag = currentState.basics.tags.find((tag) => tag.tag === tagSelected);
+    tag.is_selected = !tag.is_selected;
+
+    currentState.lastChanged = {
+      type: 'basics',
+      filter: 'tags',
+    };
+    setFilters(currentState);
+  };
+
+  return (
+    <Accordion
+      sx={{
+        boxShadow: 'none',
+        padding: 0,
+        '&:before': {
+          display: 'none',
+        },
+      }}
+      defaultExpanded
+      disableGutters
+    >
+      <AccordionSummary
+        sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
+        style={{ minHeight: 0 }}
+        expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
+      >
+        <span className="font-semibold text-colBlack">Статус</span>
+      </AccordionSummary>
+      <AccordionDetails sx={{ padding: 0 }}>
+        {filters?.basics?.tags?.map((el, index) => (
+          <div className={!el?.is_active ? 'opacity-40' : null} key={index}>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  style={{
+                    color: '#15765B',
+                    padding: '5px',
+                  }}
+                  checked={
+                    filters?.basics?.tags?.find((tag) => tag?.tag === el?.tag)
+                      .is_selected
+                  }
+                  disabled={!el?.is_active}
+                  onChange={() => handleCheckboxChange(el?.tag)}
+                />
+              }
+              label={
+                <span
+                  style={{
+                    color: el?.text_color,
+                    backgroundColor: el?.background_color,
+                  }}
+                  className="py-1 px-2 uppercase text-xs font-bold rounded-xl"
+                >
+                  {el?.tag}
+                </span>
+              }
+            />
+          </div>
+        ))}
+      </AccordionDetails>
+    </Accordion>
+  );
+};
+
+export default TagsFilters;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFilters/TooltipCaption.tsx
+================
+
+import { useState } from 'react';
+
+const TooltipCaption = ({ text, tooltipText }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div className="relative inline-block">
+      <span
+        className="text-sm font-medium text-colBlack line-clamp-1 break-all ml-1"
+        onMouseEnter={() => setIsVisible(true)}
+        onMouseLeave={() => setIsVisible(false)}
+      >
+        {text}
+      </span>
+      {isVisible ? (
+        <div className="absolute left-0 bottom-[-2rem] bg-black text-white text-sm rounded-lg p-2 w-max max-w-xs">
+          <span>{tooltipText}</span>
+          <div className="absolute top-full left-4 border-8 border-transparent border-t-black"></div>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+export default TooltipCaption;
+
+================
+src/components/Catalog/CatalogSidebar/SidebarFiltersSkeleton.tsx
+================
+
+import React from 'react';
+
+import { Skeleton } from '@mui/material';
+
+const SidebarFiltersSkeleton = () => {
+  return (
+    <div className="flex flex-col gap-2 mt-5">
+      <Skeleton variant="text" sx={{ fontSize: '1.5rem' }} width={90} />
+      <Skeleton variant="rounded" height={15} width={180} />
+
+      <div className="flex gap-2 ">
+        <Skeleton variant="rounded" height={40} width={85} />
+
+        <Skeleton variant="rounded" height={40} width={85} />
+      </div>
+
+      <div className="mt-4 flex flex-col gap-2">
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem' }} width={100} />
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={90} sx={{ fontSize: '1rem' }} />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={110} sx={{ fontSize: '1rem' }} />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={80} sx={{ fontSize: '1rem' }} />
+        </div>
+      </div>
+
+      <div className="mt-4 flex flex-col gap-2">
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem' }} width={140} />
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={90} sx={{ fontSize: '1rem' }} />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={110} sx={{ fontSize: '1rem' }} />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={80} sx={{ fontSize: '1rem' }} />
+        </div>
+        <div className="flex gap-2">
+          <Skeleton variant="rounded" width={30} height={30} />
+          <Skeleton variant="text" width={150} sx={{ fontSize: '1rem' }} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SidebarFiltersSkeleton;
+
+================
+src/components/Catalog/CategoryCard.tsx
+================
+
+import { NavLink } from 'react-router-dom';
+
+import noImg from '@/shared/assets/images/no-image.png';
+
+export const CategoryCard = ({ category }) => {
+  return (
+    <NavLink
+      to={`/catalog/${category?.slug}`}
+      state={{ category: category }}
+      className="relative bg-colSuperLight rounded-lg lg:rounded-[20px] min-h-[120px] max-h-[150px] lg:min-h-[240px] lg:max-h-[260px] flex overflow-hidden"
+    >
+      <div className="flex flex-col justify-between md:h-full z-10 relative pb-3 md:pb-0 basis-1/2  p-3">
+        <h3 className="lg:text-xl font-semibold text-colBlack text-center md:text-left min-h-[38px] mm:min-h-[auto]">
+          {category?.name || 'Не указано'}
+        </h3>
+        {category?.children?.length ? (
+          <div className="hidden md:flex flex-col text-colDarkGray text-[10px] lg:text-xs font-semibold">
+            {category?.children?.slice(0, 4)?.map((item) => (
+              <NavLink
+                className="px-1 lg:px-2 py-[2px] lg:py-1 bg-white rounded-[20px] mr-1 lg:mr-2 mb-1 lg:mb-2"
+                key={item?.id}
+                to={`/catalog/${item?.slug}`}
+                state={{ category: item }}
+              >
+                {item?.name}
+              </NavLink>
+            ))}
+          </div>
+        ) : null}
+      </div>
+      <div className="z-0 md:w-full h-full overflow-hidden basis-1/2 bg-colLightGray">
+        {/* <div className='md:absolute md:right-5 md:top-1/2 md:-translate-y-1/2 z-0 w-4/5 md:w-full md:max-w-[160px] mx-auto overflow-hidden'> */}
+        <img
+          className="w-full h-full object-contain"
+          src={category?.image?.large || noImg}
+          onError={(e) => {
+            e.target.onError = null;
+            e.target.src = noImg;
+          }}
+          alt="*"
+        />
+      </div>
+    </NavLink>
+  );
+};
+================
+src/components/Catalog/Filters/Filters.tsx
+================
+
+import type React from 'react';
+import { useState } from 'react';
+
+interface Filter {
+  id: string;
+  name: string;
+  isSelected: boolean;
+}
+
+interface FiltersProps {
+  onFiltersChange: (filters: {
+    minPrice: number | null;
+    maxPrice: number | null;
+    brands: { [key: string]: boolean };
+  }) => void;
+  initialFilters: {
+    minPrice: number | null;
+    maxPrice: number | null;
+    brands: { [key: string]: boolean };
+  };
+}
+
+const Filters: React.FC<FiltersProps> = ({
+  onFiltersChange,
+  initialFilters,
+}) => {
+  const [filters, setFilters] = useState(initialFilters);
+
+  const handleFilterChange = (filterId: string, value: any) => {
+    setFilters({ ...filters, [filterId]: value });
+    onFiltersChange({ ...filters, [filterId]: value });
+  };
+
+  return (
+    <div>
+      {/* Price Filter */}
+      <div>
+        <label htmlFor="minPrice">Min Price:</label>
+        <input
+          type="number"
+          id="minPrice"
+          value={filters.minPrice || ''}
+          onChange={(e) =>
+            handleFilterChange('minPrice', parseInt(e.target.value, 10) || null)
+          }
+        />
+        <label htmlFor="maxPrice">Max Price:</label>
+        <input
+          type="number"
+          id="maxPrice"
+          value={filters.maxPrice || ''}
+          onChange={(e) =>
+            handleFilterChange('maxPrice', parseInt(e.target.value, 10) || null)
+          }
+        />
+      </div>
+
+      {/* Brand Filter (example with checkboxes) */}
+      <div>
+        <label>Brands:</label>
+        {Object.entries(filters.brands).map(([brandId, isSelected]) => (
+          <div key={brandId}>
+            <input
+              type="checkbox"
+              id={brandId}
+              checked={isSelected}
+              onChange={(e) =>
+                handleFilterChange('brands', {
+                  ...filters.brands,
+                  [brandId]: e.target.checked,
+                })
+              }
+            />
+            <label htmlFor={brandId}>{brandId}</label>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Filters;

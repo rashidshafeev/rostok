@@ -1,9 +1,10 @@
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import ProductCard from "../../widgets/product-card/ui/ProductCard";
+import { Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
 import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
-import ProductCardSkeleton from "../../widgets/product-card/ui/ProductCardSkeleton";
-const News = () => {
+import { ProductCard, ProductCardSkeleton } from '@/widgets/product-card';
+
+export const News = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
 
   return (
@@ -15,8 +16,7 @@ const News = () => {
         modules={[Navigation]}
         navigation={window.innerWidth >= 576}
         spaceBetween={16}
-      autoHeight={true}
-
+        autoHeight={true}
         breakpoints={{
           260: {
             slidesPerView: 2,
@@ -32,19 +32,20 @@ const News = () => {
           },
         }}
       >
-        {isSuccess &&
-          data &&
-          data?.newProducts?.map((el) => (
-            <SwiperSlide key={el?.id}>
-              <ProductCard product={el} />
-            </SwiperSlide>
-          ))}
-        {isLoading &&
-          Array.from({ length: 6 }).map((_, index) => (
-            <SwiperSlide key={index}>
-              <ProductCardSkeleton />
-            </SwiperSlide>
-          ))}
+        {isSuccess && data
+          ? data?.newProducts?.map((el) => (
+              <SwiperSlide key={el?.id}>
+                <ProductCard product={el} />
+              </SwiperSlide>
+            ))
+          : null}
+        {isLoading
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <SwiperSlide key={index}>
+                <ProductCardSkeleton />
+              </SwiperSlide>
+            ))
+          : null}
       </Swiper>
     </div>
   );

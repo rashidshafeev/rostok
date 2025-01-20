@@ -7,11 +7,11 @@ import { useWindowSize } from 'react-use';
 import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 import tailarrow from '@/shared/assets/icons/tail-arrow.svg';
 
-import CatalogCard from '../Catalog/CategoryCard';
+import { CategoryCard } from '../Catalog/CategoryCard';
 
-import MobileCategoryCard from './MobileCategoryCard';
+import { MobileCategoryCard } from './MobileCategoryCard';
 
-const PopularCategoriesMobile = () => {
+export const PopularCategoriesMobile = () => {
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery();
   const { width } = useWindowSize();
 
@@ -72,5 +72,3 @@ const PopularCategoriesMobile = () => {
   //   </div>
   // );
 };
-
-export default PopularCategoriesMobile;

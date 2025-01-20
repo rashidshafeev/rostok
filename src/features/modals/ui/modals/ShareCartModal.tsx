@@ -20,14 +20,12 @@ import {
   useGetCartShareCodeMutation,
   //  useGetCartShareCodeQuery,
   useGetCartShareItemsByCodeMutation,
-} from '@/features/cart/api/cartApi';
-import { useModal } from '@/features/modals/model/context';
-import CopyButton from '@/shared/ui/copy-button/CopyButton';
-import CTextField from '@/shared/ui/inputs/CTextField';
-import CardLine from '@/widgets/product-card/ui/ProductCardLine';
-import ProductCardLineSmall from '@/widgets/product-card/ui/ProductCardLineSmall';
+} from '@/features/cart';
+import { useModal } from '@/features/modals';
+import { CTextField, CopyButton } from '@/shared/ui';
+import { ProductCardLine, ProductCardLineSmall } from '@/widgets/product-card';
 
-const ShareCartModal: React.FC = () => {
+export const ShareCartModal: React.FC = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
 
   if (!isModalVisible && modalContent?.type !== 'shareCart') {
@@ -137,5 +135,3 @@ const ShareCartModal: React.FC = () => {
     </Modal>
   );
 };
-
-export default ShareCartModal;

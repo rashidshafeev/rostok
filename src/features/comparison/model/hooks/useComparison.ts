@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getTokenFromCookies } from '@/shared/lib';
-
 import {
   useSendComparisonMutation,
   useRemoveFromComparisonMutation,
-} from '../../api/comparisonApi';
-import { addToComparison, removeFromComparison } from '../slice';
+  addToComparison,
+  removeFromComparison,
+} from '@/features/comparison';
+import { getTokenFromCookies } from '@/shared/lib';
 
 import type { Product } from '@/entities/product';
 

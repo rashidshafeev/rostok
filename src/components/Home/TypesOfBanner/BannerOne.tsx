@@ -5,7 +5,7 @@ import 'swiper/swiper-bundle.css';
 import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 import { NavLink } from 'react-router-dom';
 
-const BannerOne = () => {
+export const BannerOne = () => {
 
 
   const { data, isLoading, isSuccess } = useGetMainPageDataQuery()
@@ -29,7 +29,7 @@ const BannerOne = () => {
         <SwiperSlide
           key={index}
           className='min-h-[240px] max-h-[240px] mm:min-h-[360px] mm:max-h-[360px] md:min-h-[480px] md:max-h-[480px] flex items-center justify-center bg-colGreen rounded-md mm:rounded-xl bg-center bg-no-repeat bg-cover text-white'
-          style={{ backgroundImage: `url(${bgImg})` }}
+          // style={{ backgroundImage: `url(${bgImg})` }}
         >
           <div className='flex justify-center items-center space-x-3 mm:space-x-5 px-3 mm:px-4 py-5'>
             <div className='w-3/5 mm:max-w-[380px] mm:w-full'>
@@ -61,5 +61,3 @@ const BannerOne = () => {
     </Swiper>
   );
 };
-
-export default BannerOne;

@@ -29,7 +29,7 @@ type ProductPageMobileProps = {
   handleChangeAttribute: (event: React.MouseEvent<HTMLDivElement>) => void;
 };
 
-const ProductPageMobile = ({
+export const ProductPageMobile = ({
   group,
   currentProduct,
   attributesList,
@@ -97,4 +97,3 @@ const ProductPageMobile = ({
   );
 };
 
-export default ProductPageMobile;

@@ -1,10 +1,7 @@
 // src/entities/filter/api/filterApi.ts
 import { api } from '@/shared/api/api';
 
-import type {
-  GetFiltersResponse,
-  GetFiltersRequest,
-} from '@/entities/filter/GetFilters';
+import type { GetFiltersResponse, GetFiltersRequest } from './types';
 
 export const filterApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -21,3 +18,5 @@ export const filterApi = api.injectEndpoints({
     }),
   }),
 });
+
+export const { useGetFiltersMutation, useGetBasicFiltersQuery } = filterApi;

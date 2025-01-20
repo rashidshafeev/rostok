@@ -3,7 +3,7 @@ import formcheck from '@/shared/assets/icons/form-check-input.svg';
 import formcheckactive from '@/shared/assets/icons/form-check-input-active.svg';
 
 
-function CustomRadioButton({ value, checked, handleChange, children, className }) {
+export const CustomRadioButton = ({ value, checked, handleChange, children, className }) => {
 
 
 
@@ -13,5 +13,3 @@ function CustomRadioButton({ value, checked, handleChange, children, className }
             {children}</div>
   )
 }
-
-export default CustomRadioButton

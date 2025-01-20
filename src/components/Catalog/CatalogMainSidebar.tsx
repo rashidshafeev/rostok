@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 
 import { ArrowIcon } from '@/shared/ui/icons';
 
-const CatalogSidebar = ({ categoryTree }) => {
+export const CatalogMainSidebar = ({ categoryTree }) => {
   const [accordion, setAccordion] = useState({
     parent: null,
     child: null,
@@ -141,5 +141,3 @@ const CatalogSidebar = ({ categoryTree }) => {
     </div>
   );
 };
-
-export default CatalogSidebar;

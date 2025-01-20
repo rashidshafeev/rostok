@@ -1,0 +1,896 @@
+Directory Structure:
+├── category/
+├── api/
+│   ├── categoryApi.ts
+│   ├── types.ts
+├── index.ts
+├── types.ts
+├── filter/
+├── api/
+│   ├── filterApi.ts
+│   ├── types.ts
+├── common/
+│   ├── PaginationParams.ts
+│   ├── SortingParams.ts
+├── index.ts
+├── types.ts
+├── order/
+├── api/
+│   ├── index.ts
+│   ├── orderApi.ts
+│   ├── types.ts
+├── index.ts
+├── types.ts
+├── organization/
+├── api/
+│   ├── organizationEndpoints.ts
+├── model/
+│   ├── Organization.ts
+│   ├── organizationsSlice.ts
+│   ├── OrganizationsState.ts
+├── price/
+├── api/
+│   ├── priceApi.ts
+│   ├── types.ts
+├── index.ts
+├── types.ts
+├── product/
+├── api/
+│   ├── productApi.ts
+│   ├── types.ts
+├── index.ts
+├── types.ts
+├── review/
+├── api/
+│   ├── reviewEndpoints.ts
+├── user/
+├── api/
+│   ├── profileEndpoints.ts
+│   ├── userApi.ts
+├── User.ts
+
+
+File Contents:
+
+================
+src/entities/category/api/categoryApi.ts
+================
+
+// src/entities/category/api/categoryApi.ts
+import { api } from '@/shared/api/api';
+
+import type { GetCategoryTreeResponse } from './types';
+
+export const categoryApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getCategoryTree: builder.query<GetCategoryTreeResponse, string | null>({
+      query: (id) => `api/Products/categoryTree?category_id=${id || ''}`,
+      keepUnusedDataFor: 60,
+    }),
+  }),
+});
+
+export const { useGetCategoryTreeQuery } = categoryApi;
+
+================
+src/entities/category/api/types.ts
+================
+
+import type { CategoryWithImage, CategoryFull } from '@/entities/category';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+
+export interface GetCategoryTreeResponse extends AdditionalServerResponseData {
+  category: CategoryWithImage;
+  category_chain: CategoryWithImage[];
+  children: CategoryFull[];
+}
+
+================
+src/entities/category/index.ts
+================
+
+export * from './types';
+export * from './api/categoryApi';
+
+================
+src/entities/category/types.ts
+================
+
+import type { ImageSet } from '@/shared/types/ImageSet';
+
+export interface ProductListCategoryChain {
+  count: number;
+  chain: CategoryWithImage[];
+}
+
+export interface CategoryBase {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface CategoryWithImage extends CategoryBase {
+  image: ImageSet | false;
+}
+
+export interface CategoryFull extends CategoryBase {
+  image: ImageSet | false;
+  product_count: number;
+  path: string;
+  children?: CategoryFull[];
+}
+
+================
+src/entities/filter/api/filterApi.ts
+================
+
+// src/entities/filter/api/filterApi.ts
+import { api } from '@/shared/api/api';
+
+import type { GetFiltersResponse, GetFiltersRequest } from './types';
+
+export const filterApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getFilters: builder.mutation<GetFiltersResponse, GetFiltersRequest>({
+      query: (params) => ({
+        url: '/api/Products/filters',
+        method: 'POST',
+        body: params,
+      }),
+    }),
+    getBasicFilters: builder.query<any, void>({
+      query: () => '/api/Products/filters/basic',
+      keepUnusedDataFor: 60,
+    }),
+  }),
+});
+
+export const { useGetFiltersMutation, useGetBasicFiltersQuery } = filterApi;
+
+================
+src/entities/filter/api/types.ts
+================
+
+import type { FiltersState } from '../types';
+import type { ProductListCategoryChain } from '@/entities/category';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+
+export interface GetFiltersResponse
+  extends FiltersState,
+    AdditionalServerResponseData {
+  categories: ProductListCategoryChain[];
+}
+
+export interface FilterRequestFormat {
+  category_id: string | null;
+  search: string | null;
+  min_price: number | null;
+  max_price: number | null;
+  brands: number[];
+  tags: string[];
+  filters: {
+    [key: number]: number[];
+  };
+  min_rating: number | null;
+  max_rating: number | null;
+}
+
+export interface GetFiltersRequest extends FilterRequestFormat {}
+
+================
+src/entities/filter/common/PaginationParams.ts
+================
+
+export interface PaginationParams {
+  page: number | null;
+  limit: number;
+}
+
+================
+src/entities/filter/common/SortingParams.ts
+================
+
+export enum OrderBy {
+  popularity = 'popularity',
+  price = 'price',
+  rating = 'rating',
+  discount = 'discount',
+}
+
+export enum SortOrder {
+  asc = 'asc',
+  desc = 'desc',
+}
+
+export interface SortingParams {
+  orderBy: OrderBy | null;
+  sortOrder: SortOrder | null;
+}
+
+================
+src/entities/filter/index.ts
+================
+
+export * from './api/filterApi';
+export * from './types';
+
+================
+src/entities/filter/types.ts
+================
+
+import type { BaseFilterParams } from '../ServerData/Catalog';
+import type { ImageSet } from '@/shared/types/ImageSet';
+
+export interface SelectableItem {
+  is_active: boolean;
+  is_selected: boolean;
+}
+
+interface DynamicFilterValue extends SelectableItem {
+  id: number;
+  text: string;
+  color?: string;
+  second_color?: string | null;
+}
+
+enum FilterType {
+  COLOR = 'color',
+  TEXT = 'text',
+}
+
+export interface DynamicFilter {
+  is_active: boolean;
+  id: number;
+  name: string;
+  type: FilterType;
+  values: DynamicFilterValue[];
+}
+
+export interface PriceFilter {
+  min: number;
+  max: number;
+  current_values?: {
+    min: number;
+    max: number;
+  };
+}
+
+export interface TagFilter extends SelectableItem {
+  tag: string;
+  text_color: string;
+  background_color: string;
+}
+
+export interface BrandFilter extends SelectableItem {
+  id: number;
+  name: string;
+  image: ImageSet;
+  code: string;
+}
+
+export interface FiltersState {
+  page(arg0: BaseFilterParams, page: any): unknown;
+  basics: {
+    price: PriceFilter | false;
+    tags: TagFilter[];
+    brands: BrandFilter[];
+    rating: number[];
+  };
+  dynamics: DynamicFilter[];
+  more: DynamicFilter[];
+}
+
+================
+src/entities/order/api/index.ts
+================
+
+export * from './orderApi';
+export * from './types';
+
+================
+src/entities/order/api/orderApi.ts
+================
+
+import { api } from '@/shared/api/api';
+
+import type { GetUserOrdersResponse } from './types';
+
+export const orderApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getCitiesAndRegions: builder.query({
+      query: () => '/api/Location/full',
+      staleTime: 60000,
+    }),
+    sendOrder: builder.mutation({
+      query: (order) => ({
+        url: '/api/Products/sendOrder',
+        method: 'POST',
+        body: order,
+      }),
+      invalidatesTags: (result, error, order) => [
+        { type: 'Order', id: 'LIST' },
+        { type: 'Order', id: 'FILTERS' },
+        { type: 'Cart', id: 'LIST' },
+        ...order.products.map((product) => ({
+          type: 'Product',
+          id: product.id,
+        })),
+      ],
+    }),
+    cancelOrder: builder.mutation<
+      { success: string },
+      { order_number: string; reason: string }
+    >({
+      query: (data) => ({
+        url: '/api/ProductOrders/cancel/order',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [
+        { type: 'Order', id: 'LIST' },
+        { type: 'Order', id: 'FILTERS' },
+      ],
+    }),
+    getUserOrders: builder.query<GetUserOrdersResponse, void>({
+      query: () => '/api/Products/orders/get',
+      providesTags: (result) =>
+        result
+          ? [{ type: 'Order', id: 'LIST' }]
+          : [{ type: 'Order', id: 'LIST' }],
+      refetchOnMountOrArgChange: true,
+    }),
+    getOrdersFilters: builder.query({
+      query: () => '/api/Products/orders/filters',
+      providesTags: (result) =>
+        result
+          ? [{ type: 'Order', id: 'FILTERS' }]
+          : [{ type: 'Order', id: 'FILTERS' }],
+      refetchOnMountOrArgChange: true,
+    }),
+    sendFeedback: builder.mutation({
+      query: (feedback) => ({
+        url: '/api/Products/feedback',
+        method: 'POST',
+        body: feedback,
+      }),
+    }),
+    repeatOrder: builder.mutation<
+      { success: string; new_order_number: string },
+      { order_number: string }
+    >({
+      query: (data) => ({
+        url: '/api/ProductOrders/repeat/order',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [
+        { type: 'Order', id: 'LIST' },
+        { type: 'Order', id: 'FILTERS' },
+        { type: 'Cart', id: 'LIST' },
+      ],
+    }),
+    createPDFOrder: builder.mutation<
+      { success: string; file: Blob },
+      { order_number: string }
+    >({
+      query: (data) => ({
+        url: '/api/ProductOrders/create/pdf/order',
+        method: 'POST',
+        body: data,
+        responseHandler: async (response) => {
+          const blob = await response.blob();
+          return { success: 'ok', file: blob };
+        },
+      }),
+    }),
+  }),
+});
+
+// Export hooks for order endpoints
+export const {
+  useGetCitiesAndRegionsQuery,
+  useSendOrderMutation,
+  useCancelOrderMutation,
+  useGetUserOrdersQuery,
+  useGetOrdersFiltersQuery,
+  useSendFeedbackMutation,
+  useRepeatOrderMutation,
+  useCreatePDFOrderMutation,
+} = orderApi;
+
+================
+src/entities/order/api/types.ts
+================
+
+import type { Order } from '../types';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+
+export interface GetUserOrdersResponse extends AdditionalServerResponseData {
+  data: Order[];
+}
+
+================
+src/entities/order/index.ts
+================
+
+export * from './api';
+export * from './types';
+
+================
+src/entities/order/types.ts
+================
+
+import type { Product } from '@/entities/product';
+
+export interface OrderStatus {
+  name: string;
+  background_color: string;
+  text_color: string;
+}
+
+export interface OrderProduct extends Product {
+  quantity: number;
+}
+
+export interface OrderTotals {
+  amount: number;
+  quantity: number;
+  discount: number;
+}
+
+export interface Order {
+  order_number: string;
+  date: string;
+  status: OrderStatus;
+  items: OrderProduct[];
+  total: OrderTotals;
+}
+
+================
+src/entities/organization/api/organizationEndpoints.ts
+================
+
+import { api } from '@/shared/api/api';
+
+export const organizationEndpoints = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getOrgSuggestions: builder.mutation({
+      query: (data) => ({
+        url: `/api/Company/suggest?query=${data}`,
+        method: 'GET',
+      }),
+    }),
+    getOrganizations: builder.query({
+      query: () => '/api/Company/list',
+      staleTime: 60000,
+      providesTags: (result) =>
+        result
+          ? [
+              { type: 'Organization', id: 'LIST' },
+              ...result.data.map(({ id }) => ({ type: 'Organization', id })),
+            ]
+          : [{ type: 'Organization', id: 'LIST' }],
+    }),
+    addOrganization: builder.mutation({
+      query: (data) => ({
+        url: '/api/Company/new',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'Organization', id: 'LIST' }],
+    }),
+    deleteOrganization: builder.mutation({
+      query: (id) => ({
+        url: '/api/Company/delete',
+        method: 'POST',
+        body: { id },
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Organization', id: 'LIST' },
+        { type: 'Organization', id },
+      ],
+    }),
+    editOrganization: builder.mutation({
+      query: (data) => ({
+        url: '/api/Company/update',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: (result, error, { id }) => [
+        { type: 'Organization', id: 'LIST' },
+        { type: 'Organization', id },
+      ],
+    }),
+  }),
+});
+
+export const {
+  useGetOrgSuggestionsMutation,
+  useGetOrganizationsQuery,
+  useAddOrganizationMutation,
+  useDeleteOrganizationMutation,
+  useEditOrganizationMutation,
+} = organizationEndpoints;
+
+================
+src/entities/organization/model/Organization.ts
+================
+
+export interface Organization {
+  inn: number;
+  kpp: number;
+  name: string;
+  yurAddress: string;
+  faqAddress: string;
+  ogrn: number;
+  rasSchet: number;
+  bikBanka: number;
+  korrSchet: number;
+  bankName: string;
+}
+
+================
+src/entities/organization/model/organizationsSlice.ts
+================
+
+import { createSlice } from '@reduxjs/toolkit';
+
+import type { OrganizationsState } from '@/entities/organization/model/OrganizationsState';
+
+const initialState: OrganizationsState = {
+  organizations: [],
+};
+
+export const organizationsSlice = createSlice({
+  name: 'organizations',
+  initialState,
+  reducers: {
+    addOrganization: (state, action) => {
+      state.organizations.push({ ...action.payload });
+    },
+    deleteOrganization: (state, action) => {
+      const organization = state.organizations.find(
+        (org) => org.inn === action.payload.inn
+      );
+
+      if (organization) {
+        state.organizations = state.organizations.filter(
+          (org) => org.inn !== action.payload.inn
+        );
+      }
+    },
+    updateOrganization: (state, action) => {
+      const organization = state.organizations.find(
+        (org) => org.inn === action.payload.organization.inn
+      );
+      Object.assign(organization, action.payload.data);
+    },
+  },
+});
+
+export const { addOrganization, deleteOrganization, updateOrganization } =
+  organizationsSlice.actions;
+export default organizationsSlice.reducer;
+
+================
+src/entities/organization/model/OrganizationsState.ts
+================
+
+import type { Organization } from '@/entities/organization/model/Organization';
+
+export interface OrganizationsState {
+  organizations: Organization[];
+}
+
+================
+src/entities/price/api/priceApi.ts
+================
+
+import { api } from '@/shared/api/api';
+
+import type {
+  GetCartItemPriceRequest,
+  GetCartItemPriceResponse,
+} from './types';
+
+export const priceApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getCartItemPrice: builder.mutation<
+      GetCartItemPriceResponse,
+      GetCartItemPriceRequest
+    >({
+      query: (data) => ({
+        url: '/api/Products/price/get',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [
+        { type: 'Cart', id: 'LIST' },
+        { type: 'User', id: 'DATA' },
+      ],
+    }),
+  }),
+});
+
+export const { useGetCartItemPriceMutation } = priceApi;
+
+================
+src/entities/price/api/types.ts
+================
+
+import type { PriceType } from '../types';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+
+export interface GetCartItemPriceResponse extends AdditionalServerResponseData {
+  data: null | {
+    item_id: number;
+    price: PriceType;
+  };
+  total_amount: number;
+  total_quantity: number;
+}
+
+export interface GetCartItemPriceRequest {
+  item_id: number;
+  quantity: number;
+}
+
+================
+src/entities/price/index.ts
+================
+
+export * from './api/priceApi';
+export * from './types';
+
+================
+src/entities/price/types.ts
+================
+
+export interface Currency {
+  code: string;
+  title: string;
+  symbol: string;
+}
+
+type Discount = {
+  price: number;
+  percent: number;
+  discount_amount: number;
+  reason: string | null;
+};
+
+export interface PriceType {
+  base: number | null;
+  final: number;
+  discount: Discount | null;
+  unit: string;
+  currency: Currency | null;
+  total?: number;
+}
+
+================
+src/entities/product/api/productApi.ts
+================
+
+// src/entities/product/api/productApi.ts
+import { api } from '@/shared/api/api';
+
+import type { GetProductResponse } from '@/entities/product/GetProduct';
+import type {
+  GetVariantsResponse,
+  GetVariantsRequest,
+} from '@/entities/product/GetVariants';
+
+export const productApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getProduct: builder.query<GetProductResponse, string>({
+      query: (id) => `api/Products/item?id=${id}`,
+      keepUnusedDataFor: 60,
+      providesTags: (result, error, id) => [{ type: 'Product', id }],
+    }),
+    getVariants: builder.mutation<GetVariantsResponse, GetVariantsRequest>({
+      query: (params) => ({
+        url: '/api/Products/variants',
+        method: 'POST',
+        body: params,
+      }),
+    }),
+  }),
+});
+
+export const { useGetProductQuery, useGetVariantsMutation } = productApi;
+
+================
+src/entities/product/api/types.ts
+================
+
+import type { BaseFilterParams } from '../../../entities/filter/common/BaseFilterParams';
+import type { ProductGroup } from '../../types/ProductGroup/ProductGroup';
+import type { PaginationParams } from '../filter/common/PaginationParams';
+import type { SortingParams } from '../filter/common/SortingParams';
+import type { Product } from '../types';
+import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
+
+export interface GetVariantsResponse extends AdditionalServerResponseData {
+  count: number;
+  data: Product[];
+}
+
+export interface GetVariantsRequest
+  extends BaseFilterParams,
+    SortingParams,
+    PaginationParams {}
+
+export interface GetProductResponse extends AdditionalServerResponseData {
+  data: ProductGroup;
+}
+
+================
+src/entities/product/index.ts
+================
+
+export * from './api/productApi';
+export * from './types';
+
+================
+src/entities/product/types.ts
+================
+
+import type { CategoryBase } from '@/entities/category';
+import type { PriceType } from '@/entities/price';
+import type { DateType } from '@/shared/types/DateType';
+import type { ImageSet } from '@/shared/types/ImageSet';
+
+export interface Tag {
+  text: string;
+  text_color: string;
+  background_color: string;
+}
+
+export interface Brand {
+  id: number;
+  name: string;
+  files?: ImageSet[];
+}
+export interface ModificationAttribute {
+  id: number;
+  value: number;
+  sorting: number;
+  name: string;
+  type: string;
+  text: string;
+  color?: string;
+  second_color?: string;
+}
+
+export interface Currency {
+  code: string;
+  title: string;
+  symbol: string;
+}
+
+export interface AvailabilityState {
+  stock: number;
+  preorder: DateType | null;
+}
+export interface Product {
+  id: number;
+  relevance: number;
+  groupId: number;
+  sku: number;
+  slug: string;
+  name: string;
+  groupName: string;
+  fullName: string;
+  availability: AvailabilityState;
+  description: string;
+  files: ImageSet[];
+  category: CategoryBase;
+  price: PriceType;
+  tags: Tag[] | false;
+  brand: Brand | false;
+  attributes: ModificationAttribute[];
+}
+
+export interface Review {
+  rating: number;
+  total_count: number;
+  total_count_text: string;
+  list: any[]; // Adjust the type of `list` based on the actual data structure
+}
+
+export interface Attribute {
+  id: number;
+  name: string;
+  type: string;
+  values: AttributeValue[];
+}
+
+export interface AttributeValue {
+  type: string;
+  text: string;
+}
+
+export interface ProductGroup {
+  name: string;
+  sku: number;
+  slug: string;
+  description: string;
+  attributes: Attribute[];
+  category_chain: CategoryBase[];
+  variants: Product[];
+  reviews: Review;
+}
+
+================
+src/entities/review/api/reviewEndpoints.ts
+================
+
+// reviewEndpoints.js
+import { api } from '@/shared/api/api';
+
+export const reviewEndpoints = (builder) => ({
+  submitReview: builder.mutation({
+    query: (data) => ({
+      url: '/api/Products/review/set',
+      method: 'POST',
+      body: data,
+    }),
+  }),
+});
+
+// Export hooks for review endpoints
+export const { useSubmitReviewMutation } = api.injectEndpoints({
+  endpoints: reviewEndpoints,
+});
+
+================
+src/entities/user/api/profileEndpoints.ts
+================
+
+import { api } from '@/shared/api/api';
+
+import type { GetUserDataResponse } from '../../../features/auth/api/types';
+
+export const profileEndpoints = api.injectEndpoints({
+  endpoints: (builder) => ({
+    getUserData: builder.query<GetUserDataResponse, void>({
+      query: () => ({
+        url: '/api/UserData/get',
+        method: 'GET',
+      }),
+      providesTags: [{ type: 'User', id: 'DATA' }],
+      keepUnusedDataFor: 0,
+      refetchOnFocus: true,
+    }),
+    changeUserData: builder.mutation({
+      query: (data) => ({
+        url: '/api/Profile/saveInfo',
+        method: 'POST',
+        body: data,
+      }),
+      invalidatesTags: [{ type: 'User', id: 'DATA' }],
+    }),
+  }),
+});
+
+export const { useGetUserDataQuery, useChangeUserDataMutation } =
+  profileEndpoints;
+
+================
+src/entities/user/api/userApi.ts
+================
+
+
+================
+src/entities/user/User.ts
+================
+
+export interface User {
+  name: string;
+  photo: string | null;
+  phone: string;
+  email: string;
+  gender: string;
+  date_of_birth: string | null;
+}

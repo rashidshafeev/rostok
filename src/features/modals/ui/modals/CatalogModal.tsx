@@ -2,10 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { NavLink } from 'react-router-dom';
 
-import {
-  useGetBasicFiltersQuery,
-  useGetCategoryTreeQuery,
-} from '@/entities/product/api/productApi';
+import { useGetCategoryTreeQuery } from '@/entities/category';
+import { useGetBasicFiltersQuery } from '@/entities/filter';
 import noImg from '@/shared/assets/images/no-image.png';
 import { ArrowIcon } from '@/shared/ui/icons';
 
