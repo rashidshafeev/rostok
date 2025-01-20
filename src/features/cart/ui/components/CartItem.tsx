@@ -1,25 +1,21 @@
 import { ExpandMore, AddOutlined, RemoveOutlined } from '@mui/icons-material';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useNavigate,  } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
-import {
-  addToCart,
-  changeQuantity,
-  removeFromCart,
-  selectItem,
-  QuantityControl,
-  RemoveFromCartButton
-} from '@/features/cart';
-import { SelectCartItemButton } from './SelectCartItemButton';
-
+import { QuantityControl, RemoveFromCartButton } from '@/features/cart';
 import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
 import { CCheckBoxField } from '@/shared/ui/';
 import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
-import { PriceDisplay } from '@/widgets/product-card';
+import {
+  PreviewGallery,
+  PriceDisplay,
+  useProductCard,
+} from '@/widgets/product-card';
+
+import { SelectCartItemButton } from './SelectCartItemButton';
 
 import type { CartProduct } from '@/features/cart/model/types';
-
 
 type CartItemProps = {
   cart: CartProduct[];
@@ -28,7 +24,7 @@ type CartItemProps = {
 export const CartItem = ({ cart }: CartItemProps) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
+  const { productInCart, productPrice } = useProductCard(product);
   return (
     <>
       {cart?.map((product, index) => (
@@ -51,8 +47,8 @@ export const CartItem = ({ cart }: CartItemProps) => {
                 to={`/catalog/${product?.category?.slug}/${product?.slug}`}
               >
                 <div>
-        <PreviewGallery product={product} />
-      </div>
+                  <PreviewGallery product={product} />
+                </div>
               </NavLink>
             </div>
             <div className="pr-3">
@@ -144,8 +140,7 @@ export const CartItem = ({ cart }: CartItemProps) => {
             <div className="grid grid-cols-3 items-center gap-4 pt-[27px]">
               {/* <PriceDisplay price={product?.price} alignment="center"/> */}
               <div className="text-center">
-              <QuantityControl product={productInCart}  />
-
+                <QuantityControl product={productInCart} />
               </div>
               <div className="text-center font-bold text-colBlack">
                 {product?.price?.total

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
-import { CustomPagination } from '@/features/catalog/CustomPagination';
+import { CustomPagination } from '@/features/catalog/ui/CustomPagination/CustomPagination';
 import filterIcon from '@/shared/assets/icons/filter.svg';
 import {
   CardLineSkeleton,

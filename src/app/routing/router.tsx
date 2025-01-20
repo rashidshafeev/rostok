@@ -50,6 +50,14 @@ export const router = createBrowserRouter(
             </Route>
           </Route>
         </Route>
+        {/* <Route path="catalog">
+          <Route index element={<CatalogPage />} />
+          <Route path=":categoryId" element={<CatalogPage />} /> 
+          <Route path=":categoryId/:productId">
+            <Route index element={<ProductPage />} />
+            <Route path="reviews" element={<ReviewsPage />} />
+          </Route>
+        </Route> */}
         <Route
           path="profile"
           element={

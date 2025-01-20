@@ -1,25 +1,32 @@
-import { OrderBy, SortOrder } from '@/entities/filter';
+// src/features/catalog/lib/utils/queryParams.ts
 
 import type {
-  BaseFilterParams,
-  GetVariantsRequest,
-  PaginationParams,
-  SortingParams,
+  OrderBy,
+  SortOrder,
 } from '@/entities/filter';
 
-export interface CatalogQueryParams
-  extends BaseFilterParams,
-    SortingParams,
-    PaginationParams {}
+export interface CatalogQueryParams {
+  category_id?: string | null;
+  search?: string | null;
+  min_price?: number | null;
+  max_price?: number | null;
+  brands?: number[];
+  tags?: string[];
+  filters?: Record<string, number[]>;
+  min_rating?: number | null;
+  max_rating?: number | null;
+  orderBy?: OrderBy;
+  sortOrder?: SortOrder;
+  page?: number;
+  limit?: number;
+}
 
 export class CatalogQueryParamsUtil {
   static parseQueryParams(queryString: string): CatalogQueryParams {
     const params = new URLSearchParams(queryString);
-
     const result: CatalogQueryParams = {
-      // BaseFilterParams
       category_id: null,
-      search: params.get('search') || null,
+      search: null,
       min_price: null,
       max_price: null,
       brands: [],
@@ -27,13 +34,19 @@ export class CatalogQueryParamsUtil {
       filters: {},
       min_rating: null,
       max_rating: null,
-      // SortingParams
-      orderBy: (params.get('order_by') as OrderBy) || OrderBy.popularity,
-      sortOrder: (params.get('sort_order') as SortOrder) || SortOrder.desc,
-      // PaginationParams
-      page: params.has('page') ? parseInt(params.get('page'), 10) : 1,
+      page: 1,
       limit: 20,
     };
+
+    // Parse category_id
+    if (params.has('category_id')) {
+      result.category_id = params.get('category_id');
+    }
+
+    // Parse search
+    if (params.has('search')) {
+      result.search = params.get('search');
+    }
 
     // Parse numeric values
     if (params.has('min_price')) {
@@ -53,10 +66,17 @@ export class CatalogQueryParamsUtil {
     if (params.has('brands')) {
       result.brands = params.get('brands').split(',').map(Number);
     }
-
     if (params.has('tags')) {
       result.tags = params.get('tags').split(',');
     }
+
+    // Parse dynamic filters
+    params.forEach((value, key) => {
+      if (key.startsWith('filter_')) {
+        const filterId = key.replace('filter_', '');
+        result.filters[filterId] = value.split(',').map(Number);
+      }
+    });
 
     // Parse ratings
     if (params.has('min_rating')) {
@@ -66,39 +86,47 @@ export class CatalogQueryParamsUtil {
       result.max_rating = parseFloat(params.get('max_rating'));
     }
 
-    // Parse dynamic filters
-    params.forEach((value, key) => {
-      if (key.startsWith('filter_')) {
-        const filterId = parseInt(key.replace('filter_', ''), 10);
-        result.filters[filterId] = value.split(',').map(Number);
-      }
-    });
+    // Parse sort params
+    if (params.has('orderBy')) {
+      result.orderBy = params.get('orderBy') as OrderBy;
+    }
+    if (params.has('sortOrder')) {
+      result.sortOrder = params.get('sortOrder') as SortOrder;
+    }
+
+    // Parse pagination
+    if (params.has('page')) {
+      result.page = parseInt(params.get('page'), 10);
+    }
+    if (params.has('limit')) {
+      result.limit = parseInt(params.get('limit'), 10);
+    }
 
     return result;
   }
 
-  static buildQueryParams(params: Partial<CatalogQueryParams>): string {
+  static buildQueryParams(params: CatalogQueryParams): string {
     const urlParams = new URLSearchParams();
 
     // Helper to set non-null values
-    const setIfPresent = <T>(key: string, value: T | null | undefined) => {
+    const setIfPresent = (key: string, value: any) => {
       if (value !== null && value !== undefined) {
         urlParams.set(key, value.toString());
       }
     };
 
-    // Add BaseFilterParams
+    // Add basic params
+    setIfPresent('category_id', params.category_id);
     setIfPresent('search', params.search);
     setIfPresent('min_price', params.min_price);
     setIfPresent('max_price', params.max_price);
     setIfPresent('min_rating', params.min_rating);
     setIfPresent('max_rating', params.max_rating);
 
-    // Add arrays if not empty
+    // Add arrays
     if (params.brands?.length) {
       urlParams.set('brands', params.brands.join(','));
     }
-
     if (params.tags?.length) {
       urlParams.set('tags', params.tags.join(','));
     }
@@ -112,24 +140,14 @@ export class CatalogQueryParamsUtil {
       });
     }
 
-    // Add SortingParams
-    setIfPresent('order_by', params.orderBy);
-    setIfPresent('sort_order', params.sortOrder);
+    // Add sort params
+    setIfPresent('orderBy', params.orderBy);
+    setIfPresent('sortOrder', params.sortOrder);
 
-    // Add PaginationParams
+    // Add pagination
     setIfPresent('page', params.page);
     setIfPresent('limit', params.limit);
 
     return urlParams.toString();
-  }
-
-  static createRequestFromParams(
-    params: CatalogQueryParams,
-    overrides?: Partial<GetVariantsRequest>
-  ): GetVariantsRequest {
-    return {
-      ...params,
-      ...overrides,
-    };
   }
 }

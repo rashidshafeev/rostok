@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import organizationsReducer from '@/entities/organization/model/organizationsSlice';
 import userReducer from '@/features/auth/model/userSlice';
 import cartReducer from '@/features/cart/model/cartSlice';
+import catalogReducer from '@/features/catalog/model/catalogSlice';
 import comparisonReducer from '@/features/comparison/model/comparisonSlice';
 import favoriteReducer from '@/features/favorite/model/favoriteSlice';
 import recentItemsReducer from '@/features/recent-items/model/recentItemsSlice';
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   comparison: comparisonReducer,
   organizations: organizationsReducer,
   recentItems: recentItemsReducer,
+  catalog: catalogReducer,
   [api.reducerPath]: api.reducer,
 });
 

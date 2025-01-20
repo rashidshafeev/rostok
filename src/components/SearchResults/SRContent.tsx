@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorEmpty from "@helpers/Errors/ErrorEmpty";
 import {ProductCard, ProductCardLine, ProductCardLineSmall} from '@/widgets/product-card';
-import { CustomPagination } from '@/features/catalog/CustomPagination';
+import { CustomPagination } from '@/features/catalog/ui/CustomPagination/CustomPagination';
 import filterIcon from '@/shared/assets/icons/filter.svg';
 
 export const SRContent = ({ products, isLoading, handlePagination, setOpen }) => {

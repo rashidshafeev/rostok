@@ -213,11 +213,11 @@ export const CartDetail: React.FC<CartDetail> = ({
         className="transition-all duration-700"
       >
         {itemType === 'lineBig' && width > 991 && !isLoading ? (
-          <ShCartItem cart={filteredCart} selectedItems={selected} />
+          <CartItem cart={filteredCart} selectedItems={selected} />
         ) : itemType === 'lineSmall' && width > 991 && !isLoading ? (
-          <ShCartItemLine cart={filteredCart} selectedItems={selected} />
+          <CartItemLine cart={filteredCart} selectedItems={selected} />
         ) : (
-          <MobileShCartItem cart={filteredCart} selectedItems={selected} />
+          <MobileCartItem cart={filteredCart} selectedItems={selected} />
         )}
       </div>
     </>

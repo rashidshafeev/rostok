@@ -1,4 +1,4 @@
-import type { BaseFilterParams } from '../ServerData/Catalog';
+import type { BaseFilterParams } from '@/ServerData/Catalog';
 import type { ImageSet } from '@/shared/types/ImageSet';
 
 export interface SelectableItem {
@@ -58,4 +58,28 @@ export interface FiltersState {
   };
   dynamics: DynamicFilter[];
   more: DynamicFilter[];
+}
+
+
+export interface PaginationParams {
+  page: number | null;
+  limit: number;
+}
+
+
+export enum OrderBy {
+  popularity = 'popularity',
+  price = 'price',
+  rating = 'rating',
+  discount = 'discount',
+}
+
+export enum SortOrder {
+  asc = 'asc',
+  desc = 'desc',
+}
+
+export interface SortingParams {
+  orderBy: OrderBy | null;
+  sortOrder: SortOrder | null;
 }

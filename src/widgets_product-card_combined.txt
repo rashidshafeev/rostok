@@ -1,0 +1,692 @@
+Directory Structure:
+├── index.ts
+├── model/
+├── hooks/
+│   ├── useProductCard.ts
+├── ui/
+├── index.ts
+├── PreviewGallery.tsx
+├── PriceDisplay.tsx
+├── ProductAttributesDisplay.tsx
+├── ProductCard.tsx
+├── ProductCardLine.tsx
+├── ProductCardLineSkeleton.tsx
+├── ProductCardLineSmall.tsx
+├── ProductCardLineSmallSkeleton.tsx
+├── ProductCardSkeleton.tsx
+
+
+File Contents:
+
+================
+src/widgets/product-card/index.ts
+================
+
+export * from './model/hooks/useProductCard';
+export * from './ui';
+
+================
+src/widgets/product-card/model/hooks/useProductCard.ts
+================
+
+// src/widgets/product-card/model/hooks/useProductCard.ts
+import { useCart } from '@/features/cart';
+
+import type { Product } from '@/entities/product';
+
+export const useProductCard = (product: Product) => {
+  const { cart } = useCart();
+
+  const productInCart = cart?.cart?.find((item) => item.id === product.id);
+  const productPrice = productInCart?.price || product.price;
+
+  return {
+    productInCart,
+    productPrice,
+  };
+};
+
+================
+src/widgets/product-card/ui/index.ts
+================
+
+export * from './ProductCard';
+export * from './ProductCardSkeleton';
+export * from './ProductCardLine';
+export * from './ProductCardLineSkeleton';
+export * from './ProductCardLineSmall';
+export * from './ProductCardLineSmallSkeleton';
+export * from './PreviewGallery';
+export * from './PriceDisplay';
+export * from './ProductAttributesDisplay';
+
+================
+src/widgets/product-card/ui/PreviewGallery.tsx
+================
+
+import React, { useState } from 'react';
+
+// import './PreviewGallery.css';
+import { ComparisonButton } from '@/features/comparison';
+import { FavoriteButton } from '@/features/favorite';
+import noImg from '@/shared/assets/images/no-image.png';
+import { ComparisonIcon, FavoriteIcon } from '@/shared/ui/icons';
+
+import type { Product } from '@/entities/product';
+
+interface PreviewGalleryProps {
+  product: Product;
+}
+
+export const PreviewGallery = ({ product }: PreviewGalleryProps) => {
+  const [hoveredIndex, setHoveredIndex] = useState(0);
+
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+
+  const minSwipeDistance = 50; // Adjust this value as needed
+
+  const onTouchStart = (e) => {
+    setTouchEnd(null); // otherwise the swipe is fired even with usual touch events
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => setTouchEnd(e.targetTouches[0].clientX);
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe && hoveredIndex < product?.files?.length - 1) {
+      setHoveredIndex(hoveredIndex + 1);
+    } else if (isRightSwipe && hoveredIndex > 0) {
+      setHoveredIndex(hoveredIndex - 1);
+    }
+  };
+
+  const handleMouseMove = (e) => {
+    if (product?.files?.length > 1) {
+      const { width, left } = e.currentTarget.getBoundingClientRect();
+      const hoverPosition = e.clientX - left;
+      const newIndex = Math.floor(
+        (hoverPosition / width) * product?.files?.length
+      );
+      if (newIndex >= 0 && newIndex < product?.files?.length) {
+        setHoveredIndex(newIndex);
+      }
+    }
+  };
+
+  const displayedImage =
+    product?.files?.length > 0 ? product?.files[hoveredIndex]?.medium : noImg;
+  const objectFitClass = product?.files[hoveredIndex]?.stretch_image
+    ? 'object-cover'
+    : 'object-contain';
+
+  return (
+    <>
+      <div
+        className="group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200 flex justify-center items-center"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* {product?.files?.length > 0 && (
+            <div className="flex flex-col items-center justify-center">
+            <img
+              onMouseMove={handleMouseMove}
+              className="w-full h-full object-contain"
+              src={displayedImage}
+            />
+            <div className="flex justify-center mt-2">
+              {product?.files?.map((_, index) => (
+                <span
+                  key={index}
+                  className={`h-2 w-2 mx-1 rounded-full transition-colors duration-300 ${
+                    index === hoveredIndex ? "bg-gray-700" : "bg-gray-400"
+                  }`}
+                ></span>
+              ))}
+            </div>
+          </div>
+        )} */}
+        {/* <div className="flex flex-col items-center justify-center "> */}
+        <div className="absolute bg-white  bg-opacity-30 backdrop-blur-lg rounded-lg overflow-hidden h-full w-full sc ">
+          <img
+            onMouseMove={handleMouseMove}
+            onMouseLeave={() => setHoveredIndex(0)}
+            src={displayedImage}
+            className={`w-full h-full ${objectFitClass}`}
+          />
+        </div>
+        <div className=" flex flex-col items-center">
+          {/* <div className="w-full h-full"> */}
+          <img
+            src={displayedImage}
+            className={`w-full h-full ${objectFitClass}`}
+          />
+          {/* </div> */}
+        </div>
+        {/* <img
+              onMouseMove={handleMouseMove}
+              onMouseLeave={() => setHoveredIndex(0)}
+              className="w-full h-full object-contain"
+              src={displayedImage}
+            /> */}
+
+        {/* </div> */}
+        <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">
+          {product?.tags?.length > 0 ? (
+            <span
+              style={{
+                color: product.tags[0].text_color,
+                backgroundColor: product.tags[0].background_color,
+              }}
+              className={`bg-[${product.tags[0].background_color}] py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold rounded-xl`}
+            >
+              {product.tags[0].text}
+            </span>
+          ) : null}
+          <FavoriteButton product={product}>
+            {({ isLoading, isInFavorite, handleFavoriteClick }) => (
+              <FavoriteIcon
+                onClick={isLoading ? null : handleFavoriteClick}
+                className={`${
+                  isLoading ? 'cursor-wait' : 'cursor-pointer'
+                } transition-all duration-500 hover:scale-110 absolute right-2`}
+                favorite={isInFavorite ? 'true' : 'false'}
+              />
+            )}
+          </FavoriteButton>
+        </div>
+        <ComparisonButton product={product}>
+          {({ isLoading, isInComparison, handleComparisonClick }) => (
+            <ComparisonIcon
+              onClick={isLoading ? null : handleComparisonClick}
+              className={`${
+                isLoading ? 'cursor-wait' : 'cursor-pointer'
+              } w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
+              // } group-hover:opacity-100 lg:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
+              comparison={isInComparison ? 'true' : 'false'}
+            />
+          )}
+        </ComparisonButton>
+      </div>
+      <div className="flex justify-center mt-2">
+        {product?.files?.length > 1
+          ? product?.files?.map((_, index) => (
+              <span
+                key={index}
+                className={`h-2 w-2 mx-1 rounded-full transition-colors duration-300 ${
+                  index === hoveredIndex ? 'bg-colGreen' : 'bg-gray-400'
+                }`}
+              ></span>
+            ))
+          : null}
+        {product?.files?.length <= 1 || !product?.files ? (
+          <span className="h-2"></span>
+        ) : null}
+      </div>
+    </>
+  );
+};
+
+================
+src/widgets/product-card/ui/PriceDisplay.tsx
+================
+
+import React from 'react';
+
+import type { PriceType } from '@/entities/price';
+
+type PriceProps = {
+  price: PriceType;
+  alignment?: 'left' | 'center' | 'right';
+};
+
+export const PriceDisplay = ({ price, alignment = 'left' }: PriceProps) => {
+  return (
+    <div
+      className={`flex flex-wrap items-center ${alignment === 'center' ? 'justify-center' : alignment === 'right' ? 'justify-end' : 'justify-start'}`}
+    >
+      <div className="flex items-center gap-1 mr-1">
+        <p className="text-lg font-bold whitespace-nowrap break-words">
+          {!price?.base ? 'Цена не указана' : null}
+          {price?.final !== 0
+            ? `${price?.final} ${price?.currency?.symbol}`
+            : null}
+        </p>
+      </div>
+      {price?.base !== 0 && price?.discount ? (
+        <div className="flex items-center">
+          <span className="line-through decoration-colDarkGray text-[8px] sm:text-[12px] text-colDarkGray whitespace-nowrap">
+            {`${price?.base} ${price?.currency?.symbol}`}
+          </span>
+          <span className="ml-2 bg-[#F04438] text-[10px] mm:text-xs font-medium text-white whitespace-nowrap px-[6px] py-[2px] rounded-xl">
+            {`${price?.discount?.percent} %`}
+          </span>
+        </div>
+      ) : null}
+    </div>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductAttributesDisplay.tsx
+================
+
+import React from 'react';
+
+import type { Product } from '@/entities/product/Product';
+
+type ProductAttributesDisplayProps = {
+  product: Product;
+};
+
+export const ProductAttributesDisplay = ({
+  product,
+}: ProductAttributesDisplayProps) => {
+  return (
+    <div className="flex flex-wrap gap-3">
+      <p className="text-xs text-colDarkGray flex items-center space-x-2">
+        <span>Код товара:</span>
+        <span>{product?.sku || 'Не указано'}</span>
+      </p>
+      {product.attributes
+        ? product?.attributes?.map((attribute, index) => (
+            <p
+              key={index}
+              className="text-xs text-colDarkGray flex items-center space-x-1"
+            >
+              <span>{attribute?.name}:</span>
+              <span className="font-semibold">
+                {attribute?.color ? (
+                  <div
+                    style={{ backgroundColor: `${attribute?.color}` }}
+                    className="min-w-[12px] w-3 h-3 rounded-full"
+                  ></div>
+                ) : (
+                  attribute?.text
+                )}
+              </span>
+            </p>
+          ))
+        : null}
+    </div>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductCard.tsx
+================
+
+// src/widgets/product-card/ui/ProductCard/ProductCard.tsx
+import { NavLink } from 'react-router-dom';
+
+import { AddToCartButton, QuantityControl } from '@/features/cart';
+import { useProductCard } from '@/widgets/product-card';
+
+import { PreviewGallery } from './PreviewGallery';
+import { PriceDisplay } from './PriceDisplay';
+
+import type { Product } from '@/entities/product';
+
+interface ProductCardProps {
+  product: Product;
+}
+
+export const ProductCard = ({ product }: ProductCardProps) => {
+  const { productInCart, productPrice } = useProductCard(product);
+
+  return (
+    <NavLink
+      to={
+        product.slug ? `/catalog/${product.category.slug}/${product.slug}` : ''
+      }
+      className="overflow-hidden group duration-500 flex flex-col justify-between items-stretch"
+    >
+      <div>
+        <PreviewGallery product={product} />
+      </div>
+
+      <div className="lining-nums proportional-nums mt-2 flex h-[160px] mm:h-[140px] flex-col gap-1">
+        <div className="flex flex-col justify-between gap-1 h-full mb-1">
+          <p className="text-sm text-colText font-medium line-clamp-2">
+            {product.fullName}
+          </p>
+          <PriceDisplay price={productPrice} />
+        </div>
+
+        {!productInCart ? (
+          <AddToCartButton
+            product={product}
+            className="transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 text-white rounded-md p-2 font-semibold w-full lining-nums proportional-nums"
+          />
+        ) : (
+          <div className="flex justify-between gap-2">
+            <QuantityControl product={productInCart} enableRemove />
+          </div>
+        )}
+      </div>
+    </NavLink>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductCardLine.tsx
+================
+
+import { NavLink } from 'react-router-dom';
+
+import { AddToCartButton, QuantityControl } from '@/features/cart';
+import { ComparisonButton } from '@/features/comparison';
+import { FavoriteButton } from '@/features/favorite';
+import noImg from '@/shared/assets/images/no-image.png';
+import { useProductCard } from '@/widgets/product-card';
+
+import { PriceDisplay } from './PriceDisplay';
+
+import type { Product } from '@/entities/product';
+
+interface ProductCardLineProps {
+  product: Product;
+}
+
+export const ProductCardLine = ({ product }: ProductCardLineProps) => {
+  const { productInCart, productPrice } = useProductCard(product);
+
+  return (
+    <div className="lg:flex justify-between">
+      <div className="mm:flex lg:pr-4 lg:max-w-[800px] w-full">
+        <NavLink to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
+          <div className="mm:max-w-[180px] min-w-[180px] w-full h-[180px] mm:h-[180px] overflow-hidden rounded-xl relative bg-gray-100">
+            <img
+              src={product?.files[0]?.medium || noImg}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.onerror = null;
+                target.src = noImg;
+              }}
+              alt={product.name}
+            />
+            {product?.tags?.length > 0 ? (
+              <div className="absolute top-2 w-full px-2 z-10">
+                <span
+                  style={{
+                    color: product.tags[0].text_color,
+                    backgroundColor: product.tags[0].background_color,
+                  }}
+                  className="py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl"
+                >
+                  {product.tags[0].text}
+                </span>
+              </div>
+            ) : null}
+          </div>
+        </NavLink>
+
+        <div className="mm:pl-5 pt-2 mm:pt-0">
+          <NavLink
+            to={`/catalog/${product?.category?.slug}/${product?.slug}`}
+            className="font-bold text-sm break-all hover:underline line-clamp-3 pb-1"
+          >
+            {product?.groupName} {product?.name}
+          </NavLink>
+
+          <p className="font-medium text-xs text-colDarkGray leading-4 break-all line-clamp-4 pb-1">
+            {product?.description}
+          </p>
+
+          <div className="space-y-1">
+            <p className="text-xs text-colDarkGray flex items-center space-x-2">
+              <span>Код товара:</span>
+              <span>{product?.sku}</span>
+            </p>
+            {product.attributes?.map((attribute, index) => (
+              <p
+                key={index}
+                className="text-xs text-colDarkGray flex items-center space-x-1"
+              >
+                <span>{attribute.name}:</span>
+                <span className="font-semibold">
+                  {attribute.color ? (
+                    <div
+                      style={{ backgroundColor: attribute.color }}
+                      className="min-w-[12px] w-3 h-3 rounded-full"
+                    />
+                  ) : (
+                    attribute.text
+                  )}
+                </span>
+              </p>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="lg:max-w-xs w-full">
+        <div className="flex justify-between items-center">
+          <PriceDisplay price={productPrice} />
+
+          <div className="flex items-center space-x-2">
+            <FavoriteButton product={product} />
+            <ComparisonButton product={product} />
+          </div>
+        </div>
+
+        <div className="flex justify-between space-x-3 pt-3 lg:pt-5">
+          {!productInCart ? (
+            <AddToCartButton
+              product={product}
+              className="transition-all flex justify-center items-center min-h-10 text-white rounded-md p-2 font-semibold w-full duration-200"
+            />
+          ) : (
+            <QuantityControl
+              product={productInCart}
+              enableRemove
+              className="w-full"
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductCardLineSkeleton.tsx
+================
+
+import React from 'react';
+
+import { Skeleton } from '@mui/material';
+
+export const ProductCardLineSkeleton = () => {
+  return (
+    <div className="flex flex-wrap h-[180px] gap-5">
+      <div className="min-w-[280px] h-full">
+        {' '}
+        <Skeleton variant="rounded" height={180} />
+      </div>
+
+      <div className="flex flex-col basis-5/12">
+        <Skeleton variant="text" sx={{ fontSize: '1.5rem' }} width={240} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem' }} width={300} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem' }} width={260} />
+        <Skeleton variant="text" sx={{ fontSize: '1rem' }} width={200} />
+        <Skeleton variant="text" sx={{ fontSize: '0.75rem' }} width={120} />
+        <Skeleton variant="text" sx={{ fontSize: '0.75rem' }} width={150} />
+        <Skeleton variant="text" sx={{ fontSize: '0.75rem' }} width={100} />
+      </div>
+      {/* <div className='flex gap-2 basis-4/12'>
+        <Skeleton variant="text" height={40} width={180}/>
+        <Skeleton variant="rounded" height={40} width={180}/>
+        </div> */}
+    </div>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductCardLineSmall.tsx
+================
+
+import { NavLink } from 'react-router-dom';
+
+import { AddToCartButton, QuantityControl } from '@/features/cart';
+import { ComparisonButton } from '@/features/comparison';
+import { FavoriteButton } from '@/features/favorite';
+import noImg from '@/shared/assets/images/no-image.png';
+import { useProductCard } from '@/widgets/product-card';
+
+import { PriceDisplay } from './PriceDisplay';
+
+import type { Product } from '@/entities/product';
+
+type ProductCardLineSmallProps = {
+  product: Product;
+};
+
+export const ProductCardLineSmall: React.FC<ProductCardLineSmallProps> = ({
+  product,
+  showChangeQuantity = true,
+}) => {
+  const { cart } = useSelector((state: RootState) => state.cart);
+  const navigate = useNavigate();
+
+  const productInCart = cart.find((el) => el.id === product.id);
+
+  console.log(product, showChangeQuantity);
+  return (
+    <div className="mm:flex justify-between relative w-full">
+      <div className="flex justify-between mm:pr-4 basis-1/2 w-full">
+        <div className="flex pr-2 mm:pr-0 ">
+          <NavLink
+            to={`/catalog/${product?.category?.slug}/${product?.slug}`}
+            className="min-w-[80px] w-20 h-20 bg-gray-100 rounded-lg overflow-hidden"
+          >
+            <img
+              src={product?.files[0]?.medium || noImg}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                e.target.onError = null;
+                e.target.src = noImg;
+              }}
+              alt="*"
+            />
+          </NavLink>
+          <div className="pl-5 basis-10/12">
+            <div className="space-y-1 pt-1">
+              <div>
+                <NavLink
+                  to={`/catalog/${product?.category?.slug}/${product?.slug}`}
+                  className="font-bold text-sm  break-all hover:underline line-clamp-1 pb-1"
+                >
+                  {product?.groupName + " " + product?.name || "Не указано"}
+                </NavLink>
+                <p className="font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-2">
+                  {product?.description || "Не указано"}
+                </p>
+              </div>
+              <ProductAttributesDisplay product={product} />
+            </div>
+          </div>
+        </div>
+        {/* <div className='px-2 min-w-[98px] text-right md:text-center'>
+          {product?.tags?.length > 0 && (
+            <span
+              style={{ color: product?.tags[0]?.text_color }}
+              className={`bg-[${product?.tags[0]?.background_color}] py-[3px] lg:py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold lg:font-bold rounded-xl`}
+            >
+              {product?.tags[0]?.text}
+            </span>
+          )}
+        </div> */}
+      </div>
+      <div className=" basis-1/2 grow">
+        <div className="flex justify-around items-center basis-1/2">
+          <div className="basis-1/4">
+            <PriceDisplay price={product?.price} alignment="center" />
+          </div>
+          <div className="  font-bold text-colBlack basis-1/4">
+            {product?.quantity} шт.
+          </div>
+        </div>
+
+        <div className="lg:max-w-xs w-full">
+          <div className="flex justify-between items-center">
+            <PriceDisplay price={productPrice} />
+
+            <div className="flex items-center space-x-2">
+              <FavoriteButton product={product} />
+              <ComparisonButton product={product} />
+            </div>
+          </div>
+
+          <div className="flex justify-between space-x-3 pt-3 lg:pt-5">
+            {!productInCart ? (
+              <AddToCartButton
+                product={product}
+                className="transition-all flex justify-center items-center min-h-10 text-white rounded-md p-2 font-semibold w-full duration-200"
+              />
+            ) : (
+              <QuantityControl
+                product={productInCart}
+                enableRemove
+                className="w-full"
+              />
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductCardLineSmallSkeleton.tsx
+================
+
+import React from 'react';
+
+import { Skeleton } from '@mui/material';
+
+export const ProductCardLineSmallSkeleton = () => {
+  return (
+    <div className="flex gap-5">
+      <Skeleton variant="rounded" height={80} width={80} />
+      <div>
+        <Skeleton variant="text" width={220} sx={{ fontSize: '1.5rem' }} />
+        <Skeleton variant="text" width={500} sx={{ fontSize: '1rem' }} />
+        <div className="flex gap-3">
+          <Skeleton variant="text" width={140} sx={{ fontSize: '0.75rem' }} />
+          <Skeleton variant="text" width={130} sx={{ fontSize: '0.75rem' }} />
+          <Skeleton variant="text" width={180} sx={{ fontSize: '0.75rem' }} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+================
+src/widgets/product-card/ui/ProductCardSkeleton.tsx
+================
+
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+
+export const ProductCardSkeleton = () => {
+  return (
+    <div className="w-[220px] h-[340px] flex flex-col">
+      <Skeleton variant="rounded" height={220} />
+      <div className="mt-2 flex flex-col gap-1">
+        <Skeleton variant="rounded" height={20} />
+        <Skeleton variant="rounded" height={20} />
+        <Skeleton variant="rounded" height={20} />
+        <Skeleton variant="rounded" height={40} />
+      </div>
+    </div>
+  );
+};
