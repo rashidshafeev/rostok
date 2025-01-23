@@ -1,130 +1,74 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
 import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
 
-import {
-  removeFromCart,
-  selectItem,
-  unselectItem,
-  useSendCartMutation,
-  SendCartRequest,
-} from '@/features/cart';
+import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
+import { useContainerHeight } from '@/features/cart/model/hooks/useContainerHeight';
 import { useModal } from '@/features/modals/model/context';
-import docIcon from '@/shared/assets/icons/download-pdf.svg';
 import shareIcon from '@/shared/assets/icons/share.svg';
-import { getTokenFromCookies } from '@/shared/lib';
 import { CCheckBoxField } from '@/shared/ui';
-import {
-  ProductCardLineSkeleton,
-  ProductCardLineSmallSkeleton,
-} from '@/widgets/product-card';
+import { ProductCardLineSkeleton } from '@/widgets/product-card';
 
 import { CartItem } from './CartItem';
 import { CartItemLine } from './CartItemLine';
 import { MobileCartItem } from './MobileCartItem';
 
-import type { AppDispatch } from '@/app/providers/store';
-import type {
-  SendCartPayload,
-  CartProduct,
-  LocalCartState,
-} from '@/features/cart';
+import type { CartProduct, LocalCartState } from '@/features/cart';
 
-type CartDetail = {
+type CartDetailProps = {
   cart: LocalCartState;
   isLoading: boolean;
   filteredCart: CartProduct[];
   selected: CartProduct[];
 };
 
-export const CartDetail: React.FC<CartDetail> = ({
+export const CartDetail: React.FC<CartDetailProps> = ({
   cart,
   isLoading,
   filteredCart,
   selected,
 }) => {
-  const token = getTokenFromCookies();
-
-  const [sendCart, { isLoading: sendCartIsLoading }] = useSendCartMutation();
-
-  const [itemType, setItemType] = useState('lineBig');
-
-  const { width, height } = useWindowSize();
-
-  const dispatch: AppDispatch = useDispatch();
-
-  const handleSelectAllChange = (event) => {
-    const isChecked = event.target.checked;
-
-    if (!isChecked) {
-      const payload: SendCartPayload[] = selected.map((item) => ({
-        id: item.id,
-        quantity: item.quantity,
-        selected: false,
-      }));
-
-      token
-        ? sendCart({ items: payload })
-        : selected.forEach((item) => dispatch(unselectItem(item)));
-    } else {
-      const unselectedItems = cart?.cart?.filter((item) => !item.selected);
-
-      const payload: SendCartPayload[] = unselectedItems.map((item) => ({
-        id: item.id,
-        quantity: item.quantity,
-        selected: true,
-      }));
-
-      token
-        ? sendCart({ items: payload })
-        : unselectedItems.forEach((item) => dispatch(selectItem(item)));
-    }
-  };
-
-  const handleRemoveSelected = () => {
-    const payload = selected.map((item) => ({
-      id: item.id,
-      quantity: 0,
-      selected: 0,
-    }));
-
-    if (token) {
-      sendCart({ items: payload });
-    }
-    selected.forEach((item) => dispatch(removeFromCart(item)));
-  };
-
-  const [containerHeight, setContainerHeight] = useState('auto');
-  const containerRef = useRef(null);
-  const previousCartLengthRef = useRef(cart?.cart?.length || 0);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      const itemHeight = 138; // Height of each item
-      const heightChange =
-        (cart?.cart?.length - previousCartLengthRef.current) * itemHeight;
-      const newHeight = containerRef.current.scrollHeight + heightChange;
-      setContainerHeight(`${newHeight}px`);
-      window.scroll({
-        top:
-          window.scrollY +
-          (cart?.cart?.length - previousCartLengthRef.current) * itemHeight,
-        behavior: 'smooth',
-      });
-      previousCartLengthRef.current = cart?.cart?.length; // Update the previous cart length
-    }
-  }, [cart]);
-
-  useEffect(() => {
-    if (containerRef.current) {
-      setContainerHeight('auto');
-    }
-  }, []);
-
+  const { width } = useWindowSize();
   const { showModal } = useModal();
+  const { handleSelectionChange, handleRemoveItems } = useCartSelection();
+  const [itemType, setItemType] = useState<'lineBig' | 'lineSmall'>('lineBig');
+  const { height, ref } = useContainerHeight(cart?.cart?.length || 0);
+
+  const handleSelectAllChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const isChecked = event.target.checked;
+    const itemsToUpdate = isChecked
+      ? cart?.cart?.filter((item) => !item.selected) || []
+      : selected;
+
+    handleSelectionChange(itemsToUpdate, isChecked);
+  };
+
+  const renderCartItem = (product: CartProduct) => {
+    if (itemType === 'lineBig' && width > 991) {
+      return (
+        <CartItem product={product} isSelected={selected.includes(product)} />
+      );
+    }
+    if (itemType === 'lineSmall' && width > 991) {
+      return (
+        <CartItemLine
+          product={product}
+          isSelected={selected.includes(product)}
+        />
+      );
+    }
+    return (
+      <MobileCartItem
+        product={product}
+        isSelected={selected.includes(product)}
+      />
+    );
+  };
+
   return (
     <>
       <div className="flex justify-between items-center pb-2">
@@ -143,7 +87,7 @@ export const CartDetail: React.FC<CartDetail> = ({
           </div>
           {selected?.length !== 0 ? (
             <button
-              onClick={handleRemoveSelected}
+              onClick={() => handleRemoveItems(selected)}
               className="text-colDarkGray font-medium text-sm ml-4"
             >
               Удалить выбранные
@@ -164,7 +108,7 @@ export const CartDetail: React.FC<CartDetail> = ({
             }}
           />
         </div>
-        <div className="hidden lg:flex justify-end items-center space-x-2 ">
+        <div className="hidden lg:flex justify-end items-center space-x-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -202,24 +146,20 @@ export const CartDetail: React.FC<CartDetail> = ({
       {isLoading ? (
         <div className="flex flex-col gap-3">
           {Array.from({ length: 6 }).map((_, index) => (
-            <CardLineSkeleton key={index} />
+            <ProductCardLineSkeleton key={index} />
           ))}
         </div>
-      ) : null}
-      {/* <div  className='transition-all duration-700'> */}
-      <div
-        ref={containerRef}
-        style={{ height: containerHeight }}
-        className="transition-all duration-700"
-      >
-        {itemType === 'lineBig' && width > 991 && !isLoading ? (
-          <CartItem cart={filteredCart} selectedItems={selected} />
-        ) : itemType === 'lineSmall' && width > 991 && !isLoading ? (
-          <CartItemLine cart={filteredCart} selectedItems={selected} />
-        ) : (
-          <MobileCartItem cart={filteredCart} selectedItems={selected} />
-        )}
-      </div>
+      ) : (
+        <div
+          ref={ref}
+          style={{ height }}
+          className="transition-all duration-700"
+        >
+          {filteredCart.map((product) => (
+            <div key={product.id}>{renderCartItem(product)}</div>
+          ))}
+        </div>
+      )}
     </>
   );
 };

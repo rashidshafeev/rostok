@@ -2,60 +2,25 @@ import type React from 'react';
 import { useState } from 'react';
 
 import { ExpandMore } from '@mui/icons-material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { IconButton, Menu } from '@mui/material';
 
-import PriceDisplay from '@/widgets/product-card/ui/PriceDisplay';
 
 import { OrderDetails } from './OrderDetails';
 import { OrderHeader } from './OrderHeader';
-import { OrderOptions } from './OrderOptions';
 
-import type { Order } from '@/entities/order/Orders/Order';
+import type { Order } from '@/entities/order';
 
 interface OrderItemProps {
   order: Order;
 }
 
 export const OrderItem = ({ order }: OrderItemProps) => {
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isExpanded, setIsExpanded] = useState(false);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   return (
     <div className="rounded-[10px] overflow-hidden border border-[#EBEBEB]">
       <div className="lg:flex justify-between lg:space-x-3 bg-colSuperLight p-2 sm:p-3 lg:p-5">
         <OrderHeader order={order} />
-        <div className="flex mm:justify-end">
-          <span className="text-colBlack mr-1 leading-[120%]">
-            Сумма заказа:
-          </span>
-          <span className="text-colBlack leading-[120%] font-bold">
-            {order.total.amount} {order?.total?.currency?.symbol || '₽'}
-          </span>
-        </div>
-        <div className="mm:hidden">
-          <IconButton
-            aria-label="more"
-            id="long-button"
-            aria-controls={open ? 'long-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={handleClick}
-            sx={{ paddingTop: '0', paddingRight: '0' }}
-          >
-            <MoreVertIcon />
-          </IconButton>
-          <OrderOptions anchorEl={anchorEl} open={open} onClose={handleClose} />
-        </div>
+        <div className="mm:hidden"></div>
       </div>
       <div className="grid lg:grid-cols-2 gap-3 lg:gap-5 sm:p-2 p-3 lg:p-4">
         <div className="lg:flex flex-col justify-between items-start">

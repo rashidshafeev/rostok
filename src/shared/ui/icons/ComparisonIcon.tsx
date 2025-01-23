@@ -6,10 +6,10 @@ import hover from '@/shared/assets/icons/comparison-green.svg';
 
 export const ComparisonIcon = (props) => {
   const [iconState, setIconState] = useState(
-    props.comparison === 'true' ? 'active' : 'inactive'
+    props.comparison ? 'active' : 'inactive'
   );
-  if ((props.comparison === 'true' ? 'active' : 'inactive') != iconState) {
-    setIconState(props.comparison === 'true' ? 'active' : 'inactive');
+  if ((props.comparison ? 'active' : 'inactive') != iconState) {
+    setIconState(props.comparison ? 'active' : 'inactive');
   }
   return (
     <div {...props}>

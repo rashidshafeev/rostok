@@ -97,6 +97,7 @@ export const CatalogPage = () => {
 
   return (
     <div className="content pb-6">
+      
       <CatalogWidget />
     </div>
   );

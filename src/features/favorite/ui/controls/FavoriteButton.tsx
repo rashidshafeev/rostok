@@ -22,7 +22,7 @@ export const FavoriteButton = ({
       disabled={isLoading}
       className={`transition-all duration-300 hover:scale-110 ${isLoading ? 'cursor-wait' : 'cursor-pointer'} ${className}`}
     >
-      <FavoriteIcon active={isInFavorite} />
+      <FavoriteIcon favorite={isInFavorite} />
     </button>
   );
-};
+};  

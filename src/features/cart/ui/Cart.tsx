@@ -147,10 +147,7 @@ export const Cart = (): JSX.Element => {
           </div>
 
           {orderInfoVisible && orderInfoVisible.intersectionRatio < 1 ? (
-            <MobileToCheckoutBar
-              selected={selected}
-              quantity={cart?.selected?.quantity}
-            />
+            <MobileToCheckoutBar cart={cart} selected={selected} />
           ) : null}
         </>
       ) : null}

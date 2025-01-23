@@ -1,4 +1,9 @@
-export * from './ui';
-export * from './api';
+// Core cart functionality
 export * from './model';
-export * from './lib/transfromData';
+export * from './api';
+export * from './lib/transformData';
+
+// UI components
+export * from './ui';
+
+// Documentation: See /docs/features/cart.md for architecture overview

@@ -26,7 +26,6 @@ export const useFavorites = (product: Product) => {
   const handleFavoriteClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
     try {
       if (isInFavorite) {
         if (token) {

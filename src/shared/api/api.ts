@@ -1,8 +1,8 @@
-// src/redux/api/api.ts
+// src/shared/api/api.ts
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { toast } from 'sonner';
 
-import type { RootState } from '@store/store';
+import type { RootState } from '@/app/providers/store';
 
 interface ErrorLogData {
   message: string;

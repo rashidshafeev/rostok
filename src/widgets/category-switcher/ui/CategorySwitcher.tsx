@@ -33,7 +33,7 @@ export const CategorySwitcher = ({
         onClick={() => onCategoryChange('')}
       >
         <img className="w-4 mr-1" src={categoryIcon} alt="All categories" />
-        All
+        Все
         <span className="absolute top-[-12px] right-[-12px] border-4 border-gray-100 bg-colGreen text-white text-xs rounded-[50px] min-w-[28px] h-[28px] p-[3px] block lining-nums proportional-nums">
           {totalCount}
         </span>

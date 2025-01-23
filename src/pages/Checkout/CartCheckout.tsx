@@ -123,46 +123,46 @@ const CartCheckout = () => {
   const [openSnack2, setOpenSnack2] = useState(false);
   const [isCode, setIsCode] = useState({ verification: null, sendCode: null });
 
-  const onOrderSubmit = (data) => {
-    console.log(data);
-
-    const items = [];
-
-    selected.map((item) => {
-      items.push({
+  const onOrderSubmit = async (data) => {
+    try {
+      console.log('Submitting order...');
+      const items = selected.map((item) => ({
         id: item.id,
         quantity: item.quantity,
-      });
-    });
+      }));
 
-    const order = {
-      // type,
-      clientInfo: data,
-      // deliveryType,
-      // pickupPoint,
-      // deliveryDate,
-      // paymentMethod,
-      order: items,
-    };
-    sendOrder(order);
+      const order = {
+        clientInfo: data,
+        order: items,
+      };
 
-    removeSelected();
+      console.log('Sending order...');
+      const result = await sendOrder(order)
 
-    if (user) {
-      navigate('/profile/orders');
+      if (result) {
+        console.log('Order successful, removing selected items...');
+        removeSelected();
+        
+        // Always navigate after successful order
+        console.log('Navigating to orders page...');
+        navigate('/profile/orders');
+      }
+    } catch (error) {
+      console.error('Order submission failed:', error);
+      // Handle error appropriately
     }
   };
 
   const removeSelected = () => {
-    // const payload = selected.map((item) => ({
-    //   id: item.id,
-    //   quantity: 0,
-    //   selected: 0,
-    // }));
+    const payload = selected.map((item) => ({
+      id: item.id,
+      quantity: 0,
+      selected: 0,
+    }));
 
-    // if (token) {
-    //   sendCart({ items: payload})
-    // }
+    if (token) {
+      sendCart({ items: payload})
+    }
     selected.forEach((item) => dispatch(removeFromCart(item)));
   };
 

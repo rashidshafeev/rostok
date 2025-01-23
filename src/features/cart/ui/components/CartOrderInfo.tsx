@@ -19,7 +19,7 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
   cart,
   selected,
 }) => {
-  const token = getTokenFromCookies();
+  
   const hasZeroPriceItems =
     selected.filter((item) => item.price.base === null || item.price.base === 0)
       .length > 0;

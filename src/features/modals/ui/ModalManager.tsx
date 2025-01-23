@@ -1,14 +1,14 @@
 import type React from 'react';
 
 import { AuthModal, LogoutModal } from '@/features/auth/ui/modals';
+import { ShowSharedCartModal, ShareCartModal } from '@/features/cart-share';
+import { FastOrderModal } from '@/features/fast-order';
 
 import {
   ShareModal,
   QuestionModal,
   ConfirmationModal,
   ModificationAttributesModal,
-  ShareCartModal,
-  ShowSharedCartModal,
 } from './modals';
 
 export const ModalManager: React.FC = () => {
@@ -22,6 +22,7 @@ export const ModalManager: React.FC = () => {
       <ModificationAttributesModal />
       <ShareCartModal />
       <ShowSharedCartModal />
+      <FastOrderModal />
     </>
   );
 };

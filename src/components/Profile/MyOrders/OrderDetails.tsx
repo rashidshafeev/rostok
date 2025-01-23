@@ -93,35 +93,6 @@ export const OrderDetails = ({ order }: OrderDetailsProps) => {
 
   return (
     <div className="p-2 sm:p-3 lg:p-4">
-      <div className="hidden mm:flex space-x-4 mb-4">
-        <button
-          className="flex items-center cursor-pointer"
-          onClick={handleCancelClick}
-        >
-          <Close className="!w-[18px] font-light text-colGreen mr-1" />
-          <p className="text-sm font-semibold text-colBlack leading-[120%]">
-            Отменить
-          </p>
-        </button>
-        <button
-          className="flex items-center cursor-pointer"
-          onClick={handleRepeatOrder}
-        >
-          <Cached className="!w-[18px] font-light text-colGreen mr-1" />
-          <p className="text-sm font-semibold text-colBlack leading-[120%]">
-            Повторить заказ
-          </p>
-        </button>
-        <button
-          className="flex items-center cursor-pointer"
-          onClick={handleDownloadPDF}
-        >
-          <DescriptionOutlined className="!w-4 font-light text-colGreen mr-1" />
-          <p className="text-sm font-semibold text-colBlack leading-[120%]">
-            Скачать документы
-          </p>
-        </button>
-      </div>
       <div className="space-y-3">
         {order.items.map((item) => (
           <NavLink

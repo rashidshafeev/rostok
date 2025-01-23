@@ -12,8 +12,8 @@ import {
   QuantityControl,
   AddToCartButton,
 } from '@/features/cart';
-import { ComparisonButton } from '@/features/comparison/ui/controls/ComparisonButton';
-import { FavoriteButton } from '@/features/favorite/ui/controls/FavoriteButton';
+import { ComparisonButton } from '@/features/comparison';
+import { FavoriteButton } from '@/features/favorite';
 import { getTokenFromCookies } from '@/shared/lib';
 import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { LoadingSmall } from '@/shared/ui/Loader';
@@ -108,24 +108,8 @@ const ComparisonProductCard = ({ product, index, moveProduct }) => {
             </div>
           </div>
           <div className="flex gap-5 items-center justify-center mt-4">
-            <FavoriteButton product={product}>
-              {({ isInFavorite, handleFavoriteClick }) => (
-                <FavoriteIcon
-                  favorite={isInFavorite ? 'true' : 'false'}
-                  className="transition-all duration-300 hover:scale-110  cursor-pointer"
-                  onClick={handleFavoriteClick}
-                />
-              )}
-            </FavoriteButton>
-            <ComparisonButton product={product}>
-              {({ isInComparison, handleComparisonClick }) => (
-                <DeleteIcon
-                  className="transition-all duration-300 hover:scale-110 cursor-pointer"
-                  onClick={handleComparisonClick}
-                  comparison={isInComparison ? 'true' : 'false'}
-                />
-              )}
-            </ComparisonButton>
+            <FavoriteButton product={product}/>
+            <ComparisonButton product={product}/>
           </div>
         </div>
         <div className="lining-nums proportional-nums  basis-1/2  ">
@@ -136,7 +120,7 @@ const ComparisonProductCard = ({ product, index, moveProduct }) => {
                   product?.price?.discount
                     ? product?.price?.discount?.price
                     : product?.price?.default
-                }  ${product?.price?.currency}`
+                }  ${product?.price?.currency?.symbol}`
               ) : (
                 <p className="font-semibold text-sm mm:text-base">
                   Цена не указана
@@ -144,7 +128,7 @@ const ComparisonProductCard = ({ product, index, moveProduct }) => {
               )}
             </span>
             <span className="text-[8px] mm:text-xs line-through mr-2 whitespace-nowrap mb-[2px]">
-              {product?.price?.discount ? `${product?.price?.discount}` : null}
+              {product?.price?.discount ? `${product?.price?.base} ${product?.price?.currency?.symbol}` : null}
             </span>
             {product?.price?.discount ? (
               <span className="px-2 py-[2px] font-semibold rounded-3xl text-[8px] mm:text-xs bg-[#F04438] text-white line-clamp-1 break-all whitespace-nowrap">
@@ -160,31 +144,7 @@ const ComparisonProductCard = ({ product, index, moveProduct }) => {
           </div>
 
           {!productInCart ? (
-            <AddToCartButton product={product}>
-              {({
-                handleAddToCartClick,
-                isLoading,
-                isSuccess,
-                buttonText,
-                disabled,
-              }) => (
-                <button
-                  disabled={disabled || isLoading}
-                  onClick={handleAddToCartClick}
-                  className={` transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 ${
-                    disabled ? 'bg-colGray ' : 'bg-colGreen cursor-pointer'
-                  }  text-white rounded-md p-2 font-semibold w-full ${
-                    isLoading && !disabled ? 'cursor-wait' : ''
-                  }`}
-                >
-                  {isLoading && !isSuccess ? (
-                    <LoadingSmall extraStyle="white" />
-                  ) : (
-                    buttonText
-                  )}
-                </button>
-              )}
-            </AddToCartButton>
+            <AddToCartButton product={product}/>
           ) : null}
           {productInCart ? (
             <QuantityControl product={productInCart} />

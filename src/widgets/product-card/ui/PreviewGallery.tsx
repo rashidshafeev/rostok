@@ -123,7 +123,7 @@ export const PreviewGallery = ({ product }: PreviewGalleryProps) => {
               {product.tags[0].text}
             </span>
           ) : null}
-          <FavoriteButton product={product}>
+          {/* <FavoriteButton product={product}>
             {({ isLoading, isInFavorite, handleFavoriteClick }) => (
               <FavoriteIcon
                 onClick={isLoading ? null : handleFavoriteClick}
@@ -133,20 +133,13 @@ export const PreviewGallery = ({ product }: PreviewGalleryProps) => {
                 favorite={isInFavorite ? 'true' : 'false'}
               />
             )}
-          </FavoriteButton>
+          </FavoriteButton> */}
+          <FavoriteButton product={product} className="cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute top-2 right-2" />
         </div>
-        <ComparisonButton product={product}>
-          {({ isLoading, isInComparison, handleComparisonClick }) => (
-            <ComparisonIcon
-              onClick={isLoading ? null : handleComparisonClick}
-              className={`${
-                isLoading ? 'cursor-wait' : 'cursor-pointer'
-              } w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
-              // } group-hover:opacity-100 lg:opacity-0 w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2`}
-              comparison={isInComparison ? 'true' : 'false'}
-            />
-          )}
-        </ComparisonButton>
+        <ComparisonButton
+          product={product}
+          className="cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2"
+        />
       </div>
       <div className="flex justify-center mt-2">
         {product?.files?.length > 1

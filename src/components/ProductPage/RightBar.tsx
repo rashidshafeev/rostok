@@ -13,8 +13,7 @@ import {
   QuantityControl,
   useGetUserCartQuery,
 } from '@/features/cart';
-import { useModal } from '@/features/modals/model/context';
-import FastOrderModal from '@/features/modals/ui/modals/FastOrderModal';
+import { useModal } from '@/features/modals';
 import boxicon from '@/shared/assets/icons/box-icon.svg';
 import checkicon from '@/shared/assets/icons/check-icon.svg';
 import stallicon from '@/shared/assets/icons/stall-icon.svg';
@@ -34,7 +33,7 @@ type RightBarProps = {
 };
 
 const RightBar: React.FC<RightBarProps> = ({ product }) => {
-  const { showModal, hideModal, modalContent, isModalVisible } = useModal();
+  const { showModal } = useModal();
 
   const token = getTokenFromCookies();
 
@@ -75,23 +74,7 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
         </div>
         {!productInCart ? (
           <div className="flex flex-col gap-3">
-            <AddToCartButton product={product}>
-              {({ handleAddToCartClick, isLoading, isSuccess, disabled }) => (
-                <button
-                  disabled={disabled || isLoading}
-                  onClick={handleAddToCartClick}
-                  className={`py-3 flex justify-center text-white font-semibold w-full rounded transition-all duration-200 ${
-                    disabled ? 'bg-colGray' : 'bg-colGreen cursor-pointer'
-                  } ${isLoading && !disabled ? 'cursor-wait' : ''} lining-nums proportional-nums`}
-                >
-                  {isLoading && !isSuccess ? (
-                    <LoadingSmall extraStyle="white" />
-                  ) : (
-                    'Добавить в корзину'
-                  )}
-                </button>
-              )}
-            </AddToCartButton>
+            <AddToCartButton product={product}/>
 
             <button
               onClick={() => showModal({ type: 'fastOrder', product })}
@@ -99,13 +82,6 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
             >
               Купить в 1 клик
             </button>
-            {modalContent?.type === 'fastOrder' ? (
-              <FastOrderModal
-                open={isModalVisible}
-                handleClose={hideModal}
-                product={modalContent.product}
-              />
-            ) : null}
           </div>
         ) : null}
 

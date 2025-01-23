@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 import {
   useGetCartShareCodeMutation,
   useGetCartShareItemsByCodeMutation,
-} from '@/features/cart-share/api'; // Updated import
+} from '@/features/cart-share'; // Updated import
 import { useModal } from '@/features/modals';
 import { CTextField, CopyButton } from '@/shared/ui';
 import { ProductCardLineSmall } from '@/widgets/product-card';
@@ -64,6 +64,11 @@ export const ShareCartModal: React.FC = () => {
           toast.error('Выберите товары для шаринга');
         } else if (error?.data?.err_code) {
           toast.error(error.data.err);
+        } else {
+          toast.error('Ошибка при создании ссылки для шаринга');
+          console.error('Sharing error:', error);
+          hideModal();
+        }
       } finally {
         setIsLoading(false);
       }

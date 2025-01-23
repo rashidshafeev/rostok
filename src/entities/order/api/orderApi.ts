@@ -1,6 +1,11 @@
 import { api } from '@/shared/api/api';
-
 import type { GetUserOrdersResponse } from './types';
+
+export interface ErrorResponse { // Added export
+  data?: {
+    err_code?: string;
+  };
+}
 
 export const orderApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,13 +20,11 @@ export const orderApi = api.injectEndpoints({
         body: order,
       }),
       invalidatesTags: (result, error, order) => [
-        { type: 'Order', id: 'LIST' },
-        { type: 'Order', id: 'FILTERS' },
-        { type: 'Cart', id: 'LIST' },
-        ...order.products.map((product) => ({
-          type: 'Product',
-          id: product.id,
-        })),
+        { type: 'Order'},
+        // ...order.products.map((product) => ({
+        //   type: 'Product',
+        //   id: product.id,
+        // })),
       ],
     }),
     cancelOrder: builder.mutation<
@@ -93,7 +96,6 @@ export const orderApi = api.injectEndpoints({
   }),
 });
 
-// Export hooks for order endpoints
 export const {
   useGetCitiesAndRegionsQuery,
   useSendOrderMutation,
