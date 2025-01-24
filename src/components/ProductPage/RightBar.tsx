@@ -74,7 +74,7 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
         </div>
         {!productInCart ? (
           <div className="flex flex-col gap-3">
-            <AddToCartButton product={product}/>
+            <AddToCartButton product={product} className="py-3"/>
 
             <button
               onClick={() => showModal({ type: 'fastOrder', product })}

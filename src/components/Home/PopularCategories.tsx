@@ -2,7 +2,7 @@ import { useWindowSize } from 'react-use';
 
 import { useGetMainPageDataQuery } from '@/redux/api/contentEndpoints';
 
-import { CategoryCard } from '../Catalog/CategoryCard';
+import { CategoryCard } from '@/components/Catalog/CategoryCard';
 
 // const PopularCategories = ({ data }) => {
 export const PopularCategories = () => {

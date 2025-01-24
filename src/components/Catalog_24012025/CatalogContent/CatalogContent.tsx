@@ -1,23 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { useParams } from 'react-router-dom';
 
+import { CustomPagination } from '@/features/catalog/ui/CustomPagination/CustomPagination';
+import filterIcon from '@/shared/assets/icons/filter.svg';
 import {
-  ProductCardLineSkeleton,
+  CardLineSkeleton,
   ProductCardLineSmallSkeleton,
   ProductCardSkeleton,
   ProductCard,
   ProductCardLine,
   ProductCardLineSmall,
 } from '@/widgets/product-card';
-import { CustomPagination } from '@/features/catalog';
+import ErrorEmpty from '@helpers/Errors/ErrorEmpty';
 
 import CardTypeControls from './CardTypeControls';
 import MobileSortControls from './MobileSortControls';
 import SortControls from './SortControls';
-
-import filterIcon from '@/shared/assets/icons/filter.svg';
-import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 
 const CatProdContent = ({
   // filters,

@@ -1,5 +1,4 @@
-import React from "react";
-
+import React from 'react';
 
 import {
   Accordion,
@@ -7,11 +6,12 @@ import {
   AccordionSummary,
   Checkbox,
   FormControlLabel,
-} from "@mui/material";
+} from '@mui/material';
 
-import { ArrowIcon } from "@/shared/ui/icons";
-import { checkCloseToWhite } from "@/shared/lib/checkCloseToWhite";
-function CheckboxFilter({ filter, filters, setFilters }) {
+import { checkCloseToWhite } from '@/shared/lib';
+import { ArrowIcon } from '@/shared/ui/icons';
+
+const CheckboxFilter = ({ filter, filters, setFilters }) => {
   const handleCheckboxChange = (filterId, valueId) => {
     const currentState = JSON.parse(JSON.stringify(filters));
 
@@ -22,7 +22,7 @@ function CheckboxFilter({ filter, filters, setFilters }) {
     value.is_selected = !value.is_selected;
 
     currentState.lastChanged = {
-      type: "dynamics",
+      type: 'dynamics',
       filter: filterId,
     };
     setFilters(currentState);
@@ -32,14 +32,14 @@ function CheckboxFilter({ filter, filters, setFilters }) {
     <div key={filter?.id}>
       <Accordion
         sx={{
-          boxShadow: "none",
+          boxShadow: 'none',
           padding: 0,
         }}
         defaultExpanded
         disableGutters
       >
         <AccordionSummary
-          sx={{ padding: 0, flexDirection: "row-reverse", gap: "8px" }}
+          sx={{ padding: 0, flexDirection: 'row-reverse', gap: '8px' }}
           style={{ minHeight: 0 }}
           expandIcon={<ArrowIcon className="!w-4 !h-4 rotate-[180deg]" />}
         >
@@ -47,18 +47,21 @@ function CheckboxFilter({ filter, filters, setFilters }) {
             {filter?.name}
           </p>
         </AccordionSummary>
-        <AccordionDetails sx={{ padding: 0, marginLeft: "-8px" }}>
+        <AccordionDetails sx={{ padding: 0, marginLeft: '-8px' }}>
           <div className="max-h-40 overflow-hidden overflow-y-scroll scrollable2 flex flex-col gap-1">
             {filter?.values?.map((val) => {
               return (
-                <div className={!val?.is_active && "opacity-40"} key={val?.id}>
+                <div
+                  className={!val?.is_active ? 'opacity-40' : null}
+                  key={val?.id}
+                >
                   <FormControlLabel
-                    sx={{ margin: "0", display: "flex", alignItems: "start" }}
+                    sx={{ margin: '0', display: 'flex', alignItems: 'start' }}
                     control={
                       <Checkbox
                         style={{
-                          color: "#15765B",
-                          padding: "0 5px",
+                          color: '#15765B',
+                          padding: '0 5px',
                         }}
                         name={filter?.name}
                         checked={
@@ -80,7 +83,7 @@ function CheckboxFilter({ filter, filters, setFilters }) {
                     }
                     label={
                       <div className="flex items-center" data-title={val?.text}>
-                        {filter?.type === "color" && val?.second_color && (
+                        {filter?.type === 'color' && val?.second_color ? (
                           <>
                             <span
                               style={{
@@ -88,8 +91,8 @@ function CheckboxFilter({ filter, filters, setFilters }) {
                               }}
                               className={`min-w-[10px] min-h-[20px]  rounded-tl-full rounded-bl-full ${
                                 checkCloseToWhite(val?.color)
-                                  ? " border-l border-colGray"
-                                  : ""
+                                  ? ' border-l border-colGray'
+                                  : ''
                               }`}
                             ></span>
                             <span
@@ -98,24 +101,24 @@ function CheckboxFilter({ filter, filters, setFilters }) {
                               }}
                               className={`min-w-[10px] min-h-[20px]  rounded-tr-full rounded-br-full ${
                                 checkCloseToWhite(val?.second_color)
-                                  ? " border-r border-colGray"
-                                  : ""
+                                  ? ' border-r border-colGray'
+                                  : ''
                               }`}
                             ></span>
                           </>
-                        )}
-                        {filter?.type === "color" && !val?.second_color && (
+                        ) : null}
+                        {filter?.type === 'color' && !val?.second_color ? (
                           <span
                             style={{
                               backgroundColor: val?.color,
                             }}
                             className={`min-w-[20px] min-h-[20px] rounded-full ${
                               checkCloseToWhite(val?.color)
-                                ? "border border-colGray"
-                                : ""
+                                ? 'border border-colGray'
+                                : ''
                             }`}
                           ></span>
-                        )}
+                        ) : null}
                         <p className="text-sm font-medium text-colBlack line-clamp-2 break-words ml-1">
                           {val?.text}
                         </p>
@@ -130,6 +133,6 @@ function CheckboxFilter({ filter, filters, setFilters }) {
       </Accordion>
     </div>
   );
-}
+};
 
 export default CheckboxFilter;

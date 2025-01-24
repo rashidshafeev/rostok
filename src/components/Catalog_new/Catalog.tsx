@@ -1,7 +1,6 @@
 import type React from 'react';
 import { useEffect, useRef, useState } from 'react';
 
-import AllFiltersModal from '@helpers/CModal/AllFiltersModal/AllFiltersModal';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -10,6 +9,7 @@ import {
   useGetVariantsMutation,
 } from '@/entities/product/api/productApi';
 import { CatalogQueryParamsUtil } from '@/features/filters/lib';
+import AllFiltersModal from '@/features/modals';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
 import Advantages from '@components/Home/Advantages';

@@ -1,21 +1,18 @@
-
-
-import SidebarCategoryTree from "./SidebarCategoryTree";
-import SidebarFilters from "./SidebarFilters/SidebarFilters";
-
 import React, { useEffect } from 'react';
 
-const CatProdSidebar = ({
+import SidebarCategoryTree from './SidebarCategoryTree';
+import SidebarFilters from './SidebarFilters/SidebarFilters';
+
+export const CatalogSidebar = ({
   filters,
-        setFiltersModalOpen,
+  setFiltersModalOpen,
   setFilters,
   filtersIsLoading,
   resetFilters,
   trigger,
   setTrigger,
-  filtersBlock
+  filtersBlock,
 }) => {
-
   return (
     <>
       <SidebarCategoryTree />
@@ -26,11 +23,10 @@ const CatProdSidebar = ({
         setFilters={setFilters}
         trigger={trigger}
         setTrigger={setTrigger}
-resetFilters={resetFilters}
-filtersBlock={filtersBlock}
+        resetFilters={resetFilters}
+        filtersBlock={filtersBlock}
       />
-      </>
+    </>
   );
 };
 
-export default CatProdSidebar;
