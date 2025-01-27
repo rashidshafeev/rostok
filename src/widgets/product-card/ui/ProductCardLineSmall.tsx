@@ -1,4 +1,5 @@
-import { NavLink } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 import { AddToCartButton, QuantityControl } from '@/features/cart';
 import { ComparisonButton } from '@/features/comparison';
@@ -7,7 +8,9 @@ import noImg from '@/shared/assets/images/no-image.png';
 import { useProductCard } from '@/widgets/product-card';
 
 import { PriceDisplay } from './PriceDisplay';
+import { ProductAttributesDisplay } from './ProductAttributesDisplay';
 
+import type { RootState } from '@/app/providers/store';
 import type { Product } from '@/entities/product';
 
 type ProductCardLineSmallProps = {
@@ -18,12 +21,8 @@ export const ProductCardLineSmall: React.FC<ProductCardLineSmallProps> = ({
   product,
   showChangeQuantity = true,
 }) => {
-  const { cart } = useSelector((state: RootState) => state.cart);
-  const navigate = useNavigate();
+  const { productInCart, productPrice } = useProductCard(product);
 
-  const productInCart = cart.find((el) => el.id === product.id);
-
-  console.log(product, showChangeQuantity);
   return (
     <div className="mm:flex justify-between relative w-full">
       <div className="flex justify-between mm:pr-4 basis-1/2 w-full">
@@ -49,10 +48,10 @@ export const ProductCardLineSmall: React.FC<ProductCardLineSmallProps> = ({
                   to={`/catalog/${product?.category?.slug}/${product?.slug}`}
                   className="font-bold text-sm  break-all hover:underline line-clamp-1 pb-1"
                 >
-                  {product?.groupName + " " + product?.name || "Не указано"}
+                  {product?.groupName + ' ' + product?.name || 'Не указано'}
                 </NavLink>
                 <p className="font-medium text-xs text-colDarkGray leading-4  break-all line-clamp-2">
-                  {product?.description || "Не указано"}
+                  {product?.description || 'Не указано'}
                 </p>
               </div>
               <ProductAttributesDisplay product={product} />
@@ -70,41 +69,40 @@ export const ProductCardLineSmall: React.FC<ProductCardLineSmallProps> = ({
           )}
         </div> */}
       </div>
-      <div className=" basis-1/2 grow">
-        <div className="flex justify-around items-center basis-1/2">
-          <div className="basis-1/4">
+      <div className=" basis-1/2 grow flex">
+        <div className="flex justify-between items-center grow">
+          <div className="basis-1/2 flex justify-center">
             <PriceDisplay price={product?.price} alignment="center" />
           </div>
-          <div className="  font-bold text-colBlack basis-1/4">
+          <div className="  font-bold text-colBlack basis-1/2">
             {product?.quantity} шт.
           </div>
         </div>
+        <div className="flex justify-between items-center grow">
+        <PriceDisplay price={productPrice} />
 
-        <div className="lg:max-w-xs w-full">
-          <div className="flex justify-between items-center">
-            <PriceDisplay price={productPrice} />
-
-            <div className="flex items-center space-x-2">
-              <FavoriteButton product={product} />
+        </div>
+        <div className="flex justify-end items-center gap-2  shrink">
+        <FavoriteButton product={product} />
               <ComparisonButton product={product} />
-            </div>
-          </div>
+        </div>
 
-          <div className="flex justify-between space-x-3 pt-3 lg:pt-5">
-            {!productInCart ? (
+
+          <div className="flex justify-between gap-2 pt-3 lg:pt-5">
+            {!productInCart &&
               <AddToCartButton
                 product={product}
                 className="transition-all flex justify-center items-center min-h-10 text-white rounded-md p-2 font-semibold w-full duration-200"
-              />
-            ) : (
-              <QuantityControl
-                product={productInCart}
-                enableRemove
-                className="w-full"
-              />
-            )}
+              />}
+            {
+              productInCart && showChangeQuantity && <QuantityControl
+              product={productInCart}
+              enableRemove
+              className="w-full"
+            />
+            }
+               
           </div>
-        </div>
       </div>
     </div>
   );

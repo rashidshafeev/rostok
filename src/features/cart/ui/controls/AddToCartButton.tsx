@@ -1,34 +1,37 @@
+import { Button } from '@/shared/ui';
 import { useAddToCart } from '@/features/cart';
-import { LoadingSmall } from '@/shared/ui/Loader';
 
 import type { Product } from '@/entities/product';
+import type { ButtonProps } from '@/shared/ui/button';
 
-interface AddToCartButtonProps {
+type AddToCartButtonProps = {
   product: Product;
-  className?: string;
-  variant?: 'primary' | 'secondary';
-}
+} & Omit<ButtonProps, 'onClick' | 'disabled' | 'isLoading' | 'children'>;
 
 export const AddToCartButton = ({
   product,
   className = '',
   variant = 'primary',
+  size = 'md',
+  fullWidth = true,
+  asChild = false,
+  ...props
 }: AddToCartButtonProps) => {
   const { handleAddToCartClick, buttonState } = useAddToCart(product);
 
   return (
-    <button
+    <Button
       onClick={handleAddToCartClick}
-      disabled={buttonState.disabled || buttonState.loading}
-      className={`
-        flex justify-center items-center min-h-10 
-        ${buttonState.disabled ? 'bg-colGray' : 'bg-colGreen cursor-pointer'}
-        text-white rounded-md p-2 font-semibold w-full
-        ${buttonState.loading ? 'cursor-wait' : ''}
-        ${className}
-      `}
+      disabled={buttonState.disabled}
+      isLoading={buttonState.loading}
+      variant={variant}
+      size={size}
+      fullWidth={fullWidth}
+      asChild={asChild}
+      className={className}
+      {...props}
     >
-      {buttonState.loading ? <LoadingSmall /> : buttonState.text}
-    </button>
+      {buttonState.text}
+    </Button>
   );
 };

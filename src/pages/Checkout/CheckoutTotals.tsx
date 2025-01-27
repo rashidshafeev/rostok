@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import { useIntersection } from 'react-use';
 
 import { getTokenFromCookies } from '@/shared/lib';
+import { Button } from '@/shared/ui/button'; // Add this line
 
 import type { CartProduct } from '@/types/Store/Cart/CartProduct';
 import type { LocalCartState } from '@/types/Store/Cart/CartState';
@@ -106,17 +107,15 @@ const CheckoutTotals: React.FC<ChecoutTotalsProps> = ({
         </>
       ) : null}
       {selected?.length !== 0 && !hasZeroPriceItems ? (
-        <button
+        <Button
           onClick={onSubmit}
           disabled={isLoading}
-          className={`text-white font-semibold ${isLoading ? 'bg-colGray cursor-wait' : 'bg-colGreen cursor-pointer'} rounded w-full h-[50px] flex justify-center items-center lining-nums proportional-nums`}
+          isLoading={isLoading}
+          fullWidth
+          size="lg"
         >
-          {isLoading ? (
-            <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white"></div>
-          ) : (
-            'Отправить заказ'
-          )}
-        </button>
+          Отправить заказ
+        </Button>
       ) : null}
     </div>
   );

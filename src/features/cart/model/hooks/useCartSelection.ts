@@ -1,13 +1,19 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSendCartMutation } from '@/features/cart';
 import { getTokenFromCookies } from '@/shared/lib';
-import type { AppDispatch } from '@/app/providers/store';
+import type { AppDispatch, RootState } from '@/app/providers/store';
 import type { CartProduct, SendCartPayload } from '@/features/cart';
+import { selectItem, unselectItem, removeFromCart } from '@/features/cart';
 
 export const useCartSelection = () => {
   const token = getTokenFromCookies();
   const dispatch: AppDispatch = useDispatch();
   const [sendCart] = useSendCartMutation();
+
+  const cart = useSelector((state: RootState) => state.cart);
+  const selectedItems = cart?.cart?.filter(
+    (item) => item.selected === true || item.selected.toString() === '1'
+  );
 
   const handleSelectionChange = async (
     items: CartProduct[],
@@ -42,6 +48,7 @@ export const useCartSelection = () => {
   };
 
   return {
+    selectedItems,
     handleSelectionChange,
     handleRemoveItems,
   };

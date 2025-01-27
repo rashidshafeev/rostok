@@ -1,6 +1,7 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
+import { Box, Modal } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import {
   OKIcon,
@@ -14,6 +15,7 @@ import {
 } from 'react-share';
 import { toast } from 'sonner';
 
+import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
 import {
   useGetCartShareCodeMutation,
   useGetCartShareItemsByCodeMutation,
@@ -21,7 +23,6 @@ import {
 import { useModal } from '@/features/modals';
 import { CTextField, CopyButton } from '@/shared/ui';
 import { ProductCardLineSmall } from '@/widgets/product-card';
-import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
 
 export const ShareCartModal: React.FC = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
@@ -39,10 +40,12 @@ export const ShareCartModal: React.FC = () => {
     const getSharedCart = async () => {
       try {
         setIsLoading(true);
-        
+
         // Get share code first
         const codeResponse = await getCode().unwrap();
-        if (!codeResponse?.data?.code) {
+        if (!codeResponse?.code) {
+          console.log('codeResponse', codeResponse);
+
           throw new Error('Failed to get share code');
         }
 
@@ -53,12 +56,13 @@ export const ShareCartModal: React.FC = () => {
         }
 
         // Get shared cart items
-        const cartResponse = await getCart(codeResponse.data.code).unwrap();
+        const cartResponse = await getCart({ code: codeResponse?.code}).unwrap();
+        console.log('cartResponse', cartResponse);
         setSharedCart(cartResponse?.data || []);
-        
+
         // Generate share URL
         const baseUrl = window.location.origin;
-        setUrl(`${baseUrl}/shopping-cart?cart=${codeResponse.data.code}`);
+        setUrl(`${baseUrl}/shopping-cart?cart=${codeResponse?.code}`);
       } catch (error) {
         if (error?.data?.err_code === 'productscart_share__no_items_selected') {
           toast.error('Выберите товары для шаринга');
@@ -100,7 +104,7 @@ export const ShareCartModal: React.FC = () => {
         <h1 className="pt-1 text-2xl mm:text-3xl text-colBlack font-semibold mb-5">
           Поделиться корзиной
         </h1>
-        
+
         {isLoading ? (
           <div className="text-center py-4">Загрузка...</div>
         ) : (

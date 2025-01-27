@@ -99,7 +99,7 @@ const CatProdContent = ({
             : null}
         </div>
       ) : null}
-      {!getVariantsIsLoading && !(products?.data?.length === 0) ? (
+      {!getVariantsIsLoading && (products?.data?.length === 0) ? (
         <ErrorEmpty
           title="Список пуст!"
           desc="К сожалению, по вашему запросу ничего не нашли."

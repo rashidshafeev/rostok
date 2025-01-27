@@ -14,14 +14,15 @@ import {
 } from 'react-share';
 import { toast } from 'sonner';
 
+import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
+import { useModal } from '@/features/modals';
+import { CTextField, CopyButton } from '@/shared/ui';
+import { ProductCardLineSmall } from '@/widgets/product-card';
+
 import {
   useGetCartShareCodeMutation,
   useGetCartShareItemsByCodeMutation,
 } from '@/features/cart-share/api'; // Updated import
-import { useModal } from '@/features/modals';
-import { CTextField, CopyButton } from '@/shared/ui';
-import { ProductCardLineSmall } from '@/widgets/product-card';
-import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
 
 export const ShareCartModal: React.FC = () => {
   const { hideModal, modalContent, isModalVisible } = useModal();
@@ -39,7 +40,7 @@ export const ShareCartModal: React.FC = () => {
     const getSharedCart = async () => {
       try {
         setIsLoading(true);
-        
+
         // Get share code first
         const codeResponse = await getCode().unwrap();
         if (!codeResponse?.data?.code) {
@@ -55,7 +56,7 @@ export const ShareCartModal: React.FC = () => {
         // Get shared cart items
         const cartResponse = await getCart(codeResponse.data.code).unwrap();
         setSharedCart(cartResponse?.data || []);
-        
+
         // Generate share URL
         const baseUrl = window.location.origin;
         setUrl(`${baseUrl}/shopping-cart?cart=${codeResponse.data.code}`);
@@ -64,6 +65,7 @@ export const ShareCartModal: React.FC = () => {
           toast.error('Выберите товары для шаринга');
         } else if (error?.data?.err_code) {
           toast.error(error.data.err);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -95,7 +97,7 @@ export const ShareCartModal: React.FC = () => {
         <h1 className="pt-1 text-2xl mm:text-3xl text-colBlack font-semibold mb-5">
           Поделиться корзиной
         </h1>
-        
+
         {isLoading ? (
           <div className="text-center py-4">Загрузка...</div>
         ) : (

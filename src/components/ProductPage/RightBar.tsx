@@ -19,6 +19,7 @@ import checkicon from '@/shared/assets/icons/check-icon.svg';
 import stallicon from '@/shared/assets/icons/stall-icon.svg';
 import truckicon from '@/shared/assets/icons/truck-icon.svg';
 import { getTokenFromCookies } from '@/shared/lib';
+import { Button } from '@/shared/ui';
 import { LoadingSmall } from '@/shared/ui/Loader';
 import { PriceDisplay } from '@/widgets/product-card';
 
@@ -65,7 +66,10 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
                 : null}
             </p>
           </div>
-          {product?.price?.base && !productInCart ? (
+          {/* {product?.price?.base && !productInCart ? (
+            <PriceDisplay price={product?.price} />
+          ) : null} */}
+          {!productInCart ? (
             <PriceDisplay price={product?.price} />
           ) : null}
           {productInCart?.price?.base ? (
@@ -74,14 +78,16 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
         </div>
         {!productInCart ? (
           <div className="flex flex-col gap-3">
-            <AddToCartButton product={product} className="py-3"/>
+            <AddToCartButton product={product} size="lg" />
 
-            <button
+            <Button
               onClick={() => showModal({ type: 'fastOrder', product })}
-              className="py-3 flex justify-center text-colGreen font-semibold bg-white border-colGreen border w-full rounded cursor-pointer"
+              variant="outline"
+              size="lg"
+              fullWidth
             >
               Купить в 1 клик
-            </button>
+            </Button>
           </div>
         ) : null}
 

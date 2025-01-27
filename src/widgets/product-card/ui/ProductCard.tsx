@@ -36,10 +36,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {!productInCart ? (
-          <AddToCartButton
-            product={product}
-            className="transition-all flex justify-center items-center min-h-10 xs:text-sm sm:text-base duration-200 text-white rounded-md p-2 font-semibold w-full lining-nums proportional-nums"
-          />
+          <AddToCartButton product={product}/>
         ) : (
           <div className="flex justify-between gap-2">
             <QuantityControl product={productInCart} enableRemove />

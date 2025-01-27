@@ -74,7 +74,7 @@ const TopControls = ({ product, reviews }) => {
         </button>
       </div>
 
-      <div className="flex gap-[10px]">
+      {/* <div className="flex gap-[10px]">
         <button className="text-center flex flex-row justify-between items-center">
           <img className="mx-auto mr-1" src={downloadpdf} alt="*" />
           <span className="text-xs pt-1 font-medium text-colBlack">
@@ -87,7 +87,7 @@ const TopControls = ({ product, reviews }) => {
             Распечатать
           </span>
         </button>
-      </div>
+      </div> */}
     </div>
   );
 };

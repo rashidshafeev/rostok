@@ -80,7 +80,7 @@ const SRMain = () => {
     <div className="content lining-nums proportional-nums">
       <div className="bg-gray-100 rounded-lg p-3 mm:p-4 mb-8 mt-4">
         <h3
-          className={`font-semibold text-2xl mm:text-4xl text-colBlack ${categories.length > 0 ? 'pb-2' : 'pb-5'}`}
+          className={`font-semibold text-2xl mm:text-4xl text-colBlack ${categories?.length > 0 ? 'pb-2' : 'pb-5'}`}
         >
           {searchQuery}
         </h3>

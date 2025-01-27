@@ -19,8 +19,7 @@ import RightBar from './RightBar';
 import TopControls from './TopControls';
 
 import type { AttributesValuesList } from './Attributes/ProductAttributesList';
-import type { Product } from '@/entities/product/Product';
-import type { ProductGroup } from '@/entities/product/ProductGroup/ProductGroup';
+import type { Product, ProductGroup } from '@/entities/product';
 
 type ProductPageMobileProps = {
   group: ProductGroup;
@@ -96,4 +95,3 @@ export const ProductPageMobile = ({
     </div>
   );
 };
-

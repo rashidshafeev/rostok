@@ -18,13 +18,13 @@ function PriceFilter({ filters, setFilters, trigger, setTrigger}) {
   const previousValues = useRef({});
 
   const [priceFilter, setPriceFilter] = useState([
-    filters?.basics?.price?.min || 0,
-    filters?.basics?.price?.max || 0,
+    Number(filters?.basics?.price?.min || 0),
+    Number(filters?.basics?.price?.max || 0),
   ]);
   
   const [sliderValue, setSliderValue] = useState([
-    priceFilter.min || filters?.basics?.price?.min,
-    priceFilter.max || filters?.basics?.price?.max,
+    Number(filters?.basics?.price?.min || 0),
+    Number(filters?.basics?.price?.max || 0),
   ]);
 
   // Синхронизация и правильная работа отобржаения и установления значений
@@ -75,9 +75,9 @@ const validateAndSetMax = () => {
   };
 
   const handleSliderChange = (event, newValue) => {
-    setPriceFilter(newValue);
-    setSliderValue(newValue);
-    // debouncedSetFilters(newValue[0], newValue[1]);
+    const [newMin, newMax] = newValue.map(val => Number(val) || 0);
+    setPriceFilter([newMin, newMax]);
+    setSliderValue([newMin, newMax]);
   };
 
   //Логика отправки/изменения стейта
@@ -213,9 +213,9 @@ const validateAndSetMax = () => {
           sx={{ color: "#15765B" }}
           size="small"
           getAriaLabel={() => "Price range"}
-          value={sliderValue}
-          min={filters?.basics?.price?.min}
-          max={filters?.basics?.price?.max}
+          value={[Number(sliderValue[0]) || 0, Number(sliderValue[1]) || 0]}
+          min={Number(filters?.basics?.price?.min) || 0}
+          max={Number(filters?.basics?.price?.max) || 100000}
           onChange={handleSliderChange}
           valueLabelDisplay="auto"
         />

@@ -8,14 +8,16 @@ type PriceProps = {
 };
 
 export const PriceDisplay = ({ price, alignment = 'left' }: PriceProps) => {
+
+ 
   return (
     <div
       className={`flex flex-wrap items-center ${alignment === 'center' ? 'justify-center' : alignment === 'right' ? 'justify-end' : 'justify-start'}`}
     >
       <div className="flex items-center gap-1 mr-1">
         <p className="text-lg font-bold whitespace-nowrap break-words">
-          {!price?.base ? 'Цена не указана' : null}
-          {price?.final !== 0
+          {price === null ? 'Цена не указана' : null}
+          {price?.final
             ? `${price?.final} ${price?.currency?.symbol}`
             : null}
         </p>
