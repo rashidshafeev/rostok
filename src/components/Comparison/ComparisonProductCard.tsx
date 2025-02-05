@@ -14,8 +14,7 @@ import {
 } from '@/features/cart';
 import { ComparisonButton } from '@/features/comparison';
 import { FavoriteButton } from '@/features/favorite';
-import { getTokenFromCookies } from '@/shared/lib';
-import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
+import { getTokenFromCookies } from '@/entities/user';import { ComparisonIcon, DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { LoadingSmall } from '@/shared/ui/Loader';
 
 const ComparisonProductCard = ({ product, index, moveProduct }) => {
@@ -117,9 +116,9 @@ const ComparisonProductCard = ({ product, index, moveProduct }) => {
             <span className="text-colBlack mr-1 font-bold line-clamp-1 break-all whitespace-nowrap text-sm mm:text-base">
               {product?.price ? (
                 `${
-                  product?.price?.discount
+                  product?.price?.discount !== null
                     ? product?.price?.discount?.price
-                    : product?.price?.default
+                    : product?.price?.final
                 }  ${product?.price?.currency?.symbol}`
               ) : (
                 <p className="font-semibold text-sm mm:text-base">

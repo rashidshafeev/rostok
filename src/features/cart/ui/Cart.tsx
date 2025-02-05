@@ -17,33 +17,31 @@ import { RecentlyVisitedSection } from '@/features/recent-items';
 import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 import docIcon from '@/shared/assets/icons/download-pdf.svg';
 import shareIcon from '@/shared/assets/icons/share.svg';
-import { getTokenFromCookies } from '@/shared/lib';
+import { getTokenFromCookies } from '@/entities/user';
 import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { CSearchField } from '@/shared/ui/inputs/CSearchField';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
 import type { RootState } from '@/app/providers/store';
 import type { LocalCartState, CartProduct } from '@/features/cart';
+import { useCartSelection } from '../model/hooks/useCartSelection';
 
 export const Cart = (): JSX.Element => {
+  const { selectedItems } = useCartSelection();
   const token = getTokenFromCookies();
 
-  const localCart: LocalCartState = useSelector(
-    (state: RootState) => state.cart
-  );
-  const {
-    data: serverCart,
-    isLoading,
-    isSuccess,
-    error,
-  } = useGetUserCartQuery(undefined, { skip: !token });
+  // const localCart = useSelector((state: RootState) => state.cart);
+  // const {
+  //   data: serverCart,
+  //   isLoading,
+  //   isSuccess,
+  // } = useGetUserCartQuery(undefined, { skip: !token });
 
-  const cart: LocalCartState =
-    token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
+  // const cart: LocalCartState =
+  //   token && isSuccess ? transformServerCartToLocalCart(serverCart) : localCart;
 
-  const selected: CartProduct[] = cart?.cart?.filter(
-    (item) => item.selected === true || item.selected.toString() === '1'
-  );
+  const cart = useSelector((state: RootState) => state.cart);
+  const { isLoading } = useGetUserCartQuery(undefined, { skip: !token });
 
   useEffect(() => {
     scrollToTop();
@@ -108,7 +106,7 @@ export const Cart = (): JSX.Element => {
               <div
                 className="flex cursor-pointer"
                 onClick={() => {
-                  if (selected.length === 0) {
+                  if (selectedItems.length === 0) {
                     toast('Выберите товары, которыми хотите поделиться');
                     return;
                   }
@@ -134,7 +132,6 @@ export const Cart = (): JSX.Element => {
                 cart={cart}
                 isLoading={isLoading}
                 filteredCart={filteredCart}
-                selected={selected}
               />
             </div>
 
@@ -142,12 +139,12 @@ export const Cart = (): JSX.Element => {
               ref={orderInfo}
               className="lg:basis-[calc(30%-20px)] basis-full"
             >
-              <CartOrderInfo cart={cart} selected={selected} />
+              <CartOrderInfo cart={cart} selected={selectedItems} />
             </div>
           </div>
 
           {orderInfoVisible && orderInfoVisible.intersectionRatio < 1 ? (
-            <MobileToCheckoutBar cart={cart} selected={selected} />
+            <MobileToCheckoutBar cart={cart} selected={selectedItems} />
           ) : null}
         </>
       ) : null}

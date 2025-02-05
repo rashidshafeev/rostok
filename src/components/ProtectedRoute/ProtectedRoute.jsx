@@ -1,7 +1,7 @@
 // src/components/ProtectedRoute.jsx
 import  { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { getTokenFromCookies } from '@/shared/lib';;
+import { getTokenFromCookies } from '@/entities/user';
 import { useModal } from '@/features/modals/model/context';
 
 const ProtectedRoute = ({ children }) => {

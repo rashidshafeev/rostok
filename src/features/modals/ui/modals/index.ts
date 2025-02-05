@@ -10,7 +10,7 @@ export { default as ModalSnackbar } from './ModalSnackbar';
 export { default as ModificationAttributesModal } from './ModificationAttributesModal';
 export { default as PickupPointModal } from './PickupPointModal';
 export { default as QuestionModal } from './QuestionModal';
-export { default as ReviewModal } from './ReviewModal';
+export { default as ReviewModal } from '../../../../entities/review/ui/ReviewModal';
 export { default as SearchFiltersModal } from './SearchFiltersModal';
 export { default as ShareModal } from './ShareModal';
 export { default as UpdateOrganizationModal } from './UpdateOrganizationModal';

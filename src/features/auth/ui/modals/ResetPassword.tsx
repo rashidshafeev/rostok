@@ -7,7 +7,7 @@ import { Box } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useResetPasswordMutation } from '@/features/auth';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import {CTextField} from '@/shared/ui/inputs/CTextField';
 import { Loading, LoadingSmall } from '@/shared/ui/Loader';
 
 export const ResetPassword = ({ setContent }) => {

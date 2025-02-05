@@ -9,12 +9,10 @@ import {
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
 
-import { ModalProvider } from '@/features/modals/model/context';
-import { ModalManager } from '@/features/modals/ui/ModalManager';
+import { ModalProvider, ModalManager } from '@/features/modals';
+import { Header, MobileTabbar } from '@/widgets/header';
 import { ErrorBoundaryWrapper } from '@components/ErrorBoundary/ErrorBoundaryWrapper';
 import Footer from '@components/Footer/Footer';
-import Header from '@components/Header/Header';
-import MobileNavbar from '@components/Header/MobileNavbar';
 
 export const Layout = () => {
   const [showCatalog, setShowCatalog] = useState(false);
@@ -56,7 +54,7 @@ export const Layout = () => {
             <Outlet />
           </ErrorBoundaryWrapper>
         </main>
-        <MobileNavbar />
+        <MobileTabbar />
         <Footer />
       </div>
 

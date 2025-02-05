@@ -48,9 +48,9 @@ export const BranchCard = ({ branch }: BranchCardProps) => {
             </div>
           </div>
         </div>
-        <button className="font-semibold text-colGreen border border-colGreen p-3 rounded w-full md:w-1/2">
+        {/* <button className="font-semibold text-colGreen border border-colGreen p-3 rounded w-full md:w-1/2">
           Подробнее
-        </button>
+        </button> */}
       </div>
     </div>
   );

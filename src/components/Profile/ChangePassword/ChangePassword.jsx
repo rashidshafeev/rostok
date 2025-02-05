@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import {CTextField} from '@/shared/ui/inputs/CTextField';
 import ModalSnackbar from '@/features/modals/ui/modals/ModalSnackbar';
 import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
 import { Loading } from '@/shared/ui/Loader';

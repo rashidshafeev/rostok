@@ -11,7 +11,7 @@ import {
   useGetUserCartQuery,
   useSendCartMutation,
 } from '@/features/cart';
-import { getTokenFromCookies } from '@/shared/lib';
+import { getTokenFromCookies } from '@/entities/user';
 
 import type { AppDispatch, RootState } from '@/app/providers/store';
 import type { CartProduct, LocalCartState } from '@/features/cart';

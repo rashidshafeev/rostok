@@ -62,4 +62,3 @@ export const CPhoneField = forwardRef(
   }
 );
 
-export default CPhoneField;

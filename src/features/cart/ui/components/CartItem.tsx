@@ -5,43 +5,37 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { QuantityControl, RemoveFromCartButton } from '@/features/cart';
 import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
-import { CCheckBoxField } from '@/shared/ui/inputs';
 import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
+import { CCheckBoxField } from '@/shared/ui/inputs';
 import { PreviewGallery, PriceDisplay } from '@/widgets/product-card';
 
-import { SelectCartItemButton } from './SelectCartItemButton';
+import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
+
 
 import type { CartProduct } from '@/features/cart/model/types';
 
 type CartItemProps = {
   product: CartProduct;
-  isSelected: boolean;
 };
 
-export const CartItem = ({
-  product,
-  isSelected,
-}: CartItemProps): JSX.Element => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+export const CartItem = ({ product }: CartItemProps): JSX.Element => {
+  const { selectedItems, isUpdating, handleItemSelection } = useCartSelection();
+  const isSelected = selectedItems.some((item) => item.id === product.id);
 
-  const firstTag = Array.isArray(product.tags) && product.tags.length > 0 
-    ? product.tags[0] 
-    : null;
+  const firstTag =
+    Array.isArray(product.tags) && product.tags.length > 0
+      ? product.tags[0]
+      : null;
 
   return (
     <div className="flex border-t border-b border-[#EBEBEB] pt-2 pb-4">
       <div className="w-1/2 flex space-x-4">
         <div className="flex items-start">
-          <SelectCartItemButton product={product}>
-            {({ isLoading, handleSelectClick }) => (
-              <CCheckBoxField
-                checked={isSelected}
-                onChange={handleSelectClick}
-                isLoading={isLoading}
-              />
-            )}
-          </SelectCartItemButton>
+          <CCheckBoxField
+            checked={isSelected}
+            onChange={() => handleItemSelection(product, !isSelected)}
+            disabled={isUpdating}
+          />
           <NavLink to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
             <div>
               <PreviewGallery product={product} />
@@ -49,14 +43,14 @@ export const CartItem = ({
           </NavLink>
         </div>
         <div className="pr-3">
-          {firstTag && (
+          {firstTag ? (
             <span
               style={{ color: firstTag.text_color }}
               className={`bg-[${firstTag.background_color}] py-1 px-2 uppercase text-xs font-bold rounded-xl`}
             >
               {firstTag.text}
             </span>
-          )}
+          ) : null}
           <NavLink to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
             <span className="font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1">
               {`${product?.groupName} ${product?.name}`}
@@ -90,12 +84,12 @@ export const CartItem = ({
             </div>
           </div>
           <div className="flex pt-2">
-            <button className="flex items-center outline-none">
+            {/* <button className="flex items-center outline-none">
               <span className="text-sm font-semibold text-colBlack">
                 С этим товаром покупают
               </span>
               <ExpandMore />
-            </button>
+            </button> */}
             <div className="flex space-x-2 pl-5">
               <FavoriteButton product={product} />
               <RemoveFromCartButton product={product} withConfirmation={true} />

@@ -4,19 +4,28 @@ import { Box, Modal } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { setToken } from '@/features/auth/model/userSlice';
+import { logout } from '@/entities/user';
 import { useModal } from '@/features/modals/model/context';
+
+import { useSyncUserData } from '../../hooks/useSyncUserData';
 
 export const LogoutModal = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { clearOnLogout } = useSyncUserData();
 
   const { hideModal, modalContent, isModalVisible } = useModal();
 
-  const logout = () => {
-    dispatch(setToken());
-    hideModal();
+  const handleLogout = () => {
+    // Clear authentication state
+    dispatch(logout());
+
+    // Clear all local data
+    clearOnLogout();
+
+    // Redirect to home page
     navigate('/');
+    hideModal();
   };
 
   if (!isModalVisible) return null;
@@ -49,7 +58,7 @@ export const LogoutModal = () => {
             Отменить
           </button>
           <button
-            onClick={logout}
+            onClick={handleLogout}
             className="w-1/2 h-[38px] px-6 bg-colGreen rounded text-white font-semibold"
           >
             Да

@@ -20,11 +20,11 @@ export const orderApi = api.injectEndpoints({
         body: order,
       }),
       invalidatesTags: (result, error, order) => [
-        { type: 'Order'},
-        // ...order.products.map((product) => ({
-        //   type: 'Product',
-        //   id: product.id,
-        // })),
+        { type: 'Order' },
+        ...order.products.map((product) => ({
+          type: 'Product',
+          id: product.id,
+        })),
       ],
     }),
     cancelOrder: builder.mutation<

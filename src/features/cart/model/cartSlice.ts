@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+import { getTokenFromCookies } from '@/entities/user';
 import { saveToSessionStorage } from '@/features/storage/lib';
-import { getTokenFromCookies } from '@/shared/lib';
 
 import type { LocalCartState } from './types';
 import type { PriceType } from '@/entities/price';

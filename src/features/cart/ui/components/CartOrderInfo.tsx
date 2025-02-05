@@ -5,8 +5,7 @@ import plural from 'plural-ru';
 import { NavLink } from 'react-router-dom';
 import { useIntersection } from 'react-use';
 
-import { getTokenFromCookies } from '@/shared/lib';
-
+import { getTokenFromCookies } from '@/entities/user';
 import type { CartProduct } from '@/types/Store/Cart/CartProduct';
 import type { LocalCartState } from '@/types/Store/Cart/CartState';
 
@@ -19,10 +18,63 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
   cart,
   selected,
 }) => {
+
+const hasValidPrice = (product: CartProduct): boolean => {
+    const price = product?.price;
+    
+    // Check if price object exists
+    if (!price) {
+      return false;
+    }
   
-  const hasZeroPriceItems =
-    selected.filter((item) => item.price.base === null || item.price.base === 0)
-      .length > 0;
+    // Check final price (primary check)
+    if (typeof price.final !== 'number' || price.final <= 0) {
+      return false;
+    }
+  
+    return true;
+  };
+  
+const hasInvalidPriceItems = (items: CartProduct[]): boolean => {
+    return items?.some(item => !hasValidPrice(item));
+  };
+  
+  const hasUnavailableItems = hasInvalidPriceItems(selected);
+
+
+  const renderButton = () => {
+    if (selected?.length === 0) {
+      return (
+        <button className="text-white cursor-auto font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center">
+          Перейти к оформлению
+        </button>
+      );
+    }
+
+    if (hasUnavailableItems) {
+      return (
+        <>
+          <button className="text-white cursor-not-allowed font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center">
+            Перейти к оформлению
+          </button>
+          <div className="text-sm mt-2 text-center">
+            Нельзя оформить заказ на товары с не указанной ценой
+          </div>
+        </>
+      );
+    }
+
+    return (
+      <NavLink
+        to="/checkout"
+        className="text-white font-semibold bg-colGreen rounded w-full h-[50px] flex justify-center items-center"
+      >
+        Перейти к оформлению
+      </NavLink>
+    );
+  };
+
+
 
   return (
     <div className="border border-[#EBEBEB] rounded-[10px] p-5">
@@ -36,12 +88,7 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
             <span className="text-xl font-semibold text-colBlack">Итого</span>
             <span className="text-xl font-semibold text-colBlack">
               {cart?.selected?.items_count}{' '}
-              {plural(
-                cart?.selected?.items_count,
-                'товар',
-                'товара',
-                'товаров'
-              )}
+              {plural(cart?.selected?.items_count, 'товар', 'товара', 'товаров')}
             </span>
           </div>
           <div className="flex justify-between items-center">
@@ -53,11 +100,6 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
               {cart?.selected?.quantity} шт
             </span>
           </div>
-          {/* <div className='flex justify-between items-center pt-2'>
-            <span className='text-colBlack text-sm'>Вес</span>
-            <span className='w-full border-b border-colGray border-dashed mt-2 mx-1'></span>
-            <span className='font-bold whitespace-nowrap'>19.5 кг</span>
-          </div> */}
           <br />
           <div className="flex justify-between items-center">
             <span className="text-colBlack text-sm">Сумма</span>
@@ -66,7 +108,7 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
               {cart?.selected?.price_before_discount} {cart.currency.symbol}
             </span>
           </div>
-          {cart?.selected?.discount > 0 ? (
+          {cart?.selected?.discount > 0 && (
             <div className="flex justify-between items-center pt-2">
               <span className="text-colBlack text-sm">Скидка</span>
               <span className="w-full border-b border-colGray border-dashed mt-2 mx-1"></span>
@@ -74,7 +116,7 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
                 -{cart?.selected?.discount} {cart?.currency?.symbol}
               </span>
             </div>
-          ) : null}
+          )}
           <div className="flex justify-between items-center pt-3 pb-5">
             <span className="text-lg font-semibold text-colBlack">Итого</span>
             <span className="text-lg font-semibold text-colBlack">
@@ -84,29 +126,7 @@ export const CartOrderInfo: React.FC<CartOrderInfoProps> = ({
         </>
       )}
 
-      {selected?.length === 0 ? (
-        <button className="text-white cursor-auto font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center">
-          Перейти к оформлению
-        </button>
-      ) : null}
-      {selected?.length !== 0 && hasZeroPriceItems ? (
-        <>
-          <button className="text-white cursor-not-allowed font-semibold bg-colGray rounded w-full h-[50px] flex justify-center items-center">
-            Перейти к оформлению
-          </button>
-          <div className="text-sm mt-2 text-center">
-            Нельзя оформить заказ на товары с не указанной ценой
-          </div>
-        </>
-      ) : null}
-      {selected?.length !== 0 && !hasZeroPriceItems ? (
-        <NavLink
-          to="/checkout"
-          className="text-white font-semibold bg-colGreen rounded w-full h-[50px] flex justify-center items-center"
-        >
-          Перейти к оформлению
-        </NavLink>
-      ) : null}
+      {renderButton()}
     </div>
   );
 };

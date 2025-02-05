@@ -4,6 +4,11 @@ import { useEffect, useRef, useState } from 'react';
 import { useWindowSize } from 'react-use';
 import { toast } from 'sonner';
 
+import {
+  useRemoveFromCart,
+  type CartProduct,
+  type LocalCartState,
+} from '@/features/cart';
 import { useCartSelection } from '@/features/cart/model/hooks/useCartSelection';
 import { useContainerHeight } from '@/features/cart/model/hooks/useContainerHeight';
 import { useModal } from '@/features/modals/model/context';
@@ -14,8 +19,6 @@ import { ProductCardLineSkeleton } from '@/widgets/product-card';
 import { CartItem } from './CartItem';
 import { CartItemLine } from './CartItemLine';
 import { MobileCartItem } from './MobileCartItem';
-
-import type { CartProduct, LocalCartState } from '@/features/cart';
 
 type CartDetailProps = {
   cart: LocalCartState;
@@ -32,7 +35,10 @@ export const CartDetail: React.FC<CartDetailProps> = ({
 }) => {
   const { width } = useWindowSize();
   const { showModal } = useModal();
-  const { handleSelectionChange, handleRemoveItems } = useCartSelection();
+  const { selectedItems, isUpdating, isAllSelected, handleSelectAll } =
+    useCartSelection();
+
+  const { handleRemoveSelected } = useRemoveFromCart();
   const [itemType, setItemType] = useState<'lineBig' | 'lineSmall'>('lineBig');
   const { height, ref } = useContainerHeight(cart?.cart?.length || 0);
 
@@ -50,21 +56,21 @@ export const CartDetail: React.FC<CartDetailProps> = ({
   const renderCartItem = (product: CartProduct) => {
     if (itemType === 'lineBig' && width > 991) {
       return (
-        <CartItem product={product} isSelected={selected.includes(product)} />
+        <CartItem product={product} isSelected={selected?.includes(product)} />
       );
     }
     if (itemType === 'lineSmall' && width > 991) {
       return (
         <CartItemLine
           product={product}
-          isSelected={selected.includes(product)}
+          isSelected={selected?.includes(product)}
         />
       );
     }
     return (
       <MobileCartItem
         product={product}
-        isSelected={selected.includes(product)}
+        isSelected={selected?.includes(product)}
       />
     );
   };
@@ -76,18 +82,15 @@ export const CartDetail: React.FC<CartDetailProps> = ({
           <div className="pb-[3px]">
             <CCheckBoxField
               label="Выбрать всё"
-              onChange={handleSelectAllChange}
-              checked={
-                cart?.cart?.length > 0
-                  ? cart?.cart?.length === selected?.length
-                  : null
-              }
-              styles="text-colBlack font-medium text-sm"
+              onChange={() => handleSelectAll(!isAllSelected)}
+              checked={isAllSelected}
+              disabled={isUpdating}
             />
           </div>
-          {selected?.length !== 0 ? (
+          {selectedItems?.length > 0 ? (
             <button
-              onClick={() => handleRemoveItems(selected)}
+              onClick={handleRemoveSelected}
+              disabled={isUpdating}
               className="text-colDarkGray font-medium text-sm ml-4"
             >
               Удалить выбранные

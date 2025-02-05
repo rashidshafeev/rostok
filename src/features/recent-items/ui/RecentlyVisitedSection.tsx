@@ -2,8 +2,8 @@ import { useSelector } from 'react-redux';
 import { Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { useGetRecentItemsQuery } from '@/features/auth';
-import { getTokenFromCookies } from '@/shared/lib';
+import { useGetRecentItemsQuery } from '@/features/recent-items';
+import { getTokenFromCookies } from '@/entities/user';
 import { ProductCard } from '@/widgets/product-card';
 
 export const RecentlyVisitedSection = () => {

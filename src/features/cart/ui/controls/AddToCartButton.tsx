@@ -1,3 +1,4 @@
+// src/features/cart/ui/controls/AddToCartButton.tsx
 import { Button } from '@/shared/ui';
 import { useAddToCart } from '@/features/cart';
 

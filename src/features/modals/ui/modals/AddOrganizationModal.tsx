@@ -7,7 +7,7 @@ import {
   useAddOrganizationMutation,
   useGetOrgSuggestionsMutation,
 } from '@/entities/organization/api/organizationEndpoints';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { CTextField } from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 
 import ModalSnackbar from './ModalSnackbar';

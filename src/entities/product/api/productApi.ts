@@ -11,7 +11,6 @@ export const productApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getProduct: builder.query<GetProductResponse, string>({
       query: (id) => `api/Products/item?id=${id}`,
-      keepUnusedDataFor: 60,
       providesTags: (result, error, id) => [{ type: 'Product', id }],
     }),
     getVariants: builder.mutation<GetVariantsResponse, GetVariantsRequest>({

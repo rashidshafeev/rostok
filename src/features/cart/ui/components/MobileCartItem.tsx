@@ -6,11 +6,12 @@ import { FavoriteButton } from '@/features/favorite';
 import noImg from '@/shared/assets/images/no-image.png';
 import { DeleteIcon, FavoriteIcon } from '@/shared/ui/icons';
 import { CCheckBoxField } from '@/shared/ui/inputs';
-import { PriceDisplay } from '@/widgets/product-card';
+import { PriceDisplay, useProductCard } from '@/widgets/product-card';
 
 import { SelectCartItemButton } from './SelectCartItemButton';
 
 import type { CartProduct } from '@/features/cart/model/types';
+import { useCartSelection } from '../../model/hooks/useCartSelection';
 
 type MobileCartItemProps = {
   product: CartProduct;
@@ -19,10 +20,10 @@ type MobileCartItemProps = {
 
 export const MobileCartItem = ({
   product,
-  isSelected,
 }: MobileCartItemProps): JSX.Element => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const { selectedItems, isUpdating, handleItemSelection } = useCartSelection();
+  const isSelected = selectedItems.some((item) => item.id === product.id);
 
   const firstTag =
     Array.isArray(product.tags) && product.tags.length > 0
@@ -33,15 +34,11 @@ export const MobileCartItem = ({
     <div className="flex flex-col border-t border-b border-[#EBEBEB] pt-2 pb-4">
       <div className="flex space-x-4">
         <div className="flex items-start">
-          <SelectCartItemButton product={product}>
-            {({ isLoading, handleSelectClick }) => (
-              <CCheckBoxField
-                checked={isSelected}
-                onChange={handleSelectClick}
-                isLoading={isLoading}
-              />
-            )}
-          </SelectCartItemButton>
+        <CCheckBoxField
+            checked={isSelected}
+            onChange={() => handleItemSelection(product, !isSelected)}
+            disabled={isUpdating}
+          />
           <div
             onClick={(e) => {
               e.preventDefault();
@@ -76,15 +73,12 @@ export const MobileCartItem = ({
             }}
             className="font-semibold cursor-pointer text-colBlack leading-5 hover:underline line-clamp-3 break-all mt-1"
           >
-            {product?.name}
+            {product?.fullName}
           </span>
           <div className="space-y-1 pt-1">
             <p className="text-xs text-colDarkGray flex items-center space-x-2">
-              {product?.price?.discount
-                ? `${product?.price?.discount?.price} ${product?.price?.currency?.symbol}/${product?.price?.unit}`
-                : product?.price?.default
-                  ? `${product?.price?.default} ${product?.price?.currency?.symbol}/${product?.price?.unit}`
-                  : 'Не указано'}
+
+            <PriceDisplay price={product?.price} variant="mobile-cart" />
             </p>
           </div>
           <div className="flex pt-2">
@@ -105,11 +99,13 @@ export const MobileCartItem = ({
       <div className="flex items-center justify-between space-x-3 pt-[27px]">
         <div className="flex space-x-2 pl-5">
           <FavoriteButton product={product} />
-          <RemoveFromCartButton product={product} />
+          <RemoveFromCartButton product={product} withConfirmation={true} />
         </div>
-        <div className="flex items-center text-colBlack font-bold">
-          <PriceDisplay price={product?.price} />
-        </div>
+        <div className="text-center font-bold text-colBlack">
+            {product?.price?.total
+              ? `${product?.price?.total}${product?.price?.currency?.symbol || ''}`
+              : 'Цена не указана'}
+          </div>
         <div className="flex items-center space-x-3">
           <QuantityControl product={product} />
         </div>

@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux';
 
 import ComDetail from '@/components/Comparison/ComparisonDetail';
 import { useGetComparisonQuery } from '@/features/comparison/api/comparisonApi';
-import { getTokenFromCookies } from '@/shared/lib';
-import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { getTokenFromCookies } from '@/entities/user';import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
 import { CategorySwitcher } from '@/widgets/category-switcher';
 import ErrorEmpty from '@helpers/Errors/ErrorEmpty';

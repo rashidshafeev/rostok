@@ -1,4 +1,5 @@
 import { api } from '@/shared/api/api';
+
 import type { ErrorResponse } from '@/entities/order/api/orderApi';
 
 export const fastOrderApi = api.injectEndpoints({

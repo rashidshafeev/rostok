@@ -18,8 +18,7 @@ import boxicon from '@/shared/assets/icons/box-icon.svg';
 import checkicon from '@/shared/assets/icons/check-icon.svg';
 import stallicon from '@/shared/assets/icons/stall-icon.svg';
 import truckicon from '@/shared/assets/icons/truck-icon.svg';
-import { getTokenFromCookies } from '@/shared/lib';
-import { Button } from '@/shared/ui';
+import { getTokenFromCookies } from '@/entities/user';import { Button } from '@/shared/ui';
 import { LoadingSmall } from '@/shared/ui/Loader';
 import { PriceDisplay } from '@/widgets/product-card';
 
@@ -79,12 +78,13 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
         {!productInCart ? (
           <div className="flex flex-col gap-3">
             <AddToCartButton product={product} size="lg" />
-
+          
             <Button
               onClick={() => showModal({ type: 'fastOrder', product })}
               variant="outline"
               size="lg"
               fullWidth
+              disabled={product?.availability?.stock === 0}
             >
               Купить в 1 клик
             </Button>
@@ -104,9 +104,9 @@ const RightBar: React.FC<RightBarProps> = ({ product }) => {
           </div>
         ) : null}
 
-        <div className="flex justify-center text-colGreen font-semibold underline underline-offset-8 cursor-pointer">
+        {/* <div className="flex justify-center text-colGreen font-semibold underline underline-offset-8 cursor-pointer">
           Узнать цену для юрлиц
-        </div>
+        </div> */}
       </div>
       <DeliveryInfo product={product} />
     </>

@@ -3,8 +3,8 @@ import Review from '@components/Reviews/Review'
 
 
 import { NavLink, useLocation  } from 'react-router-dom';
-import RatingStars from '@helpers/RatingStars';
-import ReviewModal from '@/features/modals/ui/modals/ReviewModal';
+import RatingStars from '@/entities/review/ui/RatingStars';
+import ReviewModal from '@/entities/review/ui/ReviewModal';
 
 function ReviewsTab({ current, reviews }) {
 

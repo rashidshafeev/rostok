@@ -10,7 +10,7 @@ interface MobileCategoryCardProps {
 }
 
 const generateRandomWidth = () => {
-  const widths = [80, 100, 120];
+  const widths = [120, 140, 160];
   const index = Math.floor(Math.random() * widths.length);
   return widths[index];
 };
@@ -20,7 +20,7 @@ export const MobileCategoryCard = ({ category }: MobileCategoryCardProps) => {
     <NavLink
       to={`/catalog/${category?.slug}`}
       state={{ category }}
-      className="block relative rounded-lg overflow-hidden  h-[70px] bg-colLightGray   "
+      className="block relative rounded-lg overflow-hidden  h-[70px] bg-colLightGray px-2"
       style={{ width: `${generateRandomWidth()}px` }}
     >
       <img

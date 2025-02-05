@@ -28,9 +28,10 @@ interface ApiErrorResponse {
 const baseQuery = fetchBaseQuery({
   baseUrl: 'https://rosstok.ru/',
   prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as RootState).user.token;
-    if (token) {
-      headers.set('Authorization', `Bearer ${token}`);
+    const state = getState() as RootState;
+    
+    if (state.user.isInitialized) {
+      headers.set('Authorization', `Bearer ${state.user.token}`);
     }
     return headers;
   },
@@ -54,12 +55,12 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
 
       // Check for API-level error (success: false)
       if (response.success === false) {
-        toast.error(response.err || 'Произошла ошибка', {
-          description: response.err_code
-            ? `Код ошибки: ${response.err_code}`
-            : undefined,
-          duration: 5000,
-        });
+        // toast.error(response.err || 'Произошла ошибка', {
+        //   description: response.err_code
+        //     ? `Код ошибки: ${response.err_code}`
+        //     : undefined,
+        //   duration: 5000,
+        // });
 
         return {
           error: {
@@ -72,10 +73,10 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
 
     // Handle other errors (network, etc)
     if (result.error) {
-      toast.error('Произошла ошибка', {
-        description: result.error.data?.message || 'Что-то пошло не так',
-        duration: 5000,
-      });
+      // toast.error('Произошла ошибка', {
+      //   description: result.error.data?.message || 'Что-то пошло не так',
+      //   duration: 5000,
+      // });
 
       if (process.env.NODE_ENV === 'development') {
         console.error('Response Error:', result.error);
@@ -84,10 +85,10 @@ const loggingBaseQuery = async (args, api, extraOptions) => {
 
     return result;
   } catch (error) {
-    toast.error('Произошла неожиданная ошибка', {
-      description: error.message || 'Что-то пошло не так',
-      duration: 5000,
-    });
+    // toast.error('Произошла неожиданная ошибка', {
+    //   description: error.message || 'Что-то пошло не так',
+    //   duration: 5000,
+    // });
 
     return {
       error: {

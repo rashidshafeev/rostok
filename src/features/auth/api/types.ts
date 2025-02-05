@@ -1,24 +1,13 @@
-import type { ProductListCategoryChain } from '@/entities/category/ProductListCategoryChain';
-import type { Product } from '@/entities/product/Product';
-import type { User } from '@/entities/user/User';
+// src/features/auth/api/types.ts
+import type { User } from '@/entities/user';
 import type { AdditionalServerResponseData } from '@/shared/types/AdditionalServerResponseData';
 
-export interface CartData {
-  items_count: number;
-  quantity: number;
-}
-
-export interface FavoritesData {
-  items_count: number;
-}
-
-export interface ComparisonData {
-  items_count: number;
-}
-
-export interface GetUserDataResponse extends AdditionalServerResponseData {
+export interface AuthResponse extends AdditionalServerResponseData {
+  token: string;
   user: User;
-  cart: CartData;
-  favorites: FavoritesData;
-  comparison: ComparisonData;
+}
+
+export interface AuthRequest {
+  login: string;
+  password: string;
 }

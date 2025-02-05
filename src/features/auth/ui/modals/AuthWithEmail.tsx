@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 
+import { CTextField } from '@/shared/ui/inputs/CTextField';
+import { LoadingSmall } from '@/shared/ui/Loader';
+
 import { useAuthWithEmail } from '../../hooks/useAuthWithEmail';
 import { useSyncUserData } from '../../hooks/useSyncUserData';
-import CTextField from '@/shared/ui/inputs/CTextField';
-import { LoadingSmall } from '@/shared/ui/Loader';
+import { CPhoneField } from '@/shared/ui';
 
 export const AuthWithEmail = ({
   hideModal,
@@ -17,23 +20,27 @@ export const AuthWithEmail = ({
     control,
     handleSubmit,
     formState: { errors, isValid },
-  } = useForm({ mode: 'onChange' });
+  } = useForm({ mode: 'onChange', defaultValues: { login: enteredLogin?.login } });
 
   const [isShow, setIsShow] = useState(false);
-  
+
   const cart = useSelector((state) => state.cart.cart);
   const comparison = useSelector((state) => state.comparison.comparison);
   const favorite = useSelector((state) => state.favorite.favorite);
-
-  const { authenticate, responseError, isLoading: authLoading } = useAuthWithEmail(hideModal);
-  const { syncUserData, isLoading: syncLoading } = useSyncUserData();
+  console.log('enteredLogin:', enteredLogin);
+  const {
+    authenticate,
+    responseError,
+    isLoading: authLoading,
+  } = useAuthWithEmail(hideModal);
+  const { syncOnLogin, isLoading: syncLoading } = useSyncUserData();
 
   const isLoading = authLoading || syncLoading;
 
   const onSubmitAuthWithEmail = async (data) => {
     const success = await authenticate(data);
     if (success) {
-      await syncUserData(cart, comparison, favorite);
+      await syncOnLogin(cart, comparison, favorite);
     }
   };
 
@@ -42,10 +49,9 @@ export const AuthWithEmail = ({
       <Controller
         name="login"
         control={control}
-        defaultValue={enteredLogin.login}
         render={({ field }) => (
-          <CTextField
-            label="Эл. почта / телефон"
+          <CPhoneField
+            label="Телефон"
             type="text"
             required={true}
             {...field}
@@ -80,7 +86,7 @@ export const AuthWithEmail = ({
       </div>
       {responseError ? <p className="text-xs mt-1">{responseError}</p> : null}
 
-      <button 
+      <button
         className="w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold flex justify-center items-center"
         disabled={!isValid || isLoading}
       >

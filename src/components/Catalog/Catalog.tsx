@@ -591,11 +591,12 @@ const CatProducts = () => {
         <h3 className="font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5">
           {!categoryTreeIsLoading && categoryTreeIsSuccess
             ? categoryTree?.category?.name
-            : null}
+            : null}{' '}
+          <span className="text-colDarkGray font-normal text-sm ">
+            {categoryTree?.category?.product_count}{' '}
+          </span>
         </h3>
-        <span className="text-colDarkGray">
-          {categoryTree?.category?.product_count}{' '}
-        </span>
+        
       </div>
 
       <div className="flex pb-10 min-h-[420px]">

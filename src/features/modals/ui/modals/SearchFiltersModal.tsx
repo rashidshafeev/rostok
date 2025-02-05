@@ -4,7 +4,7 @@ import { Box, Checkbox, FormControlLabel, Modal, Slider } from '@mui/material';
 
 import ErrorEmpty from '@/helpers/Errors/ErrorEmpty';
 import { ArrowIcon } from '@/shared/ui/icons';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { CTextField } from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 
 const SearchFiltersModal = ({

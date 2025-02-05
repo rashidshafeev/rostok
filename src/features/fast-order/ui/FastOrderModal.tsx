@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { Box, Modal } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { NavLink } from 'react-router-dom';
+import { toast } from 'sonner';
 
 import { useModal } from '@/features/modals/model/context';
-import CPhoneField from '@/shared/ui/inputs/CPhoneField';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { CPhoneField } from '@/shared/ui/inputs/CPhoneField';
+import { CTextField } from '@/shared/ui/inputs/CTextField';
 
 import { useOneClickOrderMutation } from '../api/fastOrderApi';
-import { toast } from 'sonner';
 
 interface FormValues {
   name: string;

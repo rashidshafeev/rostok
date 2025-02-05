@@ -15,8 +15,8 @@ import Review from "@/components/Reviews/Review";
 import { ComparisonIcon, FavoriteIcon } from "@/shared/ui/icons";
 import { AddOutlined, RemoveOutlined } from "@mui/icons-material";
 import { addToCart, changeQuantity } from "@/features/cart/model/cartSlice";
-import RatingStars from "@/helpers/RatingStars";
-import ReviewModal from "@/features/modals/ui/modals/ReviewModal";
+import RatingStars from "@/entities/review/ui/RatingStars";
+import ReviewModal from "@/entities/review/ui/ReviewModal";
 import { useGetProductQuery } from "@/entities/product/api/productApi";
 
 export function ReviewsPage() {

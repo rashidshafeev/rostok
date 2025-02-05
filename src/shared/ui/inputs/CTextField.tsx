@@ -71,4 +71,3 @@ export const CTextField: React.FC<CTextFieldProps> = forwardRef<
   );
 });
 
-export default CTextField;

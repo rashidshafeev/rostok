@@ -5,11 +5,21 @@ import type { PriceType } from '@/entities/price';
 type PriceProps = {
   price: PriceType;
   alignment?: 'left' | 'center' | 'right';
+  variant?: 'default' | 'mobile-cart';
 };
 
-export const PriceDisplay = ({ price, alignment = 'left' }: PriceProps) => {
+export const PriceDisplay = ({ price, alignment = 'left', variant = 'default' }: PriceProps) => {
+  if (variant === 'mobile-cart') {
+    return (
+      <p className="text-xs text-colDarkGray flex items-center space-x-2">
+            {price === null ? 'Цена не указана' : null}
+          {price?.final
+            ? `${price?.final} ${price?.currency?.symbol}`
+            : null}
+      </p>
+    );
+  }
 
- 
   return (
     <div
       className={`flex flex-wrap items-center ${alignment === 'center' ? 'justify-center' : alignment === 'right' ? 'justify-end' : 'justify-start'}`}

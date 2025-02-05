@@ -11,8 +11,8 @@ import FizlicoNotLoggedForm from '@/components/Checkout/FizlicoNotLoggedForm';
 import SimpleCheckoutFrom from '@/components/Checkout/SimpleCheckoutFrom';
 import UrlicoLoggedInForm from '@/components/Checkout/UrlicoLoggedInForm';
 import UrlicoNotLoggedForm from '@/components/Checkout/UrlicoNotLoggedForm';
-import { useSendOrderMutation } from '@/entities/order/api/orderApi';
-import { useGetUserDataQuery } from '@/features/auth';
+import { useSendOrderMutation } from '@/entities/order';
+import { useGetUserDataQuery } from '@/entities/user';
 import {
   transformServerCartToLocalCart,
   removeFromCart,
@@ -28,8 +28,7 @@ import stallicon from '@/shared/assets/icons/stall-icon.svg';
 import truckicon from '@/shared/assets/icons/truck-icon.svg';
 import urlicoactive from '@/shared/assets/icons/urlico-active.svg';
 import urlico from '@/shared/assets/icons/urlico-inactive.svg';
-import { getTokenFromCookies } from '@/shared/lib';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { getTokenFromCookies } from '@/entities/user';import CTextField from '@/shared/ui/inputs/CTextField';
 
 import CheckoutTotals from './CheckoutTotals';
 import CustomRadioButton from './CustomRadioButton';

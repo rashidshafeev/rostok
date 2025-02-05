@@ -1,13 +1,19 @@
 // src/AuthModal/CheckAuth.tsx
 
+import { useState } from 'react';
+
 import { KeyboardArrowRight } from '@mui/icons-material';
 import { Controller, useForm } from 'react-hook-form';
 
 import { useRegistrationCheckMutation } from '@/features/auth';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { getErrorMessage } from '@/shared/lib/errors';
+import { Alert, AlertDescription } from '@/shared/ui/alert';
+import { CPhoneField } from '@/shared/ui/inputs/CPhoneField';
 import { LoadingSmall } from '@/shared/ui/Loader';
 
 export const CheckAuth = ({ setContent, setLogin }) => {
+  const [error, setError] = useState<string | null>(null);
+
   const {
     control,
     handleSubmit,
@@ -20,10 +26,12 @@ export const CheckAuth = ({ setContent, setLogin }) => {
   const [registrationCheck, { isLoading }] = useRegistrationCheckMutation();
 
   const onSubmitAuthCheck = async (data) => {
+    setError(null);
+    console.log('Form data:', data);
     try {
       const check = await registrationCheck(data);
-      if (check.data.success) {
-        console.log(check.data);
+      console.log('API response:', check);
+      if (check.data) {
         if (
           check.data.login_type === 'email' ||
           check.data.login_type === 'phone'
@@ -32,16 +40,17 @@ export const CheckAuth = ({ setContent, setLogin }) => {
           setContent('authWithEmail');
         }
       } else {
-        setLogin({ type: check.data.login_type, login: data.login });
+        setError(check.err);
+        setLogin({ type: 'phone', login: data.login });
         setContent('register');
       }
     } catch (error) {
-      console.log(error);
+      setError(getErrorMessage(error));
+      console.error(error);
     }
   };
 
   return (
-    // <Box>
     <>
       <h1 className="text-2xl mm:text-3xl text-colBlack text-center pt-2 pb-8 font-semibold">
         Вход или Регистрация
@@ -52,8 +61,8 @@ export const CheckAuth = ({ setContent, setLogin }) => {
           control={control}
           defaultValue=""
           render={({ field }) => (
-            <CTextField
-              label="Эл. почта / телефон"
+            <CPhoneField
+              label="Введите телефон"
               type="text"
               required={true}
               onChange={field.onChange}
@@ -61,6 +70,9 @@ export const CheckAuth = ({ setContent, setLogin }) => {
             />
           )}
         />
+        {error ? (
+          <p className="text-xs text-red-400">{error || 'Error!'}</p>
+        ) : null}
         <button
           disabled={isLoading}
           className="w-full h-10 px-6 bg-colGreen rounded mt-5 text-white font-semibold flex justify-center items-center"
@@ -75,6 +87,5 @@ export const CheckAuth = ({ setContent, setLogin }) => {
         </button>
       </form>
     </>
-    // </Box>
   );
 };

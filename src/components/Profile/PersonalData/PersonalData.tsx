@@ -8,10 +8,10 @@ import { NavLink } from 'react-router-dom';
 import {
   useChangeUserDataMutation,
   useGetUserDataQuery,
-} from '@/features/auth';
+} from '@/entities/user';
 import arrowIcon from '@/shared/assets/icons/arrow-icon.svg';
-import CPhoneField from '@/shared/ui/inputs/CPhoneField';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import {CPhoneField} from '@/shared/ui/inputs/CPhoneField';
+import {CTextField} from '@/shared/ui/inputs/CTextField';
 // import CDatePicker from '@/shared/ui/inputs/CDatePicker';
 import { Loading } from '@/shared/ui/Loader';
 import ErrorServer from '@helpers/Errors/ErrorServer';

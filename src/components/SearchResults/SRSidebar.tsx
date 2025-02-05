@@ -16,7 +16,7 @@ import { useLocation } from 'react-router-dom';
 import SearchFiltersModal from '@/features/modals/ui/modals/SearchFiltersModal';
 import { IOSSwitch } from '@/shared/ui';
 import { ArrowIcon } from '@/shared/ui/icons';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { CTextField } from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 
 import { fetchSearchFilters } from '../../api/searchProducts';

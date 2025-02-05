@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import { saveToSessionStorage } from '@/features/storage/lib';
-import { getTokenFromCookies } from '@/shared/lib';
+import { getTokenFromCookies } from '@/entities/user';
 
 import type { FavoriteState } from './types';
 import type { ProductListCategoryChain } from '@/entities/category';

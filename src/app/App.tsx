@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
 
+import { InitializationProvider } from '@/app/providers/InitializationProvider';
 import { store } from '@/app/providers/store';
 import { router } from '@/app/routing/router';
 import '@/app/index.css';
@@ -18,7 +19,9 @@ export default function initializeApp(): void {
   root.render(
     <ErrorBoundary>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <InitializationProvider>
+          <RouterProvider router={router} />
+        </InitializationProvider>
       </Provider>
     </ErrorBoundary>
   );

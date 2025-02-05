@@ -5,8 +5,7 @@ import plural from 'plural-ru';
 import { NavLink } from 'react-router-dom';
 import { useIntersection } from 'react-use';
 
-import { getTokenFromCookies } from '@/shared/lib';
-import { Button } from '@/shared/ui/button'; // Add this line
+import { getTokenFromCookies } from '@/entities/user';import { Button } from '@/shared/ui/button'; // Add this line
 
 import type { CartProduct } from '@/types/Store/Cart/CartProduct';
 import type { LocalCartState } from '@/types/Store/Cart/CartState';

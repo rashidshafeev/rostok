@@ -7,7 +7,7 @@ import starfill from '@/shared/assets/icons/adv1fill.svg';
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css"
 
-import RatingStars from '@helpers/RatingStars';
+import RatingStars from '@/entities/review/ui/RatingStars';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';

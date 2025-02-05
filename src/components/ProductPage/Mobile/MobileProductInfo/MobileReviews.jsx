@@ -1,5 +1,5 @@
 import React from 'react'
-import RatingStars from '@helpers/RatingStars';
+import RatingStars from '@/entities/review/ui/RatingStars';
 import Review from '@components/Reviews/Review';
 import { NavLink } from 'react-router-dom';
 

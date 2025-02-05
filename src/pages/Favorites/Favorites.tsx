@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 import { useGetFavoritesQuery } from '@/features/favorite/api/favoritesEndpoints';
-import { getTokenFromCookies } from '@/shared/lib';
-import { scrollToTop } from '@/shared/lib/scrollToTop';
+import { getTokenFromCookies } from '@/entities/user';import { scrollToTop } from '@/shared/lib/scrollToTop';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
 import { CategorySwitcher } from '@/widgets/category-switcher';
 import { FavDetail } from '@components/Favorites/FavDetail';

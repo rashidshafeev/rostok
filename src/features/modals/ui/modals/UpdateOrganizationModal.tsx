@@ -1,7 +1,7 @@
 import { Box, Modal } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { CTextField } from '@/shared/ui/inputs/CTextField';
 import { Loading } from '@/shared/ui/Loader';
 
 const UpdateOrganizationModal = ({

@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
 
 import organizationsReducer from '@/entities/organization/model/organizationsSlice';
-import userReducer from '@/features/auth/model/userSlice';
+import userReducer from '@/entities/user/model/userSlice';
 import cartReducer from '@/features/cart/model/cartSlice';
 import catalogReducer from '@/features/catalog/model/catalogSlice';
 import comparisonReducer from '@/features/comparison/model/comparisonSlice';

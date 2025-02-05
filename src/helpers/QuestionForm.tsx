@@ -5,8 +5,8 @@ import { NavLink } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { useSendFeedbackMutation } from '@/entities/order/api/orderApi';
-import CPhoneField from '@/shared/ui/inputs/CPhoneField';
-import CTextField from '@/shared/ui/inputs/CTextField';
+import { CPhoneField } from '@/shared/ui/inputs/CPhoneField';
+import { CTextField } from '@/shared/ui/inputs/CTextField';
 
 const QuestionForm = ({ data, hideModal }) => {
   const [privacyPolicy, setPrivacyPolicy] = useState(true);

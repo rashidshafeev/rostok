@@ -14,8 +14,7 @@ import {
   useGetUserCartQuery, 
   useSendCartMutation 
 } from '../api/cartApi';
-import { getTokenFromCookies } from '@/shared/lib';
-import { transformServerCartToLocalCart } from '../lib/transformData';
+import { getTokenFromCookies } from '@/entities/user';import { transformServerCartToLocalCart } from '../lib/transformData';
 
 import type { RootState } from '@/app/providers/store';
 import type { CartProduct, LocalCartState } from '../model/types';

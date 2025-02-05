@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { addToRecentItems } from '@/features/recent-items/';
-import { getTokenFromCookies } from '@/shared/lib';
+import { getTokenFromCookies } from '@/entities/user';
 
 import type { AppDispatch } from '@/app/providers/store';
 import type { Product } from '@/entities/product';
