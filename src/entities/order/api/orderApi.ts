@@ -1,10 +1,19 @@
 import { api } from '@/shared/api/api';
+
 import type { GetUserOrdersResponse } from './types';
 
-export interface ErrorResponse { // Added export
+export interface ErrorResponse {
+  // Added export
   data?: {
     err_code?: string;
   };
+}
+
+export interface OrderResponse {
+  success: string;
+  total_request_time: number;
+  api_processing_time: number;
+  sessid: string;
 }
 
 export const orderApi = api.injectEndpoints({
@@ -13,19 +22,18 @@ export const orderApi = api.injectEndpoints({
       query: () => '/api/Location/full',
       staleTime: 60000,
     }),
-    sendOrder: builder.mutation({
+    sendOrder: builder.mutation<OrderResponse, any>({
       query: (order) => ({
         url: '/api/Products/sendOrder',
         method: 'POST',
         body: order,
       }),
-      invalidatesTags: (result, error, order) => [
-        { type: 'Order' },
-        ...order.products.map((product) => ({
-          type: 'Product',
-          id: product.id,
-        })),
-      ],
+      invalidatesTags: (result) => {
+        if (result?.success === 'ok') {
+          return [{ type: 'Order', id: 'LIST' }];
+        }
+        return [];
+      },
     }),
     cancelOrder: builder.mutation<
       { success: string },

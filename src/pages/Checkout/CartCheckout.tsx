@@ -124,31 +124,34 @@ const CartCheckout = () => {
 
   const onOrderSubmit = async (data) => {
     try {
-      console.log('Submitting order...');
+      console.log('Submitting order...', data);
       const items = selected.map((item) => ({
         id: item.id,
         quantity: item.quantity,
       }));
 
-      const order = {
+      const orderData = {
         clientInfo: data,
         order: items,
       };
 
-      console.log('Sending order...');
-      const result = await sendOrder(order)
+      console.log('Sending order with data:', orderData);
+      const response = await sendOrder(orderData).unwrap();
 
-      if (result) {
+      console.log('Order response:', response);
+      if (response.success === 'ok') {
         console.log('Order successful, removing selected items...');
-        removeSelected();
+        await removeSelected();
         
-        // Always navigate after successful order
+        // Navigate after successful order and cache invalidation
         console.log('Navigating to orders page...');
         navigate('/profile/orders');
+      } else {
+        console.error('Order was not successful:', response);
       }
     } catch (error) {
       console.error('Order submission failed:', error);
-      // Handle error appropriately
+      // Here you might want to show an error message to the user
     }
   };
 

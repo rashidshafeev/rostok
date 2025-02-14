@@ -10,9 +10,17 @@ import type { Product } from '@/entities/product';
 
 interface PreviewGalleryProps {
   product: Product;
+  imageHeight?: string;  // Optional height, defaults to current values
+  imageWidth?: string;   // Optional width, defaults to full width
+  showButtons?: boolean; // Optional flag to show/hide buttons, defaults to true
 }
 
-export const PreviewGallery = ({ product }: PreviewGalleryProps) => {
+export const PreviewGallery = ({ 
+  product, 
+  imageHeight = 'h-[170px] mm:h-[220px]',
+  imageWidth = 'w-full',
+  showButtons = true 
+}: PreviewGalleryProps) => {
   const [hoveredIndex, setHoveredIndex] = useState(0);
 
   const [touchStart, setTouchStart] = useState(null);
@@ -62,7 +70,7 @@ export const PreviewGallery = ({ product }: PreviewGalleryProps) => {
   return (
     <>
       <div
-        className="group h-[170px] mm:h-[220px] rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200 flex justify-center items-center"
+        className={`group ${imageHeight} ${imageWidth} rounded-md mm:rounded-xl overflow-hidden relative bg-gray-200 flex justify-center items-center`}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
@@ -111,35 +119,28 @@ export const PreviewGallery = ({ product }: PreviewGalleryProps) => {
             /> */}
 
         {/* </div> */}
-        <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">
-          {product?.tags?.length > 0 ? (
-            <span
-              style={{
-                color: product.tags[0].text_color,
-                backgroundColor: product.tags[0].background_color,
-              }}
-              className={`bg-[${product.tags[0].background_color}] py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold rounded-xl`}
-            >
-              {product.tags[0].text}
-            </span>
-          ) : null}
-          {/* <FavoriteButton product={product}>
-            {({ isLoading, isInFavorite, handleFavoriteClick }) => (
-              <FavoriteIcon
-                onClick={isLoading ? null : handleFavoriteClick}
-                className={`${
-                  isLoading ? 'cursor-wait' : 'cursor-pointer'
-                } transition-all duration-500 hover:scale-110 absolute right-2`}
-                favorite={isInFavorite ? 'true' : 'false'}
-              />
-            )}
-          </FavoriteButton> */}
-          <FavoriteButton product={product} className="cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute top-2 right-2" />
-        </div>
-        <ComparisonButton
-          product={product}
-          className="cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2"
-        />
+        {showButtons && (
+          <>
+            <div className="absolute top-2 w-full px-2 z-10 flex justify-between items-start">
+              {product?.tags?.length > 0 ? (
+                <span
+                  style={{
+                    color: product.tags[0].text_color,
+                    backgroundColor: product.tags[0].background_color,
+                  }}
+                  className={`bg-[${product.tags[0].background_color}] py-1 px-1.5 lg:px-2 uppercase text-[8px] lg:text-xs font-semibold rounded-xl`}
+                >
+                  {product.tags[0].text}
+                </span>
+              ) : null}
+              <FavoriteButton product={product} className="cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute top-2 right-2" />
+            </div>
+            <ComparisonButton
+              product={product}
+              className="cursor-pointer w-6 h-6 rounded-full bg-colSuperLight flex items-center justify-center transition-all duration-200 hover:scale-110 absolute bottom-2 right-2"
+            />
+          </>
+        )}
       </div>
       <div className="flex justify-center mt-2">
         {product?.files?.length > 1

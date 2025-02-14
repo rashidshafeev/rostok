@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartBox</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/combobox/style.css" />
+  </head>
+  <body>
+    <section class="section section1">
+      <h1>section 1</h1>
+      <button data-smartselect="selects">Список городов</button>
+      <br />
+      <br />
+      <div class="inputs">
+        <input
+          id="phone-number"
+          class="put"
+          placeholder="Введите номер телефона"
+        />
+      </div>
+      <br />
+
+      <div class="rowCenter">
+        <!-- <button id="tooltip">&#9432;</button> -->
+      </div>
+      <br />
+
+      <br />
+      <input
+        type="text"
+        id="tester"
+        class="tester"
+        placeholder="номер телефона"
+      />
+    </section>
+    <section class="section section2">
+      <h1>section 2</h1>
+      <br />
+      <br />
+      <br />
+      <button id="floatCustom">float</button>
+      <br />
+      <button id="tooltip-button">Toggle Tooltip</button>
+      <div id="tooltip" class="tooltip hidden" role="tooltip"></div>
+      <br />
+      <br />
+      <br />
+      <input
+        type="text"
+        class="customerInput"
+        placeholder="value"
+        id="countries"
+      />
+      <br />
+      <h2 id="city"></h2>
+      <br />
+      <button class="btn" data-smartbox="name">open</button>
+      <button data-smartselect="selectel">Список городов</button>
+    </section>
+    <section class="section section3">
+      <h1>section 3</h1>
+      <button class="reference">Click me</button>
+      <br />
+      <div class="block" data-smartbox-parent="unique2">
+        <div class="item">
+          <h3>item 0</h3>
+        </div>
+        <div class="item">
+          <h3>item 1</h3>
+        </div>
+        <div class="item">
+          <h3>item 2</h3>
+          <button class="btn" data-smartbox="unique2">inner</button>
+        </div>
+        <div class="item">
+          <h3>item 3</h3>
+        </div>
+      </div>
+    </section>
+    <section class="section section4">
+      <h1>section 4</h1>
+      <button>hello</button>
+    </section>
+    <section class="section section5">
+      <h1>section 5</h1>
+    </section>
+    <button class="gx-tooltip">TOOLTIP</button>
+    <br />
+    <br />
+    <div id="app">
+      <div id="reference"></div>
+      <div id="floating">Tooltip</div>
+    </div>
+    <br />
+    <br />
+
+    <script src="/smartbox/smartbox.js"></script>
+    <script src="/combobox/combobox.js"></script>
+    <!-- <script src="/phone/phone.js"></script> -->
+    <!-- <script src="script.js"></script> -->
+    <script src="/phone/phone.js"></script>
+    <script src="/tooltip/tooltip.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        GxPhone('#tester', { requiredVerification: true });
+        GxPhone('#countries', { requiredVerification: true });
+      });
+
+      const tooltip = new Tooltip({
+        content:
+          '<span>&#128241;</span> <span>&#128383;</span> <span>&#8505;</span>',
+        type: 'click',
+        selector: '#tooltip',
+        side: 'top',
+        align: 'center',
+        closeButton: true,
+        width: 100,
+      });
+    </script>
+    <script type="module" src="float.test.js"></script>
+    <script type="module" src="popover/popover.js"></script>
+    <script type="module" src="core.js"></script>
+    <script type="module">
+      import './styles.css';
+      import {
+        computePosition,
+        shift,
+        offset,
+        autoUpdate,
+        flip,
+      } from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.12/+esm';
+
+      const reference = document.getElementById('reference');
+      const floating = document.getElementById('floating');
+
+      computePosition(reference, floating, {
+        placement: 'right',
+        // Try removing this line below. The tooltip will
+        // overflow the viewport's edge!
+        middleware: [flip()],
+      }).then(({ x, y }) => {
+        Object.assign(floating.style, {
+          top: `${y}px`,
+          left: `${x}px`,
+        });
+      });
+    </script>
+  </body>
+</html>

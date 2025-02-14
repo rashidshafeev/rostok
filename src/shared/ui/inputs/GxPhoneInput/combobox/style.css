@@ -1,0 +1,17 @@
+.combobox-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.combobox_input {
+  width: 100%;
+}
+
+.colored {
+  /* background: yellowgreen; */
+}
+
+.combobox-item.active {
+  background-color: #e0e0e0;
+  color: #000;
+}

@@ -38,7 +38,7 @@ export const CartItem = ({ product }: CartItemProps): JSX.Element => {
           />
           <NavLink to={`/catalog/${product?.category?.slug}/${product?.slug}`}>
             <div>
-              <PreviewGallery product={product} />
+              <PreviewGallery product={product} imageHeight='h-28' imageWidth='w-28' showButtons={false} />
             </div>
           </NavLink>
         </div>

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Floating UI Tooltip Example</title>
+    <style>
+      .container {
+        position: relative;
+        width: 200px;
+        margin: 100px auto;
+      }
+
+      .elements {
+        width: 100%;
+        padding: 20px;
+        background-color: #f0f0f0;
+        text-align: center;
+        cursor: pointer;
+        border: 1px solid #000;
+        box-sizing: border-box;
+      }
+
+      /* .tooltip {
+        position: absolute;
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+        border-radius: 4px;
+        display: none;
+        white-space: nowrap;
+
+        transition: all 0.2s ease-in-out;
+      } */
+
+      .gx-float-content {
+        background: #fff;
+        border: 1px solid #000;
+        border-radius: 1rem;
+        padding: 0.5rem;
+        box-sizing: border-box;
+        will-change: opacity, scale;
+        transition: opacity 0.1s ease-in-out, scale 0.1s ease-in-out;
+      }
+
+      .hidden {
+        opacity: 0;
+        scale: 0.9;
+      }
+
+      .visible {
+        opacity: 1;
+        scale: 1;
+      }
+
+      .red {
+        color: red;
+      }
+
+      .strong {
+        font-weight: bold;
+      }
+
+      .tooltips {
+        margin-top: 1rem;
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        width: 100%;
+      }
+
+      .tooltip {
+        padding: 0.4em 0.8em;
+        font-size: 16px;
+        border: 1px solid #eee;
+        background: #fff;
+        border-radius: 0.8em;
+        color: #000;
+        font-family: sans-serif;
+        cursor: pointer;
+        line-height: 1;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .gx-float-content.tooltip {
+        border-color: #000;
+        will-change: opacity, translate;
+        transition: opacity 0.2s ease-in-out, translate 0.2s ease-in-out;
+      }
+
+      .left.hidden {
+        opacity: 0;
+        scale: 1;
+        translate: -10px 0px;
+      }
+
+      .top.hidden {
+        opacity: 0;
+        scale: 1;
+        translate: 0px -10px;
+      }
+
+      .bottom.hidden {
+        opacity: 0;
+        scale: 1;
+        translate: 0px 10px;
+      }
+
+      .right.hidden {
+        opacity: 0;
+        scale: 1;
+        translate: 0px 10px;
+      }
+
+      .gx-float-content.tooltip.visible {
+        opacity: 1;
+        translate: 0px;
+      }
+
+      .combobox {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin: 1rem;
+      }
+
+      .comboboxBtn {
+        width: 200px;
+        background: #fff;
+        border: 1px solid #000;
+
+        cursor: pointer;
+
+        font-size: 16px;
+        text-transform: uppercase;
+        padding: 0.4em 0.8em;
+        border-radius: 6px;
+
+        transition: background 0.2s ease-in-out;
+      }
+
+      .comboboxBtn:hover {
+        background: rgba(0, 0, 0, 0.1);
+      }
+
+      .customCombobox.gx-float-content {
+        border-radius: 6px;
+        border-color: #ddd;
+        padding: 0;
+        overflow: hidden;
+        max-height: 300px;
+        transition: top 0.2s ease-in-out;
+      }
+
+      .comboboxWrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        max-height: inherit;
+      }
+
+      .comboboxWrapper input {
+        width: -webkit-fill-available;
+        border: none;
+        border-bottom: 1px solid #ddd;
+        outline: none;
+        font-size: 16px;
+        padding: 0.4em;
+        flex-shrink: 0;
+      }
+
+      .customLi {
+        padding: 0.4em;
+        font-size: 20px;
+        color: #333;
+        background: white;
+        will-change: background;
+      }
+
+      @media (hover: hover) {
+        .customLi:hover {
+          background: pink;
+        }
+      }
+      .customLi:active,
+      .customLi.active {
+        background: lightblue;
+      }
+
+      .combobox-no-results {
+        display: block;
+        box-sizing: border-box;
+        color: #333;
+        width: 100%;
+        font-size: 16px;
+        text-align: center;
+        padding: 0.4em;
+      }
+
+      .gx-float-content.customCombobox {
+        transition: translate 0.2s ease-in-out, opacity 0.2s ease-in-out;
+      }
+      .popoverCloseBtn {
+        display: flex;
+        padding: 4px;
+        margin: 0;
+        cursor: pointer;
+        background: transparent;
+        border: none;
+      }
+
+      .popover-header {
+        display: flex;
+
+        border-bottom: 1px solid #000;
+      }
+
+      .popover-header p {
+        margin: 0;
+        padding: 0;
+
+        font-size: 16px;
+      }
+
+      .popover-close-btn {
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: auto;
+        margin-bottom: auto;
+        padding: 4px;
+        cursor: pointer;
+
+        background: transparent;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <div class="wrapper">
+      <div class="container">
+        <div class="elements" id="goodTop">Hover over me</div>
+        <div class="elements" id="goodRight">Hover over me</div>
+        <div class="elements" id="good">Hover over me</div>
+        <div class="elements" id="goodBottom">Hover over me</div>
+      </div>
+
+      <div class="tooltips">
+        <div id="toolLeft" class="tooltip">Left</div>
+        <div id="toolTop" class="tooltip">Top</div>
+        <div id="toolBottom" class="tooltip">Bottom</div>
+        <div id="toolRight" class="tooltip">Right</div>
+      </div>
+    </div>
+    <div class="combobox">
+      <button id="comboboxBtn" class="comboboxBtn">Combobox</button>
+      <button id="comboboxBtnObj" class="comboboxBtn">Combobox</button>
+    </div>
+
+    <div class="combobox">
+      <button id="popover" class="comboboxBtn">Popover</button>
+      <button id="openPopover" class="comboboxBtn">open popover</button>
+    </div>
+
+    <div id="widget" style="width: 500px">WIDGET</div>
+
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+
+    <script src="float.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const wrapper = document.createElement('div');
+        const span = document.createElement('span');
+        const button = document.createElement('button');
+        button.textContent = 'click me for change text & color';
+        let count = 0;
+
+        function getRandomArbitrary(min, max) {
+          return Math.floor(Math.random() * (max - min) + min);
+        }
+
+        const arr = ['yellow', 'red', 'blue', 'green'];
+
+        const randomText = () => {
+          ++count;
+          const num = arr[getRandomArbitrary(1, 4)];
+          span.textContent = num;
+          span.style.color = num;
+        };
+
+        randomText();
+
+        wrapper.appendChild(span);
+        wrapper.appendChild(button);
+
+        const floatRight = new Float('#goodRight', {
+          textContent: 'Tooltip',
+          side: 'right',
+          isEsc: true,
+        });
+        const float = new Float('#good', {
+          textContent: 'Tooltip',
+          side: 'left',
+          offset: 50,
+          width: 200,
+        });
+        const floatTop = new Float('#goodTop', {
+          content: wrapper,
+          side: 'top',
+          offset: 50,
+          isMove: true,
+          isEsc: true,
+          width: 'parent',
+          class: ['red', 'strong'],
+        });
+        const floatBottom = new Float('#goodBottom', {
+          textContent: 'Tooltip',
+          side: 'bottom',
+          offset: 50,
+          isHover: true,
+          width: '#widget',
+          isMove: true,
+          class: 'red strong',
+        });
+
+        button.addEventListener('click', () => {
+          floatRight.updateContent('Update Tooltip');
+        });
+      });
+    </script>
+    <script>
+      const tooltipLeft = new Float('#toolLeft', {
+        content: 'Left',
+        side: 'left',
+        offset: 10,
+        class: 'tooltip left',
+        // isAutoClose: true,
+        isHover: true,
+      });
+      const tooltipTop = new Float('#toolTop', {
+        textContent: 'Top',
+        side: 'top',
+        offset: 10,
+        class: 'tooltip top',
+        isHover: true,
+      });
+      const tooltipBottom = new Float('#toolBottom', {
+        content: 'Bottom',
+        side: 'bottom',
+        offset: 10,
+        isMove: true,
+        class: 'tooltip bottom',
+        isHover: true,
+      });
+      const tooltipRight = new Float('#toolRight', {
+        content: 'Right',
+        side: 'right',
+        offset: 10,
+        isAutoClose: true,
+        autoCloseTime: 1000,
+        class: 'tooltip right',
+        isHover: true,
+      });
+    </script>
+    <script src="combobox.js"></script>
+    <script src="popover.js"></script>
+    <script>
+      // Массив с 10 именами
+      const names = [
+        'Александр',
+        'Мария',
+        'Иван',
+        'Екатерина',
+        'Дмитрий',
+        'Ольга',
+        'Сергей',
+        'Анна',
+        'Пётр',
+        'Наталья',
+      ];
+
+      // Массив с 10 объектами, каждый из которых содержит информацию о человеке
+      const people = [
+        {
+          name: 'Александр',
+          age: 30,
+          city: 'Москва',
+          profession: 'Программист',
+        },
+        {
+          name: 'Мария',
+          age: 25,
+          city: 'Санкт-Петербург',
+          profession: 'Дизайнер',
+        },
+        { name: 'Иван', age: 40, city: 'Новосибирск', profession: 'Инженер' },
+        {
+          name: 'Екатерина',
+          age: 28,
+          city: 'Екатеринбург',
+          profession: 'Менеджер',
+        },
+        { name: 'Дмитрий', age: 35, city: 'Казань', profession: 'Юрист' },
+        { name: 'Ольга', age: 29, city: 'Ростов-на-Дону', profession: 'Врач' },
+        { name: 'Сергей', age: 33, city: 'Краснодар', profession: 'Бухгалтер' },
+        { name: 'Анна', age: 27, city: 'Воронеж', profession: 'Учитель' },
+        { name: 'Пётр', age: 45, city: 'Самара', profession: 'Строитель' },
+        { name: 'Наталья', age: 31, city: 'Пермь', profession: 'Фотограф' },
+      ];
+
+      const combobox = new Combobox('#comboboxBtn', {
+        align: 'start',
+        isMove: true,
+        data: names,
+        width: 'parent',
+        clickItemClose: false,
+        offset: 4,
+        class: 'customCombobox tooltip bottom',
+      });
+
+      const comboboxBtnObj = document.querySelector('#comboboxBtnObj');
+
+      const updateBtn = (text) => {
+        comboboxBtnObj.textContent = text;
+      };
+
+      const comboboxWithObj = new Combobox('#comboboxBtnObj', {
+        align: 'start',
+        isOutside: true,
+        data: people,
+        renderItem: (item) => `${item.name}, ${item.profession}`,
+        renderItemClass: 'customLi',
+        clickItem: (item) => updateBtn(item.profession),
+        width: 'parent',
+        offset: 4,
+        isEsc: true,
+        class: 'customCombobox tooltip bottom',
+      });
+
+      const popoverCloseBtn = document.createElement('button');
+      const popoverTitle = document.createElement('h3');
+      const popoverBtn = document.createElement('button');
+      popoverBtn.textContent = 'Popover btn';
+      popoverBtn.classList.add('comboboxBtn');
+
+      const popoverContent = document.createElement('div');
+      popoverCloseBtn.classList.add('popoverCloseBtn');
+      popoverCloseBtn.innerHTML = `<svg width="18" height="18" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M9 3L3 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M3 3L9 9" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>`;
+
+      popoverContent.appendChild(popoverCloseBtn);
+      popoverContent.appendChild(popoverTitle);
+      popoverContent.appendChild(popoverBtn);
+
+      const pTag = document.createElement('p');
+      pTag.textContent = 'Title for Popover and Hyper Text Mark Languages';
+
+      const footer = document.createElement('div');
+
+      const btn1 = document.createElement('button');
+      btn1.textContent = 'BTN 1';
+      btn1.addEventListener('click', () => {
+        console.log('first');
+        pTag.textContent = 'Title for Popover and Hyper Text Mark Languages';
+      });
+      const btn2 = document.createElement('button');
+      btn2.textContent = 'BTN 2';
+      const btn3 = document.createElement('button');
+      btn3.textContent = 'BTN 3';
+      const btn4 = document.createElement('button');
+      btn4.textContent = 'BTN 4';
+      const btn5 = document.createElement('button');
+      btn5.textContent = 'BTN 5';
+      const btn6 = document.createElement('button');
+      btn6.textContent = 'BTN 6';
+
+      btn2.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        footer.innerHTML = '';
+        footer.appendChild(btn3);
+        footer.appendChild(btn4);
+        pTag.textContent = 'I`m 2 tab';
+      });
+
+      btn3.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        footer.innerHTML = '';
+        footer.appendChild(btn1);
+        footer.appendChild(btn2);
+        pTag.textContent = 'I`m 1 tab';
+      });
+      btn4.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        footer.innerHTML = '';
+        footer.appendChild(btn5);
+        footer.appendChild(btn6);
+        pTag.textContent = 'I`m 3 tab master';
+      });
+
+      btn5.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        footer.innerHTML = '';
+        footer.appendChild(btn3);
+        footer.appendChild(btn4);
+        pTag.textContent = 'I`m 2 tab';
+      });
+      btn6.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('last');
+        pTag.textContent = 'Finish!!!';
+      });
+
+      footer.appendChild(btn1);
+      footer.appendChild(btn2);
+
+      const popover = new Popover('#popover', {
+        isCloseBtn: true,
+        isOutside: true,
+        width: 'parent',
+        // content: popoverContent,
+        textHeader: 'Title',
+        textBody: 'Description for Popover',
+        textFooter: 'This is Footer',
+        header: pTag,
+        footer: footer,
+      });
+
+      popoverCloseBtn.addEventListener('click', () => {
+        setTimeout(() => {
+          popover.close();
+        }, 1000);
+      });
+      popoverBtn.addEventListener('click', () => {
+        setTimeout(() => {
+          popover.close();
+        }, 1000);
+      });
+
+      document.querySelector('#openPopover').addEventListener('click', (e) => {
+        e.stopPropagation();
+        popover.show();
+      });
+    </script>
+  </body>
+</html>

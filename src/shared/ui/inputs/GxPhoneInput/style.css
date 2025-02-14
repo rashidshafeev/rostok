@@ -1,0 +1,872 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.section {
+  width: 100%;
+  height: 1000px;
+  padding: 1rem;
+}
+
+h1 {
+  font-size: 32px;
+  display: inline;
+  text-transform: uppercase;
+  font-family: monospace;
+}
+
+.block {
+  height: 500px;
+  width: 500px;
+  max-width: 100%;
+  /* border: 1px solid; */
+  background: #fff;
+
+  overflow-y: auto;
+}
+
+.item {
+  height: 100%;
+  width: 100%;
+
+  padding: 1rem;
+}
+
+.section1 {
+  background: aliceblue;
+}
+
+.section2 {
+  background: antiquewhite;
+}
+
+.section3 {
+  background: aqua;
+}
+
+.section4 {
+  background: cadetblue;
+}
+
+.section5 {
+  background: violet;
+}
+
+.btn {
+  border: 1px solid #000;
+  background: rgba(255, 255, 255, 1);
+
+  font-size: 20px;
+  padding: 0.5em 2em;
+
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.btn:active {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.list {
+  background: lightgreen;
+  border: 1px solid;
+  padding: 1rem;
+  max-height: 400px;
+  min-height: 150px;
+  max-width: 300px;
+  min-width: 300px;
+}
+
+['smartbox'] {
+  background: red;
+}
+
+.list {
+  /* transition: top 0.2s ease, left 0.2s ease; */
+  will-change: left, top;
+}
+
+.btnToggle {
+  anchor-name: --popover-one;
+}
+
+.popoverToggle {
+  position-anchor: --popover-one;
+  font-size: 1.5rem;
+  font-family: sans-serif;
+
+  position: absolute;
+  margin: 0;
+  inset: auto;
+
+  top: calc(anchor(bottom) + 10px);
+  left: anchor(left);
+
+  border: 1px solid #000;
+  padding: 1rem 2rem;
+
+  position-try: --flip;
+
+  will-change: transform, opacity;
+
+  opacity: 0;
+  background: red;
+  -webkit-transform: scale(1.25);
+  -moz-transform: scale(1.25);
+  -o-transform: scale(1.25);
+  -ms-transform: scale(1.25);
+  transform: scale(1.25);
+  transition: display 1s, opacity 0.5s ease, background 0.5s, transform 0.5s;
+  transition-behavior: allow-discrete;
+}
+
+@position-try --flip {
+  inset: unset;
+  bottom: anchor(top);
+  left: anchor(left);
+}
+
+.popoverToggle:popover-open {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  -o-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+  background: #fff;
+
+  @starting-style {
+    opacity: 0;
+    -webkit-transform: scale(1.25);
+    -moz-transform: scale(1.25);
+    -o-transform: scale(1.25);
+    -ms-transform: scale(1.25);
+    transform: scale(1.25);
+  }
+}
+
+.boxWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+
+  border-block: 1px solid #333;
+  padding: 1rem;
+}
+
+.boxWrapper input {
+  border: 1px solid #000;
+  font-size: 2rem;
+  border-radius: 0.5em;
+  padding: 0.4em 0.6em;
+}
+
+.content {
+  padding: 1rem 2rem;
+  border: 1px solid #000;
+  background: cyan;
+}
+
+.myContent {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 1rem 2rem;
+  border: 1px solid #000;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.contentInner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* .block::-webkit-scrollbar {
+  display: none;
+} */
+
+[data-smartbox-parent] {
+  position: relative;
+}
+
+[data-smartbox-content] {
+  /* display: block; */
+  width: 100%;
+  max-height: 15rem;
+  z-index: 9999;
+  will-change: left, top, bottom, right, transform;
+}
+
+.selects {
+  font-size: 20px;
+}
+
+.combobox-content {
+  background: #fff;
+  font-size: 20px;
+}
+
+.combobox-content ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.combobox-content ul li {
+  padding: 4px;
+}
+
+.put {
+  border: 1px solid gray;
+  width: 300px;
+  max-height: 32px;
+  border-radius: 6px;
+  padding: 4px 6px;
+  background: white;
+  font-size: 16px;
+}
+
+.put::placeholder {
+  /* color: ; */
+}
+
+.inputs {
+  display: flex;
+}
+
+.gxPhoneCountryFlag {
+  border: none;
+  /* width: 62px; */
+  flex-shrink: 0;
+  padding: 4px;
+  background: white;
+
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.smartbox {
+  height: 332px;
+  z-index: 999;
+}
+
+.combobox-content {
+  max-height: 332px;
+
+  border-radius: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  overflow: auto;
+}
+
+.combobox_input {
+  min-height: 32px;
+  max-height: 32px;
+  padding: 4px 6px;
+  font-size: 1rem;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.combobox_list {
+  max-height: 300px;
+  /* min-width: 325px; */
+  /* max-width: 325px; */
+  overflow-y: auto;
+}
+
+.gxPhoneCountryFlag {
+}
+
+.gxPhoneCountryFlag img,
+.gxCountryFlag {
+  width: 20px;
+}
+
+.gxPhoneInputWrapper {
+  display: inline-flex;
+  overflow: hidden;
+  padding: 0 !important;
+  height: 100%;
+}
+
+.listItemCountry {
+  /* max-width: 300px; */
+  /* min-width: 300px; */
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 1rem;
+  font-family: system-ui;
+}
+
+.gxCountryPhoneCode {
+  min-width: 40px;
+  text-align: end;
+  font-weight: 600;
+}
+
+.combobox-item {
+  padding: 4px;
+  border-bottom: 1px solid white;
+}
+
+.combobox-item:nth-child(even) {
+  background: #f2f2f2;
+}
+
+.combobox-item:hover {
+  background: #f2f2f2;
+  cursor: pointer;
+}
+
+.combobox-no-results {
+  padding: 4px 6px;
+  font-family: system-ui, -apple-system;
+}
+
+.customerInput {
+  background: #f2f2f2;
+  border: 1px solid gray;
+  padding: 0.5em 0.8em;
+  border-radius: 0.5em;
+  outline: none;
+  font-size: 1rem;
+  max-width: 250px;
+  max-height: 32px;
+}
+
+.gx-phone-container {
+  padding: 0 !important;
+}
+
+.gx-slides-container {
+  width: 100%;
+}
+
+.gx-phone-verification-input {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.gx-phone-type-icon {
+  padding-inline: 4px;
+  margin: 0 !important;
+}
+
+.gx-tooltip-content {
+  --tooltip-bg: #fff;
+  --tooltip-border: #fff;
+  --tooltip-radius: 12px;
+  --tooltip-padding: 4px;
+
+  background: var(--tooltip-bg);
+  border: 1px solid var(--tooltip-border);
+  border-radius: 4px;
+  padding: 0.5rem;
+  /* box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.12); */
+  border-radius: 12px;
+
+  -webkit-filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.12));
+  filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.12));
+  -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
+  filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
+
+  font-family: system-ui, -apple-system;
+
+  opacity: 1;
+  transform: translate(0, 0);
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.gx-tooltip-content.hide {
+  opacity: 0;
+  transform: translate(0, -10%);
+}
+
+.gx-tooltip-content.bottom.hide {
+  opacity: 0;
+  transform: translate(0, +10%);
+}
+
+.gx-tooltip-button:hover {
+  --tooltip-btn-background: var(--tooltip-btn-background-hover);
+}
+
+.gx-tooltip-button:active {
+  --tooltip-btn-background: var(--tooltip-btn-background-active);
+}
+
+.gx-tooltip-button:disabled {
+  --tooltip-btn-color: #2a2d2d;
+  --tooltip-btn-background: #eeeff1;
+  cursor: not-allowed;
+}
+
+.gx-tooltip-button {
+  --tooltip-btn-background: #2a2d2d;
+  --tooltip-btn-background-hover: #2a2d2daf;
+  --tooltip-btn-background-active: #000;
+  --tooltip-btn-border-color: transparent;
+  --tooltip-btn-color: #fff;
+  --tooltip-btn-radius: calc(var(--tooltip-radius) - var(--tooltip-padding));
+  border-radius: var(--tooltip-btn-radius);
+  background-color: var(--tooltip-btn-background);
+  color: var(--tooltip-btn-color);
+  border: 1px solid var(--tooltip-btn-border-color);
+}
+
+.gx-tooltip-content:after {
+  content: '';
+  display: block;
+  border-color: transparent;
+  border-style: solid;
+
+  height: 0px;
+  width: 0px;
+}
+
+.gx-tooltip-content.success {
+  /* #cfe2dc */
+  --tooltip-bg: #cfe2dc;
+  --tooltip-border: #b4d1c8;
+}
+.gx-tooltip-content.success .gx-tooltip-button {
+  --tooltip-btn-background: #16755b;
+  --tooltip-btn-color: #f1f1f1;
+}
+
+.gx-tooltip-content.error {
+  /* #cfe2dc */
+  --tooltip-bg: #e3a1aa;
+  --tooltip-border: #e36974;
+}
+.gx-tooltip-content.error .gx-tooltip-button {
+  --tooltip-btn-background: #e36974;
+  --tooltip-btn-color: #f1f1f1;
+}
+
+.gx-tooltip-content.error {
+}
+
+.gx-tooltip-content.bottom:after {
+  border-bottom-color: var(--tooltip-border);
+  border-width: 0px 8px 8px 8px;
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.gx-tooltip-content.top:after {
+  border-top-color: var(--tooltip-border);
+  border-width: 8px 8px 0px 8px;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+.gx-tooltip-content.left:after {
+  border-left-color: var(--tooltip-border);
+  border-width: 8px 0px 8px 8px;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  top: 50%;
+  right: -8px;
+  transform: translate(0, -50%);
+}
+
+.gx-tooltip-content.right:after {
+  border-right-color: var(--tooltip-border);
+  border-width: 8px 8px 8px 0px;
+  height: 0px;
+  width: 0px;
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  transform: translate(0, -50%);
+}
+
+button {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.rowCenter {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.gx-tooltip-content:has(.gx-tooltip-close) {
+  padding: 1rem 0.5rem 0.5rem;
+}
+
+.gx-tooltip-close {
+  --primary-color-close: #727272;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 2px solid var(--primary-color-close); */
+  padding: 4px;
+  margin-left: 6px;
+  border-radius: 50%;
+  transition: border 0.2s ease;
+  will-change: border;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.gx-tooltip-close span {
+  line-height: 100%;
+  width: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1;
+  vertical-align: middle;
+  color: var(--primary-color-close);
+  will-change: color;
+}
+
+.gx-tooltip-close:hover {
+  --primary-color-close: #000;
+}
+
+.gx-tooltip-close:active {
+  --primary-color-close: #474747;
+}
+
+#tooltip {
+  background: none;
+  padding: 4px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+}
+
+.gxToolkitWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.gx-code-input-container {
+  margin-top: 0 !important;
+  padding: 2px;
+}
+
+.gx-code-input {
+  width: 26px !important;
+  height: 26px !important;
+
+  border-color: transparent !important;
+  border-radius: 0px !important;
+  border-width: 0px !important;
+  border-bottom-color: #ccc !important;
+  border-bottom-width: 1.6px !important;
+}
+
+.gx-code-input:focus {
+  border-bottom-color: #0d6efd !important;
+}
+
+.gx-code-input.shake {
+  border-bottom-color: red !important;
+}
+
+/* New Styles */
+
+.phoneWrapper {
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.phoneInputsWrapper {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.phoneInputNumber {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+
+.phoneInputCodeVerification {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform: translateX(-100%);
+
+  display: flex;
+  justify-content: center;
+
+  opacity: 0;
+  z-index: 1;
+
+  background: #fff;
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.phoneInputCodeVerification.active {
+  opacity: 1;
+  transform: translateX(0%);
+  z-index: 2;
+}
+
+.phoneInputCodeVerification.hide {
+  opacity: 0;
+  transform: translateX(-100%);
+  z-index: 1;
+}
+
+.gxPhoneInputClean {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  font-size: inherit;
+  width: 100%;
+}
+.gxPhoneInputClean:-webkit-autofill,
+.gxPhoneInputClean:-webkit-autofill:hover,
+.gxPhoneInputClean:-webkit-autofill:focus,
+.gxPhoneInputClean:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}
+
+.gx-code-input {
+  height: calc(100% - 2px) !important;
+}
+
+.phoneIconsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  flex-shrink: 1;
+}
+
+.gxPhoneCountryFlag {
+  font-size: inherit;
+}
+
+.phoneInputCodeVerification input {
+  font-size: inherit;
+}
+
+.phoneIconsWrapper:empty {
+  padding: 0;
+}
+
+.phoneIcon {
+  padding: 4px;
+  user-select: none;
+}
+.phoneTooltipIconTrigger {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* 
+
+TESTER
+
+*/
+
+.tester {
+  max-width: 500px;
+  width: 100%;
+  height: 50px;
+  font-size: 24px;
+  border: 1px solid #0d6efd;
+  border-radius: 6px;
+  background: white;
+}
+
+.getNewCodeBtn {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  color: blue;
+  cursor: pointer;
+}
+
+.tooltipCustom {
+  border: 1px solid #333;
+  background: #ddd;
+  border-radius: 1em;
+  font-size: 16px;
+  font-family: sans-serif;
+  max-width: 200px;
+
+  padding: 0.5em;
+}
+
+.hidden {
+  display: none;
+}
+
+.tooltip {
+  position: absolute;
+  background: #333 !important;
+  z-index: 99;
+  color: #fff;
+  background: #000;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  max-width: 200px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.popover {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  transition: all 0.2s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.popover.hidden {
+  /* display: none; */
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.overlay {
+  position: absolute;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.overlay.hidden {
+  display: none;
+  animation: fadeOut 0.3s ease-in-out;
+}
+
+.combobox-content input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.combobox-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.combobox-content li {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.combobox-content li:hover,
+.combobox-content li.selected {
+  background-color: #f0f0f0;
+}
+
+.gx-float-content {
+  background: #fff;
+  border: 1px solid #000;
+  border-radius: 1rem;
+  padding: 0.5rem;
+
+  will-change: left, top;
+}
