@@ -1,24 +1,20 @@
-// src/widgets/catalog/ui/CatalogWidget/CatalogWidget.tsx
-
 import { memo } from 'react';
-
 import { useParams } from 'react-router-dom';
 
 import { Advantages } from '@/components/Home/Advantages';
 import { Brands } from '@/components/Home/Brands';
 import { Promotions } from '@/components/Home/Promotions';
 import {
-  CatalogFilters,
-  CatalogSort,
-  CatalogView,
   CatalogError,
   CatalogEmpty,
   CatalogLoadingState,
   CustomPagination,
   useCatalog,
   ProductList,
+  CatalogSort,
+  CatalogView,
 } from '@/features/catalog';
-import { AllFiltersModal } from '@/features/modals';
+import { FilterSidebar, FilterModal } from '@/features/filters';
 import filterIcon from '@/shared/assets/icons/filter.svg';
 import { Breadcrumbs } from '@/widgets/breadcrumbs';
 
@@ -28,18 +24,15 @@ interface CatalogWidgetProps {
 
 export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
   const { categoryId } = useParams();
-
   const {
     products,
     filters,
     sort,
     view,
     pagination,
-    isFiltersLoading,
-    isProductsLoading,
+    isLoading: isProductsLoading,
     filtersModalOpen,
     error,
-    updateFilters,
     handleSortChange,
     handleViewChange,
     handlePaginationChange,
@@ -48,7 +41,6 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
     retryLoading,
   } = useCatalog(categoryId);
 
-  // Handle error state
   if (error && !isProductsLoading) {
     return <CatalogError onRetry={retryLoading} className={className} />;
   }
@@ -62,29 +54,15 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
           <h1 className="font-semibold text-xl mm:text-2xl lg:text-4xl text-colBlack pb-5">
             {filters.category?.name}
           </h1>
-          {products?.length > 0 ? (
+          {products?.length > 0 && (
             <span className="text-colDarkGray">{pagination.total}</span>
-          ) : null}
+          )}
         </div>
 
         <div className="flex pb-10">
           {/* Sidebar Filters (Desktop) */}
           <div className="md:block hidden basis-1/4 mr-5">
-            <CatalogFilters
-              filters={filters}
-              onFilterChange={(type, id, value) =>
-                updateFilters({ type, id, value })
-              }
-              onPriceChange={(values) =>
-                updateFilters({ type: 'price', values })
-              }
-              onReset={handleReset}
-              onShowMore={() => setFiltersModalOpen(true)}
-              isLoading={isFiltersLoading}
-              className={
-                isFiltersLoading ? 'opacity-60 pointer-events-none' : ''
-              }
-            />
+            <FilterSidebar categoryId={categoryId} />
           </div>
 
           {/* Main Content */}
@@ -100,7 +78,7 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
 
               <div className="flex items-center space-x-4">
                 <CatalogView
-                  currentView={view.type}
+                  currentView={view}
                   onViewChange={handleViewChange}
                   disabled={isProductsLoading}
                 />
@@ -109,7 +87,6 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
                 <button
                   onClick={() => setFiltersModalOpen(true)}
                   className="flex md:hidden items-center outline-none bg-transparent"
-                  disabled={isFiltersLoading}
                 >
                   <img src={filterIcon} alt="Фильтры" />
                   <span className="text-colBlack text-xs font-medium">
@@ -121,19 +98,18 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
 
             {/* Product List States */}
             {isProductsLoading ? (
-              <CatalogLoadingState view={view.type} />
+              <CatalogLoadingState view={view} />
             ) : products?.length > 0 ? (
               <>
-                <ProductList products={products} view={view.type} />
-
-                {pagination.total > pagination.limit ? (
+                <ProductList products={products} view={view} />
+                {pagination.total > pagination.limit && (
                   <CustomPagination
                     page={pagination.page}
                     count={pagination.total}
                     handlePagination={handlePaginationChange}
                     className="mt-8"
                   />
-                ) : null}
+                )}
               </>
             ) : (
               <CatalogEmpty onReset={handleReset} />
@@ -141,13 +117,10 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
           </div>
         </div>
 
-        <AllFiltersModal
+        <FilterModal
           open={filtersModalOpen}
-          setOpen={setFiltersModalOpen}
-          filters={filters}
-          onFilterChange={updateFilters}
-          onReset={handleReset}
-          isLoading={isFiltersLoading}
+          onClose={() => setFiltersModalOpen(false)}
+          categoryId={categoryId}
         />
 
         <Promotions />
@@ -159,3 +132,4 @@ export const CatalogWidget = memo(({ className = '' }: CatalogWidgetProps) => {
 });
 
 CatalogWidget.displayName = 'CatalogWidget';
+

@@ -1,7 +1,7 @@
 // src/features/catalog/ui/ProductList/ProductList.tsx
 
 import { memo } from 'react';
-
+import type { CatalogViewType } from '../../model/types';
 import {
   ProductCard,
   ProductCardLine,
@@ -10,12 +10,11 @@ import {
   ProductCardLineSkeleton,
   ProductCardLineSmallSkeleton,
 } from '@/widgets/product-card';
-
 import type { Product } from '@/entities/product';
 
 interface ProductListProps {
   products: Product[];
-  view: 'tile' | 'line' | 'lineNarrow';
+  view: CatalogViewType;
   isLoading?: boolean;
   className?: string;
 }
@@ -36,9 +35,9 @@ export const ProductList = memo(
   ({ products, view, isLoading, className = '' }: ProductListProps) => {
     if (isLoading) {
       return (
-        <div className={viewStyles[view]}>
-          {Array.from({ length: skeletonCounts[view] }).map((_, index) => {
-            switch (view) {
+        <div className={viewStyles[view.type]}>
+          {Array.from({ length: skeletonCounts[view.type] }).map((_, index) => {
+            switch (view.type) {
               case 'tile':
                 return <ProductCardSkeleton key={index} />;
               case 'line':
@@ -52,17 +51,15 @@ export const ProductList = memo(
     }
 
     return (
-      <div className={`${viewStyles[view]} ${className}`}>
+      <div className={`${viewStyles[view.type]} ${className}`}>
         {products.map((product) => {
-          switch (view) {
+          switch (view.type) {
             case 'tile':
               return <ProductCard key={product.id} product={product} />;
             case 'line':
               return <ProductCardLine key={product.id} product={product} />;
             case 'lineNarrow':
-              return (
-                <ProductCardLineSmall key={product.id} product={product} />
-              );
+              return <ProductCardLineSmall key={product.id} product={product} />;
           }
         })}
       </div>
@@ -71,3 +68,4 @@ export const ProductList = memo(
 );
 
 ProductList.displayName = 'ProductList';
+

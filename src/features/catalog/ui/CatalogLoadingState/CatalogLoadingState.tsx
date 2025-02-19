@@ -2,10 +2,11 @@
 // src/features/catalog/ui/CatalogLoadingState/CatalogLoadingState.tsx
 
 import { memo } from 'react';
+import type { CatalogViewType } from '../../model/types';
 import { ProductCardSkeleton } from '@/widgets/product-card';
 
 interface CatalogLoadingStateProps {
-  view: 'tile' | 'line' | 'lineNarrow';
+  view: CatalogViewType;
   className?: string;
 }
 
@@ -26,8 +27,8 @@ export const CatalogLoadingState = memo(({
   className = ''
 }: CatalogLoadingStateProps) => {
   return (
-    <div className={`${viewStyles[view]} ${className}`}>
-      {Array.from({ length: skeletonCounts[view] }).map((_, index) => (
+    <div className={`${viewStyles[view.type]} ${className}`}>
+      {Array.from({ length: skeletonCounts[view.type] }).map((_, index) => (
         <ProductCardSkeleton key={index} />
       ))}
     </div>

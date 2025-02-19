@@ -42,22 +42,13 @@ export const router = createBrowserRouter(
         <Route path="search-results" element={<SearchResults />} />
         <Route path="catalog">
           <Route index element={<CatalogPage />} />
-          <Route path=":categoryId">
-            <Route index element={<Catalog />} />
-            <Route path=":productId">
-              <Route index element={<ProductPage />} />
-              <Route path="reviews" element={<ReviewsPage />} />
-            </Route>
+          <Route path=":categoryId" element={<CatalogPage />} />
+          <Route path=":categoryId/:productId">
+          <Route index element={<ProductPage />} />
+          <Route path="reviews" element={<ReviewsPage />} />
           </Route>
         </Route>
-        {/* <Route path="catalog">
-          <Route index element={<CatalogPage />} />
-          <Route path=":categoryId" element={<CatalogPage />} /> 
-          <Route path=":categoryId/:productId">
-            <Route index element={<ProductPage />} />
-            <Route path="reviews" element={<ReviewsPage />} />
-          </Route>
-        </Route> */}
+
         <Route
           path="profile"
           element={

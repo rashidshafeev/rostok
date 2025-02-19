@@ -1,35 +1,27 @@
-// src/features/catalog/lib/hooks/useCatalogFilters.ts
-
 import { useCallback } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'sonner';
 
 import { useGetFiltersMutation } from '@/entities/filter';
+import { CatalogQueryParamsUtil } from '../utils';
 
 import {
   updateFilter,
   setFiltersLoading,
   resetFilters,
-} from '../../model/catalogSlice';
-import {
-  selectCatalogFilters,
+  selectFilters,
   selectIsFiltersLoading,
-  selectActiveFiltersCount,
-} from '../../model/selectors';
-import { CatalogQueryParamsUtil } from '../utils';
+} from '../../model';
 
-import type { FilterUpdatePayload } from '../../model/types';
+import type { FilterUpdatePayload } from '@/shared/types';
 
 export const useCatalogFilters = (categoryId: string | null) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const filters = useSelector(selectCatalogFilters);
+  const filters = useSelector(selectFilters);
   const isLoading = useSelector(selectIsFiltersLoading);
-  const activeFiltersCount = useSelector(selectActiveFiltersCount);
 
   const [getFilters] = useGetFiltersMutation();
 
@@ -38,39 +30,29 @@ export const useCatalogFilters = (categoryId: string | null) => {
       dispatch(setFiltersLoading(true));
 
       try {
-        // Prepare new filters state
         const newFilters = { ...filters };
-
+        // Update filter state based on payload type
         switch (payload.type) {
           case 'price':
             newFilters.basics.price.current_values = payload.value;
             break;
-
           case 'brand':
-            newFilters.basics.brands = newFilters.basics.brands.map((brand) =>
-              brand.id === payload.id
-                ? { ...brand, is_selected: !brand.is_selected }
-                : brand
+            newFilters.basics.brands = newFilters.basics.brands.map(brand =>
+              brand.id === payload.id ? { ...brand, is_selected: !brand.is_selected } : brand
             );
             break;
-
           case 'tag':
-            newFilters.basics.tags = newFilters.basics.tags.map((tag) =>
-              tag.tag === payload.id
-                ? { ...tag, is_selected: !tag.is_selected }
-                : tag
+            newFilters.basics.tags = newFilters.basics.tags.map(tag =>
+              tag.tag === payload.id ? { ...tag, is_selected: !tag.is_selected } : tag
             );
             break;
-
           case 'dynamic':
-            newFilters.dynamics = newFilters.dynamics.map((filter) => {
+            newFilters.dynamics = newFilters.dynamics.map(filter => {
               if (filter.id === payload.filterId) {
                 return {
                   ...filter,
-                  values: filter.values.map((value) =>
-                    value.id === payload.id
-                      ? { ...value, is_selected: !value.is_selected }
-                      : value
+                  values: filter.values.map(value =>
+                    value.id === payload.id ? { ...value, is_selected: !value.is_selected } : value
                   ),
                 };
               }
@@ -79,7 +61,7 @@ export const useCatalogFilters = (categoryId: string | null) => {
             break;
         }
 
-        // Get new filters from API
+        // Get updated filters from API
         const response = await getFilters({
           ...CatalogQueryParamsUtil.createApiPayload(newFilters),
           category_id: categoryId,
@@ -94,26 +76,19 @@ export const useCatalogFilters = (categoryId: string | null) => {
           navigate(`?${queryParams}`, { replace: true });
 
           // Update state
-          dispatch(
-            updateFilter({
-              filter: 'basics',
-              value: response.data.basics,
-            })
-          );
-
+          dispatch(updateFilter({ filter: 'basics', value: response.data.basics }));
+          
           if (response.data.dynamics || response.data.more) {
-            dispatch(
-              updateFilter({
-                filter: 'dynamics',
-                value: [
-                  ...response.data.dynamics,
-                  ...(response.data.more?.map((item) => ({
-                    ...item,
-                    additional_filter: true,
-                  })) || []),
-                ],
-              })
-            );
+            dispatch(updateFilter({
+              filter: 'dynamics',
+              value: [
+                ...response.data.dynamics,
+                ...(response.data.more?.map(item => ({
+                  ...item,
+                  additional_filter: true,
+                })) || []),
+              ],
+            }));
           }
         }
       } catch (error) {
@@ -130,35 +105,23 @@ export const useCatalogFilters = (categoryId: string | null) => {
     dispatch(resetFilters());
 
     try {
-      const response = await getFilters({
-        category_id: categoryId,
-      });
+      const response = await getFilters({ category_id: categoryId });
 
       if ('data' in response) {
-        // Clear URL params
         navigate('?', { replace: true });
-
-        // Reset state with fresh data
-        dispatch(
-          updateFilter({
-            filter: 'basics',
-            value: response.data.basics,
-          })
-        );
-
+        dispatch(updateFilter({ filter: 'basics', value: response.data.basics }));
+        
         if (response.data.dynamics || response.data.more) {
-          dispatch(
-            updateFilter({
-              filter: 'dynamics',
-              value: [
-                ...response.data.dynamics,
-                ...(response.data.more?.map((item) => ({
-                  ...item,
-                  additional_filter: true,
-                })) || []),
-              ],
-            })
-          );
+          dispatch(updateFilter({
+            filter: 'dynamics',
+            value: [
+              ...response.data.dynamics,
+              ...(response.data.more?.map(item => ({
+                ...item,
+                additional_filter: true,
+              })) || []),
+            ],
+          }));
         }
       }
     } catch (error) {
@@ -170,10 +133,10 @@ export const useCatalogFilters = (categoryId: string | null) => {
   return {
     filters,
     isLoading,
-    activeFiltersCount,
     updateFilters,
     handleReset,
   };
 };
 
-export type { FilterUpdatePayload };
+
+

@@ -1,20 +1,15 @@
-// src/features/catalog/lib/hooks/useCatalogView.ts
-
 import { useCallback } from 'react';
-
 import { useSelector, useDispatch } from 'react-redux';
 
-import { setView } from '../../model/catalogSlice';
-import { selectCatalogView } from '../../model/selectors';
-
-import type { CardViewType } from '../../model/types';
+import { setView, selectView } from '../../model';
+import type { CatalogViewType } from '../../model/types';
 
 export const useCatalogView = () => {
   const dispatch = useDispatch();
-  const view = useSelector(selectCatalogView);
+  const view = useSelector(selectView);
 
   const handleViewChange = useCallback(
-    (type: CardViewType['type']) => {
+    (type: CatalogViewType['type']) => {
       dispatch(setView(type));
     },
     [dispatch]
@@ -25,3 +20,4 @@ export const useCatalogView = () => {
     handleViewChange,
   };
 };
+
